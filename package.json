@@ -10,7 +10,6 @@
     "preview": "vite preview",
     "css.lint.unknownAtRules": "ignore",
     "tailwind": "tailwindcss -i ./src/styles/input.css -o ./src/styles/output.css --watch"
-
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.8.2",
@@ -25,6 +24,7 @@
     "@eslint/js": "^9.25.0",
     "@swc/cli": "^0.7.7",
     "@swc/core": "^1.11.24",
+    "@tailwindcss/postcss": "^4.1.7",
     "@types/node": "^22.15.18",
     "@types/react": "^19.1.4",
     "@types/react-dom": "^19.1.5",
