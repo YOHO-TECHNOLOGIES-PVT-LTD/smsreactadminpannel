@@ -10,6 +10,7 @@ import { CityManagementPage } from '../../pages/city/CityManagementPage.tsx';
 import { NotFound } from '../../pages/NotFound/NotFound.tsx';
 import { VehicleManagementPage } from '../../pages/vehicle/VehicleManagementPage.tsx';
 import GeneralSettings from '../../pages/Settings/GeneralSettings.tsx';
+import { COLORS } from '../../constants/uiConstants.ts';
 
 export const MainLayout = () => {
     return (
@@ -27,8 +28,8 @@ export const MainLayout = () => {
                     <h2 className="text-xl font-medium">Dashboard</h2>
                 </header> */}
 
-                <main className="flex-1 overflow-auto p-2">
-                    <div className="bg-white p-6 rounded shadow">
+                <main className="flex-1 overflow-auto ">
+                    <div className="p-6 rounded shadow" style={{backgroundColor: COLORS.bgColor}}>
                         {/* Router */}
                             <Routes>
                                 <Route element={<Dashboard/>} path='/' />
