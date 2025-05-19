@@ -1,4 +1,2 @@
-/* Using import instead of the @tailwind directives */
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
+@import "tailwindcss/preflight";
+@import "tailwindcss/utilities";
