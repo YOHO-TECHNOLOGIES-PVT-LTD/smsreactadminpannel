@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, type JSX } from "react";
 import { Link, useLocation, Outlet } from "react-router-dom";
 import {
   FiHome,
