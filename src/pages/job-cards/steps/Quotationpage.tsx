@@ -1,5 +1,4 @@
-
-import React from 'react';
+import React from "react";
 
 type QuotationItem = {
   description: string;
@@ -9,10 +8,10 @@ type QuotationItem = {
 
 const QuotationPage: React.FC = () => {
   const quotationItems: QuotationItem[] = [
-    { description: 'Service Fee', qty: 1, unitPrice: 200.0 },
-    { description: 'Labor: 5 hours @ $75/hr', qty: 5, unitPrice: 75.0 },
-    { description: 'Parts, including sales tax', qty: 7, unitPrice: 12.95 },
-    { description: 'New client discount', qty: 1, unitPrice: -50.0 },
+    { description: "Service Fee", qty: 1, unitPrice: 200.0 },
+    { description: "Labor: 5 hours @ $75/hr", qty: 5, unitPrice: 75.0 },
+    { description: "Parts, including sales tax", qty: 7, unitPrice: 12.95 },
+    { description: "New client discount", qty: 1, unitPrice: -50.0 },
   ];
 
   const subtotal = quotationItems.reduce(
@@ -21,8 +20,7 @@ const QuotationPage: React.FC = () => {
   );
 
   return (
-    <div className="p-4 sm:p-8 bg-white text-black max-w-4xl mx-auto border rounded shadow">
-      {/* Header */}
+    <div className="sm:p-8 bg-white text-black max-w-2xl mx-auto  border rounded shadow">
       <div className="flex flex-col md:flex-row justify-between mb-6 gap-4">
         <div>
           <h1 className="text-2xl font-bold">YES MECHANIC</h1>
@@ -45,11 +43,15 @@ const QuotationPage: React.FC = () => {
                   <td className="border px-2 py-1">2/1/2017</td>
                 </tr>
                 <tr>
-                  <td className="border px-2 py-1 font-semibold">CUSTOMER ID</td>
+                  <td className="border px-2 py-1 font-semibold">
+                    CUSTOMER ID
+                  </td>
                   <td className="border px-2 py-1">21007</td>
                 </tr>
                 <tr>
-                  <td className="border px-2 py-1 font-semibold">VALID UNTIL</td>
+                  <td className="border px-2 py-1 font-semibold">
+                    VALID UNTIL
+                  </td>
                   <td className="border px-2 py-1">3/3/2017</td>
                 </tr>
               </tbody>
@@ -57,8 +59,6 @@ const QuotationPage: React.FC = () => {
           </div>
         </div>
       </div>
-
-      {/* Customer Info */}
       <div className="mb-6 border border-gray-400 p-4">
         <h3 className="font-bold mb-2">CUSTOMER INFO</h3>
         <p>Name</p>
@@ -67,7 +67,6 @@ const QuotationPage: React.FC = () => {
         <p>Phone, Email</p>
       </div>
 
-      {/* Itemized Costs */}
       <div className="mb-6">
         <h3 className="font-bold mb-2">DESCRIPTION OF WORK</h3>
         <div className="overflow-x-auto">
@@ -85,8 +84,12 @@ const QuotationPage: React.FC = () => {
                 <tr key={index}>
                   <td className="border px-3 py-2">{item.description}</td>
                   <td className="border px-3 py-2 text-center">{item.qty}</td>
-                  <td className="border px-3 py-2 text-right">${item.unitPrice.toFixed(2)}</td>
-                  <td className="border px-3 py-2 text-right">${(item.qty * item.unitPrice).toFixed(2)}</td>
+                  <td className="border px-3 py-2 text-right">
+                    ${item.unitPrice.toFixed(2)}
+                  </td>
+                  <td className="border px-3 py-2 text-right">
+                    ${(item.qty * item.unitPrice).toFixed(2)}
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -94,14 +97,15 @@ const QuotationPage: React.FC = () => {
         </div>
       </div>
 
-      {/* Totals */}
       <div className="flex justify-end mb-6">
         <div className="w-full md:w-1/2 overflow-x-auto">
           <table className="w-full text-sm border border-gray-300">
             <tbody>
               <tr>
                 <td className="border px-3 py-2 font-semibold">SUBTOTAL</td>
-                <td className="border px-3 py-2 text-right">${subtotal.toFixed(2)}</td>
+                <td className="border px-3 py-2 text-right">
+                  ${subtotal.toFixed(2)}
+                </td>
               </tr>
               <tr>
                 <td className="border px-3 py-2 font-semibold">OTHER</td>
@@ -109,14 +113,14 @@ const QuotationPage: React.FC = () => {
               </tr>
               <tr className="bg-gray-100 font-bold">
                 <td className="border px-3 py-2">TOTAL QUOTE</td>
-                <td className="border px-3 py-2 text-right">${subtotal.toFixed(2)}</td>
+                <td className="border px-3 py-2 text-right">
+                  ${subtotal.toFixed(2)}
+                </td>
               </tr>
             </tbody>
           </table>
         </div>
       </div>
-
-      {/* Notes and Signature */}
       <p className="text-sm italic mb-4">
         This quotation is only for admin use.
       </p>

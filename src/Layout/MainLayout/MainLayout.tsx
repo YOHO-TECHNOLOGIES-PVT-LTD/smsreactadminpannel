@@ -11,6 +11,7 @@ import { NotFound } from '../../pages/NotFound/NotFound.tsx';
 import { VehicleManagementPage } from '../../pages/vehicle/VehicleManagementPage.tsx';
 import GeneralSettings from '../../pages/Settings/GeneralSettings.tsx';
 import { COLORS } from '../../constants/uiConstants.ts';
+import QuotationPage from '../../pages/job-cards/steps/Quotationpage.tsx';
 
 export const MainLayout = () => {
     return (
@@ -40,9 +41,10 @@ export const MainLayout = () => {
                                 <Route element={<VehicleManagementPage/>} path='/vehicle' />
                                 <Route element={<GeneralSettings/>} path='/settings' />
                                 <Route element={<ServiceManagementPage/>} path='/logout' />
+                                <Route element={<QuotationPage/>} path='/quatation' />
                                 <Route element={<NotFound/>} path='*' />
                             </Routes>
-                        <p>This is the main content area.</p>
+                       
                     </div>
                 </main>
             </div>
