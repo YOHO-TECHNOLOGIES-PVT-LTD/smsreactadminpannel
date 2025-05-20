@@ -28,7 +28,7 @@ export const Navbar: React.FC = () => {
 
   return (
     <nav
-      style={{ backgroundColor: COLORS.primary, height: "64px" }}
+      style={{ backgroundColor: COLORS.primary_01, height: "64px" }}
       className="flex items-center px-4"
     >
       {/* Left: Search */}
@@ -62,7 +62,7 @@ export const Navbar: React.FC = () => {
         <button
           aria-label="Notifications"
           onClick={handleBellClick}
-          className={`relative p-1.5 rounded-full bg-gradient-to-r from-red-600 to-red-800 focus:outline-none transform transition-transform duration-200 ease-in-out ${
+          className={`relative p-2.5 rounded-full bg-gradient-to-r from-red-600 to-red-800 focus:outline-none transform transition-transform duration-200 ease-in-out ${
             isBellActive ? "scale-90" : "scale-100"
           }`}
         >
@@ -72,7 +72,7 @@ export const Navbar: React.FC = () => {
             viewBox="0 0 24 24"
             strokeWidth={1.8}
             stroke="currentColor"
-            className="w-6 h-6 text-white"
+            className="w-5 h-5 text-white"
           >
             <path
               strokeLinecap="round"

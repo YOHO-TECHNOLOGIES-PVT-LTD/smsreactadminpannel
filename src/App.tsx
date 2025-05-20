@@ -2,6 +2,7 @@
 import './App.css'
 import { MainLayout } from './Layout/MainLayout/MainLayout.tsx'
 import { BrowserRouter } from 'react-router-dom'
+import AppRoutes from './routes/AppRoutes.tsx'
 
 function App() {
 
@@ -9,6 +10,7 @@ function App() {
     <>
       <BrowserRouter>
         <MainLayout />
+
       </BrowserRouter>
 
     </>

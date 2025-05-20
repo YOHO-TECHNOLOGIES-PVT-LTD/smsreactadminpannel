@@ -12,13 +12,14 @@ import { VehicleManagementPage } from '../../pages/vehicle/VehicleManagementPage
 import GeneralSettings from '../../pages/Settings/GeneralSettings.tsx';
 import { COLORS } from '../../constants/uiConstants.ts';
 
+
 export const MainLayout = () => {
-    return (
-        <div className="flex h-screen bg-gray-100">
-            {/* Sidebar takes up 1/9 of the width */}
-            <div className="w-1/9">
-                <Sidebar />
-            </div>
+  return (
+    <div className="flex h-screen bg-gray-100">
+      {/* Sidebar takes up 1/9 of the width */}
+      <div className="w-1/9">
+        <Sidebar />
+      </div>
 
             {/* Main content takes up the remaining 8/9 of the width */}
             <div className="flex-1 flex flex-col overflow-hidden">
@@ -31,6 +32,7 @@ export const MainLayout = () => {
                 <main className="flex-1 overflow-auto ">
                     <div className="p-6 rounded shadow" style={{ backgroundColor: COLORS.bgColor }}>
                         {/* Router */}
+
                         <Routes>
                             <Route element={<Dashboard />} path='/' />
                             <Route element={<NotificationPage />} path='/notifications' />
@@ -43,9 +45,11 @@ export const MainLayout = () => {
                             <Route element={<NotFound />} path='*' />
                         </Routes>
                         <p>This is the main content area.</p>
+
                     </div>
                 </main>
             </div>
         </div>
     );
+
 };
