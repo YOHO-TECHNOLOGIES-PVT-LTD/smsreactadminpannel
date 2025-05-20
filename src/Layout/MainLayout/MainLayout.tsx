@@ -1,5 +1,5 @@
 // import React from 'react';
-import { Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Outlet, Route, Routes } from 'react-router-dom';
 import { Navbar } from '../../components/common/Navbar/Navbar.tsx';
 import { Sidebar } from '../../components/common/Sidebar/Sidebar.tsx';
 import { Dashboard } from '../../pages/Dashboard/Dashboard.tsx';
@@ -11,6 +11,9 @@ import { NotFound } from '../../pages/NotFound/NotFound.tsx';
 import { VehicleManagementPage } from '../../pages/vehicle/VehicleManagementPage.tsx';
 import GeneralSettings from '../../pages/Settings/GeneralSettings.tsx';
 import { COLORS } from '../../constants/uiConstants.ts';
+import LoginPage from '../../pages/auth/LoginPage.tsx';
+import SignupPage from '../../pages/auth/SignupPage.tsx';
+import AutomatedNotificationsPage from '../../pages/notification/AutomatedNotificationsPage.tsx';
 
 export const MainLayout = () => {
     return (
@@ -30,10 +33,14 @@ export const MainLayout = () => {
 
                 <main className="flex-1 overflow-auto ">
                     <div className="p-6 rounded shadow" style={{backgroundColor: COLORS.bgColor}}>
+                        <Outlet />
                         {/* Router */}
-                            <Routes>
+                            {/* <Routes>
+                                <Route element={<LoginPage/>} path='/login' />
+                                <Route element={<SignupPage/>} path='/signup' />
                                 <Route element={<Dashboard/>} path='/' />
                                 <Route element={<NotificationPage/>} path='/notifications' />
+                                <Route element={<AutomatedNotificationsPage/>} path='/automated-notifications' />
                                 <Route element={<ServiceManagementPage/>} path='/service' />
                                 <Route element={<JobCardsPage/>} path='/job-cards' />
                                 <Route element={<CityManagementPage/>} path='/city' />
@@ -41,8 +48,7 @@ export const MainLayout = () => {
                                 <Route element={<GeneralSettings/>} path='/settings' />
                                 <Route element={<ServiceManagementPage/>} path='/logout' />
                                 <Route element={<NotFound/>} path='*' />
-                            </Routes>
-                        {/* <p>This is the main content area.</p> */}
+                            </Routes> */}
                     </div>
                 </main>
             </div>
