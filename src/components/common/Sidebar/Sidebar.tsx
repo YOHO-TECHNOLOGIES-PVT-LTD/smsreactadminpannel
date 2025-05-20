@@ -13,6 +13,7 @@ export const Sidebar = () => {
                 <nav className="flex-1 p-4 space-y-2">
                     <Link to="/" className="block px-4 py-2 rounded hover:bg-gray-100" >Dashboard</Link>
                     <Link to="/notifications" className="block px-4 py-2 rounded hover:bg-gray-100">Notifications</Link>
+                    <Link to="/automated-notifications" className="block px-4 py-2 rounded hover:bg-gray-100">Automated Notifications</Link>
                     <Link to="/service" className="block px-4 py-2 rounded hover:bg-gray-100">Service</Link>
                     <Link to="/job-cards" className="block px-4 py-2 rounded hover:bg-gray-100">Job Cards</Link>
                     <Link to="/city" className="block px-4 py-2 rounded hover:bg-gray-100">City</Link>
