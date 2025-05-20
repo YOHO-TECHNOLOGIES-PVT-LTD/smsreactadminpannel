@@ -18,7 +18,7 @@ const LoginPage = () => {
           <div className="w-full h-full p-5 m-10 place-content-center rounded-t-lg rounded-b-lg bg-[#E6A895]  ">
             <form className="grid gap-4 ">
               <p className="text-center text-red-800 font-bold ">LOGIN</p>
-              <label htmlFor="USERNAME" >Usename :</label> 
+              <label htmlFor="USERNAME" >Username :</label> 
               <input type="text" placeholder="enter your name" id="USERNAME" className="w-full border-2 border-gray-300 rounded p-1"></input>
               <label htmlFor="PASSWORD">Password :</label> 
               <input type="text" placeholder="enter your password" id="PASSWORD" className="w-full border-2 border-gray-300 rounded p-1"></input> 
