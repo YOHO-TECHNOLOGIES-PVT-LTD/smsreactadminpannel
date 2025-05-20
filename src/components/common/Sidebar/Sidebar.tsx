@@ -22,6 +22,9 @@ const COLOR = {
    secondary: "#E6A895",
  };
 
+import { Link } from "react-router-dom"
+import Logo from '../../../assets/LOGO.jpg'
+
 
 export const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(true);
