@@ -16,7 +16,10 @@ export const Navbar: React.FC = () => {
   };
 
   const handleClickOutside = (e: MouseEvent) => {
-    if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+    if (
+      dropdownRef.current &&
+      !dropdownRef.current.contains(e.target as Node)
+    ) {
       setIsDropdownOpen(false);
     }
   };
@@ -97,44 +100,38 @@ export const Navbar: React.FC = () => {
             </div>
             <div className="flex flex-col">
               <div className="flex flex-col">
-  <span className="text-[#9b111e] font-medium">John Doe</span>
-  <span className="text-sm text-[#c13340]">Admin</span>
-</div>
-
+                <span className="text-[#9b111e] font-medium">John Doe</span>
+                <span className="text-sm text-[#c13340]">Admin</span>
+              </div>
             </div>
           </div>
 
           {/* Dropdown */}
-  {isDropdownOpen && (
-  <div className="absolute right-0 mt-2 w-24 rounded-md shadow-lg z-50 bg-gradient-to-br from-yellow-50 to-yellow-100">
-    <ul className="py-1 text-sm text-[#9b111e]">
-      <li>
-        <a
-          href="/profile"
-          className="block px-4 py-1 text-center transition-colors duration-200 hover:text-white hover:bg-[#d14c4c]"
-        >
-          Profile
-        </a>
-      </li>
-      <li>
-        <button
-  onClick={() => {
-    alert("Logging out...");
-    setIsDropdownOpen(false); // <-- Closes the dropdown
-  }}
-  className="w-full text-left px-4 py-1 text-center transition-colors duration-200 hover:text-white hover:bg-[#d14c4c]"
->
-  Logout
-</button>
-
-      </li>
-    </ul>
-  </div>
-)}
-
-
-
-
+          {isDropdownOpen && (
+            <div className="absolute right-0 mt-2 w-24 rounded-md shadow-lg z-50 bg-gradient-to-br from-yellow-50 to-yellow-100">
+              <ul className="py-1 text-sm text-[#9b111e]">
+                <li>
+                  <a
+                    href="/profile"
+                    className="block px-4 py-1 text-center transition-colors duration-200 hover:text-white hover:bg-[#d14c4c]"
+                  >
+                    Profile
+                  </a>
+                </li>
+                <li>
+                  <button
+                    onClick={() => {
+                      alert("Logging out...");
+                      setIsDropdownOpen(false); // <-- Closes the dropdown
+                    }}
+                    className="w-full text-left px-4 py-1 text-center transition-colors duration-200 hover:text-white hover:bg-[#d14c4c]"
+                  >
+                    Logout
+                  </button>
+                </li>
+              </ul>
+            </div>
+          )}
         </div>
       </div>
     </nav>
