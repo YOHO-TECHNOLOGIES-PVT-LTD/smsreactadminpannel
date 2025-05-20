@@ -1,17 +1,16 @@
 //import reactLogo from './assets/YESMECHANIC.jpg'
 import './App.css'
-import NotificationTable from './components/common/Notification/AutomatedNotifications'
+import { MainLayout } from './Layout/MainLayout/MainLayout.tsx'
+import { BrowserRouter } from 'react-router-dom'
+
 function App() {
 
   return (
     <>
-      {/* <div className="bg-color">
-          <img src={reactLogo} className="logo" alt="YESMECHANIC" />
-      </div>
-      <h1>YESMECHANIC</h1> 
-      <p className='color'>Let's Start</p> */}
-      <NotificationTable/>
-      
+      <BrowserRouter>
+      <MainLayout />
+      </BrowserRouter>
+
     </>
   )
 }
