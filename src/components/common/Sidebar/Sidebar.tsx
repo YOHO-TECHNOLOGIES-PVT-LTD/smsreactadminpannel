@@ -120,9 +120,9 @@ isOpen ? "w-20 h-20" : "w-10 h-10"}`}
           isOpen ? "ml-48" : "ml-16"
         } flex-1`}
       >
-        <div className="">
+        {/* <div className="">
           <Outlet />
-        </div>
+        </div> */}
       </div>
     </div>
   );
