@@ -1,4 +1,7 @@
 // import React from 'react';
+import { Outlet } from 'react-router-dom';
+import { Navbar } from '../../components/common/Navbar/Navbar.tsx';
+import { Sidebar } from '../../components/common/Sidebar/Sidebar.tsx';
 import { Route, Routes } from 'react-router-dom';
 import { Navbar } from '../../components/common/Navbar/Navbar.tsx';
 import { Sidebar } from '../../components/common/Sidebar/Sidebar.tsx';
@@ -25,11 +28,9 @@ export const MainLayout = () => {
             <div className="flex-1 flex flex-col overflow-hidden">
                 <Navbar />
 
-                {/* <header className="h-16 bg-white shadow flex items-center px-6">
-                    <h2 className="text-xl font-medium">Dashboard</h2>
-                </header> */}
-
                 <main className="flex-1 overflow-auto ">
+                    <div className="p-4 rounded shadow" style={{backgroundColor: COLORS.bgColor}}>
+                        <Outlet />
                     <div className="p-6 rounded shadow" style={{ backgroundColor: COLORS.bgColor }}>
                         {/* Router */}
 
