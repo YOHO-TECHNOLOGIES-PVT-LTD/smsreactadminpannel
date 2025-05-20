@@ -2,6 +2,6 @@
 
 export const NotFound = () => {
   return (
-    <div>404-NotFound</div>
+    <div>404- Page Not Found</div>
   )
 }
