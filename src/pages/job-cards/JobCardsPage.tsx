@@ -1,10 +1,6 @@
 
-
 export const JobCardsPage = () => {
   return (
-    <div>
-      
-    </div>
+    <div>JobCardsPage</div>
   )
 }
-//
