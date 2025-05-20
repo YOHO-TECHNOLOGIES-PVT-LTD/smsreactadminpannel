@@ -42,7 +42,11 @@ export const MainLayout = () => {
                                 <Route element={<ServiceManagementPage/>} path='/logout' />
                                 <Route element={<NotFound/>} path='*' />
                             </Routes>
+<<<<<<< HEAD
+                        
+=======
                        
+>>>>>>> d3af3cdf8e582093430d8d3be6725b669a2b39d0
                     </div>
                 </main>
             </div>
