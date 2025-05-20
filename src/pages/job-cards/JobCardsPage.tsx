@@ -82,101 +82,12 @@ const invoices: Invoice[] = [
 export const JobCardsPage: React.FC = () => {
   const navigate = useNavigate();
 
+
+export const JobCardsPage = () => {
   return (
-    <div className="p-1 md:block">
-      <div className=" rounded-lg">
-        <div className=" border-b-2 border-[#9b111e] pb-2 mb-4">
-          <h1
-            style={{ ...FONTS.header, fontWeight: 600 }}
-            className="font-bold  text-[#9b111e]"
-          >
-            JOB CARDS
-          </h1>
-        </div>
-
-       <div className="relative max-w-md mb-6">
-          <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">
-            <CiSearch size={20} />
-          </span>
-          <input
-            type="search"
-            placeholder="Search by name, vehicle or ID"
-            className="pl-10 pr-4 py-2 w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#9b111e]"
-          />
-        </div>
-         
-
-        <div className="overflow-x-auto ">
-          <table className="min-w-full border-collapse rounded-lg overflow-hidden">
-            <thead className="bg-[#E6A895]">
-              <tr>
-                <th className="px-4 py-3 text-left text-sm font-semibold text-[#9b111e] border-b">
-                  ID
-                </th>
-                <th className="px-4 py-3 text-left text-sm font-semibold text-[#9b111e] border-b">
-                  Invoice Date
-                </th>
-                <th className="px-4 py-3 text-left text-sm font-semibold text-[#9b111e] border-b">
-                  Name
-                </th>
-                <th className="px-4 py-3 text-left text-sm font-semibold text-[#9b111e] border-b lg:table-cell hidden">
-                  Vehicle
-                </th>
-                <th className="px-4 py-3 text-left text-sm font-semibold text-[#9b111e] border-b ">
-                  Plate
-                </th>
-                <th className="px-4 py-3 text-left text-sm font-semibold text-[#9b111e] border-b lg:table-cell hidden">
-                  Total
-                </th>
-                <th className="px-4 py-3 text-left text-sm font-semibold text-[#9b111e] border-b">
-                  Job Status
-                </th>
-                <th className="px-4 py-3 text-left text-sm font-semibold text-[#9b111e] border-b">
-                  View
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {invoices.map((invoice, index) => (
-                <tr
-                  key={invoice.id}
-                  className={`text-sm text-gray-700 hover:bg-gray-100 transition ${
-                    index % 2 === 0 ? "bg-white" : "bg-gray-50"
-                  }`}
-                >
-                  <td className="px-4 py-3 border-b">{invoice.id}</td>
-                  <td className="px-4 py-3 border-b ">{invoice.invoiceDate}</td>
-                  <td className="px-4 py-3 border-b">{invoice.name}</td>
-                  <td className="px-4 py-3 border-b hidden lg:table-cell">
-                    {invoice.vehicle}
-                  </td>
-                  <td className="px-4 py-3 border-b ">{invoice.plate}</td>
-                  <td className="px-4 py-3 border-b lg:table-cell hidden">
-                    {invoice.total}
-                  </td>
-                  <td
-                    className={`px-4 py-3 border-b capitalize ${
-                      invoice.jobStatus === "completed"
-                        ? "text-green-600"
-                        : "text-red-600"
-                    }`}
-                  >
-                    {invoice.jobStatus}
-                  </td>
-                  <td className="px-4 py-3 border-b">
-                    <button
-                      onClick={() => navigate("/qoutation")}
-                      className="bg-gradient-to-r from-red-600 to-red-800 text-white px-3 py-1 active:scale-110 rounded hover:bg-[#a00000] transition"
-                    >
-                      View
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
+    <div>
+      
     </div>
-  );
-};
+  )
+}
+//
