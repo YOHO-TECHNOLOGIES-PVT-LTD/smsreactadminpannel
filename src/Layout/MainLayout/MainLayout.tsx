@@ -1,5 +1,5 @@
 // import React from 'react';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import { Navbar } from '../../components/common/Navbar/Navbar.tsx';
 import { Sidebar } from '../../components/common/Sidebar/Sidebar.tsx';
 import { Dashboard } from '../../pages/Dashboard/Dashboard.tsx';
@@ -42,7 +42,7 @@ export const MainLayout = () => {
                                 <Route element={<ServiceManagementPage/>} path='/logout' />
                                 <Route element={<NotFound/>} path='*' />
                             </Routes>
-                        <p>This is the main content area.</p>
+                        {/* <p>This is the main content area.</p> */}
                     </div>
                 </main>
             </div>
