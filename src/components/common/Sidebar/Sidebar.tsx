@@ -1,5 +1,5 @@
 import { useState, type JSX } from "react";
-import { Link, useLocation} from "react-router-dom";
+import { Link, useLocation, useNavigate} from "react-router-dom";
 import {
   FiHome,
   FiBell,
@@ -13,6 +13,7 @@ import {
 } from "react-icons/fi";
 // import { COLORS } from "../../../constants/uiConstants";
 import Logo from '../../../assets/LOGO.jpg'
+import { useAuth } from "../../../pages/auth/AuthContext";
 
 const COLOR = {
     primary: "#9b111e",
@@ -24,10 +25,17 @@ const COLOR = {
 
 export const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(true);
+  const {logout} = useAuth()
+  const navigate = useNavigate()
 
   const handleLinkClick = () => {
     setIsOpen(false);
   };
+
+  const handleLogout = () =>{
+    logout()
+    navigate('/')
+  }
 
   return (
     <div className="flex h-screen">
@@ -108,7 +116,7 @@ isOpen ? "w-20 h-20" : "w-10 h-10"}`}
             icon={<FiLogOut />}
             label="Logout"
             isOpen={isOpen}
-            onClick={handleLinkClick}
+            onClick={handleLogout}
           />
         </nav>
       </div>
@@ -118,9 +126,6 @@ isOpen ? "w-20 h-20" : "w-10 h-10"}`}
           isOpen ? "ml-48" : "ml-16"
         } flex-1`}
       >
-        {/* <div className="">
-          <Outlet />
-        </div> */}
       </div>
     </div>
   );

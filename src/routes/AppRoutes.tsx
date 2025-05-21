@@ -10,7 +10,6 @@ import AutomatedNotificationsPage from "../pages/notification/AutomatedNotificat
 import { VehicleManagementPage } from "../pages/vehicle/VehicleManagementPage";
 import GeneralSettings from "../pages/Settings/GeneralSettings";
 import { MainLayout } from "../Layout/MainLayout/MainLayout";
-import { NotFound } from "../pages/NotFound/NotFound";
 import { useAuth } from "../pages/auth/AuthContext";
 
 const AppRoutes = () => {
@@ -35,7 +34,7 @@ const AppRoutes = () => {
                 <Route path="city" element={<CityManagementPage />} />
                 <Route path="vehicle" element={<VehicleManagementPage />} />
                 <Route path="settings" element={<GeneralSettings />} />
-                <Route path="*" element={<NotFound />} />
+                <Route path="*" element={<Navigate to="/" />} />
             </Route>
         </Routes>
     );
