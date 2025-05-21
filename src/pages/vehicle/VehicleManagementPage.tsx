@@ -1,15 +1,16 @@
-
-
+import { useState } from 'react';
+import vehicleData from '../vehicle/VehicleData';
+import VehicleDetailCard, { type Vehicle } from '../../components/common/Card/VehicleDetailCard';
+import VehicleModal from '../vehicle/VehicleModal';
 import { FaSearch } from "react-icons/fa";
 import { IoFilterSharp } from "react-icons/io5";
-import { useState } from 'react';
 
 
-export const VehicleManagementPage = () => {
 
+const VehicleManagementPage = () => {
 
-      const product=['Hyundai','Maruthi','Audi','Benz','Bmw'];
-
+  const [selectedVehicle, setSelectedVehicle] = useState<Vehicle | null>(null);
+  const product=['Hyundai','Maruthi','Audi','Benz','Bmw'];
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredProducts, setFilteredProducts] = useState(product);
 
@@ -42,7 +43,29 @@ export const VehicleManagementPage = () => {
         </div>
       </div>
 
+          <div className="relative">
+      <div className="p-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {vehicleData.map((vehicle, index) => (
+          <VehicleDetailCard
+            key={index}
+            vehicle={vehicle}
+            onViewDetails={setSelectedVehicle}
+          />
+        ))}
+      </div>
+
+      {selectedVehicle && (
+        <VehicleModal
+          vehicle={selectedVehicle}
+          onClose={() => setSelectedVehicle(null)}
+        />
+      )}
+    </div>
+
     </div>
     
   )
 }
+
+export default VehicleManagementPage;
+

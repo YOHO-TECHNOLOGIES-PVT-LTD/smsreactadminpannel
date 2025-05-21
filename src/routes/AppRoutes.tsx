@@ -7,7 +7,7 @@ import { ServiceManagementPage } from "../pages/service-center/ServiceManagement
 import { JobCardsPage } from "../pages/job-cards/JobCardsPage";
 import { CityManagementPage } from "../pages/city/CityManagementPage";
 import AutomatedNotificationsPage from "../pages/notification/AutomatedNotificationsPage";
-import { VehicleManagementPage } from "../pages/vehicle/VehicleManagementPage";
+import  VehicleManagementPage  from "../pages/vehicle/VehicleManagementPage";
 import GeneralSettings from "../pages/Settings/GeneralSettings";
 import { MainLayout } from "../Layout/MainLayout/MainLayout";
 import { useAuth } from "../pages/auth/AuthContext";
