@@ -91,12 +91,13 @@ export const JobCardsPage = () => {
           <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">
             <CiSearch size={20} />
           </span>
-          <input
+           <input
             type="search"
             placeholder="Search"
-            className="pl-10 pr-4 py-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2  focus:ring-[#6b1b1b]"
+            className="pl-10 pr-4 py-2 w-full border border-[#9b111e] rounded-md focus:outline-none focus:ring-2  focus:ring-[#6b1b1b]"
           />
         </div>
+         
 
         <div className="overflow-x-auto ">
           <table className="min-w-full border-collapse rounded-lg overflow-hidden">
