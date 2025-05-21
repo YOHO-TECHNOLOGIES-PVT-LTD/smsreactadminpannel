@@ -13,12 +13,13 @@ import {
 } from "react-icons/fi";
 // import { COLORS } from "../../../constants/uiConstants";
 
-
 const COLOR = {
-  primary: "#9b111e",
-  bgColor: "#faf3eb",
-  secondary: "#E6A895",
-};
+   primary: "#9b111e",
+   bgColor: "#faf3eb",
+   secondary: "#E6A895",
+ };
+
+
 
 import { Link } from "react-router-dom";
 import Logo from "../../../assets/LOGO.jpg";

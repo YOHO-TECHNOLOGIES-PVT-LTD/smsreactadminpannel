@@ -124,7 +124,7 @@ export const Navbar: React.FC = () => {
                       alert("Logging out...");
                       setIsDropdownOpen(false); // <-- Closes the dropdown
                     }}
-                    className="w-full text-left px-4 py-1 text-center transition-colors duration-200 hover:text-white hover:bg-[#d14c4c]"
+                    className="w-full text-left px-4 py-1 transition-colors duration-200 hover:text-white hover:bg-[#d14c4c]"
                   >
                     Logout
                   </button>
