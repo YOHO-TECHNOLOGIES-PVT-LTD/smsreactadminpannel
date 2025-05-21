@@ -12,6 +12,8 @@ import GeneralSettings from "../pages/Settings/GeneralSettings";
 import { MainLayout } from "../Layout/MainLayout/MainLayout";
 import { useAuth } from "../pages/auth/AuthContext";
 import { Announcement } from "../pages/Announcement/Announcement";
+import SosDashboard from "../pages/sos/SosDashboard";
+import SosDetailsCard from "../pages/sos/SosDetailsCard"
 
 const AppRoutes = () => {
     const { isAuthenticated } = useAuth();
@@ -36,6 +38,8 @@ const AppRoutes = () => {
                 <Route path="vehicle" element={<VehicleManagementPage />} />
                 <Route path="announcement" element={<Announcement />} />
                 <Route path="settings" element={<GeneralSettings />} />
+                <Route path="sos" element ={<SosDashboard/>}/>
+                <Route path="sosdetails" element={<SosDetailsCard/>}/>
                 <Route path="*" element={<Navigate to="/" />} />
             </Route>
         </Routes>

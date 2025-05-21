@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { FiEdit, FiTrash } from "react-icons/fi";
 import { FiPlus } from "react-icons/fi";
+import { useNavigate } from "react-router-dom";
 
 type SOSRequest = {
   id: number;
@@ -17,6 +18,12 @@ type Service = {
 };
 
 const SosDashboard = () => {
+  const navigate = useNavigate();
+
+  const handleViewClick = () => {
+    navigate("/sosdetails");
+  };
+
   const activeRequests: SOSRequest[] = [
     {
       id: 1024,
@@ -97,7 +104,7 @@ const SosDashboard = () => {
                   </span>
                 </td>
                 <td className="px-4 py-2 cursor-pointer">
-                  <button className="bg-[#800000] text-white px-4 py-1 rounded hover:bg-[#a00000] transition">
+                  <button className="bg-[#800000] text-white px-4 py-1 rounded hover:bg-[#a00000] transition" onClick={handleViewClick}>
                     {req.view}
                   </button>
                 </td>
