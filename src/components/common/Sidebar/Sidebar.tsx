@@ -12,6 +12,7 @@ import {
   FiMenu,
 
 } from "react-icons/fi";
+import { MdHelpOutline } from "react-icons/md";
 // import { COLORS } from "../../../constants/uiConstants";
 
 const COLOR = {
@@ -39,11 +40,11 @@ export const Sidebar = () => {
       >
         <div className="flex justify-center items-center h-20">
           <img
-            src={Logo}
-            alt="YES Mechanic Logo"
-            className={`object-contain transition-all duration-300 ${
-isOpen ? "w-20 h-20" : "w-10 h-10"}`}
+          src={Logo}
+          alt="YES Mechanic Logo"
+          className={`object-contain transition-all duration-300 ${isOpen ? "w-20 h-20" : "w-10 h-10"}`}
           />
+
         </div>
         <div className="w-full flex justify-end px-2 mt-2">
          <button
@@ -99,6 +100,13 @@ isOpen ? "w-20 h-20" : "w-10 h-10"}`}
             onClick={handleLinkClick}
           />
           <SidebarLink
+            to="/Help"
+            icon={<MdHelpOutline  />}
+            label="Help Center"
+            isOpen={isOpen}
+            onClick={handleLinkClick}
+          />
+          <SidebarLink
             to="/settings"
             icon={<FiSettings />}
             label="Settings"
@@ -114,15 +122,10 @@ isOpen ? "w-20 h-20" : "w-10 h-10"}`}
           />
         </nav>
       </div>
+            <div
+  className={`transition-all duration-300 ${isOpen ? "ml-48" : "ml-16"} flex-1`}
+>
 
-      <div
-        className={`transition-all duration-300 ${
-          isOpen ? "ml-48" : "ml-16"
-        } flex-1`}
-      >
-        {/* <div className="">
-          <Outlet />
-        </div> */}
       </div>
     </div>
   );
@@ -163,4 +166,4 @@ const SidebarLink = ({
       )}
     </Link>
   );
-};  
+};
