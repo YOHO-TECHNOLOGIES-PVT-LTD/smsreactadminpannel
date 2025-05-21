@@ -1,19 +1,19 @@
 // import React from 'react';
-import { Outlet } from 'react-router-dom';
-import { Navbar } from '../../components/common/Navbar/Navbar.tsx';
-import { Sidebar } from '../../components/common/Sidebar/Sidebar.tsx';
-import { Route, Routes } from 'react-router-dom';
-import { NotificationPage } from '../../pages/notification/NotificationPage.tsx';
-import { ServiceManagementPage } from '../../pages/service-center/ServiceManagementPage.tsx';
-import { JobCardsPage } from '../../pages/job-cards/JobCardsPage.tsx';
-import { CityManagementPage } from '../../pages/city/CityManagementPage.tsx';
-import { NotFound } from '../../pages/NotFound/NotFound.tsx';
-import { VehicleManagementPage } from '../../pages/vehicle/VehicleManagementPage.tsx';
-import GeneralSettings from '../../pages/Settings/GeneralSettings.tsx';
-import { COLORS } from '../../constants/uiConstants.ts';
-import QuotationPage from '../../pages/job-cards/steps/Quotationpage.tsx';
-import { Dashboard } from '../../pages/Dashboard/Dashboard.tsx';
+import { Outlet } from "react-router-dom";
+import { Navbar } from "../../components/common/Navbar/Navbar.tsx";
+import { Sidebar } from "../../components/common/Sidebar/Sidebar.tsx";
+// import { Route, Routes } from 'react-router-dom';
 
+// import { NotificationPage } from '../../pages/notification/NotificationPage.tsx';
+// import { ServiceManagementPage } from '../../pages/service-center/ServiceManagementPage.tsx';
+// import { JobCardsPage } from '../../pages/job-cards/JobCardsPage.tsx';
+// import { CityManagementPage } from '../../pages/city/CityManagementPage.tsx';
+// import { NotFound } from '../../pages/NotFound/NotFound.tsx';
+// import { VehicleManagementPage } from '../../pages/vehicle/VehicleManagementPage.tsx';
+// import GeneralSettings from '../../pages/Settings/GeneralSettings.tsx';
+// import QuotationPage from '../../pages/job-cards/steps/Quotationpage.tsx';
+// import { Dashboard } from '../../pages/Dashboard/Dashboard.tsx';
+import { COLORS } from "../../constants/uiConstants.ts";
 
 export const MainLayout = () => {
   return (
@@ -33,24 +33,24 @@ export const MainLayout = () => {
             style={{ backgroundColor: COLORS.bgColor }}
           >
             <Outlet />
-            <div
-              className="p-6 rounded shadow"
-              style={{ backgroundColor: COLORS.bgColor }}
-            >
-              {/* Router */}
-              <Routes>
-                <Route element={<Dashboard />} path="/" />
-                <Route element={<NotificationPage />} path="/notifications" />
-                <Route element={<ServiceManagementPage />} path="/service" />
-                <Route element={<JobCardsPage />} path="/job-cards" />
-                <Route element={<CityManagementPage />} path="/city" />
-                <Route element={<VehicleManagementPage />} path="/vehicle" />
-                <Route element={<GeneralSettings />} path="/settings" />
-                <Route element={<ServiceManagementPage />} path="/logout" />
-                <Route element={<QuotationPage />} path="/quatation" />
-                <Route element={<NotFound />} path="*" />
-              </Routes>
-            </div>
+            {/* <div className="p-6 rounded shadow" style={{ backgroundColor: COLORS.bgColor }}> */}
+
+            {/* <Routes>
+                                <Route element={<Dashboard/>} path='/' />
+                                <Route element={<NotificationPage/>} path='/notifications' />
+                                <Route element={<ServiceManagementPage/>} path='/service' />
+                                <Route element={<JobCardsPage/>} path='/job-cards' />
+                                <Route element={<CityManagementPage/>} path='/city' />
+                                <Route element={<VehicleManagementPage/>} path='/vehicle' />
+                                <Route element={<GeneralSettings/>} path='/settings' />
+                                <Route element={<ServiceManagementPage/>} path='/logout' />
+                                <Route element={<QuotationPage/>} path='/quatation' />
+                                
+                                <Route element={<NotFound/>} path='*' />
+                            </Routes>
+                        */}
+
+            {/* </div> */}
           </div>
         </main>
       </div>
