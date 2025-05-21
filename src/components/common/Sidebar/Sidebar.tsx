@@ -12,7 +12,9 @@ import {
   FiMenu,
 
 } from "react-icons/fi";
-import { MdHelpOutline } from "react-icons/md";
+import Logo from '../../../assets/LOGO.jpg'
+import { Megaphone } from "lucide-react"; 
+
 // import { COLORS } from "../../../constants/uiConstants";
 
 const COLOR = {
@@ -21,7 +23,6 @@ const COLOR = {
    secondary: "#E6A895",
  };
 
-import Logo from '../../../assets/LOGO.jpg'
 
 
 export const Sidebar = () => {
@@ -100,9 +101,9 @@ export const Sidebar = () => {
             onClick={handleLinkClick}
           />
           <SidebarLink
-            to="/Help"
-            icon={<MdHelpOutline  />}
-            label="Help Center"
+            to="/help"
+            icon={<Megaphone />}
+            label="Announcement"
             isOpen={isOpen}
             onClick={handleLinkClick}
           />
@@ -154,7 +155,13 @@ const SidebarLink = ({
       style={{
         backgroundColor: isHovered ? "#faf3eb" : "transparent",
       }}
-      className="flex items-center gap-4 w-full px-4 py-2 rounded transition-all"
+      
+     
+     className={`flex items-center transition-all px-2 py-1 
+        ${isOpen ? "w-full justify-start gap-5 pl-5  pr-1" : "justify-center w-10 h-8"} 
+        ${isHovered ? "bg-[#faf3eb] rounded-full" : "rounded-full"}
+        `}
+
     >
       <div className="text-xl" style={{ color: COLOR.primary }}>
         {icon}
@@ -167,3 +174,4 @@ const SidebarLink = ({
     </Link>
   );
 };
+
