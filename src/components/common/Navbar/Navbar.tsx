@@ -16,7 +16,10 @@ export const Navbar: React.FC = () => {
   };
 
   const handleClickOutside = (e: MouseEvent) => {
-    if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+    if (
+      dropdownRef.current &&
+      !dropdownRef.current.contains(e.target as Node)
+    ) {
       setIsDropdownOpen(false);
     }
   };
@@ -28,6 +31,7 @@ export const Navbar: React.FC = () => {
 
   return (
     <nav
+      style={{ backgroundColor: COLORS.primary_01, height: "64px" }}
       style={{ backgroundColor: COLORS.primary_01, height: "64px" }}
       className="flex items-center px-4"
     >
@@ -63,6 +67,7 @@ export const Navbar: React.FC = () => {
           aria-label="Notifications"
           onClick={handleBellClick}
           className={`relative p-2.5 rounded-full bg-gradient-to-r from-red-600 to-red-800 focus:outline-none transform transition-transform duration-200 ease-in-out ${
+          className={`relative p-2.5 rounded-full bg-gradient-to-r from-red-600 to-red-800 focus:outline-none transform transition-transform duration-200 ease-in-out ${
             isBellActive ? "scale-90" : "scale-100"
           }`}
         >
@@ -72,6 +77,7 @@ export const Navbar: React.FC = () => {
             viewBox="0 0 24 24"
             strokeWidth={1.8}
             stroke="currentColor"
+            className="w-5 h-5 text-white"
             className="w-5 h-5 text-white"
           >
             <path
@@ -97,10 +103,9 @@ export const Navbar: React.FC = () => {
             </div>
             <div className="flex flex-col">
               <div className="flex flex-col">
-  <span className="text-[#9b111e] font-medium">John Doe</span>
-  <span className="text-sm text-[#c13340]">Admin</span>
-</div>
-
+                <span className="text-[#9b111e] font-medium">John Doe</span>
+                <span className="text-sm text-[#c13340]">Admin</span>
+              </div>
             </div>
           </div>
 
