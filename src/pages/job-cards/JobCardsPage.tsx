@@ -1,7 +1,7 @@
 import React from "react";
 import { CiSearch } from "react-icons/ci";
 import { FONTS } from "../../constants/uiConstants";
-
+import { useNavigate } from "react-router-dom";
 
 type Invoice = {
   id: string;
@@ -79,12 +79,19 @@ const invoices: Invoice[] = [
   },
 ];
 
-export const JobCardsPage = () => {
+export const JobCardsPage: React.FC = () => {
+  const navigate = useNavigate();
+
   return (
-    <div className="p-1" >
+    <div className="p-1 md:block">
       <div className="bg-white p-6 rounded-lg">
         <div className="mb-6">
-          <h1 style={{...FONTS.header,fontWeight:600}} className="font-bold text-gray- text-[#9b111e]">JOB CARDS</h1>
+          <h1
+            style={{ ...FONTS.header, fontWeight: 600 }}
+            className="font-bold text-gray- text-[#9b111e]"
+          >
+            JOB CARDS
+          </h1>
         </div>
 
         <div className="relative w-80 mb-6">
@@ -103,26 +110,30 @@ export const JobCardsPage = () => {
           <table className="min-w-full border-collapse rounded-lg overflow-hidden">
             <thead className="bg-[#FAF3EB]">
               <tr>
-                {[
-                  "ID",
-                  "Name",
-                  "Invoice Date",
-                  "Vehicle",
-                  "Plate",
-                  "Total",
-                  "Paid Amount",
-                  "Balance Due",
-                  "Profile",
-                  "Job Status",
-                  "View",
-                ].map((header) => (
-                  <th
-                    key={header}
-                    className="px-4 py-3 text-left text-sm font-semibold text-[#9b111e] border-b"
-                  >
-                    {header}
-                  </th>
-                ))}
+                <th className="px-4 py-3 text-left text-sm font-semibold text-[#9b111e] border-b">
+                  ID
+                </th>
+                <th className="px-4 py-3 text-left text-sm font-semibold text-[#9b111e] border-b hidden lg:table-cell">
+                  Invoice Date
+                </th>
+                <th className="px-4 py-3 text-left text-sm font-semibold text-[#9b111e] border-b">
+                  Name
+                </th>
+                <th className="px-4 py-3 text-left text-sm font-semibold text-[#9b111e] border-b">
+                  Vehicle
+                </th>
+                <th className="px-4 py-3 text-left text-sm font-semibold text-[#9b111e] border-b hidden xl:table-cell">
+                  Plate
+                </th>
+                <th className="px-4 py-3 text-left text-sm font-semibold text-[#9b111e] border-b hidden xl:table-cell">
+                  Total
+                </th>
+                <th className="px-4 py-3 text-left text-sm font-semibold text-[#9b111e] border-b">
+                  Job Status
+                </th>
+                <th className="px-4 py-3 text-left text-sm font-semibold text-[#9b111e] border-b">
+                  View
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -134,17 +145,25 @@ export const JobCardsPage = () => {
                   }`}
                 >
                   <td className="px-4 py-3 border-b">{invoice.id}</td>
+                  <td className="px-4 py-3 border-b hidden lg:table-cell">
+                    {invoice.invoiceDate}
+                  </td>
                   <td className="px-4 py-3 border-b">{invoice.name}</td>
-                  <td className="px-4 py-3 border-b">{invoice.invoiceDate}</td>
                   <td className="px-4 py-3 border-b">{invoice.vehicle}</td>
-                  <td className="px-4 py-3 border-b">{invoice.plate}</td>
-                  <td className="px-4 py-3 border-b">{invoice.total}</td>
-                  <td className="px-4 py-3 border-b">{invoice.paidAmount}</td>
-                  <td className="px-4 py-3 border-b">{invoice.BalanceDue}</td>
-                  <td className="px-4 py-3 border-b">{invoice.profile}</td>
-                  <td className={`px-4 py-3 border-b capitalize ${invoice.jobStatus === "completed"?"text-green-600" :"text-yellow-400"} `}>{invoice.jobStatus}</td>
+                  <td className="px-4 py-3 border-b hidden xl:table-cell">
+                    {invoice.plate}
+                  </td>
+                  <td className="px-4 py-3 border-b hidden xl:table-cell">
+                    {invoice.total}
+                  </td>
+                  <td className="px-4 py-3 border-b capitalize">
+                    {invoice.jobStatus}
+                  </td>
                   <td className="px-4 py-3 border-b">
-                    <button className="bg-gradient-to-r from-red-600 to-red-800 text-white px-3 py-1 rounded hover:bg-[#a00000] transition">
+                    <button
+                      onClick={() => navigate("/quatation")}
+                      className="bg-gradient-to-r from-red-600 to-red-800 text-white px-3 py-1 active:scale-110 rounded hover:bg-[#a00000] transition"
+                    >
                       View
                     </button>
                   </td>
