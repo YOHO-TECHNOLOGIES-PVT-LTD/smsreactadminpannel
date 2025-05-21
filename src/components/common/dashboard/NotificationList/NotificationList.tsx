@@ -14,14 +14,20 @@ export const NotificationList:React.FC<NotificationListprops> = ({
   return (
     <>    
     <div className="">
-        <div className="flex flex-wrap w-200px ">
-          <div className=" flex  border-2 border-solid  rounded-xl bg-white shadow-md p-2">
-            {icon1}
-            <div className="">
-              <p>{title}</p>
-              <p>` {desc} #{id}`</p>
+        <div className="flex">
+          <div className=" flex bg-[#FAF3EB] w-full rounded-xl  shadow-md p-2 justify-between mt-2   " >
+           <div className="w-10 h-10 mr-3 text-xl rounded-md flex items-center justify-center ">
+              {icon1}
+           </div>
+            <div className="   w-full">
+              <p className="font-semibold">{title}</p>
+              <p className="line-clamp-2 font-light">` {desc} #{id}`</p>
             </div >
-            {icon2}
+            <div className="align-end ">
+              <div className="text-[green]">
+                {icon2}
+                </div>
+                </div>
           </div>
         </div>
     </div>
