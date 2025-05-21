@@ -1,5 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { COLORS } from "../../../constants/uiConstants";
+import { useNavigate } from "react-router-dom";
+
 
 interface User {
   name: string;
@@ -12,11 +14,50 @@ interface User {
   status: string;
 }
 
+interface Notification {
+  id: number;
+  message: string;
+  time: string;
+  isRead: boolean;
+}
+
 export const Navbar: React.FC = () => {
-  const [isBellActive, setIsBellActive] = useState<boolean>(false);
-  const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
-  const [showProfileDetails, setShowProfileDetails] = useState<boolean>(false);
-  const [isEditing, setIsEditing] = useState<boolean>(false);
+  const [isBellActive, setIsBellActive] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [showProfileDetails, setShowProfileDetails] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
+  const [showLogoutSuccess, setShowLogoutSuccess] = useState(false);
+  const [showNotifications, setShowNotifications] = useState(false);
+  const navigate = useNavigate();
+
+  const [notifications, setNotifications] = useState<Notification[]>([
+    {
+      id: 1,
+      message: "New task assigned to you: Project Review",
+      time: "5 minutes ago",
+      isRead: true
+    },
+    {
+      id: 2,
+      message: "Your report has been approved",
+      time: "1 hour ago",
+      isRead: true
+    },
+    {
+      id: 3,
+      message: "System maintenance scheduled for tomorrow",
+      time: "3 hours ago",
+      isRead: true
+    },
+    {
+      id: 4,
+      message: "Welcome to the dashboard! Take a tour",
+      time: "1 day ago",
+      isRead: true
+    }
+  ]);
+
   const [editedUser, setEditedUser] = useState<User>({
     name: "John Doe",
     phone: "+1 856-589-998-1236",
@@ -30,10 +71,19 @@ export const Navbar: React.FC = () => {
   });
 
   const dropdownRef = useRef<HTMLDivElement | null>(null);
+  const notificationRef = useRef<HTMLDivElement | null>(null);
 
   const handleBellClick = (): void => {
     setIsBellActive(true);
-    setTimeout(() => setIsBellActive(false), 500);
+    setShowNotifications((prev) => !prev);
+    setTimeout(() => {
+      setIsBellActive(false);
+    }, 150); // short delay for animation feedback
+  };
+
+  const handleViewAllNotifications = (): void => {
+    setShowNotifications(false);
+    navigate("/notifications");
   };
 
   const toggleDropdown = (): void => {
@@ -44,6 +94,10 @@ export const Navbar: React.FC = () => {
     if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
       setIsDropdownOpen(false);
     }
+    
+    if (notificationRef.current && !notificationRef.current.contains(e.target as Node)) {
+      setShowNotifications(false);
+    }
   };
 
   useEffect(() => {
@@ -53,10 +107,11 @@ export const Navbar: React.FC = () => {
     };
   }, []);
 
-  // Use keyof User to restrict fields to user keys
   const handleChange = <K extends keyof User>(field: K, value: User[K]): void => {
     setEditedUser((prev) => ({ ...prev, [field]: value }));
   };
+
+  const unreadCount = notifications.filter(notification => !notification.isRead).length;
 
   return (
     <>
@@ -89,28 +144,75 @@ export const Navbar: React.FC = () => {
         </div>
 
         <div className="ml-auto flex items-center space-x-4 pr-4">
-          <button
-            aria-label="Notifications"
-            onClick={handleBellClick}
-            className={`relative p-2.5 rounded-full bg-gradient-to-r from-red-600 to-red-800 focus:outline-none transform transition-transform duration-200 ease-in-out ${
-              isBellActive ? "scale-90" : "scale-100"
-            }`}
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.8}
-              stroke="currentColor"
-              className="w-5 h-5 text-white"
+          <div className="relative" ref={notificationRef}>
+            <button
+              aria-label="Notifications"
+              onClick={handleBellClick}
+              className={`relative p-2.5 rounded-full bg-gradient-to-r from-red-600 to-red-800 focus:outline-none transform transition-transform duration-200 ease-in-out ${
+                isBellActive ? "scale-90" : "scale-100"
+              }`}
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M12 22c1.1 0 2-.9 2-2h-4a2 2 0 002 2zm6-6V11c0-3.3-2.2-6.1-5.3-6.8V4a.7.7 0 00-1.4 0v.2C8.2 4.9 6 7.7 6 11v5l-1.7 1.7a1 1 0 00.7 1.7h14a1 1 0 00.7-1.7L18 16z"
-              />
-            </svg>
-          </button>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.8}
+                stroke="currentColor"
+                className="w-5 h-5 text-white"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M12 22c1.1 0 2-.9 2-2h-4a2 2 0 002 2zm6-6V11c0-3.3-2.2-6.1-5.3-6.8V4a.7.7 0 00-1.4 0v.2C8.2 4.9 6 7.7 6 11v5l-1.7 1.7a1 1 0 00.7 1.7h14a1 1 0 00.7-1.7L18 16z"
+                />
+              </svg>
+              {unreadCount > 0 && (
+                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
+                  {unreadCount}
+                </span>
+              )}
+            </button>
+
+            {showNotifications && (
+              <div className="absolute right-0 mt-2 w-80 rounded-lg shadow-xl bg-white z-50 overflow-hidden">
+                <div className="bg-gradient-to-r from-red-600 to-red-800 p-3">
+                  <h3 className="text-white font-bold">Notifications</h3>
+                </div>
+                <div className="max-h-80 overflow-y-auto">
+                  {notifications.length > 0 ? (
+                    notifications.map((notification) => (
+                      <div 
+                        key={notification.id} 
+                        className={`p-3 border-b hover:bg-gray-50 transition-colors duration-150 ${
+                          notification.isRead ? "bg-white" : "bg-red-50"
+                        }`}
+                      >
+                        <div className="flex justify-between items-start">
+                          <p className="text-sm text-gray-800">{notification.message}</p>
+                          {!notification.isRead && (
+                            <span className="w-2 h-2 rounded-full bg-red-600 mt-1 ml-2"></span>
+                          )}
+                        </div>
+                        <p className="text-xs text-gray-500 mt-1">{notification.time}</p>
+                      </div>
+                    ))
+                  ) : (
+                    <div className="p-4 text-center text-gray-500">
+                      No notifications
+                    </div>
+                  )}
+                </div>
+                <div className="p-3 bg-gray-50 text-center border-t">
+                  <button 
+                    onClick={handleViewAllNotifications}
+                    className="text-red-600 hover:text-red-800 font-medium text-sm transition-colors"
+                  >
+                    View All Notifications
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
 
           <div className="relative" ref={dropdownRef}>
             <div
@@ -125,9 +227,21 @@ export const Navbar: React.FC = () => {
                 />
               </div>
               <div className="flex flex-col">
-                <span className="text-[#9b111e] font-medium">{editedUser.name}</span>
-                <span className="text-sm text-[#c13340]">Admin</span>
-              </div>
+  <span className="text-[#9b111e] font-medium">{editedUser.name}</span>
+  <div className="flex items-center text-sm text-[#c13340]">
+    Admin
+    <svg
+      className="w-4 h-6 ml-1 text-[#c13340]"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={2}
+      viewBox="0 0 24 24"
+    >
+      <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+    </svg>
+  </div>
+</div>
+
             </div>
 
             {isDropdownOpen && (
@@ -147,7 +261,7 @@ export const Navbar: React.FC = () => {
                   <li>
                     <button
                       onClick={() => {
-                        alert("Logging out...");
+                        setShowLogoutConfirm(true);
                         setIsDropdownOpen(false);
                       }}
                       className="block w-full text-center px-4 py-1 transition-colors duration-200 hover:text-white hover:bg-[#d14c4c]"
@@ -162,6 +276,7 @@ export const Navbar: React.FC = () => {
         </div>
       </nav>
 
+      {/* Profile Modal (unchanged) */}
       {showProfileDetails && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999] p-4">
           <div className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl overflow-hidden">
@@ -186,23 +301,22 @@ export const Navbar: React.FC = () => {
                   <p className="text-sm opacity-90">Admin, Production Department</p>
                 </div>
               </div>
-             <button
-  onClick={() => setShowProfileDetails(false)}
-  className="bg-white text-red-600 font-semibold p-2 rounded-lg shadow hover:bg-gray-100 transition"
-  aria-label="Close profile details"
->
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    className="h-6 w-6"
-    fill="none"
-    viewBox="0 0 24 24"
-    stroke="currentColor"
-    strokeWidth={2}
-  >
-    <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-  </svg>
-</button>
-
+              <button
+                onClick={() => setShowProfileDetails(false)}
+                className="bg-white text-red-600 font-semibold p-2 rounded-lg shadow hover:bg-gray-100 transition"
+                aria-label="Close profile details"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-6 text-gray-700">
@@ -278,6 +392,106 @@ export const Navbar: React.FC = () => {
           </div>
         </div>
       )}
+
+      {/* Logout Confirmation Modal */}
+      {showLogoutConfirm && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999]">
+          <div className="bg-white rounded-xl shadow-lg w-80 p-6 space-y-4 text-center">
+            <h2 className="text-lg font-semibold text-red-600">Are you sure you want to logout?</h2>
+            <div className="flex justify-center gap-4 mt-4">
+              <button
+                onClick={() => setShowLogoutConfirm(false)}
+                className="px-4 py-2 rounded bg-gray-200 hover:bg-gray-300 text-gray-800"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={() => {
+                  setShowLogoutConfirm(false);
+                  setShowLogoutSuccess(true);
+                  setTimeout(() => {
+                    setShowLogoutSuccess(false);
+                    console.log("Redirect or clear session here");
+                  }, 2000);
+                }}
+                className="px-4 py-2 rounded bg-red-600 text-white hover:bg-red-700"
+              >
+                OK
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Logout Success Modal */}
+      {showLogoutSuccess && (
+  <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999]">
+    <div className="bg-white rounded-xl shadow-xl w-80 p-6 flex flex-col items-center space-y-4 text-center animate-fade-in">
+      {/* Animated Checkmark with Tailwind */}
+      <svg
+        className="w-16 h-16 text-green-600 animate-draw-check"
+        viewBox="0 0 52 52"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <circle
+          cx="26"
+          cy="26"
+          r="25"
+          stroke="currentColor"
+          strokeWidth="2"
+          className="stroke-current"
+        />
+        <path
+          d="M14 27L22 35L38 19"
+          stroke="currentColor"
+          strokeWidth="4"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          className="animate-draw-path"
+        />
+      </svg>
+      <p className="text-green-700 text-lg font-semibold">Logout Successfully!</p>
+    </div>
+
+    {/* Tailwind custom animation via <style> tag (works well for small scoped styles) */}
+    <style>
+      {`
+        @keyframes fade-in {
+          from { opacity: 0; transform: scale(0.95); }
+          to { opacity: 1; transform: scale(1); }
+        }
+
+        .animate-fade-in {
+          animation: fade-in 0.3s ease-out forwards;
+        }
+
+        @keyframes draw-path {
+          from { stroke-dasharray: 48; stroke-dashoffset: 48; }
+          to { stroke-dashoffset: 0; }
+        }
+
+        .animate-draw-path {
+          stroke-dasharray: 48;
+          stroke-dashoffset: 48;
+          animation: draw-path 0.5s ease-out forwards;
+        }
+
+        @keyframes draw-check {
+          from { stroke-dasharray: 166; stroke-dashoffset: 166; }
+          to { stroke-dashoffset: 0; }
+        }
+
+        .animate-draw-check circle {
+          stroke-dasharray: 166;
+          stroke-dashoffset: 166;
+          animation: draw-check 0.6s ease-out forwards;
+        }
+      `}
+    </style>
+  </div>
+)}
+
     </>
   );
 };
