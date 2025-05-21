@@ -10,13 +10,13 @@ import {
   FiSettings,
   FiAlertTriangle,
   FiMenu,
+  FiLogOut,
 
 } from "react-icons/fi";
 import Logo from '../../../assets/LOGO.jpg'
 import { Megaphone } from "lucide-react"; 
 
 // import { COLORS } from "../../../constants/uiConstants";
-import Logo from '../../../assets/LOGO.jpg'
 import { useAuth } from "../../../pages/auth/AuthContext";
 
 const COLOR = {
