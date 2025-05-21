@@ -2,7 +2,6 @@ import React, { useState, useRef, useEffect } from "react";
 import { COLORS } from "../../../constants/uiConstants";
 import { useNavigate } from "react-router-dom";
 
-
 interface User {
   name: string;
   phone: string;
@@ -29,37 +28,42 @@ export const Navbar: React.FC = () => {
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
   const [showLogoutSuccess, setShowLogoutSuccess] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
+
   const navigate = useNavigate();
+
+  const dropdownRef = useRef<HTMLDivElement | null>(null);
+  const notificationRef = useRef<HTMLDivElement | null>(null);
+  const modalRef = useRef<HTMLDivElement | null>(null);
 
   const [notifications, setNotifications] = useState<Notification[]>([
     {
       id: 1,
       message: "New task assigned to you: Project Review",
       time: "5 minutes ago",
-      isRead: true
+      isRead: true,
     },
     {
       id: 2,
       message: "Your report has been approved",
       time: "1 hour ago",
-      isRead: true
+      isRead: true,
     },
     {
       id: 3,
       message: "System maintenance scheduled for tomorrow",
       time: "3 hours ago",
-      isRead: true
+      isRead: true,
     },
     {
       id: 4,
       message: "Welcome to the dashboard! Take a tour",
       time: "1 day ago",
-      isRead: true
-    }
+      isRead: true,
+    },
   ]);
 
   const [editedUser, setEditedUser] = useState<User>({
-    name: "John Doe",
+    name: "John ",
     phone: "+1 856-589-998-1236",
     email: "johndoe3108@gmail.com",
     avatar:
@@ -70,48 +74,59 @@ export const Navbar: React.FC = () => {
     status: "Active",
   });
 
-  const dropdownRef = useRef<HTMLDivElement | null>(null);
-  const notificationRef = useRef<HTMLDivElement | null>(null);
+  // 🔁 Handle outside clicks for dropdown & notifications
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(e.target as Node)
+      ) {
+        setIsDropdownOpen(false);
+      }
+      if (
+        notificationRef.current &&
+        !notificationRef.current.contains(e.target as Node)
+      ) {
+        setShowNotifications(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
-  const handleBellClick = (): void => {
+  // 🔁 Handle outside clicks for modal
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
+        setShowProfileDetails(false);
+      }
+    };
+    if (showProfileDetails) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [showProfileDetails]);
+
+  const handleBellClick = () => {
     setIsBellActive(true);
     setShowNotifications((prev) => !prev);
-    setTimeout(() => {
-      setIsBellActive(false);
-    }, 150); // short delay for animation feedback
+    setTimeout(() => setIsBellActive(false), 150);
   };
 
-  const handleViewAllNotifications = (): void => {
+  const handleViewAllNotifications = () => {
     setShowNotifications(false);
     navigate("/notifications");
   };
 
-  const toggleDropdown = (): void => {
+  const toggleDropdown = () => {
     setIsDropdownOpen((prev) => !prev);
   };
 
-  const handleClickOutside = (e: MouseEvent): void => {
-    if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
-      setIsDropdownOpen(false);
-    }
-    
-    if (notificationRef.current && !notificationRef.current.contains(e.target as Node)) {
-      setShowNotifications(false);
-    }
-  };
-
-  useEffect(() => {
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
-
-  const handleChange = <K extends keyof User>(field: K, value: User[K]): void => {
+  const handleChange = <K extends keyof User>(field: K, value: User[K]) => {
     setEditedUser((prev) => ({ ...prev, [field]: value }));
   };
 
-  const unreadCount = notifications.filter(notification => !notification.isRead).length;
+  const unreadCount = notifications.filter((n) => !n.isRead).length;
 
   return (
     <>
@@ -141,6 +156,23 @@ export const Navbar: React.FC = () => {
               <path d="M21 21l-4.35-4.35M11 18a7 7 0 1 1 0-14 7 7 0 0 1 0 14z" />
             </svg>
           </button>
+        </div>
+
+        {/* SOS Emergency Icon */}
+        {/* SOS Emergency Icon */}
+        <div className="relative w-full">
+          {/* SOS Icon */}
+          <div className="absolute right-4 top-1/2 -translate-y-1/2">
+            <div className="relative">
+              <span className="absolute inline-flex h-8 w-8 rounded-full bg-red-400 opacity-75 animate-ping"></span>
+              <button
+                onClick={() => alert("Emergency SOS Triggered!")}
+                className="relative z-10 inline-flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-r from-red-600 to-red-800 text-white font-bold text-sm shadow-lg hover:scale-105 transition-transform"
+              >
+                SOS
+              </button>
+            </div>
+          </div>
         </div>
 
         <div className="ml-auto flex items-center space-x-4 pr-4">
@@ -181,29 +213,36 @@ export const Navbar: React.FC = () => {
                 <div className="max-h-80 overflow-y-auto">
                   {notifications.length > 0 ? (
                     notifications.map((notification) => (
-                      <div 
-                        key={notification.id} 
-                        className={`p-3 border-b hover:bg-gray-50 transition-colors duration-150 ${
+                      <div
+                        key={notification.id}
+                        className={`group relative p-3 border-b hover:bg-gray-50 transition-colors duration-150 ${
                           notification.isRead ? "bg-white" : "bg-red-50"
                         }`}
                       >
+                        {/* This vertical red line will now appear on hover */}
+                        <div className="absolute left-0 top-0 h-full w-1 bg-red-600 opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
+
                         <div className="flex justify-between items-start">
-                          <p className="text-sm text-gray-800">{notification.message}</p>
+                          <p className="text-sm text-gray-800">
+                            {notification.message}
+                          </p>
                           {!notification.isRead && (
                             <span className="w-2 h-2 rounded-full bg-red-600 mt-1 ml-2"></span>
                           )}
                         </div>
-                        <p className="text-xs text-gray-500 mt-1">{notification.time}</p>
+                        <p className="text-xs text-gray-500 mt-1">
+                          {notification.time}
+                        </p>
                       </div>
                     ))
                   ) : (
-                    <div className="p-4 text-center text-gray-500">
+                    <p className="p-3 text-gray-500 text-sm">
                       No notifications
-                    </div>
+                    </p>
                   )}
                 </div>
                 <div className="p-3 bg-gray-50 text-center border-t">
-                  <button 
+                  <button
                     onClick={handleViewAllNotifications}
                     className="text-red-600 hover:text-red-800 font-medium text-sm transition-colors"
                   >
@@ -227,21 +266,26 @@ export const Navbar: React.FC = () => {
                 />
               </div>
               <div className="flex flex-col">
-  <span className="text-[#9b111e] font-medium">{editedUser.name}</span>
-  <div className="flex items-center text-sm text-[#c13340]">
-    Admin
-    <svg
-      className="w-4 h-6 ml-1 text-[#c13340]"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={2}
-      viewBox="0 0 24 24"
-    >
-      <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-    </svg>
-  </div>
-</div>
-
+                <span className="text-[#9b111e] font-medium">
+                  {editedUser.name}
+                </span>
+                <div className="flex items-center text-sm text-[#c13340]">
+                  Admin
+                  <svg
+                    className="w-4 h-6 ml-1 text-[#c13340]"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth={2}
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M19 9l-7 7-7-7"
+                    />
+                  </svg>
+                </div>
+              </div>
             </div>
 
             {isDropdownOpen && (
@@ -276,10 +320,13 @@ export const Navbar: React.FC = () => {
         </div>
       </nav>
 
-      {/* Profile Modal (unchanged) */}
+      {/* Profile Modal  */}
       {showProfileDetails && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999] p-4">
-          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl overflow-hidden">
+          <div
+            ref={modalRef}
+            className="bg-[#FAF3EB] rounded-2xl shadow-2xl w-full max-w-2xl md:max-w-xl sm:max-w-md overflow-hidden"
+          >
             <div className="bg-gradient-to-r from-red-600 to-red-800 p-6 flex items-center justify-between text-white">
               <div className="flex items-center space-x-4">
                 <img
@@ -298,12 +345,14 @@ export const Navbar: React.FC = () => {
                   ) : (
                     <h2 className="text-2xl font-bold">{editedUser.name}</h2>
                   )}
-                  <p className="text-sm opacity-90">Admin, Production Department</p>
+                  <p className="text-sm opacity-90">
+                    Admin, Production Department
+                  </p>
                 </div>
               </div>
               <button
                 onClick={() => setShowProfileDetails(false)}
-                className="bg-white text-red-600 font-semibold p-2 rounded-lg shadow hover:bg-gray-100 transition"
+                className="bg-[#FAF3EB] text-red-600 font-semibold p-2 rounded-lg shadow hover:bg-[#f8e0b0] transition"
                 aria-label="Close profile details"
               >
                 <svg
@@ -314,7 +363,11 @@ export const Navbar: React.FC = () => {
                   stroke="currentColor"
                   strokeWidth={2}
                 >
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M6 18L18 6M6 6l12 12"
+                  />
                 </svg>
               </button>
             </div>
@@ -330,11 +383,15 @@ export const Navbar: React.FC = () => {
                       <input
                         type="text"
                         value={editedUser[field as keyof User]}
-                        onChange={(e) => handleChange(field as keyof User, e.target.value)}
+                        onChange={(e) =>
+                          handleChange(field as keyof User, e.target.value)
+                        }
                         className="text-lg w-full border-b border-gray-400 focus:outline-none"
                       />
                     ) : (
-                      <p className="text-lg">{editedUser[field as keyof User]}</p>
+                      <p className="text-lg">
+                        {editedUser[field as keyof User]}
+                      </p>
                     )}
                   </div>
                 ))}
@@ -343,13 +400,17 @@ export const Navbar: React.FC = () => {
                 {["role", "joinDate", "status"].map((field) => (
                   <div key={field}>
                     <h4 className="text-sm text-gray-500">
-                      {field === "joinDate" ? "Join Date" : field.charAt(0).toUpperCase() + field.slice(1)}
+                      {field === "joinDate"
+                        ? "Join Date"
+                        : field.charAt(0).toUpperCase() + field.slice(1)}
                     </h4>
                     {isEditing ? (
                       <input
                         type="text"
                         value={editedUser[field as keyof User]}
-                        onChange={(e) => handleChange(field as keyof User, e.target.value)}
+                        onChange={(e) =>
+                          handleChange(field as keyof User, e.target.value)
+                        }
                         className="text-lg w-full border-b border-gray-400 focus:outline-none"
                       />
                     ) : field === "status" ? (
@@ -357,7 +418,9 @@ export const Navbar: React.FC = () => {
                         {editedUser.status}
                       </span>
                     ) : (
-                      <p className="text-lg">{editedUser[field as keyof User]}</p>
+                      <p className="text-lg">
+                        {editedUser[field as keyof User]}
+                      </p>
                     )}
                   </div>
                 ))}
@@ -397,7 +460,9 @@ export const Navbar: React.FC = () => {
       {showLogoutConfirm && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999]">
           <div className="bg-white rounded-xl shadow-lg w-80 p-6 space-y-4 text-center">
-            <h2 className="text-lg font-semibold text-red-600">Are you sure you want to logout?</h2>
+            <h2 className="text-lg font-semibold text-red-600">
+              Are you sure you want to logout?
+            </h2>
             <div className="flex justify-center gap-4 mt-4">
               <button
                 onClick={() => setShowLogoutConfirm(false)}
@@ -425,38 +490,40 @@ export const Navbar: React.FC = () => {
 
       {/* Logout Success Modal */}
       {showLogoutSuccess && (
-  <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999]">
-    <div className="bg-white rounded-xl shadow-xl w-80 p-6 flex flex-col items-center space-y-4 text-center animate-fade-in">
-      {/* Animated Checkmark with Tailwind */}
-      <svg
-        className="w-16 h-16 text-green-600 animate-draw-check"
-        viewBox="0 0 52 52"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <circle
-          cx="26"
-          cy="26"
-          r="25"
-          stroke="currentColor"
-          strokeWidth="2"
-          className="stroke-current"
-        />
-        <path
-          d="M14 27L22 35L38 19"
-          stroke="currentColor"
-          strokeWidth="4"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          className="animate-draw-path"
-        />
-      </svg>
-      <p className="text-green-700 text-lg font-semibold">Logout Successfully!</p>
-    </div>
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999]">
+          <div className="bg-white rounded-xl shadow-xl w-80 p-6 flex flex-col items-center space-y-4 text-center animate-fade-in">
+            {/* Animated Checkmark with Tailwind */}
+            <svg
+              className="w-16 h-16 text-green-600 animate-draw-check"
+              viewBox="0 0 52 52"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <circle
+                cx="26"
+                cy="26"
+                r="25"
+                stroke="currentColor"
+                strokeWidth="2"
+                className="stroke-current"
+              />
+              <path
+                d="M14 27L22 35L38 19"
+                stroke="currentColor"
+                strokeWidth="4"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="animate-draw-path"
+              />
+            </svg>
+            <p className="text-green-700 text-lg font-semibold">
+              Logout Successfully!
+            </p>
+          </div>
 
-    {/* Tailwind custom animation via <style> tag (works well for small scoped styles) */}
-    <style>
-      {`
+          {/* Tailwind custom animation via <style> tag (works well for small scoped styles) */}
+          <style>
+            {`
         @keyframes fade-in {
           from { opacity: 0; transform: scale(0.95); }
           to { opacity: 1; transform: scale(1); }
@@ -488,10 +555,9 @@ export const Navbar: React.FC = () => {
           animation: draw-check 0.6s ease-out forwards;
         }
       `}
-    </style>
-  </div>
-)}
-
+          </style>
+        </div>
+      )}
     </>
   );
 };
