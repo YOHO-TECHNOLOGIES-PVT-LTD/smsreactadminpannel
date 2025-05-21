@@ -4,6 +4,8 @@ import { IoCallOutline, IoFilterSharp } from "react-icons/io5";
 import { RiMessage2Line } from "react-icons/ri";
 import { PiWhatsappLogoThin } from "react-icons/pi";
 import { FaArrowTrendUp } from "react-icons/fa6";
+import { BsEye } from "react-icons/bs";
+
 
 const centers = [
   {
@@ -145,25 +147,22 @@ const ServiceCenterFilter = () => {
 
       {showFilters && (
         <div className="w-full border-b border-gray-300 pb-4 mb-4">
-          <div className="flex flex-wrap gap-6">
+          <div className="flex flex-wrap gap-12">
 
             <div className="relative inline-block ">
-              <select className="px-12 pr-20 py-2 border border-[#800000] rounded-md shadow-sm bg-[#fce8e8] text-[#800000] focus:outline-none appearance-none w-full">
-                <option className="bg-[#800000] text-white">Sort By</option>
+              <select className="px-12 pr-10 py-2  border border-[#800000] rounded-md shadow-sm bg-[#fce8e8] text-[#800000] focus:outline-none appearance-none w-full">
+                <option className="bg-[#800000] text-white ">Sort By</option>
                 <option className="bg-[#800000] text-white">Price</option>
                 <option className="bg-[#800000] text-white">Popularity</option>
               </select>
-              <div className="pointer-events-none absolute inset-y-0 right-4 flex items-center text-[#800000]">
+            <div className="pointer-events-none absolute inset-y-0 right-4 flex items-center text-[#800000]">
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                   <path d="M19 9l-7 7-7-7" />
                 </svg>
               </div>
             </div>
-
-
-
             <div className="relative inline-block ">
-              <select className="px-12 pr-20 py-2 border border-[#800000] rounded-md shadow-sm bg-[#fce8e8] text-[#800000] focus:outline-none appearance-none w-full">
+              <select className="px-12 pr-10 py-2 border border-[#800000] rounded-md shadow-sm bg-[#fce8e8] text-[#800000] focus:outline-none appearance-none w-full">
                 <option className="bg-[#800000] text-white"> Services</option>
                 <option className="bg-[#800000] text-white">Oil change</option>
                 <option className="bg-[#800000] text-white">AC Repair</option>
@@ -174,13 +173,11 @@ const ServiceCenterFilter = () => {
                 </svg>
               </div>
             </div>
-
-
-            <button className="px-12 py-2 pr-19 border border-[#800000] rounded-md shadow-sm bg-[#fce8e8] text-[#800000] focus:outline-none">
+            <button className="px-12 py-2 pr-10 border border-[#800000] rounded-md shadow-sm bg-[#fce8e8] text-[#800000] focus:outline-none">
               ⚡ Quick Response
             </button>
             <div className="relative inline-block ">
-              <select className="px-12 pr-20 py-2 border border-[#800000] rounded-md shadow-sm bg-[#fce8e8] text-[#800000] focus:outline-none appearance-none w-full">
+              <select className="px-12 pr-10 py-2 border border-[#800000] rounded-md shadow-sm bg-[#fce8e8] text-[#800000] focus:outline-none appearance-none w-full">
                 <option className="bg-[#800000] text-white">Ratings</option>
                 <option className="bg-[#800000] text-white">4+ Stars</option>
                 <option className="bg-[#800000] text-white">3+ Stars</option>
@@ -227,7 +224,7 @@ export const ServiceCenterListPage = () => {
 
   // Service card component
   const ServiceCard = ({ image, name, rating, location }: any) => (
-    <div className="bg-white p-4 rounded-lg shadow flex flex-col sm:flex-row gap-4 items-start">
+    <div className="bg-white p-10 rounded-lg shadow flex flex-col sm:flex-row gap-4 items-start">
       <img src={image} alt={name} className="w-32 h-20 object-cover rounded" />
       <div className="flex-1">
         <h3 className="text-lg font-bold">{name}</h3>
@@ -244,14 +241,22 @@ export const ServiceCenterListPage = () => {
           </span>
         </div>
         <p className="text-sm text-gray-500 mt-1">{location}</p>
-        <div className="flex flex-wrap gap-2 mt-2 text-xs">
-          <span className="bg-gray-200 px-2 py-0.5 rounded">Company Authorised Dealer</span>
-          <span className="bg-gray-200 px-2 py-0.5 rounded">Credit & Debit Card Facility</span>
-          <span className="bg-gray-200 px-2 py-0.5 rounded">Shop in Store</span>
-        </div>
+
+        {/* <div className="flex flex-wrap gap-2 mt-2 text-xs">
+  <span className="border border-[#800000] bg-[#fce8e8] text-[#800000] px-2 py-0.5 rounded">
+    Company Authorised Dealer
+  </span>
+  <span className="border border-[#800000] bg-[#fce8e8] text-[#800000] px-2 py-0.5 rounded">
+    Credit & Debit Card Facility
+  </span>
+  <span className="border border-[#800000] bg-[#fce8e8] text-[#800000] px-2 py-0.5 rounded">
+    Shop in Store
+  </span>
+</div> */}
+
       </div>
       <div className="flex gap-2 mt-2 sm:mt-0">
-        <button className="bg-yellow-400 text-white p-2 rounded">
+        {/* <button className="bg-yellow-400 text-white p-2 rounded">
           <IoCallOutline />
         </button>
         <button className="bg-green-500 text-white p-2 rounded">
@@ -259,7 +264,17 @@ export const ServiceCenterListPage = () => {
         </button>
         <button className="bg-blue-500 text-white p-2 rounded">
           <PiWhatsappLogoThin />
+        </button> */}
+        <button
+          className="text-white px-2 w-15 py-1.5 rounded-md transition duration-200 flex items-center gap-1.5 text-sm"
+          style={{
+            background: "linear-gradient(44.99deg, #700808 11%, #d23c3c 102.34%)",
+          }}
+        >
+          <BsEye size={16} /> View
         </button>
+
+
       </div>
     </div>
   );
@@ -317,19 +332,19 @@ export const ServiceCenterListPage = () => {
         title: "Car Servicessss",
         listings: "905+ listings",
         image:
-          "https://images.pexels.com/photos/3806286/pexels-photo-3806286.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
+          "https://www.pixelstalk.net/wp-content/uploads/2016/08/Lamborghini-mountain-fog-sports-car-photos.jpg",
       },
       {
         title: "AC Repair",
         listings: "805+ listings",
         image:
-          "https://images.pexels.com/photos/6870324/pexels-photo-6870324.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
+          "https://cdn.wallpapersafari.com/34/50/V7fcYI.jpg",
       },
       {
         title: "Denting",
         listings: "306+ listings",
         image:
-          "https://images.pexels.com/photos/3807337/pexels-photo-3807337.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
+          "https://static.vecteezy.com/system/resources/thumbnails/025/288/097/small_2x/orange-car-driving-on-road-at-sunset-ai-generated-photo.jpg",
       },
     ];
 
@@ -363,28 +378,28 @@ export const ServiceCenterListPage = () => {
 
   return (
     <>
-       <div className="flex flex-col gap-6 p-6 bg-gray-100">
-      <div className="flex gap-6 flex-wrap">
-        <div className="flex-1 min-w-[600px] bg-white p-6 rounded-lg shadow-sm">
-          <div className="flex justify-between items-center border-b border-gray-300 pb-4 mb-4">
-            <h2 className="text-2xl font-semibold text-gray-800">Service Center Management</h2>
-            <button className="text-white px-4 py-2 rounded-lg transition duration-200 flex items-center gap-2" style={{ background: "linear-gradient(44.99deg, #700808 11%, #d23c3c 102.34%)" }}>
-              <CiEdit size={18} /> Edit
-            </button>
+      <div className="flex flex-col gap-6 p-6 bg-gray-100">
+        <div className="flex gap-6 flex-wrap">
+          <div className="flex-1 min-w-[600px] bg-white p-6 rounded-lg shadow-sm">
+            <div className="flex justify-between items-center border-b border-gray-300 pb-4 mb-4 sticky">
+              <h2 className="text-2xl font-semibold text-gray-800" style={{ color: "#9b111e" }}>Service Center Management</h2>
+              <button className="text-white px-4 py-2 rounded-lg transition duration-200 flex items-center gap-2" style={{ background: "linear-gradient(44.99deg, #700808 11%, #d23c3c 102.34%)" }}>
+                <CiEdit size={18} /> Edit
+              </button>
+            </div>
+            <ServiceCenterFilter />
+            <div className="flex flex-col gap-4 mt-4">
+              {centers.map((center, idx) => (
+                <ServiceCard key={idx} {...center} />
+              ))}
+            </div>
           </div>
-          <ServiceCenterFilter />
-          <div className="flex flex-col gap-4 mt-4">
-            {centers.map((center, idx) => (
-              <ServiceCard key={idx} {...center} />
-            ))}
+          <div className="flex flex-col items-start gap-6">
+            <EnquirySidebar />
+            <PeopleAlsoSearch />
           </div>
-        </div>
-        <div className="flex flex-col items-start gap-6">
-          <EnquirySidebar />
-          <PeopleAlsoSearch />
         </div>
       </div>
-    </div>
     </>
   );
 };

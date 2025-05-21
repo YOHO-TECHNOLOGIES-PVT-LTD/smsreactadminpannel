@@ -1,8 +1,12 @@
 
 
+
 const GeneralSettings = () => {
   return (
-    <div>GeneralSettings</div>
+    <>
+    <div></div>
+    <div></div>
+    </>
   )
 }
 

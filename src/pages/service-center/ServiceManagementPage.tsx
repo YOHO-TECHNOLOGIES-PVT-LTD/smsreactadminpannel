@@ -3,10 +3,12 @@ import { COLORS } from "../../constants/uiConstants";
 import { FONTS } from "../../constants/uiConstants";
 import { MdDeleteSweep, MdOutlineEditCalendar } from "react-icons/md";
 import { ServiceCenterListPage } from "./ServiceCenterListPage";
+import ServiceCenterprofileview from "./ServiceCenterprofileview";
 
 export const ServiceManagementPage = () => {
   return (
   <>
+  <ServiceCenterListPage />
     <div className="mt-0" style={{ fontFamily: FONTS.header.fontFamily }}>
       <div className="flex p-4 pb-8 sticky top-0  rounded-t-xl shadow-inner-top border-b-2 border-orange-700" style={{ backgroundColor: COLORS.bgColor }}>
         <h1 className="font-bold text-3xl pt-2 pl-0" style={{ color: "#9b111e" }}>Service Management System</h1>
@@ -129,7 +131,8 @@ export const ServiceManagementPage = () => {
         </div>
       </div>
     </div>
-    <ServiceCenterListPage />
+    
+    <ServiceCenterprofileview />
   </>
   )
 }
