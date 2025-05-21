@@ -84,7 +84,7 @@ export const JobCardsPage: React.FC = () => {
 
   return (
     <div className="p-1 md:block">
-      <div className="bg-white p-6 rounded-lg">
+      <div className=" rounded-lg">
         <div className=" border-b-2 border-[#9b111e] pb-2 mb-4">
           <h1
             style={{ ...FONTS.header, fontWeight: 600 }}
@@ -104,15 +104,14 @@ export const JobCardsPage: React.FC = () => {
             className="pl-10 pr-4 py-2 w-full border border-[#6b1b1b] rounded-md focus:outline-none focus:ring-2  focus:ring-[#6b1b1b]"
           />
         </div>
-
         <div className="overflow-x-auto">
-          <table className="min-w-full border-collapse rounded-lg overflow-hidden">
-            <thead className="bg-[#FAF3EB]">
+          <table className="min-w-full border-collapse rounded-lg overflow-hidden ">
+            <thead className="bg-[#FAF3EB] ">
               <tr>
                 <th className="px-4 py-3 text-left text-sm font-semibold text-[#9b111e] border-b">
                   ID
                 </th>
-                <th className="px-4 py-3 text-left text-sm font-semibold text-[#9b111e] border-b ">
+                <th className="px-4 py-3 text-left text-sm font-semibold text-[#9b111e] border-b">
                   Invoice Date
                 </th>
                 <th className="px-4 py-3 text-left text-sm font-semibold text-[#9b111e] border-b">
@@ -144,24 +143,28 @@ export const JobCardsPage: React.FC = () => {
                   }`}
                 >
                   <td className="px-4 py-3 border-b">{invoice.id}</td>
-                  <td className="px-4 py-3 border-b ">
-                    {invoice.invoiceDate}
-                  </td>
+                  <td className="px-4 py-3 border-b ">{invoice.invoiceDate}</td>
                   <td className="px-4 py-3 border-b">{invoice.name}</td>
-                  <td className="px-4 py-3 border-b hidden lg:table-cell">{invoice.vehicle}</td>
-                  <td className="px-4 py-3 border-b ">
-                    {invoice.plate}
+                  <td className="px-4 py-3 border-b hidden lg:table-cell">
+                    {invoice.vehicle}
                   </td>
+                  <td className="px-4 py-3 border-b ">{invoice.plate}</td>
                   <td className="px-4 py-3 border-b lg:table-cell hidden">
                     {invoice.total}
                   </td>
-                  <td className="px-4 py-3 border-b capitalize">
+                  <td
+                    className={`px-4 py-3 border-b capitalize ${
+                      invoice.jobStatus === "completed"
+                        ? "text-green-600"
+                        : "text-red-600"
+                    }`}
+                  >
                     {invoice.jobStatus}
                   </td>
                   <td className="px-4 py-3 border-b">
                     <button
                       onClick={() => navigate("/quatation")}
-                      className="bg-gradient-to-r from-red-600 to-red-800 text-white px-3 py-1 active:scale-110 rounded hover:bg-[#a00000] transition"
+                      className="bg-gradient-to-r from-red-600 to-red-800 text-white px-3 py-1 active:scale-95 rounded hover:bg-[#a00000] transition"
                     >
                       View
                     </button>
@@ -170,7 +173,6 @@ export const JobCardsPage: React.FC = () => {
               ))}
             </tbody>
           </table>
-          
         </div>
       </div>
     </div>
