@@ -23,8 +23,8 @@ export const DashboardCard : React.FC<DashboardCardProps> = ({
   dataPoints,
 }) => {
   return (
-    <div className="rounded-xl bg-white shadow-md p-4 w-full max-w-[230px] h-[130px] align-center">
-      <div className="flex justify-between items-start mb-2">
+    <div className="rounded-xl bg-[#FAF3EB] shadow-md p-4 w-full max-w-[230px] h-[130px] align-center">
+      <div className="flex justify-between align-start mb-2">
         <div className="w-10 h-10 rounded-md flex items-center justify-center" style={{ backgroundColor }}>
           <div className="text-white text-xl">{icon}</div>
         </div>

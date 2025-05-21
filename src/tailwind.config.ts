@@ -11,3 +11,14 @@ export default {
     require('tailwind-scrollbar-hide')
   ],
 };
+// tailwind.config.js
+module.exports = {
+  theme: {
+    extend: {
+      screens: {
+        'custom900': '900px',
+      },
+    },
+  },
+}
+
