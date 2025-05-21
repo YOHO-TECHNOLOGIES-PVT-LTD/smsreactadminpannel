@@ -1,3 +1,14 @@
+import { useForm } from "react-hook-form";
+import { useState } from "react";
+import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
+import { Link } from "react-router-dom";
+import carImage from "../../assets/loginimg/car-img.png";
+import { FONTS } from "../../constants/uiConstants";
+
+type LoginData = {
+  email: string;
+  password: string;
+};
 
 import carImage from "../../assets/CAR IMAGE.jpg"
 import showPassWordIcon from "../../assets/SHOW PASSWORD.png"
@@ -5,64 +16,152 @@ import hidePasswordIcon from "../../assets/HIDE PASSWORD.png"
 import  { useState } from "react"
 
 const LoginPage = () => {
+  const { register, handleSubmit } = useForm<LoginData>();
+  const [showPassword, setShowPassword] = useState(false);
 
-  
-    const [Active, SetActive]=useState(false);
+  const onSubmit = (data: LoginData) => {
+    console.log("Login Data:", data);
+  };
 
-     const iconHandle=() =>{
-      SetActive(!Active);
-     }
-  
+  const text = "YES MECHANIC";
+
   return (
-    <div  className="flex h-screen ">
-      
-       <div className="w-1/2 ">
-              <img src={carImage}
-                className="w-full h-full "></img>
+    <>
+      <style>
+        {`
+          @keyframes slideLeftToRightOnce {
+            0% { transform: translateX(-30px); }
+            100% { transform: translateX(40px); }
+          }
+
+          @keyframes fadeInUp {
+            0% {
+              opacity: 0;
+              transform: translateY(20px);
+            }
+            100% {
+              opacity: 1;
+              transform: translateY(0);
+            }
+          }
+
+          .letter {
+            display: inline-block;
+            opacity: 0;
+            animation-name: fadeInUp;
+            animation-fill-mode: forwards;
+            animation-duration: 0.5s;
+            animation-timing-function: ease-out;
+          }
+
+          .animated-image {
+            animation: slideLeftToRightOnce 1.5s ease forwards;
+          }
+        `}
+      </style>
+
+      <div className="min-h-screen flex flex-col md:flex-row overflow-y-hidden">
+        {/* Animated Text */}
+        <div className="hidden md:block absolute top-6 left-4 md:top-16 md:left-20 z-10">
+        <h1 className="text-4xl font-bold tracking-wide drop-shadow-lg select-none">
+
+            {text.split("").map((char, index) => (
+              <span
+                key={index}
+                style={{ animationDelay: `${index * 0.1}s`, ...FONTS.header, fontSize: '42px', color: 'white', fontWeight: 500  }}
+              >
+                {char === " " ? "\u00A0" : char}
+              </span>
+            ))}
+          </h1>
         </div>
-      <div className="w-1/2  ">
-      
-        <h1 className=" text-center font-bold p-5 m-5 text-2xl">WELCOME TO LOGIN PAGE</h1>
-        <div className="flex justify-center p-7    ">
-          <div className="w-full h-full p-5 m-5 place-content-center rounded-t-lg rounded-b-lg bg-[#E6A895]  ">
-            <form className="grid gap-4 ">
-              <p className="text-center text-red-800 font-bold ">LOGIN</p>
 
-              {/* USER NAME */}
-              <label htmlFor="USERNAME" >Username :</label> 
-              <input type="text" placeholder="enter your name " id="USERNAME" className="w-full border border-gray-300 rounded p-1 "></input>
-             
-             
-             
-            {/* PASSWORD AREA */}
-              <div className="grid gap-4">
-                <label htmlFor="PASSWORD">Password :</label>
-                  <div className="relative">
-                  <input type="password" placeholder="enter your password" id="PASSWORD" className="w-full border-2 border-gray-300 rounded p-1"> </input>
-                  <img
-                    src={Active ? showPassWordIcon : hidePasswordIcon} // Change icon based on Active state
-                    alt="Password visibility icon"
-                    className="absolute top-1/2 right-3 transform -translate-y-1/2 cursor-pointer"
-                    onClick={iconHandle} // Toggle the visibility
-                  />
-                </div>
-                
-              </div>
-               
-               {/* FORGET PASSWORD LINK */}
-              <div className="text-end">
-                <a href="" >Forget Password?</a>
-              </div>
-
-              {/* SUBMIT BUTTON */}
-              <input type="submit" value="submit" className="w-full  bg-red-800 text-white py-2 px-4 rounded-full hover:bg-blue-500 "></input>
-            </form>
+        {/* Left Image */}
+        <div className="hidden md:block w-full md:w-3/5 h-64 md:h-screen relative">
+          <div className="bg-[#9b111e] h-full" style={{ width: "90%" }}>
+            <img
+              src={carImage}
+              alt="Login illustration"
+              className="object-cover rounded-none md:rounded-l-xl animated-image"
+              style={{
+                position: "absolute",
+                top: "75px",
+                left: "0",
+                width: "100%",
+                height: "auto",
+              }}
+            />
           </div>
-        </div>                
-      </div>
-    </div>
-    
-  )
-}
+        </div>
 
-export default LoginPage
+      {/* Right Login Form */}
+<div className="w-full md:w-2/5 flex items-center justify-center bg-white px-6 sm:px-8 md:px-12 py-12 md:py-0">
+  <div className="w-full max-w-md bg-white shadow-2xl rounded-xl p-8 border border-gray-200">
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+
+          
+            <h2 className="text-2xl font-bold text-[#9b111e] text-center">
+              Master Admin Login
+            </h2>
+
+            {/* Email Field */}
+            <div className="flex flex-col space-y-2">
+              <label className="text-sm font-medium text-[#9b111e]">Email</label>
+              <input
+                type="email"
+                {...register("email")}
+                placeholder="Enter your email"
+                className="w-full px-4 py-2 border border-[#E6A895] rounded-md focus:outline-none focus:ring-2 focus:ring-[#9b111e] placeholder-[#c18383]"
+              />
+            </div>
+
+            {/* Password Field */}
+            <div className="flex flex-col space-y-2">
+              <label className="text-sm font-medium text-[#9b111e]">Password</label>
+              <div className="relative">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  {...register("password")}
+                  placeholder="Enter your password"
+                  className="w-full px-4 py-2 border border-[#E6A895] rounded-md pr-10 focus:outline-none focus:ring-2 focus:ring-[#9b111e] placeholder-[#c18383]"
+                />
+                <span
+                  className="absolute top-2.5 right-3 text-gray-500 cursor-pointer"
+                  onClick={() => setShowPassword(!showPassword)}
+                >
+                  {showPassword ? (
+                    <EyeSlashIcon className="w-5 h-5 text-[#9b111e]" />
+                  ) : (
+                    <EyeIcon className="w-5 h-5 text-[#9b111e]" />
+                  )}
+                </span>
+              </div>
+            </div>
+
+            {/* Submit Button */}
+            <button
+              type="submit"
+              className="w-full text-white font-semibold py-2 rounded-full transition duration-300 hover:brightness-110"
+              style={{
+                backgroundImage:
+                  "linear-gradient(44.99deg, #700808 11%, #d23c3c 102.34%)",
+              }}
+            >
+              Login
+            </button>
+ {/* Forgot Password link aligned right */}
+  <div className="text-right mt-1">
+    <Link to="/forgot-password" className="text-[#9b111e] hover:underline text-sm">
+      Forgot Password?
+    </Link>
+  </div>
+    </form>
+  </div>
+</div>
+</div>
+
+    </>
+  );
+};
+
+export default LoginPage;
