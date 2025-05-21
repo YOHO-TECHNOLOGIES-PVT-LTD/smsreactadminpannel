@@ -1,7 +1,11 @@
  import { FONTS } from "../../constants/uiConstants"
 // // import {COLORS} from "../../constants/uiConstants"
+import { AiOutlineCheckCircle } from "react-icons/ai";
+import { GoDotFill } from "react-icons/go";
 import { DashboardCard } from "../../components/common/dashboard/DashboardCard/DashboardCard";
 import { RiUser6Line } from "react-icons/ri";
+import { NotificationList } from "../../components/common/dashboard/NotificationList/NotificationList";
+
 
 export const Dashboard = () => {
   return (
@@ -39,7 +43,7 @@ export const Dashboard = () => {
           perColor="#3b82f6"
           borderColor="rgba(59,130,246,0.8)" // blue-500
           backgroundColor="#3b82f6"
-          dataPoints={[1, 2, 1, 3, 4, 3, 6]}
+          dataPoints={[1, 2, 1, 6, 4, 3, 6]}
         />
         <DashboardCard
           icon={<RiUser6Line />}
@@ -53,8 +57,27 @@ export const Dashboard = () => {
         />
       </div>
       {/* recent notification */}
+      <div className="max-w-[400px] rounded-xl bg-white shadow-md p-4 w-full mt-4 ml-3">
+        <div className="flex justify-between ">
+          <p style={{...FONTS.header}}>Recent Notification</p>
+          <a href="" style={{...FONTS.paragraph}}>View All</a>
+        </div>
       <div>
-        
+      <NotificationList
+      icon1={<AiOutlineCheckCircle/>}
+      icon2={<GoDotFill/>}
+      title={"Booking Confrim"}
+      desc={"your order is complete"}
+      id={1234}
+      />
+      <NotificationList
+      icon1={<AiOutlineCheckCircle/>}
+      icon2={<GoDotFill/>}
+      title={"Booking Confrim123"}
+      desc={"your order is complete"}
+      id={1234}
+      />
+      </div>
       </div>
     </div>
   );
