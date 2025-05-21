@@ -17,7 +17,7 @@ const AppRoutes = () => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   // Simulate checking auth status
-//   useEffect(() => {
+//   useEffect(() false
 //     const token = localStorage.getItem("authToken");
 //     setIsAuthenticated(!!token);
 //   }, []);
