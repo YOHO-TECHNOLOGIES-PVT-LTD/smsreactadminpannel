@@ -1,4 +1,5 @@
 import React from "react";
+import Logo from "../../../assets/LOGO.jpg";
 
 type QuotationItem = {
   description: string;
@@ -9,7 +10,7 @@ type QuotationItem = {
 const QuotationPage: React.FC = () => {
   const quotationItems: QuotationItem[] = [
     { description: "Service Fee", qty: 1, unitPrice: 200.0 },
-    { description: "Labor: 5 hours @ $75/hr", qty: 5, unitPrice: 75.0 },
+    { description: "Labor: 5 hours @ ₹75/hr", qty: 5, unitPrice: 75.0 },
     { description: "Parts, including sales tax", qty: 7, unitPrice: 12.95 },
     { description: "New client discount", qty: 1, unitPrice: -50.0 },
   ];
@@ -20,45 +21,34 @@ const QuotationPage: React.FC = () => {
   );
 
   return (
-    <div className="sm:p-8 bg-white text-black max-w-2xl mx-auto  border rounded shadow">
-      <div className="flex flex-col md:flex-row justify-between mb-6 gap-4">
+    <div className="sm:p-8 bg-white text-black w-full mx-auto border rounded shadow">
+      <div className="flex flex-col md:flex-row justify-between mb-2 gap-4">
         <div>
-          <h1 className="text-2xl font-bold">YES MECHANIC</h1>
+          <div className="flex justify-start items-center h-20">
+            <img
+              src={Logo}
+              alt="YES Mechanic Logo"
+              className="object-contain w-32 h-30"
+            />
+          </div>
           <p>Street Address</p>
           <p>City, ST ZIP</p>
           <p>Phone: (000) 000-0000</p>
           <p>Email: company@email.com</p>
         </div>
-        <div className="text-right">
-          <h2 className="text-2xl font-bold">QUOTATION</h2>
-          <div className="mt-2 overflow-x-auto">
-            <table className="text-sm border border-gray-300 w-full">
-              <tbody>
-                <tr>
-                  <td className="border px-2 py-1 font-semibold">QUOTE #</td>
-                  <td className="border px-2 py-1">2034</td>
-                </tr>
-                <tr>
-                  <td className="border px-2 py-1 font-semibold">DATE</td>
-                  <td className="border px-2 py-1">2/1/2017</td>
-                </tr>
-                <tr>
-                  <td className="border px-2 py-1 font-semibold">
-                    CUSTOMER ID
-                  </td>
-                  <td className="border px-2 py-1">21007</td>
-                </tr>
-                <tr>
-                  <td className="border px-2 py-1 font-semibold">
-                    VALID UNTIL
-                  </td>
-                  <td className="border px-2 py-1">3/3/2017</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+        <div className="text-right mt-9 mx-6">
+          <p className="text-sm mb-1">
+            <span className="font-semibold">DATE:</span> 2/1/2017
+          </p>
+          <p className="text-sm mb-1">
+            <span className="font-semibold">CUSTOMER ID:</span> 21007
+          </p>
+          <p className="text-sm">
+            <span className="font-semibold">REG NO.:</span> REG-10293
+          </p>
         </div>
       </div>
+
       <div className="mb-6 border border-gray-400 p-4">
         <h3 className="font-bold mb-2">CUSTOMER INFO</h3>
         <p>Name</p>
@@ -85,13 +75,31 @@ const QuotationPage: React.FC = () => {
                   <td className="border px-3 py-2">{item.description}</td>
                   <td className="border px-3 py-2 text-center">{item.qty}</td>
                   <td className="border px-3 py-2 text-right">
-                    ${item.unitPrice.toFixed(2)}
+                    ₹{item.unitPrice.toFixed(2)}
                   </td>
                   <td className="border px-3 py-2 text-right">
-                    ${(item.qty * item.unitPrice).toFixed(2)}
+                    ₹{(item.qty * item.unitPrice).toFixed(2)}
                   </td>
                 </tr>
               ))}
+              {/* GST Row */}
+              <tr>
+                <td className="border px-3 py-2">GST (9%)</td>
+                <td className="border px-3 py-2 text-center">-</td>
+                <td className="border px-3 py-2 text-right">-</td>
+                <td className="border px-3 py-2 text-right">
+                  ₹{(subtotal * 0.09).toFixed(2)}
+                </td>
+              </tr>
+              {/* CGST Row */}
+              <tr>
+                <td className="border px-3 py-2">CGST (9%)</td>
+                <td className="border px-3 py-2 text-center">-</td>
+                <td className="border px-3 py-2 text-right">-</td>
+                <td className="border px-3 py-2 text-right">
+                  ₹{(subtotal * 0.09).toFixed(2)}
+                </td>
+              </tr>
             </tbody>
           </table>
         </div>
@@ -104,7 +112,7 @@ const QuotationPage: React.FC = () => {
               <tr>
                 <td className="border px-3 py-2 font-semibold">SUBTOTAL</td>
                 <td className="border px-3 py-2 text-right">
-                  ${subtotal.toFixed(2)}
+                  ₹{subtotal.toFixed(2)}
                 </td>
               </tr>
               <tr>
@@ -114,34 +122,52 @@ const QuotationPage: React.FC = () => {
               <tr className="bg-gray-100 font-bold">
                 <td className="border px-3 py-2">TOTAL QUOTE</td>
                 <td className="border px-3 py-2 text-right">
-                  ${subtotal.toFixed(2)}
+                  ₹{(subtotal * 1.18).toFixed(2)}
                 </td>
               </tr>
             </tbody>
           </table>
         </div>
       </div>
-      <p className="text-sm italic mb-4">
+
+      <p className="text-md italic mb-4">
         This quotation is only for admin use.
       </p>
 
-      <div className="mt-6">
-        <p className="mb-2 font-semibold">Customer Acceptance</p>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
-          <div>
-            <label>Signature</label>
-            <div className="border border-gray-300 h-10 mt-1"></div>
-          </div>
-          <div>
-            <label>Printed Name</label>
-            <div className="border border-gray-300 h-10 mt-1"></div>
-          </div>
-          <div>
-            <label>Date</label>
-            <div className="border border-gray-300 h-10 mt-1"></div>
-          </div>
-        </div>
-      </div>
+     
+      <div className="mt-2 p-4 flex justify-center">
+  <div className="flex gap-8 justify-end w-full md:w-2/3">
+    <button
+      className="flex items-center justify-center font-bold  px-14 py-2 rounded text-white transition duration-200 active:scale-105 hover:bg-[#a00000]"
+      style={{
+        background:
+          "linear-gradient(44.99deg,#700808 11%,#d23c3c 102.34%)",
+      }}
+    >
+      Accept
+    </button>
+
+    <button
+      className="flex items-center justify-center font-bold px-14 py-2 rounded text-white transition duration-200 active:scale-105 hover:bg-[#a00000]"
+      style={{
+        background:
+          "linear-gradient(44.99deg,#700808 11%,#d23c3c 102.34%)",
+      }}
+    >
+      Pending
+    </button>
+
+    <button
+      className="flex items-center justify-center font-bold  px-14 py-2 rounded text-white transition duration-200 active:scale-105 hover:bg-[#a00000]"
+      style={{
+        background:
+          "linear-gradient(44.99deg,#700808 11%,#d23c3c 102.34%)",
+      }}
+    >
+      Revoke
+    </button>
+  </div>
+</div>
     </div>
   );
 };
