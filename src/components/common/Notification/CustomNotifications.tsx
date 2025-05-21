@@ -62,15 +62,18 @@ const NotificationPanel = () => {
     <div className="max-w-6xl mx-auto mt-10 bg-white rounded-2xl p-6 shadow">
       
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-xl font-semibold"> Custom Notifications</h2>
-        <button className="text-sm text-blue-600 hover:underline">Mark all as read</button>
+        {/* <h2 className="text-xl font-semibold"> Custom Notifications</h2> */}
+        
       </div>
 
      
-      <div className="flex gap-4 mb-6">
-        <button className="bg-blue-600 hover:bg-orange-700  text-white px-4 py-2  lg:text-xl sm:text-sm">All</button>
-        <button className="bg-blue-600 hover:bg-orange-700 text-white px-4 py-1 lg:text-xl sm:text-sm">New</button>
-        <button className="bg-blue-600 hover:bg-orange-700 text-white px-4 py-1  lg:text-xl sm:text-sm ">Unread</button>
+      <div className="flex  justify-between gap-4 mb-6"><div className='flex gap-4 mb-6'>
+        <button className=" w-24 h-10 bg-[#9b111e] text-white rounded hover:bg-orange-700   px-4 py-2  ">  All </button>
+        <button className="w-24 h-10 bg-[#9b111e] hover:bg-orange-700 rounded text-white px-4 py-2 ">Read</button>
+        <button className="w-24 h-10 bg-[#9b111e] hover:bg-orange-700 rounded text-white px-4 py-2  ">Unread</button>
+      </div>
+        
+        <button className="text-sm text-[#9b111e] hover:underline">Mark all as read</button>
       </div>
 
      
