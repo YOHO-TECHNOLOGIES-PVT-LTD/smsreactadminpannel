@@ -5,6 +5,8 @@ import { RiMessage2Line } from "react-icons/ri";
 import { PiWhatsappLogoThin } from "react-icons/pi";
 import { FaArrowTrendUp } from "react-icons/fa6";
 import { BsEye } from "react-icons/bs";
+import ServiceCenterProfileView from "./ServiceCenterprofileview";
+
 
 
 const centers = [
@@ -155,7 +157,7 @@ const ServiceCenterFilter = () => {
                 <option className="bg-[#800000] text-white">Price</option>
                 <option className="bg-[#800000] text-white">Popularity</option>
               </select>
-            <div className="pointer-events-none absolute inset-y-0 right-4 flex items-center text-[#800000]">
+              <div className="pointer-events-none absolute inset-y-0 right-4 flex items-center text-[#800000]">
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                   <path d="M19 9l-7 7-7-7" />
                 </svg>
@@ -197,6 +199,11 @@ const ServiceCenterFilter = () => {
 // Main page component
 export const ServiceCenterListPage = () => {
 
+  const [tab, setTab] = useState<String>("")
+
+  const ProfileView = (tabText: String) => {
+    setTab(tabText)
+  }
   // Sample service center data
   const centers = [
     {
@@ -224,7 +231,7 @@ export const ServiceCenterListPage = () => {
 
   // Service card component
   const ServiceCard = ({ image, name, rating, location }: any) => (
-    <div className="bg-white p-10 rounded-lg shadow flex flex-col sm:flex-row gap-4 items-start">
+    <><div className="bg-white p-10 rounded-lg shadow flex flex-col sm:flex-row gap-4 items-start">
       <img src={image} alt={name} className="w-32 h-20 object-cover rounded" />
       <div className="flex-1">
         <h3 className="text-lg font-bold">{name}</h3>
@@ -243,29 +250,29 @@ export const ServiceCenterListPage = () => {
         <p className="text-sm text-gray-500 mt-1">{location}</p>
 
         {/* <div className="flex flex-wrap gap-2 mt-2 text-xs">
-  <span className="border border-[#800000] bg-[#fce8e8] text-[#800000] px-2 py-0.5 rounded">
-    Company Authorised Dealer
-  </span>
-  <span className="border border-[#800000] bg-[#fce8e8] text-[#800000] px-2 py-0.5 rounded">
-    Credit & Debit Card Facility
-  </span>
-  <span className="border border-[#800000] bg-[#fce8e8] text-[#800000] px-2 py-0.5 rounded">
-    Shop in Store
-  </span>
+<span className="border border-[#800000] bg-[#fce8e8] text-[#800000] px-2 py-0.5 rounded">
+Company Authorised Dealer
+</span>
+<span className="border border-[#800000] bg-[#fce8e8] text-[#800000] px-2 py-0.5 rounded">
+Credit & Debit Card Facility
+</span>
+<span className="border border-[#800000] bg-[#fce8e8] text-[#800000] px-2 py-0.5 rounded">
+Shop in Store
+</span>
 </div> */}
 
       </div>
       <div className="flex gap-2 mt-2 sm:mt-0">
         {/* <button className="bg-yellow-400 text-white p-2 rounded">
-          <IoCallOutline />
-        </button>
-        <button className="bg-green-500 text-white p-2 rounded">
-          <RiMessage2Line />
-        </button>
-        <button className="bg-blue-500 text-white p-2 rounded">
-          <PiWhatsappLogoThin />
-        </button> */}
-        <button
+      <IoCallOutline />
+    </button>
+    <button className="bg-green-500 text-white p-2 rounded">
+      <RiMessage2Line />
+    </button>
+    <button className="bg-blue-500 text-white p-2 rounded">
+      <PiWhatsappLogoThin />
+    </button> */}
+        <button onClick={() => ProfileView("Profile View")}
           className="text-white px-2 w-15 py-1.5 rounded-md transition duration-200 flex items-center gap-1.5 text-sm"
           style={{
             background: "linear-gradient(44.99deg, #700808 11%, #d23c3c 102.34%)",
@@ -277,6 +284,10 @@ export const ServiceCenterListPage = () => {
 
       </div>
     </div>
+    <div> 
+      {tab === "Profile View" && <div><ServiceCenterProfileView /></div>}
+      {tab === "Services View" && <div></div>}
+    </div></>
   );
 
   // Sidebar component
