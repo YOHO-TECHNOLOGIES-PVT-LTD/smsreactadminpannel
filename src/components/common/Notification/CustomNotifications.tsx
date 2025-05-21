@@ -59,7 +59,7 @@ const NotificationPanel = () => {
   };
 
   return (
-    <div className="max-w-6xl mx-auto mt-10 bg-white rounded-2xl p-6 shadow">
+    <div className="w-full mx-auto mt-5 bg-white rounded-2xl p-6 shadow">
       
       <div className="flex justify-between items-center mb-6">
         {/* <h2 className="text-xl font-semibold"> Custom Notifications</h2> */}
