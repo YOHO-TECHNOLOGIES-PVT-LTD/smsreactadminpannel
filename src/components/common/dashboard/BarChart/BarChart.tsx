@@ -14,10 +14,10 @@ const data = [
   { day: 'Sun', newCustomers: 24 },
 ];
 
-const dateRanges = ['This Week', 'Last Week', 'This Month'];
+const dateRanges = ['Weekly', 'Monthly', 'Yearly'];
 
 const BarCharts: React.FC = () => {
-  const [selectedRange, setSelectedRange] = useState('This Week');
+  const [selectedRange, setSelectedRange] = useState('Weekly');
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -44,7 +44,7 @@ const BarCharts: React.FC = () => {
             className="flex items-center text-xs text-gray-700 border  px-1 py-1.5 rounded-md bg-white hover:bg-gray-50"
           >
             {selectedRange}
-            <ChevronDown className="w-4 h-4 ml-1" />
+            <ChevronDown className="w-6 h-4 ml-1" />
           </button>
           {isOpen && (
             <div className="absolute  mt-2 bg-white border rounded-md shadow-lg z-10">
