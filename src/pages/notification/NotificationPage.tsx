@@ -7,8 +7,8 @@ import SosDashboard from '../sos/SosDashboard.tsx'
 export const NotificationPage = () => {
   return (
     <div className='flex flex-col gap-20'>
-      <AutomatedNotifications />
-      <NotificationsLogs />
+      {/* <AutomatedNotifications />
+      <NotificationsLogs /> */}
       <SosDashboard/>
     </div>
 
