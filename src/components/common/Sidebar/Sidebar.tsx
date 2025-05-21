@@ -1,5 +1,5 @@
 import { useState, type JSX } from "react";
-import { Link, useLocation, Outlet } from "react-router-dom";
+import { Link, useLocation} from "react-router-dom";
 import {
   FiHome,
   FiBell,
@@ -10,22 +10,20 @@ import {
   FiSettings,
   FiLogOut,
   FiMenu,
-
 } from "react-icons/fi";
 // import { COLORS } from "../../../constants/uiConstants";
+import Logo from '../../../assets/LOGO.jpg'
 
 const COLOR = {
-   primary: "#9b111e",
-   bgColor: "#faf3eb",
-   secondary: "#E6A895",
- };
+    primary: "#9b111e",
+    bgColor: "#faf3eb",
+    secondary: "#E6A895",
+};
 
-import Logo from '../../../assets/LOGO.jpg'
 
 
 export const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(true);
-  const location = useLocation();
 
   const handleLinkClick = () => {
     setIsOpen(false);
@@ -46,13 +44,13 @@ isOpen ? "w-20 h-20" : "w-10 h-10"}`}
           />
         </div>
         <div className="w-full flex justify-end px-2 mt-2">
-         <button
-         onClick={() => setIsOpen(!isOpen)}
-         className="text-gray-600 hover:text-black p-2 rounded-md transition duration-200 hover:bg-gray-100"
-         title="Toggle Sidebar"
-         >
-        <FiMenu size={20} style={{ color: COLOR.primary }} />
-        </button>
+          <button
+          onClick={() => setIsOpen(!isOpen)}
+          className="text-gray-600 hover:text-black p-2 rounded-md transition duration-200 hover:bg-gray-100"
+          title="Toggle Sidebar"
+          >
+          <FiMenu size={20} style={{ color: COLOR.primary }} />
+          </button>
         </div>
 
         <nav className="flex flex-col gap-4 mt-4 w-full items-center">
