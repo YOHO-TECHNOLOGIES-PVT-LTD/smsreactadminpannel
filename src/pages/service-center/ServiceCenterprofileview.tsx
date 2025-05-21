@@ -11,6 +11,14 @@ import { BiSolidCertification } from "react-icons/bi";
 import { MdOutlineMailOutline } from "react-icons/md";
 import { RiLockPasswordLine } from "react-icons/ri";
 import { FaUserCircle } from "react-icons/fa";
+import { useState } from 'react'
+import { ServiceManagementPage } from "./ServiceManagementPage";
+
+// const [tab, setTab] = useState <String>("");
+
+// const ServicesView = (tabText: String){
+//     setTab(tabText)
+// }
 
 const ServiceCenterProfileView: React.FC = () => {
     return (
@@ -22,7 +30,7 @@ const ServiceCenterProfileView: React.FC = () => {
                 {/* Header and Button */}
                 <div className="flex items-center justify-between">
                     <h3 className="text-3xl font-extrabold text-black">Hyundai Accent</h3>
-                    <button
+                    <button 
                         className="text-white px-4 py-2 rounded-lg transition duration-200 flex items-center gap-2"
                         style={{
                             background: "linear-gradient(44.99deg, #700808 11%, #d23c3c 102.34%)",
@@ -161,7 +169,7 @@ const ServiceCenterProfileView: React.FC = () => {
                             </div>
                             <p className="text-lg text-gray-700">abc@gmail.com</p>
                         </div>
-
+                        
                         <div>
                             <div className="flex items-center gap-2 text-lg font-semibold">
                                 <RiLockPasswordLine />
@@ -172,6 +180,7 @@ const ServiceCenterProfileView: React.FC = () => {
                     </div>
                 </div>
             </div>
+            
         </div>
     );
 };

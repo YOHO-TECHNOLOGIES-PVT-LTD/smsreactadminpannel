@@ -6,6 +6,7 @@ import { PiWhatsappLogoThin } from "react-icons/pi";
 import { FaArrowTrendUp } from "react-icons/fa6";
 import { BsEye } from "react-icons/bs";
 import ServiceCenterProfileView from "./ServiceCenterprofileview";
+import { ServiceManagementPage } from "./ServiceManagementPage";
 
 
 
@@ -286,7 +287,7 @@ Shop in Store
     </div>
     <div> 
       {tab === "Profile View" && <div><ServiceCenterProfileView /></div>}
-      {tab === "Services View" && <div></div>}
+      {tab === "Services View" && <div><ServiceManagementPage /></div>}
     </div></>
   );
 
