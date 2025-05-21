@@ -85,7 +85,7 @@ export const JobCardsPage: React.FC = () => {
   return (
     <div className="p-1 md:block">
       <div className="bg-white p-6 rounded-lg">
-        <div className="mb-6">
+        <div className=" border-b-2 border-[#9b111e] pb-2 mb-4">
           <h1
             style={{ ...FONTS.header, fontWeight: 600 }}
             className="font-bold text-gray- text-[#9b111e]"
@@ -105,26 +105,26 @@ export const JobCardsPage: React.FC = () => {
           />
         </div>
 
-        <div className="overflow-x-auto ">
+        <div className="overflow-x-auto">
           <table className="min-w-full border-collapse rounded-lg overflow-hidden">
             <thead className="bg-[#FAF3EB]">
               <tr>
                 <th className="px-4 py-3 text-left text-sm font-semibold text-[#9b111e] border-b">
                   ID
                 </th>
-                <th className="px-4 py-3 text-left text-sm font-semibold text-[#9b111e] border-b hidden lg:table-cell">
+                <th className="px-4 py-3 text-left text-sm font-semibold text-[#9b111e] border-b ">
                   Invoice Date
                 </th>
                 <th className="px-4 py-3 text-left text-sm font-semibold text-[#9b111e] border-b">
                   Name
                 </th>
-                <th className="px-4 py-3 text-left text-sm font-semibold text-[#9b111e] border-b">
+                <th className="px-4 py-3 text-left text-sm font-semibold text-[#9b111e] border-b lg:table-cell hidden">
                   Vehicle
                 </th>
-                <th className="px-4 py-3 text-left text-sm font-semibold text-[#9b111e] border-b hidden xl:table-cell">
+                <th className="px-4 py-3 text-left text-sm font-semibold text-[#9b111e] border-b ">
                   Plate
                 </th>
-                <th className="px-4 py-3 text-left text-sm font-semibold text-[#9b111e] border-b hidden xl:table-cell">
+                <th className="px-4 py-3 text-left text-sm font-semibold text-[#9b111e] border-b lg:table-cell hidden">
                   Total
                 </th>
                 <th className="px-4 py-3 text-left text-sm font-semibold text-[#9b111e] border-b">
@@ -144,15 +144,15 @@ export const JobCardsPage: React.FC = () => {
                   }`}
                 >
                   <td className="px-4 py-3 border-b">{invoice.id}</td>
-                  <td className="px-4 py-3 border-b hidden lg:table-cell">
+                  <td className="px-4 py-3 border-b ">
                     {invoice.invoiceDate}
                   </td>
                   <td className="px-4 py-3 border-b">{invoice.name}</td>
-                  <td className="px-4 py-3 border-b">{invoice.vehicle}</td>
-                  <td className="px-4 py-3 border-b hidden xl:table-cell">
+                  <td className="px-4 py-3 border-b hidden lg:table-cell">{invoice.vehicle}</td>
+                  <td className="px-4 py-3 border-b ">
                     {invoice.plate}
                   </td>
-                  <td className="px-4 py-3 border-b hidden xl:table-cell">
+                  <td className="px-4 py-3 border-b lg:table-cell hidden">
                     {invoice.total}
                   </td>
                   <td className="px-4 py-3 border-b capitalize">
@@ -170,6 +170,7 @@ export const JobCardsPage: React.FC = () => {
               ))}
             </tbody>
           </table>
+          
         </div>
       </div>
     </div>
