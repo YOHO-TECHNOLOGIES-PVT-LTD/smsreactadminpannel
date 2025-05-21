@@ -1,9 +1,8 @@
 import { Route, Routes, Navigate } from "react-router-dom";
-import { useEffect, useState } from "react";
-
+import { useState } from "react";
 import LoginPage from "../pages/auth/LoginPage";
 import SignupPage from "../pages/auth/SignupPage";
-import { Dashboard } from "../pages/Dashboard/Dashboard";
+import { Dashboard } from "../pages/Dashboard/Dashboard"
 import { NotificationPage } from "../pages/notification/NotificationPage";
 import { ServiceManagementPage } from "../pages/service-center/ServiceManagementPage";
 import { JobCardsPage } from "../pages/job-cards/JobCardsPage";
@@ -12,6 +11,7 @@ import AutomatedNotificationsPage from "../pages/notification/AutomatedNotificat
 import { VehicleManagementPage } from "../pages/vehicle/VehicleManagementPage";
 import GeneralSettings from "../pages/Settings/GeneralSettings";
 import { MainLayout } from "../Layout/MainLayout/MainLayout";
+import { NotFound } from "../pages/NotFound/NotFound";
 
 const AppRoutes = () => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -24,25 +24,25 @@ const AppRoutes = () => {
 
     const AuthRoutes = () => (
         <Routes>
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/signup" element={<SignupPage />} />
-        <Route path="*" element={<Navigate to="/login" />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/signup" element={<SignupPage />} />
+            <Route path="*" element={<Navigate to="/login" />} />
         </Routes>
     );
 
     const AdminRoutes = () => (
         <Routes>
-        <Route path="/" element={<MainLayout />}>
-            <Route index element={<Dashboard />} />
-            <Route path="notifications" element={<NotificationPage />} />
-            <Route path="automated-notifications" element={<AutomatedNotificationsPage />} />
-            <Route path="service" element={<ServiceManagementPage />} />
-            <Route path="job-cards" element={<JobCardsPage />} />
-            <Route path="city" element={<CityManagementPage />} />
-            <Route path="vehicle" element={<VehicleManagementPage />} />
-            <Route path="settings" element={<GeneralSettings />} />
-            <Route path="*" element={<Navigate to="/" />} />
-        </Route>
+            <Route path="/" element={<MainLayout />}>
+                <Route index element={<Dashboard />} />
+                <Route path="notifications" element={<NotificationPage />} />
+                <Route path="automated-notifications" element={<AutomatedNotificationsPage />} />
+                <Route path="service" element={<ServiceManagementPage />} />
+                <Route path="job-cards" element={<JobCardsPage />} />
+                <Route path="city" element={<CityManagementPage />} />
+                <Route path="vehicle" element={<VehicleManagementPage />} />
+                <Route path="settings" element={<GeneralSettings />} />
+                <Route path="*" element={<NotFound/>} />
+            </Route>
         </Routes>
     );
 

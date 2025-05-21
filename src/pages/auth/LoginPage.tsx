@@ -3,6 +3,7 @@ import { useState } from "react";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
 import carImage from "../../assets/loginimg/car-img.png";
+import { FONTS } from "../../constants/uiConstants";
 
 type LoginData = {
   email: string;
@@ -54,7 +55,7 @@ const LoginPage = () => {
         `}
       </style>
 
-      <div className="min-h-screen flex flex-col md:flex-row">
+      <div className="min-h-screen flex flex-col md:flex-row overflow-y-hidden">
         {/* Animated Text */}
         <div className="hidden md:block absolute top-6 left-4 md:top-16 md:left-20 z-10">
         <h1 className="text-4xl font-bold tracking-wide drop-shadow-lg select-none">
@@ -62,10 +63,7 @@ const LoginPage = () => {
             {text.split("").map((char, index) => (
               <span
                 key={index}
-           className="letter inline-block text-white font-extrabold text-5xl"
-
-
-                style={{ animationDelay: `${index * 0.1}s` }}
+                style={{ animationDelay: `${index * 0.1}s`, ...FONTS.header, fontSize: '42px', color: 'white', fontWeight: 500  }}
               >
                 {char === " " ? "\u00A0" : char}
               </span>
@@ -82,7 +80,7 @@ const LoginPage = () => {
               className="object-cover rounded-none md:rounded-l-xl animated-image"
               style={{
                 position: "absolute",
-                top: "50px",
+                top: "75px",
                 left: "0",
                 width: "100%",
                 height: "auto",
@@ -97,8 +95,8 @@ const LoginPage = () => {
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
 
           
-            <h2 className="text-3xl font-bold text-[#9b111e] text-center">
-              Login to Your Account
+            <h2 className="text-2xl font-bold text-[#9b111e] text-center">
+              Master Admin Login
             </h2>
 
             {/* Email Field */}
@@ -152,7 +150,7 @@ const LoginPage = () => {
       Forgot Password?
     </Link>
   </div>
-             </form>
+    </form>
   </div>
 </div>
 </div>
