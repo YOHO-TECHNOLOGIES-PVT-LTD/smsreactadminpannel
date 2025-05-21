@@ -1,5 +1,5 @@
- import { FONTS } from "../../constants/uiConstants"//FONT
-// import {COLORS} from "../../constants/uiConstants"//COLOUR
+import { FONTS } from "../../constants/uiConstants"//FONT
+import {COLORS} from "../../constants/uiConstants"//COLOUR
 
 
 //this is for ICONS
@@ -23,17 +23,18 @@ import dummpypic from "../../assets/Dashboard/images.jpg"
 export const Dashboard = () => {
   return (
 
-
     //total dashboard
-    <div className=" px-4 py-6 custom900:px-1 lg:px-2 w-full">
+    <>
+    
+    <div className=" px-4  mt-0 py-6 custom900:px-1 lg:px-2 w-full">
 
     {/* cards+dashcards */}
       {/* for dashcard */}
       <div className="rounded-xl shadow-md  bg-white pb-4 ">
-      <p className="text-xl font-semibold pl-6 pt-3 " style={{...FONTS.header}}>Overview of Service Center</p>
-      <p className="text-gray-500 text-sm pb-5 pl-7"style={{...FONTS.paragraph}}>Get your Service Center latest update for the last 7 days</p>
+      <p className="text-xl font-semibold pl-6 pt-3   " style={{...FONTS.header, color: COLORS.primary }}>Overview of Service Center</p>
+      <p className="text-gray-500 text-sm pb-5 pl-7"style={{...FONTS.paragraph,color:COLORS.secondary}}>Get your Service Center latest update for the last 7 days</p>
       {/* cards for dashborad  */}
-      <div className=" flex  custom900:flex-col-[2] lg:flex-row md:gap-x-4 md:gap-y-4  flex-wrap lg:gap-4 justify-center   ">
+      <div className=" flex sm:flex-col sm:gap-x-4 sm:gap-y-4 md:flex-row lg:flex-row md:gap-x-4 md:gap-y-4  flex-wrap lg:gap-4 justify-center ">
         
         <DashboardCard
           icon={<RiUser6Line />}
@@ -83,16 +84,16 @@ export const Dashboard = () => {
       {/* recent notification + bar + sos */}
 
       {/* recent notification */}
-      <div className="flex flex-wrap ">
-      <div className="lg:max-w-[380px] rounded-xl max-h-96  custom900:max-w-1/2 md:flex-col  flex-wrap gap-4  bg-white shadow-md p-4 w-full mt-4 ">
+      <div className="flex flex-wrap  gap-3">
+      <div className="lg:w-[355px] rounded-xl max-h-96   md:flex-col  flex-wrap gap-4  bg-white shadow-md p-4 md:w-full mt-4 ">
         <div className="flex justify-between mb-2">
-          <p className="align-start font-bold text-lg " >Recent Notification</p>
+          <p className="align-start text-lg " style={{...FONTS.paragraph,color:COLORS.primary}} >Recent Notification</p>
           {/* for view notification to change into link of nav */}
-          <a href=""className="align-end text-md text-[skyblue] " >View All</a>
+          <a href=""className="align-end text-md  " style={{...FONTS.paragraph,color:COLORS.secondary}}>View All</a>
         </div>
       <div className="overflow-y-auto scrollbar-thumb-rounded max-h-80 ">
       <NotificationList
-      icon1={<AiOutlineCheckCircle className=""/>}
+      icon1={<AiOutlineCheckCircle />}
       icon2={<GoDotFill/>}
       title={"Booking Confrim"}
       desc={"your order is cdmam"}
@@ -153,19 +154,19 @@ export const Dashboard = () => {
 
 
       {/* this is bar */}
-      <div className="flex flex-wrap ">
+      {/* <div className=" "> */}
       
-      <div className=" lg:ml-3  rounded-xl max-h-96 flex  custom900:flex-col custom900:mr-2 custom900:max-w-[200px] lg:gap-4   bg-white shadow-md p-4  mt-4 ">
+      <div className=" lg:ml-3  rounded-xl max-h-96 flex lg:w-[310px] md:flex-col  md:w-full lg:gap-2  flex flex-wrap bg-white shadow-md p-4  mt-4 ">
        <BarCharts  />  
       </div>
 
-    </div>
+    {/* </div> */}
     {/* sos */}
-    <div className="flex flex-wrap">
-      <div className=" lg:ml-3 md:ml-3 rounded-xl max-h-96 custom900:flex-col custom900:flex-row bg-white shadow-md p-4 w-full mt-4 ">
+    {/* <div className=""> */}
+      <div className=" rounded-xl max-h-96 md:flex-col lg:w-[320px] flex flex-wrap  bg-white shadow-md p-4 md:w-full mt-4 ">
         sos contentoaciabibibibibi
       </div>
-    </div>
+    {/* </div> */}
   </div>
 
   {/* recent trancations +Query */}
@@ -173,9 +174,9 @@ export const Dashboard = () => {
     <div className="flex flex-wrap gap-x-3  justify-start">
       <div className="lg:max-w-[350px] xl:max-w-[500px] rounded-xl max-h-96 w-full  custom900:max-w-1/2 custom900:flex-col  flex-wrap gap-4 bg-white  shadow-md p-4 mt-4 ">
         <div className="flex justify-between mb-2">
-          <p className="align-start font-bold text-lg " >Recent Transaction</p>
+          <p className="align-start  text-lg" style={{...FONTS.paragraph,color:COLORS.primary}}  >Recent Transaction</p>
         </div>
-        <div className="overflow-y-auto scrollbar-thumb-rounded max-h-80">
+        <div className="overflow-y-auto scrollbar-hide max-h-80">
           <TransactionCard 
             icon1={<AiOutlineCheckCircle/>}
             icon2={<IoIosArrowRoundUp/>}
@@ -233,31 +234,55 @@ export const Dashboard = () => {
       </div>
 
       {/* Query */}
-      <div className="lg:max-w-[400px] xl:max-w-[460px] rounded-xl max-h-96  custom900:max-w-[310px] custom900:flex-row  flex-wrap  bg-white shadow-md p-4 w-full mt-4  ">
-       <div className="custom900:max-w-full w-full">
-        <div className="flex justify-between mb-2">
-          <p className="align-start font-bold text-lg " >Query </p>
+      <div className="lg:max-w-[400px] xl:max-w-[460px] rounded-xl max-h-96  custom900:w-[310px] md:flex-row  flex-wrap  bg-white shadow-md p-4 w-full mt-4  ">
+       <div className="lg: w-full md:w-full">
+        <div className="flex justify-between mb-2 ">
+          <p className="align-start font-bold text-lg " style={{...FONTS.paragraph,color:COLORS.primary}}  >Query </p>
           <button className="align-end text-md text-[skyblue] " >View All</button>
 
         </div>
-        <div>
+        <div className="overflow-y-auto scrollbar-hide max-h-80">
           <QueryCard
-          profilePicUrl={dummpypic}
+          profilePicUrl={dummpypic }
           icon={<AiOutlineRight/>}
           title={"break not fixed"}
           desc={"i give to shop my bike some day age but they didnt repair in time and they didnt fix it"}
-          
           />
+          <QueryCard
+          profilePicUrl={dummpypic }
+          icon={<AiOutlineRight/>}
+          title={"break not fixed"}
+          desc={"i give to shop my bike some day age but they didnt repair in time and they didnt fix it"}
+          />
+          <QueryCard
+          profilePicUrl={dummpypic }
+          icon={<AiOutlineRight/>}
+          title={"break not fixed"}
+          desc={"i give to shop my bike some day age but they didnt repair in time and they didnt fix it"}
+          />
+          <QueryCard
+          profilePicUrl={dummpypic }
+          icon={<AiOutlineRight/>}
+          title={"break not fixed"}
+          desc={"i give to shop my bike some day age but they didnt repair in time and they didnt fix it"}
+          />
+
         </div>
        </div>
       </div>
     </div>
-    <div className="lg:max-w-full rounded-xl max-h-96  md:max-w-full md:flex-col  flex-wrap  bg-white shadow-md p-4 w-full mt-4 -mb-6">
+    <footer className="lg:max-w-full rounded-xl max-h-96  md:max-w-full md:flex-col  flex-wrap  bg-white shadow-md p-4 w-full mt-4  ">
+    <div >
+      
       <div className="flex items-center justify-center space-x-1">
+      
       <p className="text-center "><AiOutlineCopyrightCircle/></p>
       <p className="text-center">YESMECHANGE </p>
       </div>
+      
     </div>
+    </footer>
     </div>
+    </>
   );
 };
