@@ -11,6 +11,7 @@ type LoginData = {
 	password: string;
 };
 
+
 const LoginPage = () => {
 	const { register, handleSubmit, formState: { errors } } = useForm<LoginData>();
 	const [showPassword, setShowPassword] = useState<boolean>(false);
