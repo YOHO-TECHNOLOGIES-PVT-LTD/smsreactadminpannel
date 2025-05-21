@@ -3,7 +3,6 @@ import { Outlet } from 'react-router-dom';
 import { Navbar } from '../../components/common/Navbar/Navbar.tsx';
 import { Sidebar } from '../../components/common/Sidebar/Sidebar.tsx';
 import { Route, Routes } from 'react-router-dom';
-
 import { NotificationPage } from '../../pages/notification/NotificationPage.tsx';
 import { ServiceManagementPage } from '../../pages/service-center/ServiceManagementPage.tsx';
 import { JobCardsPage } from '../../pages/job-cards/JobCardsPage.tsx';

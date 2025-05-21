@@ -98,15 +98,17 @@ export const JobCardsPage: React.FC = () => {
           <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">
             <CiSearch size={20} />
           </span>
-          <input
+           <input
             type="search"
             placeholder="Search"
-            className="pl-10 pr-4 py-2 w-full border border-[#6b1b1b] rounded-md focus:outline-none focus:ring-2  focus:ring-[#6b1b1b]"
+            className="pl-10 pr-4 py-2 w-full border border-[#9b111e] rounded-md focus:outline-none focus:ring-2  focus:ring-[#6b1b1b]"
           />
         </div>
-        <div className="overflow-x-auto">
-          <table className="min-w-full border-collapse rounded-lg overflow-hidden ">
-            <thead className="bg-[#FAF3EB] ">
+         
+
+        <div className="overflow-x-auto ">
+          <table className="min-w-full border-collapse rounded-lg overflow-hidden">
+            <thead className="bg-[#FAF3EB]">
               <tr>
                 <th className="px-4 py-3 text-left text-sm font-semibold text-[#9b111e] border-b">
                   ID

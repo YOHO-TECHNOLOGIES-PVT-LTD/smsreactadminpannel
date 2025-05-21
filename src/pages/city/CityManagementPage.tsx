@@ -1,6 +1,10 @@
-
+import CityListPage from "./CityListPage"
 export const CityManagementPage = () => {
   return (
-    <div>CityManagementPage</div>
+    <>
+    
+    <CityListPage />
+    </>
+   
   )
 }
