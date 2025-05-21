@@ -2,7 +2,6 @@ import React, { useState, useRef, useEffect } from "react";
 import { COLORS } from "../../../constants/uiConstants";
 import { useNavigate } from "react-router-dom";
 
-
 interface User {
   name: string;
   phone: string;
@@ -29,37 +28,22 @@ export const Navbar: React.FC = () => {
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
   const [showLogoutSuccess, setShowLogoutSuccess] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
+
   const navigate = useNavigate();
 
+  const dropdownRef = useRef<HTMLDivElement | null>(null);
+  const notificationRef = useRef<HTMLDivElement | null>(null);
+  const modalRef = useRef<HTMLDivElement | null>(null);
+
   const [notifications, setNotifications] = useState<Notification[]>([
-    {
-      id: 1,
-      message: "New task assigned to you: Project Review",
-      time: "5 minutes ago",
-      isRead: true
-    },
-    {
-      id: 2,
-      message: "Your report has been approved",
-      time: "1 hour ago",
-      isRead: true
-    },
-    {
-      id: 3,
-      message: "System maintenance scheduled for tomorrow",
-      time: "3 hours ago",
-      isRead: true
-    },
-    {
-      id: 4,
-      message: "Welcome to the dashboard! Take a tour",
-      time: "1 day ago",
-      isRead: true
-    }
+    { id: 1, message: "New task assigned to you: Project Review", time: "5 minutes ago", isRead: true },
+    { id: 2, message: "Your report has been approved", time: "1 hour ago", isRead: true },
+    { id: 3, message: "System maintenance scheduled for tomorrow", time: "3 hours ago", isRead: true },
+    { id: 4, message: "Welcome to the dashboard! Take a tour", time: "1 day ago", isRead: true },
   ]);
 
   const [editedUser, setEditedUser] = useState<User>({
-    name: "John Doe",
+    name: "John ",
     phone: "+1 856-589-998-1236",
     email: "johndoe3108@gmail.com",
     avatar:
@@ -70,48 +54,53 @@ export const Navbar: React.FC = () => {
     status: "Active",
   });
 
-  const dropdownRef = useRef<HTMLDivElement | null>(null);
-  const notificationRef = useRef<HTMLDivElement | null>(null);
+  // 🔁 Handle outside clicks for dropdown & notifications
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+        setIsDropdownOpen(false);
+      }
+      if (notificationRef.current && !notificationRef.current.contains(e.target as Node)) {
+        setShowNotifications(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
-  const handleBellClick = (): void => {
+  // 🔁 Handle outside clicks for modal
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
+        setShowProfileDetails(false);
+      }
+    };
+    if (showProfileDetails) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [showProfileDetails]);
+
+  const handleBellClick = () => {
     setIsBellActive(true);
     setShowNotifications((prev) => !prev);
-    setTimeout(() => {
-      setIsBellActive(false);
-    }, 150); // short delay for animation feedback
+    setTimeout(() => setIsBellActive(false), 150);
   };
 
-  const handleViewAllNotifications = (): void => {
+  const handleViewAllNotifications = () => {
     setShowNotifications(false);
     navigate("/notifications");
   };
 
-  const toggleDropdown = (): void => {
+  const toggleDropdown = () => {
     setIsDropdownOpen((prev) => !prev);
   };
 
-  const handleClickOutside = (e: MouseEvent): void => {
-    if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
-      setIsDropdownOpen(false);
-    }
-    
-    if (notificationRef.current && !notificationRef.current.contains(e.target as Node)) {
-      setShowNotifications(false);
-    }
-  };
-
-  useEffect(() => {
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
-
-  const handleChange = <K extends keyof User>(field: K, value: User[K]): void => {
+  const handleChange = <K extends keyof User>(field: K, value: User[K]) => {
     setEditedUser((prev) => ({ ...prev, [field]: value }));
   };
 
-  const unreadCount = notifications.filter(notification => !notification.isRead).length;
+  const unreadCount = notifications.filter((n) => !n.isRead).length;
 
   return (
     <>
@@ -142,6 +131,25 @@ export const Navbar: React.FC = () => {
             </svg>
           </button>
         </div>
+
+        
+
+        {/* SOS Emergency Icon */}
+{/* SOS Emergency Icon */}
+<div className="relative w-full">
+  {/* SOS Icon */}
+  <div className="absolute right-4 top-1/2 -translate-y-1/2">
+    <div className="relative">
+      <span className="absolute inline-flex h-8 w-8 rounded-full bg-red-400 opacity-75 animate-ping"></span>
+      <button
+        onClick={() => alert("Emergency SOS Triggered!")}
+        className="relative z-10 inline-flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-r from-red-600 to-red-800 text-white font-bold text-sm shadow-lg hover:scale-105 transition-transform"
+      >
+        SOS
+      </button>
+    </div>
+  </div>
+</div>
 
         <div className="ml-auto flex items-center space-x-4 pr-4">
           <div className="relative" ref={notificationRef}>
@@ -180,27 +188,28 @@ export const Navbar: React.FC = () => {
                 </div>
                 <div className="max-h-80 overflow-y-auto">
                   {notifications.length > 0 ? (
-                    notifications.map((notification) => (
-                      <div 
-                        key={notification.id} 
-                        className={`p-3 border-b hover:bg-gray-50 transition-colors duration-150 ${
-                          notification.isRead ? "bg-white" : "bg-red-50"
-                        }`}
-                      >
-                        <div className="flex justify-between items-start">
-                          <p className="text-sm text-gray-800">{notification.message}</p>
-                          {!notification.isRead && (
-                            <span className="w-2 h-2 rounded-full bg-red-600 mt-1 ml-2"></span>
-                          )}
-                        </div>
-                        <p className="text-xs text-gray-500 mt-1">{notification.time}</p>
-                      </div>
-                    ))
-                  ) : (
-                    <div className="p-4 text-center text-gray-500">
-                      No notifications
-                    </div>
-                  )}
+  notifications.map((notification) => (
+    <div 
+      key={notification.id} 
+      className={`group relative p-3 border-b hover:bg-gray-50 transition-colors duration-150 ${
+        notification.isRead ? "bg-white" : "bg-red-50"
+      }`}
+    >
+      {/* This vertical red line will now appear on hover */}
+      <div className="absolute left-0 top-0 h-full w-1 bg-red-600 opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
+
+      <div className="flex justify-between items-start">
+        <p className="text-sm text-gray-800">{notification.message}</p>
+        {!notification.isRead && (
+          <span className="w-2 h-2 rounded-full bg-red-600 mt-1 ml-2"></span>
+        )}
+      </div>
+      <p className="text-xs text-gray-500 mt-1">{notification.time}</p>
+    </div>
+  ))
+) : (
+  <p className="p-3 text-gray-500 text-sm">No notifications</p>
+)}
                 </div>
                 <div className="p-3 bg-gray-50 text-center border-t">
                   <button 
@@ -276,12 +285,12 @@ export const Navbar: React.FC = () => {
         </div>
       </nav>
 
-      {/* Profile Modal (unchanged) */}
+      {/* Profile Modal  */}
       {showProfileDetails && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999] p-4">
-          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl overflow-hidden">
-            <div className="bg-gradient-to-r from-red-600 to-red-800 p-6 flex items-center justify-between text-white">
-              <div className="flex items-center space-x-4">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999] p-4"> 
+  <div ref={modalRef}  className="bg-[#FAF3EB] rounded-2xl shadow-2xl w-full max-w-2xl md:max-w-xl sm:max-w-md overflow-hidden">
+    <div className="bg-gradient-to-r from-red-600 to-red-800 p-6 flex items-center justify-between text-white">
+      <div className="flex items-center space-x-4">
                 <img
                   src={editedUser.avatar}
                   alt="User"
@@ -303,7 +312,7 @@ export const Navbar: React.FC = () => {
               </div>
               <button
                 onClick={() => setShowProfileDetails(false)}
-                className="bg-white text-red-600 font-semibold p-2 rounded-lg shadow hover:bg-gray-100 transition"
+                className="bg-[#FAF3EB] text-red-600 font-semibold p-2 rounded-lg shadow hover:bg-[#f8e0b0] transition"
                 aria-label="Close profile details"
               >
                 <svg
