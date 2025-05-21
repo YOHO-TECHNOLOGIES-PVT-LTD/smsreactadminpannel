@@ -59,7 +59,6 @@ export const Sidebar = () => {
         <nav className="flex flex-col gap-4 mt-4 w-full items-center">
           <SidebarLink
             to="/"
-            
             icon={<FiHome />}
             label="Dashboard"
             isOpen={isOpen}
@@ -101,7 +100,7 @@ export const Sidebar = () => {
             onClick={handleLinkClick}
           />
           <SidebarLink
-            to="/Help"
+            to="/help"
             icon={<MdHelpOutline  />}
             label="Help Center"
             isOpen={isOpen}
