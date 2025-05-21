@@ -1,8 +1,7 @@
-import { Route, Routes, Navigate } from "react-router-dom";
-import { useState } from "react";
+import { Routes, Route, Navigate } from "react-router-dom";
 import LoginPage from "../pages/auth/LoginPage";
 import SignupPage from "../pages/auth/SignupPage";
-import { Dashboard } from "../pages/Dashboard/Dashboard"
+import { Dashboard } from "../pages/Dashboard/Dashboard";
 import { NotificationPage } from "../pages/notification/NotificationPage";
 import { ServiceManagementPage } from "../pages/service-center/ServiceManagementPage";
 import { JobCardsPage } from "../pages/job-cards/JobCardsPage";
@@ -12,15 +11,10 @@ import { VehicleManagementPage } from "../pages/vehicle/VehicleManagementPage";
 import GeneralSettings from "../pages/Settings/GeneralSettings";
 import { MainLayout } from "../Layout/MainLayout/MainLayout";
 import { NotFound } from "../pages/NotFound/NotFound";
+import { useAuth } from "../pages/auth/AuthContext";
 
 const AppRoutes = () => {
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
-
-  // Simulate checking auth status
-//   useEffect(() => {
-//     const token = localStorage.getItem("authToken");
-//     setIsAuthenticated(!!token);
-//   }, []);
+    const { isAuthenticated } = useAuth();
 
     const AuthRoutes = () => (
         <Routes>
@@ -41,12 +35,12 @@ const AppRoutes = () => {
                 <Route path="city" element={<CityManagementPage />} />
                 <Route path="vehicle" element={<VehicleManagementPage />} />
                 <Route path="settings" element={<GeneralSettings />} />
-                <Route path="*" element={<NotFound/>} />
+                <Route path="*" element={<NotFound />} />
             </Route>
         </Routes>
     );
 
     return isAuthenticated ? <AdminRoutes /> : <AuthRoutes />;
-    };
+};
 
 export default AppRoutes;
