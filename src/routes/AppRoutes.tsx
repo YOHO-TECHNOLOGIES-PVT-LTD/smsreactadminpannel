@@ -2,7 +2,7 @@ import { Route, Routes, Navigate } from "react-router-dom";
 import { useState } from "react";
 import LoginPage from "../pages/auth/LoginPage";
 import SignupPage from "../pages/auth/SignupPage";
-import { Dashboard } from "../pages/Dashboard/Dashboard"
+import { Dashboard } from "../pages/dashboard/Dashboard"
 import { NotificationPage } from "../pages/notification/NotificationPage";
 import { ServiceManagementPage } from "../pages/service-center/ServiceManagementPage";
 import { JobCardsPage } from "../pages/job-cards/JobCardsPage";
@@ -14,7 +14,7 @@ import { MainLayout } from "../Layout/MainLayout/MainLayout";
 import { NotFound } from "../pages/NotFound/NotFound";
 
 const AppRoutes = () => {
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [isAuthenticated, setIsAuthenticated] = useState(true);
 
   // Simulate checking auth status
 //   useEffect(() => {
