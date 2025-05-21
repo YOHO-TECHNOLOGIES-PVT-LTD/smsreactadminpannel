@@ -10,7 +10,7 @@ function App() {
     <>
       <BrowserRouter>
         <MainLayout />
-        <AppRoutes /> 
+        {/* <AppRoutes />  */}
       </BrowserRouter>
     </>
   )
