@@ -58,6 +58,7 @@ isOpen ? "w-20 h-20" : "w-10 h-10"}`}
         <nav className="flex flex-col gap-4 mt-4 w-full items-center">
           <SidebarLink
             to="/"
+            
             icon={<FiHome />}
             label="Dashboard"
             isOpen={isOpen}
