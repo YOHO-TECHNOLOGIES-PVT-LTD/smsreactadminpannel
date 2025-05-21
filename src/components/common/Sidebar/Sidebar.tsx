@@ -12,6 +12,9 @@ import {
   FiMenu,
 
 } from "react-icons/fi";
+import Logo from '../../../assets/LOGO.jpg'
+import { Megaphone } from "lucide-react"; 
+
 // import { COLORS } from "../../../constants/uiConstants";
 
 const COLOR = {
@@ -20,7 +23,6 @@ const COLOR = {
    secondary: "#E6A895",
  };
 
-import Logo from '../../../assets/LOGO.jpg'
 
 
 export const Sidebar = () => {
@@ -39,11 +41,11 @@ export const Sidebar = () => {
       >
         <div className="flex justify-center items-center h-20">
           <img
-            src={Logo}
-            alt="YES Mechanic Logo"
-            className={`object-contain transition-all duration-300 ${
-isOpen ? "w-20 h-20" : "w-10 h-10"}`}
+          src={Logo}
+          alt="YES Mechanic Logo"
+          className={`object-contain transition-all duration-300 ${isOpen ? "w-20 h-20" : "w-10 h-10"}`}
           />
+
         </div>
         <div className="w-full flex justify-end px-2 mt-2">
          <button
@@ -99,6 +101,13 @@ isOpen ? "w-20 h-20" : "w-10 h-10"}`}
             onClick={handleLinkClick}
           />
           <SidebarLink
+            to="/help"
+            icon={<Megaphone />}
+            label="Announcement"
+            isOpen={isOpen}
+            onClick={handleLinkClick}
+          />
+          <SidebarLink
             to="/settings"
             icon={<FiSettings />}
             label="Settings"
@@ -114,15 +123,10 @@ isOpen ? "w-20 h-20" : "w-10 h-10"}`}
           />
         </nav>
       </div>
+            <div
+  className={`transition-all duration-300 ${isOpen ? "ml-48" : "ml-16"} flex-1`}
+>
 
-      <div
-        className={`transition-all duration-300 ${
-          isOpen ? "ml-48" : "ml-16"
-        } flex-1`}
-      >
-        {/* <div className="">
-          <Outlet />
-        </div> */}
       </div>
     </div>
   );
@@ -151,7 +155,13 @@ const SidebarLink = ({
       style={{
         backgroundColor: isHovered ? "#faf3eb" : "transparent",
       }}
-      className="flex items-center gap-4 w-full px-4 py-2 rounded transition-all"
+      
+     
+     className={`flex items-center transition-all px-2 py-1 
+        ${isOpen ? "w-full justify-start gap-5 pl-5  pr-1" : "justify-center w-10 h-8"} 
+        ${isHovered ? "bg-[#faf3eb] rounded-full" : "rounded-full"}
+        `}
+
     >
       <div className="text-xl" style={{ color: COLOR.primary }}>
         {icon}
@@ -163,4 +173,5 @@ const SidebarLink = ({
       )}
     </Link>
   );
-};  
+};
+
