@@ -1,6 +1,8 @@
 import React, { useState, useRef, useEffect } from "react";
 import { COLORS } from "../../../constants/uiConstants";
 import { useNavigate } from "react-router-dom";
+import FullscreenButton from "./Fullscreen";
+import SosButton from "./Sos";
 
 interface User {
   name: string;
@@ -43,7 +45,7 @@ export const Navbar: React.FC = () => {
   ]);
 
   const [editedUser, setEditedUser] = useState<User>({
-    name: "John ",
+    name: "John Doe",
     phone: "+1 856-589-998-1236",
     email: "johndoe3108@gmail.com",
     avatar:
@@ -132,24 +134,21 @@ export const Navbar: React.FC = () => {
           </button>
         </div>
 
-        
-
-        {/* SOS Emergency Icon */}
-{/* SOS Emergency Icon */}
+        {/* Fullscreen */}
 <div className="relative w-full">
-  {/* SOS Icon */}
-  <div className="absolute right-4 top-1/2 -translate-y-1/2">
-    <div className="relative">
-      <span className="absolute inline-flex h-8 w-8 rounded-full bg-red-400 opacity-75 animate-ping"></span>
-      <button
-        onClick={() => alert("Emergency SOS Triggered!")}
-        className="relative z-10 inline-flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-r from-red-600 to-red-800 text-white font-bold text-sm shadow-lg hover:scale-105 transition-transform"
-      >
-        SOS
-      </button>
-    </div>
+  {/* Fullscreen Button */}
+  <div className="absolute right-20 top-1/2 -translate-y-1/2 z-20">
+    <FullscreenButton />
   </div>
-</div>
+  </div>
+
+
+{/* SOS Icon */}
+  <div className="relative h-screen">
+      <SosButton />
+    </div>
+
+
 
         <div className="ml-auto flex items-center space-x-4 pr-4">
           <div className="relative" ref={notificationRef}>
@@ -224,34 +223,31 @@ export const Navbar: React.FC = () => {
           </div>
 
           <div className="relative" ref={dropdownRef}>
-            <div
-              onClick={toggleDropdown}
-              className="flex items-center space-x-3 cursor-pointer"
-            >
-              <div className="w-10 h-10 rounded-full overflow-hidden">
-                <img
-                  src={editedUser.avatar}
-                  alt="User Avatar"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <div className="flex flex-col">
-  <span className="text-[#9b111e] font-medium">{editedUser.name}</span>
-  <div className="flex items-center text-sm text-[#c13340]">
-    Admin
-    <svg
-      className="w-4 h-6 ml-1 text-[#c13340]"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={2}
-      viewBox="0 0 24 24"
-    >
-      <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-    </svg>
+            <div className="flex items-center space-x-3 cursor-pointer max-w-xs" onClick={toggleDropdown}>
+  <div className="w-10 h-10 rounded-full overflow-hidden flex-shrink-0">
+    <img
+      src={editedUser.avatar}
+      alt="User Avatar"
+      className="w-full h-full object-cover"
+    />
+  </div>
+  <div className="flex flex-col flex-nowrap overflow-hidden">
+    <span className="text-[#9b111e] font-medium truncate whitespace-nowrap">{editedUser.name}</span>
+    <div className="flex items-center text-sm text-[#c13340] whitespace-nowrap">
+      Admin
+      <svg
+        className="w-4 h-6 ml-1 text-[#c13340]"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth={2}
+        viewBox="0 0 24 24"
+      >
+        <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+      </svg>
+    </div>
   </div>
 </div>
 
-            </div>
 
             {isDropdownOpen && (
               <div className="absolute right-0 mt-2 w-24 rounded-md shadow-lg z-50 bg-gradient-to-br from-yellow-50 to-yellow-100">
