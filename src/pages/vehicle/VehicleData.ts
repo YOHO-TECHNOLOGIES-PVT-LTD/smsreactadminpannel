@@ -4,7 +4,6 @@ import car3 from '../../assets/loginimg/cars-img-folder/car3.png';
 import car4 from '../../assets/loginimg/cars-img-folder/car4.png';
 import car5 from '../../assets/loginimg/cars-img-folder/car5.png';
 
-
 export interface Vehicle {
   title: string;
   image: string;
@@ -13,6 +12,12 @@ export interface Vehicle {
   transmission: string;
   price: string;
   location: string;
+  owner: string;
+  registeredYear: string;
+  insuranceStatus: string;
+  availability: string;
+  rating: number;
+  listedDate: string;
 }
 
 const vehicleData: Vehicle[] = [
@@ -23,7 +28,13 @@ const vehicleData: Vehicle[] = [
     fuel: "Petrol",
     transmission: "Manual",
     price: "5,20,000",
-    location: "Velachery, Chennai"
+    location: "Velachery, Chennai",
+    owner: "First Owner",
+    registeredYear: "2020",
+    insuranceStatus: "Valid till Dec 2025",
+    availability: "Available",
+    rating: 4.5,
+    listedDate: "2025-05-20"
   },
   {
     title: "2018 Hyundai Creta SX Diesel",
@@ -32,7 +43,13 @@ const vehicleData: Vehicle[] = [
     fuel: "Diesel",
     transmission: "Manual",
     price: "8,90,000",
-    location: "Anna Nagar, Chennai"
+    location: "Anna Nagar, Chennai",
+    owner: "Second Owner",
+    registeredYear: "2018",
+    insuranceStatus: "Valid till Sep 2024",
+    availability: "Available",
+    rating: 4.3,
+    listedDate: "2025-05-15"
   },
   {
     title: "2021 Tata Nexon XZA Plus",
@@ -41,7 +58,13 @@ const vehicleData: Vehicle[] = [
     fuel: "Petrol",
     transmission: "Automatic",
     price: "10,50,000",
-    location: "OMR, Chennai"
+    location: "OMR, Chennai",
+    owner: "First Owner",
+    registeredYear: "2021",
+    insuranceStatus: "Valid till Jan 2026",
+    availability: "Available",
+    rating: 4.7,
+    listedDate: "2025-05-19"
   },
   {
     title: "2017 Honda City VX CVT",
@@ -50,7 +73,13 @@ const vehicleData: Vehicle[] = [
     fuel: "Petrol",
     transmission: "Automatic",
     price: "7,40,000",
-    location: "T. Nagar, Chennai"
+    location: "T. Nagar, Chennai",
+    owner: "Second Owner",
+    registeredYear: "2017",
+    insuranceStatus: "Expired",
+    availability: "Unavailable",
+    rating: 4.1,
+    listedDate: "2025-05-10"
   },
   {
     title: "2019 Mahindra XUV500 W9",
@@ -59,9 +88,14 @@ const vehicleData: Vehicle[] = [
     fuel: "Diesel",
     transmission: "Manual",
     price: "11,30,000",
-    location: "Perungudi, Chennai"
-  },
- 
+    location: "Perungudi, Chennai",
+    owner: "First Owner",
+    registeredYear: "2019",
+    insuranceStatus: "Valid till Nov 2024",
+    availability: "Available",
+    rating: 4.6,
+    listedDate: "2025-05-17"
+  }
 ];
 
 export default vehicleData;
