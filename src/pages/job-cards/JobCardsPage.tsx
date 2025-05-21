@@ -88,27 +88,27 @@ export const JobCardsPage: React.FC = () => {
         <div className=" border-b-2 border-[#9b111e] pb-2 mb-4">
           <h1
             style={{ ...FONTS.header, fontWeight: 600 }}
-            className="font-bold text-gray- text-[#9b111e]"
+            className="font-bold  text-[#9b111e]"
           >
             JOB CARDS
           </h1>
         </div>
 
-        <div className="relative w-80 mb-6">
+       <div className="relative max-w-md mb-6">
           <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">
             <CiSearch size={20} />
           </span>
-           <input
+          <input
             type="search"
-            placeholder="Search"
-            className="pl-10 pr-4 py-2 w-full border border-[#9b111e] rounded-md focus:outline-none focus:ring-2  focus:ring-[#6b1b1b]"
+            placeholder="Search by name, vehicle or ID"
+            className="pl-10 pr-4 py-2 w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#9b111e]"
           />
         </div>
          
 
         <div className="overflow-x-auto ">
           <table className="min-w-full border-collapse rounded-lg overflow-hidden">
-            <thead className="bg-[#FAF3EB]">
+            <thead className="bg-[#E6A895]">
               <tr>
                 <th className="px-4 py-3 text-left text-sm font-semibold text-[#9b111e] border-b">
                   ID

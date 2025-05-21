@@ -58,7 +58,7 @@ const CityListPage: React.FC = () => {
 
       <div>
         <table className="table-auto w-full border-collapse ">
-          <thead className="bg-[#9b111e]">
+          <thead className="bg-[#c99197]">
             <tr>
               <th className="px-4 py-2 text-left">Name</th>
               <th className="px-4 py-2 text-left">PinCode</th>
