@@ -197,8 +197,6 @@ const ServiceCenterFilter = () => {
     </div>
   );
 };
-
-
 // Main page component
 export const ServiceCenterListPage = () => {
 
@@ -390,3 +388,4 @@ export const ServiceCenterListPage = () => {
     </>
   );
 };
+
