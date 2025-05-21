@@ -64,11 +64,11 @@ const SosDashboard = () => {
   ]);
 
   return (
-    <div className="bg-white flex flex-col md:flex-row gap-8 p-6 text-gray-800">
+    <div className=" flex flex-col md:flex-row gap-8 p-6 text-gray-800 h-screen ">
       {/* SOS Requests */}
-      <div className="rounded p-2 lg:w-full border-2 md:w-2/3 overflow-auto">
-        <h2 className="text-xl font-bold m-4">Active SOS Requests</h2>
-        <table className="w-full h-96 text-left text-sm border-gray-900 rounded overflow-hidden">
+      <div className="rounded p-2 lg:w-full border-2 md:w-2/3 overflow-auto bg-white rounded-xl">
+        <h2 className="text-4xl p-2 font-bold m-4">Active SOS Requests</h2>
+        <table className="w-full h-96 text-left text-sm border-gray-900 rounded overflow-hidden bg-white">
           <thead className="border-2 ">
             <tr className="text-gray-900">
               <th className="px-4 py-2 ">Number</th>
@@ -78,7 +78,7 @@ const SosDashboard = () => {
               <th className="px-4 py-2 ">View</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-300">
+          <tbody className="divide-y border-b-2 border-gray-300 divide-gray-300">
             {activeRequests.map((req) => (
               <tr key={req.id} className="text-gray-900">
                 <td className="px-4 py-2">{req.id}</td>
@@ -108,9 +108,9 @@ const SosDashboard = () => {
       </div>
 
       {/* SOS Services */}
-      <div className="rounded-xl p-2 w-full md:w-1/3 flex flex-col border-2 overflow-auto">
+      <div className="rounded-xl p-2 w-full md:w-1/3 flex flex-col border-2 overflow-auto bg-white">
         <div className="flex justify-between items-center m-4">
-          <h2 className="text-xl font-bold">SoS Services</h2>
+          <h2 className="text-4xl font-bold">SoS Services</h2>
           <FiPlus
             className="text-2xl text-gray-600 cursor-pointer hover:text-gray-800"
             title="Add Service"

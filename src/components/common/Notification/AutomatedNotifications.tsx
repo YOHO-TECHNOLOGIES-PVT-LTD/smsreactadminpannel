@@ -102,7 +102,7 @@ const notifications: Notification[] = [
 
 const NotificationTable: React.FC = () => {
 
-   const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
 
   const totalPages = Math.ceil(notifications.length / itemsPerPage);
