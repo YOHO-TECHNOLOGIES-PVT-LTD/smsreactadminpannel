@@ -14,7 +14,7 @@ import { MainLayout } from "../Layout/MainLayout/MainLayout";
 import { NotFound } from "../pages/NotFound/NotFound";
 
 const AppRoutes = () => {
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [isAuthenticated, setIsAuthenticated] = useState(true);
 
   // Simulate checking auth status
 //   useEffect(() false

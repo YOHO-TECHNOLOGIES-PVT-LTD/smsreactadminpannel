@@ -10,10 +10,6 @@ type LoginData = {
   password: string;
 };
 
-import carImage from "../../assets/CAR IMAGE.jpg"
-import showPassWordIcon from "../../assets/SHOW PASSWORD.png"
-import hidePasswordIcon from "../../assets/HIDE PASSWORD.png"
-import  { useState } from "react"
 
 const LoginPage = () => {
   const { register, handleSubmit } = useForm<LoginData>();
