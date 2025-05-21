@@ -14,6 +14,8 @@ import { MainLayout } from "../Layout/MainLayout/MainLayout";
 import { NotFound } from "../pages/NotFound/NotFound";
 import CityAddPage from "../pages/city/CityAddPage";
 import QuotationPage from "../pages/job-cards/steps/Quotationpage";
+import { Announcement } from "../pages/Announcement/Announcement";
+// import { MdAnnouncement } from "react-icons/md";
 
 const AppRoutes = () => {
     const [isAuthenticated, setIsAuthenticated] = useState(true);
@@ -42,6 +44,7 @@ const AppRoutes = () => {
                 <Route path="job-cards" element={<JobCardsPage />} />
                 <Route path="city" element={<CityManagementPage />} />
                 <Route path="vehicle" element={<VehicleManagementPage />} />
+                <Route path="announcement" element={<Announcement />} />
                 <Route path="settings" element={<GeneralSettings />} />
                 {/* <Route path="/add" element={<CityAddPage /> } /> */}
                 <Route path="/qoutation" element={<QuotationPage /> } />
