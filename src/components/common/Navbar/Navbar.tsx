@@ -21,14 +21,14 @@ export const Navbar: React.FC = () => {
       !dropdownRef.current.contains(e.target as Node)
     ) {
       setIsDropdownOpen(false);
-    }
+    } 
   };
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
-
+  
   return (
     <nav
       style={{ backgroundColor: COLORS.primary_01, height: "64px" }}

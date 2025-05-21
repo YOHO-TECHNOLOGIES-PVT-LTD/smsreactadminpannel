@@ -12,6 +12,8 @@ import { VehicleManagementPage } from "../pages/vehicle/VehicleManagementPage";
 import GeneralSettings from "../pages/Settings/GeneralSettings";
 import { MainLayout } from "../Layout/MainLayout/MainLayout";
 import { NotFound } from "../pages/NotFound/NotFound";
+import CityAddPage from "../pages/city/CityAddPage";
+import QuotationPage from "../pages/job-cards/steps/Quotationpage";
 
 const AppRoutes = () => {
     const [isAuthenticated, setIsAuthenticated] = useState(true);
@@ -41,7 +43,10 @@ const AppRoutes = () => {
                 <Route path="city" element={<CityManagementPage />} />
                 <Route path="vehicle" element={<VehicleManagementPage />} />
                 <Route path="settings" element={<GeneralSettings />} />
+                {/* <Route path="/add" element={<CityAddPage /> } /> */}
+                <Route path="/qoutation" element={<QuotationPage /> } />
                 <Route path="*" element={<NotFound/>} />
+               
             </Route>
         </Routes>
     );
