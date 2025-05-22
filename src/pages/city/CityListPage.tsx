@@ -58,7 +58,7 @@ const CityListPage: React.FC = () => {
 
       <div>
         <table className="table-auto w-full border-collapse ">
-          <thead className="bg-[#9b111e]">
+          <thead className="bg-[#c99197]">
             <tr>
               <th className="px-4 py-2 text-left">Name</th>
               <th className="px-4 py-2 text-left">PinCode</th>
@@ -69,14 +69,14 @@ const CityListPage: React.FC = () => {
           <tbody>
             {citydetails.map((city, index) => (
               <tr key={index} className="border-b hover:bg-[#f8ddd5]">
-                <td className="px-4 py-2 flex items-center gap-2">
+                <td className="px-4 py-2 flex items-center gap-2 font-semibold">
                   
                   {city.name}
                 </td>
-                <td className="px-4 py-2">{city.pincode}</td>
-                <td className="px-8 py-2">{city.citycode}</td>
+                <td className="px-4 py-2 font-semibold">{city.pincode}</td>
+                <td className="px-8 py-2 font-semibold">{city.citycode}</td>
                 {/* Add more columns as needed */}
-                <td className="px-8 py-2 relative">
+                <td className="px-8 py-2 font-semibold relative">
                   <div
                     onClick={(e) => {
                       e.stopPropagation(); // prevent click from propagating up
@@ -92,16 +92,7 @@ const CityListPage: React.FC = () => {
                       className="bg-white z-10 absolute w-28 ml-7 mb-6 shadow border rounded"
                     >
                       <ul>
-                        <div className="flex hover:bg-[#f8ddd5]  items-center justify-center">
-                          <div>
-                            <li className="text-center py-2 ">
-                              <a href="#">Edit</a>
-                            </li>
-                          </div>
-                          <div className="ml-2">
-                            <FaEdit />
-                          </div>
-                        </div>
+                        
                         <div className="flex hover:bg-[#f8ddd5] items-center justify-center">
                           <div>
                             <li className="text-center py-2">
