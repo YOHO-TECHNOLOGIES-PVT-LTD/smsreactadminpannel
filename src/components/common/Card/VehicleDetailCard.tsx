@@ -60,11 +60,11 @@ const VehicleDetailCard: FC<Props> = ({ vehicle, onViewDetails }) => {
         className="w-full h-44 rounded-xl overflow-hidden mb-4"
         style={{ borderColor: '#E6A895', boxShadow: 'inset 0 0 10px #fdefe9' }}
       >
-        <div className="flex w-full h-full justify-center items-center">
+        <div className="flex w-full h-full round">
           <img
             src={baseInfo.image}
             alt={baseInfo.title}
-            className="w-60 h-full object-cover"
+            className="w-full h-ull object-cover "
             loading="lazy"
           />
         </div>
