@@ -164,15 +164,11 @@ navigate("/");
        
 {/* Fullscreen */}
         <div className="relative w-full">
-          <div className="absolute right-20 top-1/2 -translate-y-1/2 z-20">
+          <div className="absolute right-4 top-1/2 -translate-y-1/2 z-20 flex items-center gap-4">
+            {/* Fullscreen Button */}
             <FullscreenButton />
-          </div>
-        </div>
 
-        {/* SOS Emergency Icon */}
-        <div className="relative w-full">
-          {/* SOS Icon */}
-          <div className="absolute right-4 top-1/2 -translate-y-1/2">
+            {/* SOS Emergency Icon */}
             <div className="relative">
               <span className="absolute inline-flex h-8 w-8 rounded-full bg-red-400 opacity-75 animate-ping"></span>
               <button
@@ -223,8 +219,8 @@ navigate("/");
                 <div className="max-h-80 overflow-y-auto">
                   {notifications.length > 0 ? (
                     notifications.map((notification) => (
-                      <div 
-                        key={notification.id} 
+                      <div
+                        key={notification.id}
                         className={`group relative p-3 border-b hover:bg-gray-50 transition-colors duration-150 ${
                           notification.isRead ? "bg-white" : "bg-red-50"
                         }`}
@@ -233,16 +229,22 @@ navigate("/");
                         <div className="absolute left-0 top-0 h-full w-1 bg-red-600 opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
 
                         <div className="flex justify-between items-start">
-                          <p className="text-sm text-gray-800">{notification.message}</p>
+                          <p className="text-sm text-gray-800">
+                            {notification.message}
+                          </p>
                           {!notification.isRead && (
                             <span className="w-2 h-2 rounded-full bg-red-600 mt-1 ml-2"></span>
                           )}
                         </div>
-                        <p className="text-xs text-gray-500 mt-1">{notification.time}</p>
+                        <p className="text-xs text-gray-500 mt-1">
+                          {notification.time}
+                        </p>
                       </div>
                     ))
                   ) : (
-                    <p className="p-3 text-gray-500 text-sm">No notifications</p>
+                    <p className="p-3 text-gray-500 text-sm">
+                      No notifications
+                    </p>
                   )}
                 </div>
                 <div className="p-3 bg-gray-50 text-center border-t">
@@ -258,7 +260,10 @@ navigate("/");
           </div>
 
           <div className="relative" ref={dropdownRef}>
-            <div className="flex items-center space-x-3 cursor-pointer max-w-xs" onClick={toggleDropdown}>
+            <div
+              className="flex items-center space-x-3 cursor-pointer max-w-xs"
+              onClick={toggleDropdown}
+            >
               <div className="w-10 h-10 rounded-full overflow-hidden flex-shrink-0">
                 <img
                   src={user.avatar}
@@ -267,7 +272,9 @@ navigate("/");
                 />
               </div>
               <div className="flex flex-col flex-nowrap overflow-hidden">
-                <span className="text-[#9b111e] font-medium truncate whitespace-nowrap">{user.name}</span>
+                <span className="text-[#9b111e] font-medium truncate whitespace-nowrap">
+                  {user.name}
+                </span>
                 <div className="flex items-center text-sm text-[#c13340] whitespace-nowrap">
                   Admin
                   <svg
@@ -277,7 +284,11 @@ navigate("/");
                     strokeWidth={2}
                     viewBox="0 0 24 24"
                   >
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M19 9l-7 7-7-7"
+                    />
                   </svg>
                 </div>
               </div>
@@ -319,7 +330,7 @@ navigate("/");
       <ProfileModal
         user={user}
         isOpen={showProfileDetails}
-        onClose={() => setShowProfileDetails(false)}  
+        onClose={() => setShowProfileDetails(false)}
         onUserUpdate={handleUserUpdate}
       />
 
@@ -384,7 +395,9 @@ navigate("/");
                 className="animate-draw-path"
               />
             </svg>
-            <p className="text-green-700 text-lg font-semibold">Logout Successfully!</p>
+            <p className="text-green-700 text-lg font-semibold">
+              Logout Successfully!
+            </p>
           </div>
 
           {/* Tailwind custom animation via <style> tag (works well for small scoped styles) */}
