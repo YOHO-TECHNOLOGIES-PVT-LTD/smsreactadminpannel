@@ -14,6 +14,8 @@ import {
 } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import sos from '../../assets/sos.jpg';
+import { FaArrowLeft } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 
 interface PostedDetail {
   id: number;
@@ -33,12 +35,12 @@ interface PostedDetail {
   imageUrl?: string;
 }
 
-const TwoByTwoGridWithMap: React.FC = () => {
+const SosDetails: React.FC = () => {
   const [postedDetails, setPostedDetails] = useState<PostedDetail[]>([]);
   const [statusFilter, setStatusFilter] = useState<string>('All');
 
   const fetchPostedDetails = async () => {
-    // Replace with actual API
+   
     // Example dummy data:
     setPostedDetails([
       {
@@ -86,7 +88,7 @@ const TwoByTwoGridWithMap: React.FC = () => {
     return () => clearInterval(interval);
   }, []);
 
-  // Filter the postedDetails by selected status
+  
   const filteredDetails = statusFilter === 'All'
     ? postedDetails
     : postedDetails.filter(detail => detail.status === statusFilter);
@@ -109,7 +111,13 @@ const TwoByTwoGridWithMap: React.FC = () => {
   };
 
   return (
-    <div className="max-w-7xl mx-auto p-6 bg-gray-100 min-h-screen font-poppins">
+    <div className="w-full mx-auto p-6 bg-gray-100 min-h-screen font-poppins">
+     <div className="flex items-center p-4">
+  <Link to="/sos" className="mr-4 text-[#9b111e] hover:text-red-800">
+    <FaArrowLeft className="text-3xl" />
+  </Link>
+  <h1 className="text-[#9b111e] text-5xl font-bold">SOS Details</h1>
+</div>
     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
      <div className="bg-white rounded-xl shadow-md overflow-hidden flex justify-center items-center">
           <img
@@ -150,15 +158,15 @@ const TwoByTwoGridWithMap: React.FC = () => {
         <div className="bg-white rounded-xl shadow-md p-5">
           <h2 className="text-[#9b111e] font-bold text-4xl mb-4">Personal Details</h2>
           <div className="flex items-center mb-4">
-            <FaUser className="text-pink-500 text-2xl mr-3" />
+            <FaUser className="text-[#9b111e]  text-2xl mr-3" />
             <div className="text-lg font-semibold">{selected.contactName || 'John Doe'}</div>
           </div>
           <div className="flex items-center mb-4">
-            <FaMapMarkerAlt className="text-pink-500 text-2xl mr-3" />
+            <FaMapMarkerAlt className="text-[#9b111e]  text-2xl mr-3" />
             <div className="text-lg font-semibold">{selected.location || 'Chennai'}</div>
           </div>
           <div className="flex items-center">
-            <FaEnvelope className="text-pink-500 text-2xl mr-3" />
+            <FaEnvelope className="text-[#9b111e]  text-2xl mr-3" />
             <div className="text-lg font-semibold">{selected.contactEmail || 'john@example.com'}</div>
           </div>
         </div>
@@ -168,16 +176,16 @@ const TwoByTwoGridWithMap: React.FC = () => {
           <h2 className="text-[#9b111e] font-bold text-4xl mb-4">SOS Info</h2>
 
           <div className="flex items-start mb-4">
-            <FaInfoCircle className="text-blue-500 text-2xl mr-3" />
+            <FaInfoCircle className="text-[#9b111e]  text-2xl mr-3" />
             <div>
-              <div className="font-semibold text-lg">Status :<select
+              <div className="font-semibold text-center text-lg">Status :<select
           value={statusFilter}
           onChange={(e) => setStatusFilter(e.target.value)}
-          className="border border-gray-300 ml-10 rounded px-3 py-2"
+          className="border border-gray-300 text-black  ml-10 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#9b111e] transition duration-200"
         >
-          <option className="p-2" value="Not Started">Not Started</option>
-          <option className="p-2"  value="In Progress">In Progress</option>
-          <option  className="p-2" value="Completed">Completed</option>
+          <option className="p-2 " value="Not Started">Not Started</option>
+          <option className="p-2 "  value="In Progress">In Progress</option>
+          <option  className="p-2 " value="Completed">Completed</option>
         </select></div>
               <div className="text-gray-600">{selected.status || 'completed'}</div>
               <div className="mb-6">
@@ -186,7 +194,7 @@ const TwoByTwoGridWithMap: React.FC = () => {
           </div>
 
           <div className="flex items-start mb-4">
-            <FaStickyNote className="text-blue-500 text-2xl mr-3" />
+            <FaStickyNote className="text-[#9b111e]  text-2xl mr-3" />
             <div>
               <div className="font-semibold text-lg">Note</div>
               <div className="text-gray-600">{selected.note || 'No notes provided'}</div>
@@ -194,7 +202,7 @@ const TwoByTwoGridWithMap: React.FC = () => {
           </div>
 
           <div className="flex items-start">
-            <FaMapMarkerAlt className="text-blue-500 text-2xl mr-3" />
+            <FaMapMarkerAlt className="text-[#9b111e]  text-2xl mr-3" />
             <div>
               <div className="font-semibold text-lg">Location</div>
               <div className="text-gray-600">{selected.location || 'chennai'}</div>
@@ -207,4 +215,4 @@ const TwoByTwoGridWithMap: React.FC = () => {
   );
 };
 
-export default TwoByTwoGridWithMap;
+export default SosDetails;
