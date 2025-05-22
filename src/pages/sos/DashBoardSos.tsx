@@ -50,7 +50,7 @@ const DashboardSos = () => {
       location: "Chicago",
       name: "Joe Kelley",
       phoneNumber: "9876543212",
-      status: "Progress",
+      status: "In Progress",
       view: "View",
     },
     {
@@ -66,10 +66,19 @@ const DashboardSos = () => {
       location: "Phoenix",
       name: "Alex Goan",
       phoneNumber: "9876543214",
-      status: "Progress",
+      status: "In Progress",
       view: "View",
     },
   ];
+
+  const[filterStatus, setFilterStatus]=useState<string>("All");
+
+  const filteredRequests = activeRequests.filter((req)=>{
+    const status=req.status.toLowerCase();
+    if(filterStatus ==="All") return true;
+    if(filterStatus === "In Progress") return status.includes('progress');
+    if(filterStatus === "Completed") return status === "completed";
+  });
 
   const [services, setServices] = useState<Service[]>([
     { id: 1, name: "Medical Help", active: true },
@@ -93,20 +102,31 @@ const DashboardSos = () => {
             />
           </div>
           <div className="flex gap-4 mt-4 ml-4">
-            <button className="px-10 py-2 bg-gradient-to-r from-red-600 to-red-800 hover:scale-105 transition-transform text-white rounded">
+            <button
+              onClick={() => setFilterStatus("All")}
+              className="px-10 py-2 bg-gradient-to-r from-red-600 to-red-800 hover:scale-105 transition-transform text-white rounded"
+            >
               All
             </button>
-            <button className="px-4 py-2 bg-gradient-to-r from-red-600 to-red-800 hover:scale-105 transition-transform text-white rounded">
+            <button
+              onClick={() => setFilterStatus("In Progress")}
+              className={`px-4 py-2 bg-gradient-to-r from-red-600 to-red-800 hover:scale-105 transition-transform text-white rounded ${
+                filterStatus === "In Progress"
+              }`}
+            >
               In Progress
             </button>
-            <button className="px-4 py-2 bg-gradient-to-r from-red-600 to-red-800 hover:scale-105 transition-transform text-white rounded">
+            <button
+              onClick={() => setFilterStatus("Completed")}
+              className="px-4 py-2 bg-gradient-to-r from-red-600 to-red-800 hover:scale-105 transition-transform text-white rounded"
+            >
               Completed
             </button>
           </div>
         </div>
 
         <div>
-          <table className="w-full h-96 text-left text-lg border-gray-900 rounded overflow-hidden bg-white">
+          <table className="w-full text-left text-lg border-gray-900 rounded overflow-hidden bg-white">
             <thead className="border-2">
               <tr className="text-gray-900 bg-gray-100 transition-colors">
                 <th className="px-4 py-2">Vehicle Number</th>
@@ -118,9 +138,9 @@ const DashboardSos = () => {
               </tr>
             </thead>
             <tbody className="divide-y border-b-2 border-gray-300 divide-gray-300">
-              {activeRequests.map((req, index) => (
+              {filteredRequests.map((req, index) => (
                 <tr key={index} className="text-gray-900 font-semibold">
-                  <td className="px-4 py-2">{req.vehicleNumber}</td>
+                  <td className="px-4 py-4">{req.vehicleNumber}</td>
                   <td className="px-4 py-2">{req.location}</td>
                   <td className="px-4 py-2">{req.name}</td>
                   <td className="px-4 py-2">{req.phoneNumber}</td>
@@ -129,7 +149,7 @@ const DashboardSos = () => {
                       className={`${
                         req.status.toLowerCase() === "not started"
                           ? "text-[#800000]"
-                          : req.status.toLowerCase() === "progress"
+                          : req.status.toLowerCase() === "in progress"
                           ? "text-gray-600"
                           : "text-green-600"
                       }`}
