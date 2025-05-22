@@ -5,7 +5,7 @@ import { MdOutlineMiscellaneousServices } from "react-icons/md";
 
 type City = {
   name: string;
-  TotalCenters: string
+  TotalCenters: string;
   serviceCenters?: string;
 };
 
@@ -16,15 +16,20 @@ const citydetails: City[] = [
   { name: "Nammakkal", TotalCenters: "07" },
   { name: "Trichy", TotalCenters: "04" },
   { name: "Nagercoil", TotalCenters: "02" },
-  { name: "kadalur",TotalCenters: "01" },
+  { name: "kadalur", TotalCenters: "01" },
   { name: "Thiruvanamalai", TotalCenters: "04" },
   { name: "Kachipuram", TotalCenters: "01" },
-  
- 
 ];
 
-const CityListPage: React.FC = () => {
+interface CityListPageProps {
+  searchTerm?: string;
+}
+
+const CityListPage: React.FC<CityListPageProps> = ({ searchTerm = "" }) => {
   const navigate = useNavigate();
+  const filteredCities = citydetails.filter((city) =>
+    city.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <div className="px-2 mt-2">
@@ -53,21 +58,28 @@ const CityListPage: React.FC = () => {
             </tr>
           </thead>
           <tbody>
-            {citydetails.map((city, index) => (
-              <tr key={index} className="border-b hover:bg-[#f8ddd5]">
-                <td className="px-10 py-2">{city.name}</td>
-                <td className="px-16 py-2">{city.TotalCenters}</td>
-                <td className="px-14 py-2">{city.serviceCenters}
-                  <button
-                   onClick={() => navigate("/service-center")}
-                    className="bg-gradient-to-r from-red-600 to-red-800 text-white px-3 py-1 rounded hover:bg-[#a00000] transition active:scale-110"
-                  >
-                    View
-                  </button>
-                  
+            {filteredCities.length > 0 ? (
+              filteredCities.map((city, index) => (
+                <tr key={index} className="border-b hover:bg-[#f8ddd5]">
+                  <td className="px-10 py-2">{city.name}</td>
+                  <td className="px-16 py-2">{city.TotalCenters}</td>
+                  <td className="px-14 py-2">
+                    <button
+                      onClick={() => navigate("/service")}
+                      className="bg-gradient-to-r from-red-600 to-red-800 text-white px-3 py-1 rounded hover:bg-[#a00000] transition active:scale-110"
+                    >
+                      View
+                    </button>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan={3} className="text-center py-4">
+                  No cities found matching your search
                 </td>
               </tr>
-            ))}
+            )}
           </tbody>
         </table>
       </div>
