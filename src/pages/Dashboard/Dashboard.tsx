@@ -1,3 +1,6 @@
+import { FONTS } from "../../constants/uiConstants"//FONT
+import {COLORS} from "../../constants/uiConstants"//COLOUR
+
 import { FONTS } from "../../constants/uiConstants"; //FONT
 // import {COLORS} from "../../constants/uiConstants"//COLOUR
 
@@ -166,5 +169,6 @@ export const Dashboard = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };

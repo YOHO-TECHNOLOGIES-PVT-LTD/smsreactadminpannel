@@ -5,20 +5,14 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      screens: {
+        custom900: "900px", // 👈 This must exist
+      },
+    },
   },
   plugins: [
     require('tailwind-scrollbar-hide')
   ],
 };
 // tailwind.config.js
-module.exports = {
-  theme: {
-    extend: {
-      screens: {
-        'custom900': '900px',
-      },
-    },
-  },
-}
-
