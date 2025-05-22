@@ -27,7 +27,7 @@ export const DashboardCard: React.FC<DashboardCardProps> = ({
       <div className="flex items-center justify-between">
         {/* Icon box */}
         <div
-          className="w-10 h-10 rounded-md flex items-center justify-center"
+          className="w-10 h-10 rounded-md flex items-center justify-center "
           style={{ backgroundColor }}
         >
           <div className="text-white text-xl">{icon}</div>
