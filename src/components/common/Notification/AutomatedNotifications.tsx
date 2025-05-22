@@ -127,7 +127,7 @@ const NotificationTable: React.FC = () => {
         <h1 className="font-bold lg:text-2xl sm:text-sm text-[#9b111e] border-b">Notification</h1>
         <h2 className="text-2xl font-semibold mb-6">Automated Notifications</h2>
         <div className="overflow-x-auto">
-          <table className="w-full lg:text-xl  sm:text-sm text-left table-fixed border-collapse">
+          <table className="w-full  text-left table-fixed border-collapse">
             <thead className=" bg-orange-100 lg:text-xl  sm:text-sm font-bold text-[#9b111e] text-xs border-b gap-5">
               <tr>
                 <th className="p-4">Name</th>
@@ -172,7 +172,7 @@ const NotificationTable: React.FC = () => {
             <button
               onClick={goToPrevPage}
               disabled={currentPage === 1}
-              className="px-4 py-2 bg-blue-200 rounded hover:bg-gray-300 disabled:opacity-50"
+              className="px-4 py-2 bg-[#9b111e] text-white rounded hover:bg-blue-500 disabled:opacity-50"
             >
               Previous
             </button>
@@ -182,7 +182,7 @@ const NotificationTable: React.FC = () => {
             <button
               onClick={goToNextPage}
               disabled={currentPage === totalPages}
-              className="px-4 py-2 bg-blue-200 rounded hover:bg-gray-300 disabled:opacity-50"
+              className="px-4 py-2 bg-[#9b111e] text-white rounded hover:bg-blue-500 disabled:opacity-50"
             >
               Next
             </button>
