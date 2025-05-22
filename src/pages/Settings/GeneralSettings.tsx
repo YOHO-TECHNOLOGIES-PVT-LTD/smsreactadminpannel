@@ -23,7 +23,7 @@ const handleRenderComponent = (tabText: String) => {
     <div className="p-5">
       <h1>Settings</h1>
       <div className="mt-4">
-      <button onClick={()=>handleRenderComponent("Account Settings")} className="hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
+      <button onClick={()=>handleRenderComponent("Account Settings")} className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 ml-4 border border-blue-500 hover:border-transparent rounded">
       Account Settings
       </button>
       <button onClick={()=>handleRenderComponent("Change Password")} className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 ml-4 border border-blue-500 hover:border-transparent rounded">
