@@ -21,9 +21,9 @@ const partners = [
 const Partner = () => (
   <>
     {partners.map((item, index) => (
-      <div key={index} className="card">
+      <div key={index} className="bg-white rounded-lg shadow-md overflow-hidden flex flex-col">
         <img src={item.image} alt={item.title} className="w-full h-40 object-cover" />
-        <div className="p-4 flex-1 flex flex-col justify-between">
+        <div className="p-4 flex flex-col justify-between flex-1">
           <div>
             <h3 className="text-base font-semibold">{item.title}</h3>
             <p className="text-[#9b111e] font-bold mt-2">{item.price}</p>
