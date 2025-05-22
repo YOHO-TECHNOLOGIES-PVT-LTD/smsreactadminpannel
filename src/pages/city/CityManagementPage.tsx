@@ -2,42 +2,10 @@ import React, { useState } from "react";
 import { IoIosAddCircleOutline } from "react-icons/io";
 import { AiOutlineEye } from "react-icons/ai";
 import CityAddPage from "./CityAddPage"; 
-import MapComponent from "../../components/common/Map/MapComponent";
-import ServiceCenterTable from "./ServiceCenterTable";
-
-const serviceCenters = [
-  {
-    state: 'Tamil Nadu',
-    city: 'Chennai',
-    branches: [
-      { name: 'Branch A', lat: 13.0827, lng: 80.2707, address: 'Address A', contact: '1234567890' },
-      { name: 'Branch B', lat: 13.0878, lng: 80.2785, address: 'Address B', contact: '0987654321' },
-    ],
-  },
-  {
-    state: 'Maharashtra',
-    city: 'Mumbai',
-    branches: [
-      { name: 'Branch C', lat: 19.0760, lng: 72.8777, address: 'Address C', contact: '1122334455' },
-    ],
-  },
-];
 
 export const CityManagementPage: React.FC = () => {
   
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-  const [selectedBranches, setSelectedBranches] = useState([]);
-  const [searchQuery, setSearchQuery] = useState('');
-
-  const handleMarkerClick = (location) => {
-    setSelectedBranches(location.branches);
-  };
-
-  const filteredCities = serviceCenters.filter((center) =>
-    center.state.toLowerCase().includes(searchQuery.toLowerCase())
-  );
-
-  
 
   return (
     <div className="p-2">
@@ -90,26 +58,6 @@ export const CityManagementPage: React.FC = () => {
           allowFullScreen
           referrerPolicy="no-referrer-when-downgrade"
         ></iframe>
-      </div>
-      
-      <div>
-        <input
-        type="text"
-        placeholder="Search by state"
-        value={searchQuery}
-        onChange={(e) => setSearchQuery(e.target.value)}
-      />
-      {filteredCities.length > 0 && (
-        <MapComponent
-          locations={filteredCities.map((center) => ({
-            lat: center.branches[0].lat,
-            lng: center.branches[0].lng,
-            branches: center.branches,
-          }))}
-          onMarkerClick={handleMarkerClick}
-        />
-      )}
-      {selectedBranches.length > 0 && <ServiceCenterTable branches={selectedBranches} />}
       </div>
 
       
