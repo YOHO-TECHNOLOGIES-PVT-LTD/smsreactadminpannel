@@ -95,7 +95,7 @@ const SosDashboard = () => {
                   <span
                     className={`px-4 w-20 py-2 rounded text-xs font-medium
                         ${
-                            req.status === "Urgent"
+                          req.status === "Urgent"
                             ? "bg-red-600 text-white"
                             : "border border-red-600 text-red-600"
                         }`}
@@ -104,7 +104,10 @@ const SosDashboard = () => {
                   </span>
                 </td>
                 <td className="px-4 py-2 cursor-pointer">
-                  <button className="bg-[#800000] text-white px-4 py-1 rounded hover:bg-[#a00000] transition" onClick={handleViewClick}>
+                  <button
+                    className="bg-[#800000] text-white px-4 py-1 rounded hover:bg-[#a00000] transition"
+                    onClick={handleViewClick}
+                  >
                     {req.view}
                   </button>
                 </td>
