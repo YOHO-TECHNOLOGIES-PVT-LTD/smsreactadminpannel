@@ -31,6 +31,8 @@ export const QueryCard: React.FC<Props> = ({
   onClick,
 }) => {
   return (
+   <div className="hover:scale-[1.02] transition-transform duration-200 ease-in-out cursor-pointer">
+
     <div className="w-full cursor-pointer" onClick={onClick}>
       <div className="flex items-center bg-[#FAF3EB] rounded-xl shadow-md p-4 justify-between mt-2">
         <div className="w-12 h-12 rounded-full overflow-hidden mr-4 flex-shrink-0">
@@ -51,6 +53,7 @@ export const QueryCard: React.FC<Props> = ({
           {icon}
         </div>
       </div>
+    </div>
     </div>
   );
 };

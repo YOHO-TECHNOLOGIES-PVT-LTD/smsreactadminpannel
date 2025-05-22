@@ -10,6 +10,7 @@ import { RiUser6Line } from "react-icons/ri";
 import { AiOutlineCopyrightCircle } from "react-icons/ai";
 import { AiOutlineRight } from "react-icons/ai";
 import { AiOutlineLeft } from "react-icons/ai";
+import { AiOutlineArrowLeft } from 'react-icons/ai';
 
 
 //this is FILE
@@ -186,7 +187,8 @@ const queries = [
           </div>
         </div>
 
-        {/* Query Section */}
+        
+       {/* Query Section */}
         <div className="bg-white shadow-md rounded-xl p-4 max-h-96 overflow-hidden">
           <div className="flex justify-between mb-2">
             <p className="text-lg font-semibold" style={{ color: COLORS.primary }}>
@@ -216,16 +218,17 @@ const queries = [
 
       {/* All Queries Modal */}
       {isAllQueryModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-40 z-50 flex justify-center items-center p-4">
-          <div className="bg-white rounded-xl max-w-3xl w-full max-h-[80vh] overflow-y-auto p-6 relative">
+        <div className="fixed inset-0  bg-black bg-opacity-40 z-50 flex justify-center items-center p-4">
+          <div className="bg-white rounded-xl max-w-3xl w-full max-h-[80vh] overflow-y-auto p-9 relative">
             <button
-              className="absolute top-2 left-3 text-xl text-gray-600 hover:text-gray-800"
+              className="absolute top-2 left-3 w-8 h-8 flex items-center justify-center text-lg text-gray-600 bg-gray-100 hover:bg-red-100 hover:text-red-600 rounded-full transition duration-200"
               onClick={() => setAllQueryModalOpen(false)}
             >
-              <AiOutlineLeft />
+              
+          <AiOutlineArrowLeft />
             </button>
             <button
-              className="absolute top-2 right-3 text-xl"
+              className="absolute top-2 right-3 w-8 h-8 flex items-center justify-center text-lg text-gray-600 bg-gray-100 hover:bg-red-100 hover:text-red-600 rounded-full transition duration-200"
               onClick={() => setAllQueryModalOpen(false)}
             >
               ✕
@@ -256,19 +259,20 @@ const queries = [
       {/* Selected Query Detail Modal */}
       {selectedQuery && (
         <div className="fixed inset-0 bg-black bg-opacity-40 z-50 flex justify-center items-center p-4">
-          <div className="bg-white rounded-xl w-full max-w-xl p-6 relative">
+          <div className="bg-white rounded-xl w-full max-w-xl p-9 relative">
             <button
-              className="absolute top-2 left-3 text-xl text-gray-600 hover:text-gray-800"
+              className="absolute top-2 left-3 w-8 h-8 flex items-center justify-center text-lg text-gray-600 bg-gray-100 hover:bg-red-100 hover:text-red-600 rounded-full transition duration-200"
               onClick={() => {
                 setSelectedQuery(null);
                 setSelectedQueryIndex(-1);
                 setAllQueryModalOpen(true);
               }}
             >
-              <AiOutlineLeft />
+              
+          <AiOutlineArrowLeft />
             </button>
             <button
-              className="absolute top-2 right-3 text-xl"
+            className="absolute top-2 right-3 w-8 h-8 flex items-center justify-center text-lg text-gray-600 bg-gray-100 hover:bg-red-100 hover:text-red-600 rounded-full transition duration-200"
               onClick={() => {
                 setSelectedQuery(null);
                 setSelectedQueryIndex(-1);
@@ -291,7 +295,6 @@ const queries = [
           </div>
         </div>
       )}
-
       {/* Footer */}
       <footer className="bg-white shadow-md rounded-xl p-4 w-full text-center mt-4 -mb-10">
       <div >
