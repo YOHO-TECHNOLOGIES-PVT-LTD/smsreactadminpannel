@@ -26,7 +26,7 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({
 }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [user, setUser] = useState<User>(initialUser);
-  const modalRef = useRef<HTMLDivElement | null>(null);
+  const modalRef = useRef<HTMLDivElement | null>(null); 
 
   // Update user when initialUser prop changes
   useEffect(() => {

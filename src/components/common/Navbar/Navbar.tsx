@@ -268,7 +268,7 @@ export const Navbar: React.FC = () => {
       <ProfileModal
         user={user}
         isOpen={showProfileDetails}
-        onClose={() => setShowProfileDetails(false)}
+        onClose={() => setShowProfileDetails(false)}  
         onUserUpdate={handleUserUpdate}
       />
 
