@@ -19,44 +19,16 @@ import BarCharts from "../../components/common/dashboard/BarChart/BarChart";
 import { TransactionCard } from "../../components/common/dashboard/TransactionsCard/TransactionsCard";
 import { DashboardCard } from "../../components/common/dashboard/DashboardCard/DashboardCard";
 import { QueryCard } from "../../components/common/dashboard/QueryCard/QueryCard";
-import dummypic from "../../assets/Dashboard/images.jpg";
-import { SoSCard } from "../../components/common/dashboard/SoSCard/SoSCard";
+import dummpypic from "../../assets/Dashboard/images.jpg";
+// import StatCard from "../../components/common/dashboard/StatCard/StatCard";
+import  { SoSCard } from "../../components/common/dashboard/SoSCard/SoSCard";
+import TotalRevenue from "../../components/common/dashboard/TotalRevenue/TotalRevenue";
 
 
-const queries = [
-  {
-    title: "Break not fixed",
-    desc: "I gave my bike to the shop some days ago but they didn't repair it in time and didn't fix it.",
-    profilePicUrl: dummypic,
-  },
-  {
-    title: "Glass work bending",
-    desc: "I gave my car to the shop some days ago but they didn't repair it in time and didn't fix it.",
-    profilePicUrl: "https://plus.unsplash.com/premium_photo-1689568126014-06fea9d5d341?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8cHJvZmlsZXxlbnwwfHwwfHx8MA%3D%3D",
-  },
-  {
-    title: "Tyre puncture",
-    desc: "I gave my bike to the shop some days ago but they didn't repair it in time and didn't fix it.",
-    profilePicUrl: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8cHJvZmlsZXxlbnwwfHwwfHx8MA%3D%3D",
-  },
-  {
-    title: "Late pickup service",
-    desc: "Scheduled pickup was delayed by 2 hours without any update or notice.",
-    profilePicUrl:"https://t3.ftcdn.net/jpg/08/86/78/68/360_F_886786813_XhL8zD8rhZCW7F5HvJdOPvquFh3n23vd.jpg",
-  },
-  {
-    title: "Billing mismatch",
-    desc: "Was charged extra without prior intimation or explanation on final invoice.",
-    profilePicUrl:"https://www.shutterstock.com/image-photo/happy-middle-aged-45-years-260nw-2516789519.jpg",
-  },
-];
 
- type Query = {
-  title: string;
-  desc: string;
-  profilePicUrl: string;
-};
 
+
+// code Dashboard started
 
   export const Dashboard = () => {
   const [isAllQueryModalOpen, setAllQueryModalOpen] = useState(false);
@@ -68,7 +40,7 @@ const queries = [
       {/* Header */}
       <div className="rounded-xl shadow-md bg-white pb-4 mb-4">
         <p
-          className="text-xl font-semibold pl-6 pt-3  "
+          className="text-xl font-semibold pl-6 pt-3 "
           style={{...FONTS.header,color:COLORS.primary }}
         >
           Overview of Service Center
@@ -133,20 +105,18 @@ const queries = [
         <div className="bg-white shadow-md rounded-xl p-4 max-h-96 overflow-hidden">
           <div className="">
             <CustomerAnalyticsChart/>
-            
           </div>
         </div>
 
         {/* Bar Chart */}
-        <div className="grid grid-rows-2 bg-white shadow-md rounded-xl p-4 max-h-96">
-          <div>
+       <div className=" grid grid-row-2">
+         <div className="bg-white shadow-md rounded-xl p-4 max-h-44 mb-2">
           <BarCharts />
-
-          </div>
-          <div>
-            <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nulla cupiditate iste ratione, reiciendis obcaecati fuga nobis cum. A, ullam autem.</p>
-          </div>
         </div>
+        <div className="bg-white shadow-md rounded-xl p-4 max-h-45 ">
+          <TotalRevenue/>
+        </div>
+       </div>
 
         {/* SOS Content */}
         <div className="bg-white shadow-md rounded-xl p-4 max-h-96 ">
@@ -179,7 +149,7 @@ const queries = [
             <button className="text-red-700 text-md item-end hover:text-red-900">View All</button>
           </div>
           <div className="overflow-y-auto  max-h-80">
-            {[...Array(4)].map((_, index) => (
+            {[...Array(14)].map((_, index) => (
               <TransactionCard
                 key={index}
                 icon1={<AiOutlineCheckCircle />}
@@ -311,7 +281,7 @@ const queries = [
         <div>
           <div className="flex items-center justify-center space-x-1">
             <AiOutlineCopyrightCircle />
-            <span>YESMECHANGE</span>
+            <span style={{color:COLORS.primary}}>YESMECHANIC</span>
           </div>
         </div>
       </footer>
