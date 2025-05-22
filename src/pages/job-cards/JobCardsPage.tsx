@@ -86,7 +86,7 @@ const invoices: Invoice[] = [
   },
   {
     id: "INV006",
-    name: "Jane",
+    name: "Jane Smith",
     invoiceDate: "2025-05-16",
     vehicle: "Suzuki",
     plate: "LMN-9012",
@@ -98,7 +98,7 @@ const invoices: Invoice[] = [
   },
   {
     id: "INV006",
-    name: "Jane",
+    name: "Carter",
     invoiceDate: "2025-05-16",
     vehicle: "Suzuki",
     plate: "LMN-9012",
@@ -110,7 +110,7 @@ const invoices: Invoice[] = [
   },
   {
     id: "INV006",
-    name: "Jane",
+    name: "Jack",
     invoiceDate: "2025-05-16",
     vehicle: "Suzuki",
     plate: "LMN-9012",
