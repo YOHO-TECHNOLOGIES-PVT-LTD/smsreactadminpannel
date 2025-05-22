@@ -1,4 +1,7 @@
 import React, { useState } from 'react';
+import { FONTS } from "../../../../constants/uiConstants"//FONT
+import {COLORS} from "../../../../constants/uiConstants"//COLOUR
+
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
 } from 'recharts';
@@ -24,7 +27,7 @@ const BarCharts: React.FC = () => {
     <div className="bg-white w-full lg:max-w-xl md:max-h-[350px] mx-auto relative">
       <div className="flex justify-between items-center ">
         <div>
-          <h2 className="text-lg font-semibold">Vehicle Management</h2>
+          <h2 className="text-lg font-semibold" style={{...FONTS.paragraph,color:COLORS.primary}}>Vehicle Management</h2>
           <div className="flex space-x-4 text-xs mt-4">
             <div className="flex items-center space-x-1 text-blue-600">
               <span className="h-2 w-2 bg-blue-600 rounded-full"></span>
