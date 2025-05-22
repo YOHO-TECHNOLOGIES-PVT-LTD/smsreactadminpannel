@@ -24,7 +24,7 @@ const VehicleManagementPage = () => {
 
   const handleReset = () => {
     setSearchTerm(''); // Clear search input
-    // setFilteredVehicles(vehicleData); // Reset the list
+  
       };
  
 
