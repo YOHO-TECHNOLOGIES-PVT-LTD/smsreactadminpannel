@@ -71,13 +71,13 @@ const DashboardSos = () => {
     },
   ];
 
-  const[filterStatus, setFilterStatus]=useState<string>("All");
+  const [filterStatus, setFilterStatus] = useState<string>("All");
 
-  const filteredRequests = activeRequests.filter((req)=>{
-    const status=req.status.toLowerCase();
-    if(filterStatus ==="All") return true;
-    if(filterStatus === "In Progress") return status.includes('progress');
-    if(filterStatus === "Completed") return status === "completed";
+  const filteredRequests = activeRequests.filter((req) => {
+    const status = req.status.toLowerCase();
+    if (filterStatus === "All") return true;
+    if (filterStatus === "In Progress") return status.includes("progress");
+    if (filterStatus === "Completed") return status === "completed";
   });
 
   const [services, setServices] = useState<Service[]>([
@@ -88,10 +88,13 @@ const DashboardSos = () => {
     { id: 5, name: "Healthcare", active: true },
   ]);
 
+  const [showForm, setShowForm] = useState(false);
+  const [newServiceName, setNewServiceName] = useState("");
+
   return (
     <div className=" flex flex-col md:flex-row gap-8 p-6 text-gray-800 h-screen">
       {/* SOS Requests */}
-      <div className="rounded p-2 lg:w-full border-2 md:w-2/3 overflow-auto bg-white rounded-xl ">
+      <div className="rounded p-2 lg:w-full border-2 md:w-2/3 overflow-auto bg-white rounded-xl flex flex-col">
         <div className="mb-8">
           <div className="flex justify-between items-center m-6">
             <h2 className="text-4xl font-bold">Active SOS Requests</h2>
@@ -177,6 +180,7 @@ const DashboardSos = () => {
         <div className="flex justify-between items-center m-4">
           <h2 className="text-4xl font-bold">SOS Services</h2>
           <FiPlus
+            onClick={() => setShowForm(true)}
             className="text-4xl text-red-800 cursor-pointer hover:text-gray-800"
             title="Add Service"
           />
@@ -227,6 +231,51 @@ const DashboardSos = () => {
             </li>
           ))}
         </ul>
+      </div>
+
+      {/* Slide-in Form */}
+      <div
+        className={`fixed top-0 right-0 h-full w-[22rem] max-w-sm bg-white shadow-lg transform transition-transform duration-300 ease-in-out z-50 ${
+          showForm ? "translate-x-0" : "translate-x-full"
+        }`}
+      >
+        <div className="flex justify-between items-center p-4 border-b">
+          <h3 className="text-xl font-bold">Add New Service</h3>
+          <MdClose
+            className="text-2xl cursor-pointer text-red-800"
+            onClick={() => setShowForm(false)}
+          />
+        </div>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            if (!newServiceName.trim()) return;
+
+            const newService: Service = {
+              id: services.length + 1,
+              name: newServiceName.trim(),
+              active: false,
+            };
+            setServices((prev) => [...prev, newService]);
+            setNewServiceName("");
+            setShowForm(false);
+          }}
+          className="p-4 flex flex-col gap-4"
+        >
+          <input
+            type="text"
+            placeholder="Service Name"
+            value={newServiceName}
+            onChange={(e) => setNewServiceName(e.target.value)}
+            className="border p-2 rounded w-full"
+          />
+          <button
+            type="submit"
+            className="bg-gradient-to-r from-red-600 to-red-800 text-white py-2 px-4 rounded hover:scale-105 transition-transform"
+          >
+            Add Service
+          </button>
+        </form>
       </div>
     </div>
   );
