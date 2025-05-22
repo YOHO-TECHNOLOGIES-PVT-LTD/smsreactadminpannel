@@ -19,6 +19,7 @@ import { QueryCard } from "../../components/common/dashboard/QueryCard/QueryCard
 import dummpypic from "../../assets/Dashboard/images.jpg";
 // import StatCard from "../../components/common/dashboard/StatCard/StatCard";
 import  { SoSCard } from "../../components/common/dashboard/SoSCard/SoSCard";
+import TotalRevenue from "../../components/common/dashboard/TotalRevenue/TotalRevenue";
 
 
 
@@ -32,7 +33,7 @@ export const Dashboard = () => {
       {/* Header */}
       <div className="rounded-xl shadow-md bg-white pb-4 mb-4">
         <p
-          className="text-xl font-semibold pl-6 pt-3  "
+          className="text-xl font-semibold pl-6 pt-3 "
           style={{...FONTS.header,color:COLORS.primary }}
         >
           Overview of Service Center
@@ -97,14 +98,18 @@ export const Dashboard = () => {
         <div className="bg-white shadow-md rounded-xl p-4 max-h-96 overflow-hidden">
           <div className="">
             <CustomerAnalyticsChart/>
-            
           </div>
         </div>
 
         {/* Bar Chart */}
-        <div className="bg-white shadow-md rounded-xl p-4 max-h-96">
+       <div className=" grid grid-row-2">
+         <div className="bg-white shadow-md rounded-xl p-4 max-h-44 mb-2">
           <BarCharts />
         </div>
+        <div className="bg-white shadow-md rounded-xl p-4 max-h-45 ">
+          <TotalRevenue/>
+        </div>
+       </div>
 
         {/* SOS Content */}
         <div className="bg-white shadow-md rounded-xl p-4 max-h-96 ">
@@ -137,7 +142,7 @@ export const Dashboard = () => {
             <button className="text-red-700 text-md item-end hover:text-red-900">View All</button>
           </div>
           <div className="overflow-y-auto  max-h-80">
-            {[...Array(4)].map((_, index) => (
+            {[...Array(14)].map((_, index) => (
               <TransactionCard
                 key={index}
                 icon1={<AiOutlineCheckCircle />}
@@ -181,7 +186,7 @@ export const Dashboard = () => {
         <div>
           <div className="flex items-center justify-center space-x-1">
             <AiOutlineCopyrightCircle />
-            <span>YESMECHANGE</span>
+            <span style={{color:COLORS.primary}}>YESMECHANIC</span>
           </div>
         </div>
       </footer>

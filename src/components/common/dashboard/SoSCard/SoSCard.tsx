@@ -6,7 +6,7 @@ ChartJS.register(ArcElement, Tooltip);
 // Sample data
 const labels = ['Completed', 'Pending', 'In Progress'];
 const values = [12, 5, 8];
-const colors = ['#00cc00', '#ffcc00', '#3366ff'];
+const colors = ['#EEA29A', '#DAC292', '#B7D7E8'];
 const total = values.reduce((sum, val) => sum + val, 0);
 
 export const data = {
@@ -15,9 +15,11 @@ export const data = {
     {
       label: 'Orders',
       data: values,
-      backgroundColor: colors.map(color => `${color}80`), // semi-transparent
+      backgroundColor: colors, // semi-transparent
       borderColor: colors,
       borderWidth: 1,
+      hoverBorder:colors,
+      hoverBorderWidth:0,
     },
   ],
 };
@@ -44,7 +46,7 @@ export function SoSCard() {
           options={{
             plugins: {
               legend: {
-                display: false,
+                display: true,
               },
             },
             cutout: '60%',
