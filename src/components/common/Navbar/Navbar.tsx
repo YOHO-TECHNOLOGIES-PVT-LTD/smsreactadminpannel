@@ -124,11 +124,10 @@ export const Navbar: React.FC = () => {
   const unreadCount = notifications.filter((n) => !n.isRead).length;
 
   const handleLogout = () => {
+   logout();
+      navigate("/");
+          console.log("User logged out");
 
-    // Handle logout logic here
-logout();
-navigate("/");
-    console.log("User logged out");
   };
 
   return (
@@ -355,8 +354,8 @@ navigate("/");
                   setTimeout(() => {
                     setShowLogoutSuccess(false);
                     console.log("Redirect or clear session here");
-                  }, 2000);
-                  handleLogout();
+                    handleLogout();
+                  }, 1000);
                 }}
                 className="px-4 py-2 rounded bg-red-600 text-white hover:bg-red-700"
               >

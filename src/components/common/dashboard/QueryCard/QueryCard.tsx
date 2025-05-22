@@ -1,13 +1,15 @@
+// components/QueryCard.tsx
 import React from "react";
 
 type Props = {
   icon: React.ReactNode;
   title: string;
   desc: string;
-  profilePicUrl: string; 
+  profilePicUrl: string;
+  time?: string;
+  onClick?: () => void;
 };
 
-//  Format date/time to India timezone
 const getIndiaDateTime = () => {
   return new Intl.DateTimeFormat("en-IN", {
     timeZone: "Asia/Kolkata",
@@ -25,11 +27,12 @@ export const QueryCard: React.FC<Props> = ({
   icon,
   desc,
   profilePicUrl,
+  time,
+  onClick,
 }) => {
   return (
-    <div className="w-full">
+    <div className="w-full cursor-pointer" onClick={onClick}>
       <div className="flex items-center bg-[#FAF3EB] rounded-xl shadow-md p-4 justify-between mt-2">
-        {/* Profile Picture */}
         <div className="w-12 h-12 rounded-full overflow-hidden mr-4 flex-shrink-0">
           <img
             src={profilePicUrl}
@@ -37,17 +40,13 @@ export const QueryCard: React.FC<Props> = ({
             className="w-full h-full object-cover"
           />
         </div>
-
-        {/* Text content */}
         <div className="flex-1 text-start">
           <p className="font-semibold">{title}</p>
           <p className="font-thin line-clamp-1">{desc}</p>
           <p className="text-xs text-gray-500 mt-1">
-            {getIndiaDateTime()}
+            {time || getIndiaDateTime()}
           </p>
         </div>
-
-        {/* Icon */}
         <div className="w-10 h-10 flex items-center justify-center text-xl text-green-600">
           {icon}
         </div>
