@@ -1,4 +1,5 @@
-import  { useState } from 'react';
+
+import { useState } from 'react';
 
 interface CardData {
   title: string;
@@ -13,17 +14,17 @@ export const Announcement = () => {
     {
       title: 'EXTERIOR WASH AND POLISH',
       price: '$30.00',
-      image: '/images/exterior.jpg',
+      image: 'https://automechanica.com/uploads/service_gallery/image/35/shutterstock_1464298340.jpg',
     },
     {
       title: 'INTERIOR DETAILING',
       price: '$35.00',
-      image: '/images/interior.jpg',
+      image: 'https://automechanica.com/uploads/service_gallery/image/35/shutterstock_1464298340.jpg',
     },
     {
       title: 'CERAMIC COATING',
       price: '$40.00',
-      image: '/images/ceramic.jpg',
+      image: 'https://automechanica.com/uploads/service_gallery/image/35/shutterstock_1464298340.jpg',
     },
   ];
 
@@ -31,17 +32,17 @@ export const Announcement = () => {
     {
       title: 'Holiday Discount',
       price: '20% Off',
-      image: '/images/holiday.jpg',
+      image: 'https://automechanica.com/uploads/service_gallery/image/35/shutterstock_1464298340.jpg',
     },
     {
       title: 'Free Car Wash',
       price: 'On Orders $50+',
-      image: '/images/freewash.jpg',
+      image: 'https://automechanica.com/uploads/service_gallery/image/35/shutterstock_1464298340.jpg',
     },
     {
       title: 'Limited Time Offer',
       price: 'Until May 30',
-      image: '/images/limited.jpg',
+      image: 'https://automechanica.com/uploads/service_gallery/image/35/shutterstock_1464298340.jpg',
     },
   ];
 
@@ -49,17 +50,17 @@ export const Announcement = () => {
     {
       title: 'XYZ Auto Parts',
       price: '10% Discount',
-      image: '/images/partner1.jpg',
+      image: 'https://automechanica.com/uploads/service_gallery/image/35/shutterstock_1464298340.jpg',
     },
     {
       title: 'Shine & Drive',
       price: 'Free Interior Detailing',
-      image: '/images/partner2.jpg',
+      image: 'https://automechanica.com/uploads/service_gallery/image/35/shutterstock_1464298340.jpg',
     },
     {
       title: 'Lubricants Inc.',
       price: 'Buy 1 Get 1',
-      image: '/images/partner3.jpg',
+      image: 'https://automechanica.com/uploads/service_gallery/image/35/shutterstock_1464298340.jpg',
     },
   ];
 
@@ -77,8 +78,7 @@ export const Announcement = () => {
   };
 
   return (
-    <div className="p-6 bg-[#FFF4EC] rounded-lg shadow-sm">
-      {/* Top Buttons + Add Button */}
+    <div className="min-h-screen bg-[#FFF4EC] p-6">
       <div className="flex justify-between items-center mb-6">
         <div className="flex space-x-4">
           {['offer', 'announcement', 'partner'].map((tab) => (
@@ -115,7 +115,6 @@ export const Announcement = () => {
           : 'Meet our trusted collaborators'}
       </p>
 
-      {/* Cards Grid */}
       <div className="grid md:grid-cols-3 gap-4">
         {getCurrentData().map((item, index) => (
           <div
@@ -135,7 +134,7 @@ export const Announcement = () => {
               {activeTab === 'partner' && (
                 <div className="mt-4 text-right">
                   <button className="text-sm px-3 py-1 bg-[#9b111e] text-white rounded-full hover:bg-red-700 transition">
-                    + Add
+                    Share
                   </button>
                 </div>
               )}

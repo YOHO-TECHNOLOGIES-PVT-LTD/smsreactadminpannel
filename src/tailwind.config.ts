@@ -8,9 +8,9 @@ export default {
   ],
   theme: {
     extend: {
-      height:{
-        'full':'90rem'
-      }
+      screens: {
+        custom900: "900px", // 👈 This must exist
+      },
     },
   },
   plugins: [
@@ -18,13 +18,3 @@ export default {
   ],
 };
 // tailwind.config.js
-module.exports = {
-  theme: {
-    extend: {
-      screens: {
-        'custom900': '900px',
-      },
-    },
-  },
-}
-
