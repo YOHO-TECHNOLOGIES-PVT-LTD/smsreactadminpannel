@@ -2,6 +2,7 @@ import { useState } from "react";
 import { MdToggleOn, MdToggleOff } from "react-icons/md";
 import { FiPlus } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
+import { MdClose } from "react-icons/md";
 
 type SOSRequest = {
   vehicleNumber: string;
@@ -81,10 +82,17 @@ const DashboardSos = () => {
   return (
     <div className=" flex flex-col md:flex-row gap-8 p-6 text-gray-800 h-screen">
       {/* SOS Requests */}
-      <div className="rounded p-2 lg:w-full border-2 md:w-2/3 overflow-auto bg-white rounded-xl">
+      <div className="rounded p-2 lg:w-full border-2 md:w-2/3 overflow-auto bg-white rounded-xl ">
         <div className="mb-8">
-          <h2 className="text-4xl p-2 font-bold m-4">Active SOS Requests</h2>
-          <div className="flex gap-4 ml-4">
+          <div className="flex justify-between items-center m-6">
+            <h2 className="text-4xl font-bold">Active SOS Requests</h2>
+            <MdClose
+              onClick={() => navigate("/")}
+              className="text-3xl text-red-700 cursor-pointer"
+              title="Close and return to Dashboard"
+            />
+          </div>
+          <div className="flex gap-4 mt-4 ml-4">
             <button className="px-10 py-2 bg-gradient-to-r from-red-600 to-red-800 hover:scale-105 transition-transform text-white rounded">
               All
             </button>
@@ -96,10 +104,11 @@ const DashboardSos = () => {
             </button>
           </div>
         </div>
+
         <div>
           <table className="w-full h-96 text-left text-lg border-gray-900 rounded overflow-hidden bg-white">
             <thead className="border-2">
-              <tr className="text-gray-900 hover:bg-gray-100 transition-colors">
+              <tr className="text-gray-900 bg-gray-100 transition-colors">
                 <th className="px-4 py-2">Vehicle Number</th>
                 <th className="px-4 py-2">Location</th>
                 <th className="px-4 py-2">Name</th>
@@ -148,7 +157,7 @@ const DashboardSos = () => {
         <div className="flex justify-between items-center m-4">
           <h2 className="text-4xl font-bold">SOS Services</h2>
           <FiPlus
-            className="text-4xl text-gray-600 cursor-pointer hover:text-gray-800"
+            className="text-4xl text-red-800 cursor-pointer hover:text-gray-800"
             title="Add Service"
           />
         </div>
