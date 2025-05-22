@@ -1,5 +1,5 @@
-import type { FC } from 'react';
 import type { Vehicle } from './VehicleData';
+import type React from 'react';
 
 
 type Props = {
@@ -8,7 +8,7 @@ type Props = {
   redirectPath: string;
 };
 
-const VehicleModal: FC<Props> = ({ vehicle, onClose, redirectPath }) => {
+const VehicleModal: React.FC<Props> = ({ vehicle, onClose, redirectPath }) => {
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
       <div className="bg-white rounded-xl p-6 relative w-full max-w-4xl h-[85vh] overflow-y-auto shadow-2xl">

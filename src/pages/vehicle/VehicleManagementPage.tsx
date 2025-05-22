@@ -6,7 +6,6 @@ import { FaSearch } from "react-icons/fa";
 import { IoFilterSharp } from "react-icons/io5";
 
 
-
 const VehicleManagementPage = () => {
 
   const [selectedVehicle, setSelectedVehicle] = useState<Vehicle | null>(null);
@@ -17,7 +16,7 @@ const VehicleManagementPage = () => {
   // Handle search/filter logic
   const handleSearch = () => {
     // Filter the product array based on the search term
-    const filtered = product.filter((item) =>
+    const filtered = filteredProducts.filter((item) =>
       item.toLowerCase().includes(searchTerm.toLowerCase())
     );
     setFilteredProducts(filtered);
@@ -39,7 +38,7 @@ const VehicleManagementPage = () => {
 
           {/*FILTER BAR*/}
           <IoFilterSharp className="text-black mt-3" style={{position: 'relative', left: '35px', top: '1px'}} color="white"/>
-          <button className="ml-2 px-8 py-2 bg-red-700 text-white rounded-lg hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-700  flex items-center">Filter</button>
+          <button className="ml-2 px-8 py-2 bg-red-700 text-white rounded-lg hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-700  flex items-center" onClick={handleSearch}>Filter</button>
         </div>
       </div>
 
