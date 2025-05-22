@@ -23,8 +23,6 @@ const COLOR = {
    secondary: "#E6A895",
  };
 
-
-
 export const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(true);
   const location = useLocation();
@@ -59,7 +57,7 @@ export const Sidebar = () => {
 
         <nav className="flex flex-col gap-4 mt-4 w-full items-center">
           <SidebarLink
-            to="/"
+            to="/dashboard"
             icon={<FiHome />}
             label="Dashboard"
             isOpen={isOpen}
@@ -124,9 +122,9 @@ export const Sidebar = () => {
 
         </nav>
       </div>
-            <div
+         <div
   className={`transition-all duration-300 ${isOpen ? "ml-48" : "ml-16"} flex-1`}
->
+         >
 
       </div>
     </div>
