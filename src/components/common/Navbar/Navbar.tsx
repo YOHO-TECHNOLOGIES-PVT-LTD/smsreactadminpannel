@@ -122,16 +122,11 @@ export const Navbar: React.FC = () => {
     setIsDropdownOpen((prev) => !prev);
   };
 
-  const handleClickOutside = (e: MouseEvent) => {
-    if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
-      setIsDropdownOpen(false);
-    }
+  const handleChange = <K extends keyof User>(field: K, value: User[K]) => {
+    setEditedUser((prev) => ({ ...prev, [field]: value }));
   };
 
-  useEffect(() => {
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+  const unreadCount = notifications.filter((n) => !n.isRead).length;
 
   return (
     <>
@@ -210,59 +205,286 @@ export const Navbar: React.FC = () => {
               )}
             </button>
 
-        {/* Profile + Dropdown */}
-        <div className="relative" ref={dropdownRef}>
-          <div
-            onClick={toggleDropdown}
-            className="flex items-center space-x-3 cursor-pointer"
-          >
-            <div className="w-10 h-10 rounded-full overflow-hidden">
-              <img
-                src="https://img.freepik.com/free-photo/cute-smiling-young-man-with-bristle-looking-satisfied_176420-18989.jpg?semt=ais_hybrid&w=740"
-                alt="User Avatar"
-                className="w-full h-full object-cover"
-              />
-            </div>
-            <div className="flex flex-col">
-              <div className="flex flex-col">
-  <span className="text-[#9b111e] font-medium">John Doe</span>
-  <span className="text-sm text-[#c13340]">Admin</span>
-</div>
+            {showNotifications && (
+              <div className="absolute right-0 mt-2 w-80 rounded-lg shadow-xl bg-white z-50 overflow-hidden">
+                <div className="bg-gradient-to-r from-red-600 to-red-800 p-3">
+                  <h3 className="text-white font-bold">Notifications</h3>
+                </div>
+                <div className="max-h-80 overflow-y-auto">
+                  {notifications.length > 0 ? (
+                    notifications.map((notification) => (
+                      <div
+                        key={notification.id}
+                        className={`group relative p-3 border-b hover:bg-gray-50 transition-colors duration-150 ${
+                          notification.isRead ? "bg-white" : "bg-red-50"
+                        }`}
+                      >
+                        {/* This vertical red line will now appear on hover */}
+                        <div className="absolute left-0 top-0 h-full w-1 bg-red-600 opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
 
-            </div>
+                        <div className="flex justify-between items-start">
+                          <p className="text-sm text-gray-800">
+                            {notification.message}
+                          </p>
+                          {!notification.isRead && (
+                            <span className="w-2 h-2 rounded-full bg-red-600 mt-1 ml-2"></span>
+                          )}
+                        </div>
+                        <p className="text-xs text-gray-500 mt-1">
+                          {notification.time}
+                        </p>
+                      </div>
+                    ))
+                  ) : (
+                    <p className="p-3 text-gray-500 text-sm">
+                      No notifications
+                    </p>
+                  )}
+                </div>
+                <div className="p-3 bg-gray-50 text-center border-t">
+                  <button
+                    onClick={handleViewAllNotifications}
+                    className="text-red-600 hover:text-red-800 font-medium text-sm transition-colors"
+                  >
+                    View All Notifications
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
 
-          {/* Dropdown */}
-  {isDropdownOpen && (
-  <div className="absolute right-0 mt-2 w-24 rounded-md shadow-lg z-50 bg-gradient-to-br from-yellow-50 to-yellow-100">
-    <ul className="py-1 text-sm text-[#9b111e]">
-      <li>
-        <a
-          href="/profile"
-          className="block px-4 py-1 text-center transition-colors duration-200 hover:text-white hover:bg-[#d14c4c]"
-        >
-          Profile
-        </a>
-      </li>
-      <li>
-        <button
-  onClick={() => {
-    alert("Logging out...");
-    setIsDropdownOpen(false); // <-- Closes the dropdown
-  }}
-  className="w-full text-left px-4 py-1 text-center transition-colors duration-200 hover:text-white hover:bg-[#d14c4c]"
->
-  Logout
-</button>
+          <div className="relative" ref={dropdownRef}>
+            <div
+              onClick={toggleDropdown}
+              className="flex items-center space-x-3 cursor-pointer"
+            >
+              <div className="w-10 h-10 rounded-full overflow-hidden">
+                <img
+                  src={editedUser.avatar}
+                  alt="User Avatar"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="flex flex-col">
+                <span className="text-[#9b111e] font-medium">
+                  {editedUser.name}
+                </span>
+                <div className="flex items-center text-sm text-[#c13340]">
+                  Admin
+                  <svg
+                    className="w-4 h-6 ml-1 text-[#c13340]"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth={2}
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M19 9l-7 7-7-7"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </div>
 
-      </li>
-    </ul>
-  </div>
-)}
+            {isDropdownOpen && (
+              <div className="absolute right-0 mt-2 w-24 rounded-md shadow-lg z-50 bg-gradient-to-br from-yellow-50 to-yellow-100">
+                <ul className="py-1 text-sm text-[#9b111e]">
+                  <li>
+                    <button
+                      onClick={() => {
+                        setShowProfileDetails(true);
+                        setIsDropdownOpen(false);
+                      }}
+                      className="block w-full text-center px-4 py-1 transition-colors duration-200 hover:text-white hover:bg-[#d14c4c]"
+                    >
+                      Profile
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      onClick={() => {
+                        setShowLogoutConfirm(true);
+                        setIsDropdownOpen(false);
+                      }}
+                      className="block w-full text-center px-4 py-1 transition-colors duration-200 hover:text-white hover:bg-[#d14c4c]"
+                    >
+                      Logout
+                    </button>
+                  </li>
+                </ul>
+              </div>
+            )}
+          </div>
+        </div>
+      </nav>
 
+      {/* Profile Modal  */}
+      {showProfileDetails && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999] p-4">
+          <div
+            ref={modalRef}
+            className="bg-[#FAF3EB] rounded-2xl shadow-2xl w-full max-w-2xl md:max-w-xl sm:max-w-md overflow-hidden"
+          >
+            <div className="bg-gradient-to-r from-red-600 to-red-800 p-6 flex items-center justify-between text-white">
+              <div className="flex items-center space-x-4">
+                <img
+                  src={editedUser.avatar}
+                  alt="User"
+                  className="w-20 h-20 rounded-full border-4 border-white shadow-md"
+                />
+                <div>
+                  {isEditing ? (
+                    <input
+                      type="text"
+                      value={editedUser.name}
+                      onChange={(e) => handleChange("name", e.target.value)}
+                      className="text-2xl font-bold bg-transparent border-b border-white placeholder-white placeholder-opacity-75 text-white"
+                    />
+                  ) : (
+                    <h2 className="text-2xl font-bold">{editedUser.name}</h2>
+                  )}
+                  <p className="text-sm opacity-90">
+                    Admin, Production Department
+                  </p>
+                </div>
+              </div>
+              <button
+                onClick={() => setShowProfileDetails(false)}
+                className="bg-[#FAF3EB] text-red-600 font-semibold p-2 rounded-lg shadow hover:bg-[#f8e0b0] transition"
+                aria-label="Close profile details"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
+              </button>
+            </div>
 
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-6 text-gray-700">
+              <div className="space-y-3">
+                {["phone", "email", "location"].map((field) => (
+                  <div key={field}>
+                    <h4 className="text-sm text-gray-500">
+                      {field.charAt(0).toUpperCase() + field.slice(1)}
+                    </h4>
+                    {isEditing ? (
+                      <input
+                        type="text"
+                        value={editedUser[field as keyof User]}
+                        onChange={(e) =>
+                          handleChange(field as keyof User, e.target.value)
+                        }
+                        className="text-lg w-full border-b border-gray-400 focus:outline-none"
+                      />
+                    ) : (
+                      <p className="text-lg">
+                        {editedUser[field as keyof User]}
+                      </p>
+                    )}
+                  </div>
+                ))}
+              </div>
+              <div className="space-y-3">
+                {["role", "joinDate", "status"].map((field) => (
+                  <div key={field}>
+                    <h4 className="text-sm text-gray-500">
+                      {field === "joinDate"
+                        ? "Join Date"
+                        : field.charAt(0).toUpperCase() + field.slice(1)}
+                    </h4>
+                    {isEditing ? (
+                      <input
+                        type="text"
+                        value={editedUser[field as keyof User]}
+                        onChange={(e) =>
+                          handleChange(field as keyof User, e.target.value)
+                        }
+                        className="text-lg w-full border-b border-gray-400 focus:outline-none"
+                      />
+                    ) : field === "status" ? (
+                      <span className="inline-block px-3 py-1 text-sm rounded-full bg-green-100 text-green-700">
+                        {editedUser.status}
+                      </span>
+                    ) : (
+                      <p className="text-lg">
+                        {editedUser[field as keyof User]}
+                      </p>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
 
+            <div className="px-6 py-4 border-t flex justify-end gap-2">
+              {isEditing ? (
+                <>
+                  <button
+                    className="bg-gray-200 text-gray-800 px-5 py-2 rounded-lg hover:bg-gray-300 transition"
+                    onClick={() => setIsEditing(false)}
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    className="bg-gradient-to-r from-red-600 to-red-800 text-white px-5 py-2 rounded-lg shadow hover:scale-105 transition"
+                    onClick={() => setIsEditing(false)}
+                  >
+                    Save Changes
+                  </button>
+                </>
+              ) : (
+                <button
+                  className="bg-gradient-to-r from-red-600 to-red-800 text-white px-5 py-2 rounded-lg shadow hover:scale-105 transition"
+                  onClick={() => setIsEditing(true)}
+                >
+                  Edit Profile
+                </button>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
 
+      {/* Logout Confirmation Modal */}
+      {showLogoutConfirm && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999]">
+          <div className="bg-white rounded-xl shadow-lg w-80 p-6 space-y-4 text-center">
+            <h2 className="text-lg font-semibold text-red-600">
+              Are you sure you want to logout?
+            </h2>
+            <div className="flex justify-center gap-4 mt-4">
+              <button
+                onClick={() => setShowLogoutConfirm(false)}
+                className="px-4 py-2 rounded bg-gray-200 hover:bg-gray-300 text-gray-800"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={() => {
+                  setShowLogoutConfirm(false);
+                  setShowLogoutSuccess(true);
+                  setTimeout(() => {
+                    setShowLogoutSuccess(false);
+                    console.log("Redirect or clear session here");
+                  }, 2000);
+                }}
+                className="px-4 py-2 rounded bg-red-600 text-white hover:bg-red-700"
+              >
+                OK
+              </button>
+            </div>
+          </div>
         </div>
       )}
 
@@ -339,3 +561,4 @@ export const Navbar: React.FC = () => {
     </>
   );
 };
+

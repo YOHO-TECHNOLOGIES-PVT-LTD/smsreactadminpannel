@@ -15,35 +15,9 @@ export const CityManagementPage: React.FC = () => {
           className="font-bold text-3xl pt-2 pl-0"
           style={{ color: "#9b111e" }}
         >
-          City Management
+          City Management 
         </h1>
 
-        <div className="flex items-center gap-x-2 ml-auto">
-         
-          <button
-            className="flex items-center gap-2 font-bold px-4 py-2 rounded-lg text-white transition duration-200 active:scale-105 hover:bg-[#a00000]"
-            style={{
-              background:
-                "linear-gradient(44.99deg,#700808 11%,#d23c3c 102.34%)",
-            }}
-            onClick={() => setIsAddModalOpen(true)}
-          >
-            <IoIosAddCircleOutline className="mt-0" />
-            Add
-          </button>
-
-       
-          <button
-            className="flex items-center gap-2 font-bold px-4 py-2 rounded-lg text-white transition duration-200 hover:bg-[#a00000] active:scale-105"
-            style={{
-              background:
-                "linear-gradient(44.99deg,#700808 11%,#d23c3c 102.34%)",
-            }}
-          >
-            <AiOutlineEye size={18} />
-            View
-          </button>
-        </div>
       </div>
 
      

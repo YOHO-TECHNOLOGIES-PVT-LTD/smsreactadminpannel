@@ -1,7 +1,7 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import LoginPage from "../pages/auth/LoginPage";
 import SignupPage from "../pages/auth/SignupPage";
-import { Dashboard } from "../pages/dashboard/Dashboard";
+
 import { NotificationPage } from "../pages/notification/NotificationPage";
 import { ServiceManagementPage } from "../pages/service-center/ServiceManagementPage";
 import { JobCardsPage } from "../pages/job-cards/JobCardsPage";
@@ -12,6 +12,8 @@ import GeneralSettings from "../pages/Settings/GeneralSettings";
 import { MainLayout } from "../Layout/MainLayout/MainLayout";
 import { useAuth } from "../pages/auth/AuthContext";
 import { Announcement } from "../pages/Announcement/Announcement";
+import { Dashboard } from "../pages/Dashboard/Dashboard";
+import QuotationPage from "../pages/job-cards/steps/Quotationpage";
 
 const AppRoutes = () => {
     const { isAuthenticated } = useAuth();
@@ -36,6 +38,7 @@ const AppRoutes = () => {
                 <Route path="vehicle" element={<VehicleManagementPage />} />
                 <Route path="announcement" element={<Announcement />} />
                 <Route path="settings" element={<GeneralSettings />} />
+                <Route path="/quotation" element={<QuotationPage />} />
                 <Route path="*" element={<Navigate to="/" />} />
             </Route>
         </Routes>

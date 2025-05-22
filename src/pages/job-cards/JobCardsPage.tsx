@@ -145,7 +145,7 @@ export const JobCardsPage: React.FC = () => {
                   <td className="px-4 py-3 border-b">{invoice.profile}</td>
                   <td className={`px-4 py-3 border-b capitalize ${invoice.jobStatus === "completed"?"text-green-600" :"text-yellow-400"} `}>{invoice.jobStatus}</td>
                   <td className="px-4 py-3 border-b">
-                    <button className="bg-gradient-to-r from-red-600 to-red-800 text-white px-3 py-1 rounded hover:bg-[#a00000] transition">
+                    <button onClick={()=>navigate('/quotation')} className="bg-gradient-to-r from-red-600 to-red-800 text-white px-3 py-1 rounded hover:bg-[#a00000] transition">
                       View
                     </button>
                   </td>
