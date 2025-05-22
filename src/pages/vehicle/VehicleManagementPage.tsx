@@ -68,13 +68,12 @@ const VehicleManagementPage = () => {
           />
           )) : <div className=" flex flex-col items-center justify-center h-[55.8vh] w-full overflow-y-hidden" style={{ position: 'relative', left: '350px' }}  >
              
-             <img src={carDefaultlogo} style={{height: '255px', width: '255px'
-             }}/>
-             <div className='absolute top-2/3'>
-              <p className="text-red-700 font-semibold">No data available for this search</p>
-             </div>
+                            <img src={carDefaultlogo} style={{height: '255px', width: '255px'}}/>
+                            <div className='absolute top-2/3'>
+                              <p className="text-red-700 font-semibold">No car available for this search</p>
+                            </div>
               
-        </div>
+                </div>
       }
       </div>
 
