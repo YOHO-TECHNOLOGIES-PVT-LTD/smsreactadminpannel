@@ -5,6 +5,7 @@ import {
   FaMapMarkerAlt,
   FaUser,
   FaEnvelope,
+  FaPhoneAlt,
 } from 'react-icons/fa';
 import {
   MapContainer,
@@ -33,9 +34,25 @@ interface PostedDetail {
   contactPhone: string;
   contactEmail: string;
   imageUrl?: string;
+  contactNumber: string;
+  type:string;
 }
 
 const SosDetails: React.FC = () => {
+
+  const getStatusStyles = (status: string) => {
+    switch (status.toLowerCase()) {
+      case "not started":
+        return "bg-red-100 text-red-800";
+      case "in progress":
+        return "bg-yellow-100 text-yellow-800";
+      case "completed":
+        return "bg-green-100 text-green-800";
+      default:
+        return "bg-gray-100 text-gray-800";
+    }
+  };
+
   const [postedDetails, setPostedDetails] = useState<PostedDetail[]>([]);
   const [statusFilter, setStatusFilter] = useState<string>('All');
 
@@ -59,6 +76,8 @@ const SosDetails: React.FC = () => {
         contactPhone: '1234567890',
         contactEmail: 'raj@example.com',
         imageUrl: '',
+        contactNumber:"99486637684",
+        type:"Own"
       },
       {
         id: 2,
@@ -76,6 +95,8 @@ const SosDetails: React.FC = () => {
         contactPhone: '9876543210',
         contactEmail: 'meera@example.com',
         imageUrl: '',
+        contactNumber: "99486637684",
+        type:"Other"
       },
     ]);
   };
@@ -154,31 +175,77 @@ const SosDetails: React.FC = () => {
           </MapContainer>
         </div>
 
-      
-        <div className="bg-white rounded-xl shadow-md p-5">
+      <div className='flex flex-row w-full gap-5'>
+
+        <div className="bg-white rounded-xl w-96 shadow-md p-5">
           <h2 className="text-[#9b111e] font-bold text-4xl mb-4">Personal Details</h2>
-          <div className="flex items-center mb-4">
+          <div className="flex items-center  mt-5">
             <FaUser className="text-[#9b111e]  text-2xl mr-3" />
             <div className="text-lg font-semibold">{selected.contactName || 'John Doe'}</div>
           </div>
-          <div className="flex items-center mb-4">
+          <div className="flex items-center mt-10">
             <FaMapMarkerAlt className="text-[#9b111e]  text-2xl mr-3" />
             <div className="text-lg font-semibold">{selected.location || 'Chennai'}</div>
           </div>
-          <div className="flex items-center">
+          <div className="flex items-center mt-10">
             <FaEnvelope className="text-[#9b111e]  text-2xl mr-3" />
             <div className="text-lg font-semibold">{selected.contactEmail || 'john@example.com'}</div>
           </div>
+          <div className="flex items-center mt-10">
+            <FaPhoneAlt className="text-[#9b111e]  text-2xl mr-3" />
+            <div className="text-lg font-semibold">{selected.contactNumber || 'John Doe'}</div>
+          </div>
         </div>
+
+          <div className="bg-white w-96 rounded-xl shadow-md p-5">
+            <h2 className="text-[#9b111e] font-bold text-4xl mb-4">Other Details</h2>
+            <div className="flex items-center mt-10">
+              <FaPhoneAlt className="text-[#9b111e]  text-2xl mr-3" />
+              <div className="text-lg font-semibold">{selected.contactNumber || 'John Doe'}</div>
+            </div>
+            <div className="flex items-center mt-10">
+              <FaMapMarkerAlt className="text-[#9b111e]  text-2xl mr-3" />
+              <div className="text-lg font-semibold">{selected.location || 'Chennai'}</div>
+            </div>
+
+            <div className="flex gap-4 mt-10">
+              {
+                selected.type === "Own" && <button
+                  className={`px-4 py-2 ml-5 rounded font-semibold border ${"Own" === "Own"
+                    ? "bg-[#9b111e] text-white"
+                    : "bg-white text-[#9b111e] border-[#9b111e]"
+                    }`}
+                >
+                  Own
+                </button>
+              }
+              {
+                selected.type === "Other" && <button
+                  className={`px-4 py-2 ml-5 rounded font-semibold border ${"Other" === "Other"
+                    ? "bg-[#9b111e] text-white"
+                    : "bg-white text-[#9b111e] border-[#9b111e]"
+                    }`}
+                >
+                  Others
+                </button>
+              }
+            </div>
+          </div>
+
+          
+
+      </div>
 
        
         <div className="bg-white rounded-xl shadow-md p-5">
-          <h2 className="text-[#9b111e] font-bold text-4xl mb-4">SOS Info</h2>
+          <h2 className="text-[#9b111e] font-bold text-5xl mb-4">SOS Info</h2>
+
+          <div className='flex flex-row gap-20 mt-10'>
 
           <div className="flex items-start mb-4">
-            <FaInfoCircle className="text-[#9b111e]  text-2xl mr-3" />
+            <FaInfoCircle className="text-[#9b111e] mt-4 text-2xl " />
             <div>
-              <div className="font-semibold text-center text-lg">Status :<select
+              <div className="font-semibold text-center text-2xl">Status :<select
           value={statusFilter}
           onChange={(e) => setStatusFilter(e.target.value)}
           className="border border-gray-300 text-black  ml-10 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#9b111e] transition duration-200"
@@ -187,10 +254,23 @@ const SosDetails: React.FC = () => {
           <option className="p-2 "  value="In Progress">In Progress</option>
           <option  className="p-2 " value="Completed">Completed</option>
         </select></div>
-              <div className="text-gray-600">{selected.status || 'completed'}</div>
-              <div className="mb-6">
-            </div>
-            </div>
+        <div className='flex flex-row gap-20'>
+        <div
+           className={`text-xl mt-10 font-semibold inline-block px-4 py-2 rounded ml-5 ${getStatusStyles(
+                    selected.status || "Completed"
+                  )}`}
+                >
+                  {selected.status || "Completed"}
+                </div>
+                  <div className="flex items-start mt-10">
+                    <FaMapMarkerAlt className="text-[#9b111e]  text-2xl mr-3" />
+                    <div>
+                      <div className="font-semibold text-lg">Location</div>
+                      <div className="text-gray-600 text-2xl">{selected.location || 'chennai'}</div>
+                    </div>
+                  </div>
+               </div>
+              </div>
           </div>
 
           <div className="flex items-start mb-4">
@@ -201,13 +281,9 @@ const SosDetails: React.FC = () => {
             </div>
           </div>
 
-          <div className="flex items-start">
-            <FaMapMarkerAlt className="text-[#9b111e]  text-2xl mr-3" />
-            <div>
-              <div className="font-semibold text-lg">Location</div>
-              <div className="text-gray-600">{selected.location || 'chennai'}</div>
-            </div>
           </div>
+
+         
         </div>
 
       </div>

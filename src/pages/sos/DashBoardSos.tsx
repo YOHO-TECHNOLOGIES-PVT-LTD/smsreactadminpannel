@@ -3,6 +3,7 @@ import { MdToggleOn, MdToggleOff } from "react-icons/md";
 import { FiPlus } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import { MdClose } from "react-icons/md";
+import { carIcons } from "../../components/sos/sosicons";
 
 type SOSRequest = {
   vehicleNumber: string;
@@ -23,6 +24,7 @@ const DashboardSos = () => {
   const navigate = useNavigate();
 
   const [isToggled, setIsToggled] = useState(false);
+  const [selectedIcon, setSelectedIcon] = useState<React.ReactNode | null>(null);
 
   const handleViewClick = () => {
     navigate("/sosdetails");
@@ -81,11 +83,11 @@ const DashboardSos = () => {
   });
 
   const [services, setServices] = useState<Service[]>([
-    { id: 1, name: "Medical Help", active: true },
-    { id: 2, name: "Health-Sleeping", active: false },
-    { id: 3, name: "Local Airdab", active: true },
-    { id: 4, name: "Patient Help", active: false },
-    { id: 5, name: "Healthcare", active: true },
+    { id: 1, name: "Pickup Truck", active: true },
+    { id: 2, name: "Car Wheel", active: false },
+    { id: 3, name: "Gas Pump", active: true },
+    { id: 4, name: "Tools", active: false },
+    { id: 5, name: "Garage", active: true },
   ]);
 
   const [showForm, setShowForm] = useState(false);
@@ -194,16 +196,23 @@ const DashboardSos = () => {
               key={service.id}
               className="border border-gray-200 rounded p-2 shadow-sm flex items-center justify-between"
             >
-              <div className="p-2">
-                <div className="font-medium text-lg">{service.name}</div>
-                <div className="text-gray-600 mt-1">
-                  <span
-                    className={`font-semibold ${
-                      service.active ? "text-green-600" : "text-red-600"
-                    }`}
-                  >
-                    {service.active ? "Active" : "Inactive"}
-                  </span>
+              <div className="p-2 flex flex-row gap-2">
+                <div className="w-5 mt-2">
+                  {
+                    carIcons.find(item => item.name === service.name)?.icon 
+                  }       
+                </div>
+                <div>
+                  <div className="font-medium text-lg">{service.name}</div>
+                  <div className="text-gray-600 mt-1">
+                    <span
+                      className={`font-semibold ${
+                        service.active ? "text-green-600" : "text-red-600"
+                      }`}
+                    >
+                      {service.active ? "Active" : "Inactive"}
+                    </span>
+                  </div>
                 </div>
               </div>
               <div
@@ -239,8 +248,8 @@ const DashboardSos = () => {
           showForm ? "translate-x-0" : "translate-x-full"
         }`}
       >
-        <div className="flex justify-between items-center p-4 border-b">
-          <h3 className="text-xl font-bold">Add New Service</h3>
+        <div className="flex justify-between items-center p-4 px-10 mt-10 border-b">
+          <h3 className="text-2xl font-bold">Add New Service</h3>
           <MdClose
             className="text-2xl cursor-pointer text-red-800"
             onClick={() => setShowForm(false)}
@@ -267,8 +276,23 @@ const DashboardSos = () => {
             placeholder="Service Name"
             value={newServiceName}
             onChange={(e) => setNewServiceName(e.target.value)}
-            className="border p-2 rounded w-full"
+            // className="border p-2 rounded w-full"
+            className="bg-white text-black placeholder-gray-500 rounded w-full border px-4 py-2 w-60 text-sm focus:outline-none focus:ring-2 focus:ring-[#6b1b1b] transition-all"
           />
+          <div className="grid grid-cols-6 gap-3 bg-gray-100 p-4 rounded">
+            {carIcons.map((item, idx) => (
+              <button
+                key={idx}
+                type="button"
+                // onClick={}
+                className={`p-2 border rounded text-2xl hover:bg-red-100 
+                  ${selectedIcon === item.icon ? "bg-red-200 border-red-600" : ""
+                  }`}
+              >
+                {item.icon}
+              </button>
+            ))}
+          </div>
           <button
             type="submit"
             className="bg-gradient-to-r from-red-600 to-red-800 text-white py-2 px-4 rounded hover:scale-105 transition-transform"
