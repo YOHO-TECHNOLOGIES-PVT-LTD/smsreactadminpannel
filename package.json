@@ -20,15 +20,7 @@
     "axios": "^1.9.0",
     "chart.js": "^4.4.9",
     "clsx": "^2.1.1",
-<<<<<<< HEAD
-    "d3-scale": "^4.0.2",
-    "d3-shape": "^3.2.0",
-    "flowbite": "^3.1.2",
-    "flowbite-react": "^0.11.7",
-    "leaflet": "^1.9.4",
-=======
     "faker": "^6.6.6",
->>>>>>> e917ea7709b967c2fd5909f1ace56b4fb6c5860f
     "lucide-react": "^0.511.0",
     "preline": "^3.0.1",
     "react": "^19.1.0",
