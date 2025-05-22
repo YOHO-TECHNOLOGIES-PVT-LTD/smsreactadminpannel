@@ -8,18 +8,21 @@ import {
 import { BsBuildings } from "react-icons/bs";
 import { SlCalender } from "react-icons/sl";
 import { AiFillSafetyCertificate, AiOutlineAudit } from "react-icons/ai";
-import { MdEmail, MdVerified, MdOutlineMailOutline } from "react-icons/md";
+import { MdEmail, MdVerified, MdOutlineMailOutline, MdOutlineKeyboardBackspace } from "react-icons/md";
 import { CgWebsite } from "react-icons/cg";
 import { FcDataEncryption } from "react-icons/fc";
 import { BiSolidCertification } from "react-icons/bi";
 import { RiLockPasswordLine } from "react-icons/ri";
 import { LuPhoneCall } from "react-icons/lu";
+import { COLORS } from "../../constants/uiConstants";
+import { FONTS } from "../../constants/uiConstants";
 
 type ServiceCenterProfileProps = {
-  onServices: () => void;  // A function that returns nothing
+    onServices: () => void;
+    handleBack: () => void;
 };
 
-const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({onServices}) => {
+const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({ onServices, handleBack }) => {
     const [isActive, setIsActive] = useState(true);
     const [showConfirm, setShowConfirm] = useState(false);
     const [pendingStatus, setPendingStatus] = useState<boolean | null>(null);
@@ -81,14 +84,18 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({onServic
     }, [showDeleteSuccessPopup]);
 
     return (
-        <div className="bg-neutral-100 min-h-screen py-12 px-4">
-            <div className="bg-white rounded-3xl shadow-lg p-8 space-y-8 w-full">
-                <h2 className="font-bold text-3xl pt-2 text-[#9b111e]">Profile</h2>
+        <div className=" min-h-screen pl-5 pr-2" style={{ backgroundColor: COLORS.bgColor ,fontFamily: FONTS.paragraph.fontSize}}>
+            <div className="">
+                    <button onClick={handleBack} className=""><MdOutlineKeyboardBackspace className="text-[#800000] text-3xl" /></button>
+                </div>
+                <h2 className="font-bold text-2xl text-[#9b111e]">Profile</h2>
 
-                <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-4">
+                
+
+                <div className="flex items-center justify-between space-y-8 w-full p-2">
+                    <div className="flex items-center gap-4 pt-2">
                         <img src="https://logodix.com/logo/2004138.jpg" alt="Logo" className="w-20 h-20 object-contain" />
-                        <h3 className="text-3xl font-extrabold text-black">Shiva Shanker Auto Mobiles</h3>
+                        <h3 className="text-3xl font-extrabold text-black">Fast & Furious Auto Mobiles</h3>
                     </div>
                     <button
                         onClick={onServices}
@@ -100,10 +107,11 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({onServic
                         <FaArrowRight size={18} /> Services
                     </button>
                 </div>
-
-                <div className="w-full h-px bg-gray-300 mt-4" />
-
-                <h2 className="text-2xl font-bold">Contact Information</h2>
+                
+                <div className="w-full h-px bg-[#910707] mt-4"  />
+                   
+                <h2 className="text-2xl font-bold text-[#800000] pt-5 pb-2">Contact Information</h2>
+                <div className="pt-2 pl-8">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-black text-base">
                     <div className="space-y-4">
                         <InfoItem icon={<BsBuildings className="text-[#800000]" />} label="Company Name" value="Hyundai Accent" />
@@ -124,17 +132,18 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({onServic
                         <InfoItem icon={<BiSolidCertification className="text-[#800000]" />} label="Certification" value="ISO 27001" />
                     </div>
                 </div>
+                </div>
 
-                <div className="mt-10">
-                    <h2 className="text-2xl font-bold mb-6">Login Information</h2>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-black text-base">
+                <div className="mt-10 pb-5">
+                    <h2 className="text-2xl font-bold mb-6 text-[#800000]">Login Information</h2>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-black text-base pt-2 pl-8">
                         <InfoItem icon={<FaUserCircle className="text-[#800000]" />} label="Username" value={editUsername} />
                         <InfoItem icon={<MdOutlineMailOutline className="text-[#800000]" />} label="Email" value={editEmail} />
                         <InfoItem icon={<RiLockPasswordLine className="text-[#800000]" />} label="Password" value={editPassword} />
                     </div>
                 </div>
-
-                <div className="mt-10 flex flex-col md:flex-row items-center justify-between gap-4">
+                <div className="w-full h-px bg-[#910707]"></div>
+                <div className="mt-5 flex flex-col md:flex-row items-center justify-between gap-4 pb-5">
                     <div className="flex items-center gap-3 bg-gray-100 px-4 py-2 rounded-full shadow">
                         <span className="text-sm font-medium text-gray-700">
                             {isActive ? "Active" : "Inactive"}
@@ -167,7 +176,6 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({onServic
                         </button>
                     </div>
                 </div>
-            </div>
 
             {showConfirm && (
                 <ConfirmationModal
