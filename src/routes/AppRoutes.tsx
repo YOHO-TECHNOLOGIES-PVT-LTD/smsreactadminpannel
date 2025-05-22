@@ -11,6 +11,9 @@ import  VehicleManagementPage  from "../pages/vehicle/VehicleManagementPage";
 import GeneralSettings from "../pages/Settings/GeneralSettings";
 import { MainLayout } from "../Layout/MainLayout/MainLayout";
 import { useAuth } from "../pages/auth/AuthContext";
+import { Announcement } from "../pages/Announcement/Announcement";
+import SosDetailsCard from "../pages/sos/SosDetailsCard"
+import DashboardSos from "../pages/sos/DashBoardSos";
 
 const AppRoutes = () => {
     const { isAuthenticated } = useAuth();
@@ -33,7 +36,10 @@ const AppRoutes = () => {
                 <Route path="job-cards" element={<JobCardsPage />} />
                 <Route path="city" element={<CityManagementPage />} />
                 <Route path="vehicle" element={<VehicleManagementPage />} />
+                <Route path="announcement" element={<Announcement />} />
                 <Route path="settings" element={<GeneralSettings />} />
+                <Route path="sos" element ={<DashboardSos/>}/>
+                <Route path="sosdetails" element={<SosDetailsCard/>}/>
                 <Route path="*" element={<Navigate to="/" />} />
             </Route>
         </Routes>
