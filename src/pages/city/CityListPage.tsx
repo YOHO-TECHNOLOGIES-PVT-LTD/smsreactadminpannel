@@ -1,127 +1,77 @@
-import React, { useEffect, useRef, useState } from "react";
-import { CgMoreVertical } from "react-icons/cg";
-import { FONTS } from "../../constants/uiConstants";
-import { FaEdit } from "react-icons/fa";
-import { MdDelete } from "react-icons/md";
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import { TbBuildingEstate, TbMapPinCode } from "react-icons/tb";
+import { MdOutlineMiscellaneousServices } from "react-icons/md";
 
 type City = {
   name: string;
-  pincode:string;
-  citycode:string;
+  TotalCenters: string
+  serviceCenters?: string;
 };
 
 const citydetails: City[] = [
-  { name: "Chennai",pincode:"607106",citycode :"111"},
-  { name: "Bangalore",pincode:"607106",citycode :"110" },
-  { name: "Panruti",pincode:"607106",citycode :"109" },
-  { name: "Delhi",pincode:"607106",citycode :"108" },
-  { name: "Hydrabad", pincode:"607106",citycode :"107" },
-  { name: "Chennai", pincode:"607106",citycode :"106"},
-  { name: "Bangalore",pincode:"607106",citycode :"105" },
-  { name: "Panruti", pincode:"607106",citycode :"104" },
-  { name: "Delhi", pincode:"607106",citycode :"103" },
-  { name: "Hydrabad", pincode:"607106",citycode :"102"},
+  { name: "Chennai", TotalCenters: "13" },
+  { name: "Madurai", TotalCenters: "03" },
+  { name: "Coimbatore", TotalCenters: "02" },
+  { name: "Nammakkal", TotalCenters: "07" },
+  { name: "Trichy", TotalCenters: "04" },
+  { name: "Nagercoil", TotalCenters: "02" },
+  { name: "kadalur",TotalCenters: "01" },
+  { name: "Thiruvanamalai", TotalCenters: "04" },
+  { name: "Kachipuram", TotalCenters: "01" },
+  
+ 
 ];
 
 const CityListPage: React.FC = () => {
-  const [activeIndex, setActiveIndex] = useState<number | null>(null);
-  const dropdownRef = useRef<HTMLDivElement>(null);
-
-  // Toggle the dropdown for the selected row
-  const toggleDropdown = (index: number) => {
-    setActiveIndex((prev) => (prev === index ? null : index));
-  };
-
-  // Close dropdown when clicking outside
-  const handleClickOutside = (event: MouseEvent) => {
-    if (
-      dropdownRef.current &&
-      !dropdownRef.current.contains(event.target as Node)
-    ) {
-      setActiveIndex(null);
-    }
-  };
-
-  // Add event listener for outside click on mount and cleanup on unmount
-  useEffect(() => {
-    document.addEventListener("click", handleClickOutside);
-    return () => {
-      document.removeEventListener("click", handleClickOutside);
-    };
-  }, []);
+  const navigate = useNavigate();
 
   return (
-    <>
-      <div className="px-3 mb-5 border-b-2 border-[#9b111e] pb-5 text-[#9b111e]">
-        <h1 style={{ ...FONTS.header, fontWeight: 600 }}>City List</h1>
-      </div>
-
+    <div className="px-2 mt-2">
       <div>
-        <table className="table-auto w-full border-collapse ">
-          <thead className="bg-[#c99197]">
+        <table className="table-auto w-full border-white bg-white rounded-lg shadow-md mx-auto shadow-lg">
+          <thead className="bg-[#a00000] text-white">
             <tr>
-              <th className="px-4 py-2 text-left">Name</th>
-              <th className="px-4 py-2 text-left">PinCode</th>
-                <th className="px-4 py-2 text-left">CityCode</th>
-              <th className="px-4 py-2 text-left">Actions</th>
+              <th className="px-4 py-2 text-left">
+                <div className="flex items-center gap-2">
+                  <TbBuildingEstate className="text-lg" />
+                  District
+                </div>
+              </th>
+              <th className="px-4 py-2 text-left">
+                <div className="flex items-center gap-2">
+                  <TbMapPinCode className="text-lg" />
+                  Total Centers
+                </div>
+              </th>
+              <th className="px-4 py-2 text-left">
+                <div className="flex items-center gap-2">
+                  <MdOutlineMiscellaneousServices className="text-lg" />
+                  Service Centers
+                </div>
+              </th>
             </tr>
           </thead>
           <tbody>
             {citydetails.map((city, index) => (
               <tr key={index} className="border-b hover:bg-[#f8ddd5]">
-                <td className="px-4 py-2 flex items-center gap-2">
-                  
-                  {city.name}
-                </td>
-                <td className="px-4 py-2">{city.pincode}</td>
-                <td className="px-8 py-2">{city.citycode}</td>
-                {/* Add more columns as needed */}
-                <td className="px-8 py-2 relative">
-                  <div
-                    onClick={(e) => {
-                      e.stopPropagation(); // prevent click from propagating up
-                      toggleDropdown(index);
-                    }}
-                    className="cursor-pointer inline-flex items-center justify-center"
+                <td className="px-10 py-2">{city.name}</td>
+                <td className="px-16 py-2">{city.TotalCenters}</td>
+                <td className="px-14 py-2">{city.serviceCenters}
+                  <button
+                   onClick={() => navigate("/service-center")}
+                    className="bg-gradient-to-r from-red-600 to-red-800 text-white px-3 py-1 rounded hover:bg-[#a00000] transition active:scale-110"
                   >
-                    <CgMoreVertical className="text-xl" />
-                  </div>
-                  {activeIndex === index && (
-                    <div
-                      ref={dropdownRef}
-                      className="bg-white z-10 absolute w-28 ml-7 mb-6 shadow border rounded"
-                    >
-                      <ul>
-                        <div className="flex hover:bg-[#f8ddd5]  items-center justify-center">
-                          <div>
-                            <li className="text-center py-2 ">
-                              <a href="#">Edit</a>
-                            </li>
-                          </div>
-                          <div className="ml-2">
-                            <FaEdit />
-                          </div>
-                        </div>
-                        <div className="flex hover:bg-[#f8ddd5] items-center justify-center">
-                          <div>
-                            <li className="text-center py-2">
-                              <a href="#">Delete </a>
-                            </li>
-                          </div>
-                          <div>
-                            <MdDelete />
-                          </div>
-                        </div>
-                      </ul>
-                    </div>
-                  )}
+                    View
+                  </button>
+                  
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
-    </>
+    </div>
   );
 };
 

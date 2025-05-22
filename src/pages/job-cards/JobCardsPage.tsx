@@ -165,7 +165,7 @@ export const JobCardsPage: React.FC = () => {
                   </td>
                   <td className="px-4 py-3 border-b">
                     <button
-                      onClick={() => navigate("/qoutation")}
+                      onClick={() => navigate("/quotation")}
                       className="bg-gradient-to-r from-red-600 to-red-800 text-white px-3 py-1 active:scale-110 rounded hover:bg-[#a00000] transition"
                     >
                       View
