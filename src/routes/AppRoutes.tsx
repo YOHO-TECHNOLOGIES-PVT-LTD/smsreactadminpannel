@@ -15,6 +15,7 @@ import { NotFound } from "../pages/NotFound/NotFound";
 import CityAddPage from "../pages/city/CityAddPage";
 import { Dashboard } from "../pages/Dashboard/Dashboard";
 import QuotationPage from "../pages/job-cards/steps/Quotationpage";
+import CityListPage from "../pages/city/CityListPage";
 
 const AppRoutes = () => {
     const [isAuthenticated, setIsAuthenticated] = useState(true);
@@ -46,6 +47,8 @@ const AppRoutes = () => {
                 <Route path="settings" element={<GeneralSettings />} />
                 {/* <Route path="/add" element={<CityAddPage /> } /> */}
                 <Route path="/qoutation" element={<QuotationPage /> } />
+                <Route path="city-list" element={<CityListPage /> } />
+                
                 <Route path="*" element={<NotFound/>} />
                
             </Route>
