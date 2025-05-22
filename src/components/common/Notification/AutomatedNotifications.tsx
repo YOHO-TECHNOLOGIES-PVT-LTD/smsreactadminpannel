@@ -13,7 +13,7 @@ const notifications: Notification[] = [
   {
     name: 'Alex',
     time: '09:00 AM',
-    carNo: '6467',
+    carNo: '1805',
     numberPlate: 'TN 01 CF 7989',
     status: 'Available',
     image: 'https://i.pravatar.cc/40?img=1',
@@ -21,7 +21,7 @@ const notifications: Notification[] = [
   {
     name: 'Artha',
     time: '04:00 PM',
-    carNo: '6463',
+    carNo: '3108',
     numberPlate: 'TN 01 CF 7986',
     status: 'Unavailable',
     image: 'https://i.pravatar.cc/40?img=2',
@@ -29,7 +29,7 @@ const notifications: Notification[] = [
   {
     name: 'Ruchi',
     time: '07:30 PM',
-    carNo: '6467',
+    carNo: '2305',
     numberPlate: 'TN 01 CF 7981',
     status: 'Available',
     image: 'https://i.pravatar.cc/40?img=3',
@@ -37,7 +37,7 @@ const notifications: Notification[] = [
   {
     name: 'Rooth',
     time: '09:22 AM',
-    carNo: '6465',
+    carNo: '1808',
     numberPlate: 'TN 01 CF 7982',
     status: 'Available',
     image: 'https://i.pravatar.cc/40?img=4',
@@ -45,7 +45,7 @@ const notifications: Notification[] = [
   {
     name: 'Emma Davis',
     time: '06:40 PM',
-    carNo: '6469',
+    carNo: '1608',
     numberPlate: 'TN 01 CF 7983',
     status: 'Unavailable',
     image: 'https://i.pravatar.cc/40?img=5',
@@ -53,7 +53,7 @@ const notifications: Notification[] = [
   {
     name: 'Sam ',
     time: '12:35 PM',
-    carNo: '6455',
+    carNo: '1106',
     numberPlate: 'TN 01 CF 7986',
     status: 'Available',
     image: 'https://i.pravatar.cc/40?img=6',
@@ -61,7 +61,7 @@ const notifications: Notification[] = [
   {
     name: 'Esai',
     time: '09:10 PM',
-    carNo: '6454',
+    carNo: '1308',
     numberPlate: 'TN 01 CF 7991',
     status: 'Available',
     image: 'https://i.pravatar.cc/40?img=7',
@@ -69,7 +69,7 @@ const notifications: Notification[] = [
   {
     name: 'Alex reddy',
     time: '12:30 PM',
-    carNo: '6465',
+    carNo: '2111',
     numberPlate: 'TN 01 CF 7986',
     status: 'Unavailable',
     image: 'https://i.pravatar.cc/40?img=8',
@@ -77,7 +77,7 @@ const notifications: Notification[] = [
   {
     name: 'Shaana reddy',
     time: '12:30 PM',
-    carNo: '6459',
+    carNo: '3012',
     numberPlate: 'TN 01 CF 7995',
     status: 'Available',
     image: 'https://i.pravatar.cc/40?img=9',
@@ -85,7 +85,7 @@ const notifications: Notification[] = [
   {
     name: 'sam vig',
     time: '12:30 PM',
-    carNo: '6465',
+    carNo: '1301',
     numberPlate: 'TN 01 CF 7993',
     status: 'Unavailable',
     image: 'https://i.pravatar.cc/40?img=10',
@@ -93,7 +93,7 @@ const notifications: Notification[] = [
    {
     name: 'vig',
     time: '12:30 PM',
-    carNo: '6465',
+    carNo: '2406',
     numberPlate: 'TN 01 CF 7993',
     status: 'Unavailable',
     image: 'https://i.pravatar.cc/40?img=10',
@@ -125,10 +125,10 @@ const NotificationTable: React.FC = () => {
     <div className="w-full mx-auto p-2 bg-gray-200 rounded-2xl  shadow-md">
       <div className="bg-white h-full w-full rounded-lg shadow-lg p-6">
         <h1 className="font-bold lg:text-2xl sm:text-sm text-[#9b111e] border-b">Notification</h1>
-        <h2 className="text-2xl font-bold mb-6">Automated Notifications</h2>
+        <h2 className="text-2xl font-semibold mb-6">Automated Notifications</h2>
         <div className="overflow-x-auto">
           <table className="w-full lg:text-xl  sm:text-sm text-left table-fixed border-collapse">
-            <thead className="bg-orange-100 lg:text-xl  sm:text-sm font-bold  text-gray-600  text-xs border-b gap-5">
+            <thead className=" bg-orange-100 lg:text-xl  sm:text-sm font-bold text-[#9b111e] text-xs border-b gap-5">
               <tr>
                 <th className="p-4">Name</th>
                 <th className="p-4">Car No</th>
