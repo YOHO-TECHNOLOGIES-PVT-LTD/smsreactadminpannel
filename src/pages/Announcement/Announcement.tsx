@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import  { useState } from 'react';
 import Offer from '../../components/common/Announcement/Offer';
 import AnnouncementList from '../../components/common/Announcement/AnnouncementList';
 import Partner from '../../components/common/Announcement/Partner';

@@ -102,8 +102,14 @@ export const Dashboard = () => {
         </div>
 
         {/* Bar Chart */}
-        <div className="bg-white shadow-md rounded-xl p-4 max-h-96">
+        <div className="grid grid-rows-2 bg-white shadow-md rounded-xl p-4 max-h-96">
+          <div>
           <BarCharts />
+
+          </div>
+          <div>
+            <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nulla cupiditate iste ratione, reiciendis obcaecati fuga nobis cum. A, ullam autem.</p>
+          </div>
         </div>
 
         {/* SOS Content */}

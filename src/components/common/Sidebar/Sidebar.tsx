@@ -24,7 +24,7 @@ const COLOR = {
 
 export const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(true);
-  const location = useLocation();
+  // const location = useLocation();
 
   const handleLinkClick = () => {
     setIsOpen(false);

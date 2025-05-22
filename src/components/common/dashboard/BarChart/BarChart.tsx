@@ -10,7 +10,7 @@ import { ChevronDown } from 'lucide-react';
 
 //for data
 const data = [
-  { day: 'Mon', newCustomers: 50 },
+  { day: 'Mon', newCustomers: 50,returnCustomers:80 },
   { day: 'Tue', newCustomers: 35 },
   { day: 'Wed', newCustomers: 25 },
   { day: 'Thu', newCustomers: 40 },
@@ -81,7 +81,8 @@ const BarCharts: React.FC = () => {
           <XAxis dataKey="day" />
           <YAxis />
           <Tooltip />
-          <Bar dataKey="newCustomers" fill="#0A68FF" barSize={10} radius={[6, 6, 0, 0]} />
+          <Bar dataKey="newCustomers" fill="#FDF1D6" barSize={10} radius={[6, 6, 0, 0]} />
+          <Bar dataKey="returnCustomers" fill="#ffc4c4" barSize={10} radius={[6, 6, 0, 0]} />
         </BarChart>
       </ResponsiveContainer>
       </div>
@@ -89,4 +90,4 @@ const BarCharts: React.FC = () => {
   );
 };
 
-export default BarCharts;
+export default BarCharts;
