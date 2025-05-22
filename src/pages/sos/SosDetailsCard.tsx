@@ -227,7 +227,7 @@ const FourGridLayoutWithLiveMap: React.FC = () => {
       {/* Live Map showing all posted details */}
       <div className="bg-white rounded-lg shadow-md p-5 h-96">
         <h2 className="text-blue-500 font-bold text-xl text-center mb-5">Live Map</h2>
-        {/* <MapContainer
+         <MapContainer
           center={[selected.latitude, selected.longitude]}
           zoom={12}
           scrollWheelZoom={true}
@@ -246,7 +246,7 @@ const FourGridLayoutWithLiveMap: React.FC = () => {
               </Popup>
             </Marker>
           ))}
-        </MapContainer> */}
+        </MapContainer> 
       </div>
 
     </div>
