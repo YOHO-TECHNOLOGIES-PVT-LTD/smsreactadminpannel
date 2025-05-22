@@ -17,8 +17,8 @@ type Invoice = {
   vehicle: string;
   plate: string;
   total: string;
-  paidAmount?: string;
-  BalanceDue: string;
+  paidAmount: string;
+  balanceDue: string;
   profile: string;
   jobStatus: string;
 };
@@ -32,7 +32,7 @@ const invoices: Invoice[] = [
     plate: "ABC-1234",
     total: "$2500.00",
     paidAmount: "$500.00",
-    BalanceDue: "100.00",
+    balanceDue: "100.00",
     profile: "150",
     jobStatus: "completed",
   },
@@ -44,7 +44,7 @@ const invoices: Invoice[] = [
     plate: "XYZ-5678",
     total: "$1800.00",
     paidAmount: "$500.00",
-    BalanceDue: "100.00",
+    balanceDue: "100.00",
     profile: "150",
     jobStatus: "in progress",
   },
@@ -56,7 +56,7 @@ const invoices: Invoice[] = [
     plate: "LMN-9012",
     total: "$3000.00",
     paidAmount: "$500.00",
-    BalanceDue: "100.00",
+    balanceDue: "100.00",
     profile: "150",
     jobStatus: "In Progress",
   },
@@ -68,7 +68,7 @@ const invoices: Invoice[] = [
     plate: "LMN-9012",
     total: "$3000.00",
     paidAmount: "$700.00",
-    BalanceDue: "100.00",
+    balanceDue: "100.00",
     profile: "150",
     jobStatus: "In Progress",
   },
@@ -80,7 +80,7 @@ const invoices: Invoice[] = [
     plate: "LMN-9012",
     total: "$3000.00",
     paidAmount: "$900.00",
-    BalanceDue: "100.00",
+    balanceDue: "100.00",
     profile: "150",
     jobStatus: "In Progress",
   },
@@ -150,16 +150,24 @@ export const JobCardsPage: React.FC = () => {
                     Vehicle</div>
                 </th>
                 <th className="px-4 py-3 text-left text-sm font-semibold text-[#9b111e] border-b">
-                  <div className="flex items-center gap-2"><PiListNumbersFill size={20}/>Plate</div>
+                  <div className="flex items-center gap-2">
+                    <PiListNumbersFill size={20}/>
+                    Plate</div>
                 </th>
                 <th className="px-4 py-3 text-left text-sm font-semibold text-[#9b111e] border-b lg:table-cell hidden">
-                  <div className="flex items-center gap-2"><RiMoneyRupeeCircleLine size={20} />Total</div>
+                  <div className="flex items-center gap-2">
+                    <RiMoneyRupeeCircleLine size={20} />
+                    Total</div>
                 </th>
                 <th className="px-4 py-3 text-left text-sm font-semibold text-[#9b111e] border-b">
-                  <div className="flex items-center gap-2"><IoMdStats size={20}/>Job Status</div> 
+                  <div className="flex items-center gap-2">
+                    <IoMdStats size={20}/>
+                    Job Status</div> 
                 </th>
                 <th className="px-4 py-3 text-left text-sm font-semibold text-[#9b111e] border-b">
-                  <div className="flex items-center gap-2"><GrView size={20}/>View</div>
+                  <div className="flex items-center gap-2">
+                    <GrView size={20}/>
+                    View</div>
                 </th>
               </tr>
             </thead>
@@ -184,7 +192,7 @@ export const JobCardsPage: React.FC = () => {
                     <td className="px-4 py-3 border-b hidden lg:table-cell">
                       {invoice.total}
                     </td>
-                    <td className="px-4 py-3">
+                    <td className="px-4 py-3 border-b">
                       <span
                         className={`inline-block px-2 py-1 rounded-full text-xs font-semibold capitalize ${
                           invoice.jobStatus.toLowerCase() === "completed"
