@@ -13,9 +13,17 @@ const VehicleManagementPage = () => {
 	const [searchTerm, setSearchTerm] = useState('');
 
 	// Car filter
-	const carfiltereddata = vehicleData?.filter((vehicle) =>
-		vehicle.title.toLowerCase().includes(searchTerm.toLowerCase())
-	);
+	const carfiltereddata = vehicleData?.filter((vehicle) => {
+		const search = searchTerm.toLowerCase();
+		return (
+			vehicle.BasevehicleInfo.title.toLowerCase().includes(search) ||
+			vehicle.BasevehicleInfo.registrationNumber
+				.toLowerCase()
+				.includes(search) ||
+			vehicle.vehicleInfo.location.toLowerCase().includes(search) ||
+			vehicle.customerDetails?.fullName.toLowerCase().includes(search)
+		);
+	});
 
 	const handleReset = () => {
 		setSearchTerm(''); // Clear search input
@@ -47,14 +55,14 @@ const VehicleManagementPage = () => {
 
 					<RiResetLeftFill
 						className=' text-red-700 cursor-pointer hover:text-red-400 '
-						style={{ position: 'relative', left: '-30px', top: '15' }}
+						style={{ position: 'relative', left: '-30px', top: '15px' }}
 						onClick={handleReset}
 					/>
 				</div>
 			</div>
 
 			<div className='relative'>
-				<div className='p-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4'>
+				<div className='p-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-5'>
 					{carfiltereddata.length > 0 ? (
 						carfiltereddata?.map((vehicle, index) => (
 							<VehicleDetailCard
@@ -65,7 +73,7 @@ const VehicleManagementPage = () => {
 						))
 					) : (
 						<div
-							className=' flex flex-col items-center justify-center h-[55.8vh] w-full overflow-y-hidden'
+							className=' flex flex-col items-center justify-center h-[56.7vh] w-full overflow-y-hidden'
 							style={{ position: 'relative', left: '350px' }}
 						>
 							<img
@@ -85,6 +93,7 @@ const VehicleManagementPage = () => {
 					<VehicleModal
 						vehicle={selectedVehicle}
 						onClose={() => setSelectedVehicle(null)}
+						redirectPath='/job-card'
 					/>
 				)}
 			</div>

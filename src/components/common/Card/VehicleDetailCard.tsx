@@ -1,7 +1,6 @@
 import type { FC } from 'react';
 import { FaMapMarkerAlt, FaEye } from 'react-icons/fa';
 import { FONTS } from '../../../constants/uiConstants';
-// import type { Vehicle } from '../vehicle/VehicleCard';
 
 export type Vehicle = {
 	vehicleInfo: {
@@ -24,13 +23,14 @@ type Props = {
 };
 
 const VehicleDetailCard: FC<Props> = ({ vehicle, onViewDetails }) => {
-	const { kms, fuel, transmission, location } = vehicle.vehicleInfo;
-	const baseInfo = vehicle.BasevehicleInfo;
+	const { kms, fuel, transmission, location } = vehicle?.vehicleInfo;
+	const baseInfo = vehicle?.BasevehicleInfo;
 
 	return (
 		<div
 			className='relative rounded-2xl p-5 '
 			style={{
+				height: '330px',
 				background: 'linear-gradient(180deg, #fdefe9 0%, #fff 100%)',
 				borderColor: '#E6A895',
 				boxShadow:
@@ -54,11 +54,11 @@ const VehicleDetailCard: FC<Props> = ({ vehicle, onViewDetails }) => {
 				className='w-full h-44 rounded-xl overflow-hidden mb-4'
 				style={{ borderColor: '#E6A895', boxShadow: 'inset 0 0 10px #fdefe9' }}
 			>
-				<div className='flex w-full h-full justify-center items-center'>
+				<div className='flex w-full h-full round'>
 					<img
 						src={baseInfo.image}
 						alt={baseInfo.title}
-						className='w-60 h-full object-cover'
+						className='w-full h-full object-cover '
 						loading='lazy'
 					/>
 				</div>

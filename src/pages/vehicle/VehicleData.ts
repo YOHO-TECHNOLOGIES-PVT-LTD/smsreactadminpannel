@@ -1,8 +1,8 @@
-import car1 from '../../assets/loginimg/cars-img-folder/car1.png';
-import car2 from '../../assets/loginimg/cars-img-folder/car2.png';
-import car3 from '../../assets/loginimg/cars-img-folder/car3.png';
-import car4 from '../../assets/loginimg/cars-img-folder/car4.png';
-import car5 from '../../assets/loginimg/cars-img-folder/car5 - Copy.png';
+import car1 from '../../assets/loginimg/cars-img-folder/car (1).jpg';
+import car2 from '../../assets/loginimg/cars-img-folder/car (2).jpg';
+import car3 from '../../assets/loginimg/cars-img-folder/car (3).jpg';
+import car4 from '../../assets/loginimg/cars-img-folder/car (4).jpg';
+import car5 from '../../assets/loginimg/cars-img-folder/car (5).jpg';
 
 export interface Vehicle {
 	BasevehicleInfo: {
@@ -18,7 +18,7 @@ export interface Vehicle {
 		registeredYear: string;
 		insuranceStatus: string;
 		availability: string;
-		currentFuelLevel?: 'Empty' | 'Quarter' | 'Half Tank' | 'Full';
+		currentFuelLevel?: 'Empty' | 'Quarter' | 'Half Tank' | 'Full Tank';
 		rcAvailable?: boolean;
 		pollutionCertificate?: string;
 		lastServiceDate?: string;
@@ -106,7 +106,7 @@ const vehicleData: Vehicle[] = [
 			registeredYear: '2020',
 			insuranceStatus: 'Valid till Jan 2026',
 			availability: 'Available',
-			currentFuelLevel: 'Full',
+			currentFuelLevel: 'Full Tank',
 			rcAvailable: true,
 			pollutionCertificate: 'Valid till Jan 2026',
 			lastServiceDate: '2025-03-15',
@@ -190,7 +190,7 @@ const vehicleData: Vehicle[] = [
 			registeredYear: '2021',
 			insuranceStatus: 'Valid till Dec 2025',
 			availability: 'Available',
-			currentFuelLevel: 'Full',
+			currentFuelLevel: 'Full Tank',
 			rcAvailable: true,
 			pollutionCertificate: 'Valid till Dec 2025',
 			lastServiceDate: '2025-01-20',
