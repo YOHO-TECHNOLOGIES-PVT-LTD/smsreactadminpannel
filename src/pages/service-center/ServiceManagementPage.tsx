@@ -1,7 +1,4 @@
-import { IoIosAddCircleOutline } from "react-icons/io";
-import { COLORS } from "../../constants/uiConstants";
-import { FONTS } from "../../constants/uiConstants";
-import { MdDeleteSweep, MdOutlineEditCalendar } from "react-icons/md";
+
 import { ServiceCenterListPage } from "./ServiceCenterListPage";
 import React, { useState } from 'react';
 import 'flowbite';
