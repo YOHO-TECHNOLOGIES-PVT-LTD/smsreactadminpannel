@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { IoIosAddCircleOutline } from "react-icons/io";
 import { AiOutlineEye } from "react-icons/ai";
 import CityAddPage from "./CityAddPage";
-import { useNavigate } from "react-router-dom";
 import CityListPage from "./CityListPage";
 import { CiSearch } from "react-icons/ci";
+import { useNavigate } from "react-router-dom";
 
 export const CityManagementPage: React.FC = () => {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
