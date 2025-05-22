@@ -85,7 +85,7 @@ export const JobCardsPage: React.FC = () => {
   return (
     <div className="p-1 md:block">
       <div className=" rounded-lg">
-        <div className=" border-b-2 border-[#9b111e] pb-2 mb-4">
+        <div className=" border-b-2 border-[#c6c3c3] pb-2 mb-4">
           <h1
             style={{ ...FONTS.header, fontWeight: 600 }}
             className="font-bold  text-[#9b111e]"
@@ -108,7 +108,7 @@ export const JobCardsPage: React.FC = () => {
 
         <div className="overflow-x-auto ">
           <table className="min-w-full border-collapse rounded-lg overflow-hidden">
-            <thead className="bg-[#E6A895]">
+            <thead className="bg-[#e2cac0]">
               <tr>
                 <th className="px-4 py-3 text-left text-sm font-semibold text-[#9b111e] border-b">
                   ID
@@ -140,7 +140,7 @@ export const JobCardsPage: React.FC = () => {
               {invoices.map((invoice, index) => (
                 <tr
                   key={invoice.id}
-                  className={`text-sm text-gray-700 hover:bg-gray-100 transition ${
+                  className={`text-sm text-gray-700 hover:bg-[#edeae9] transition ${
                     index % 2 === 0 ? "bg-white" : "bg-gray-50"
                   }`}
                 >
