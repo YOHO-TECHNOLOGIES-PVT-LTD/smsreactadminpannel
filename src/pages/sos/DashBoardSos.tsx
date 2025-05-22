@@ -50,7 +50,7 @@ const DashboardSos = () => {
       location: "Chicago",
       name: "Joe Kelley",
       phoneNumber: "9876543212",
-      status: "Progress",
+      status: "In Progress",
       view: "View",
     },
     {
@@ -66,10 +66,19 @@ const DashboardSos = () => {
       location: "Phoenix",
       name: "Alex Goan",
       phoneNumber: "9876543214",
-      status: "Progress",
+      status: "In Progress",
       view: "View",
     },
   ];
+
+  const [filterStatus, setFilterStatus] = useState<string>("All");
+
+  const filteredRequests = activeRequests.filter((req) => {
+    const status = req.status.toLowerCase();
+    if (filterStatus === "All") return true;
+    if (filterStatus === "In Progress") return status.includes("progress");
+    if (filterStatus === "Completed") return status === "completed";
+  });
 
   const [services, setServices] = useState<Service[]>([
     { id: 1, name: "Medical Help", active: true },
@@ -79,10 +88,13 @@ const DashboardSos = () => {
     { id: 5, name: "Healthcare", active: true },
   ]);
 
+  const [showForm, setShowForm] = useState(false);
+  const [newServiceName, setNewServiceName] = useState("");
+
   return (
     <div className=" flex flex-col md:flex-row gap-8 p-6 text-gray-800 h-screen">
       {/* SOS Requests */}
-      <div className="rounded p-2 lg:w-full border-2 md:w-2/3 overflow-auto bg-white rounded-xl ">
+      <div className="rounded p-2 lg:w-full border-2 md:w-2/3 overflow-auto bg-white rounded-xl flex flex-col">
         <div className="mb-8">
           <div className="flex justify-between items-center m-6">
             <h2 className="text-4xl font-bold">Active SOS Requests</h2>
@@ -93,20 +105,31 @@ const DashboardSos = () => {
             />
           </div>
           <div className="flex gap-4 mt-4 ml-4">
-            <button className="px-10 py-2 bg-gradient-to-r from-red-600 to-red-800 hover:scale-105 transition-transform text-white rounded">
+            <button
+              onClick={() => setFilterStatus("All")}
+              className="px-10 py-2 bg-gradient-to-r from-red-600 to-red-800 hover:scale-105 transition-transform text-white rounded"
+            >
               All
             </button>
-            <button className="px-4 py-2 bg-gradient-to-r from-red-600 to-red-800 hover:scale-105 transition-transform text-white rounded">
+            <button
+              onClick={() => setFilterStatus("In Progress")}
+              className={`px-4 py-2 bg-gradient-to-r from-red-600 to-red-800 hover:scale-105 transition-transform text-white rounded ${
+                filterStatus === "In Progress"
+              }`}
+            >
               In Progress
             </button>
-            <button className="px-4 py-2 bg-gradient-to-r from-red-600 to-red-800 hover:scale-105 transition-transform text-white rounded">
+            <button
+              onClick={() => setFilterStatus("Completed")}
+              className="px-4 py-2 bg-gradient-to-r from-red-600 to-red-800 hover:scale-105 transition-transform text-white rounded"
+            >
               Completed
             </button>
           </div>
         </div>
 
         <div>
-          <table className="w-full h-96 text-left text-lg border-gray-900 rounded overflow-hidden bg-white">
+          <table className="w-full text-left text-lg border-gray-900 rounded overflow-hidden bg-white">
             <thead className="border-2">
               <tr className="text-gray-900 bg-gray-100 transition-colors">
                 <th className="px-4 py-2">Vehicle Number</th>
@@ -118,9 +141,9 @@ const DashboardSos = () => {
               </tr>
             </thead>
             <tbody className="divide-y border-b-2 border-gray-300 divide-gray-300">
-              {activeRequests.map((req, index) => (
+              {filteredRequests.map((req, index) => (
                 <tr key={index} className="text-gray-900 font-semibold">
-                  <td className="px-4 py-2">{req.vehicleNumber}</td>
+                  <td className="px-4 py-4">{req.vehicleNumber}</td>
                   <td className="px-4 py-2">{req.location}</td>
                   <td className="px-4 py-2">{req.name}</td>
                   <td className="px-4 py-2">{req.phoneNumber}</td>
@@ -129,7 +152,7 @@ const DashboardSos = () => {
                       className={`${
                         req.status.toLowerCase() === "not started"
                           ? "text-[#800000]"
-                          : req.status.toLowerCase() === "progress"
+                          : req.status.toLowerCase() === "in progress"
                           ? "text-gray-600"
                           : "text-green-600"
                       }`}
@@ -157,6 +180,7 @@ const DashboardSos = () => {
         <div className="flex justify-between items-center m-4">
           <h2 className="text-4xl font-bold">SOS Services</h2>
           <FiPlus
+            onClick={() => setShowForm(true)}
             className="text-4xl text-red-800 cursor-pointer hover:text-gray-800"
             title="Add Service"
           />
@@ -207,6 +231,51 @@ const DashboardSos = () => {
             </li>
           ))}
         </ul>
+      </div>
+
+      {/* Slide-in Form */}
+      <div
+        className={`fixed top-0 right-0 h-full w-[22rem] max-w-sm bg-white shadow-lg transform transition-transform duration-300 ease-in-out z-50 ${
+          showForm ? "translate-x-0" : "translate-x-full"
+        }`}
+      >
+        <div className="flex justify-between items-center p-4 border-b">
+          <h3 className="text-xl font-bold">Add New Service</h3>
+          <MdClose
+            className="text-2xl cursor-pointer text-red-800"
+            onClick={() => setShowForm(false)}
+          />
+        </div>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            if (!newServiceName.trim()) return;
+
+            const newService: Service = {
+              id: services.length + 1,
+              name: newServiceName.trim(),
+              active: false,
+            };
+            setServices((prev) => [...prev, newService]);
+            setNewServiceName("");
+            setShowForm(false);
+          }}
+          className="p-4 flex flex-col gap-4"
+        >
+          <input
+            type="text"
+            placeholder="Service Name"
+            value={newServiceName}
+            onChange={(e) => setNewServiceName(e.target.value)}
+            className="border p-2 rounded w-full"
+          />
+          <button
+            type="submit"
+            className="bg-gradient-to-r from-red-600 to-red-800 text-white py-2 px-4 rounded hover:scale-105 transition-transform"
+          >
+            Add Service
+          </button>
+        </form>
       </div>
     </div>
   );
