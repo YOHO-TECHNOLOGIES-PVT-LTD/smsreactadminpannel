@@ -7,7 +7,11 @@ export default {
     "./node_modules/flowbite/**/*.js"
   ],
   theme: {
-    extend: {},
+    extend: {
+      height:{
+        'full':'90rem'
+      }
+    },
   },
   plugins: [
     require('tailwind-scrollbar-hide')

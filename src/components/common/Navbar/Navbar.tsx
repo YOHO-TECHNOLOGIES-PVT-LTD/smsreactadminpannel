@@ -117,6 +117,9 @@ export const Navbar: React.FC = () => {
     setShowNotifications(false);
     navigate("/notifications");
   };
+  const handleSosClick = () => {
+    navigate("/sos");
+  };
 
   const toggleDropdown = () => {
     setIsDropdownOpen((prev) => !prev);
@@ -166,7 +169,7 @@ export const Navbar: React.FC = () => {
             <div className="relative">
               <span className="absolute inline-flex h-8 w-8 rounded-full bg-red-400 opacity-75 animate-ping"></span>
               <button
-                onClick={() => alert("Emergency SOS Triggered!")}
+                onClick={handleSosClick}
                 className="relative z-10 inline-flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-r from-red-600 to-red-800 text-white font-bold text-sm shadow-lg hover:scale-105 transition-transform"
               >
                 SOS
