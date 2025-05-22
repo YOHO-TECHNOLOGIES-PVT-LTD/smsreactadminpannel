@@ -1,5 +1,4 @@
-import { Route, Routes, Navigate } from "react-router-dom";
-import { useState } from "react";
+import { Routes, Route, Navigate } from "react-router-dom";
 import LoginPage from "../pages/auth/LoginPage";
 import SignupPage from "../pages/auth/SignupPage";
 import { Dashboard } from "../pages/Dashboard/Dashboard";
@@ -8,20 +7,16 @@ import { ServiceManagementPage } from "../pages/service-center/ServiceManagement
 import { JobCardsPage } from "../pages/job-cards/JobCardsPage";
 import { CityManagementPage } from "../pages/city/CityManagementPage";
 import AutomatedNotificationsPage from "../pages/notification/AutomatedNotificationsPage";
-import { VehicleManagementPage } from "../pages/vehicle/VehicleManagementPage";
+import  VehicleManagementPage  from "../pages/vehicle/VehicleManagementPage";
 import GeneralSettings from "../pages/Settings/GeneralSettings";
 import { MainLayout } from "../Layout/MainLayout/MainLayout";
-import { NotFound } from "../pages/NotFound/NotFound";
-import ProfileEditSettings from "../pages/Settings/ProfileEditSettings";
+import { useAuth } from "../pages/auth/AuthContext";
+import { Announcement } from "../pages/Announcement/Announcement";
+import SosDetailsCard from "../pages/sos/SosDetailsCard"
+import DashboardSos from "../pages/sos/DashBoardSos";
 
 const AppRoutes = () => {
-    const [isAuthenticated, setIsAuthenticated] = useState(true);
-
-  // Simulate checking auth status
-//   useEffect(() => {
-//     const token = localStorage.getItem("authToken");
-//     setIsAuthenticated(!!token);
-//   }, []);
+    const { isAuthenticated } = useAuth();
 
     const AuthRoutes = () => (
         <Routes>
@@ -41,14 +36,16 @@ const AppRoutes = () => {
                 <Route path="job-cards" element={<JobCardsPage />} />
                 <Route path="city" element={<CityManagementPage />} />
                 <Route path="vehicle" element={<VehicleManagementPage />} />
+                <Route path="announcement" element={<Announcement />} />
                 <Route path="settings" element={<GeneralSettings />} />
-                <Route path="settings/profileEdit" element={<ProfileEditSettings />} />
-                <Route path="*" element={<NotFound/>} />
+                <Route path="sos" element ={<DashboardSos/>}/>
+                <Route path="sosdetails" element={<SosDetailsCard/>}/>
+                <Route path="*" element={<Navigate to="/" />} />
             </Route>
         </Routes>
     );
 
     return isAuthenticated ? <AdminRoutes /> : <AuthRoutes />;
-    };
+};
 
 export default AppRoutes;

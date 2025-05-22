@@ -1,27 +1,26 @@
 import { useState, type JSX } from "react";
-import { Link, useLocation, Outlet } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import {
   FiHome,
   FiBell,
-  FiTool,
+  FiUsers,
   FiClipboard,
   FiMapPin,
   FiTruck,
   FiSettings,
-  FiLogOut,
+  FiAlertTriangle,
   FiMenu,
-
 } from "react-icons/fi";
+import Logo from "../../../assets/LOGO.jpg";
+import { Megaphone } from "lucide-react";
+
 // import { COLORS } from "../../../constants/uiConstants";
 
 const COLOR = {
-   primary: "#9b111e",
-   bgColor: "#faf3eb",
-   secondary: "#E6A895",
- };
-
-import Logo from '../../../assets/LOGO.jpg'
-
+  primary: "#9b111e",
+  bgColor: "#faf3eb",
+  secondary: "#E6A895",
+};
 
 export const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(true);
@@ -33,26 +32,24 @@ export const Sidebar = () => {
 
   return (
     <div className="flex h-screen">
-      <div
-        className="bg-white border-r shadow-md p-2 transition-all duration-300 fixed top-0 left-0 h-screen z-40 flex flex-col items-center"
-        
-      >
+      <div className="bg-white border-r shadow-md p-2 transition-all duration-300 fixed top-0 left-0 h-screen z-40 flex flex-col items-center">
         <div className="flex justify-center items-center h-20">
           <img
             src={Logo}
             alt="YES Mechanic Logo"
             className={`object-contain transition-all duration-300 ${
-isOpen ? "w-20 h-20" : "w-10 h-10"}`}
+              isOpen ? "w-20 h-20" : "w-10 h-10"
+            }`}
           />
         </div>
         <div className="w-full flex justify-end px-2 mt-2">
-         <button
-         onClick={() => setIsOpen(!isOpen)}
-         className="text-gray-600 hover:text-black p-2 rounded-md transition duration-200 hover:bg-gray-100"
-         title="Toggle Sidebar"
-         >
-        <FiMenu size={20} style={{ color: COLOR.primary }} />
-        </button>
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            className="text-gray-600 hover:text-black p-2 rounded-md transition duration-200 hover:bg-gray-100"
+            title="Toggle Sidebar"
+          >
+            <FiMenu size={20} style={{ color: COLOR.primary }} />
+          </button>
         </div>
 
         <nav className="flex flex-col gap-4 mt-4 w-full items-center">
@@ -72,7 +69,7 @@ isOpen ? "w-20 h-20" : "w-10 h-10"}`}
           />
           <SidebarLink
             to="/service"
-            icon={<FiTool />}
+            icon={<FiUsers />}
             label="Service"
             isOpen={isOpen}
             onClick={handleLinkClick}
@@ -99,6 +96,13 @@ isOpen ? "w-20 h-20" : "w-10 h-10"}`}
             onClick={handleLinkClick}
           />
           <SidebarLink
+            to="/announcement"
+            icon={<Megaphone />}
+            label="Announcement"
+            isOpen={isOpen}
+            onClick={handleLinkClick}
+          />
+          <SidebarLink
             to="/settings"
             icon={<FiSettings />}
             label="Settings"
@@ -106,27 +110,23 @@ isOpen ? "w-20 h-20" : "w-10 h-10"}`}
             onClick={handleLinkClick}
           />
           <SidebarLink
-            to="/logout"
-            icon={<FiLogOut />}
-            label="Logout"
+            to="/sos"
+            icon={<FiAlertTriangle />}
+            label="SOS"
             isOpen={isOpen}
             onClick={handleLinkClick}
           />
         </nav>
       </div>
-
       <div
         className={`transition-all duration-300 ${
           isOpen ? "ml-48" : "ml-16"
         } flex-1`}
-      >
-        {/* <div className="">
-          <Outlet />
-        </div> */}
-      </div>
+      ></div>
     </div>
   );
 };
+
 const SidebarLink = ({
   to,
   icon,
@@ -140,8 +140,9 @@ const SidebarLink = ({
   isOpen: boolean;
   onClick: () => void;
 }) => {
+  const location = useLocation();
   const [isHovered, setIsHovered] = useState(false);
-
+  const isActive = location.pathname === to;
   return (
     <Link
       to={to}
@@ -149,18 +150,21 @@ const SidebarLink = ({
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       style={{
-        backgroundColor: isHovered ? "#faf3eb" : "transparent",
+        backgroundColor: isHovered || isActive ? "#faf3eb" : "transparent",
       }}
-      className="flex items-center gap-4 w-full px-4 py-2 rounded transition-all"
+      className={`flex items-center transition-all px-2 py-1 
+        ${
+          isOpen
+            ? "w-full justify-start gap-5 pl-5 pr-1"
+            : "justify-center w-10 h-8"
+        } 
+        ${isHovered || isActive ? "bg-[#faf3eb] rounded-full" : "rounded-full"}
+      `}
     >
       <div className="text-xl" style={{ color: COLOR.primary }}>
         {icon}
       </div>
-      {isOpen && (
-        <span style={{ color: COLOR.primary }}>
-          {label}
-        </span>
-      )}
+      {isOpen && <span style={{ color: COLOR.primary }}>{label}</span>}
     </Link>
   );
-};  
+};
