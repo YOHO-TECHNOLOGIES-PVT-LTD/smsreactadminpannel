@@ -20,6 +20,7 @@ import { TransactionCard } from "../../components/common/dashboard/TransactionsC
 import { DashboardCard } from "../../components/common/dashboard/DashboardCard/DashboardCard";
 import { QueryCard } from "../../components/common/dashboard/QueryCard/QueryCard";
 import dummypic from "../../assets/Dashboard/images.jpg";
+import { SoSCard } from "../../components/common/dashboard/SoSCard/SoSCard";
 
 
 const queries = [
