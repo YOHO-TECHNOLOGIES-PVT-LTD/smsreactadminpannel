@@ -72,7 +72,6 @@ const VehicleManagementPage = () => {
                             <div className='absolute top-2/3'>
                               <p className="text-red-700 font-semibold">No car available for this search</p>
                             </div>
-              
                 </div>
       }
       </div>
