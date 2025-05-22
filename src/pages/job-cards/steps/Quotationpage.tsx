@@ -1,5 +1,6 @@
 import React from "react";
 import Logo from "../../../assets/LOGO.jpg";
+import { toast } from "react-toastify";
 
 type QuotationItem = {
   description: string;
@@ -21,7 +22,7 @@ const QuotationPage: React.FC = () => {
   );
 
   return (
-    <div className="sm:p-8 bg-white text-black w-full mx-auto border rounded shadow">
+    <div className="sm:p-8 bg-white text-black w-full  border rounded shadow">
       <div className="flex flex-col md:flex-row justify-between mb-2 gap-4">
         <div>
           <div className="flex justify-start items-center h-20">
@@ -134,40 +135,42 @@ const QuotationPage: React.FC = () => {
         This quotation is only for admin use.
       </p>
 
-     
       <div className="mt-2 p-4 flex justify-center">
-  <div className="flex gap-8 justify-end w-full md:w-2/3">
-    <button
-      className="flex items-center justify-center font-bold  px-14 py-2 rounded text-white transition duration-200 active:scale-105 hover:bg-[#a00000]"
-      style={{
-        background:
-          "linear-gradient(44.99deg,#700808 11%,#d23c3c 102.34%)",
-      }}
-    >
-      Accept
-    </button>
+        <div className="flex gap-8 justify-end w-full md:w-2/3">
+          <button
+            onClick={() => toast.success("Quotation accepted!")}
+            className="flex items-center justify-center font-bold  px-14 py-2 rounded text-white transition duration-200 active:scale-105 hover:bg-[#a00000]"
+            style={{
+              background:
+                "linear-gradient(44.99deg,#700808 11%,#d23c3c 102.34%)",
+            }}
+          >
+            Accept
+          </button>
 
-    <button
-      className="flex items-center justify-center font-bold px-14 py-2 rounded text-white transition duration-200 active:scale-105 hover:bg-[#a00000]"
-      style={{
-        background:
-          "linear-gradient(44.99deg,#700808 11%,#d23c3c 102.34%)",
-      }}
-    >
-      Pending
-    </button>
+          <button
+            onClick={() => toast.info("Quotation marked as pending.")}
+            className="flex items-center justify-center font-bold px-14 py-2 rounded text-white transition duration-200 active:scale-105 hover:bg-[#a00000]"
+            style={{
+              background:
+                "linear-gradient(44.99deg,#700808 11%,#d23c3c 102.34%)",
+            }}
+          >
+            Pending
+          </button>
 
-    <button
-      className="flex items-center justify-center font-bold  px-14 py-2 rounded text-white transition duration-200 active:scale-105 hover:bg-[#a00000]"
-      style={{
-        background:
-          "linear-gradient(44.99deg,#700808 11%,#d23c3c 102.34%)",
-      }}
-    >
-      Revoke
-    </button>
-  </div>
-</div>
+          <button
+            onClick={() => toast.error("Quotation has been revoked.")}
+            className="flex items-center justify-center font-bold  px-14 py-2 rounded text-white transition duration-200 active:scale-105 hover:bg-[#a00000]"
+            style={{
+              background:
+                "linear-gradient(44.99deg,#700808 11%,#d23c3c 102.34%)",
+            }}
+          >
+            Revoke
+          </button>
+        </div>
+      </div>
     </div>
   );
 };
