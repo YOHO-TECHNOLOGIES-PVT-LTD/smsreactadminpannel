@@ -70,6 +70,42 @@ const invoices: Invoice[] = [
     paidAmount: "$700.00",
     BalanceDue: "100.00",
     profile: "150",
+    jobStatus: "Not started",
+  },
+  {
+    id: "INV006",
+    name: "Jane",
+    invoiceDate: "2025-05-16",
+    vehicle: "Suzuki",
+    plate: "LMN-9012",
+    total: "$3000.00",
+    paidAmount: "$900.00",
+    BalanceDue: "100.00",
+    profile: "150",
+    jobStatus: "In Progress",
+  },
+  {
+    id: "INV006",
+    name: "Jane",
+    invoiceDate: "2025-05-16",
+    vehicle: "Suzuki",
+    plate: "LMN-9012",
+    total: "$3000.00",
+    paidAmount: "$900.00",
+    BalanceDue: "100.00",
+    profile: "150",
+    jobStatus: "In Progress",
+  },
+  {
+    id: "INV006",
+    name: "Jane",
+    invoiceDate: "2025-05-16",
+    vehicle: "Suzuki",
+    plate: "LMN-9012",
+    total: "$3000.00",
+    paidAmount: "$900.00",
+    BalanceDue: "100.00",
+    profile: "150",
     jobStatus: "In Progress",
   },
   {
@@ -169,7 +205,7 @@ export const JobCardsPage: React.FC = () => {
                   <tr
                     key={invoice.id}
                     className={`text-sm text-gray-700 hover:bg-[#edeae9] transition font-semibold ${
-                      index % 2 === 0 ? "bg-white" : "bg-gray-50"
+                      index % 2 == 0 ? "bg-white" : "bg-gray-50"
                     }`}
                   >
                     <td className="px-4 py-3 border-b">{invoice.id}</td>
@@ -184,12 +220,12 @@ export const JobCardsPage: React.FC = () => {
                     <td className="px-4 py-3 border-b hidden lg:table-cell">
                       {invoice.total}
                     </td>
-                    <td className="px-4 py-3">
+                    <td className="px-4 py-3 border-b">
                       <span
                         className={`inline-block px-2 py-1 rounded-full text-xs font-semibold capitalize ${
                           invoice.jobStatus.toLowerCase() === "completed"
                             ? "bg-green-100 text-green-700"
-                            : "bg-yellow-100 text-yellow-800"
+                            : invoice.jobStatus.toLowerCase() === "not started"?"bg-red-100 text-red-800":"bg-yellow-100 text-yellow-800"
                         }`}
                       >
                         {invoice.jobStatus}
