@@ -1,5 +1,5 @@
 import { useState, type JSX } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate} from "react-router-dom";
 import {
   FiHome,
   FiBell,
@@ -10,12 +10,14 @@ import {
   FiSettings,
   FiAlertTriangle,
   FiMenu,
+  FiLogOut,
 
 } from "react-icons/fi";
 import Logo from '../../../assets/LOGO.jpg'
 import { Megaphone } from "lucide-react"; 
 
 // import { COLORS } from "../../../constants/uiConstants";
+import { useAuth } from "../../../pages/auth/AuthContext";
 
 const COLOR = {
    primary: "#9b111e",
@@ -27,11 +29,17 @@ const COLOR = {
 
 export const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(true);
-  const location = useLocation();
+  const {logout} = useAuth()
+  const navigate = useNavigate()
 
   const handleLinkClick = () => {
     setIsOpen(false);
   };
+
+  const handleLogout = () =>{
+    logout()
+    navigate('/')
+  }
 
   return (
     <div className="flex h-screen">
@@ -115,19 +123,20 @@ export const Sidebar = () => {
             onClick={handleLinkClick}
           />
           <SidebarLink
-  to="/sos"
-  icon={<FiAlertTriangle />}
-  label="SOS"
-  isOpen={isOpen}
-  onClick={handleLinkClick}
-/>
-
+            to="/logout"
+            icon={<FiLogOut />}
+            label="Logout"
+            isOpen={isOpen}
+            onClick={handleLogout}
+          />
         </nav>
       </div>
-            <div
-  className={`transition-all duration-300 ${isOpen ? "ml-48" : "ml-16"} flex-1`}
->
 
+      <div
+        className={`transition-all duration-300 ${
+          isOpen ? "ml-48" : "ml-16"
+        } flex-1`}
+      >
       </div>
     </div>
   );

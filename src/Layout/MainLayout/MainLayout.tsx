@@ -1,4 +1,4 @@
-// import React from 'react';
+
 import { Outlet } from 'react-router-dom';
 import { Navbar } from '../../components/common/Navbar/Navbar.tsx';
 import { Sidebar } from '../../components/common/Sidebar/Sidebar.tsx';
