@@ -6,7 +6,11 @@ import { GiSpanner } from "react-icons/gi";
 import { GiAutoRepair } from "react-icons/gi";
 import { FaArrowLeftLong } from "react-icons/fa6";
 
-const ServicesList = () => {
+type ServiceCenterServicesProps = {
+  onSpareParts: () => void;  // A function that returns nothing
+};
+
+const ServicesList: React.FC<ServiceCenterServicesProps> = ({onSpareParts}) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const washingOptions = [
@@ -38,6 +42,7 @@ const ServicesList = () => {
   return (
 
     <div>
+      <button onClick={onSpareParts}>Spares</button>
         <div className="">
              <p><FaArrowLeftLong className="text-4xl mt-5 ml-4 bg-pink-200 rounded-lg p-2" /></p>
         </div>

@@ -15,7 +15,11 @@ import { BiSolidCertification } from "react-icons/bi";
 import { RiLockPasswordLine } from "react-icons/ri";
 import { LuPhoneCall } from "react-icons/lu";
 
-const ServiceCenterProfileView: React.FC = () => {
+type ServiceCenterProfileProps = {
+  onServices: () => void;  // A function that returns nothing
+};
+
+const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({onServices}) => {
     const [isActive, setIsActive] = useState(true);
     const [showConfirm, setShowConfirm] = useState(false);
     const [pendingStatus, setPendingStatus] = useState<boolean | null>(null);
@@ -87,6 +91,7 @@ const ServiceCenterProfileView: React.FC = () => {
                         <h3 className="text-3xl font-extrabold text-black">Shiva Shanker Auto Mobiles</h3>
                     </div>
                     <button
+                        onClick={onServices}
                         className="text-white px-4 py-2 rounded-lg transition duration-200 flex items-center gap-2"
                         style={{
                             background: "linear-gradient(44.99deg, #700808 11%, #d23c3c 102.34%)",

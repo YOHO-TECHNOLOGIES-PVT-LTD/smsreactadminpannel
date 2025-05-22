@@ -7,7 +7,9 @@ import { BsEye } from "react-icons/bs";
 import { IoClose } from "react-icons/io5";
 import ServiceCenterProfileView from "./ServiceCenterprofileview";
 
-
+type ServiceCenterListProps = {
+  onView: () => void;  // A function that returns nothing
+};
 // Filter Component
 const ServiceCenterFilter = () => {
   const [showFilters, setShowFilters] = useState(false);
@@ -79,7 +81,7 @@ const ServiceCenterFilter = () => {
 };
 
 // Main Page Component
-export const ServiceCenterListPage = () => {
+export const ServiceCenterListPage:React.FC<ServiceCenterListProps> = ({onView}) => {
   const [selectedCardIndex, setSelectedCardIndex] = useState<number | null>(null);
 
   const centers = [
@@ -147,7 +149,7 @@ export const ServiceCenterListPage = () => {
                   <div className="flex gap-2 mt-2 sm:mt-0">
                     {selectedCardIndex !== index && (
                       <button
-                        onClick={() => setSelectedCardIndex(index)}
+                        onClick={onView}
                         className="text-white px-4 py-1.5 rounded-md transition duration-200 flex items-center gap-1.5 text-sm"
                         style={{
                           background: "linear-gradient(44.99deg, #700808 11%, #d23c3c 102.34%)",
@@ -167,7 +169,6 @@ export const ServiceCenterListPage = () => {
                     >
                       <IoClose size={30} />
                     </button>
-                    <ServiceCenterProfileView />
                   </div>
                 )}
               </div>
