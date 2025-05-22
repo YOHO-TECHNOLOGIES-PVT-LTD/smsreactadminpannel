@@ -11,8 +11,9 @@ import GeneralSettings from "../pages/Settings/GeneralSettings";
 import { MainLayout } from "../Layout/MainLayout/MainLayout";
 import { useAuth } from "../pages/auth/AuthContext";
 import { Announcement } from "../pages/Announcement/Announcement";
-import { Dashboard } from "../pages/Dashboard/Dashboard";
 import QuotationPage from "../pages/job-cards/steps/Quotationpage";
+import { Dashboard } from "../pages/Dashboard/Dashboard";
+import { ServiceCenterListPage } from "../pages/service-center/ServiceCenterListPage";
 
 const AppRoutes = () => {
     const { isAuthenticated } = useAuth();
@@ -37,7 +38,8 @@ const AppRoutes = () => {
                 <Route path="vehicle" element={<VehicleManagementPage />} />
                 <Route path="announcement" element={<Announcement />} />
                 <Route path="settings" element={<GeneralSettings />} />
-                <Route path="/quotation" element={<QuotationPage />} />
+                <Route path="quotation" element={<QuotationPage />} />
+                <Route path="service-center" element={<ServiceCenterListPage />} />
                 <Route path="*" element={<Navigate to="/" />} />
             </Route>
         </Routes>

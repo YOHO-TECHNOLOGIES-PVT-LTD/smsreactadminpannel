@@ -1,8 +1,10 @@
-import React, {  useState } from "react";
+import React, { useState } from "react";
 import { IoIosAddCircleOutline } from "react-icons/io";
 import { AiOutlineEye } from "react-icons/ai";
 import CityAddPage from "./CityAddPage";
 import { useNavigate } from "react-router-dom";
+import CityListPage from "./CityListPage";
+import { CiSearch } from "react-icons/ci";
 
 export const CityManagementPage: React.FC = () => {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
@@ -32,7 +34,7 @@ export const CityManagementPage: React.FC = () => {
             Add
           </button>
 
-          <button
+          {/* <button
             className="flex items-center gap-2 font-bold px-4 py-2 rounded-lg text-white transition duration-200 hover:bg-[#a00000] active:scale-105"
             style={{
               background:
@@ -42,7 +44,7 @@ export const CityManagementPage: React.FC = () => {
           >
             <AiOutlineEye size={18} />
             View
-          </button>
+          </button> */}
         </div>
       </div>
       <div>
@@ -65,17 +67,34 @@ export const CityManagementPage: React.FC = () => {
         </form>
       </div>
 
-      <div className="rounded-lg overflow-hidden border border-gray-300 mt-12 h-fit">
-        <iframe
-          title="City Map"
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15558.968218678115!2d80.2459148!3d13.0826802!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a5266dd1f7c1a3d%3A0x82bc0baebedf4a34!2sChennai%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1650000000000"
-          width="100%"
-          height="560"
-          className="border-0 w-full"
-          loading="lazy"
-          allowFullScreen
-          referrerPolicy="no-referrer-when-downgrade"
-        ></iframe>
+      <div className="relative max-w-md mb-4 mt-4 ">
+        <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">
+          <CiSearch className="text-red-900" size={20} />
+        </span>
+        <input
+          type="search"
+          placeholder="Search by state, city or district"
+          className="pl-10 pr-4 py-2 w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#9b111e]"
+        />
+      </div>
+
+      <div className="flex flex-col md:flex-row gap-4 mt-6 rounded-lg overflow-hidden border border-gray-100 mt-8 bg-white">
+        <div className="w-full md:w-1/2 h-[500px] border-8 border-white rounded-lg shadow-lg">
+          <iframe
+            title="City Map"
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15558.968218678115!2d80.2459148!3d13.0826802!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a5266dd1f7c1a3d%3A0x82bc0baebedf4a34!2sChennai%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1650000000000"
+            width="100%"
+            height="100%"
+            className="border-0"
+            loading="lazy"
+            allowFullScreen
+            referrerPolicy="no-referrer-when-downgrade"
+          ></iframe>
+        </div>
+
+        <div className=" p-2  w-full md:w-1/2 ">
+          <CityListPage />
+        </div>
       </div>
 
       {isAddModalOpen && (
