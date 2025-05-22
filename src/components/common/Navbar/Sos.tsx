@@ -1,7 +1,7 @@
 import React from 'react';
 
-const SosButton = () => {
-  const handleSosClick = () => {
+const SosButton: React.FC = () => {
+  const handleSosClick = (): void => {
     alert('Emergency SOS Triggered!');
   };
 
