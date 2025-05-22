@@ -1,7 +1,4 @@
 import { FONTS } from "../../constants/uiConstants"//FONT
-import {COLORS} from "../../constants/uiConstants"//COLOUR
-
-import { FONTS } from "../../constants/uiConstants"; //FONT
 // import {COLORS} from "../../constants/uiConstants"//COLOUR
 
 //this is for ICONS
@@ -23,6 +20,7 @@ import dummpypic from "../../assets/Dashboard/images.jpg";
 
 export const Dashboard = () => {
   return (
+    <>
     <div className="w-full px-4 py-6">
       {/* Header */}
       <div className="rounded-xl shadow-md bg-white pb-4 mb-4">
