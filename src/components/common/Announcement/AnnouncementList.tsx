@@ -1,3 +1,4 @@
+
 import React from 'react';
 
 const announcements = [
@@ -21,7 +22,7 @@ const announcements = [
 const AnnouncementList = () => (
   <>
     {announcements.map((item, index) => (
-      <div key={index} className="card">
+      <div key={index} className="bg-white rounded-lg shadow-md overflow-hidden">
         <img src={item.image} alt={item.title} className="w-full h-40 object-cover" />
         <div className="p-4">
           <h3 className="text-base font-semibold">{item.title}</h3>
