@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FONTS } from "../../../../constants/uiConstants"//FONT
+// import { FONTS } from "../../../../constants/uiConstants"//FONT
 import {COLORS} from "../../../../constants/uiConstants"//COLOUR
 
 import {
@@ -24,7 +24,7 @@ const data = [
 const dateRanges = ['Weekly', 'Monthly', 'Yearly'];
 
 const BarCharts: React.FC = () => {
-  const [selectedRange, setSelectedRange] = useState('Weekly');
+  const [selectedRange, setSelectedRange] = useState('...');
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -32,7 +32,7 @@ const BarCharts: React.FC = () => {
       <div className="flex justify-between items-center ">
         {/* content  */}
         <div>
-          <h2 className="text-lg font-semibold" style={{color:COLORS.primary}}>Vehicle Management</h2>
+          <h2 className="text-lg " style={{color:COLORS.primary}}>Vehicle Management</h2>
           <div className="flex space-x-4 text-xs mt-4">
             <div className="flex items-center space-x-1 text-blue-600">
               <span className="h-2 w-2 bg-blue-600 rounded-full"></span>
