@@ -7,6 +7,8 @@ import {
 } from 'recharts';
 import { ChevronDown } from 'lucide-react';
 
+
+//for data
 const data = [
   { day: 'Mon', newCustomers: 50 },
   { day: 'Tue', newCustomers: 35 },
@@ -17,6 +19,8 @@ const data = [
   { day: 'Sun', newCustomers: 24 },
 ];
 
+
+//for drop down
 const dateRanges = ['Weekly', 'Monthly', 'Yearly'];
 
 const BarCharts: React.FC = () => {
@@ -26,8 +30,9 @@ const BarCharts: React.FC = () => {
   return (
     <div className="bg-white w-full lg:max-w-xl md:max-h-[350px] mx-auto relative">
       <div className="flex justify-between items-center ">
+        {/* content  */}
         <div>
-          <h2 className="text-lg font-semibold" style={{...FONTS.paragraph,color:COLORS.primary}}>Vehicle Management</h2>
+          <h2 className="text-lg font-semibold" style={{color:COLORS.primary}}>Vehicle Management</h2>
           <div className="flex space-x-4 text-xs mt-4">
             <div className="flex items-center space-x-1 text-blue-600">
               <span className="h-2 w-2 bg-blue-600 rounded-full"></span>

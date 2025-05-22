@@ -1,5 +1,5 @@
 import { FONTS } from "../../constants/uiConstants"; //FONT
-// import {COLORS} from "../../constants/uiConstants"//COLOUR
+import {COLORS} from "../../constants/uiConstants"//COLOUR
 
 //this is for ICONS
 import { AiOutlineCheckCircle } from "react-icons/ai";
@@ -18,20 +18,23 @@ import { DashboardCard } from "../../components/common/dashboard/DashboardCard/D
 import { QueryCard } from "../../components/common/dashboard/QueryCard/QueryCard";
 import dummpypic from "../../assets/Dashboard/images.jpg";
 
+
+//
+
 export const Dashboard = () => {
   return (
-    <div className="w-full px-4 py-6">
+    <div className="w-full px-4 py-6 -mt-6">
       {/* Header */}
       <div className="rounded-xl shadow-md bg-white pb-4 mb-4">
         <p
-          className="text-xl font-semibold pl-6 pt-3"
-          style={{ ...FONTS.header }}
+          className="text-xl font-semibold pl-6 pt-3 bg-rgb(214, 90, 103) "
+          style={{ ...FONTS.header,backgroundImage: `linear-gradient(25deg,${COLORS.primary} 12%,rgb(229, 95, 108) 26%, ${COLORS.primary} 25%)`, WebkitBackgroundClip: "text" ,WebkitTextFillColor: "transparent" }}
         >
           Overview of Service Center
         </p>
         <p
           className="text-gray-500 text-sm pb-5 pl-7"
-          style={{ ...FONTS.paragraph }}
+          style={{ ...FONTS.paragraph ,color:COLORS.secondary}}
         >
           Get your Service Center latest update for the last 7 days
         </p>
@@ -88,10 +91,8 @@ export const Dashboard = () => {
         {/* Notifications */}
         <div className="bg-white shadow-md rounded-xl p-4 max-h-96 overflow-hidden">
           <div className="flex justify-between mb-2">
-            <p className="font-bold text-lg">Recent Notification</p>
-            <a href="#" className="text-sky-500 text-md">
-              View All
-            </a>
+            <p className="font-semibold text-lg" style={{color:COLORS.primary}}>Recent Notification</p>
+           <button className="text-sky-500 text-md">View All</button>
           </div>
           <div className="overflow-y-auto max-h-80 scrollbar-thumb-rounded">
             {[...Array(8)].map((_, index) => (
@@ -113,8 +114,11 @@ export const Dashboard = () => {
         </div>
 
         {/* SOS Content */}
-        <div className="bg-white shadow-md rounded-xl p-4 max-h-96">
+        <div className="bg-white shadow-md rounded-xl p-4 max-h-96 text-lg font-semibold" style={{color:COLORS.primary}}>
           <p>SOS contentoaciabibibibibi</p>
+          <button className="before:ease relative h-12 w-40 overflow-hidden border border-green-500 bg-green-500 text-white  transition-all before:absolute before:right-0 before:top-0 before:h-12 before:w-6 before:translate-x-12 before:rotate-6 before:bg-white before:opacity-10 before:duration-700  hover:before:-translate-x-40">
+      <span >Shine</span>
+    </button>
         </div>
       </div>
 
@@ -122,7 +126,7 @@ export const Dashboard = () => {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
         {/* Transactions */}
         <div className="bg-white shadow-md rounded-xl p-4 max-h-96 overflow-hidden">
-          <p className="font-bold text-lg mb-2">Recent Transactions</p>
+          <p className=" mb-2 text-lg font-semibold" style={{color:COLORS.primary}}>Recent Transactions</p>
           <div className="overflow-y-auto max-h-80">
             {[...Array(4)].map((_, index) => (
               <TransactionCard
@@ -146,7 +150,7 @@ export const Dashboard = () => {
         {/* Query */}
         <div className="bg-white shadow-md rounded-xl p-4 max-h-96 overflow-hidden">
           <div className="flex justify-between mb-2">
-            <p className="font-bold text-lg">Query</p>
+            <p className="text-lg font-semibold" style={{color:COLORS.primary}}>Query</p>
             <button className="text-sky-500 text-md">View All</button>
           </div>
           <QueryCard
@@ -159,13 +163,15 @@ export const Dashboard = () => {
       </div>
 
       {/* Footer */}
-      <div className="bg-white shadow-md rounded-xl p-4 w-full text-center mt-4">
+      <footer className="bg-white shadow-md rounded-xl p-4 w-full text-center mt-4 -mb-10">
+      <div >
         <div className="flex items-center justify-center space-x-1">
           <AiOutlineCopyrightCircle />
           <span>YESMECHANGE</span>
         </div>
       </div>
+      </footer>
     </div>
-    </>
+   
   );
 };
