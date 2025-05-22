@@ -82,7 +82,7 @@ const BarCharts: React.FC = () => {
           <YAxis />
           <Tooltip />
           <Bar dataKey="newCustomers" fill="#FDF1D6" barSize={10} radius={[6, 6, 0, 0]} />
-          <Bar dataKey="returnCustomers" fill="#ffc4c4" barSize={10} radius={[6, 6, 0, 0]} />
+          <Bar dataKey="returnCustomers" fill="#AAC3C4" barSize={10} radius={[6, 6, 0, 0]} />
         </BarChart>
       </ResponsiveContainer>
       </div>
