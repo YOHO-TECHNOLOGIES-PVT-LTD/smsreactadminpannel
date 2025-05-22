@@ -14,13 +14,17 @@ import { FaUserCircle } from "react-icons/fa";
 import { useState } from 'react'
 import { ServiceManagementPage } from "./ServiceManagementPage";
 
-// const [tab, setTab] = useState <String>("");
+interface ServiceCenterProfileViewProps {
+  handleView: (tabText: string) => void;
+}
 
-// const ServicesView = (tabText: String){
-//     setTab(tabText)
-// }
+const ServiceCenterProfileView: React.FC<ServiceCenterProfileViewProps> = ({handleView}) => {
+    // const [tab, setTab] = useState <String>("");
 
-const ServiceCenterProfileView: React.FC = () => {
+    // const handleServiceView = (tabText: String)=>{
+    //     handleView(tabText)
+    // }
+
     return (
         <div className="bg-neutral-100 min-h-screen py-12 px-4">
             <div className="bg-white rounded-3xl shadow-lg p-8 space-y-8 w-full">
@@ -35,6 +39,7 @@ const ServiceCenterProfileView: React.FC = () => {
                         style={{
                             background: "linear-gradient(44.99deg, #700808 11%, #d23c3c 102.34%)",
                         }}
+                        onClick={()=>handleView("Services View")}
                     >
                         <FaArrowRight size={18} /> Services
                     </button>
