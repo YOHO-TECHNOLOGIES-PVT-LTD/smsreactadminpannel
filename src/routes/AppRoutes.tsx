@@ -12,7 +12,8 @@ import { VehicleManagementPage } from "../pages/vehicle/VehicleManagementPage";
 import GeneralSettings from "../pages/Settings/GeneralSettings";
 import { MainLayout } from "../Layout/MainLayout/MainLayout";
 import { NotFound } from "../pages/NotFound/NotFound";
-import { HelpCenterPage } from "../pages/HelpCenter/HelpCenter";
+import { Announcement } from "../pages/Announcement/Announcement";
+// import { MdAnnouncement } from "react-icons/md";
 
 const AppRoutes = () => {
     const [isAuthenticated, setIsAuthenticated] = useState(true);
@@ -41,7 +42,7 @@ const AppRoutes = () => {
                 <Route path="job-cards" element={<JobCardsPage />} />
                 <Route path="city" element={<CityManagementPage />} />
                 <Route path="vehicle" element={<VehicleManagementPage />} />
-                <Route path="help" element={<HelpCenterPage />} />
+                <Route path="announcement" element={<Announcement />} />
                 <Route path="settings" element={<GeneralSettings />} />
                 <Route path="*" element={<NotFound/>} />
             </Route>
