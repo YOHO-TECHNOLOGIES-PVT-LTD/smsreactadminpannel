@@ -14,11 +14,9 @@ import { FaUserCircle } from "react-icons/fa";
 import { useState } from 'react'
 import { ServiceManagementPage } from "./ServiceManagementPage";
 
-interface ServiceCenterProfileViewProps {
-  handleView: (tabText: string) => void;
-}
 
-const ServiceCenterProfileView: React.FC<ServiceCenterProfileViewProps> = ({handleView}) => {
+
+const ServiceCenterProfileView: React.FC = () => {
     // const [tab, setTab] = useState <String>("");
 
     // const handleServiceView = (tabText: String)=>{
@@ -39,7 +37,7 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileViewProps> = ({hand
                         style={{
                             background: "linear-gradient(44.99deg, #700808 11%, #d23c3c 102.34%)",
                         }}
-                        onClick={()=>handleView("Services View")}
+                        
                     >
                         <FaArrowRight size={18} /> Services
                     </button>
