@@ -25,6 +25,39 @@ import  { SoSCard } from "../../components/common/dashboard/SoSCard/SoSCard";
 import TotalRevenue from "../../components/common/dashboard/TotalRevenue/TotalRevenue";
 
 
+const queries = [
+  {
+    title: "Break not fixed",
+    desc: "I gave my bike to the shop some days ago but they didn't repair it in time and didn't fix it.",
+    profilePicUrl: dummpypic,
+  },
+  {
+    title: "Glass work bending",
+    desc: "I gave my car to the shop some days ago but they didn't repair it in time and didn't fix it.",
+    profilePicUrl: "https://plus.unsplash.com/premium_photo-1689568126014-06fea9d5d341?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8cHJvZmlsZXxlbnwwfHwwfHx8MA%3D%3D",
+  },
+  {
+    title: "Tyre puncture",
+    desc: "I gave my bike to the shop some days ago but they didn't repair it in time and didn't fix it.",
+    profilePicUrl: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8cHJvZmlsZXxlbnwwfHwwfHx8MA%3D%3D",
+  },
+  {
+    title: "Late pickup service",
+    desc: "Scheduled pickup was delayed by 2 hours without any update or notice.",
+    profilePicUrl:"https://t3.ftcdn.net/jpg/08/86/78/68/360_F_886786813_XhL8zD8rhZCW7F5HvJdOPvquFh3n23vd.jpg",
+  },
+  {
+    title: "Billing mismatch",
+    desc: "Was charged extra without prior intimation or explanation on final invoice.",
+    profilePicUrl:"https://www.shutterstock.com/image-photo/happy-middle-aged-45-years-260nw-2516789519.jpg",
+  },
+];
+
+ type Query = {
+  title: string;
+  desc: string;
+  profilePicUrl: string;
+};
 
 
 
@@ -169,7 +202,7 @@ import TotalRevenue from "../../components/common/dashboard/TotalRevenue/TotalRe
         </div>
 
         
-       {/* Query Section */}
+         {/* Query Section */}
         <div className="bg-white shadow-md rounded-xl p-4 max-h-96 overflow-hidden">
           <div className="flex justify-between mb-2">
             <p className="text-lg font-semibold" style={{ color: COLORS.primary }}>
@@ -276,6 +309,8 @@ import TotalRevenue from "../../components/common/dashboard/TotalRevenue/TotalRe
           </div>
         </div>
       )}
+      
+      
       {/* Footer */}
       <footer className="bg-white shadow-md rounded-xl p-4 w-full text-center mt-4 -mb-10">
         <div>
