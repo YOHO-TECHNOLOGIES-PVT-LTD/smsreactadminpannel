@@ -11,6 +11,7 @@ export const ServiceManagementPage = () => {
 
   return (
   <>
+  <ServiceCenterListPage />
   <div className="flex p-4 pb-8 sticky top-0  rounded-t-xl shadow-inner-top border-b-2 border-orange-700" style={{ backgroundColor: COLORS.bgColor }}>
         <h1 className="font-bold text-3xl pt-2 pl-0" style={{ color: "#9b111e" }}>Service Management System</h1>
         <button className="flex static bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg ml-auto " style={{ background: "linear-gradient(44.99deg,#700808 11%,#d23c3c 102.34%)" }}><IoIosAddCircleOutline className="mt-1 mr-2 " />Add</button>

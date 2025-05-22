@@ -3,13 +3,8 @@ import PasswordSettings from "./PasswordSettings"
 import PrivacyPolicySettings from "./PrivacyPolicySettings"
 import ProfileEditSettings from "./ProfileEditSettings"
 import TermsConditionsSettings from "./TermsConditionsSettings"
-import { Link, useNavigate } from "react-router-dom"
-import { Navigate } from "react-router-dom"
-
-
 
 const GeneralSettings = () => {
-const navigate = useNavigate();
 const [tab, setTab] = useState<String>("Account Settings")
 const [buttonColor,setbuttonColor] = useState<String>("transparent")
 
