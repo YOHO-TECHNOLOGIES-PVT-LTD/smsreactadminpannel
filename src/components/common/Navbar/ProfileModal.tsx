@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useRef, useEffect } from "react";
 
 interface User {
   name: string;
@@ -19,19 +19,11 @@ interface ProfileModalProps {
 }
 
 export const ProfileModal: React.FC<ProfileModalProps> = ({
-  user: initialUser,
+  user,
   isOpen,
   onClose,
-  onUserUpdate,
 }) => {
-  const [isEditing, setIsEditing] = useState(false);
-  const [user, setUser] = useState<User>(initialUser);
-  const modalRef = useRef<HTMLDivElement | null>(null); 
-
-  // Update user when initialUser prop changes
-  useEffect(() => {
-    setUser(initialUser);
-  }, [initialUser]);
+  const modalRef = useRef<HTMLDivElement | null>(null);
 
   // Handle outside clicks for modal
   useEffect(() => {
@@ -45,20 +37,6 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({
     }
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [isOpen, onClose]);
-
-  const handleChange = <K extends keyof User>(field: K, value: User[K]) => {
-    setUser((prev) => ({ ...prev, [field]: value }));
-  };
-
-  const handleSave = () => {
-    onUserUpdate(user);
-    setIsEditing(false);
-  };
-
-  const handleCancel = () => {
-    setUser(initialUser);
-    setIsEditing(false);
-  };
 
   if (!isOpen) return null;
 
@@ -76,16 +54,7 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({
               className="w-20 h-20 rounded-full border-4 border-white shadow-md"
             />
             <div>
-              {isEditing ? (
-                <input
-                  type="text"
-                  value={user.name}
-                  onChange={(e) => handleChange("name", e.target.value)}
-                  className="text-2xl font-bold bg-transparent border-b border-white placeholder-white placeholder-opacity-75 text-white"
-                />
-              ) : (
-                <h2 className="text-2xl font-bold">{user.name}</h2>
-              )}
+              <h2 className="text-2xl font-bold">{user.name}</h2>
               <p className="text-sm opacity-90">Admin, Production Department</p>
             </div>
           </div>
@@ -109,73 +78,35 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-6 text-gray-700">
           <div className="space-y-3">
-            {["phone", "email", "location"].map((field) => (
-              <div key={field}>
-                <h4 className="text-sm text-gray-500">
-                  {field.charAt(0).toUpperCase() + field.slice(1)}
-                </h4>
-                {isEditing ? (
-                  <input
-                    type="text"
-                    value={user[field as keyof User]}
-                    onChange={(e) => handleChange(field as keyof User, e.target.value)}
-                    className="text-lg w-full border-b border-gray-400 focus:outline-none"
-                  />
-                ) : (
-                  <p className="text-lg">{user[field as keyof User]}</p>
-                )}
-              </div>
-            ))}
+            <div>
+              <h4 className="text-sm text-gray-500">Phone</h4>
+              <p className="text-lg">{user.phone}</p>
+            </div>
+            <div>
+              <h4 className="text-sm text-gray-500">Email</h4>
+              <p className="text-lg">{user.email}</p>
+            </div>
+            <div>
+              <h4 className="text-sm text-gray-500">Location</h4>
+              <p className="text-lg">{user.location}</p>
+            </div>
           </div>
           <div className="space-y-3">
-            {["role", "joinDate", "status"].map((field) => (
-              <div key={field}>
-                <h4 className="text-sm text-gray-500">
-                  {field === "joinDate" ? "Join Date" : field.charAt(0).toUpperCase() + field.slice(1)}
-                </h4>
-                {isEditing ? (
-                  <input
-                    type="text"
-                    value={user[field as keyof User]}
-                    onChange={(e) => handleChange(field as keyof User, e.target.value)}
-                    className="text-lg w-full border-b border-gray-400 focus:outline-none"
-                  />
-                ) : field === "status" ? (
-                  <span className="inline-block px-3 py-1 text-sm rounded-full bg-green-100 text-green-700">
-                    {user.status}
-                  </span>
-                ) : (
-                  <p className="text-lg">{user[field as keyof User]}</p>
-                )}
-              </div>
-            ))}
+            <div>
+              <h4 className="text-sm text-gray-500">Role</h4>
+              <p className="text-lg">{user.role}</p>
+            </div>
+            <div>
+              <h4 className="text-sm text-gray-500">Join Date</h4>
+              <p className="text-lg">{user.joinDate}</p>
+            </div>
+            <div>
+              <h4 className="text-sm text-gray-500">Status</h4>
+              <span className="inline-block px-3 py-1 text-sm rounded-full bg-green-100 text-green-700">
+                {user.status}
+              </span>
+            </div>
           </div>
-        </div>
-
-        <div className="px-6 py-4 border-t flex justify-end gap-2">
-          {isEditing ? (
-            <>
-              <button
-                className="bg-gray-200 text-gray-800 px-5 py-2 rounded-lg hover:bg-gray-300 transition"
-                onClick={handleCancel}
-              >
-                Cancel
-              </button>
-              <button
-                className="bg-gradient-to-r from-red-600 to-red-800 text-white px-5 py-2 rounded-lg shadow hover:scale-105 transition"
-                onClick={handleSave}
-              >
-                Save Changes
-              </button>
-            </>
-          ) : (
-            <button
-              className="bg-gradient-to-r from-red-600 to-red-800 text-white px-5 py-2 rounded-lg shadow hover:scale-105 transition"
-              onClick={() => setIsEditing(true)}
-            >
-              Edit Profile
-            </button>
-          )}
         </div>
       </div>
     </div>
