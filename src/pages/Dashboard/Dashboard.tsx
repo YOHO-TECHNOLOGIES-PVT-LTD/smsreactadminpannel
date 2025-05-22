@@ -205,7 +205,7 @@ const queries = [
          {/* Query Section */}
         <div className="bg-white shadow-md rounded-xl p-4 max-h-96 overflow-hidden">
           <div className="flex justify-between mb-2">
-            <p className="text-lg font-semibold" style={{ color: COLORS.primary }}>
+            <p className="text-lg" style={{ color: COLORS.primary }}>
               Query
             </p>
             <button
