@@ -1,16 +1,21 @@
 import type { FC } from 'react';
-import { FaMapMarkerAlt, FaRegHeart, FaHeart } from 'react-icons/fa';
+import { FaMapMarkerAlt, FaEye } from 'react-icons/fa';
 import { FONTS } from '../../../constants/uiConstants';
+import type { Vehicle } from '../vehicle/VehicleCard';
 
 export type Vehicle = {
-  title: string;
-  image: string;
-  kms: string;
-  fuel: string;
-  transmission: string;
-  price: string;
-  location: string;
-  isFavorite?: boolean;
+  vehicleInfo: {
+    kms: string;
+    fuel: string;
+    transmission: string;
+    location: string;
+    registeredYear: string;
+    registrationNumber: string;
+    insuranceStatus: string;
+    availability: string;
+    currentFuelLevel?: "Empty" | "Quarter" | "Half Tank" | "Full";
+  };
+  // other nested fields omitted here for brevity
 };
 
 type Props = {
@@ -19,9 +24,18 @@ type Props = {
 };
 
 const VehicleDetailCard: FC<Props> = ({ vehicle, onViewDetails }) => {
+  const {
+
+    kms,
+    fuel,
+    transmission,
+    location,
+  } = vehicle.vehicleInfo;
+   const baseInfo = vehicle.BasevehicleInfo;
+
   return (
     <div
-      className="relative rounded-2xl p-5 transform transition-transform duration-300 hover:scale-105"
+      className="relative rounded-2xl p-5 "
       style={{
         background: 'linear-gradient(180deg, #fdefe9 0%, #fff 100%)',
         borderColor: '#E6A895',
@@ -30,6 +44,7 @@ const VehicleDetailCard: FC<Props> = ({ vehicle, onViewDetails }) => {
         ...FONTS.header,
         transition: 'box-shadow 0.3s ease',
         cursor: 'pointer',
+        overflow: 'hidden', // Prevent content from overflowing
       }}
       onMouseEnter={e => {
         e.currentTarget.style.boxShadow =
@@ -45,26 +60,28 @@ const VehicleDetailCard: FC<Props> = ({ vehicle, onViewDetails }) => {
         className="w-full h-44 rounded-xl overflow-hidden mb-4"
         style={{ borderColor: '#E6A895', boxShadow: 'inset 0 0 10px #fdefe9' }}
       >
-        <img
-          src={vehicle.image}
-          alt={vehicle.title}
-          className="w-full h-full object-cover"
-          loading="lazy"
-        />
+        <div className="flex w-full h-full justify-center items-center">
+          <img
+            src={baseInfo.image}
+            alt={baseInfo.title}
+            className="w-60 h-full object-cover"
+            loading="lazy"
+          />
+        </div>
       </div>
 
       {/* Title */}
       <h3
         className="text-xl font-extrabold mb-1"
-        style={{ color: '#9b111e', ...FONTS.paragraph, fontWeight: 550}}
+        style={{ color: '#9b111e', ...FONTS.paragraph, fontWeight: 550 }}
       >
-        {vehicle.title}
+        {baseInfo.title}
       </h3>
 
       {/* Specs */}
       <p className="text-sm text-[#9b111e] opacity-75 mb-2 tracking-wide">
-        {vehicle.kms} <span className="mx-2">•</span> {vehicle.fuel}{' '}
-        <span className="mx-2">•</span> {vehicle.transmission}
+        {kms} <span className="mx-2">•</span> {fuel}{' '}
+        <span className="mx-2">•</span> {transmission}
       </p>
 
       {/* Actions and Location */}
@@ -74,21 +91,18 @@ const VehicleDetailCard: FC<Props> = ({ vehicle, onViewDetails }) => {
       >
         <button
           onClick={() => onViewDetails(vehicle)}
-          className="hover:underline"
-          style={{ color: '#9b111e', transition: 'color 0.2s ease', fontSize: '12px', textDecorationLine: 'underline' }}
-          onMouseEnter={e => (e.currentTarget.style.color = '#E6A895')}
-          onMouseLeave={e => (e.currentTarget.style.color = '#9b111e')}
+          className="bg-[#9b111e] text-white text-xs font-semibold py-2 px-5 rounded-full transition-all duration-300 shadow-md flex items-center gap-2"
         >
-          View Details
+          <FaEye className="text-sm" /> View Details
         </button>
         <span
           className="flex items-center"
           style={{ color: '#9b111e', opacity: 0.7, ...FONTS.paragraph, fontSize: '12px' }}
         >
-          <FaMapMarkerAlt className="mr-1" /> {vehicle.location}
+          <FaMapMarkerAlt className="mr-1" /> {location}
         </span>
       </div>
-    </div> // ✅ This was missing
+    </div>
   );
 };
 
