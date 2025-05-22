@@ -1,5 +1,11 @@
+<<<<<<< HEAD
 import { createContext, useContext, useEffect, useState} from "react";
 import type { ReactNode } from "react";
+=======
+import { createContext, useContext, useEffect, useState } from "react";
+import type { ReactNode } from 'react';
+
+>>>>>>> 1da59d6bf30d119398bf4aac59c9cbef8b697838
 
 type AuthContextType = {
     isAuthenticated: boolean;

@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import FullscreenButton from "./Fullscreen";
 // import SosButton from "./Sos";
 import { ProfileModal } from "./ProfileModal";
+import { useAuth } from "../../../pages/auth/AuthContext";
 
 interface User {
   name: string;
@@ -30,8 +31,9 @@ export const Navbar: React.FC = () => {
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
   const [showLogoutSuccess, setShowLogoutSuccess] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
-
+  const {logout}=useAuth();
   const navigate = useNavigate();
+
 
   const dropdownRef = useRef<HTMLDivElement | null>(null);
   const notificationRef = useRef<HTMLDivElement | null>(null);
@@ -121,6 +123,13 @@ export const Navbar: React.FC = () => {
 
   const unreadCount = notifications.filter((n) => !n.isRead).length;
 
+  const handleLogout = () => {
+   logout();
+      navigate("/");
+          console.log("User logged out");
+
+  };
+
   return (
     <>
       <nav
@@ -151,7 +160,8 @@ export const Navbar: React.FC = () => {
           </button>
         </div>
 
-        {/* Fullscreen */}
+       
+{/* Fullscreen */}
         <div className="relative w-full">
           <div className="absolute right-4 top-1/2 -translate-y-1/2 z-20 flex items-center gap-4">
             {/* Fullscreen Button */}
@@ -344,7 +354,8 @@ export const Navbar: React.FC = () => {
                   setTimeout(() => {
                     setShowLogoutSuccess(false);
                     console.log("Redirect or clear session here");
-                  }, 2000);
+                    handleLogout();
+                  }, 1000);
                 }}
                 className="px-4 py-2 rounded bg-red-600 text-white hover:bg-red-700"
               >
