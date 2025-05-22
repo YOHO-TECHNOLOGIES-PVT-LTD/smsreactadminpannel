@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { COLORS } from "../../../constants/uiConstants";
 import { useNavigate } from "react-router-dom";
 import FullscreenButton from "./Fullscreen";
-// import SosButton from "./Sos";
+import SosButton from "./Sos";
 import { ProfileModal } from "./ProfileModal";
 import { useAuth } from "../../../pages/auth/AuthContext";
 
