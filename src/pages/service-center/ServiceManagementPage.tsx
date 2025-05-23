@@ -1,6 +1,5 @@
 
 import { ServiceCenterListPage } from "./ServiceCenterListPage";
-
 import 'flowbite';
 import  "@preline/accordion"
 import ServicesList from "./ServicesList";
