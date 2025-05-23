@@ -1,143 +1,12 @@
 import { useState } from "react";
-import { CiEdit } from "react-icons/ci";
-import { IoCallOutline, IoFilterSharp } from "react-icons/io5";
-import { RiMessage2Line } from "react-icons/ri";
-import { PiWhatsappLogoThin } from "react-icons/pi";
+import { IoFilterSharp } from "react-icons/io5";
 import { FaArrowTrendUp } from "react-icons/fa6";
 import { BsEye } from "react-icons/bs";
-import ServiceCenterProfileView from "./ServiceCenterprofileview";
-import { ServiceManagementPage } from "./ServiceManagementPage";
+import { IoClose } from "react-icons/io5";
+import { MdAddCircleOutline, MdOutlineKeyboardBackspace } from "react-icons/md";
+import { FiSearch } from "react-icons/fi";
+import { COLORS } from "../../constants/uiConstants";
 
-
-
-const centers = [
-  {
-    name: "Hyundai Accent",
-    rating: 4.6,
-    location: "South Bypass Road OMR, Chennai",
-    image:
-      "https://images.pexels.com/photos/810357/pexels-photo-810357.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260",
-  },
-  {
-    name: "Hyundai Creta",
-    rating: 4.4,
-    location: "South Bypass Road Tambaram, Chennai",
-    image:
-      "https://static.vecteezy.com/system/resources/thumbnails/025/288/111/small_2x/golden-car-with-blue-headlights-with-mountains-in-the-background-ai-generated-photo.jpg",
-  },
-  {
-    name: "Hyundai Elantra",
-    rating: 4.4,
-    location: "South Bypass Road Tambaram, Chennai",
-    image:
-      "https://static.vecteezy.com/system/resources/thumbnails/025/288/127/small_2x/black-car-on-street-at-city-ai-generated-photo.jpg",
-  },
-];
-
-const ServiceCard = ({ image, name, rating, location }: any) => (
-  <div className="bg-white p-4 rounded-lg shadow flex flex-col sm:flex-row gap-4 items-start">
-    <img src={image} alt={name} className="w-32 h-20 object-cover rounded" />
-    <div className="flex-1">
-      <h3 className="text-lg font-bold">{name}</h3>
-      <div className="flex gap-2 text-sm mt-1 text-gray-600">
-        <span className="bg-[#fce8e8] text-[#800000] px-2 py-0.5 rounded">
-          {rating} ★
-        </span>
-        <span className="text-yellow-600">1,548 Ratings</span>
-        <span className="text-yellow-600 flex items-center gap-1">
-          <span className="bg-yellow-400 text-white p-1 rounded-full">
-            <FaArrowTrendUp size={12} />
-          </span>
-          Popular
-        </span>
-      </div>
-      <p className="text-sm text-gray-500 mt-1">{location}</p>
-      <div className="flex flex-wrap gap-2 mt-2 text-xs">
-        <span className="bg-gray-200 px-2 py-0.5 rounded">Company Authorised Dealer</span>
-        <span className="bg-gray-200 px-2 py-0.5 rounded">Credit & Debit Card Facility</span>
-        <span className="bg-gray-200 px-2 py-0.5 rounded">Shop in Store</span>
-      </div>
-    </div>
-    <div className="flex gap-2 mt-2 sm:mt-0">
-      <button className="bg-yellow-400 text-white p-2 rounded">
-        <IoCallOutline />
-      </button>
-      <button className="bg-green-500 text-white p-2 rounded">
-        <RiMessage2Line />
-      </button>
-      <button className="bg-blue-500 text-white p-2 rounded">
-        <PiWhatsappLogoThin />
-      </button>
-    </div>
-  </div>
-);
-
-const EnquirySidebar = () => (
-  <div className="w-[300px] h-fit shrink-0 bg-white p-4 rounded shadow">
-    <h3 className="font-semibold mb-2">Get the list of Top Car Repair & Services</h3>
-    <p className="text-sm text-gray-500 mb-4">
-      We'll send you contact details in seconds for free
-    </p>
-    <p className="font-semibold mb-2 whitespace-nowrap">
-      What kind of Assistance do you need?
-    </p>
-    <div className="flex gap-4 mb-3">
-      <label className="flex items-center gap-2 cursor-pointer">
-        <input type="radio" name="assistance" defaultChecked className="accent-[#800000] w-4 h-4" />
-        Servicing
-      </label>
-      <label className="flex items-center gap-2 cursor-pointer">
-        <input type="radio" name="assistance" className="accent-[#800000] w-4 h-4" />
-        Repair
-      </label>
-    </div>
-    <input type="text" placeholder="Name" className="w-full border p-2 rounded mb-2" />
-    <input type="text" placeholder="Mobile Number" className="w-full border p-2 rounded mb-4" />
-    <button className="text-white w-full py-2 rounded-lg transition hover:opacity-90" style={{ background: "linear-gradient(44.99deg, #700808 11%, #d23c3c 102.34%)" }}>
-      Send Enquiry
-    </button>
-  </div>
-);
-
-const PeopleAlsoSearch = () => {
-  const items = [
-    {
-      title: "Car Servicessss",
-      listings: "905+ listings",
-      image: "https://www.pixelstalk.net/wp-content/uploads/2016/08/Lamborghini-mountain-fog-sports-car-photos.jpg",
-    },
-    {
-      title: "AC Repair",
-      listings: "805+ listings",
-      image: "https://images.pexels.com/photos/1149831/pexels-photo-1149831.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260",
-    },
-    {
-      title: "Denting",
-      listings: "306+ listings",
-      image: "https://tse1.mm.bing.net/th?id=OIP.uQIJb1TyA7jlthe248QeFgHaEK&pid=Api&P=0&h=180",
-    },
-  ];
-
-  return (
-    <div className="bg-white p-4 rounded-lg shadow-md w-95 mt-0">
-      <h3 className="font-semibold text-gray-800 mb-4">People also Search for</h3>
-      <div className="flex flex-col gap-4">
-        {items.map((item, idx) => (
-          <div key={idx} className="flex items-center gap-4 p-2 border border-gray-100 rounded-lg hover:shadow-sm transition">
-            <img src={item.image} alt={item.title} className="w-32 h-20 object-cover rounded-md" />
-            <div className="flex flex-col justify-center">
-              <p className="font-medium text-base">{item.title}</p>
-              <p className="text-sm text-gray-500 mb-1">{item.listings}</p>
-              <button className="text-xs px-3 py-1 border border-gray-300 rounded-full text-gray-700 hover:bg-gray-100 w-fit">
-                Get Best Deal
-              </button>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-};
 const ServiceCenterFilter = () => {
   const [showFilters, setShowFilters] = useState(false);
 
@@ -145,16 +14,18 @@ const ServiceCenterFilter = () => {
     <div>
       <div className="flex justify-between items-center mb-4">
         <h3 className="text-lg font-medium text-gray-700">List of Service Centers</h3>
-        <IoFilterSharp className="text-xl text-gray-600 cursor-pointer" onClick={() => setShowFilters(!showFilters)} />
+        <IoFilterSharp
+          className="text-xl text-gray-600 cursor-pointer"
+          onClick={() => setShowFilters(!showFilters)}
+        />
       </div>
 
       {showFilters && (
         <div className="w-full border-b border-gray-300 pb-4 mb-4">
           <div className="flex flex-wrap gap-12">
-
-            <div className="relative inline-block ">
-              <select className="px-12 pr-10 py-2  border border-[#800000] rounded-md shadow-sm bg-[#fce8e8] text-[#800000] focus:outline-none appearance-none w-full">
-                <option className="bg-[#800000] text-white ">Sort By</option>
+            <div className="relative inline-block">
+              <select className="px-12 pr-10 py-2 border border-[#800000] rounded-md shadow-sm bg-[#fce8e8] text-[#800000] focus:outline-none appearance-none w-full">
+                <option className="bg-[#800000] text-white">Sort By</option>
                 <option className="bg-[#800000] text-white">Price</option>
                 <option className="bg-[#800000] text-white">Popularity</option>
               </select>
@@ -164,9 +35,10 @@ const ServiceCenterFilter = () => {
                 </svg>
               </div>
             </div>
-            <div className="relative inline-block ">
+
+            <div className="relative inline-block">
               <select className="px-12 pr-10 py-2 border border-[#800000] rounded-md shadow-sm bg-[#fce8e8] text-[#800000] focus:outline-none appearance-none w-full">
-                <option className="bg-[#800000] text-white"> Services</option>
+                <option className="bg-[#800000] text-white">Services</option>
                 <option className="bg-[#800000] text-white">Oil change</option>
                 <option className="bg-[#800000] text-white">AC Repair</option>
               </select>
@@ -176,10 +48,12 @@ const ServiceCenterFilter = () => {
                 </svg>
               </div>
             </div>
+
             <button className="px-12 py-2 pr-10 border border-[#800000] rounded-md shadow-sm bg-[#fce8e8] text-[#800000] focus:outline-none">
               ⚡ Quick Response
             </button>
-            <div className="relative inline-block ">
+
+            <div className="relative inline-block">
               <select className="px-12 pr-10 py-2 border border-[#800000] rounded-md shadow-sm bg-[#fce8e8] text-[#800000] focus:outline-none appearance-none w-full">
                 <option className="bg-[#800000] text-white">Ratings</option>
                 <option className="bg-[#800000] text-white">4+ Stars</option>
@@ -197,222 +71,147 @@ const ServiceCenterFilter = () => {
     </div>
   );
 };
-// Main page component
-export const ServiceCenterListPage = () => {
 
-  const [tab, setTab] = useState<String>("")
+type ServiceCenterListProps = {
+  onView: () => void;  // A function that returns nothing
+  handleBack: () => void;
+};
 
-  const ProfileView = (tabText: String) => {
-    setTab(tabText)
-  }
-  // Sample service center data
+export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({ onView, handleBack }) => {
+  const [selectedCardIndex, setSelectedCardIndex] = useState<number | null>(null);
+  const [showSearch, setShowSearch] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+
   const centers = [
     {
-      name: "Hyundai Accent",
+      name: "Fast & Furious Auto Mobiles",
       rating: 4.6,
       location: "South Bypass Road OMR, Chennai",
-      image:
-        "https://images.pexels.com/photos/810357/pexels-photo-810357.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260",
+      image: "https://logodix.com/logo/2004138.jpg",
     },
     {
-      name: "Hyundai Creta",
+      name: "Raajes Kumar Auto Mobiles",
       rating: 4.4,
       location: "South Bypass Road Tambaram, Chennai",
-      image:
-        "https://static.vecteezy.com/system/resources/thumbnails/025/288/111/small_2x/golden-car-with-blue-headlights-with-mountains-in-the-background-ai-generated-photo.jpg",
+      image: "https://logodix.com/logo/2004335.png",
     },
     {
-      name: "Hyundai Elantra",
+      name: "Praveen Kumar Auto Mobiles",
       rating: 4.4,
       location: "South Bypass Road Tambaram, Chennai",
-      image:
-        "https://static.vecteezy.com/system/resources/thumbnails/025/288/127/small_2x/black-car-on-street-at-city-ai-generated-photo.jpg",
+      image: "https://logodix.com/logo/2004152.png",
     },
   ];
 
-  // Service card component
-  const ServiceCard = ({ image, name, rating, location }: any) => (
-    <><div className="bg-white p-10 rounded-lg shadow flex flex-col sm:flex-row gap-4 items-start">
-      <img src={image} alt={name} className="w-32 h-20 object-cover rounded" />
-      <div className="flex-1">
-        <h3 className="text-lg font-bold">{name}</h3>
-        <div className="flex gap-2 text-sm mt-1 text-gray-600">
-          <span className="bg-[#fce8e8] text-[#800000] px-2 py-0.5 rounded">
-            {rating} ★
-          </span>
-          <span className="text-yellow-600">1,548 Ratings</span>
-          <span className="text-yellow-600 flex items-center gap-1">
-            <span className="bg-yellow-400 text-white p-1 rounded-full">
-              <FaArrowTrendUp size={12} />
-            </span>
-            Popular
-          </span>
-        </div>
-        <p className="text-sm text-gray-500 mt-1">{location}</p>
-
-        {/* <div className="flex flex-wrap gap-2 mt-2 text-xs">
-<span className="border border-[#800000] bg-[#fce8e8] text-[#800000] px-2 py-0.5 rounded">
-Company Authorised Dealer
-</span>
-<span className="border border-[#800000] bg-[#fce8e8] text-[#800000] px-2 py-0.5 rounded">
-Credit & Debit Card Facility
-</span>
-<span className="border border-[#800000] bg-[#fce8e8] text-[#800000] px-2 py-0.5 rounded">
-Shop in Store
-</span>
-</div> */}
-
-      </div>
-      <div className="flex gap-2 mt-2 sm:mt-0">
-        {/* <button className="bg-yellow-400 text-white p-2 rounded">
-      <IoCallOutline />
-    </button>
-    <button className="bg-green-500 text-white p-2 rounded">
-      <RiMessage2Line />
-    </button>
-    <button className="bg-blue-500 text-white p-2 rounded">
-      <PiWhatsappLogoThin />
-    </button> */}
-        <button onClick={() => ProfileView("Profile View")}
-          className="text-white px-2 w-15 py-1.5 rounded-md transition duration-200 flex items-center gap-1.5 text-sm"
-          style={{
-            background: "linear-gradient(44.99deg, #700808 11%, #d23c3c 102.34%)",
-          }}
-        >
-          <BsEye size={16} /> View
-        </button>
-
-
-      </div>
-    </div>
-    <div> 
-      {tab === "Profile View" && <div><ServiceCenterProfileView /></div>}
-      {tab === "Services View" && <div><ServiceManagementPage /></div>}
-    </div></>
+  const filteredCenters = centers.filter((center) =>
+    center.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
-
-  // Sidebar component
-  const EnquirySidebar = () => (
-    <div className="w-[300px] h-fit shrink-0 bg-white p-4 rounded shadow">
-      <h3 className="font-semibold mb-2">Get the list of Top Car Repair & Services</h3>
-      <p className="text-sm text-gray-500 mb-4">
-        We'll send you contact details in seconds for free
-      </p>
-      <p className="font-semibold mb-2 whitespace-nowrap">
-        What kind of Assistance do you need?
-      </p>
-      <div className="flex gap-4 mb-3">
-        <label className="flex items-center gap-2 cursor-pointer">
-          <input
-            type="radio"
-            name="assistance"
-            defaultChecked
-            className="accent-[#800000] w-4 h-4"
-          />
-          Servicing
-        </label>
-        <label className="flex items-center gap-2 cursor-pointer">
-          <input type="radio" name="assistance" className="accent-[#800000] w-4 h-4" />
-          Repair
-        </label>
-      </div>
-      <input
-        type="text"
-        placeholder="Name"
-        className="w-full border p-2 rounded mb-2"
-      />
-      <input
-        type="text"
-        placeholder="Mobile Number"
-        className="w-full border p-2 rounded mb-4"
-      />
-      <button
-        className="text-white w-full py-2 rounded-lg transition hover:opacity-90"
-        style={{
-          background: "linear-gradient(44.99deg, #700808 11%, #d23c3c 102.34%)",
-        }}
-      >
-        Send Enquiry
-      </button>
-    </div>
-  );
-
-
-  const PeopleAlsoSearch = () => {
-    const items = [
-      {
-        title: "Car Servicessss",
-        listings: "905+ listings",
-        image:
-          "https://www.pixelstalk.net/wp-content/uploads/2016/08/Lamborghini-mountain-fog-sports-car-photos.jpg",
-      },
-      {
-        title: "AC Repair",
-        listings: "805+ listings",
-        image:
-          "https://cdn.wallpapersafari.com/34/50/V7fcYI.jpg",
-      },
-      {
-        title: "Denting",
-        listings: "306+ listings",
-        image:
-          "https://static.vecteezy.com/system/resources/thumbnails/025/288/097/small_2x/orange-car-driving-on-road-at-sunset-ai-generated-photo.jpg",
-      },
-    ];
-
-    return (
-      <div className="bg-white p-4 rounded-lg shadow-md w-95 mt-0">
-        <h3 className="font-semibold text-gray-800 mb-4">People also Search for</h3>
-        <div className="flex flex-col gap-4">
-          {items.map((item, idx) => (
-            <div
-              key={idx}
-              className="flex items-center gap-4 p-2 border border-gray-100 rounded-lg hover:shadow-sm transition"
-            >
-              <img
-                src={item.image}
-                alt={item.title}
-                className="w-32 h-20 object-cover rounded-md"
-              />
-              <div className="flex flex-col justify-center">
-                <p className="font-medium text-base">{item.title}</p>
-                <p className="text-sm text-gray-500 mb-1">{item.listings}</p>
-                <button className="text-xs px-3 py-1 border border-gray-300 rounded-full text-gray-700 hover:bg-gray-100 w-fit">
-                  Get Best Deal
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    );
-  };
 
   return (
-    <>
-      <div className="flex flex-col gap-6 p-6 bg-gray-100">
-        <div className="flex gap-6 flex-wrap">
-          <div className="flex-1 min-w-[600px] bg-white p-6 rounded-lg shadow-sm">
-            <div className="flex justify-between items-center border-b border-gray-300 pb-4 mb-4 sticky">
-              <h2 className="text-2xl font-semibold text-gray-800" style={{ color: "#9b111e" }}>Service Center Management</h2>
-              <button className="text-white px-4 py-2 rounded-lg transition duration-200 flex items-center gap-2" style={{ background: "linear-gradient(44.99deg, #700808 11%, #d23c3c 102.34%)" }}>
-                <CiEdit size={18} /> Edit
+    <div className="flex flex-col   bg-gray-100" style={{ background: COLORS.bgColor }}>
+      <div className="flex gap-6 flex-wrap">
+        <div className="flex-1 min-w-[600px] bg-white p-5" style={{ background: COLORS.bgColor }}>
+          <div className="t-0" style={{ background: COLORS.bgColor }}>
+            <button onClick={handleBack} className=""><MdOutlineKeyboardBackspace className="text-[#800000] text-3xl" /></button>
+          </div>
+          <div className="flex justify-between items-center border-b border-gray-300 pb-4 mb-4 flex-wrap gap-4">
+            <h1 className="font-bold text-3xl pt-2 text-[#9b111e]">Service Center Management</h1>
+            <div className="flex items-center gap-3 flex-wrap">
+
+
+              <button
+                className="bg-[#fce8e8] text-gray-600 hover:text-[#9b111e] p-2 rounded-full transition"
+                title="Search"
+                onClick={() => setShowSearch(!showSearch)}
+              >
+                <FiSearch size={22} className="text-[#800000]" />
+              </button>
+
+
+              {showSearch && (
+
+                <input
+                  type="text"
+                  className="px-4 py-1.5 border border-[#800000] focus:border-[#800000] rounded-md shadow-sm focus:outline-none"
+                  placeholder="Search service centers..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                />
+
+              )}
+              <button
+                className="text-white px-4 py-2 rounded-lg transition duration-200 flex items-center gap-2"
+                style={{ background: "linear-gradient(44.99deg, #700808 11%, #d23c3c 102.34%)" }}
+              >
+                <MdAddCircleOutline size={18} /> Add
               </button>
             </div>
-            <ServiceCenterFilter />
-            <div className="flex flex-col gap-4 mt-4">
-              {centers.map((center, idx) => (
-                <ServiceCard key={idx} {...center} />
-              ))}
-            </div>
           </div>
-          <div className="flex flex-col items-start gap-6">
-            <EnquirySidebar />
-            <PeopleAlsoSearch />
+
+          <ServiceCenterFilter />
+
+          <div className="flex flex-col gap-4 mt-4">
+            {filteredCenters.map((center, index) => (
+              <div key={index}>
+                <div className="bg-white p-6 rounded-lg shadow flex flex-col sm:flex-row gap-20 items-start w-full max-w-[2000px]">
+                  <img
+                    src={center.image}
+                    alt={center.name}
+                    className="w-72 h-40 object-cover rounded-lg"
+                  />
+                  <div className="flex-1">
+                    <h3 className="text-2xl font-bold text-gray-800">{center.name}</h3>
+                    <div className="flex gap-2 text-base mt-2 text-gray-700 flex-wrap">
+                      <span className="bg-[#fce8e8] text-[#800000] px-2 py-0.5 rounded">
+                        {center.rating} ★
+                      </span>
+                      <span className="text-yellow-600">1,548 Services</span>
+                    </div>
+                    <div className="flex gap-2 mt-1 text-yellow-600 flex-wrap">
+                      <span className="flex items-center gap-1">
+                        <span className="bg-yellow-400 text-white p-1 rounded-full">
+                          <FaArrowTrendUp size={12} />
+                        </span>
+                        Popular
+                      </span>
+                    </div>
+
+                    <p className="text-sm text-gray-500 mt-1 border border-[1px] border-[#800000] bg-[#F9E6E6] px-2 py-1 rounded inline-block w-fit mt-5">
+                      {center.location}
+                    </p>
+                  </div>
+
+                  <div className="flex gap-2 mt-2 sm:mt-0">
+                    {selectedCardIndex !== index && (
+                      <button
+                        onClick={onView}
+                        className="text-white px-4 py-2 rounded-md transition duration-200 flex items-center gap-1.5 text-sm"
+                        style={{
+                          background: "linear-gradient(44.99deg, #700808 11%, #d23c3c 102.34%)",
+                        }}
+                      >
+                        <BsEye size={16} /> View
+                      </button>
+                    )}
+                  </div>
+                </div>
+
+                {selectedCardIndex === index && (
+                  <div className="mt-4 relative border rounded-md p-4 bg-gray-50">
+                    <button
+                      onClick={() => setSelectedCardIndex(null)}
+                      className="absolute top-2 right-2 text-gray-600 hover:text-red-600 pt-5 pr-5"
+                    >
+                      <IoClose size={30} />
+                    </button>
+
+                  </div>
+                )}
+              </div>
+            ))}
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
-
