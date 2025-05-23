@@ -41,7 +41,9 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({ onSpareParts, hand
   ];
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: COLORS.bgColor }}>
+
+    <div className="min-h-screen" style={{ backgroundColor: COLORS.bgColor }}>     
+
       <div className="">
         <button onClick={handleBack} className="">
           <MdOutlineKeyboardBackspace className="text-[#800000] text-3xl" />
@@ -68,7 +70,7 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({ onSpareParts, hand
                 id="default-search"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                className="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50  dark:placeholder-gray-400 dark:text-black"
                 placeholder="Search services..."
                 required
               />
@@ -96,8 +98,8 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({ onSpareParts, hand
 
       <div className="grid grid-cols-2 gap-6 text-2xl mt-0 p-3" style={{ fontFamily: FONTS.header.fontFamily }}>
         <div>
-          <div className="w-full w-5/6 p-4 bg-white border border-gray-200 rounded-lg shadow-sm sm:p-8 dark:bg-gray-800 dark:border-gray-700">
-            <div className="flex items-center justify-between mb-4 cursor-pointer">
+          <div className="w-full w-5/6 p-4 bg-white border border-gray-200 rounded-lg shadow-sm sm:p-8 dark:border-gray-700">
+            <div className="flex items-center justify-between mb-4 cursor-pointer" >
               <h5 className="text-2xl font-bold leading-none flex gap-2" style={{ color: "#9b111e" }}>
                 <RiCarWashingFill /> Washing
               </h5>
@@ -118,7 +120,7 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({ onSpareParts, hand
                 >
                   Add
                 </button>
-                <table className="min-w-full text-left text-sm font-light text-gray-900 dark:text-white">
+                <table className="min-w-full text-left text-sm font-light text-gray-900 dark:text-black">
                   <thead className="border-b font-medium dark:border-gray-700">
                     <tr>
                       <th className="px-4 py-2">Service</th>
