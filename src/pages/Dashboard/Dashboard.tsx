@@ -1,6 +1,6 @@
 import { FONTS } from "../../constants/uiConstants"; //FONT
 import {COLORS} from "../../constants/uiConstants"//COLOUR
-import React, { useState } from "react";
+import  { useState } from "react";
 //this is for ICONS
 import { AiOutlineCheckCircle } from "react-icons/ai";
 // import { GoDotFill } from "react-icons/go";
@@ -9,7 +9,7 @@ import { IoIosArrowRoundDown } from "react-icons/io";
 import { RiUser6Line } from "react-icons/ri";
 import { AiOutlineCopyrightCircle } from "react-icons/ai";
 import { AiOutlineRight } from "react-icons/ai";
-import { AiOutlineLeft } from "react-icons/ai";
+// import { AiOutlineLeft } from "react-icons/ai";
 import { AiOutlineArrowLeft } from 'react-icons/ai';
 
 
@@ -66,7 +66,7 @@ const queries = [
   export const Dashboard = () => {
   const [isAllQueryModalOpen, setAllQueryModalOpen] = useState(false);
   const [selectedQuery, setSelectedQuery] = useState<Query | null>(null);
-  const [selectedQueryIndex, setSelectedQueryIndex] = useState<number>(-1);
+  // Removed unused selectedQueryIndex state
 
   return (
     <div className="w-full px-4 py-6 -mt-6">
@@ -254,7 +254,6 @@ const queries = [
               {queries.map((q, idx) => (
                 <div key={idx} onClick={() => {
                   setSelectedQuery(q);
-                  setSelectedQueryIndex(idx);
                   setAllQueryModalOpen(false);
                 }}>
                   <QueryCard
@@ -278,7 +277,6 @@ const queries = [
               className="absolute top-2 left-3 w-8 h-8 flex items-center justify-center text-lg text-gray-600 bg-gray-100 hover:bg-red-100 hover:text-red-600 rounded-full transition duration-200"
               onClick={() => {
                 setSelectedQuery(null);
-                setSelectedQueryIndex(-1);
                 setAllQueryModalOpen(true);
               }}
             >
@@ -289,7 +287,6 @@ const queries = [
             className="absolute top-2 right-3 w-8 h-8 flex items-center justify-center text-lg text-gray-600 bg-gray-100 hover:bg-red-100 hover:text-red-600 rounded-full transition duration-200"
               onClick={() => {
                 setSelectedQuery(null);
-                setSelectedQueryIndex(-1);
               }}
             >
               ✕

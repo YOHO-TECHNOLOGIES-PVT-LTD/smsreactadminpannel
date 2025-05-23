@@ -1,7 +1,7 @@
 // components/QueryModal.tsx
 import React from "react";
 import { QueryCard } from "./QueryCard";
-import { AiOutlineRight } from "react-icons/ai";
+// import { AiOutlineRight } from "react-icons/ai";
 
 type Query = {
   id: number;

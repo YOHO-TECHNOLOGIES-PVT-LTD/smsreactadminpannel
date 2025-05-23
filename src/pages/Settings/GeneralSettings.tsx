@@ -5,11 +5,11 @@ import ProfileEditSettings from "./ProfileEditSettings"
 import TermsConditionsSettings from "./TermsConditionsSettings"
 
 const GeneralSettings = () => {
-const [tab, setTab] = useState<String>("Account Settings")
-const [buttonColor,setbuttonColor] = useState<String>("transparent")
+const [tab, setTab] = useState<string>("Account Settings")
+// const [buttonColor,setbuttonColor] = useState<string>("transparent")
 
 
-const handleRenderComponent = (tabText: String) => {
+const handleRenderComponent = (tabText: string) => {
   setTab(tabText)
 }
  
