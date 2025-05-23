@@ -62,6 +62,62 @@ const DashboardSos = () => {
       view: "View",
     },
     {
+      vehicleNumber: "8765",
+      location: "Houston",
+      name: "Alex Doe",
+      phoneNumber: "9876543213",
+      status: "Completed",
+      view: "View",
+    },
+    {
+      vehicleNumber: "8765",
+      location: "Houston",
+      name: "Alex Doe",
+      phoneNumber: "9876543213",
+      status: "Completed",
+      view: "View",
+    },
+    {
+      vehicleNumber: "8765",
+      location: "Houston",
+      name: "Alex Doe",
+      phoneNumber: "9876543213",
+      status: "Completed",
+      view: "View",
+    },
+    {
+      vehicleNumber: "8765",
+      location: "Houston",
+      name: "Alex Doe",
+      phoneNumber: "9876543213",
+      status: "Completed",
+      view: "View",
+    },
+    {
+      vehicleNumber: "8765",
+      location: "Houston",
+      name: "Alex Doe",
+      phoneNumber: "9876543213",
+      status: "Completed",
+      view: "View",
+    },
+    {
+      vehicleNumber: "8765",
+      location: "Houston",
+      name: "Alex Doe",
+      phoneNumber: "9876543213",
+      status: "Completed",
+      view: "View",
+    },
+    {
+      vehicleNumber: "8765",
+      location: "Houston",
+      name: "Alex Doe",
+      phoneNumber: "9876543213",
+      status: "Completed",
+      view: "View",
+    },
+    {
       vehicleNumber: "6789",
       location: "Phoenix",
       name: "Alex Goan",
@@ -128,10 +184,10 @@ const DashboardSos = () => {
           </div>
         </div>
 
-        <div>
-          <table className="w-full text-left text-lg border-gray-900 rounded overflow-hidden bg-white">
-            <thead className="border-2">
-              <tr className="text-gray-900 bg-gray-100 transition-colors">
+        <div className="max-h-[60vh] overflow-auto scroll-auto" style={{ scrollbarWidth: "none" }}>
+          <table className="w-full text-left text-lg border-gray-900 bg-white">
+            <thead className="sticky top-0 bg-gray-100 z-10">
+              <tr className="text-gray-900">
                 <th className="px-4 py-2">Vehicle Number</th>
                 <th className="px-4 py-2">Location</th>
                 <th className="px-4 py-2">Name</th>
@@ -140,9 +196,9 @@ const DashboardSos = () => {
                 <th className="px-4 py-2">View</th>
               </tr>
             </thead>
-            <tbody className="divide-y border-b-2 border-gray-300 divide-gray-300">
+            <tbody className="divide-y divide-gray-300 text-gray-900 font-semibold">
               {filteredRequests.map((req, index) => (
-                <tr key={index} className="text-gray-900 font-semibold">
+                <tr key={index}>
                   <td className="px-4 py-4">{req.vehicleNumber}</td>
                   <td className="px-4 py-2">{req.location}</td>
                   <td className="px-4 py-2">{req.name}</td>
@@ -235,7 +291,7 @@ const DashboardSos = () => {
 
       {/* Slide-in Form */}
       <div
-        className={`fixed top-0 right-0 h-full w-[22rem] max-w-sm bg-white shadow-lg transform transition-transform duration-300 ease-in-out z-50 ${
+        className={`fixed top-0 right-0 h-full w-[26%] max-w-sm bg-white shadow-lg transform transition-transform duration-300 ease-in-out z-50 ${
           showForm ? "translate-x-0" : "translate-x-full"
         }`}
       >
