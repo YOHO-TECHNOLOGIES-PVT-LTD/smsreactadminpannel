@@ -18,12 +18,13 @@ type Service = {
   id: number;
   name: string;
   active: boolean;
+  icon?: React.ReactNode; // Added icon property to store selected icon
 };
 
 const DashboardSos = () => {
   const navigate = useNavigate();
 
-  const [isToggled, setIsToggled] = useState(false);
+  // Removed unused state variables that were causing TypeScript errors
   const [selectedIcon, setSelectedIcon] = useState<React.ReactNode | null>(null);
 
   const handleViewClick = () => {
@@ -320,9 +321,11 @@ const DashboardSos = () => {
               id: services.length + 1,
               name: newServiceName.trim(),
               active: false,
+              icon: selectedIcon, // Save the selected icon
             };
             setServices((prev) => [...prev, newService]);
             setNewServiceName("");
+            setSelectedIcon(null); // Reset selected icon
             setShowForm(false);
           }}
           className="p-4 flex flex-col gap-4"
@@ -332,7 +335,6 @@ const DashboardSos = () => {
             placeholder="Service Name"
             value={newServiceName}
             onChange={(e) => setNewServiceName(e.target.value)}
-            // className="border p-2 rounded w-full"
             className="bg-white text-black placeholder-gray-500 rounded w-full border px-4 py-2 w-60 text-sm focus:outline-none focus:ring-2 focus:ring-[#6b1b1b] transition-all"
           />
           <div className="grid grid-cols-6 gap-3 bg-gray-100 p-4 rounded">
@@ -340,7 +342,7 @@ const DashboardSos = () => {
               <button
                 key={idx}
                 type="button"
-                // onClick={}
+                onClick={() => setSelectedIcon(item.icon)}
                 className={`p-2 border rounded text-2xl hover:bg-red-100 
                   ${selectedIcon === item.icon ? "bg-red-200 border-red-600" : ""
                   }`}

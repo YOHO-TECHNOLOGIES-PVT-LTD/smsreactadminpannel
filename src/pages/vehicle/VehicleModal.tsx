@@ -9,7 +9,6 @@ type Props = {
 };
 
 const VehicleModal: FC<Props> = ({ vehicle, onClose, redirectPath }) => {
-	const info = vehicle.vehicleInfo;
 	const baseInfo = vehicle.BasevehicleInfo;
 
 	return (
