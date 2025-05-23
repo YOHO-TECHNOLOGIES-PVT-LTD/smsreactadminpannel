@@ -135,7 +135,7 @@ const queries = [
       {/* Notifications, Bar Chart, SOS */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-4">
         {/* Notifications */}
-        <div className="bg-white shadow-md rounded-xl p-4 max-h-96 overflow-hidden">
+        <div className="bg-white shadow-md rounded-xl p-4 max-h-96 ">
           <div className="">
             <CustomerAnalyticsChart/>
           </div>

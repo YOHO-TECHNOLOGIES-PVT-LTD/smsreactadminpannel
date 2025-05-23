@@ -11,16 +11,16 @@ import { IoMdStats } from "react-icons/io";
 import { RiMoneyRupeeCircleLine } from "react-icons/ri";
 import { PiListNumbersFill } from "react-icons/pi";
 type Invoice = {
-  id: string;
-  name: string;
-  invoiceDate: string;
-  vehicle: string;
-  plate: string;
-  total: string;
-  paidAmount?: string;
-  BalanceDue: string;
-  profile: string;
-  jobStatus: string;
+	id: string;
+	name: string;
+	invoiceDate: string;
+	vehicle: string;
+	plate: string;
+	total: string;
+	paidAmount?: string;
+	BalanceDue: string;
+	profile: string;
+	jobStatus: string;
 };
 
 const invoices: Invoice[] = [
@@ -135,17 +135,17 @@ export const JobCardsPage: React.FC = () => {
     );
   });
 
-  return (
-    <div className="p-1 md:block bg-white rounded-lg shadow-lg p-8">
-      <div className="rounded-lg">
-        <div className="border-b-2 border-[#9b111e] pb-2 mb-4">
-          <h1
-            style={{ ...FONTS.header, fontWeight: 500 }}
-            className="font-bold text-[#9b111e] "
-          >
-            JOB CARDS
-          </h1>
-        </div>
+	return (
+		<div className='p-1 md:block bg-white rounded-lg shadow-lg p-8'>
+			<div className='rounded-lg'>
+				<div className='border-b-2 border-[#9b111e] pb-2 mb-4'>
+					<h1
+						style={{ ...FONTS.header, fontWeight: 500 }}
+						className='font-bold text-[#9b111e] '
+					>
+						JOB CARDS
+					</h1>
+				</div>
 
         <div className="relative max-w-md mt-10">
           <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">

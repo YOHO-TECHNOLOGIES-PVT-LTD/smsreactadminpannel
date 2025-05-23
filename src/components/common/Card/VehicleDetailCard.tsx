@@ -69,7 +69,7 @@ const VehicleDetailCard: FC<Props> = ({ vehicle, onViewDetails }) => {
 				className='text-xl font-extrabold mb-1'
 				style={{ color: '#9b111e', ...FONTS.paragraph, fontWeight: 550 }}
 			>
-				{baseInfo.title}
+				{baseInfo.registrationNumber + ' - ' + baseInfo.title}
 			</h3>
 
 			{/* Specs */}
@@ -85,7 +85,7 @@ const VehicleDetailCard: FC<Props> = ({ vehicle, onViewDetails }) => {
 			>
 				<button
 					onClick={() => onViewDetails(vehicle)}
-					className='bg-[#9b111e] text-white text-xs font-semibold py-2 px-5 rounded-full transition-all duration-300 shadow-md flex items-center gap-2'
+					className='bg-[#9b111e] text-white text-xs font-semibold py-2 px-3 rounded-full transition-all duration-300 shadow-md flex items-center gap-2'
 				>
 					<FaEye className='text-sm' /> View Details
 				</button>
