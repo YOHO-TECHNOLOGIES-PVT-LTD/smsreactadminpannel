@@ -1,6 +1,10 @@
 import React, { useState, useRef, useEffect } from "react";
 import { COLORS } from "../../../constants/uiConstants";
 import { useNavigate } from "react-router-dom";
+import FullscreenButton from "./Fullscreen";
+import SosButton from "./Sos";
+import { ProfileModal } from "./ProfileModal";
+import { useAuth } from "../../../pages/auth/AuthContext";
 
 interface User {
   name: string;
@@ -24,16 +28,15 @@ export const Navbar: React.FC = () => {
   const [isBellActive, setIsBellActive] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [showProfileDetails, setShowProfileDetails] = useState(false);
-  const [isEditing, setIsEditing] = useState(false);
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
   const [showLogoutSuccess, setShowLogoutSuccess] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
-
+  const {logout}=useAuth();
   const navigate = useNavigate();
+
 
   const dropdownRef = useRef<HTMLDivElement | null>(null);
   const notificationRef = useRef<HTMLDivElement | null>(null);
-  const modalRef = useRef<HTMLDivElement | null>(null);
 
   const [notifications, setNotifications] = useState<Notification[]>([
     {
@@ -62,8 +65,8 @@ export const Navbar: React.FC = () => {
     },
   ]);
 
-  const [editedUser, setEditedUser] = useState<User>({
-    name: "John ",
+  const [user] = useState<User>({
+    name: "John Doe",
     phone: "+1 856-589-998-1236",
     email: "johndoe3108@gmail.com",
     avatar:
@@ -74,7 +77,7 @@ export const Navbar: React.FC = () => {
     status: "Active",
   });
 
-  // 🔁 Handle outside clicks for dropdown & notifications
+  // Handle outside clicks for dropdown & notifications
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (
@@ -94,19 +97,6 @@ export const Navbar: React.FC = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // 🔁 Handle outside clicks for modal
-  useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
-        setShowProfileDetails(false);
-      }
-    };
-    if (showProfileDetails) {
-      document.addEventListener("mousedown", handleClickOutside);
-    }
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, [showProfileDetails]);
-
   const handleBellClick = () => {
     setIsBellActive(true);
     setShowNotifications((prev) => !prev);
@@ -125,11 +115,20 @@ export const Navbar: React.FC = () => {
     setIsDropdownOpen((prev) => !prev);
   };
 
-  const handleChange = <K extends keyof User>(field: K, value: User[K]) => {
-    setEditedUser((prev) => ({ ...prev, [field]: value }));
+  const handleUserUpdate = (updatedUser: User) => {
+    // Handle user update if needed in navbar
+    // For now, we'll just log it since the ProfileModal manages its own state
+    console.log("User updated:", updatedUser);
   };
 
   const unreadCount = notifications.filter((n) => !n.isRead).length;
+
+  const handleLogout = () => {
+   logout();
+      navigate("/");
+          console.log("User logged out");
+
+  };
 
   return (
     <>
@@ -161,13 +160,17 @@ export const Navbar: React.FC = () => {
           </button>
         </div>
 
-        {/* SOS Emergency Icon */}
-        {/* SOS Emergency Icon */}
+       
+{/* Fullscreen */}
         <div className="relative w-full">
-          {/* SOS Icon */}
-          <div className="absolute right-4 top-1/2 -translate-y-1/2">
+          <div className="absolute right-4 top-1/2 -translate-y-1/2 z-20 flex items-center gap-4">
+            {/* Fullscreen Button */}
+            <FullscreenButton />
+
+            {/* SOS Emergency Icon */}
             <div className="relative">
-              <span className="absolute inline-flex h-8 w-8 rounded-full bg-red-400 opacity-75 animate-ping"></span>
+               <span className="absolute inline-flex h-8 w-8 rounded-full bg-red-400 opacity-75 animate-ping"></span> 
+                <div className="absolute -top-1 -right-1 w-3.5 h-3.5 bg-yellow-500 border-2 border-white rounded-full z-20" />
               <button
                 onClick={handleSosClick}
                 className="relative z-10 inline-flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-r from-red-600 to-red-800 text-white font-bold text-sm shadow-lg hover:scale-105 transition-transform"
@@ -258,21 +261,21 @@ export const Navbar: React.FC = () => {
 
           <div className="relative" ref={dropdownRef}>
             <div
+              className="flex items-center space-x-3 cursor-pointer max-w-xs"
               onClick={toggleDropdown}
-              className="flex items-center space-x-3 cursor-pointer"
             >
-              <div className="w-10 h-10 rounded-full overflow-hidden">
+              <div className="w-10 h-10 rounded-full overflow-hidden flex-shrink-0">
                 <img
-                  src={editedUser.avatar}
+                  src={user.avatar}
                   alt="User Avatar"
                   className="w-full h-full object-cover"
                 />
               </div>
-              <div className="flex flex-col">
-                <span className="text-[#9b111e] font-medium">
-                  {editedUser.name}
+              <div className="flex flex-col flex-nowrap overflow-hidden">
+                <span className="text-[#9b111e] font-medium truncate whitespace-nowrap">
+                  {user.name}
                 </span>
-                <div className="flex items-center text-sm text-[#c13340]">
+                <div className="flex items-center text-sm text-[#c13340] whitespace-nowrap">
                   Admin
                   <svg
                     className="w-4 h-6 ml-1 text-[#c13340]"
@@ -323,141 +326,13 @@ export const Navbar: React.FC = () => {
         </div>
       </nav>
 
-      {/* Profile Modal  */}
-      {showProfileDetails && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999] p-4">
-          <div
-            ref={modalRef}
-            className="bg-[#FAF3EB] rounded-2xl shadow-2xl w-full max-w-2xl md:max-w-xl sm:max-w-md overflow-hidden"
-          >
-            <div className="bg-gradient-to-r from-red-600 to-red-800 p-6 flex items-center justify-between text-white">
-              <div className="flex items-center space-x-4">
-                <img
-                  src={editedUser.avatar}
-                  alt="User"
-                  className="w-20 h-20 rounded-full border-4 border-white shadow-md"
-                />
-                <div>
-                  {isEditing ? (
-                    <input
-                      type="text"
-                      value={editedUser.name}
-                      onChange={(e) => handleChange("name", e.target.value)}
-                      className="text-2xl font-bold bg-transparent border-b border-white placeholder-white placeholder-opacity-75 text-white"
-                    />
-                  ) : (
-                    <h2 className="text-2xl font-bold">{editedUser.name}</h2>
-                  )}
-                  <p className="text-sm opacity-90">
-                    Admin, Production Department
-                  </p>
-                </div>
-              </div>
-              <button
-                onClick={() => setShowProfileDetails(false)}
-                className="bg-[#FAF3EB] text-red-600 font-semibold p-2 rounded-lg shadow hover:bg-[#f8e0b0] transition"
-                aria-label="Close profile details"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-6 w-6"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth={2}
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                </svg>
-              </button>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-6 text-gray-700">
-              <div className="space-y-3">
-                {["phone", "email", "location"].map((field) => (
-                  <div key={field}>
-                    <h4 className="text-sm text-gray-500">
-                      {field.charAt(0).toUpperCase() + field.slice(1)}
-                    </h4>
-                    {isEditing ? (
-                      <input
-                        type="text"
-                        value={editedUser[field as keyof User]}
-                        onChange={(e) =>
-                          handleChange(field as keyof User, e.target.value)
-                        }
-                        className="text-lg w-full border-b border-gray-400 focus:outline-none"
-                      />
-                    ) : (
-                      <p className="text-lg">
-                        {editedUser[field as keyof User]}
-                      </p>
-                    )}
-                  </div>
-                ))}
-              </div>
-              <div className="space-y-3">
-                {["role", "joinDate", "status"].map((field) => (
-                  <div key={field}>
-                    <h4 className="text-sm text-gray-500">
-                      {field === "joinDate"
-                        ? "Join Date"
-                        : field.charAt(0).toUpperCase() + field.slice(1)}
-                    </h4>
-                    {isEditing ? (
-                      <input
-                        type="text"
-                        value={editedUser[field as keyof User]}
-                        onChange={(e) =>
-                          handleChange(field as keyof User, e.target.value)
-                        }
-                        className="text-lg w-full border-b border-gray-400 focus:outline-none"
-                      />
-                    ) : field === "status" ? (
-                      <span className="inline-block px-3 py-1 text-sm rounded-full bg-green-100 text-green-700">
-                        {editedUser.status}
-                      </span>
-                    ) : (
-                      <p className="text-lg">
-                        {editedUser[field as keyof User]}
-                      </p>
-                    )}
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="px-6 py-4 border-t flex justify-end gap-2">
-              {isEditing ? (
-                <>
-                  <button
-                    className="bg-gray-200 text-gray-800 px-5 py-2 rounded-lg hover:bg-gray-300 transition"
-                    onClick={() => setIsEditing(false)}
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    className="bg-gradient-to-r from-red-600 to-red-800 text-white px-5 py-2 rounded-lg shadow hover:scale-105 transition"
-                    onClick={() => setIsEditing(false)}
-                  >
-                    Save Changes
-                  </button>
-                </>
-              ) : (
-                <button
-                  className="bg-gradient-to-r from-red-600 to-red-800 text-white px-5 py-2 rounded-lg shadow hover:scale-105 transition"
-                  onClick={() => setIsEditing(true)}
-                >
-                  Edit Profile
-                </button>
-              )}
-            </div>
-          </div>
-        </div>
-      )}
+      {/* Profile Modal Component */}
+      <ProfileModal
+        user={user}
+        isOpen={showProfileDetails}
+        onClose={() => setShowProfileDetails(false)}
+        onUserUpdate={handleUserUpdate}
+      />
 
       {/* Logout Confirmation Modal */}
       {showLogoutConfirm && (
@@ -480,7 +355,8 @@ export const Navbar: React.FC = () => {
                   setTimeout(() => {
                     setShowLogoutSuccess(false);
                     console.log("Redirect or clear session here");
-                  }, 2000);
+                    handleLogout();
+                  }, 1000);
                 }}
                 className="px-4 py-2 rounded bg-red-600 text-white hover:bg-red-700"
               >
@@ -527,40 +403,41 @@ export const Navbar: React.FC = () => {
           {/* Tailwind custom animation via <style> tag (works well for small scoped styles) */}
           <style>
             {`
-        @keyframes fade-in {
-          from { opacity: 0; transform: scale(0.95); }
-          to { opacity: 1; transform: scale(1); }
-        }
+              @keyframes fade-in {
+                from { opacity: 0; transform: scale(0.95); }
+                to { opacity: 1; transform: scale(1); }
+              }
 
-        .animate-fade-in {
-          animation: fade-in 0.3s ease-out forwards;
-        }
+              .animate-fade-in {
+                animation: fade-in 0.3s ease-out forwards;
+              }
 
-        @keyframes draw-path {
-          from { stroke-dasharray: 48; stroke-dashoffset: 48; }
-          to { stroke-dashoffset: 0; }
-        }
+              @keyframes draw-path {
+                from { stroke-dasharray: 48; stroke-dashoffset: 48; }
+                to { stroke-dashoffset: 0; }
+              }
 
-        .animate-draw-path {
-          stroke-dasharray: 48;
-          stroke-dashoffset: 48;
-          animation: draw-path 0.5s ease-out forwards;
-        }
+              .animate-draw-path {
+                stroke-dasharray: 48;
+                stroke-dashoffset: 48;
+                animation: draw-path 0.5s ease-out forwards;
+              }
 
-        @keyframes draw-check {
-          from { stroke-dasharray: 166; stroke-dashoffset: 166; }
-          to { stroke-dashoffset: 0; }
-        }
+              @keyframes draw-check {
+                from { stroke-dasharray: 166; stroke-dashoffset: 166; }
+                to { stroke-dashoffset: 0; }
+              }
 
-        .animate-draw-check circle {
-          stroke-dasharray: 166;
-          stroke-dashoffset: 166;
-          animation: draw-check 0.6s ease-out forwards;
-        }
-      `}
+              .animate-draw-check circle {
+                stroke-dasharray: 166;
+                stroke-dashoffset: 166;
+                animation: draw-check 0.6s ease-out forwards;
+              }
+            `}
           </style>
         </div>
       )}
     </>
   );
 };
+

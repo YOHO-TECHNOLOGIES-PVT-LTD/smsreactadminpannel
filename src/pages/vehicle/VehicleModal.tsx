@@ -1,67 +1,148 @@
 import type { FC } from 'react';
 import type { Vehicle } from './VehicleData';
-
+import { Link } from 'react-router-dom';
 
 type Props = {
-  vehicle: Vehicle;
-  onClose: () => void;
-  redirectPath: string;
+	vehicle: Vehicle;
+	onClose: () => void;
+	redirectPath: string;
 };
 
 const VehicleModal: FC<Props> = ({ vehicle, onClose, redirectPath }) => {
-  return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-xl p-6 relative w-full max-w-4xl h-[85vh] overflow-y-auto shadow-2xl">
-        {/* Close Button */}
-        <button
-          className="absolute top-4 right-4 text-gray-600 hover:text-red-600 text-2xl font-bold transition-all"
-          onClick={onClose}
-          aria-label="Close modal"
-        >
-          ✕
-        </button>
+	const info = vehicle.vehicleInfo;
+	const baseInfo = vehicle.BasevehicleInfo;
 
-        {/* Vehicle Image */}
-        <img
-          src={vehicle.image}
-          alt={vehicle.title}
-          className="w-full max-h-80 object-contain rounded-lg mb-6 shadow-md bg-gray-100"
-        />
+	return (
+		<div className='fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 '>
+			<div
+				className='bg-white rounded-xl p-6 relative w-full max-w-4xl h-[85vh] overflow-y-auto shadow-2xl'
+				style={{
+					background: 'linear-gradient(180deg, #fdefe9 0%, #fff 100%)',
+					borderColor: '#E6A895',
+					boxShadow:
+						'0 8px 20px rgba(155, 17, 30, 0.15), 0 4px 8px rgba(230, 168, 149, 0.2)',
+					transition: 'box-shadow 0.3s ease',
+				}}
+			>
+				{/* Close Button */}
+				<button
+					className='absolute top-4 right-4 text-[#9b111e] hover:text-red-600 text-2xl font-bold transition-all'
+					onClick={onClose}
+					aria-label='Close modal'
+				>
+					✕
+				</button>
 
-        {/* Title & Basic Info */}
-        <h2 className="text-3xl font-bold text-[#9b111e] mb-2">{vehicle.title}</h2>
-        <p className="text-sm text-gray-600 mb-4">Listed on: {vehicle.listedDate}</p>
-        <p className="text-base text-[#9b111e] font-semibold mb-4">
-          {vehicle.kms} • {vehicle.fuel} • {vehicle.transmission}
-        </p>
+				{/* Vehicle Image */}
+				<div className='flex justify-center items-center w-full py-4'>
+					<div className='w-100 h-72 bg-gray-100 rounded-lg overflow-hidden shadow'>
+						<img
+							src={baseInfo.image}
+							alt={baseInfo.title}
+							className='w-full h-full object-cover'
+						/>
+					</div>
+				</div>
 
-        {/* Grid Layout for Details */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-gray-800">
-          <div>
-            <p><span className="font-semibold">Location:</span> {vehicle.location}</p>
-            <p><span className="font-semibold">Owner:</span> {vehicle.owner}</p>
-            <p><span className="font-semibold">Registered Year:</span> {vehicle.registeredYear}</p>
-          </div>
-          <div>
-            <p><span className="font-semibold">Insurance:</span> {vehicle.insuranceStatus}</p>
-            <p><span className="font-semibold">Availability:</span> {vehicle.availability}</p>
-            <p><span className="font-semibold">Rating:</span> ⭐ {vehicle.rating}</p>
-          </div>
-        </div>
+				{/* Title & Basic Info */}
+				<h5 className='text-3xl font-bold text-[#9b111e] mb-2'>
+					{baseInfo.registrationNumber} - {baseInfo.title}
+				</h5>
 
-        {/* Job Card Link */}
-        <div className="mt-8">
-        <a
-          href={redirectPath}
-          className="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-5 rounded transition"
-          onClick={onClose}
-        >
-          Job Card
-        </a>
-        </div>
-      </div>
-    </div>
-  );
+				{/* Customer Details (mapped) */}
+				{vehicle.customerDetails && (
+					<div className='mt-8'>
+						<h3 className='text-2xl font-semibold text-[#9b111e] mb-4'>
+							Owner Details
+						</h3>
+						<table className='w-full table-auto border-collapse border border-[#d7b9a3] text-[#3b2f2f]'>
+							<tbody>
+								{Object.entries(vehicle.customerDetails).map(([key, value]) => (
+									<tr
+										key={key}
+										className='border border-[#d7b9a3] bg-transparent'
+									>
+										<td className='border border-[#d7b9a3] px-4 py-2 font-semibold capitalize bg-transparent w-1/2'>
+											{key}
+										</td>
+										<td className='border border-[#d7b9a3] px-4 py-2 bg-transparent'>
+											{value || 'N/A'}
+										</td>
+									</tr>
+								))}
+							</tbody>
+						</table>
+					</div>
+				)}
+
+				{/*vehicleInfo */}
+				{vehicle.vehicleInfo && (
+					<div className='mt-8'>
+						<h3 className='text-2xl font-semibold text-[#9b111e] mb-4'>
+							Vehicle Details
+						</h3>
+						<table className='w-full table-auto border-collapse border border-[#d7b9a3] text-[#3b2f2f]'>
+							<tbody>
+								{Object.entries(vehicle.vehicleInfo).map(
+									([part, condition]) => (
+										<tr
+											key={part}
+											className='border border-[#d7b9a3] bg-transparent'
+										>
+											<td className='border border-[#d7b9a3] px-4 py-2 font-semibold capitalize bg-transparent w-1/2'>
+												{part}
+											</td>
+											<td className='border border-[#d7b9a3] px-4 py-2 bg-transparent'>
+												{condition || 'N/A'}
+											</td>
+										</tr>
+									)
+								)}
+							</tbody>
+						</table>
+					</div>
+				)}
+
+				{/* Car Condition */}
+				{vehicle.carCondition && (
+					<div className='mt-8'>
+						<h3 className='text-2xl font-semibold text-[#9b111e] mb-4'>
+							Car Condition
+						</h3>
+						<table className='w-full table-auto border-collapse border border-[#d7b9a3] text-[#3b2f2f]'>
+							<tbody>
+								{Object.entries(vehicle.carCondition).map(
+									([part, condition]) => (
+										<tr
+											key={part}
+											className='border border-[#d7b9a3] bg-transparent'
+										>
+											<td className='border border-[#d7b9a3] px-4 py-2 font-semibold capitalize bg-transparent w-1/2'>
+												{part}
+											</td>
+											<td className='border border-[#d7b9a3] px-4 py-2 bg-transparent'>
+												{condition || 'N/A'}
+											</td>
+										</tr>
+									)
+								)}
+							</tbody>
+						</table>
+					</div>
+				)}
+
+				<div className='flex justify-start items-center mt-4'>
+					<Link
+						to={redirectPath}
+						onClick={onClose}
+						className='bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-6 rounded shadow-md transition duration-300 ease-in-out'
+					>
+						Job Card
+					</Link>
+				</div>
+			</div>
+		</div>
+	);
 };
 
 export default VehicleModal;

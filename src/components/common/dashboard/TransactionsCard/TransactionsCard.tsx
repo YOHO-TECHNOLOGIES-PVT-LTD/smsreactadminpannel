@@ -32,8 +32,8 @@ export const TransactionCard: React.FC<Props> = ({
 }) => {
   return (
     <div>
-      <div className="flex">
-        <div className="flex bg-[#FAF3EB] w-full rounded-xl shadow-md p-2 justify-between mt-2">
+      <div className="flex hover:font-bold hover:rounded-xl hover:mt-2 ">
+        <div className="flex bg-[#FAF3EB] w-full rounded-xl shadow-md p-2 justify-between mt-2 ">
           <div className="w-10 h-10 rounded-md flex items-center mr-2 justify-center text-xl">
             {icon1}
           </div>
