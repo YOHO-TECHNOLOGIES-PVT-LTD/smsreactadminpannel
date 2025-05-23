@@ -108,10 +108,10 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({ onView
   );
 
   return (
-    <div className="flex flex-col   bg-gray-100" style={{background: COLORS.bgColor}}>
+    <div className="flex flex-col   bg-gray-100" style={{ background: COLORS.bgColor }}>
       <div className="flex gap-6 flex-wrap">
-        <div className="flex-1 min-w-[600px] bg-white p-5" style={{background: COLORS.bgColor}}>
-          <div className="t-0" style={{background: COLORS.bgColor}}>
+        <div className="flex-1 min-w-[600px] bg-white p-5" style={{ background: COLORS.bgColor }}>
+          <div className="t-0" style={{ background: COLORS.bgColor }}>
             <button onClick={handleBack} className=""><MdOutlineKeyboardBackspace className="text-[#800000] text-3xl" /></button>
           </div>
           <div className="flex justify-between items-center border-b border-gray-300 pb-4 mb-4 flex-wrap gap-4">
@@ -175,7 +175,10 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({ onView
                         Popular
                       </span>
                     </div>
-                    <p className="text-base text-gray-500 mt-2">{center.location}</p>
+
+                    <p className="text-sm text-gray-500 mt-1 border border-[1px] border-[#800000] bg-[#F9E6E6] px-2 py-1 rounded inline-block w-fit mt-5">
+                      {center.location}
+                    </p>
                   </div>
 
                   <div className="flex gap-2 mt-2 sm:mt-0">

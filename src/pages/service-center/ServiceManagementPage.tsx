@@ -1,13 +1,11 @@
 
 import { ServiceCenterListPage } from "./ServiceCenterListPage";
-import { Stepper, Step, StepLabel } from "@mui/material";
 import 'flowbite';
 import  "@preline/accordion"
 import ServicesList from "./ServicesList";
 import ServiceSpareParts from "./ServiceSpareParts";
 import ServiceCenterProfileView from "./ServiceCenterprofileview";
 import { useState } from "react";
-import { MdOutlineKeyboardBackspace } from "react-icons/md";
 import { useNavigate } from 'react-router-dom';
 
 export const ServiceManagementPage = () => {
