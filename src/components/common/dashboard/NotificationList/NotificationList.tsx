@@ -54,13 +54,13 @@ const [selectedRange, setSelectedRange] = useState('');
          <div className="relative " ref={dropdownRef}>
                    <button
                      onClick={() => setIsOpen(!isOpen)}
-                     className="flex items-end text-xs text-gray-700 border  px-1 py-1.5 rounded-md bg-white hover:bg-gray-50"
+                     className="flex items-start text-xs text-[#9b111e] border  px-1 py-1.5 rounded-md bg-white hover:bg-gray-50"
                    >
-                     {selectedRange}
-                     <ChevronDown className="w-6 h-4 mr-1" />
+                     {/* {selectedRange} */}
+                     <ChevronDown className="w-6 h-4 text-[#9b111e]  " />
                    </button>
                    {isOpen && (
-                     <div className="absolute  mt-2 bg-white border rounded-md shadow-lg z-10">
+                     <div className="absolute  mt-2 bg-white  text-[#9b111e]  border rounded-md shadow-lg z-10">
                        {dateRanges.map((range) => (
                          <button
                            key={range}
@@ -68,7 +68,7 @@ const [selectedRange, setSelectedRange] = useState('');
                              setSelectedRange(range);
                              setIsOpen(false);
                            }}
-                           className="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100"
+                           className="block w-full text-left px-4 py-2 text-sm hover:text-red-600 "
                          >
                            {range}
                          </button>
