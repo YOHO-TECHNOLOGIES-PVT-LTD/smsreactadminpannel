@@ -262,23 +262,29 @@ const SosDetails: React.FC = () => {
                 >
                   {selected.status || "Completed"}
                 </div>
-                  <div className="flex items-start mt-10">
-                    <FaMapMarkerAlt className="text-[#9b111e]  text-2xl mr-3" />
-                    <div>
-                      <div className="font-semibold text-lg">Location</div>
-                      <div className="text-gray-600 text-2xl">{selected.location || 'chennai'}</div>
-                    </div>
-                  </div>
+                 
                </div>
               </div>
           </div>
 
-          <div className="flex items-start mb-4">
-            <FaStickyNote className="text-[#9b111e]  text-2xl mr-3" />
-            <div>
-              <div className="font-semibold text-lg">Note</div>
-              <div className="text-gray-600">{selected.note || 'No notes provided'}</div>
-            </div>
+          <div className='flex flex-col'>
+
+              <div className="flex items-start mb-4">
+                <FaStickyNote className="text-[#9b111e]  text-2xl mr-3" />
+                <div>
+                  <div className="font-semibold text-lg">Note</div>
+                  <div className="text-gray-600">{selected.note || 'No notes provided'}</div>
+                </div>
+              </div>
+
+              <div className="flex items-start mt-10">
+                <FaMapMarkerAlt className="text-[#9b111e]  text-2xl mr-3" />
+                <div>
+                  <div className="font-semibold text-lg">Location</div>
+                  <div className="text-gray-600 text-2xl">{selected.location || 'chennai'}</div>
+                </div>
+              </div>
+
           </div>
 
           </div>
