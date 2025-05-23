@@ -62,32 +62,33 @@ const TotalRevenue: React.FC = () => {
           </div>
         </div>
 
-        {/* Dropdown */}
         <div className="relative" ref={dropdownRef}>
-          <button
-            onClick={() => setIsOpen(!isOpen)}
-            className="flex items-center text-xs text-gray-700 border  px-1 py-1.5 rounded-md bg-white hover:bg-gray-50 "
-          >
-            {selectedRange}
-            <ChevronDown className="w-6 h-4 ml-1" />
-          </button>
-          {isOpen && (
-            <div className="absolute  mt-2 bg-white h-20 overflow-hidden scroll-auto border rounded-md shadow-lg z-10">
-              {dateRanges.map((range) => (
-                <button
-                  key={range}
-                  onClick={() => {
-                    setSelectedRange(range);
-                    setIsOpen(false);
-                  }}
-                  className="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100"
-                >
-                  {range}
-                </button>
-              ))}
-            </div>
-          )}
-        </div>
+  <button
+    onClick={() => setIsOpen(!isOpen)}
+    className="flex items-center text-xs text-gray-700 border px-2 py-1.5 rounded-md bg-white hover:bg-gray-50"
+  >
+    {selectedRange || "Select Center"}
+    <ChevronDown className="w-6 h-4 ml-1" />
+  </button>
+
+  {isOpen && (
+    <div className="absolute right-0 top-full mt-1 bg-white max-h-40 overflow-y-auto border rounded-md shadow-md z-10 w-32">
+      {dateRanges.map((range) => (
+        <button
+          key={range}
+          onClick={() => {
+            setSelectedRange(range);
+            setIsOpen(false);
+          }}
+          className="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100"
+        >
+          {range}
+        </button>
+      ))}
+    </div>
+  )}
+</div>
+
       </div>
 
       {/* Chart */}
