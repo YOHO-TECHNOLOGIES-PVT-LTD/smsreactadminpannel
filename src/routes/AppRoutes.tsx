@@ -14,6 +14,7 @@ import { useAuth } from "../pages/auth/AuthContext";
 import { Announcement } from "../pages/Announcement/Announcement";
 import SosDetailsCard from "../pages/sos/SosDetailsCard"
 import DashboardSos from "../pages/sos/DashBoardSos";
+import QuotationPage from "../pages/job-cards/steps/Quotationpage";
 
 const AppRoutes = () => {
     const { isAuthenticated } = useAuth();
@@ -40,6 +41,7 @@ const AppRoutes = () => {
                 <Route path="settings" element={<GeneralSettings />} />
                 <Route path="sos" element ={<DashboardSos/>}/>
                 <Route path="sosdetails" element={<SosDetailsCard/>}/>
+                <Route path="quotation" element={<QuotationPage />} />
                 <Route path="*" element={<Navigate to="/" />} />
             </Route>
         </Routes>

@@ -54,7 +54,7 @@ const vehicleData: Vehicle[] = [
 		BasevehicleInfo: {
 			title: '2019 Mahindra XUV500 W9',
 			image: car5,
-			registrationNumber: 'TN 07 AB 1234',
+			registrationNumber: 'TN07 AB1234',
 		},
 		vehicleInfo: {
 			kms: '50,000 Kms',
@@ -96,7 +96,7 @@ const vehicleData: Vehicle[] = [
 		BasevehicleInfo: {
 			title: '2020 Hyundai Creta SX',
 			image: car1,
-			registrationNumber: 'KA 03 XY 5678',
+			registrationNumber: 'KA03 XY5678',
 		},
 		vehicleInfo: {
 			kms: '30,000 Kms',
@@ -138,7 +138,7 @@ const vehicleData: Vehicle[] = [
 		BasevehicleInfo: {
 			title: '2018 Tata Nexon XE',
 			image: car2,
-			registrationNumber: 'MH 12 CD 3456',
+			registrationNumber: 'MH12 CD3456',
 		},
 		vehicleInfo: {
 			kms: '75,000 Kms',
@@ -180,7 +180,7 @@ const vehicleData: Vehicle[] = [
 		BasevehicleInfo: {
 			title: '2021 Honda City ZX',
 			image: car3,
-			registrationNumber: 'DL 09 EF 7890',
+			registrationNumber: 'DL09 EF7890',
 		},
 		vehicleInfo: {
 			kms: '25,000 Kms',
@@ -222,7 +222,7 @@ const vehicleData: Vehicle[] = [
 		BasevehicleInfo: {
 			title: '2017 Ford Ecosport Titanium',
 			image: car4,
-			registrationNumber: 'TN 10 GH 4321',
+			registrationNumber: 'TN10 GH4321',
 		},
 		vehicleInfo: {
 			kms: '90,000 Kms',

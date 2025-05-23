@@ -93,7 +93,7 @@ const VehicleManagementPage = () => {
 					<VehicleModal
 						vehicle={selectedVehicle}
 						onClose={() => setSelectedVehicle(null)}
-						redirectPath='/job-card'
+						redirectPath='/quotation'
 					/>
 				)}
 			</div>
