@@ -4,149 +4,38 @@ import 'flowbite';
 import  "@preline/accordion"
 import ServicesList from "./ServicesList";
 import ServiceSpareParts from "./ServiceSpareParts";
-
-
+import ServiceCenterProfileView from "./ServiceCenterprofileview";
+import { useState } from "react";
+import { MdOutlineKeyboardBackspace } from "react-icons/md";
+import { useNavigate } from 'react-router-dom';
 
 export const ServiceManagementPage = () => {
+const [activeStep, setActiveStep] = useState(0);
+const navigate= useNavigate();
+
+const handleBack = () => {
+    if (activeStep > 0) {
+      setActiveStep(prev => prev - 1);
+    } else {
+      navigate(-1); // Browser history back
+    }
+  };
 
   return (
-  <>
-      <ServiceCenterListPage />
-        {/* <div className="flex p-4 pb-8 sticky top-0  rounded-t-xl shadow-inner-top border-b-2 border-orange-700" style={{ backgroundColor: COLORS.bgColor }}>
-        <h1 className="font-bold text-3xl pt-2 pl-0" style={{ color: "#9b111e" }}>Service Management System</h1>
-        <button className="flex static bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg ml-auto " style={{ background: "linear-gradient(44.99deg,#700808 11%,#d23c3c 102.34%)" }}><IoIosAddCircleOutline className="mt-1 mr-2 " />Add</button>
-        </div> */}
-      <ServicesList />  
-      <div>
-        <ServiceSpareParts />
-      </div>
-        
 
-
-    
-    {/* <div className="mt-0" style={{ fontFamily: FONTS.header.fontFamily }}>
-      <div className="flex p-4 pb-8 sticky top-0  rounded-t-xl shadow-inner-top border-b-2 border-orange-700" style={{ backgroundColor: COLORS.bgColor }}>
-        <h1 className="font-bold text-3xl pt-2 pl-0" style={{ color: "#9b111e" }}>Service Management System</h1>
-        <button className="flex static bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg ml-auto " style={{ background: "linear-gradient(44.99deg,#700808 11%,#d23c3c 102.34%)" }}><IoIosAddCircleOutline className="mt-1 mr-2 " />Add</button>
-      </div>
-      <div className="grid grid-cols-2 gap-4 pt-5">
-        <div className="bg-sky-50 rounded-lg " >
-          <div className="max-w-m p-3 border pr-10 border-gray-200 rounded-lg shadow-sm dark:border-gray-700 bg-orange-50">
-            <div className="flex">
-              <a href="#">
-                <h5 className="mb-2  font-bold tracking-tight text-gray-900 dark:text-white pt-1">Periodic Maintanence service</h5>
-              </a>
-              <button className="flex shadow-md p-1 rounded-lg ml-auto"><MdDeleteSweep className="w-7 h-9 fill-orange-800" /></button>
-              <button className="flex shadow-md p-1 rounded-lg ml-1 "><MdOutlineEditCalendar className="w-7 h-9 fill-orange-800" /></button>
-            </div>
-            <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">complete car care as per manufacture car and mileage</p>
-            <a href="#" className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" style={{ background: "linear-gradient(44.99deg,#700808 11%,#d23c3c 102.34%)" }}>
-              <button className="flex"><IoIosAddCircleOutline className="mt-1 mr-2" /> Add</button>
-            </a>
-          </div>
-        </div>
-        <div className="bg-white rounded-lg">
-          <div className="max-w-m p-3 border pr-10 pb-6 border-gray-200 rounded-lg shadow-sm dark:border-gray-700 bg-orange-50">
-            <a href="#">
-              <h5 className="mb-2  font-bold tracking-tight text-gray-900 dark:text-white">Periodic Maintanence service</h5>
-            </a>
-            <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">complete car care as per manufacture car and mileage</p>
-            <a href="#" className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" style={{ background: "linear-gradient(44.99deg,#700808 11%,#d23c3c 102.34%)" }}>
-              <button className="flex" ><IoIosAddCircleOutline className="mt-1 mr-2" /> Add</button>
-            </a>
-          </div>
-        </div>
-        <div className="bg-white  rounded-lg">
-          <div className="max-w-m p-3 border pr-10 border-gray-200 rounded-lg shadow-sm dark:border-gray-700 bg-orange-50">
-            <a href="#">
-              <h5 className="mb-2  font-bold tracking-tight text-gray-900 dark:text-white">Periodic Maintanence service</h5>
-            </a>
-            <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">complete car care as per manufacture car and mileage</p>
-            <a href="#" className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" style={{ background: "linear-gradient(44.99deg,#700808 11%,#d23c3c 102.34%)" }}>
-              <button className="flex" ><IoIosAddCircleOutline className="mt-1 mr-2" /> Add</button>
-            </a>
-          </div>
-        </div>
-        <div className="bg-white  rounded-lg">
-          <div className="max-w-m p-3 border pr-10 border-gray-200 rounded-lg shadow-sm dark:border-gray-700 bg-orange-50">
-            <a href="#">
-              <h5 className="mb-2  font-bold tracking-tight text-gray-900 dark:text-white">Periodic Maintanence service</h5>
-            </a>
-            <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">complete car care as per manufacture car and mileage</p>
-            <a href="#" className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" style={{ background: "linear-gradient(44.99deg,#700808 11%,#d23c3c 102.34%)" }}>
-              <button className="flex" ><IoIosAddCircleOutline className="mt-1 mr-2" /> Add</button>
-            </a>
-          </div>
-        </div>
-        <div className="bg-white  rounded-lg">
-          <div className="max-w-m p-3 border pr-10 border-gray-200 rounded-lg shadow-sm dark:border-gray-700 bg-orange-50">
-            <a href="#">
-              <h5 className="mb-2  font-bold tracking-tight text-gray-900 dark:text-white">Periodic Maintanence service</h5>
-            </a>
-            <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">complete car care as per manufacture car and mileage</p>
-            <a href="#" className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" style={{ background: "linear-gradient(44.99deg,#700808 11%,#d23c3c 102.34%)" }}>
-              <button className="flex" ><IoIosAddCircleOutline className="mt-1 mr-2" /> Add</button>
-            </a>
-          </div>
-        </div>
-        <div className="bg-white  rounded-lg">
-          <div className="max-w-m p-3 border pr-10 border-gray-200 rounded-lg shadow-sm dark:border-gray-700 bg-orange-50">
-            <a href="#">
-              <h5 className="mb-2  font-bold tracking-tight text-gray-900 dark:text-white">Periodic Maintanence service</h5>
-            </a>
-            <p className="mb-3 font-normal text-gray-700 ">complete car care as per manufacture car and mileage</p>
-            <a href="#" className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" style={{ background: "linear-gradient(44.99deg,#700808 11%,#d23c3c 102.34%)" }}>
-              <button className="flex" ><IoIosAddCircleOutline className="mt-1 mr-2" /> Add</button>
-            </a>
-          </div>
-        </div>
-        <div className="bg-white  rounded-lg">
-          <div className="max-w-m p-3 border pr-10 border-gray-200 rounded-lg shadow-sm dark:border-gray-700 bg-orange-50">
-            <a href="#">
-              <h5 className="mb-2  font-bold tracking-tight text-gray-900 dark:text-white">Periodic Maintanence service</h5>
-            </a>
-            <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">complete car care as per manufacture car and mileage</p>
-            <a href="#" className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" style={{ background: "linear-gradient(44.99deg,#700808 11%,#d23c3c 102.34%)" }}>
-              <button className="flex" ><IoIosAddCircleOutline className="mt-1 mr-2" /> Add</button>
-            </a>
-          </div>
-        </div>
-        <div className="bg-white  rounded-lg">
-          <div className="max-w-m p-3 border pr-10 border-gray-200 rounded-lg shadow-sm dark:border-gray-700 bg-orange-50">
-            <a href="#">
-              <h5 className="mb-2  font-bold tracking-tight text-gray-900 dark:text-white">Periodic Maintanence service</h5>
-            </a>
-            <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">complete car care as per manufacture car and mileage</p>
-            <a href="#" className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" style={{ background: "linear-gradient(44.99deg,#700808 11%,#d23c3c 102.34%)" }}>
-              <button className="flex" ><IoIosAddCircleOutline className="mt-1 mr-2" /> Add</button>
-            </a>
-          </div>
-        </div>
-        <div className="bg-white  rounded-lg">
-          <div className="max-w-m p-3 border pr-10 border-gray-200 rounded-lg shadow-sm dark:border-gray-700 bg-orange-50">
-            <a href="#">
-              <h5 className="mb-2  font-bold tracking-tight text-gray-900 dark:text-white">Periodic Maintanence service</h5>
-            </a>
-            <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">complete car care as per manufacture car and mileage</p>
-            <a href="#" className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" style={{ background: "linear-gradient(44.99deg,#700808 11%,#d23c3c 102.34%)" }}>
-              <button className="flex" ><IoIosAddCircleOutline className="mt-1 mr-2" /> Add</button>
-            </a>
-          </div>
-        </div>
-        <div className="bg-white  rounded-lg">
-          <div className="max-w-m p-3 border pr-10 border-gray-200 rounded-lg shadow-sm dark:border-gray-700 bg-orange-50">
-            <a href="#">
-              <h5 className="mb-2  tracking-tight text-gray-900 dark:text-white">Periodic Maintanence service</h5>
-            </a>
-            <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">complete car care as per manufacture car and mileage</p>
-            <a href="#" className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" style={{ background: "linear-gradient(44.99deg,#700808 11%,#d23c3c 102.34%)" }}>
-              <button className="flex" ><IoIosAddCircleOutline className="mt-1 mr-2" /> Add</button>
-            </a>
-          </div>
-        </div>
+    <div className=" bg-gray-50 min-h-screen">
+      <div className="">
+        {activeStep === 0 && (
+          <ServiceCenterListPage onView={() => setActiveStep(1)}  handleBack={handleBack}/>
+        )}
+        {activeStep === 1 && (
+          <ServiceCenterProfileView onServices={() => setActiveStep(2)} handleBack={handleBack} />
+        )}
+        {activeStep === 2 && (
+          <ServicesList onSpareParts={() => setActiveStep(3)} handleBack={handleBack}/>
+        )}
+        {activeStep === 3 && <ServiceSpareParts handleBack={handleBack}/>}
       </div>
     </div>
-    <ServiceCenterListPage /> */}
-  </>
-  )
+    )
 }
