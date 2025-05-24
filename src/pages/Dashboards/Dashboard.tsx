@@ -169,9 +169,9 @@ const queries = [
       </div>
 
       {/* Transactions & Query */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4 ">
         {/* Transactions */}
-        <div className="bg-white shadow-md rounded-xl p-4 max-h-96 overflow-hidden">
+        <div className="bg-white shadow-md rounded-xl p-4 max-h-96 overflow-hidden ">
           <div className="flex justify-between mb-2 ">
             <p
               className=" mb-2 text-lg "
@@ -181,7 +181,7 @@ const queries = [
             </p>
             <button className="text-red-700 text-md item-end hover:text-red-900">View All</button>
           </div>
-          <div className="overflow-y-auto  max-h-80">
+          <div className="overflow-y-auto  max-h-80 scrollbar-hide">
             {[...Array(14)].map((_, index) => (
               <TransactionCard
                 key={index}
