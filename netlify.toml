@@ -5,3 +5,7 @@
 
     [build.environment]
   NODE_VERSION = "18"
+
+  [build]
+  publish = "build"
+  command = "CI= npm run build"
