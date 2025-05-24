@@ -5,29 +5,32 @@ import ProfileEditSettings from "./ProfileEditSettings"
 import TermsConditionsSettings from "./TermsConditionsSettings"
 
 const GeneralSettings = () => {
-const [tab, setTab] = useState<String>("Account Settings")
-const [buttonColor,setbuttonColor] = useState<String>("transparent")
+const [tab, setTab] = useState<string>("Account Settings")
+// const [buttonColor,setbuttonColor] = useState<string>("transparent")
 
 
-const handleRenderComponent = (tabText: String) => {
+const handleRenderComponent = (tabText: string) => {
   setTab(tabText)
 }
  
   return (
     <>
+    
     <div className="p-5">
-      <h1>Settings</h1>
-      <div className="mt-4">
-      <button onClick={()=>handleRenderComponent("Account Settings")} className="hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
+      <div className="border-b-2 border-orange-700 pb-8">
+        <h1 className="text-4xl text-orange-700 top-0 font-bold">Settings</h1>
+      </div>
+      <div className="mt-10">
+      <button onClick={()=>handleRenderComponent("Account Settings")} className="bg-transparent focus:bg-orange-800 focus:text-white focus:border-orange-800 border-orange-800 hover:bg-orange-800 text-orange-800 font-semibold hover:text-white py-2 px-4 ml-4 border border-blue-500 hover:border-transparent rounded">
       Account Settings
       </button>
-      <button onClick={()=>handleRenderComponent("Change Password")} className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 ml-4 border border-blue-500 hover:border-transparent rounded">
+      <button onClick={()=>handleRenderComponent("Change Password")} className="bg-transparent focus:bg-orange-800 focus:text-white hover:bg-orange-800 text-orange-800 font-semibold hover:text-white py-2 px-4 ml-4 border border-orange-800 hover:border-transparent rounded">
       Change Password
       </button>
-      <button onClick={()=>handleRenderComponent("Privacy Policy")} className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border ml-4 border-blue-500 hover:border-transparent rounded">
+      <button onClick={()=>handleRenderComponent("Privacy Policy")} className="bg-transparent focus:bg-orange-800 focus:text-white hover:bg-orange-800 text-orange-800 font-semibold hover:text-white py-2 px-4 border ml-4 border-orange-800 hover:border-transparent rounded">
       Privacy Policy
       </button>
-      <button onClick={()=>handleRenderComponent("Terms")} className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border ml-4 border-blue-500 hover:border-transparent rounded">
+      <button onClick={()=>handleRenderComponent("Terms")} className="bg-transparent focus:bg-orange-800 focus:text-white hover:bg-orange-800 text-orange-800 font-semibold hover:text-white py-2 px-4 border ml-4 border-orange-800 hover:border-transparent rounded">
       Terms & Conditions
       </button>
     </div>
