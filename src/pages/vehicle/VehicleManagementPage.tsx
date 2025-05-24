@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import vehicleData from '../vehicle/VehicleData';
-import VehicleDetailCard, {
-	type Vehicle,
+import vehicleData, { type Vehicle } from '../vehicle/VehicleData'; // Import Vehicle type from VehicleData
+import VehicleDetailCard, { 
+	type Vehicle as CardVehicle, // Rename to avoid conflict
 } from '../../components/common/Card/VehicleDetailCard';
 import VehicleModal from '../vehicle/VehicleModal';
 import { FaSearch } from 'react-icons/fa';
@@ -9,7 +9,7 @@ import carDefaultlogo from '../../assets/INVALID CAR LOGO.png';
 import { RiResetLeftFill } from 'react-icons/ri';
 
 const VehicleManagementPage = () => {
-	const [selectedVehicle, setSelectedVehicle] = useState<Vehicle | null>(null);
+	const [selectedVehicle, setSelectedVehicle] = useState<Vehicle | null>(null); // Use Vehicle type from VehicleData
 	const [searchTerm, setSearchTerm] = useState('');
 
 	// Car filter
@@ -24,6 +24,24 @@ const VehicleManagementPage = () => {
 			vehicle.customerDetails?.fullName.toLowerCase().includes(search)
 		);
 	});
+
+	// Transform vehicle data to match VehicleDetailCard expected interface
+	const transformVehicle = (vehicle: Vehicle): CardVehicle => {
+		// Map fuel level values to match CardVehicle interface
+		const mapFuelLevel = (fuelLevel: Vehicle['vehicleInfo']['currentFuelLevel']): CardVehicle['vehicleInfo']['currentFuelLevel'] => {
+			if (fuelLevel === 'Full Tank') return 'Full';
+			return fuelLevel; // All other values should match
+		};
+
+		return {
+			...vehicle,
+			baseVehicleInfo: vehicle.BasevehicleInfo, // Map BasevehicleInfo to baseVehicleInfo
+			vehicleInfo: {
+				...vehicle.vehicleInfo,
+				currentFuelLevel: mapFuelLevel(vehicle.vehicleInfo.currentFuelLevel)
+			}
+		};
+	};
 
 	const handleReset = () => {
 		setSearchTerm(''); // Clear search input
@@ -52,7 +70,6 @@ const VehicleManagementPage = () => {
 					/>
 
 					{/*RESET ICON */}
-
 					<RiResetLeftFill
 						className=' text-red-700 cursor-pointer hover:text-red-400 '
 						style={{ position: 'relative', left: '-30px', top: '15px' }}
@@ -67,17 +84,18 @@ const VehicleManagementPage = () => {
 						carfiltereddata?.map((vehicle, index) => (
 							<VehicleDetailCard
 								key={index}
-								vehicle={vehicle}
-								onViewDetails={setSelectedVehicle}
+								vehicle={transformVehicle(vehicle)} // Transform the vehicle data
+								onViewDetails={() => setSelectedVehicle(vehicle)} // Pass original vehicle to modal
 							/>
 						))
 					) : (
 						<div
-							className=' flex flex-col items-center justify-center h-[56.7vh] w-full overflow-y-hidden'
+							className='flex flex-col items-center justify-center h-[56.7vh] w-full overflow-y-hidden'
 							style={{ position: 'relative', left: '350px' }}
 						>
 							<img
 								src={carDefaultlogo}
+								alt="No cars"
 								style={{ height: '255px', width: '255px' }}
 							/>
 							<div className='absolute top-2/3'>
@@ -91,7 +109,7 @@ const VehicleManagementPage = () => {
 
 				{selectedVehicle && (
 					<VehicleModal
-						vehicle={selectedVehicle}
+						vehicle={selectedVehicle} // This now matches the expected Vehicle type
 						onClose={() => setSelectedVehicle(null)}
 						redirectPath='/quotation'
 					/>

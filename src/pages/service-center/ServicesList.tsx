@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { COLORS, FONTS } from "../../constants/uiConstants";
 import { RiCarWashingFill } from "react-icons/ri";
-import { RiOilFill } from "react-icons/ri";
-import { GiSpanner } from "react-icons/gi";
-import { GiAutoRepair } from "react-icons/gi";
-import { FaArrowLeftLong } from "react-icons/fa6";
+// import { RiOilFill } from "react-icons/ri";
+// import { GiSpanner } from "react-icons/gi";
+// import { GiAutoRepair } from "react-icons/gi";
+// import { FaArrowLeftLong } from "react-icons/fa6";
 import { MdOutlineKeyboardBackspace } from "react-icons/md";
 
 type ServiceCenterServicesProps = {
@@ -16,13 +16,13 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({ onSpareParts, hand
   const [isOpen, setIsOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
 
-  const washingOptions = [
-    { name: "Water wash", price: "$10" },
-    { name: "Foam Wash", price: "$15" },
-    { name: "Foam + Water Wash", price: "$20" },
-    { name: "Foam Only", price: "$12" },
-    { name: "Air Pressure Clean", price: "$8" },
-  ];
+  // const washingOptions = [
+  //   { name: "Water wash", price: "$10" },
+  //   { name: "Foam Wash", price: "$15" },
+  //   { name: "Foam + Water Wash", price: "$20" },
+  //   { name: "Foam Only", price: "$12" },
+  //   { name: "Air Pressure Clean", price: "$8" },
+  // ];
 
   const serviceOptions = [
     { name: "Tyre Change", price: "$10", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR7cfmoK1zcVVgHGzjXvy0T3YqtDrdMWgSzGw&s" },
@@ -32,13 +32,13 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({ onSpareParts, hand
     { name: "Paint check", price: "$8", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR31Hsugf2yE-h8T-Zcn_wO5WNqKgSm3VrVbA&s" },
   ];
 
-  const OilService = [
-    { name: "Oil service", price: "$10" },
-    { name: "oil check", price: "$15" },
-    { name: "premium oil change", price: "$20" },
-    { name: "engine check", price: "$12" },
-    { name: "all in one combo", price: "$8" },
-  ];
+  // const OilService = [
+  //   { name: "Oil service", price: "$10" },
+  //   { name: "oil check", price: "$15" },
+  //   { name: "premium oil change", price: "$20" },
+  //   { name: "engine check", price: "$12" },
+  //   { name: "all in one combo", price: "$8" },
+  // ];
 
   return (
 

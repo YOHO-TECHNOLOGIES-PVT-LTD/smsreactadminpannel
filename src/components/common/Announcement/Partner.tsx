@@ -1,5 +1,4 @@
-
-import React, { useState } from 'react';
+import  { useState } from 'react';
 import { CheckCircle } from 'lucide-react';
 
 const partners = [
@@ -22,10 +21,10 @@ const partners = [
 
 const Partner = () => {
   const [showModal, setShowModal] = useState(false);
-  const [sharedWith, setSharedWith] = useState('');
+  // const [sharedWith, setSharedWith] = useState('');
 
-  const handleShare = (title: string) => {
-    setSharedWith(title);
+  const handleShare = () => {
+    // setSharedWith(title);
     setShowModal(true);
     setTimeout(() => setShowModal(false), 2500);
   };
@@ -42,7 +41,7 @@ const Partner = () => {
             </div>
             <div className="mt-4 text-right">
               <button
-                onClick={() => handleShare(item.title)}
+                onClick={() => handleShare()}
                 className="text-sm px-3 py-1 bg-[#9b111e] text-white rounded-full hover:bg-red-700 transition"
               >
                 Share

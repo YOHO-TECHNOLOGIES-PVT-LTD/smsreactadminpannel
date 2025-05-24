@@ -9,10 +9,14 @@ export type Vehicle = {
 		transmission: string;
 		location: string;
 		registeredYear: string;
-		registrationNumber: string;
 		insuranceStatus: string;
 		availability: string;
 		currentFuelLevel?: 'Empty' | 'Quarter' | 'Half Tank' | 'Full';
+	};
+	baseVehicleInfo: {
+		image: string;
+		title: string;
+		registrationNumber: string;
 	};
 	// other nested fields omitted here for brevity
 };
@@ -23,12 +27,12 @@ type Props = {
 };
 
 const VehicleDetailCard: FC<Props> = ({ vehicle, onViewDetails }) => {
-	const { kms, fuel, transmission, location } = vehicle?.vehicleInfo;
-	const baseInfo = vehicle?.BasevehicleInfo;
+	const { kms, fuel, transmission, location } = vehicle.vehicleInfo;
+	const baseInfo = vehicle.baseVehicleInfo;
 
 	return (
 		<div
-			className='relative rounded-2xl p-5 '
+			className='relative rounded-2xl p-5'
 			style={{
 				height: '330px',
 				background: 'linear-gradient(180deg, #fdefe9 0%, #fff 100%)',
@@ -38,7 +42,7 @@ const VehicleDetailCard: FC<Props> = ({ vehicle, onViewDetails }) => {
 				...FONTS.header,
 				transition: 'box-shadow 0.3s ease',
 				cursor: 'pointer',
-				overflow: 'hidden', // Prevent content from overflowing
+				overflow: 'hidden',
 			}}
 			onMouseEnter={(e) => {
 				e.currentTarget.style.boxShadow =
@@ -54,11 +58,11 @@ const VehicleDetailCard: FC<Props> = ({ vehicle, onViewDetails }) => {
 				className='w-full h-44 rounded-xl overflow-hidden mb-4'
 				style={{ borderColor: '#E6A895', boxShadow: 'inset 0 0 10px #fdefe9' }}
 			>
-				<div className='flex w-full h-full round'>
+				<div className='flex w-full h-full rounded'>
 					<img
 						src={baseInfo.image}
 						alt={baseInfo.title}
-						className='w-full h-full object-cover '
+						className='w-full h-full object-cover'
 						loading='lazy'
 					/>
 				</div>
@@ -69,7 +73,7 @@ const VehicleDetailCard: FC<Props> = ({ vehicle, onViewDetails }) => {
 				className='text-xl font-extrabold mb-1'
 				style={{ color: '#9b111e', ...FONTS.paragraph, fontWeight: 550 }}
 			>
-				{baseInfo.registrationNumber + ' - ' + baseInfo.title}
+				{baseInfo.registrationNumber} - {baseInfo.title}
 			</h3>
 
 			{/* Specs */}
@@ -85,7 +89,7 @@ const VehicleDetailCard: FC<Props> = ({ vehicle, onViewDetails }) => {
 			>
 				<button
 					onClick={() => onViewDetails(vehicle)}
-					className='bg-[#9b111e] text-white text-xs font-semibold py-2 px-3 rounded-full transition-all duration-300 shadow-md flex items-center gap-2'
+					className='bg-[#9b111e] text-white text-xs font-semibold py-2 px-3 rounded-full transition-all duration-300 shadow-md flex items-center gap-2 hover:bg-opacity-90'
 				>
 					<FaEye className='text-sm' /> View Details
 				</button>
