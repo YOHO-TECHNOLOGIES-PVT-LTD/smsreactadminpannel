@@ -58,7 +58,7 @@ const SosDetails: React.FC = () => {
 
   const fetchPostedDetails = async () => {
    
-    // Example dummy data:
+    
     setPostedDetails([
       {
         id: 1,
@@ -178,7 +178,7 @@ const SosDetails: React.FC = () => {
       <div className='flex flex-row w-full gap-5'>
 
         <div className="bg-white rounded-xl xl:pl-10 w-6/12 shadow-md p-5">
-          <h2 className="text-[#9b111e] font-bold lg:text-xl xl:text-4xl mb-4">Personal Details</h2>
+          <h2 className="text-[#9b111e] font-bold text-2xl mb-4">Personal Details</h2>
           <div className="flex items-center  mt-5">
               <FaUser className="text-[#9b111e] lg:text-md  xl:text-2xl mr-3" />
             <div className="xl:text-lg lg:text-md font-semibold">{selected.contactName || 'John Doe'}</div>
@@ -198,7 +198,7 @@ const SosDetails: React.FC = () => {
         </div>
 
           <div className="bg-white xl:pl-10 w-6/12 rounded-xl shadow-md p-5">
-            <h2 className="text-[#9b111e] font-bold lg:text-xl xl:text-4xl mb-4">Other Details</h2>
+            <h2 className="text-[#9b111e] font-bold text-2xl  mb-4">Other Details</h2>
             <div className="flex items-center mt-10">
               <FaPhoneAlt className="text-[#9b111e]  xl:text-2xl lg:text-md mr-3" />
               <div className="xl:text-lg lg:text-md  font-semibold">{selected.contactNumber || 'John Doe'}</div>
@@ -238,7 +238,7 @@ const SosDetails: React.FC = () => {
 
        
         <div className="bg-white rounded-xl shadow-md p-5">
-          <h2 className="text-[#9b111e] font-bold xl:text-5xl lg:text-3xl mb-4 xl:ml-5">SOS Info</h2>
+          <h2 className="text-[#9b111e] font-bold text-2xl mb-4 xl:ml-5">SOS Info</h2>
 
           <div className='flex flex-row xl:gap-20 lg:ml-1 xl:ml-10 lg:gap-5 mt-10'>
 
@@ -288,7 +288,7 @@ const SosDetails: React.FC = () => {
 
 
 
-          <div className='flex flex-col xl:ml-32'>
+          <div className='flex flex-col xl:ml-25 lg:ml-18'>
 
               <div className="flex items-start mb-4">
                 <FaStickyNote className="text-[#9b111e]  text-2xl mr-3" />
@@ -319,3 +319,4 @@ const SosDetails: React.FC = () => {
 };
 
 export default SosDetails;
+  
