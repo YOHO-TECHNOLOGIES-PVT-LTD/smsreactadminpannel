@@ -15,7 +15,7 @@ const handleBack = () => {
     if (activeStep > 0) {
       setActiveStep(prev => prev - 1);
     } else {
-      navigate(-1); // Browser history back
+      navigate(-1);
     }
   };
 
