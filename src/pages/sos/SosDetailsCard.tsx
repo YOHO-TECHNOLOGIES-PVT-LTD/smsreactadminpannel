@@ -216,3 +216,4 @@ const SosDetails: React.FC = () => {
 };
 
 export default SosDetails;
+  
