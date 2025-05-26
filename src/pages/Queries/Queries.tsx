@@ -153,7 +153,7 @@ const Queries = () => {
       </div>
 
       {/* Query title */}
-      <h2 className="text-xl font-bold text-[#9b111e] mb-2">
+      <h2 className="text-xl font-bold text-[#9d1623] mb-2">
         {selectedQuery.title}
       </h2>
 
