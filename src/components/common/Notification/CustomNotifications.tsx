@@ -82,7 +82,7 @@ const NotificationPanel = () => {
   };
 
   return (
-    <div className="w-full mx-auto mt-5 bg-white rounded-2xl p-6 shadow">
+    <div className="w-full h-full mt-5 bg-white rounded-2xl p-6 shadow">
       <div className="flex justify-between gap-4 mb-6">
         <div className="flex gap-4">
           {['all', 'read', 'unread'].map((type) => (
