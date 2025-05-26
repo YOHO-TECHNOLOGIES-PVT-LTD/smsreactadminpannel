@@ -2,7 +2,6 @@ import React, { useState, useRef, useEffect } from "react";
 import { COLORS } from "../../../constants/uiConstants";
 import { useNavigate } from "react-router-dom";
 import FullscreenButton from "./Fullscreen";
-import SosButton from "./Sos";
 import { ProfileModal } from "./ProfileModal";
 import { useAuth } from "../../../pages/auth/AuthContext";
 
@@ -34,11 +33,10 @@ export const Navbar: React.FC = () => {
   const {logout}=useAuth();
   const navigate = useNavigate();
 
-
   const dropdownRef = useRef<HTMLDivElement | null>(null);
   const notificationRef = useRef<HTMLDivElement | null>(null);
 
-  const [notifications, setNotifications] = useState<Notification[]>([
+  const [notifications] = useState<Notification[]>([
     {
       id: 1,
       message: "New task assigned to you: Project Review",
@@ -107,6 +105,7 @@ export const Navbar: React.FC = () => {
     setShowNotifications(false);
     navigate("/notifications");
   };
+  
   const handleSosClick = () => {
     navigate("/sos");
   };

@@ -1,8 +1,15 @@
-
 import React, { useState } from 'react';
 import Offer from '../../components/common/Announcement/Offer';
 import AnnouncementList from '../../components/common/Announcement/AnnouncementList';
 import Partner from '../../components/common/Announcement/Partner';
+
+// Define the partner data type
+type PartnerData = {
+  title: string;
+  description: string;
+  price: string;
+  image: string;
+};
 
 export const Announcement = () => {
   const [activeTab, setActiveTab] = useState<'offer' | 'announcement' | 'partner'>('offer');
@@ -13,7 +20,8 @@ export const Announcement = () => {
   const [price, setPrice] = useState('');
   const [image, setImage] = useState<File | null>(null);
 
-  const [partnerData, setPartnerData] = useState([]);
+  // Remove unused partnerData state to fix TypeScript warning
+  // const [partnerData, setPartnerData] = useState<PartnerData[]>([]);
 
   const resetForm = () => {
     setHeading('');
@@ -25,15 +33,25 @@ export const Announcement = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    const newData = {
+    const newData: PartnerData = {
       title: heading,
       description,
       price,
       image: image ? URL.createObjectURL(image) : '',
     };
 
-    if (activeTab === 'partner') {
-      setPartnerData((prev) => [...prev, newData]);
+    // Store data based on active tab
+    if (activeTab === 'offer') {
+      // Handle offer data submission
+      console.log('Offer added:', newData);
+    } else if (activeTab === 'announcement') {
+      // Handle announcement data submission
+      console.log('Announcement added:', newData);
+    } else if (activeTab === 'partner') {
+      // Handle partner data submission
+      console.log('Partner added:', newData);
+      // If Partner component has methods to add data, you could call them here
+      // For example: PartnerService.addPartner(newData);
     }
 
     resetForm();
@@ -52,7 +70,8 @@ export const Announcement = () => {
       case 'announcement':
         return <AnnouncementList />;
       case 'partner':
-        return <Partner data={partnerData} />;
+        // Remove the data prop since Partner component doesn't accept it
+        return <Partner />;
       default:
         return null;
     }
@@ -65,7 +84,7 @@ export const Announcement = () => {
           {['offer', 'announcement', 'partner'].map((tab) => (
             <button
               key={tab}
-              onClick={() => setActiveTab(tab as any)}
+              onClick={() => setActiveTab(tab as 'offer' | 'announcement' | 'partner')}
               className={`px-4 py-2 rounded-full font-semibold transition ${
                 activeTab === tab
                   ? 'bg-[#9b111e] text-white'

@@ -1,6 +1,5 @@
-import React, { useState ,useRef, useEffect } from 'react';
-import {COLORS} from "../../../../constants/uiConstants"//COLOUR
-
+import React, { useState, useRef, useEffect } from 'react';
+import { COLORS } from "../../../../constants/uiConstants"//COLOUR
 
 import {
   LineChart,
@@ -14,6 +13,7 @@ import {
 } from "recharts";
 
 import { ChevronDown } from "lucide-react";
+
 const dateRanges = ['Weekly', 'Monthly', 'Yearly'];
 
 const customerData = [
@@ -32,50 +32,50 @@ const customerData = [
 ];
 
 const CustomerAnalyticsChart: React.FC = () => {
-const [selectedRange, setSelectedRange] = useState('');
+  const [selectedRange, setSelectedRange] = useState('Weekly'); // Set default value
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null)
-       useEffect(() => {
-        const handleClickOutside = (event: MouseEvent) => {
-          if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-            setIsOpen(false);
-          }
-        };
-        document.addEventListener('mousedown', handleClickOutside);
-        return () => document.removeEventListener('mousedown', handleClickOutside);
-      }, []);
-  
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   return (
     <div className="">
       <div className="flex items-center justify-between mb-4">
         <p className=" text-lg" style={{ color: COLORS.primary }}> Total Customers </p>
         <div className="flex items-center space-x-2 ">
-         <div className="relative " ref={dropdownRef}>
-                   <button
-                     onClick={() => setIsOpen(!isOpen)}
-                     className="flex items-end text-xs text-gray-700 border  px-1 py-1.5 rounded-md bg-white hover:bg-gray-50"
-                   >
-                     {selectedRange}
-                     <ChevronDown className="w-6 h-4 mr-1" />
-                   </button>
-                   {isOpen && (
-                     <div className="absolute  mt-2 bg-white border rounded-md shadow-lg z-10">
-                       {dateRanges.map((range) => (
-                         <button
-                           key={range}
-                           onClick={() => {
-                             setSelectedRange(range);
-                             setIsOpen(false);
-                           }}
-                           className="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100"
-                         >
-                           {range}
-                         </button>
-                       ))}
-                     </div>
-                   )}
-                 </div>
+          <div className="relative " ref={dropdownRef}>
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className="flex items-center text-xs text-[#9b111e] border px-1 py-1.5 rounded-md bg-white hover:bg-gray-50"
+            >
+              <span className="mr-1">{selectedRange}</span>
+              <ChevronDown className="w-6 h-4 text-[#9b111e]" />
+            </button>
+            {isOpen && (
+              <div className="absolute mt-2 bg-white text-[#9b111e] border rounded-md shadow-lg z-10">
+                {dateRanges.map((range) => (
+                  <button
+                    key={range}
+                    onClick={() => {
+                      setSelectedRange(range);
+                      setIsOpen(false);
+                    }}
+                    className="block w-full text-left px-4 py-2 text-sm hover:text-red-600"
+                  >
+                    {range}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
