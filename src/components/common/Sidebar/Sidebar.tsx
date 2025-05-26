@@ -13,6 +13,7 @@ import {
 import Logo from "../../../assets/LOGO.jpg";
 import { RiMenu2Line,RiMenu3Line} from "react-icons/ri";
 import { Megaphone } from "lucide-react";
+import { MdHelpOutline } from 'react-icons/md';
 
 
 const COLOR = {
@@ -23,7 +24,6 @@ const COLOR = {
 
 export const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(true);
-  // const uselocation = useLocation();
 
   const handleLinkClick = () => {
     setIsOpen(false);
@@ -104,6 +104,13 @@ export const Sidebar = () => {
             to="/announcement"
             icon={<Megaphone />}
             label="Announcement"
+            isOpen={isOpen}
+            onClick={handleLinkClick}
+          />
+          <SidebarLink
+            to="/queries"
+            icon={< MdHelpOutline/>}
+            label="Queries"
             isOpen={isOpen}
             onClick={handleLinkClick}
           />
