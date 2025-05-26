@@ -9,7 +9,7 @@ const [tab, setTab] = useState<String>("Account Settings")
 const [buttonColor,setbuttonColor] = useState<String>("transparent")
 
 
-const handleRenderComponent = (tabText: String) => {
+const handleRenderComponent = (tabText: string) => {
   setTab(tabText)
 }
  
