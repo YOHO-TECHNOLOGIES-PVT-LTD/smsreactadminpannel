@@ -5,10 +5,17 @@ import { AiOutlineCheckCircle } from "react-icons/ai";
 // import { GoDotFill } from "react-icons/go";
 import { IoIosArrowRoundUp } from "react-icons/io";
 import { IoIosArrowRoundDown } from "react-icons/io";
-import { RiUser6Line } from "react-icons/ri";
+// import { RiUser6Line } from "react-icons/ri";
 import { AiOutlineCopyrightCircle } from "react-icons/ai";
 // import { AiOutlineLeft } from "react-icons/ai";
-import { useNavigate } from "react-router-dom";
+import { AiOutlineArrowLeft } from 'react-icons/ai';
+import { MdEmergencyShare } from "react-icons/md";
+import { BiSolidCarCrash } from "react-icons/bi";
+import { RiCalendarScheduleFill } from "react-icons/ri";
+import { GrTransaction } from "react-icons/gr";
+import { MdOutlinePendingActions } from "react-icons/md";
+
+
 
 //this is FILE
 import CustomerAnalyticsChart from "../../components/common/dashboard/NotificationList/NotificationList";
@@ -59,9 +66,9 @@ export const Dashboard = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="w-full px-4 py-6 -mt-6">
+    <div className="w-full px-4 py-6 -mt-6 ">
       {/* Header */}
-      <div className="rounded-xl shadow-md bg-white pb-4 mb-4">
+      <div className="rounded-xl shadow-md bg-white pb-4 mb-4 ">
         <p
           className="text-xl font-semibold pl-6 pt-3 "
           style={{ ...FONTS.header, color: COLORS.primary }}
@@ -76,20 +83,11 @@ export const Dashboard = () => {
         </p>
 
         {/* Dashboard Cards */}
-        <div className="mx-4 justify-center items-center px-2">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 px-10">
+        <div className="mx-2 justify-center items-center px-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 px-15  ">
+            
             <DashboardCard
-              icon={<RiUser6Line />}
-              title="Schedule Request"
-              value={20}
-              per={10}
-              perColor="#facc15"
-              borderColor="rgba(234,179,8,0.8)"
-              backgroundColor="#facc15"
-              dataPoints={[1, 3, 2, 5, 4, 6, 5]}
-            />
-            <DashboardCard
-              icon={<RiUser6Line />}
+              icon={<BiSolidCarCrash />}
               title="Emergency Service"
               value={10}
               per={5}
@@ -98,8 +96,9 @@ export const Dashboard = () => {
               backgroundColor="#f87171"
               dataPoints={[2, 1, 4, 3, 5, 2, 1]}
             />
+            
             <DashboardCard
-              icon={<RiUser6Line />}
+              icon={<MdEmergencyShare />}
               title="Service Requests"
               value={2}
               per={5}
@@ -108,8 +107,20 @@ export const Dashboard = () => {
               backgroundColor="#3b82f6"
               dataPoints={[1, 2, 1, 6, 4, 3, 6]}
             />
+
             <DashboardCard
-              icon={<RiUser6Line />}
+              icon={<RiCalendarScheduleFill />}
+              title="Schedule Request"
+              value={20}
+              per={10}
+              perColor="#facc15"
+              borderColor="rgba(234,179,8,0.8)"
+              backgroundColor="#facc15"
+              dataPoints={[1, 3, 2, 5, 4, 6, 5]}
+            />
+
+            <DashboardCard
+              icon={<GrTransaction />}
               title="Total Transactions"
               value={22}
               per={15}
@@ -118,33 +129,47 @@ export const Dashboard = () => {
               backgroundColor="#10b981"
               dataPoints={[1, 5, 2, 4, 3, 5, 6]}
             />
+
+            <DashboardCard
+              icon={<MdOutlinePendingActions />}
+              title="Pending"
+              value={20}
+              per={10}
+              perColor="#D77FA1"
+              borderColor="rgba(215,127,161,0.8)"
+              backgroundColor="#D77FA1"
+              dataPoints={[1, 3, 2, 5, 4, 6, 5]}
+            />
           </div>
         </div>
       </div>
 
       {/* Notifications, Bar Chart, SOS */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-4">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-4 ">
         {/* Notifications */}
-        <div className="bg-white shadow-md rounded-xl p-4 max-h-96 ">
+        <div className="bg-white shadow-md rounded-xl p-4 max-h-96 hover:scale-[1.02] ">
           <div className="">
             <CustomerAnalyticsChart />
           </div>
         </div>
 
         {/* Bar Chart */}
-        <div className=" grid grid-row-2">
-          <div className="bg-white shadow-md rounded-xl p-4 max-h-44 mb-2">
-            <BarCharts />
-          </div>
-          <div className="bg-white shadow-md rounded-xl p-4 max-h-45 ">
-            <TotalRevenue />
-          </div>
+       <div className=" grid grid-row-2 ">
+         <div className="bg-white shadow-md rounded-xl p-4 max-h-44 mb-2 hover:scale-[1.02]">
+          <BarCharts />
         </div>
+        <div className="bg-white shadow-md rounded-xl p-4 max-h-45 hover:scale-[1.02] ">
+          <TotalRevenue/>
+        </div>
+       </div>
 
         {/* SOS Content */}
-        <div className="bg-white shadow-md rounded-xl p-4 max-h-96 ">
-          <div className="flex justify-between mb-2">
-            <p className="text-lg " style={{ color: COLORS.primary }}>
+        <div className="bg-white shadow-md rounded-xl p-4 max-h-96 hover:scale-[1.02] ">
+          <div className="flex justify-between mb-2 ">
+            <p
+              className="text-lg "
+              style={{ color: COLORS.primary }}
+            >
               SoS Summary
             </p>
             <button className="text-red-700 text-md item-end hover:text-red-900">
@@ -160,7 +185,7 @@ export const Dashboard = () => {
       {/* Transactions & Query */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4 ">
         {/* Transactions */}
-        <div className="bg-white shadow-md rounded-xl p-4 max-h-96 overflow-hidden ">
+        <div className="bg-white shadow-md rounded-xl p-4 max-h-96 overflow-hidden hover:scale-[1.02]">
           <div className="flex justify-between mb-2 ">
             <p className=" mb-2 text-lg " style={{ color: COLORS.primary }}>
               Recent Transactions
@@ -189,8 +214,9 @@ export const Dashboard = () => {
           </div>
         </div>
 
-        {/* Query Section */}
-        <div className="bg-white shadow-md rounded-xl p-4 max-h-96 overflow-hidden">
+        
+         {/* Query Section */}
+        <div className="bg-white shadow-md rounded-xl p-4 max-h-96 overflow-hidden hover:scale-[1.02]">
           <div className="flex justify-between mb-2">
             <p className="text-lg" style={{ color: COLORS.primary }}>
               Query
@@ -220,8 +246,8 @@ export const Dashboard = () => {
       <footer className="bg-white shadow-md rounded-xl p-4 w-full text-center mt-4 -mb-10">
         <div>
           <div className="flex items-center justify-center space-x-1">
-            <AiOutlineCopyrightCircle />
-            <span style={{ color: COLORS.primary }}>YESMECHANIC</span>
+            <AiOutlineCopyrightCircle style={{color:COLORS.primary}} />
+            <span style={{color:COLORS.primary}}>YESMECHANIC</span>
           </div>
         </div>
       </footer>
