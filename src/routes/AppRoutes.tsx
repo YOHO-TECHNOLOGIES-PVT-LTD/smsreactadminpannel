@@ -1,7 +1,7 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 import LoginPage from '../pages/auth/LoginPage';
 import SignupPage from '../pages/auth/SignupPage';
-import { Dashboard } from '../pages/dashboard/Dashboard';
+import { Dashboard } from '../pages/Dashboard/Dashboard';
 import { NotificationPage } from '../pages/notification/NotificationPage';
 import { ServiceManagementPage } from '../pages/service-center/ServiceManagementPage';
 import { JobCardsPage } from '../pages/job-cards/JobCardsPage';
@@ -15,6 +15,7 @@ import { Announcement } from '../pages/Announcement/Announcement';
 import SosDetailsCard from '../pages/sos/SosDetailsCard';
 import DashboardSos from '../pages/sos/DashBoardSos';
 import QuotationPage from '../pages/job-cards/steps/Quotationpage';
+import Queries from '../pages/Queries/Queries';
 
 const AppRoutes = () => {
 	const { isAuthenticated } = useAuth();
@@ -46,6 +47,7 @@ const AppRoutes = () => {
 				<Route path='sosdetails' element={<SosDetailsCard />} />
 				<Route path='quotation' element={<QuotationPage />} />
 				<Route path='*' element={<Navigate to='/' />} />
+				 <Route path="/queries" element={<Queries />} />
 			</Route>
 		</Routes>
 	);

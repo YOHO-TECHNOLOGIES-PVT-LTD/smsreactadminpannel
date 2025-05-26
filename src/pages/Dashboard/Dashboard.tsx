@@ -1,6 +1,5 @@
 import { FONTS } from "../../constants/uiConstants"; //FONT
 import {COLORS} from "../../constants/uiConstants"//COLOUR
-import React, { useState } from "react";
 //this is for ICONS
 import { AiOutlineCheckCircle } from "react-icons/ai";
 // import { GoDotFill } from "react-icons/go";
@@ -11,6 +10,7 @@ import { AiOutlineCopyrightCircle } from "react-icons/ai";
 import { AiOutlineRight } from "react-icons/ai";
 import { AiOutlineLeft } from "react-icons/ai";
 import { AiOutlineArrowLeft } from 'react-icons/ai';
+import { useNavigate } from "react-router-dom";
 
 
 //this is FILE
@@ -53,20 +53,14 @@ const queries = [
   },
 ];
 
- type Query = {
-  title: string;
-  desc: string;
-  profilePicUrl: string;
-};
+ 
 
 
 
 // code Dashboard started
 
   export const Dashboard = () => {
-  const [isAllQueryModalOpen, setAllQueryModalOpen] = useState(false);
-  const [selectedQuery, setSelectedQuery] = useState<Query | null>(null);
-  const [selectedQueryIndex, setSelectedQueryIndex] = useState<number>(-1);
+  const navigate = useNavigate();
 
   return (
     <div className="w-full px-4 py-6 -mt-6">
@@ -209,11 +203,11 @@ const queries = [
               Query
             </p>
             <button
-              onClick={() => setAllQueryModalOpen(true)}
-              className="text-red-700 hover:text-red-900 text-md"
-            >
-              View All
-            </button>
+  onClick={() => navigate("/Queries")}
+  className="text-red-700 hover:text-red-900 text-md"
+>
+  View All
+</button>
           </div>
          <div className="pr-2 space-y-2">
 
@@ -230,85 +224,6 @@ const queries = [
         </div>
       </div>
 
-      {/* All Queries Modal */}
-      {isAllQueryModalOpen && (
-        <div className="fixed inset-0  bg-black bg-opacity-40 z-50 flex justify-center items-center p-4">
-          <div className="bg-white rounded-xl max-w-3xl w-full max-h-[80vh] overflow-y-auto p-9 relative">
-            <button
-              className="absolute top-2 left-3 w-8 h-8 flex items-center justify-center text-lg text-gray-600 bg-gray-100 hover:bg-red-100 hover:text-red-600 rounded-full transition duration-200"
-              onClick={() => setAllQueryModalOpen(false)}
-            >
-              
-          <AiOutlineArrowLeft />
-            </button>
-            <button
-              className="absolute top-2 right-3 w-8 h-8 flex items-center justify-center text-lg text-gray-600 bg-gray-100 hover:bg-red-100 hover:text-red-600 rounded-full transition duration-200"
-              onClick={() => setAllQueryModalOpen(false)}
-            >
-              ✕
-            </button>
-            <h2 className="text-xl font-bold mb-2" style={{ color: COLORS.primary }}>
-              Query Details
-            </h2>
-            <div className="space-y-4">
-              {queries.map((q, idx) => (
-                <div key={idx} onClick={() => {
-                  setSelectedQuery(q);
-                  setSelectedQueryIndex(idx);
-                  setAllQueryModalOpen(false);
-                }}>
-                  <QueryCard
-                    icon={<AiOutlineRight />}
-                    title={q.title}
-                    desc={q.desc}
-                    profilePicUrl={q.profilePicUrl}
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Selected Query Detail Modal */}
-      {selectedQuery && (
-        <div className="fixed inset-0 bg-black bg-opacity-40 z-50 flex justify-center items-center p-4">
-          <div className="bg-white rounded-xl w-full max-w-xl p-9 relative">
-            <button
-              className="absolute top-2 left-3 w-8 h-8 flex items-center justify-center text-lg text-gray-600 bg-gray-100 hover:bg-red-100 hover:text-red-600 rounded-full transition duration-200"
-              onClick={() => {
-                setSelectedQuery(null);
-                setSelectedQueryIndex(-1);
-                setAllQueryModalOpen(true);
-              }}
-            >
-              
-          <AiOutlineArrowLeft />
-            </button>
-            <button
-            className="absolute top-2 right-3 w-8 h-8 flex items-center justify-center text-lg text-gray-600 bg-gray-100 hover:bg-red-100 hover:text-red-600 rounded-full transition duration-200"
-              onClick={() => {
-                setSelectedQuery(null);
-                setSelectedQueryIndex(-1);
-              }}
-            >
-              ✕
-            </button>
-            <h2 className="text-xl font-bold mb-4" style={{ color: COLORS.primary }}>
-              All Queries
-            </h2>
-            <div className="mt-4">
-              <QueryCard
-                icon={null}
-                title={selectedQuery.title}
-                desc={selectedQuery.desc}
-                profilePicUrl={selectedQuery.profilePicUrl}
-              />
-              <p className="mt-4 text-gray-700">{selectedQuery.desc}</p>
-            </div>
-          </div>
-        </div>
-      )}
       
       
       {/* Footer */}
