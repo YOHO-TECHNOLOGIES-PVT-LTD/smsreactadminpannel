@@ -85,7 +85,7 @@ const invoices: Invoice[] = [
     jobStatus: "In Progress",
   },
   {
-    id: "INV006",
+    id: "INV007",
     name: "Jane Smith",
     invoiceDate: "2025-05-16",
     vehicle: "Suzuki",
@@ -97,7 +97,7 @@ const invoices: Invoice[] = [
     jobStatus: "In Progress",
   },
   {
-    id: "INV006",
+    id: "INV008",
     name: "Carter",
     invoiceDate: "2025-05-16",
     vehicle: "Suzuki",
@@ -109,7 +109,7 @@ const invoices: Invoice[] = [
     jobStatus: "In Progress",
   },
   {
-    id: "INV006",
+    id: "INV009",
     name: "Jack",
     invoiceDate: "2025-05-16",
     vehicle: "Suzuki",

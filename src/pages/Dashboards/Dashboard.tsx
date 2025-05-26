@@ -1,6 +1,5 @@
 import { FONTS } from "../../constants/uiConstants"; //FONT
-import {COLORS} from "../../constants/uiConstants"//COLOUR
-import  { useState } from "react";
+import { COLORS } from "../../constants/uiConstants"; //COLOUR
 //this is for ICONS
 import { AiOutlineCheckCircle } from "react-icons/ai";
 // import { GoDotFill } from "react-icons/go";
@@ -8,10 +7,8 @@ import { IoIosArrowRoundUp } from "react-icons/io";
 import { IoIosArrowRoundDown } from "react-icons/io";
 import { RiUser6Line } from "react-icons/ri";
 import { AiOutlineCopyrightCircle } from "react-icons/ai";
-import { AiOutlineRight } from "react-icons/ai";
 // import { AiOutlineLeft } from "react-icons/ai";
-import { AiOutlineArrowLeft } from 'react-icons/ai';
-
+import { useNavigate } from "react-router-dom";
 
 //this is FILE
 import CustomerAnalyticsChart from "../../components/common/dashboard/NotificationList/NotificationList";
@@ -21,9 +18,8 @@ import { DashboardCard } from "../../components/common/dashboard/DashboardCard/D
 import { QueryCard } from "../../components/common/dashboard/QueryCard/QueryCard";
 import dummpypic from "../../assets/Dashboard/images.jpg";
 // import StatCard from "../../components/common/dashboard/StatCard/StatCard";
-import  { SoSCard } from "../../components/common/dashboard/SoSCard/SoSCard";
+import { SoSCard } from "../../components/common/dashboard/SoSCard/SoSCard";
 import TotalRevenue from "../../components/common/dashboard/TotalRevenue/TotalRevenue";
-
 
 const queries = [
   {
@@ -34,39 +30,33 @@ const queries = [
   {
     title: "Glass work bending",
     desc: "I gave my car to the shop some days ago but they didn't repair it in time and didn't fix it.",
-    profilePicUrl: "https://plus.unsplash.com/premium_photo-1689568126014-06fea9d5d341?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8cHJvZmlsZXxlbnwwfHwwfHx8MA%3D%3D",
+    profilePicUrl:
+      "https://plus.unsplash.com/premium_photo-1689568126014-06fea9d5d341?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8cHJvZmlsZXxlbnwwfHwwfHx8MA%3D%3D",
   },
   {
     title: "Tyre puncture",
     desc: "I gave my bike to the shop some days ago but they didn't repair it in time and didn't fix it.",
-    profilePicUrl: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8cHJvZmlsZXxlbnwwfHwwfHx8MA%3D%3D",
+    profilePicUrl:
+      "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8cHJvZmlsZXxlbnwwfHwwfHx8MA%3D%3D",
   },
   {
     title: "Late pickup service",
     desc: "Scheduled pickup was delayed by 2 hours without any update or notice.",
-    profilePicUrl:"https://t3.ftcdn.net/jpg/08/86/78/68/360_F_886786813_XhL8zD8rhZCW7F5HvJdOPvquFh3n23vd.jpg",
+    profilePicUrl:
+      "https://t3.ftcdn.net/jpg/08/86/78/68/360_F_886786813_XhL8zD8rhZCW7F5HvJdOPvquFh3n23vd.jpg",
   },
   {
     title: "Billing mismatch",
     desc: "Was charged extra without prior intimation or explanation on final invoice.",
-    profilePicUrl:"https://www.shutterstock.com/image-photo/happy-middle-aged-45-years-260nw-2516789519.jpg",
+    profilePicUrl:
+      "https://www.shutterstock.com/image-photo/happy-middle-aged-45-years-260nw-2516789519.jpg",
   },
 ];
 
- type Query = {
-  title: string;
-  desc: string;
-  profilePicUrl: string;
-};
-
-
-
 // code Dashboard started
 
-  export const Dashboard = () => {
-  const [isAllQueryModalOpen, setAllQueryModalOpen] = useState(false);
-  const [selectedQuery, setSelectedQuery] = useState<Query | null>(null);
-  // Removed unused selectedQueryIndex state
+export const Dashboard = () => {
+  const navigate = useNavigate();
 
   return (
     <div className="w-full px-4 py-6 -mt-6">
@@ -74,7 +64,7 @@ const queries = [
       <div className="rounded-xl shadow-md bg-white pb-4 mb-4">
         <p
           className="text-xl font-semibold pl-6 pt-3 "
-          style={{...FONTS.header,color:COLORS.primary }}
+          style={{ ...FONTS.header, color: COLORS.primary }}
         >
           Overview of Service Center
         </p>
@@ -137,33 +127,32 @@ const queries = [
         {/* Notifications */}
         <div className="bg-white shadow-md rounded-xl p-4 max-h-96 ">
           <div className="">
-            <CustomerAnalyticsChart/>
+            <CustomerAnalyticsChart />
           </div>
         </div>
 
         {/* Bar Chart */}
-       <div className=" grid grid-row-2">
-         <div className="bg-white shadow-md rounded-xl p-4 max-h-44 mb-2">
-          <BarCharts />
+        <div className=" grid grid-row-2">
+          <div className="bg-white shadow-md rounded-xl p-4 max-h-44 mb-2">
+            <BarCharts />
+          </div>
+          <div className="bg-white shadow-md rounded-xl p-4 max-h-45 ">
+            <TotalRevenue />
+          </div>
         </div>
-        <div className="bg-white shadow-md rounded-xl p-4 max-h-45 ">
-          <TotalRevenue/>
-        </div>
-       </div>
 
         {/* SOS Content */}
         <div className="bg-white shadow-md rounded-xl p-4 max-h-96 ">
           <div className="flex justify-between mb-2">
-            <p
-              className="text-lg "
-              style={{ color: COLORS.primary }}
-            >
+            <p className="text-lg " style={{ color: COLORS.primary }}>
               SoS Summary
             </p>
-            <button className="text-red-700 text-md item-end hover:text-red-900">View All</button>{" "}
+            <button className="text-red-700 text-md item-end hover:text-red-900">
+              View All
+            </button>{" "}
           </div>
           <div className="">
-            <SoSCard/>
+            <SoSCard />
           </div>
         </div>
       </div>
@@ -173,13 +162,12 @@ const queries = [
         {/* Transactions */}
         <div className="bg-white shadow-md rounded-xl p-4 max-h-96 overflow-hidden ">
           <div className="flex justify-between mb-2 ">
-            <p
-              className=" mb-2 text-lg "
-              style={{ color: COLORS.primary }}
-            >
+            <p className=" mb-2 text-lg " style={{ color: COLORS.primary }}>
               Recent Transactions
             </p>
-            <button className="text-red-700 text-md item-end hover:text-red-900">View All</button>
+            <button className="text-red-700 text-md item-end hover:text-red-900">
+              View All
+            </button>
           </div>
           <div className="overflow-y-auto  max-h-80 scrollbar-hide">
             {[...Array(14)].map((_, index) => (
@@ -201,22 +189,20 @@ const queries = [
           </div>
         </div>
 
-        
-         {/* Query Section */}
+        {/* Query Section */}
         <div className="bg-white shadow-md rounded-xl p-4 max-h-96 overflow-hidden">
           <div className="flex justify-between mb-2">
             <p className="text-lg" style={{ color: COLORS.primary }}>
               Query
             </p>
             <button
-              onClick={() => setAllQueryModalOpen(true)}
+              onClick={() => navigate("/queries")}
               className="text-red-700 hover:text-red-900 text-md"
             >
               View All
             </button>
           </div>
-         <div className="pr-2 space-y-2">
-
+          <div className="pr-2 space-y-2">
             {queries.slice(0, 3).map((q, idx) => (
               <QueryCard
                 key={idx}
@@ -230,90 +216,12 @@ const queries = [
         </div>
       </div>
 
-      {/* All Queries Modal */}
-      {isAllQueryModalOpen && (
-        <div className="fixed inset-0  bg-black bg-opacity-40 z-50 flex justify-center items-center p-4">
-          <div className="bg-white rounded-xl max-w-3xl w-full max-h-[80vh] overflow-y-auto p-9 relative">
-            <button
-              className="absolute top-2 left-3 w-8 h-8 flex items-center justify-center text-lg text-gray-600 bg-gray-100 hover:bg-red-100 hover:text-red-600 rounded-full transition duration-200"
-              onClick={() => setAllQueryModalOpen(false)}
-            >
-              
-          <AiOutlineArrowLeft />
-            </button>
-            <button
-              className="absolute top-2 right-3 w-8 h-8 flex items-center justify-center text-lg text-gray-600 bg-gray-100 hover:bg-red-100 hover:text-red-600 rounded-full transition duration-200"
-              onClick={() => setAllQueryModalOpen(false)}
-            >
-              ✕
-            </button>
-            <h2 className="text-xl font-bold mb-2" style={{ color: COLORS.primary }}>
-              Query Details
-            </h2>
-            <div className="space-y-4">
-              {queries.map((q, idx) => (
-                <div key={idx} onClick={() => {
-                  setSelectedQuery(q);
-                  setAllQueryModalOpen(false);
-                }}>
-                  <QueryCard
-                    icon={<AiOutlineRight />}
-                    title={q.title}
-                    desc={q.desc}
-                    profilePicUrl={q.profilePicUrl}
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Selected Query Detail Modal */}
-      {selectedQuery && (
-        <div className="fixed inset-0 bg-black bg-opacity-40 z-50 flex justify-center items-center p-4">
-          <div className="bg-white rounded-xl w-full max-w-xl p-9 relative">
-            <button
-              className="absolute top-2 left-3 w-8 h-8 flex items-center justify-center text-lg text-gray-600 bg-gray-100 hover:bg-red-100 hover:text-red-600 rounded-full transition duration-200"
-              onClick={() => {
-                setSelectedQuery(null);
-                setAllQueryModalOpen(true);
-              }}
-            >
-              
-          <AiOutlineArrowLeft />
-            </button>
-            <button
-            className="absolute top-2 right-3 w-8 h-8 flex items-center justify-center text-lg text-gray-600 bg-gray-100 hover:bg-red-100 hover:text-red-600 rounded-full transition duration-200"
-              onClick={() => {
-                setSelectedQuery(null);
-              }}
-            >
-              ✕
-            </button>
-            <h2 className="text-xl font-bold mb-4" style={{ color: COLORS.primary }}>
-              All Queries
-            </h2>
-            <div className="mt-4">
-              <QueryCard
-                icon={null}
-                title={selectedQuery.title}
-                desc={selectedQuery.desc}
-                profilePicUrl={selectedQuery.profilePicUrl}
-              />
-              <p className="mt-4 text-gray-700">{selectedQuery.desc}</p>
-            </div>
-          </div>
-        </div>
-      )}
-      
-      
       {/* Footer */}
       <footer className="bg-white shadow-md rounded-xl p-4 w-full text-center mt-4 -mb-10">
         <div>
           <div className="flex items-center justify-center space-x-1">
             <AiOutlineCopyrightCircle />
-            <span style={{color:COLORS.primary}}>YESMECHANIC</span>
+            <span style={{ color: COLORS.primary }}>YESMECHANIC</span>
           </div>
         </div>
       </footer>
