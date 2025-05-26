@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Search, ArrowLeft, ShoppingCart, Star, Package, Eye } from "lucide-react";
+import { Search, ArrowLeft, ShoppingCart, Star, Package, Eye, Plus } from "lucide-react";
 
 const COLORS = {
   bgColor: "#f8fafc",
@@ -77,13 +77,23 @@ const spareParts: SparePart[] = [
 ];
 
 type ReactComponent = {
-  handleBack : ()=> void;
+  handleBack: () => void;
 }
 
-const ServiceSpareParts:React.FC<ReactComponent> = ({handleBack}) => {
+const ServiceSpareParts: React.FC<ReactComponent> = ({ handleBack }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [showSearch, setShowSearch] = useState(false);
   const [hoveredCard, setHoveredCard] = useState<number | null>(null);
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [newPart, setNewPart] = useState<Omit<SparePart, 'id' | 'inStock' | 'reviews' | 'rating'>>({
+    name: "",
+    image: "",
+    price: 0,
+    quantity: 0,
+    category: "",
+    brand: "",
+    discount: 0
+  });
 
   const filteredParts = spareParts.filter((part) =>
     part.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -91,7 +101,6 @@ const ServiceSpareParts:React.FC<ReactComponent> = ({handleBack}) => {
     part.brand.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  
   const calculateDiscountedPrice = (price: number, discount: number) => {
     return price - (price * discount / 100);
   };
@@ -115,11 +124,27 @@ const ServiceSpareParts:React.FC<ReactComponent> = ({handleBack}) => {
     );
   };
 
+  const handleAddPart = () => {
+    // In a real app, you would add the part to your database/state here
+    console.log("Adding new part:", newPart);
+    // Reset form and close modal
+    setNewPart({
+      name: "",
+      image: "",
+      price: 0,
+      quantity: 0,
+      category: "",
+      brand: "",
+      discount: 0
+    });
+    setShowAddModal(false);
+  };
+
   return (
-    <div style={{ background: COLORS.bgColor, minHeight: '80vh' }}>
+    <div>
       {/* Header */}
-      <div className="bg-white shadow-sm border-b">
-        <div className="p-5 flex items-center gap-2 max-w-7xl mx-auto">
+      <div className="">
+        <div className="p-5 flex items-center max-w-7xl mx-auto">
           <button 
             onClick={handleBack} 
             className="p-2 hover:bg-gray-100 rounded-full transition-colors"
@@ -132,7 +157,6 @@ const ServiceSpareParts:React.FC<ReactComponent> = ({handleBack}) => {
             <h1 className="font-bold text-2xl text-red-800">
               Spare Parts Management
             </h1>
-            
           </div>
           
           <div className="flex items-center gap-3">
@@ -142,6 +166,14 @@ const ServiceSpareParts:React.FC<ReactComponent> = ({handleBack}) => {
               aria-label="Search"
             >
               <Search className="w-5 h-5" />
+            </button>
+            
+            <button
+              className="flex items-center gap-2 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg font-medium transition-colors"
+              onClick={() => setShowAddModal(true)}
+            >
+              <Plus className="w-5 h-5" />
+              <span>Add Spare Part</span>
             </button>
             
             {showSearch && (
@@ -172,8 +204,6 @@ const ServiceSpareParts:React.FC<ReactComponent> = ({handleBack}) => {
 
       {/* Content */}
       <div className="p-6 max-w-7xl mx-auto">
-       
-
         {/* Parts Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {filteredParts.map((part) => (
@@ -228,9 +258,6 @@ const ServiceSpareParts:React.FC<ReactComponent> = ({handleBack}) => {
                 {/* Rating */}
                 <div className="flex items-center gap-2 mb-3">
                   {renderStars(part.rating)}
-                  <span className="text-sm text-gray-600">
-                    ({part.reviews} reviews)
-                  </span>
                 </div>
 
                 {/* Price & Stock */}
@@ -264,19 +291,6 @@ const ServiceSpareParts:React.FC<ReactComponent> = ({handleBack}) => {
                     </div>
                   </div>
                 </div>
-
-                {/* Action Button */}
-                <button
-                  className={`w-full mt-4 py-2.5 px-4 rounded-lg font-medium transition-all duration-200 flex items-center justify-center gap-2 ${
-                    part.quantity > 0
-                      ? 'bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white shadow-sm hover:shadow-md'
-                      : 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                  }`}
-                  disabled={part.quantity === 0}
-                >
-                  <ShoppingCart className="w-4 h-4" />
-                  {part.quantity > 0 ? 'Add to Cart' : 'Out of Stock'}
-                </button>
               </div>
             </div>
           ))}
@@ -307,6 +321,121 @@ const ServiceSpareParts:React.FC<ReactComponent> = ({handleBack}) => {
           </div>
         )}
       </div>
+
+      {/* Add Spare Part Modal */}
+      {showAddModal && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
+          <div className="bg-white rounded-xl shadow-lg w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+            <div className="p-6">
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-2xl font-bold text-gray-900">Add New Spare Part</h2>
+                <button
+                  onClick={() => setShowAddModal(false)}
+                  className="p-2 text-gray-400 hover:text-gray-600 rounded-full hover:bg-gray-100"
+                >
+                  ×
+                </button>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Part Name</label>
+                  <input
+                    type="text"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500"
+                    value={newPart.name}
+                    onChange={(e) => setNewPart({...newPart, name: e.target.value})}
+                    placeholder="Enter part name"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Image URL</label>
+                  <input
+                    type="text"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500"
+                    value={newPart.image}
+                    onChange={(e) => setNewPart({...newPart, image: e.target.value})}
+                    placeholder="Enter image URL"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Price (₹)</label>
+                  <input
+                    type="number"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500"
+                    value={newPart.price}
+                    onChange={(e) => setNewPart({...newPart, price: Number(e.target.value)})}
+                    placeholder="Enter price"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Quantity</label>
+                  <input
+                    type="number"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500"
+                    value={newPart.quantity}
+                    onChange={(e) => setNewPart({...newPart, quantity: Number(e.target.value)})}
+                    placeholder="Enter quantity"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Category</label>
+                  <input
+                    type="text"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500"
+                    value={newPart.category}
+                    onChange={(e) => setNewPart({...newPart, category: e.target.value})}
+                    placeholder="Enter category"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Brand</label>
+                  <input
+                    type="text"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500"
+                    value={newPart.brand}
+                    onChange={(e) => setNewPart({...newPart, brand: e.target.value})}
+                    placeholder="Enter brand"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Discount (%)</label>
+                  <input
+                    type="number"
+                    min="0"
+                    max="100"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500"
+                    value={newPart.discount || 0}
+                    onChange={(e) => setNewPart({...newPart, discount: Number(e.target.value)})}
+                    placeholder="Enter discount percentage"
+                  />
+                </div>
+              </div>
+
+              <div className="mt-8 flex justify-end gap-3">
+                <button
+                  onClick={() => setShowAddModal(false)}
+                  className="px-6 py-2 border border-gray-300 rounded-lg font-medium text-gray-700 hover:bg-gray-50"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleAddPart}
+                  className="px-6 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg font-medium"
+                >
+                  Add Part
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
