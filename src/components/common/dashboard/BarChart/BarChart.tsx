@@ -22,7 +22,7 @@ const data = [
 const dateRanges = ['Weekly', 'Monthly', 'Yearly'];
 
 const BarCharts: React.FC = () => {
-  const [selectedRange, setSelectedRange] = useState('Weekly'); // Set default value
+  const [selectedRange, setSelectedRange] = useState(''); // Set default value
   const [isOpen, setIsOpen] = useState(false);
 
   const dropdownRef = useRef<HTMLDivElement>(null)
@@ -42,7 +42,7 @@ const BarCharts: React.FC = () => {
       <div className="flex justify-between items-center ">
         {/* content  */}
         <div className=''>
-          <h2 className="text-lg " style={{ color: COLORS.primary }}>Vehicle Management</h2>
+          <h2 className="text-lg " style={{ color: COLORS.primary }}>Total User</h2>
           <div className="flex space-x-4 text-xs mt-4">
             <div className="flex items-center space-x-1 text-blue-600">
               <span className="h-2 w-2 bg-[#f2ddf3] rounded-full"></span>
@@ -61,7 +61,6 @@ const BarCharts: React.FC = () => {
             onClick={() => setIsOpen(!isOpen)}
             className="flex items-center text-xs text-gray-700 border px-1 py-1.5 rounded-md bg-white hover:bg-gray-50"
           >
-            <span className="mr-1">{selectedRange}</span>
             <ChevronDown className="w-6 h-4 text-[#9b111e]" />
           </button>
           {isOpen && (
