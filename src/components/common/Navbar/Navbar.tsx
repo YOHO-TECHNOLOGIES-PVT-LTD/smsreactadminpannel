@@ -2,8 +2,8 @@ import React, { useState, useRef, useEffect } from "react";
 import { COLORS } from "../../../constants/uiConstants";
 import { useNavigate } from "react-router-dom";
 import FullscreenButton from "./Fullscreen";
-import SosButton from "./Sos";
 import { ProfileModal } from "./ProfileModal";
+import { useAuth } from "../../../pages/auth/AuthContext";
 
 interface User {
   name: string;
@@ -30,13 +30,13 @@ export const Navbar: React.FC = () => {
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
   const [showLogoutSuccess, setShowLogoutSuccess] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
-
+  const {logout}=useAuth();
   const navigate = useNavigate();
 
   const dropdownRef = useRef<HTMLDivElement | null>(null);
   const notificationRef = useRef<HTMLDivElement | null>(null);
 
-  const [notifications, setNotifications] = useState<Notification[]>([
+  const [notifications] = useState<Notification[]>([
     {
       id: 1,
       message: "New task assigned to you: Project Review",
@@ -105,6 +105,7 @@ export const Navbar: React.FC = () => {
     setShowNotifications(false);
     navigate("/notifications");
   };
+  
   const handleSosClick = () => {
     navigate("/sos");
   };
@@ -120,6 +121,13 @@ export const Navbar: React.FC = () => {
   };
 
   const unreadCount = notifications.filter((n) => !n.isRead).length;
+
+  const handleLogout = () => {
+   logout();
+      navigate("/");
+          console.log("User logged out");
+
+  };
 
   return (
     <>
@@ -151,7 +159,8 @@ export const Navbar: React.FC = () => {
           </button>
         </div>
 
-        {/* Fullscreen */}
+       
+{/* Fullscreen */}
         <div className="relative w-full">
           <div className="absolute right-4 top-1/2 -translate-y-1/2 z-20 flex items-center gap-4">
             {/* Fullscreen Button */}
@@ -159,7 +168,8 @@ export const Navbar: React.FC = () => {
 
             {/* SOS Emergency Icon */}
             <div className="relative">
-              <span className="absolute inline-flex h-8 w-8 rounded-full bg-red-400 opacity-75 animate-ping"></span>
+               <span className="absolute inline-flex h-8 w-8 rounded-full bg-red-400 opacity-75 animate-ping"></span> 
+                <div className="absolute -top-1 -right-1 w-3.5 h-3.5 bg-yellow-500 border-2 border-white rounded-full z-20" />
               <button
                 onClick={handleSosClick}
                 className="relative z-10 inline-flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-r from-red-600 to-red-800 text-white font-bold text-sm shadow-lg hover:scale-105 transition-transform"
@@ -344,7 +354,8 @@ export const Navbar: React.FC = () => {
                   setTimeout(() => {
                     setShowLogoutSuccess(false);
                     console.log("Redirect or clear session here");
-                  }, 2000);
+                    handleLogout();
+                  }, 1000);
                 }}
                 className="px-4 py-2 rounded bg-red-600 text-white hover:bg-red-700"
               >

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import  { useState } from 'react';
 
 const mockNotifications = [
   {
@@ -53,36 +53,64 @@ const mockNotifications = [
 
 const NotificationPanel = () => {
   const [notifications, setNotifications] = useState(mockNotifications);
+  const [filter, setFilter] = useState<'all' | 'read' | 'unread'>('all');
 
-  const handleDelete = (id:any) => {
+  const handleDelete = (id: number) => {
     setNotifications(notifications.filter(n => n.id !== id));
   };
 
+  
+  const filteredNotifications = notifications.filter((notif) => {
+    if (filter === 'all') return true;
+    if (filter === 'unread') return notif.status === 'new';
+    if (filter === 'read') return notif.status !== 'new';
+    return true;
+  });
+
   return (
     <div className="w-full mx-auto mt-5 bg-white rounded-2xl p-6 shadow">
-      
       <div className="flex justify-between items-center mb-6">
         {/* <h2 className="text-xl font-semibold"> Custom Notifications</h2> */}
-        
       </div>
 
-     
-      <div className="flex  justify-between gap-4 mb-6"><div className='flex gap-4 mb-6'>
-        <button className=" w-24 h-10 bg-[#9b111e] text-white rounded hover:bg-orange-700   px-4 py-2  ">  All </button>
-        <button className="w-24 h-10 bg-[#9b111e] hover:bg-orange-700 rounded text-white px-4 py-2 ">Read</button>
-        <button className="w-24 h-10 bg-[#9b111e] hover:bg-orange-700 rounded text-white px-4 py-2  ">Unread</button>
-      </div>
-        
+      <div className="flex justify-between gap-4 mb-6">
+        <div className="flex gap-4 mb-6">
+          <button
+            onClick={() => setFilter('all')}
+            className={`w-24 h-10 rounded px-4 py-2 text-white ${
+              filter === 'all' ? 'bg-[#9b111e]' : 'bg-[#9b111e] hover:bg-orange-700'
+            }`}
+          >
+            All
+          </button>
+          <button
+            onClick={() => setFilter('read')}
+            className={`w-24 h-10 rounded px-4 py-2 text-white ${
+              filter === 'read' ? 'bg-[#9b111e]' : 'bg-[#9b111e] hover:bg-orange-700'
+            }`}
+          >
+            Read
+          </button>
+          <button
+            onClick={() => setFilter('unread')}
+            className={`w-24 h-10 rounded px-4 py-2 text-white ${
+              filter === 'unread' ? 'bg-[#9b111e]' : 'bg-[#9b111e] hover:bg-orange-700'
+            }`}
+          >
+            Unread
+          </button>
+        </div>
+
         <button className="text-sm text-[#9b111e] hover:underline">Mark all as read</button>
       </div>
 
-     
       <div className="space-y-4">
-        {notifications.map((notif) => (
+        {filteredNotifications.map((notif) => (
           <div
             key={notif.id}
-            className={`flex items-start justify-between p-4 rounded-xl border 
-              ${notif.type === 'error' ? 'bg-red-50 border-red-300' : 'border-gray-200'}`}
+            className={`flex items-start justify-between p-4 rounded-xl border ${
+              notif.type === 'error' ? 'bg-red-50 border-red-300' : 'border-gray-200'
+            }`}
           >
             <div className="flex items-start gap-3">
               {notif.type === 'error' ? (

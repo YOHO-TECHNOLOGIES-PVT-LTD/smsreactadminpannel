@@ -1,4 +1,5 @@
-import React from 'react';
+import  { useState } from 'react';
+import { CheckCircle } from 'lucide-react';
 
 const partners = [
   {
@@ -18,25 +19,49 @@ const partners = [
   },
 ];
 
-const Partner = () => (
-  <>
-    {partners.map((item, index) => (
-      <div key={index} className="bg-white rounded-lg shadow-md overflow-hidden flex flex-col">
-        <img src={item.image} alt={item.title} className="w-full h-40 object-cover" />
-        <div className="p-4 flex flex-col justify-between flex-1">
-          <div>
-            <h3 className="text-base font-semibold">{item.title}</h3>
-            <p className="text-[#9b111e] font-bold mt-2">{item.price}</p>
-          </div>
-          <div className="mt-4 text-right">
-            <button className="text-sm px-3 py-1 bg-[#9b111e] text-white rounded-full hover:bg-red-700 transition">
-              Share
-            </button>
+const Partner = () => {
+  const [showModal, setShowModal] = useState(false);
+  // const [sharedWith, setSharedWith] = useState('');
+
+  const handleShare = () => {
+    // setSharedWith(title);
+    setShowModal(true);
+    setTimeout(() => setShowModal(false), 2500);
+  };
+
+  return (
+    <>
+      {partners.map((item, index) => (
+        <div key={index} className="flex flex-col hover:shadow-xl transform hover:scale-[1.02] p-2 transition-all duration-300 bg-white shadow-md rounded-lg mb-4 mx-6">
+          <img src={item.image} alt={item.title} className="w-full h-40 object-cover" />
+          <div className="p-4 flex-1 flex flex-col justify-between">
+            <div>
+              <h3 className="text-base font-semibold">{item.title}</h3>
+              <p className="text-[#9b111e] font-bold mt-2">{item.price}</p>
+            </div>
+            <div className="mt-4 text-right">
+              <button
+                onClick={() => handleShare()}
+                className="text-sm px-3 py-1 bg-[#9b111e] text-white rounded-full hover:bg-red-700 transition"
+              >
+                Share
+              </button>
+            </div>
           </div>
         </div>
-      </div>
-    ))}
-  </>
-);
+      ))}
+
+      {showModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50">
+          <div className="bg-white p-5 rounded-lg shadow-md text-center w-[280px]">
+            <CheckCircle className="text-green-600 w-10 h-10 mx-auto mb-2 animate-bounce" />
+            <h3 className="text-lg font-semibold">Shared Successfully with partner</h3>
+            {/* <p className="text-sm text-gray-600">with {sharedWith}</p> */}
+          </div>
+        </div>
+      )}
+    </>
+  );
+};
 
 export default Partner;
