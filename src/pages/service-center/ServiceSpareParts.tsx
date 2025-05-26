@@ -1,154 +1,3 @@
-// import { COLORS } from "../../constants/uiConstants";
-// import { useState } from "react";
-// import { MdOutlineKeyboardBackspace } from "react-icons/md";
-// import { FiSearch } from "react-icons/fi";
-
-// type ServiceCenterSpareParts = {
-//   handleBack: () => void;
-// };
-
-// const spareParts = [
-//   {
-//     id: 1,
-//     name: "Car Engine 5000cc - Boost Power- Silver Metals - Petrol Engine",
-//     image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR4CfVRLyYHmjawlYhhJkCemKDT9ZAZirPlUA&s",
-//     price: 59900,
-//     quantity: 5,
-//   },
-//   {
-//     id: 2,
-//     name: "Car Engine 5000cc - Boost Power- Silver Metals - Petrol Engine",
-//     image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR4CfVRLyYHmjawlYhhJkCemKDT9ZAZirPlUA&s",
-//     price: 59900,
-//     quantity: 5,
-//   },
-//   {
-//     id: 3,
-//     name: "Car Engine 5000cc - Boost Power- Silver Metals - Petrol Engine",
-//     image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR4CfVRLyYHmjawlYhhJkCemKDT9ZAZirPlUA&s",
-//     price: 45000,
-//     quantity: 2,
-//   },
-//   {
-//     id: 4,
-//     name: "Car Engine 5000cc - Boost Power- Silver Metals - Petrol Engine",
-//     image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR4CfVRLyYHmjawlYhhJkCemKDT9ZAZirPlUA&s",
-//     price: 45000,
-//     quantity: 2,
-//   }
-// ];
-
-// const ServiceSpareParts: React.FC<ServiceCenterSpareParts> = ({ handleBack }) => {
-//   const [searchTerm, setSearchTerm] = useState("");
-//   const [showSearch, setShowSearch] = useState(false);
-
-//   const filteredParts = spareParts.filter((part) =>
-//     part.name.toLowerCase().includes(searchTerm.toLowerCase())
-//   );
-
-//   return (
-//     <div style={{ background: COLORS.bgColor, minHeight: '100vh' }}>
-//       <div className="p-4" style={{ background: COLORS.bgColor }}>
-//         <button onClick={handleBack} className="">
-//           <MdOutlineKeyboardBackspace className="text-[#800000] text-3xl" />
-//         </button>
-//       </div>
-      
-//       <div
-//         className="flex p-4 pb-8 sticky top-0 rounded-t-xl shadow-inner-top border-b-2 border-orange-700"
-//         style={{ backgroundColor: COLORS.bgColor }}
-//       >
-//         <h1 className="font-bold text-3xl pt-2" style={{ color: "#9b111e" }}>
-//           Spare Parts Management System
-//         </h1>
-        
-//         <div className="ml-auto flex items-center gap-4">
-//           <button
-//             className="bg-[#fce8e8] text-gray-600 hover:text-[#9b111e] p-2 rounded-full transition"
-//             title="Search"
-//             onClick={() => setShowSearch(!showSearch)}
-//           >
-//             <FiSearch size={22} className="text-[#800000]" />
-//           </button>
-
-//           {showSearch && (
-//             <input
-//               type="text"
-//               className="px-4 py-1.5 border border-[#800000] focus:border-[#800000] rounded-md shadow-sm focus:outline-none"
-//               placeholder="Search spare parts..."
-//               value={searchTerm}
-//               onChange={(e) => setSearchTerm(e.target.value)}
-//             />
-//           )}
-//         </div>
-//       </div>
-
-//       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-5 mt-10">
-//         {filteredParts.map((part) => (
-//           <div key={part.id} className="flex justify-center">
-//             <div className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700 hover:shadow-md transition-shadow">
-//               <img 
-//                 className="p-8 rounded-t-lg w-full h-48 object-contain" 
-//                 src={part.image} 
-//                 alt={part.name} 
-//               />
-//               <div className="px-5 pb-5">
-//                 <h5 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white line-clamp-2">
-//                   {part.name}
-//                 </h5>
-//                 <div className="flex items-center mt-2.5 mb-5">
-//                   <div className="flex items-center space-x-1">
-//                     {[...Array(5)].map((_, i) => (
-//                       <svg
-//                         key={i}
-//                         className={`w-4 h-4 ${i < 4 ? "text-yellow-300" : "text-gray-200"}`}
-//                         fill="currentColor"
-//                         viewBox="0 0 22 20"
-//                       >
-//                         <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575z" />
-//                       </svg>
-//                     ))}
-//                   </div>
-//                   <span className="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded-sm ms-3">
-//                     5.0
-//                   </span>
-//                 </div>
-//                 <div className="flex items-center justify-between">
-//                   <span className="text-3xl font-bold text-gray-900 dark:text-white">
-//                     Rs.{part.price.toLocaleString()}
-//                   </span>
-//                   <div className="bg-gray-100 rounded-lg px-3 py-1">
-//                     <span className="text-sm">Quantity: </span>
-//                     <span className="font-semibold">{part.quantity}</span>
-//                   </div>
-//                 </div>
-//               </div>
-//             </div>
-//           </div>
-//         ))}
-        
-//         {filteredParts.length === 0 && (
-//           <div className="col-span-full text-center py-10">
-//             <p className="text-xl font-semibold text-red-500">
-//               No matching spare parts found.
-//             </p>
-//             {searchTerm && (
-//               <button 
-//                 className="mt-4 px-4 py-2 text-sm text-white rounded-md"
-//                 style={{ background: "linear-gradient(44.99deg,#700808 11%,#d23c3c 102.34%)" }}
-//                 onClick={() => setSearchTerm("")}
-//               >
-//                 Clear Search
-//               </button>
-//             )}
-//           </div>
-//         )}
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default ServiceSpareParts;
 import { useState } from "react";
 import { Search, ArrowLeft, ShoppingCart, Star, Package, Eye } from "lucide-react";
 
@@ -227,7 +76,11 @@ const spareParts: SparePart[] = [
   }
 ];
 
-const ServiceSpareParts = () => {
+type ReactComponent = {
+  handleBack : ()=> void;
+}
+
+const ServiceSpareParts:React.FC<ReactComponent> = ({handleBack}) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [showSearch, setShowSearch] = useState(false);
   const [hoveredCard, setHoveredCard] = useState<number | null>(null);
@@ -238,10 +91,7 @@ const ServiceSpareParts = () => {
     part.brand.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const handleBack = () => {
-    console.log("Going back...");
-  };
-
+  
   const calculateDiscountedPrice = (price: number, discount: number) => {
     return price - (price * discount / 100);
   };
@@ -268,7 +118,7 @@ const ServiceSpareParts = () => {
   return (
     <div style={{ background: COLORS.bgColor, minHeight: '80vh' }}>
       {/* Header */}
-      <div className="bg-white shadow-sm border-b pr-10">
+      <div className="bg-white shadow-sm border-b">
         <div className="p-5 flex items-center gap-2 max-w-7xl mx-auto">
           <button 
             onClick={handleBack} 
