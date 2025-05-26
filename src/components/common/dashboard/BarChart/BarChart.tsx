@@ -45,8 +45,8 @@ const BarCharts: React.FC = () => {
           <h2 className="text-lg " style={{ color: COLORS.primary }}>Total Customers</h2>
           <div className="flex space-x-4 text-xs mt-4">
             <div className="flex items-center space-x-1 text-blue-600">
-              <span className="h-2 w-2 bg-[#f2ddf3] rounded-full"></span>
-              <span className='text-[#f2ddf3]' >New Customers</span>
+              <span className="h-2 w-2 bg-[#ebb8ee] rounded-full"></span>
+              <span className='text-[#eca9f0]' >New Customers</span>
             </div>
             <div className="flex items-center space-x-1 text-rose-400">
               <span className="h-2 w-2 bg-[#aac3c4] rounded-full"></span>
@@ -89,7 +89,7 @@ const BarCharts: React.FC = () => {
             <XAxis dataKey="day" width={1} />
             <YAxis />
             <Tooltip />
-            <Bar dataKey="newCustomers" fill="#f2ddf3" barSize={10} radius={[0, 0, 0, 0]} />
+            <Bar dataKey="newCustomers" fill="#eca9f0" barSize={10} radius={[0, 0, 0, 0]} />
             <Bar dataKey="returnCustomers" fill="#aac3c4" barSize={10} radius={[0, 0, 0, 0]} />
           </BarChart>
         </ResponsiveContainer>
