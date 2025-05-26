@@ -42,7 +42,7 @@ const BarCharts: React.FC = () => {
       <div className="flex justify-between items-center ">
         {/* content  */}
         <div className=''>
-          <h2 className="text-lg " style={{ color: COLORS.primary }}>Total User</h2>
+          <h2 className="text-lg " style={{ color: COLORS.primary }}>Total Customers</h2>
           <div className="flex space-x-4 text-xs mt-4">
             <div className="flex items-center space-x-1 text-blue-600">
               <span className="h-2 w-2 bg-[#f2ddf3] rounded-full"></span>
