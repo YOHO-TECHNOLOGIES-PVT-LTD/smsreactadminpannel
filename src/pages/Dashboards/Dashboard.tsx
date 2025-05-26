@@ -8,7 +8,7 @@ import { IoIosArrowRoundDown } from "react-icons/io";
 // import { RiUser6Line } from "react-icons/ri";
 import { AiOutlineCopyrightCircle } from "react-icons/ai";
 // import { AiOutlineLeft } from "react-icons/ai";
-import { AiOutlineArrowLeft } from 'react-icons/ai';
+// import { AiOutlineArrowLeft } from 'react-icons/ai';
 import { MdEmergencyShare } from "react-icons/md";
 import { BiSolidCarCrash } from "react-icons/bi";
 import { RiCalendarScheduleFill } from "react-icons/ri";
@@ -27,6 +27,7 @@ import dummpypic from "../../assets/Dashboard/images.jpg";
 // import StatCard from "../../components/common/dashboard/StatCard/StatCard";
 import { SoSCard } from "../../components/common/dashboard/SoSCard/SoSCard";
 import TotalRevenue from "../../components/common/dashboard/TotalRevenue/TotalRevenue";
+import { useNavigate } from "react-router-dom";
 
 const queries = [
   {
