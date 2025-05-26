@@ -70,11 +70,47 @@ const invoices: Invoice[] = [
     paidAmount: "$700.00",
     balanceDue: "100.00",
     profile: "150",
-    jobStatus: "In Progress",
+    jobStatus: "Not started",
   },
   {
     id: "INV006",
     name: "Jane",
+    invoiceDate: "2025-05-16",
+    vehicle: "Suzuki",
+    plate: "LMN-9012",
+    total: "$3000.00",
+    paidAmount: "$900.00",
+    balanceDue: "100.00",
+    profile: "150",
+    jobStatus: "In Progress",
+  },
+  {
+    id: "INV006",
+    name: "Jane Smith",
+    invoiceDate: "2025-05-16",
+    vehicle: "Suzuki",
+    plate: "LMN-9012",
+    total: "$3000.00",
+    paidAmount: "$900.00",
+    BalanceDue: "100.00",
+    profile: "150",
+    jobStatus: "In Progress",
+  },
+  {
+    id: "INV006",
+    name: "Carter",
+    invoiceDate: "2025-05-16",
+    vehicle: "Suzuki",
+    plate: "LMN-9012",
+    total: "$3000.00",
+    paidAmount: "$900.00",
+    BalanceDue: "100.00",
+    profile: "150",
+    jobStatus: "In Progress",
+  },
+  {
+    id: "INV006",
+    name: "Jack",
     invoiceDate: "2025-05-16",
     vehicle: "Suzuki",
     plate: "LMN-9012",
@@ -99,17 +135,17 @@ export const JobCardsPage: React.FC = () => {
     );
   });
 
-  return (
-    <div className="p-1 md:block bg-white rounded-lg shadow-lg p-8">
-      <div className="rounded-lg">
-        <div className="border-b-2 border-[#9b111e] pb-2 mb-4">
-          <h1
-            style={{ ...FONTS.header, fontWeight: 500 }}
-            className="font-bold text-[#9b111e] "
-          >
-            JOB CARDS
-          </h1>
-        </div>
+	return (
+		<div className='p-1 md:block bg-white rounded-lg shadow-lg p-8'>
+			<div className='rounded-lg'>
+				<div className='border-b-2 border-[#9b111e] pb-2 mb-4'>
+					<h1
+						style={{ ...FONTS.header, fontWeight: 500 }}
+						className='font-bold text-[#9b111e] '
+					>
+						JOB CARDS
+					</h1>
+				</div>
 
         <div className="relative max-w-md mt-10">
           <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">
@@ -177,7 +213,7 @@ export const JobCardsPage: React.FC = () => {
                   <tr
                     key={invoice.id}
                     className={`text-sm text-gray-700 hover:bg-[#edeae9] transition font-semibold ${
-                      index % 2 === 0 ? "bg-white" : "bg-gray-50"
+                      index % 2 == 0 ? "bg-white" : "bg-gray-50"
                     }`}
                   >
                     <td className="px-4 py-3 border-b">{invoice.id}</td>
@@ -193,11 +229,12 @@ export const JobCardsPage: React.FC = () => {
                       {invoice.total}
                     </td>
                     <td className="px-4 py-3 border-b">
+                    <td className="px-4 py-3 border-b">
                       <span
                         className={`inline-block px-2 py-1 rounded-full text-xs font-semibold capitalize ${
                           invoice.jobStatus.toLowerCase() === "completed"
                             ? "bg-green-100 text-green-700"
-                            : "bg-yellow-100 text-yellow-800"
+                            : invoice.jobStatus.toLowerCase() === "not started"?"bg-red-100 text-red-800":"bg-yellow-100 text-yellow-800"
                         }`}
                       >
                         {invoice.jobStatus}
