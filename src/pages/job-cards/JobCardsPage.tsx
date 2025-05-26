@@ -37,7 +37,7 @@ const invoices: Invoice[] = [
     jobStatus: "completed",
   },
   {
-    id: "INV002",
+    id: "INV0014",
     name: "John Doe",
     invoiceDate: "2025-05-17",
     vehicle: "Honda",
@@ -49,7 +49,7 @@ const invoices: Invoice[] = [
     jobStatus: "in progress",
   },
   {
-    id: "INV003",
+    id: "INV0013",
     name: "Jane Smith",
     invoiceDate: "2025-05-16",
     vehicle: "Suzuki",
@@ -61,7 +61,7 @@ const invoices: Invoice[] = [
     jobStatus: "In Progress",
   },
   {
-    id: "INV005",
+    id: "INV0016",
     name: "Smith",
     invoiceDate: "2025-05-16",
     vehicle: "Suzuki",
@@ -73,7 +73,7 @@ const invoices: Invoice[] = [
     jobStatus: "Not started",
   },
   {
-    id: "INV006",
+    id: "INV0011",
     name: "Jane",
     invoiceDate: "2025-05-16",
     vehicle: "Suzuki",
@@ -85,31 +85,31 @@ const invoices: Invoice[] = [
     jobStatus: "In Progress",
   },
   {
-    id: "INV006",
+    id: "INV003",
     name: "Jane Smith",
     invoiceDate: "2025-05-16",
     vehicle: "Suzuki",
     plate: "LMN-9012",
     total: "$3000.00",
     paidAmount: "$900.00",
-    BalanceDue: "100.00",
+    balanceDue: "100.00",
     profile: "150",
     jobStatus: "In Progress",
   },
   {
-    id: "INV006",
+    id: "INV007",
     name: "Carter",
     invoiceDate: "2025-05-16",
     vehicle: "Suzuki",
     plate: "LMN-9012",
     total: "$3000.00",
     paidAmount: "$900.00",
-    BalanceDue: "100.00",
+    balanceDue: "100.00",
     profile: "150",
     jobStatus: "In Progress",
   },
   {
-    id: "INV006",
+    id: "INV008",
     name: "Jack",
     invoiceDate: "2025-05-16",
     vehicle: "Suzuki",
@@ -127,11 +127,12 @@ export const JobCardsPage: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState("");
 
   const filteredInvoices = invoices.filter((invoice) => {
-    const query = searchQuery.toLowerCase();
+    const query = searchQuery.trim().toLowerCase();
     return (
       invoice.name.toLowerCase().includes(query) ||
       invoice.vehicle.toLowerCase().includes(query) ||
       invoice.id.toLowerCase().includes(query)
+      
     );
   });
 
@@ -228,7 +229,6 @@ export const JobCardsPage: React.FC = () => {
                     <td className="px-4 py-3 border-b hidden lg:table-cell">
                       {invoice.total}
                     </td>
-                    <td className="px-4 py-3 border-b">
                     <td className="px-4 py-3 border-b">
                       <span
                         className={`inline-block px-2 py-1 rounded-full text-xs font-semibold capitalize ${
