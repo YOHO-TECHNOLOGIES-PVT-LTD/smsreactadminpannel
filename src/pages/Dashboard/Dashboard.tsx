@@ -7,9 +7,9 @@ import { IoIosArrowRoundUp } from "react-icons/io";
 import { IoIosArrowRoundDown } from "react-icons/io";
 import { RiUser6Line } from "react-icons/ri";
 import { AiOutlineCopyrightCircle } from "react-icons/ai";
-import { AiOutlineRight } from "react-icons/ai";
-import { AiOutlineLeft } from "react-icons/ai";
-import { AiOutlineArrowLeft } from 'react-icons/ai';
+// import { AiOutlineRight } from "react-icons/ai";
+// import { AiOutlineLeft } from "react-icons/ai";
+// import { AiOutlineArrowLeft } from 'react-icons/ai';
 import { useNavigate } from "react-router-dom";
 
 
@@ -197,13 +197,13 @@ const queries = [
 
         
          {/* Query Section */}
-        <div className="bg-white shadow-md rounded-xl p-4 max-h-96 overflow-hidden">
+        <div className="bg-white shadow-md rounded-xl p-4 max-h-86 overflow-hidden">
           <div className="flex justify-between mb-2">
             <p className="text-lg" style={{ color: COLORS.primary }}>
               Query
             </p>
             <button
-  onClick={() => navigate("/Queries")}
+  onClick={() => navigate("/queries")}
   className="text-red-700 hover:text-red-900 text-md"
 >
   View All
