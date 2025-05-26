@@ -21,7 +21,7 @@ const handleBack = () => {
 
   return (
 
-    <div className=" bg-gray-50 min-h-screen">
+    <div className=" min-h-screen">
       <div className="">
         {activeStep === 0 && (
           <ServiceCenterListPage onView={() => setActiveStep(1)}  handleBack={handleBack}/>

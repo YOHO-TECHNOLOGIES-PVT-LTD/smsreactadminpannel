@@ -271,13 +271,13 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({ onSpareParts, hand
         {/* Dynamic Categories */}
         {categories.map((category) => (
           <div key={category.id}>
-            <div className="w-full p-4 bg-white border border-gray-200 rounded-lg shadow-sm sm:p-8 dark:bg-gray-800 dark:border-gray-700">
+            <div className="w-full p-4 bg-white border border-gray-200 rounded-lg shadow-sm sm:p-8">
               <div className="flex items-center justify-between mb-4 cursor-pointer">
                 <h5 className="text-2xl font-bold leading-none flex gap-2" style={{ color: "#9b111e" }}>
                   {category.icon} {category.name}
                 </h5>
                 <span
-                  className="text-sm font-medium text-orange-800 hover:underline dark:text-orange-800"
+                  className="text-sm font-medium text-orange-800 hover:underline"
                   onClick={() => toggleCategory(category.id)}
                 >
                   {category.isOpen ? 'Hide' : 'View all'}
@@ -295,8 +295,8 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({ onSpareParts, hand
                     Add Service
                   </button>
 
-                  <table className="min-w-full text-left text-sm font-light text-gray-900 dark:text-white">
-                    <thead className="border-b font-medium dark:border-gray-700">
+                  <table className="min-w-full text-left text-sm font-light text-gray-900 ">
+                    <thead className="border-b font-medium ">
                       <tr>
                         <th className="px-4 py-2">Service</th>
                         <th className="px-4 py-2">Service Name</th>
@@ -306,7 +306,7 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({ onSpareParts, hand
                     </thead>
                     <tbody>
                       {serviceOptions[category.id]?.map((option, index) => (
-                        <tr key={`${category.id}-${index}`} className="border-b dark:border-gray-700">
+                        <tr key={`${category.id}-${index}`} className="border-b ">
                           <td className="px-0 py-0 text-2xl font-normal">
                             {typeof option.image === 'string' ? (
                               <img src={option.image} alt="service" className="w-16 h-12 object-cover" />
@@ -329,9 +329,7 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({ onSpareParts, hand
                               <div className={`relative w-9 h-5 rounded-full peer ${option.active ? 'bg-green-500' : 'bg-gray-200'}`}>
                                 <div className={`absolute top-[2px] ${option.active ? 'left-[18px]' : 'left-[2px]'} bg-white rounded-full h-4 w-4 transition-all`}></div>
                               </div>
-                              <span className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-                                {option.active ? 'Active' : 'Inactive'}
-                              </span>
+            
                             </label>
                           </td>
                         </tr>
