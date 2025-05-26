@@ -1,13 +1,170 @@
-// import React from 'react'
+import { FONTS } from "../../constants/uiConstants"; //FONT
+// import {COLORS} from "../../constants/uiConstants"//COLOUR
 
-import { FONTS } from "../../constants/uiConstants"
+//this is for ICONS
+import { AiOutlineCheckCircle } from "react-icons/ai";
+import { GoDotFill } from "react-icons/go";
+import { IoIosArrowRoundUp } from "react-icons/io";
+import { IoIosArrowRoundDown } from "react-icons/io";
+import { RiUser6Line } from "react-icons/ri";
+import { AiOutlineCopyrightCircle } from "react-icons/ai";
+import { AiOutlineRight } from "react-icons/ai";
+
+//this is FILE
+import { NotificationList } from "../../components/common/dashboard/NotificationList/NotificationList";
+import BarCharts from "../../components/common/dashboard/BarChart/BarChart";
+import { TransactionCard } from "../../components/common/dashboard/TransactionsCard/TransactionsCard";
+import { DashboardCard } from "../../components/common/dashboard/DashboardCard/DashboardCard";
+import { QueryCard } from "../../components/common/dashboard/QueryCard/QueryCard";
+import dummpypic from "../../assets/Dashboard/images.jpg";
 
 export const Dashboard = () => {
   return (
-    <>
-    <div style={{...FONTS.header}}>Dashboard</div>
-    <p style={{...FONTS.paragraph, textAlign: 'justify'}}>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Blanditiis quae, quos deserunt quisquam nemo omnis ipsa mollitia. Quibusdam ab illum nisi repellendus reprehenderit in praesentium commodi? Nihil assumenda repellat aut. Corporis, id omnis architecto minima quis dignissimos itaque repellat eum illo dolores minus. Veritatis beatae nulla velit, facere fugiat, optio possimus culpa consequatur repellendus inventore voluptatibus earum dolorum, vitae molestias quaerat delectus ut modi reiciendis accusantium? Laudantium corrupti praesentium quam animi nobis assumenda? Modi delectus minus doloribus consectetur aspernatur quam vitae voluptas eum sapiente ut, ipsa suscipit deleniti fugiat officiis rerum perspiciatis, dolores deserunt neque maxime assumenda quasi mollitia itaque. Aliquam eligendi laborum reprehenderit nemo, vitae aut. Totam voluptate possimus, officia commodi libero quod expedita qui, laborum neque reprehenderit dolores soluta. Placeat eum sint itaque animi, ad rem repellendus iusto unde sit officiis autem magni deleniti doloremque amet dolorem excepturi omnis in quia neque suscipit deserunt! Nesciunt explicabo ipsa distinctio, omnis magnam laboriosam! Eaque et rerum dignissimos assumenda. Voluptatem odit sunt, porro quis explicabo deleniti deserunt nobis molestiae id fugiat. Minus, doloremque! Necessitatibus fugiat mollitia exercitationem unde eveniet, officia eligendi itaque pariatur excepturi perspiciatis ut repellat distinctio, impedit tenetur incidunt asperiores omnis debitis, non dolore recusandae explicabo laborum? Sunt, facilis repellat in explicabo ipsam, nulla quidem laboriosam error deleniti minus nisi veritatis accusamus quas natus consequuntur et cupiditate sint perspiciatis! Ea, iure? Quibusdam id nostrum doloremque tempore, maxime alias, illum saepe repellat omnis perspiciatis reprehenderit rerum expedita doloribus mollitia odio fuga amet corporis laudantium soluta? Molestias ipsum rem animi minima corporis blanditiis dolorem accusamus excepturi consectetur incidunt veniam corrupti ipsam itaque ad a maxime, provident quas accusantium repudiandae temporibus architecto officia, veritatis sequi. Cupiditate eius non tempore quia vel iure debitis est error laudantium laborum, eos excepturi, iusto eaque, consequuntur neque molestiae quas quidem ea magnam. Eveniet provident cumque adipisci sapiente a sint quidem delectus impedit, distinctio animi atque minus, autem eius cupiditate. Cumque, aliquam at doloribus eum libero minima totam tenetur reiciendis praesentium nesciunt assumenda eligendi sunt. Fugit ullam quasi quas, repellendus eveniet assumenda iure qui tempora illo consequatur amet dolores eaque dolorem earum? Omnis eius praesentium sequi laboriosam facere molestiae. Deserunt, nesciunt molestias ipsum eaque quisquam cum modi error aut explicabo dolor nobis minima optio quae accusantium earum dolores iusto possimus laudantium quo ipsa perspiciatis delectus! Voluptate minus magnam fugit eos accusamus ratione ut culpa dolores ea incidunt exercitationem unde, delectus aperiam enim ad hic soluta ipsa molestiae amet sunt debitis? Placeat accusantium harum officiis quas. Quasi sequi corporis, facere, mollitia culpa omnis a minima, libero inventore deserunt obcaecati soluta corrupti doloremque quae vitae pariatur repellendus. Esse non, libero cupiditate rem nobis distinctio maxime optio consequatur assumenda nostrum porro nulla totam deleniti, eaque aut enim, autem soluta cum tenetur ipsa minus. Alias porro corporis saepe modi a, cumque inventore laborum totam doloremque nesciunt, quos maiores! Dolore eum aperiam, quisquam assumenda magni eius cum, nesciunt a repudiandae, ut autem dicta! Harum enim sed aut. Velit esse nisi quaerat eum asperiores eius ad minus cumque architecto quis tenetur aliquid voluptatibus harum, hic quas ducimus earum placeat ab. Exercitationem sequi aspernatur vero omnis quam minima sapiente, quis quisquam incidunt corporis perspiciatis ratione non perferendis tenetur quidem velit aliquam soluta fugiat neque adipisci. Non quas, repellat doloremque quibusdam obcaecati aliquid at reprehenderit veritatis eum. Aspernatur blanditiis repellendus cum corrupti ratione est pariatur iusto praesentium optio. Ratione voluptatibus consequuntur officia illum dolores obcaecati quae. Sapiente autem aut placeat iste inventore pariatur et harum dolorem. Quis, quam, nostrum voluptatem sed libero odit illum excepturi sapiente magnam dignissimos alias officiis commodi ipsa architecto repudiandae velit, molestiae quo doloribus deleniti itaque voluptatum? Ut nemo ea sint fugiat ipsa soluta quis et, vel excepturi cum non, rerum consectetur facilis, nam earum dolores nobis distinctio explicabo aut omnis totam. Ut sapiente libero, nesciunt commodi aliquam amet aut perferendis sit natus iusto accusantium culpa, consequuntur nobis cumque? Corporis adipisci, in perferendis reprehenderit quidem tempora. Dolorem fuga ipsa inventore aliquid doloremque. Rerum aliquam voluptatibus nostrum molestiae ab praesentium deleniti veritatis debitis nulla sunt, sit assumenda aspernatur asperiores blanditiis accusamus! Quod quasi nostrum id aliquid fuga soluta illum facilis, odit velit, consequatur cupiditate? Dicta culpa est, praesentium facilis vitae sunt necessitatibus saepe. Illo odit alias reiciendis nam fuga labore, officia minima mollitia ad ea! Laboriosam consectetur explicabo fuga expedita officia laborum deleniti? Ducimus quibusdam mollitia sapiente cum delectus alias eaque labore beatae vitae itaque, assumenda at cumque, aliquam odio quos asperiores corrupti, perferendis quas sit a illo voluptatum. Possimus officia eum odio neque facere, omnis tenetur non ab nisi! Ab, inventore maiores dolorum velit quia ad cum aliquid neque accusamus molestiae suscipit porro saepe provident rem fugit excepturi praesentium eum nulla! Iure harum explicabo suscipit, provident ab tempore ipsa illo totam aspernatur veniam incidunt autem hic maiores! Adipisci reprehenderit quo vel nihil dolorem rerum nesciunt perspiciatis eius deserunt assumenda alias dignissimos perferendis quis culpa omnis beatae, officiis quaerat? Minus maxime odio quidem repellendus molestiae cum ad blanditiis ea iure enim corporis, harum amet sint adipisci fuga numquam? Aliquid ut similique officiis, sint fugit deserunt minus. Accusantium aut, nemo, cupiditate reprehenderit est delectus debitis veritatis tenetur ad voluptate doloribus recusandae dignissimos molestiae veniam necessitatibus asperiores eum ducimus quos corporis earum laudantium voluptates sequi! A ullam non labore debitis nulla quidem maxime placeat possimus libero adipisci totam, qui eaque aperiam quia. Porro officiis explicabo blanditiis eius? Obcaecati quibusdam quod voluptate blanditiis. Quaerat autem harum nobis praesentium dicta odio, consequatur suscipit quisquam doloremque quibusdam illum ipsam perspiciatis aut adipisci mollitia maxime iusto, eum tempora ullam deserunt culpa sequi eaque. Enim nihil minus, blanditiis itaque tempore, maiores totam aperiam commodi facere adipisci molestiae, unde fuga. Aperiam cum aspernatur quo expedita nostrum nihil corrupti quasi facere porro dolor sit odio error labore praesentium sapiente, ab qui adipisci assumenda. Asperiores magni rem ipsa exercitationem expedita dolor maxime possimus tempore neque. Voluptas expedita labore harum rerum assumenda, fuga suscipit ut, minus itaque officia dolores illo laborum nobis! Sint sit perferendis cum perspiciatis ut magnam repellendus quae, similique amet, ipsum corporis quam! Inventore magni dolore libero quidem, illum pariatur?</p>
-    </>
-    
-  )
-}
+    <div className="w-full px-4 py-6">
+      {/* Header */}
+      <div className="rounded-xl shadow-md bg-white pb-4 mb-4">
+        <p
+          className="text-xl font-semibold pl-6 pt-3"
+          style={{ ...FONTS.header }}
+        >
+          Overview of Service Center
+        </p>
+        <p
+          className="text-gray-500 text-sm pb-5 pl-7"
+          style={{ ...FONTS.paragraph }}
+        >
+          Get your Service Center latest update for the last 7 days
+        </p>
+
+        {/* Dashboard Cards */}
+        <div className="mx-4 justify-center items-center px-2">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 px-10">
+          <DashboardCard
+            icon={<RiUser6Line />}
+            title="Schedule Request"
+            value={20}
+            per={10}
+            perColor="#facc15"
+            borderColor="rgba(234,179,8,0.8)"
+            backgroundColor="#facc15"
+            dataPoints={[1, 3, 2, 5, 4, 6, 5]}
+          />
+          <DashboardCard
+            icon={<RiUser6Line />}
+            title="Emergency Service"
+            value={10}
+            per={5}
+            perColor="#f87171"
+            borderColor="rgba(248,113,113,0.8)"
+            backgroundColor="#f87171"
+            dataPoints={[2, 1, 4, 3, 5, 2, 1]}
+          />
+          <DashboardCard
+            icon={<RiUser6Line />}
+            title="Service Requests"
+            value={2}
+            per={5}
+            perColor="#3b82f6"
+            borderColor="rgba(59,130,246,0.8)"
+            backgroundColor="#3b82f6"
+            dataPoints={[1, 2, 1, 6, 4, 3, 6]}
+          />
+          <DashboardCard
+            icon={<RiUser6Line />}
+            title="Total Transactions"
+            value={22}
+            per={15}
+            perColor="#10b981"
+            borderColor="rgba(16,185,129,0.8)"
+            backgroundColor="#10b981"
+            dataPoints={[1, 5, 2, 4, 3, 5, 6]}
+          />
+          </div> 
+        </div>
+      </div>
+
+      {/* Notifications, Bar Chart, SOS */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-4">
+        {/* Notifications */}
+        <div className="bg-white shadow-md rounded-xl p-4 max-h-96 overflow-hidden">
+          <div className="flex justify-between mb-2">
+            <p className="font-bold text-lg">Recent Notification</p>
+            <a href="#" className="text-sky-500 text-md">
+              View All
+            </a>
+          </div>
+          <div className="overflow-y-auto max-h-80 scrollbar-thumb-rounded">
+            {[...Array(8)].map((_, index) => (
+              <NotificationList
+                key={index}
+                icon1={<AiOutlineCheckCircle />}
+                icon2={<GoDotFill />}
+                title="Booking Confirm"
+                desc="Your order is complete"
+                id={1234}
+              />
+            ))}
+          </div>
+        </div>
+
+        {/* Bar Chart */}
+        <div className="bg-white shadow-md rounded-xl p-4 max-h-96">
+          <BarCharts />
+        </div>
+
+        {/* SOS Content */}
+        <div className="bg-white shadow-md rounded-xl p-4 max-h-96">
+          <p>SOS contentoaciabibibibibi</p>
+        </div>
+      </div>
+
+      {/* Transactions & Query */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
+        {/* Transactions */}
+        <div className="bg-white shadow-md rounded-xl p-4 max-h-96 overflow-hidden">
+          <p className="font-bold text-lg mb-2">Recent Transactions</p>
+          <div className="overflow-y-auto max-h-80">
+            {[...Array(4)].map((_, index) => (
+              <TransactionCard
+                key={index}
+                icon1={<AiOutlineCheckCircle />}
+                icon2={
+                  index % 2 === 0 ? (
+                    <IoIosArrowRoundUp />
+                  ) : (
+                    <IoIosArrowRoundDown />
+                  )
+                }
+                title={index % 2 === 0 ? "Master Card" : "Withdrawal"}
+                value={1234}
+                color={index % 2 === 0 ? "text-green-600" : "text-red-600"}
+              />
+            ))}
+          </div>
+        </div>
+
+        {/* Query */}
+        <div className="bg-white shadow-md rounded-xl p-4 max-h-96 overflow-hidden">
+          <div className="flex justify-between mb-2">
+            <p className="font-bold text-lg">Query</p>
+            <button className="text-sky-500 text-md">View All</button>
+          </div>
+          <QueryCard
+            profilePicUrl={dummpypic}
+            icon={<AiOutlineRight />}
+            title="Break not fixed"
+            desc="I gave my bike to the shop some days ago but they didn’t repair it in time and didn’t fix it."
+          />
+        </div>
+      </div>
+
+      {/* Footer */}
+      <div className="bg-white shadow-md rounded-xl p-4 w-full text-center mt-4">
+        <div className="flex items-center justify-center space-x-1">
+          <AiOutlineCopyrightCircle />
+          <span>YESMECHANGE</span>
+        </div>
+      </div>
+    </div>
+  );
+};

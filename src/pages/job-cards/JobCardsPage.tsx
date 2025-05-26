@@ -1,5 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import { CiSearch } from "react-icons/ci";
+import { FONTS } from "../../constants/uiConstants";
+import { useNavigate } from "react-router-dom";
+import { HiMiniIdentification } from "react-icons/hi2";
+import { FaFileInvoice } from "react-icons/fa6";
+import { MdOutlineDriveFileRenameOutline } from "react-icons/md";
+import { FaCar } from "react-icons/fa";
+import { GrView } from "react-icons/gr";
+import { IoMdStats } from "react-icons/io";
+import { RiMoneyRupeeCircleLine } from "react-icons/ri";
+import { PiListNumbersFill } from "react-icons/pi";
 type Invoice = {
   id: string;
   name: string;
@@ -7,11 +17,12 @@ type Invoice = {
   vehicle: string;
   plate: string;
   total: string;
-  paidAmount?: string;
-  BalanceDue: string;
+  paidAmount: string;
+  balanceDue: string;
   profile: string;
   jobStatus: string;
 };
+
 const invoices: Invoice[] = [
   {
     id: "INV001",
@@ -21,7 +32,7 @@ const invoices: Invoice[] = [
     plate: "ABC-1234",
     total: "$2500.00",
     paidAmount: "$500.00",
-    BalanceDue: "100.00",
+    balanceDue: "100.00",
     profile: "150",
     jobStatus: "completed",
   },
@@ -33,7 +44,7 @@ const invoices: Invoice[] = [
     plate: "XYZ-5678",
     total: "$1800.00",
     paidAmount: "$500.00",
-    BalanceDue: "100.00",
+    balanceDue: "100.00",
     profile: "150",
     jobStatus: "in progress",
   },
@@ -45,19 +56,19 @@ const invoices: Invoice[] = [
     plate: "LMN-9012",
     total: "$3000.00",
     paidAmount: "$500.00",
-    BalanceDue: "100.00",
+    balanceDue: "100.00",
     profile: "150",
     jobStatus: "In Progress",
   },
   {
     id: "INV005",
-    name: " Smith",
+    name: "Smith",
     invoiceDate: "2025-05-16",
     vehicle: "Suzuki",
     plate: "LMN-9012",
     total: "$3000.00",
     paidAmount: "$700.00",
-    BalanceDue: "100.00",
+    balanceDue: "100.00",
     profile: "150",
     jobStatus: "In Progress",
   },
@@ -69,89 +80,146 @@ const invoices: Invoice[] = [
     plate: "LMN-9012",
     total: "$3000.00",
     paidAmount: "$900.00",
-    BalanceDue: "100.00",
+    balanceDue: "100.00",
     profile: "150",
     jobStatus: "In Progress",
   },
 ];
 
-const JobCardsPage = () => {
+export const JobCardsPage: React.FC = () => {
+  const navigate = useNavigate();
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const filteredInvoices = invoices.filter((invoice) => {
+    const query = searchQuery.toLowerCase();
+    return (
+      invoice.name.toLowerCase().includes(query) ||
+      invoice.vehicle.toLowerCase().includes(query) ||
+      invoice.id.toLowerCase().includes(query)
+    );
+  });
+
   return (
-    <div>
-      <div className="bg-white shadow-md p-3 rounded-lg mt-3 px-8">
-        <div className="mt-2">
-          <h1 className="text-2xl font-bold">JOB CARD</h1>
+    <div className="p-1 md:block bg-white rounded-lg shadow-lg p-8">
+      <div className="rounded-lg">
+        <div className="border-b-2 border-[#9b111e] pb-2 mb-4">
+          <h1
+            style={{ ...FONTS.header, fontWeight: 500 }}
+            className="font-bold text-[#9b111e] "
+          >
+            JOB CARDS
+          </h1>
         </div>
-        <div className="relative w-80 mt-6">
+
+        <div className="relative max-w-md mt-10">
           <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">
             <CiSearch size={20} />
           </span>
           <input
             type="search"
-            placeholder="Search"
-            className="pl-10 pr-4 py-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring"
+            placeholder="Search by name, vehicle or ID"
+            className="pl-10 pr-4 py-2 w-full border rounded-full shadow focus:ring-2 focus:ring-[#9b111e] focus:outline-none focus:border-transparent"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
           />
         </div>
-        <div className="mt-8 mb-5">
-          <table className="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
-            <thead style={{backgroundColor:"#FAF3EB"}}>
+
+        <div className="overflow-x-auto">
+          <table className="min-w-full border-collapse rounded-lg overflow-hidden mt-8">
+            <thead className="bg-[#e2cac0]">
               <tr>
-                <th style={{color:"#9b111e"}} className="text-left px-4 py-2">ID</th>
-                <th style={{color:"#9b111e"}} className="text-left px-4 py-2">Name</th>
-                <th style={{color:"#9b111e"}} className="text-left px-4 py-2">Invoice Date</th>
-                <th style={{color:"#9b111e"}} className="text-left px-4 py-2">Vehicle</th>
-                <th style={{color:"#9b111e"}} className="text-left px-4 py-2">Plate</th>
-                <th style={{color:"#9b111e"}} className="text-left px-4 py-2">Total</th>
-                <th style={{color:"#9b111e"}}  className="text-left px-4 py-2">Paid Amount</th>
-                <th style={{color:"#9b111e"}} className="text-left px-4 py-2">Balance Due</th>
-                <th className="text-left px-4 py-2">Profile</th>
-                <th className="text-left px-4 py-2">Job Status</th>
-                <th className="text-left px-4 py-2">View</th>
+                <th className="px-4 py-3 text-left text-sm font-semibold text-[#9b111e] border-b">
+                  <div className="flex items-center gap-2">
+                    <HiMiniIdentification size={20}/>
+                    ID
+                  </div>
+                </th>
+                <th className="px-4 py-3 text-left text-sm font-semibold text-[#9b111e] border-b">
+                 <div className="flex items-center gap-2">
+                  <FaFileInvoice size={20}/>
+                  Invoice Date</div> 
+                </th>
+                <th className="px-4 py-3 text-left text-sm font-semibold text-[#9b111e] border-b">
+                  <div className="flex items-center gap-2">
+                    <MdOutlineDriveFileRenameOutline size={20}/>
+                    Name</div>
+                </th>
+                <th className="px-4 py-3 text-left text-sm font-semibold text-[#9b111e] border-b lg:table-cell hidden">
+                  <div className="flex items-center gap-2">
+                    <FaCar size={20}/>
+                    Vehicle</div>
+                </th>
+                <th className="px-4 py-3 text-left text-sm font-semibold text-[#9b111e] border-b">
+                  <div className="flex items-center gap-2">
+                    <PiListNumbersFill size={20}/>
+                    Plate</div>
+                </th>
+                <th className="px-4 py-3 text-left text-sm font-semibold text-[#9b111e] border-b lg:table-cell hidden">
+                  <div className="flex items-center gap-2">
+                    <RiMoneyRupeeCircleLine size={20} />
+                    Total</div>
+                </th>
+                <th className="px-4 py-3 text-left text-sm font-semibold text-[#9b111e] border-b">
+                  <div className="flex items-center gap-2">
+                    <IoMdStats size={20}/>
+                    Job Status</div> 
+                </th>
+                <th className="px-4 py-3 text-left text-sm font-semibold text-[#9b111e] border-b">
+                  <div className="flex items-center gap-2">
+                    <GrView size={20}/>
+                    View</div>
+                </th>
               </tr>
             </thead>
             <tbody>
-              {invoices.map((invoice, index) => (
-                <tr
-                  key={invoice.id}
-                  className={index % 2 === 0 ? "bg-white" : "bg-gray-50"}
-                >
-                  <td className="px-4 py-2 text-sm text-gray-800">
-                    {invoice.id}
-                  </td>
-                  <td className="px-4 py-2 text-sm text-gray-800">
-                    {invoice.name}
-                  </td>
-                  <td className="px-4 py-2 text-sm text-gray-800">
-                    {invoice.invoiceDate}
-                  </td>
-                  <td className="px-4 py-2 text-sm text-gray-800">
-                    {invoice.vehicle}
-                  </td>
-                  <td className="px-4 py-2 text-sm text-gray-800">
-                    {invoice.plate}
-                  </td>
-                  <td className="px-4 py-2 text-sm text-gray-800">
-                    {invoice.total}
-                  </td>
-                  <td className="px-4 py-2 text-sm text-gray-800">
-                    {invoice.paidAmount}
-                  </td>
-                  <td className="px-4 py-2 text-sm text-gray-800">
-                    {invoice.BalanceDue}
-                  </td>
-                  <td className="px-4 py-2 text-sm text-gray-800">
-                    {invoice.profile}
-                  </td>
-                  <td className="px-4 py-2 text-sm text-gray-800">
-                    {invoice.jobStatus}
-                  </td>
-                  <td className="px-4 py-2">
-                    <button style={{background:"#800000"}} className="text-white rounded-md px-3 py-1 hover:bg-blue-600 transition">
-                      View
-                    </button>
+              {filteredInvoices.length > 0 ? (
+                filteredInvoices.map((invoice, index) => (
+                  <tr
+                    key={invoice.id}
+                    className={`text-sm text-gray-700 hover:bg-[#edeae9] transition font-semibold ${
+                      index % 2 === 0 ? "bg-white" : "bg-gray-50"
+                    }`}
+                  >
+                    <td className="px-4 py-3 border-b">{invoice.id}</td>
+                    <td className="px-4 py-3 border-b">
+                      {invoice.invoiceDate}
+                    </td>
+                    <td className="px-4 py-3 border-b">{invoice.name}</td>
+                    <td className="px-4 py-3 border-b hidden lg:table-cell">
+                      {invoice.vehicle}
+                    </td>
+                    <td className="px-4 py-3 border-b">{invoice.plate}</td>
+                    <td className="px-4 py-3 border-b hidden lg:table-cell">
+                      {invoice.total}
+                    </td>
+                    <td className="px-4 py-3 border-b">
+                      <span
+                        className={`inline-block px-2 py-1 rounded-full text-xs font-semibold capitalize ${
+                          invoice.jobStatus.toLowerCase() === "completed"
+                            ? "bg-green-100 text-green-700"
+                            : "bg-yellow-100 text-yellow-800"
+                        }`}
+                      >
+                        {invoice.jobStatus}
+                      </span>
+                    </td>
+                    <td className="px-4 py-3 border-b font-semibold">
+                      <button
+                        onClick={() => navigate("/quotation")}
+                        className="bg-gradient-to-r from-red-600 to-red-800 text-white px-3 py-1 active:scale-110 rounded hover:bg-[#a00000] transition"
+                      >
+                        View
+                      </button>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan={8} className="text-center text-gray-500 py-6">
+                    No matching found.
                   </td>
                 </tr>
-              ))}
+              )}
             </tbody>
           </table>
         </div>
@@ -159,4 +227,3 @@ const JobCardsPage = () => {
     </div>
   );
 };
-export default JobCardsPage;
