@@ -1,84 +1,84 @@
-import  { useState } from 'react';
+import React, { useState } from 'react';
+import Offer from '../../components/common/Announcement/Offer';
+import AnnouncementList from '../../components/common/Announcement/AnnouncementList';
+import Partner from '../../components/common/Announcement/Partner';
 
-interface CardData {
+// Define the partner data type
+type PartnerData = {
   title: string;
+  description: string;
   price: string;
   image: string;
-}
+};
 
 export const Announcement = () => {
   const [activeTab, setActiveTab] = useState<'offer' | 'announcement' | 'partner'>('offer');
+  const [showModal, setShowModal] = useState(false);
 
-  const offers: CardData[] = [
-    {
-      title: 'EXTERIOR WASH AND POLISH',
-      price: '$30.00',
-      image: '/images/exterior.jpg',
-    },
-    {
-      title: 'INTERIOR DETAILING',
-      price: '$35.00',
-      image: '/images/interior.jpg',
-    },
-    {
-      title: 'CERAMIC COATING',
-      price: '$40.00',
-      image: '/images/ceramic.jpg',
-    },
-  ];
+  const [heading, setHeading] = useState('');
+  const [description, setDescription] = useState('');
+  const [price, setPrice] = useState('');
+  const [image, setImage] = useState<File | null>(null);
 
-  const announcements: CardData[] = [
-    {
-      title: 'Holiday Discount',
-      price: '20% Off',
-      image: '/images/holiday.jpg',
-    },
-    {
-      title: 'Free Car Wash',
-      price: 'On Orders $50+',
-      image: '/images/freewash.jpg',
-    },
-    {
-      title: 'Limited Time Offer',
-      price: 'Until May 30',
-      image: '/images/limited.jpg',
-    },
-  ];
+  // Remove unused partnerData state to fix TypeScript warning
+  // const [partnerData, setPartnerData] = useState<PartnerData[]>([]);
 
-  const partners: CardData[] = [
-    {
-      title: 'XYZ Auto Parts',
-      price: '10% Discount',
-      image: '/images/partner1.jpg',
-    },
-    {
-      title: 'Shine & Drive',
-      price: 'Free Interior Detailing',
-      image: '/images/partner2.jpg',
-    },
-    {
-      title: 'Lubricants Inc.',
-      price: 'Buy 1 Get 1',
-      image: '/images/partner3.jpg',
-    },
-  ];
+  const resetForm = () => {
+    setHeading('');
+    setDescription('');
+    setPrice('');
+    setImage(null);
+  };
 
-  const getCurrentData = () => {
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const newData: PartnerData = {
+      title: heading,
+      description,
+      price,
+      image: image ? URL.createObjectURL(image) : '',
+    };
+
+    // Store data based on active tab
+    if (activeTab === 'offer') {
+      // Handle offer data submission
+      console.log('Offer added:', newData);
+    } else if (activeTab === 'announcement') {
+      // Handle announcement data submission
+      console.log('Announcement added:', newData);
+    } else if (activeTab === 'partner') {
+      // Handle partner data submission
+      console.log('Partner added:', newData);
+      // If Partner component has methods to add data, you could call them here
+      // For example: PartnerService.addPartner(newData);
+    }
+
+    resetForm();
+    setShowModal(false);
+  };
+
+  const renderComponent = () => {
     switch (activeTab) {
       case 'offer':
-        return offers;
+        return (
+          <Offer
+            showModal={false}
+            closeModal={() => {}}
+          />
+        );
       case 'announcement':
-        return announcements;
+        return <AnnouncementList />;
       case 'partner':
-        return partners;
+        // Remove the data prop since Partner component doesn't accept it
+        return <Partner />;
       default:
-        return [];
+        return null;
     }
   };
 
   return (
-    <div className="p-6 bg-[#FFF4EC] rounded-lg shadow-sm">
-      {/* Top Buttons + Add Button */}
+    <div className="min-h-screen bg-[#FFF4EC] p-6">
       <div className="flex justify-between items-center mb-6">
         <div className="flex space-x-4">
           {['offer', 'announcement', 'partner'].map((tab) => (
@@ -95,9 +95,14 @@ export const Announcement = () => {
             </button>
           ))}
         </div>
-        <button className="bg-[#9b111e] text-white px-4 py-2 rounded-full font-semibold hover:bg-red-700 transition">
-          + Add
-        </button>
+        {(activeTab === 'offer' || activeTab === 'announcement' || activeTab === 'partner') && (
+          <button
+            onClick={() => setShowModal(true)}
+            className="bg-[#9b111e] text-white px-4 py-2 rounded-full font-semibold hover:bg-red-700 transition"
+          >
+            + Add
+          </button>
+        )}
       </div>
 
       <h1 className="text-2xl font-bold text-[#9b111e] mb-2">
@@ -115,34 +120,72 @@ export const Announcement = () => {
           : 'Meet our trusted collaborators'}
       </p>
 
-      {/* Cards Grid */}
-      <div className="grid md:grid-cols-3 gap-4">
-        {getCurrentData().map((item, index) => (
-          <div
-            key={index}
-            className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition duration-300 flex flex-col h-full"
-          >
-            <img
-              src={item.image}
-              alt={item.title}
-              className="w-full h-40 object-cover"
-            />
-            <div className="p-4 flex-1 flex flex-col justify-between flex-grow">
-              <div>
-                <h3 className="text-base font-semibold text-gray-800">{item.title}</h3>
-                <p className="text-[#9b111e] font-bold mt-2">Start from {item.price}</p>
+      <div className="grid md:grid-cols-3 gap-4">{renderComponent()}</div>
+
+      {showModal && (
+        <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex justify-center items-center">
+          <div className="bg-white p-6 rounded-lg w-full max-w-lg relative">
+            <button
+              onClick={() => setShowModal(false)}
+              className="absolute top-2 right-2 text-gray-500 text-2xl font-bold hover:text-black"
+            >
+              &times;
+            </button>
+            <h2 className="text-xl font-bold mb-4 text-[#9b111e]">
+              Add New {activeTab === 'offer' ? 'Offer' : activeTab === 'announcement' ? 'Announcement' : 'Partner'}
+            </h2>
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <input
+                type="text"
+                placeholder="Heading"
+                className="w-full p-2 border border-gray-300 rounded"
+                value={heading}
+                onChange={(e) => setHeading(e.target.value)}
+                required
+              />
+              <textarea
+                placeholder="Description"
+                className="w-full p-2 border border-gray-300 rounded"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                required
+              />
+              <input
+                type="text"
+                placeholder="Offer Price"
+                className="w-full p-2 border border-gray-300 rounded"
+                value={price}
+                onChange={(e) => setPrice(e.target.value)}
+                required
+              />
+              <input
+                type="file"
+                className="w-full"
+                accept="image/*"
+                onChange={(e) => setImage(e.target.files?.[0] || null)}
+              />
+              <div className="flex justify-end gap-4">
+                <button
+                  type="button"
+                  onClick={() => {
+                    resetForm();
+                    setShowModal(false);
+                  }}
+                  className="px-4 py-2 border border-gray-400 rounded hover:bg-gray-100"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="px-4 py-2 bg-[#9b111e] text-white rounded hover:bg-[#7c0d18]"
+                >
+                  Submit
+                </button>
               </div>
-              {activeTab === 'partner' && (
-                <div className="mt-4 text-right">
-                  <button className="text-sm px-3 py-1 bg-[#9b111e] text-white rounded-full hover:bg-red-700 transition">
-                    + Add
-                  </button>
-                </div>
-              )}
-            </div>
+            </form>
           </div>
-        ))}
-      </div>
+        </div>
+      )}
     </div>
   );
 };
