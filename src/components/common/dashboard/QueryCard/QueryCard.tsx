@@ -31,7 +31,7 @@ export const QueryCard: React.FC<Props> = ({
   onClick,
 }) => {
   return (
-   <div className="hover:scale-[1.02] transition-transform duration-200 ease-in-out cursor-pointer">
+   <div className="hover:scale-[1.02] transition-transform duration-200 ease-in-out cursor-pointer border-l-4 rounded-lg border-[#b35b64]">
 
     <div className="w-full cursor-pointer" onClick={onClick}>
       <div className="flex items-center bg-[#FAF3EB] rounded-xl shadow-md p-4 justify-between mt-2">
@@ -43,7 +43,7 @@ export const QueryCard: React.FC<Props> = ({
           />
         </div>
         <div className="flex-1 text-start">
-          <p className="font-semibold">{title}</p>
+          <p className="font-semibold text-[#9b111e]">{title}</p>
           <p className="font-thin line-clamp-1">{desc}</p>
           <p className="text-xs text-gray-500 mt-1">
             {time || getIndiaDateTime()}

@@ -1,111 +1,172 @@
 import { useState } from "react";
 import { QueryCard } from "../../components/common/dashboard/QueryCard/QueryCard";
-import { AiOutlineArrowLeft } from "react-icons/ai";
 import dummpypic from "../../assets/Dashboard/images.jpg";
-import { useNavigate } from "react-router-dom";
+import { AiOutlineArrowLeft } from "react-icons/ai";
 
-// ✅ Define type for query
 type Query = {
+  id: number;
   title: string;
   desc: string;
   profilePicUrl: string;
+  isRead: boolean;
+  center: string;
 };
 
-// ✅ Strongly type the queries array
-const queries: Query[] = [
+const initialQueries: Query[] = [
   {
+    id: 1,
     title: "Break not fixed",
     desc: "I gave my bike to the shop some days ago but they didn't repair it in time and didn't fix it.",
     profilePicUrl: dummpypic,
+    isRead: false,
+    center: "Red Hills Center",
   },
   {
+    id: 2,
     title: "Glass work bending",
     desc: "I gave my car to the shop some days ago but they didn't repair it in time and didn't fix it.",
     profilePicUrl:
       "https://plus.unsplash.com/premium_photo-1689568126014-06fea9d5d341?fm=jpg&q=60&w=3000",
+    isRead: false,
+    center: "OMR Center",
   },
   {
+    id: 3,
     title: "Tyre puncture",
     desc: "I gave my bike to the shop some days ago but they didn't repair it in time and didn't fix it.",
     profilePicUrl:
       "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?fm=jpg&q=60&w=3000",
+    isRead: true,
+    center: "ECR Center",
   },
   {
+    id: 4,
     title: "Late pickup service",
     desc: "Scheduled pickup was delayed by 2 hours without any update or notice.",
     profilePicUrl:
       "https://t3.ftcdn.net/jpg/08/86/78/68/360_F_886786813_XhL8zD8rhZCW7F5HvJdOPvquFh3n23vd.jpg",
+    isRead: true,
+    center: "Anna nagar Center",
   },
   {
+    id: 5,
     title: "Billing mismatch",
     desc: "Was charged extra without prior intimation or explanation on final invoice.",
     profilePicUrl:
       "https://www.shutterstock.com/image-photo/happy-middle-aged-45-years-260nw-2516789519.jpg",
+    isRead: false,
+    center: "Tambaram Center",
   },
 ];
 
 const Queries = () => {
-  const navigate = useNavigate();
-
-  // ✅ Type the state properly
+  const [queries, setQueries] = useState<Query[]>(initialQueries);
   const [selectedQuery, setSelectedQuery] = useState<Query | null>(null);
+  const [filter, setFilter] = useState<"All" | "Unread" | "Read">("All");
+
+  const handleSelectQuery = (query: Query) => {
+    if (!query.isRead) {
+      const updatedQueries = queries.map((q) =>
+        q.id === query.id ? { ...q, isRead: true } : q
+      );
+      setQueries(updatedQueries);
+    }
+    setSelectedQuery(query);
+  };
+
+  const filteredQueries = queries.filter((q) => {
+    if (filter === "All") return true;
+    if (filter === "Unread") return !q.isRead;
+    if (filter === "Read") return q.isRead;
+    return true;
+  });
 
   return (
-    <div className="p-6 bg-gray-50 min-h-screen relative">
-      <button
-        className="flex items-center text-gray-600 hover:text-red-600 mb-4"
-        onClick={() => navigate(-1)}
-      >
-        <AiOutlineArrowLeft className="mr-2" /> Back
-      </button>
+    <div className="flex h-screen bg-[#f5f0ec]">
+      {/* Sidebar Filters */}
+      <div className="w-1/5 bg-[#FAF3EB] p-4 border-r">
+        <h2 className="text-lg font-semibold mb-4 text-[#da4c5a]">Filters</h2>
+        <div className="space-y-2">
+          {["All", "Unread", "Read"].map((f) => (
+            <button
+              key={f}
+              onClick={() => setFilter(f as any)}
+              className={`block w-full text-left px-4 py-2 rounded-lg font-medium transition ${
+                filter === f
+                  ? "bg-[#de6874] text-white"
+                  : "text-[#724e35] hover:bg-[#eaced1]"
+              }`}
+            >
+              {f}
+            </button>
+          ))}
+        </div>
+      </div>
 
-      <h1 className="text-2xl font-semibold mb-6 text-primary">All Queries</h1>
-
-      <div className="space-y-4">
-        {queries.map((q, idx) => (
-          <div key={idx} onClick={() => setSelectedQuery(q)}>
+      {/* Query List */}
+      <div className="w-2/5 p-4 space-y-3 overflow-y-auto border-r">
+        {filteredQueries.length === 0 && (
+          <p className="text-center text-gray-400">No queries to show.</p>
+        )}
+        {filteredQueries.map((q) => (
+          <div
+            key={q.id}
+            onClick={() => handleSelectQuery(q)}
+            className={`rounded-lg shadow-sm cursor-pointer transition-all duration-200 ${
+              q.isRead
+                ? "bg-[#fdf6f2] hover:bg-[#f4e9e2]"
+                : "bg-[#fff3ee] hover:bg-[#fde6dd]"
+            }`}
+          >
             <QueryCard
               icon={null}
               title={q.title}
               desc={q.desc}
               profilePicUrl={q.profilePicUrl}
+              // className="py-2 px-4" 
             />
           </div>
         ))}
       </div>
 
-      {/* Modal for selected query */}
-      {selectedQuery && (
-        <div className="fixed inset-0 bg-black bg-opacity-40 z-50 flex justify-center items-center p-4">
-          <div className="bg-white rounded-xl w-full max-w-xl p-6 relative">
-            {/* Back button */}
+      {/* Detail Panel */}
+      <div className="w-2/5 p-6">
+        {selectedQuery ? (
+          <>
             <button
-              className="absolute top-2 left-3 w-8 h-8 flex items-center justify-center text-lg text-gray-600 bg-gray-100 hover:bg-red-100 hover:text-red-600 rounded-full"
               onClick={() => setSelectedQuery(null)}
+              className="text-[#9b111e] flex items-center mb-4"
             >
-              <AiOutlineArrowLeft />
+              <AiOutlineArrowLeft className="mr-2" />
+              Back to list
             </button>
 
-            {/* Close button */}
-            <button
-              className="absolute top-2 right-3 w-8 h-8 flex items-center justify-center text-lg text-gray-600 bg-gray-100 hover:bg-red-100 hover:text-red-600 rounded-full"
-              onClick={() => setSelectedQuery(null)}
-            >
-              ✕
-            </button>
+            <div className="flex items-center justify-between mb-3">
+              <div className="flex items-center gap-3">
+                <img
+                  src={selectedQuery.profilePicUrl}
+                  alt="profile"
+                  className="w-10 h-10 rounded-full object-cover"
+                />
+                <span className="font-semibold text-gray-800 text-lg">User</span>
+              </div>
+              <span className="bg-red-100 text-red-700 text-sm px-3 py-1 rounded-full">
+                {selectedQuery.center}
+              </span>
+            </div>
 
-            <h2 className="text-xl font-bold mb-4 text-primary">Query Detail</h2>
+            <h2 className="text-xl font-bold text-[#9d1623] mb-2">
+              {selectedQuery.title}
+            </h2>
 
-            <QueryCard
-              icon={null}
-              title={selectedQuery.title}
-              desc={selectedQuery.desc}
-              profilePicUrl={selectedQuery.profilePicUrl}
-            />
-            <p className="mt-4 text-gray-700">{selectedQuery.desc}</p>
-          </div>
-        </div>
-      )}
+            <p className="text-gray-800">{selectedQuery.desc}</p>
+          </>
+        ) : (
+          <p className="text-gray-400 text-center mt-10">
+            Select a query card to view full details
+          </p>
+        )}
+      </div>
     </div>
   );
 };
