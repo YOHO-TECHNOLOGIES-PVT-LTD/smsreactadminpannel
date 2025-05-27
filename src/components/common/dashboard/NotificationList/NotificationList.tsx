@@ -32,7 +32,7 @@ const customerData = [
 ];
 
 const CustomerAnalyticsChart: React.FC = () => {
-  const [selectedRange, setSelectedRange] = useState('Weekly'); // Set default value
+  const [selectedRange, setSelectedRange] = useState(''); // Set default value
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null)
 
@@ -49,14 +49,14 @@ const CustomerAnalyticsChart: React.FC = () => {
   return (
     <div className="">
       <div className="flex items-center justify-between mb-4">
-        <p className=" text-lg" style={{ color: COLORS.primary }}> Total Customers </p>
+        <p className=" text-lg" style={{ color: COLORS.primary }}> Total Transaction </p>
         <div className="flex items-center space-x-2 ">
           <div className="relative " ref={dropdownRef}>
             <button
               onClick={() => setIsOpen(!isOpen)}
               className="flex items-center text-xs text-[#9b111e] border px-1 py-1.5 rounded-md bg-white hover:bg-gray-50"
             >
-              <span className="mr-1">{selectedRange}</span>
+             
               <ChevronDown className="w-6 h-4 text-[#9b111e]" />
             </button>
             {isOpen && (
@@ -94,13 +94,13 @@ const CustomerAnalyticsChart: React.FC = () => {
 
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="month" />
-          <YAxis tickFormatter={(value) => `$${(value / 1000).toFixed(0)}K`} />
-          <Tooltip formatter={(value) => `$${value.toLocaleString()}`} />
+          <YAxis tickFormatter={(value) => `${(value / 1000).toFixed(0)}K`} />
+          <Tooltip formatter={(value) => `${value.toLocaleString()}`} />
           <Legend />
           <Line
             type="monotone"
             dataKey="current"
-            name="Current Year"
+            name="Total Transaction"
             stroke="#6366F1"
             fill="url(#colorCurrent)"
             strokeWidth={2}
@@ -110,7 +110,7 @@ const CustomerAnalyticsChart: React.FC = () => {
           <Line
             type="monotone"
             dataKey="lastYear"
-            name="Last Year"
+            name="Pending"
             stroke="#A5B4FC"
             fill="url(#colorLastYear)"
             strokeDasharray="5 5"

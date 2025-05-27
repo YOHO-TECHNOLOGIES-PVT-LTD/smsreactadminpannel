@@ -6,7 +6,7 @@ const announcements = [
   },
   {
     title: 'Free Car Wash',
-    price: 'On Orders $50+',
+    price: 'On Orders 50+',
     image: 'https://brooklynads.com/wp-content/uploads/2024/02/Benefits-of-Offering-a-Free-Car-Wash-Vacuum-at-Your-Wash.png',
   },
   {
@@ -19,13 +19,23 @@ const announcements = [
 const AnnouncementList = () => (
   <>
     {announcements.map((item, index) => (
-      <div key={index} className="bg-white rounded-lg shadow-md overflow-hidden">
-        <img src={item.image} alt={item.title} className="w-full h-40 object-cover" />
-        <div className="p-4">
-          <h3 className="text-base font-semibold">{item.title}</h3>
-          <p className="text-[#9b111e] font-bold mt-2">{item.price}</p>
-        </div>
-      </div>
+      <div
+  key={index}
+  className="flex flex-col hover:shadow-xl transform hover:scale-[1.02] p-2 transition-all duration-300 bg-white shadow-md rounded-lg mb-4 mx-6"
+>
+  <img
+    src={item.image}
+    alt={item.title}
+    className="w-full h-40 object-cover rounded-t-lg"
+  />
+  <div className="p-4 flex-1 flex flex-col justify-between">
+    <div>
+      <h3 className="text-base font-semibold">{item.title}</h3>
+      <p className="text-[#9b111e] font-bold mt-2">{item.price}</p>
+    </div>
+  </div>
+</div>
+
     ))}
   </>
 );

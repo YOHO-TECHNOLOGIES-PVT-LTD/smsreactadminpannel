@@ -43,6 +43,7 @@ const VehicleDetailCard: FC<Props> = ({ vehicle, onViewDetails }) => {
 				transition: 'box-shadow 0.3s ease',
 				cursor: 'pointer',
 				overflow: 'hidden',
+				// overflow: 'hidden', // Prevent content from overflowing
 			}}
 			onMouseEnter={(e) => {
 				e.currentTarget.style.boxShadow =

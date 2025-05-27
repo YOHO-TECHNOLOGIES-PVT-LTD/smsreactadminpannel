@@ -1,138 +1,496 @@
-// import { IoIosAddCircleOutline } from "react-icons/io"
-import { COLORS } from "../../constants/uiConstants"
-// import { FaArrowLeftLong } from "react-icons/fa6"
 import { useState } from "react";
-// import { IoFilterSharp } from "react-icons/io5";
-import { MdOutlineKeyboardBackspace } from "react-icons/md";
+import { Search, ArrowLeft, Star, Plus, Eye } from "lucide-react";
+import { COLORS } from "../../constants/uiConstants";
 
-type ServiceCenterSpareParts = {
-  handleBack: () => void;
+interface SparePart {
+  id: number;
+  name: string;
+  image: string;
+  price: number;
+  quantity: number;
+  category: string;
+  brand: string;
+  rating: number;
+  reviews: number;
+  inStock: boolean;
+  discount?: number;
+  active?: boolean;
 }
 
-
-const spareParts = [
+const initialSpareParts: SparePart[] = [
   {
     id: 1,
-    name: "Car Engine 5000cc - Boost Power- Silver Metals - Petrol Engine",
-    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR4CfVRLyYHmjawlYhhJkCemKDT9ZAZirPlUA&s",
+    name: "Car Engine 5000cc - Boost Power - Silver Metals - Petrol Engine",
+    image: "https://images.unsplash.com/photo-1555215695-3004980ad54e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
     price: 59900,
     quantity: 5,
+    category: "Engine",
+    brand: "PowerMax",
+    rating: 4.8,
+    reviews: 124,
+    inStock: true,
+    discount: 10,
+    active: true
   },
   {
     id: 2,
-    name: "Car Engine 5000cc - Boost Power- Silver Metals - Petrol Engine",
-    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR4CfVRLyYHmjawlYhhJkCemKDT9ZAZirPlUA&s",
-    price: 59900,
-    quantity: 5,
+    name: "Premium Brake Disc Set - High Performance - Carbon Fiber Enhanced",
+    image: "https://images.unsplash.com/photo-1601362840469-51e4d8d58785?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
+    price: 15900,
+    quantity: 12,
+    category: "Brakes",
+    brand: "StopTech",
+    rating: 4.6,
+    reviews: 89,
+    inStock: true,
+    discount: 15,
+    active: true
   },
   {
     id: 3,
-    name: "Car Engine 5000cc - Boost Power- Silver Metals - Petrol Engine",
-    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR4CfVRLyYHmjawlYhhJkCemKDT9ZAZirPlUA&s",
+    name: "Turbo Charger Assembly - Variable Geometry - All Weather",
+    image: "https://images.unsplash.com/photo-1580273916550-e323be2ae537?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
     price: 45000,
     quantity: 2,
+    category: "Engine",
+    brand: "TurboMax",
+    rating: 4.9,
+    reviews: 67,
+    inStock: true,
+    discount: 5,
+    active: true
   },
   {
     id: 4,
-    name: "Car Engine 5000cc - Boost Power- Silver Metals - Petrol Engine",
-    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR4CfVRLyYHmjawlYhhJkCemKDT9ZAZirPlUA&s",
-    price: 45000,
-    quantity: 2,
+    name: "Heavy Duty Suspension Kit - Adjustable Height - Sport Tuned",
+    image: "https://images.unsplash.com/photo-1597852074816-d933c7d2b988?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
+    price: 32000,
+    quantity: 8,
+    category: "Suspension",
+    brand: "RideTech",
+    rating: 4.7,
+    reviews: 156,
+    inStock: true,
+    discount: 20,
+    active: true
   }
 ];
 
+type ReactComponent = {
+  handleBack: () => void;
+}
 
-const ServiceSpareParts: React.FC<ServiceCenterSpareParts> = ({ handleBack }) => {
+const ServiceSpareParts: React.FC<ReactComponent> = ({ handleBack }) => {
   const [searchTerm, setSearchTerm] = useState("");
+  const [showSearch, setShowSearch] = useState(false);
+  const [hoveredCard, setHoveredCard] = useState<number | null>(null);
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [spareParts, setSpareParts] = useState<SparePart[]>(initialSpareParts);
+  const [newPart, setNewPart] = useState<Omit<SparePart, 'id' | 'inStock' | 'reviews' | 'rating'>>({
+    name: "",
+    image: "",
+    price: 0,
+    quantity: 0,
+    category: "",
+    brand: "",
+    discount: 0,
+    active: true
+  });
 
   const filteredParts = spareParts.filter((part) =>
-    part.name.toLowerCase().includes(searchTerm.toLowerCase())
+    part.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    part.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    part.brand.toLowerCase().includes(searchTerm.toLowerCase())
   );
-  return (
-    <div style={{background: COLORS.bgColor}}>
-      <div className="" style={{background: COLORS.bgColor}}>
-        <button onClick={handleBack} className=""><MdOutlineKeyboardBackspace className="text-[#800000] text-3xl" /></button>
+
+  const calculateDiscountedPrice = (price: number, discount: number) => {
+    return price - (price * discount / 100);
+  };
+
+  const renderStars = (rating: number) => {
+    const fullStars = Math.floor(rating);
+    const hasHalfStar = rating % 1 !== 0;
+    
+    return (
+      <div className="flex items-center gap-1">
+        {[...Array(fullStars)].map((_, i) => (
+          <Star key={`full-${i}`} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+        ))}
+        {hasHalfStar && (
+          <Star className="w-4 h-4 fill-yellow-400/50 text-yellow-400" />
+        )}
+        {[...Array(5 - Math.ceil(rating))].map((_, i) => (
+          <Star key={`empty-${i}`} className="w-4 h-4 text-gray-300" />
+        ))}
       </div>
-      <div
-        className="flex p-4 pb-8 sticky top-0 rounded-t-xl shadow-inner-top border-b-2 border-orange-700"
-        style={{ backgroundColor: COLORS.bgColor }}
-      >
-        <h1 className="font-bold text-3xl pt-2" style={{ color: "#9b111e" }}>
-          Spare Parts Management System
-        </h1>
-        <form
-          className="w-2/3 mx-auto pl-96"
-          onSubmit={(e) => e.preventDefault()}
-        >
-          <div className="relative">
-            <input
-              type="search"
-              id="default-search"
-              className="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
-              placeholder="Search spare parts..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
+    );
+  };
+
+  const handleAddPart = () => {
+    const newSparePart: SparePart = {
+      ...newPart,
+      id: spareParts.length + 1,
+      inStock: newPart.quantity > 0,
+      reviews: 0,
+      rating: 0
+    };
+    
+    setSpareParts([...spareParts, newSparePart]);
+    setNewPart({
+      name: "",
+      image: "",
+      price: 0,
+      quantity: 0,
+      category: "",
+      brand: "",
+      discount: 0,
+      active: true
+    });
+    setShowAddModal(false);
+  };
+
+  const toggleActiveStatus = (id: number) => {
+    setSpareParts(spareParts.map(part => 
+      part.id === id ? { ...part, active: !part.active } : part
+    ));
+  };
+
+  return (
+    <div className="min-h-screen" style={{ background: COLORS.bgColor }}>
+      {/* Header */}
+      <div className="sticky top-0 z-10 bg-[#FAF3EB] border-b">
+        <div className="container mx-auto px-4 py-3 flex items-center">
+          <button 
+            onClick={handleBack} 
+            className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+            aria-label="Go back"
+          >
+            <ArrowLeft className="text-red-800 w-6 h-6" />
+          </button>
+          
+          <div className="flex-1 ml-4">
+            <h1 className="font-bold text-2xl text-red-800">
+              Spare Parts Management
+            </h1>
+          </div>
+          
+          <div className="flex items-center space-x-3">
             <button
-              type="submit"
-              className="text-white absolute end-2.5 bottom-2.5 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2"
-              style={{ backgroundColor: "#9b111e" }}
+              className="p-2 bg-red-50 hover:bg-red-100 text-red-700 rounded-full transition-colors"
+              onClick={() => setShowSearch(!showSearch)}
+              aria-label="Search"
             >
-              Search
+              <Search className="w-5 h-5" />
+            </button>
+            
+            <button
+              className="flex items-center space-x-2 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg font-medium transition-colors"
+              onClick={() => setShowAddModal(true)}
+            >
+              <Plus className="w-5 h-5" />
+              <span>Add Spare Part</span>
             </button>
           </div>
-        </form>
+        </div>
+
+        {/* Search Bar - appears below header when activated */}
+        {showSearch && (
+          <div className="container mx-auto px-4 pb-3">
+            <div className="relative">
+              <input
+                type="text"
+                className="w-full px-4 py-2 pl-10 border border-red-200 focus:border-red-500 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-red-100 transition-all"
+                placeholder="Search parts, brands, categories..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                autoFocus
+              />
+              <Search className="absolute left-3 top-2.5 w-4 h-4 text-gray-400" />
+              {searchTerm && (
+                <button
+                  className="absolute right-3 top-2.5 text-gray-400 hover:text-gray-600"
+                  onClick={() => setSearchTerm("")}
+                  aria-label="Clear search"
+                >
+                  ×
+                </button>
+              )}
+            </div>
+          </div>
+        )}
       </div>
 
-
-      <div className="grid grid-cols-4 gap-10 p-5 mt-10">
-        {filteredParts.map((part) => (
-          <div key={part.id}>
-            <div className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow-sm dark:border-gray-700">
-              <img className="p-8 rounded-t-lg" src={part.image} alt={part.name} />
-              <div className="px-5 pb-5">
-                <h5 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-black">
-                  {part.name}
-                </h5>
-                <div className="flex items-center mt-2.5 mb-5">
-                  <div className="flex items-center space-x-1">
-                    {[...Array(5)].map((_, i) => (
-                      <svg
-                        key={i}
-                        className={`w-4 h-4 ${i < 4 ? "text-yellow-300" : "text-gray-200"}`}
-                        fill="currentColor"
-                        viewBox="0 0 22 20"
-                      >
-                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.974a1 1 0 00.95.69h4.18c.969 0 1.371 1.24.588 1.81l-3.39 2.462a1 1 0 00-.364 1.118l1.287 3.974c.3.921-.755 1.688-1.54 1.118l-3.39-2.462a1 1 0 00-1.175 0l-3.39 2.462c-.784.57-1.838-.197-1.539-1.118l1.287-3.974a1 1 0 00-.364-1.118L2.045 9.4c-.783-.57-.38-1.81.588-1.81h4.18a1 1 0 00.95-.69l1.286-3.974z" />
-                      </svg>
-                    ))}
+      {/* Main Content */}
+      <div className="container mx-auto px-4 py-6">
+        {/* Parts Grid */}
+        {filteredParts.length > 0 ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {filteredParts.map((part) => (
+              <div
+                key={part.id}
+                className="group relative bg-white rounded-xl shadow-sm border border-gray-100 hover:shadow-lg hover:border-red-200 transition-all duration-300 overflow-hidden"
+                onMouseEnter={() => setHoveredCard(part.id)}
+                onMouseLeave={() => setHoveredCard(null)}
+              >
+                {/* Discount Badge */}
+                {part.discount && part.discount > 0 && (
+                  <div className="absolute top-3 left-3 z-10 bg-red-500 text-white px-2 py-1 rounded-full text-xs font-semibold shadow-sm">
+                    -{part.discount}%
                   </div>
-                  <span className="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded-sm ms-3">
-                    5.0
-                  </span>
+                )}
+                
+                {/* Quick View Button */}
+                <button 
+                  className={`absolute top-3 right-3 z-10 p-2 bg-white/90 hover:bg-white rounded-full shadow-md transition-all duration-200 ${
+                    hoveredCard === part.id ? 'opacity-100' : 'opacity-0'
+                  }`}
+                  aria-label="Quick view"
+                >
+                  <Eye className="w-4 h-4 text-gray-600" />
+                </button>
+
+                {/* Image Container */}
+                <div className="relative h-48 bg-gray-50 overflow-hidden">
+                  <img
+                    className="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-300"
+                    src={part.image}
+                    alt={part.name}
+                    loading="lazy"
+                  />
                 </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-3xl font-bold text-gray-900 dark:text-black">
-                    Rs.{part.price}
-                  </span>
-                  <div className="bg-gray-300 rounded-lg p-1">
-                    <span>Quantity: </span>
-                    <span>{part.quantity}</span>
+
+                {/* Content */}
+                <div className="p-5">
+                  {/* Category & Brand */}
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="inline-block bg-gray-100 text-gray-700 px-2 py-1 rounded-md text-xs font-medium">
+                      {part.category}
+                    </span>
+                    <span className="text-xs text-gray-500 font-medium">{part.brand}</span>
+                  </div>
+
+                  {/* Product Name */}
+                  <h3 className="font-semibold text-gray-900 mb-3 line-clamp-2 group-hover:text-red-700 transition-colors">
+                    {part.name}
+                  </h3>
+
+                  {/* Rating */}
+                  <div className="flex items-center gap-2 mb-3">
+                    {renderStars(part.rating)}
+                    <span className="text-sm text-gray-500">({part.reviews})</span>
+                  </div>
+
+                  {/* Price & Stock */}
+                  <div className="space-y-3">
+                    <div className="flex items-center gap-2">
+                      {part.discount && part.discount > 0 ? (
+                        <>
+                          <span className="text-2xl font-bold text-gray-900">
+                            ₹{calculateDiscountedPrice(part.price, part.discount).toLocaleString()}
+                          </span>
+                          <span className="text-sm text-gray-500 line-through">
+                            ₹{part.price.toLocaleString()}
+                          </span>
+                        </>
+                      ) : (
+                        <span className="text-2xl font-bold text-gray-900">
+                          ₹{part.price.toLocaleString()}
+                        </span>
+                      )}
+                    </div>
+
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <div className={`w-2 h-2 rounded-full ${
+                          part.quantity > 5 ? 'bg-green-500' : 
+                          part.quantity > 0 ? 'bg-yellow-500' : 'bg-red-500'
+                        }`}></div>
+                        <span className="text-sm text-gray-600">
+                          {part.quantity > 0 ? `${part.quantity} in stock` : 'Out of stock'}
+                        </span>
+                      </div>
+                      <label className="inline-flex items-center cursor-pointer">
+                        <input
+                          type="checkbox"
+                          checked={part.active}
+                          onChange={() => toggleActiveStatus(part.id)}
+                          className="sr-only peer"
+                        />
+                        <div className={`relative w-9 h-5 rounded-full peer ${part.active ? 'bg-green-500' : 'bg-gray-200'}`}>
+                          <div className={`absolute top-[2px] ${part.active ? 'left-[18px]' : 'left-[2px]'} bg-white rounded-full h-4 w-4 transition-all`}></div>
+                        </div>
+                      </label>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
+            ))}
           </div>
-        ))}
-        {filteredParts.length === 0 && (
-          <p className="col-span-4 text-center text-xl font-semibold text-red-500">
-            No matching spare parts found.
-          </p>
+        ) : (
+          <div className="flex flex-col items-center justify-center py-16">
+            <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mb-6">
+              <Search className="w-8 h-8 text-gray-400" />
+            </div>
+            <h3 className="text-xl font-semibold text-gray-900 mb-2">
+              No spare parts found
+            </h3>
+            <p className="text-gray-600 mb-6 text-center">
+              {searchTerm 
+                ? `No results for "${searchTerm}"`
+                : 'No parts available at the moment'}
+            </p>
+            {searchTerm && (
+              <button
+                className="px-6 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg font-medium transition-colors"
+                onClick={() => setSearchTerm("")}
+              >
+                Clear Search
+              </button>
+            )}
+          </div>
         )}
       </div>
+
+      {/* Add Spare Part Modal */}
+      {showAddModal && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
+          <div className="bg-white rounded-xl shadow-lg w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+            <div className="p-6">
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-2xl font-bold text-gray-900">Add New Spare Part</h2>
+                <button
+                  onClick={() => setShowAddModal(false)}
+                  className="p-2 text-gray-400 hover:text-gray-600 rounded-full hover:bg-gray-100"
+                >
+                  ×
+                </button>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Part Name*</label>
+                  <input
+                    type="text"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500"
+                    value={newPart.name}
+                    onChange={(e) => setNewPart({...newPart, name: e.target.value})}
+                    placeholder="Enter part name"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Image URL*</label>
+                  <input
+                    type="text"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500"
+                    value={newPart.image}
+                    onChange={(e) => setNewPart({...newPart, image: e.target.value})}
+                    placeholder="Enter image URL"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Price (₹)*</label>
+                  <input
+                    type="number"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500"
+                    value={newPart.price || ''}
+                    onChange={(e) => setNewPart({...newPart, price: Number(e.target.value)})}
+                    placeholder="Enter price"
+                    min="0"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Quantity*</label>
+                  <input
+                    type="number"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500"
+                    value={newPart.quantity || ''}
+                    onChange={(e) => setNewPart({...newPart, quantity: Number(e.target.value)})}
+                    placeholder="Enter quantity"
+                    min="0"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Category*</label>
+                  <input
+                    type="text"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500"
+                    value={newPart.category}
+                    onChange={(e) => setNewPart({...newPart, category: e.target.value})}
+                    placeholder="Enter category"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Brand*</label>
+                  <input
+                    type="text"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500"
+                    value={newPart.brand}
+                    onChange={(e) => setNewPart({...newPart, brand: e.target.value})}
+                    placeholder="Enter brand"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Discount (%)</label>
+                  <input
+                    type="number"
+                    min="0"
+                    max="100"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500"
+                    value={newPart.discount || ''}
+                    onChange={(e) => setNewPart({...newPart, discount: Number(e.target.value)})}
+                    placeholder="Enter discount percentage"
+                  />
+                </div>
+
+                <div className="flex items-center">
+                  <input
+                    type="checkbox"
+                    id="active-status"
+                    className="h-4 w-4 text-red-600 focus:ring-red-500 border-gray-300 rounded"
+                    checked={newPart.active}
+                    onChange={(e) => setNewPart({...newPart, active: e.target.checked})}
+                  />
+                  <label htmlFor="active-status" className="ml-2 block text-sm text-gray-700">
+                    Active Part
+                  </label>
+                </div>
+              </div>
+
+              <div className="mt-8 flex justify-end gap-3">
+                <button
+                  type="button"
+                  onClick={() => setShowAddModal(false)}
+                  className="px-6 py-2 border border-gray-300 rounded-lg font-medium text-gray-700 hover:bg-gray-50 transition-colors"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  onClick={handleAddPart}
+                  className="px-6 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg font-medium transition-colors"
+                  disabled={!newPart.name || !newPart.image || !newPart.price || !newPart.quantity || !newPart.category || !newPart.brand}
+                >
+                  Add Part
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
-  )
-}
+  );
+};
 
-
-export default ServiceSpareParts
+export default ServiceSpareParts;
