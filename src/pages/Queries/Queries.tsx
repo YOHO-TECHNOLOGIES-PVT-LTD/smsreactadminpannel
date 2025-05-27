@@ -81,17 +81,10 @@ const Queries = () => {
     return true;
   });
 
-  useEffect(() => {
-  const stillExists = queries.find((q) => q.id === selectedQuery?.id);
-  const matchesFilter =
-    filter === "All" ||
-    (filter === "Read" && selectedQuery?.isRead) ||
-    (filter === "Unread" && !selectedQuery?.isRead);
+ useEffect(() => {
+  setSelectedQuery(null);
+}, [filter]);
 
-  if (!stillExists || !matchesFilter) {
-    setSelectedQuery(null);
-  }
-}, [filter, queries]);
 
 
   return (
