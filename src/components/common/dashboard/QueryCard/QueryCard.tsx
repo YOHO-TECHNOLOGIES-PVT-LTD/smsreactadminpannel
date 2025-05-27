@@ -1,4 +1,3 @@
-// components/QueryCard.tsx
 import React from "react";
 
 type Props = {
@@ -8,6 +7,7 @@ type Props = {
   profilePicUrl: string;
   time?: string;
   onClick?: () => void;
+  backgroundColor?: string; // New prop for custom background
 };
 
 const getIndiaDateTime = () => {
@@ -29,12 +29,14 @@ export const QueryCard: React.FC<Props> = ({
   profilePicUrl,
   time,
   onClick,
+  backgroundColor,
 }) => {
   return (
-   <div className="hover:scale-[1.02] transition-transform duration-200 ease-in-out cursor-pointer border-l-4 rounded-lg border-[#b35b64]">
-
+   <div className="hover:scale-[1.02] transition-transform duration-200 ease-in-out cursor-pointer">
     <div className="w-full cursor-pointer" onClick={onClick}>
-      <div className="flex items-center bg-[#FAF3EB] rounded-xl shadow-md p-4 justify-between mt-2">
+      <div className={`flex items-center rounded-xl shadow-md p-4 justify-between mt-2 ${
+        backgroundColor || 'bg-transparent'
+      }`}>
         <div className="w-12 h-12 rounded-full overflow-hidden mr-4 flex-shrink-0">
           <img
             src={profilePicUrl}

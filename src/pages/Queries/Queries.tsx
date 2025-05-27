@@ -112,10 +112,10 @@ const Queries = () => {
           <div
             key={q.id}
             onClick={() => handleSelectQuery(q)}
-            className={`rounded-lg shadow-sm cursor-pointer transition-all duration-200 ${
-              q.isRead
-                ? "bg-[#fdf6f2] hover:bg-[#f4e9e2]"
-                : "bg-[#fff3ee] hover:bg-[#fde6dd]"
+            className={`rounded-lg shadow-sm cursor-pointer border-l-4 border-[#9b111e] transition-all duration-200 ${
+              q.isRead 
+                ? "bg-white hover:bg-gray-50" 
+                : "bg-gray-100 hover:bg-gray-200"
             }`}
           >
             <QueryCard
@@ -123,7 +123,6 @@ const Queries = () => {
               title={q.title}
               desc={q.desc}
               profilePicUrl={q.profilePicUrl}
-              // className="py-2 px-4" 
             />
           </div>
         ))}
