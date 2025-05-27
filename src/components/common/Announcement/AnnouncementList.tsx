@@ -1,5 +1,3 @@
-
-
 const announcements = [
   {
     title: 'Holiday Discount',
