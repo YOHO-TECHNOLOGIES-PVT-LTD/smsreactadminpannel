@@ -116,7 +116,7 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({ onServi
     }, [showDeleteSuccessPopup]);
 
     return (
-        <div className="min-h-screen p-6 bg-gray-50" style={{ fontFamily: FONTS.paragraph.fontSize }}>
+        <div className="min-h-screen p-6" style={{ fontFamily: FONTS.paragraph.fontSize }}>
             {/* Header Section */}
             <div className="flex items-center justify-between mb-6">
                 <button 

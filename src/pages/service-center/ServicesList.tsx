@@ -4,7 +4,7 @@ import { RiCarWashingFill } from "react-icons/ri";
 import { RiOilFill } from "react-icons/ri";
 import { MdOutlineKeyboardBackspace } from "react-icons/md";
 import { FiSearch } from "react-icons/fi";
-
+import { FaPlus } from "react-icons/fa";
 
 type ServiceCenterServicesProps = {
   onSpareParts: () => void;
@@ -18,38 +18,131 @@ interface ServiceOption {
   active: boolean;
 }
 
+interface ServiceCategory {
+  id: string;
+  name: string;
+  icon: JSX.Element;
+  isOpen: boolean;
+}
+
 const ServicesList: React.FC<ServiceCenterServicesProps> = ({ onSpareParts, handleBack }) => {
-  const [isWashingOpen, setIsWashingOpen] = useState(false);
-  const [isOilOpen, setIsOilOpen] = useState(false);
-  const [showAddForm, setShowAddForm] = useState(false);
+  // Existing states
   const [showSearch, setShowSearch] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
-  const [activeServiceType, setActiveServiceType] = useState<'washing' | 'oil'>('washing');
+  const [showAddForm, setShowAddForm] = useState(false);
+  const [showAddCategoryForm, setShowAddCategoryForm] = useState(false);
+  const [activeServiceType, setActiveServiceType] = useState<string>('');
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const categoryIconRef = useRef<HTMLSelectElement>(null);
+
+  // Categories state
+  const [categories, setCategories] = useState<ServiceCategory[]>([
+    { 
+      id: 'washing',
+      name: 'Washing',
+      icon: <RiCarWashingFill />,
+      isOpen: false
+    },
+    { 
+      id: 'oil',
+      name: 'Oil Services',
+      icon: <RiOilFill />,
+      isOpen: false
+    }
+  ]);
+
+  // New category form state
+  const [newCategory, setNewCategory] = useState({
+    name: "",
+    icon: ""
+  });
+
+  // Service options states
+  const [serviceOptions, setServiceOptions] = useState<Record<string, ServiceOption[]>>({
+    washing: [
+      { name: "Tyre Change", price: "$10", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR7cfmoK1zcVVgHGzjXvy0T3YqtDrdMWgSzGw&s", active: true },
+      { name: "Mirror change", price: "$15", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbXdy7iuelJuLwHjgqX0mzEUKVDTQay83ylw&s", active: true },
+      { name: "Bonnet", price: "$20", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTcbcTJZP0ofDRdbcBmbeXxBMK7f8S75TBEUA&s", active: true },
+      { name: "Seat repair", price: "$12", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-x14GdoGRcfG_OngpmDolY7yRRH9bumCrLg&s", active: true },
+      { name: "Paint check", price: "$8", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR31Hsugf2yE-h8T-Zcn_wO5WNqKgSm3VrVbA&s", active: true },
+    ],
+    oil: [
+      { name: "Oil service", price: "$10", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR7cfmoK1zcVVgHGzjXvy0T3YqtDrdMWgSzGw&s", active: true },
+      { name: "Oil check", price: "$15", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbXdy7iuelJuLwHjgqX0mzEUKVDTQay83ylw&s", active: true },
+      { name: "Premium oil change", price: "$20", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTcbcTJZP0ofDRdbcBmbeXxBMK7f8S75TBEUA&s", active: true },
+      { name: "Engine check", price: "$12", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-x14GdoGRcfG_OngpmDolY7yRRH9bumCrLg&s", active: true },
+      { name: "All in one combo", price: "$8", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR31Hsugf2yE-h8T-Zcn_wO5WNqKgSm3VrVbA&s", active: true },
+    ]
+  });
+
   const [newService, setNewService] = useState({
     name: "",
     price: "",
     image: null as string | ArrayBuffer | null,
     active: true
   });
-  const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const [serviceOptions, setServiceOptions] = useState<ServiceOption[]>([
-    { name: "Tyre Change", price: "$10", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR7cfmoK1zcVVgHGzjXvy0T3YqtDrdMWgSzGw&s", active: true },
-    { name: "Mirror change", price: "$15", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbXdy7iuelJuLwHjgqX0mzEUKVDTQay83ylw&s", active: true },
-    { name: "Bonnet", price: "$20", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTcbcTJZP0ofDRdbcBmbeXxBMK7f8S75TBEUA&s", active: true },
-    { name: "Seat repair", price: "$12", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-x14GdoGRcfG_OngpmDolY7yRRH9bumCrLg&s", active: true },
-    { name: "Paint check", price: "$8", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR31Hsugf2yE-h8T-Zcn_wO5WNqKgSm3VrVbA&s", active: true },
-  ]);
+  // Toggle category open/close
+  const toggleCategory = (id: string) => {
+    setCategories(categories.map(cat => 
+      cat.id === id ? { ...cat, isOpen: !cat.isOpen } : cat
+    ));
+  };
 
-  const [oilServiceOptions, setOilServiceOptions] = useState<ServiceOption[]>([
-    { name: "Oil service", price: "$10", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR7cfmoK1zcVVgHGzjXvy0T3YqtDrdMWgSzGw&s", active: true },
-    { name: "Oil check", price: "$15", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbXdy7iuelJuLwHjgqX0mzEUKVDTQay83ylw&s", active: true },
-    { name: "Premium oil change", price: "$20", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTcbcTJZP0ofDRdbcBmbeXxBMK7f8S75TBEUA&s", active: true },
-    { name: "Engine check", price: "$12", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-x14GdoGRcfG_OngpmDolY7yRRH9bumCrLg&s", active: true },
-    { name: "All in one combo", price: "$8", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR31Hsugf2yE-h8T-Zcn_wO5WNqKgSm3VrVbA&s", active: true },
-  ]);
+  // Handle adding a new category
+  const handleAddCategory = () => {
+    setShowAddCategoryForm(true);
+  };
 
-  const handleAddService = (type: 'washing' | 'oil') => {
+  const handleCancelAddCategory = () => {
+    setShowAddCategoryForm(false);
+    setNewCategory({ name: "", icon: "" });
+  };
+
+  const handleCategoryInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setNewCategory(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleSubmitCategory = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (newCategory.name && newCategory.icon) {
+      const iconComponent = getIconComponent(newCategory.icon);
+      if (iconComponent) {
+        const newCategoryItem = {
+          id: newCategory.name.toLowerCase().replace(/\s+/g, '-'),
+          name: newCategory.name,
+          icon: iconComponent,
+          isOpen: false
+        };
+        
+        setCategories([...categories, newCategoryItem]);
+        setServiceOptions({
+          ...serviceOptions,
+          [newCategoryItem.id]: []
+        });
+        
+        setNewCategory({ name: "", icon: "" });
+        setShowAddCategoryForm(false);
+      }
+    }
+  };
+
+  // Helper function to get icon component
+  const getIconComponent = (iconName: string): JSX.Element | null => {
+    switch(iconName) {
+      case 'washing': return <RiCarWashingFill />;
+      case 'oil': return <RiOilFill />;
+      // Add more icons as needed
+      default: return null;
+    }
+  };
+
+  // Existing service functions (modified to work with dynamic categories)
+  const handleAddService = (type: string) => {
     setActiveServiceType(type);
     setShowAddForm(true);
   };
@@ -84,21 +177,18 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({ onSpareParts, hand
     }
   };
 
-  const handleToggleActive = (index: number, type: 'washing' | 'oil') => {
-    if (type === 'washing') {
-      const updatedOptions = [...serviceOptions];
-      updatedOptions[index].active = !updatedOptions[index].active;
-      setServiceOptions(updatedOptions);
-    } else {
-      const updatedOptions = [...oilServiceOptions];
-      updatedOptions[index].active = !updatedOptions[index].active;
-      setOilServiceOptions(updatedOptions);
-    }
+  const handleToggleActive = (index: number, type: string) => {
+    const updatedOptions = [...serviceOptions[type]];
+    updatedOptions[index].active = !updatedOptions[index].active;
+    setServiceOptions({
+      ...serviceOptions,
+      [type]: updatedOptions
+    });
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (newService.name && newService.price) {
+    if (newService.name && newService.price && activeServiceType) {
       const newServiceItem = {
         name: newService.name,
         price: `$${newService.price}`,
@@ -106,11 +196,10 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({ onSpareParts, hand
         active: newService.active
       };
 
-      if (activeServiceType === 'washing') {
-        setServiceOptions(prev => [...prev, newServiceItem]);
-      } else {
-        setOilServiceOptions(prev => [...prev, newServiceItem]);
-      }
+      setServiceOptions({
+        ...serviceOptions,
+        [activeServiceType]: [...serviceOptions[activeServiceType], newServiceItem]
+      });
 
       setNewService({ name: "", price: "", image: null, active: true });
       setShowAddForm(false);
@@ -163,155 +252,95 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({ onSpareParts, hand
         </div>
       </div>
 
+      {/* Categories Section */}
+      <div className="p-4">
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-2xl font-bold" style={{ color: "#9b111e" }}></h2>
+          <button
+            onClick={handleAddCategory}
+            className="flex items-center gap-2 text-white px-4 py-2 rounded-lg"
+            style={{ background: "linear-gradient(44.99deg, #700808 11%, #d23c3c 102.34%)" }}
+          >
+            <FaPlus /> Add Category
+          </button>
+        </div>
+      </div>
+
       {/* Services Section */}
-      <div className="grid grid-cols-2 gap-6 text-2xl mt-0 p-3" style={{ fontFamily: FONTS.header.fontFamily }}>
-        {/* Washing Services Column */}
-        <div>
-          <div className="w-full p-4 bg-white border border-gray-200 rounded-lg shadow-sm sm:p-8 dark:bg-gray-800 dark:border-gray-700">
-            <div className="flex items-center justify-between mb-4 cursor-pointer">
-              <h5 className="text-2xl font-bold leading-none flex gap-2" style={{ color: "#9b111e" }}>
-                <RiCarWashingFill /> Washing
-              </h5>
-              <span
-                className="text-sm font-medium text-orange-800 hover:underline dark:text-orange-800"
-                onClick={() => setIsWashingOpen(!isWashingOpen)}
-              >
-                {isWashingOpen ? 'Hide' : 'View all'}
-              </span>
-            </div>
-
-            {isWashingOpen && (
-              <div className="overflow-x-auto">
-                <button
-                  type="button"
-                  className="text-white font-medium rounded-lg text-sm px-3 py-1 mt-2 flex ml-auto me-2 mb-2 focus:outline-none"
-                  style={{ background: "linear-gradient(44.99deg,#700808 11%,#d23c3c 102.34%)" }}
-                  onClick={() => handleAddService('washing')}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 text-2xl mt-0 p-3" style={{ fontFamily: FONTS.header.fontFamily }}>
+        {/* Dynamic Categories */}
+        {categories.map((category) => (
+          <div key={category.id}>
+            <div className="w-full p-4 bg-white border border-gray-200 rounded-lg shadow-sm sm:p-8">
+              <div className="flex items-center justify-between mb-4 cursor-pointer">
+                <h5 className="text-2xl font-bold leading-none flex gap-2" style={{ color: "#9b111e" }}>
+                  {category.icon} {category.name}
+                </h5>
+                <span
+                  className="text-sm font-medium text-orange-800 hover:underline"
+                  onClick={() => toggleCategory(category.id)}
                 >
-                  Add
-                </button>
-
-                <table className="min-w-full text-left text-sm font-light text-gray-900 dark:text-white">
-                  <thead className="border-b font-medium dark:border-gray-700">
-                    <tr>
-                      <th className="px-4 py-2">Service</th>
-                      <th className="px-4 py-2">Service Name</th>
-                      <th className="px-4 py-2">Price</th>
-                      <th className="px-4 py-2">Status</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {serviceOptions.map((option, index) => (
-                      <tr key={`washing-${index}`} className="border-b dark:border-gray-700">
-                        <td className="px-0 py-0 text-2xl font-normal">
-                          {typeof option.image === 'string' ? (
-                            <img src={option.image} alt="service" className="w-16 h-12 object-cover" />
-                          ) : (
-                            <div className="w-16 h-12 bg-gray-200 flex items-center justify-center">
-                              No Image
-                            </div>
-                          )}
-                        </td>
-                        <td className="px-4 py-2 text-2xl font-normal">{option.name}</td>
-                        <td className="px-4 py-2 text-2xl font-normal">{option.price}</td>
-                        <td className="px-4 py-2">
-                          <label className="inline-flex items-center cursor-pointer">
-                            <input
-                              type="checkbox"
-                              checked={option.active}
-                              onChange={() => handleToggleActive(index, 'washing')}
-                              className="sr-only peer"
-                            />
-                            <div className={`relative w-9 h-5 rounded-full peer ${option.active ? 'bg-green-500' : 'bg-gray-200'}`}>
-                              <div className={`absolute top-[2px] ${option.active ? 'left-[18px]' : 'left-[2px]'} bg-white rounded-full h-4 w-4 transition-all`}></div>
-                            </div>
-                            <span className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-                              {option.active ? 'Active' : 'Inactive'}
-                            </span>
-                          </label>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+                  {category.isOpen ? 'Hide' : 'View all'}
+                </span>
               </div>
-            )}
-          </div>
-        </div>
 
-        {/* Oil Services Column */}
-        <div>
-          <div className="w-full p-4 bg-white border border-gray-200 rounded-lg shadow-sm sm:p-8 dark:bg-gray-800 dark:border-gray-700">
-            <div className="flex items-center justify-between mb-4 cursor-pointer">
-              <h5 className="text-2xl font-bold leading-none flex gap-2" style={{ color: "#9b111e" }}>
-                <RiOilFill /> Oil Services
-              </h5>
-              <span
-                className="text-sm font-medium text-orange-800 hover:underline dark:text-orange-800"
-                onClick={() => setIsOilOpen(!isOilOpen)}
-              >
-                {isOilOpen ? 'Hide' : 'View all'}
-              </span>
+              {category.isOpen && (
+                <div className="overflow-x-auto">
+                  <button
+                    type="button"
+                    className="text-white font-medium rounded-lg text-sm px-3 py-1 mt-2 flex ml-auto me-2 mb-2 focus:outline-none"
+                    style={{ background: "linear-gradient(44.99deg,#700808 11%,#d23c3c 102.34%)" }}
+                    onClick={() => handleAddService(category.id)}
+                  >
+                    Add Service
+                  </button>
+
+                  <table className="min-w-full text-left text-sm font-light text-gray-900 ">
+                    <thead className="border-b font-medium ">
+                      <tr>
+                        <th className="px-4 py-2">Service</th>
+                        <th className="px-4 py-2">Service Name</th>
+                        <th className="px-4 py-2">Price</th>
+                        <th className="px-4 py-2">Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {serviceOptions[category.id]?.map((option, index) => (
+                        <tr key={`${category.id}-${index}`} className="border-b ">
+                          <td className="px-0 py-0 text-2xl font-normal">
+                            {typeof option.image === 'string' ? (
+                              <img src={option.image} alt="service" className="w-16 h-12 object-cover" />
+                            ) : (
+                              <div className="w-16 h-12 bg-gray-200 flex items-center justify-center">
+                                No Image
+                              </div>
+                            )}
+                          </td>
+                          <td className="px-4 py-2 text-2xl font-normal">{option.name}</td>
+                          <td className="px-4 py-2 text-2xl font-normal">{option.price}</td>
+                          <td className="px-4 py-2">
+                            <label className="inline-flex items-center cursor-pointer">
+                              <input
+                                type="checkbox"
+                                checked={option.active}
+                                onChange={() => handleToggleActive(index, category.id)}
+                                className="sr-only peer"
+                              />
+                              <div className={`relative w-9 h-5 rounded-full peer ${option.active ? 'bg-green-500' : 'bg-gray-200'}`}>
+                                <div className={`absolute top-[2px] ${option.active ? 'left-[18px]' : 'left-[2px]'} bg-white rounded-full h-4 w-4 transition-all`}></div>
+                              </div>
+            
+                            </label>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
             </div>
-
-            {isOilOpen && (
-              <div className="overflow-x-auto">
-                <button
-                  type="button"
-                  className="text-white font-medium rounded-lg text-sm px-3 py-1 mt-2 flex ml-auto me-2 mb-2 focus:outline-none"
-                  style={{ background: "linear-gradient(44.99deg,#700808 11%,#d23c3c 102.34%)" }}
-                  onClick={() => handleAddService('oil')}
-                >
-                  Add
-                </button>
-
-                <table className="min-w-full text-left text-sm font-light text-gray-900 dark:text-white">
-                  <thead className="border-b font-medium dark:border-gray-700">
-                    <tr>
-                      <th className="px-4 py-2">Service</th>
-                      <th className="px-4 py-2">Service Name</th>
-                      <th className="px-4 py-2">Price</th>
-                      <th className="px-4 py-2">Status</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {oilServiceOptions.map((option, index) => (
-                      <tr key={`oil-${index}`} className="border-b dark:border-gray-700">
-                        <td className="px-0 py-0 text-2xl font-normal">
-                          {typeof option.image === 'string' ? (
-                            <img src={option.image} alt="service" className="w-16 h-12 object-cover" />
-                          ) : (
-                            <div className="w-16 h-12 bg-gray-200 flex items-center justify-center">
-                              No Image
-                            </div>
-                          )}
-                        </td>
-                        <td className="px-4 py-2 text-2xl font-normal">{option.name}</td>
-                        <td className="px-4 py-2 text-2xl font-normal">{option.price}</td>
-                        <td className="px-4 py-2">
-                          <label className="inline-flex items-center cursor-pointer">
-                            <input
-                              type="checkbox"
-                              checked={option.active}
-                              onChange={() => handleToggleActive(index, 'oil')}
-                              className="sr-only peer"
-                            />
-                            <div className={`relative w-9 h-5 rounded-full peer ${option.active ? 'bg-green-500' : 'bg-gray-200'}`}>
-                              <div className={`absolute top-[2px] ${option.active ? 'left-[18px]' : 'left-[2px]'} bg-white rounded-full h-4 w-4 transition-all`}></div>
-                            </div>
-                            <span className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-                              {option.active ? 'Active' : 'Inactive'}
-                            </span>
-                          </label>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            )}
           </div>
-        </div>
+        ))}
       </div>
 
       {/* Add Service Modal */}
@@ -319,7 +348,9 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({ onSpareParts, hand
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white rounded-lg shadow-xl w-full max-w-md p-6">
             <div className="flex justify-between items-center mb-4">
-              <h3 className="text-xl font-semibold text-gray-900">Add New {activeServiceType === 'washing' ? 'Washing' : 'Oil'} Service</h3>
+              <h3 className="text-xl font-semibold text-gray-900">
+                Add New {categories.find(c => c.id === activeServiceType)?.name || ''} Service
+              </h3>
               <button
                 onClick={handleCancelAdd}
                 className="text-gray-400 hover:text-gray-500"
@@ -401,6 +432,73 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({ onSpareParts, hand
                   style={{ background: "linear-gradient(44.99deg,#700808 11%,#d23c3c 102.34%)" }}
                 >
                   Add Service
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Add Category Modal */}
+      {showAddCategoryForm && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg shadow-xl w-full max-w-md p-6">
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-xl font-semibold text-gray-900">Add New Service Category</h3>
+              <button
+                onClick={handleCancelAddCategory}
+                className="text-gray-400 hover:text-gray-500"
+              >
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+              </button>
+            </div>
+
+            <form onSubmit={handleSubmitCategory}>
+              <div className="mb-4">
+                <label className="block text-sm font-medium text-gray-700 mb-1">Category Name</label>
+                <input
+                  type="text"
+                  name="name"
+                  value={newCategory.name}
+                  onChange={handleCategoryInputChange}
+                  className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
+                  required
+                />
+              </div>
+
+              <div className="mb-4">
+                <label className="block text-sm font-medium text-gray-700 mb-1">Category Icon</label>
+                <select
+                  name="icon"
+                  value={newCategory.icon}
+                  onChange={handleCategoryInputChange}
+                  className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
+                  required
+                  ref={categoryIconRef}
+                >
+                  <option value="">Select an icon</option>
+                  <option value="washing">Washing Icon</option>
+                  <option value="oil">Oil Services Icon</option>
+                  {/* Add more icons as needed */}
+                </select>
+              </div>
+
+              <div className="flex justify-end gap-3">
+                <button
+                  type="button"
+                  onClick={handleCancelAddCategory}
+                  className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-200 rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="px-4 py-2 text-sm font-medium text-white rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500"
+                  style={{ background: "linear-gradient(44.99deg,#700808 11%,#d23c3c 102.34%)" }}
+                >
+                  Add Category
                 </button>
               </div>
             </form>
