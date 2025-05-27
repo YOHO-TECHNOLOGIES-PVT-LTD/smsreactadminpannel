@@ -119,9 +119,9 @@ const Queries = () => {
             key={q.id}
             onClick={() => handleSelectQuery(q)}
             className={`rounded-lg shadow-sm cursor-pointer border-l-4 border-[#9b111e] transition-all duration-200 ${
-              q.isRead
-                ? "bg-white hover:bg-gray-50"
-                : "bg-gray-100 hover:bg-gray-200"
+              q.isRead 
+                ? " bg-[#f5f3f1] hover:bg-[#f2f1ef] " 
+                : " bg-[#eae5d9] hover:bg-[#ece8db]"
             }`}
           >
             <QueryCard
