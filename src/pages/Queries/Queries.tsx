@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { QueryCard } from "../../components/common/dashboard/QueryCard/QueryCard";
 import dummpypic from "../../assets/Dashboard/images.jpg";
 import { AiOutlineArrowLeft } from "react-icons/ai";
@@ -81,6 +81,19 @@ const Queries = () => {
     return true;
   });
 
+  useEffect(() => {
+  const stillExists = queries.find((q) => q.id === selectedQuery?.id);
+  const matchesFilter =
+    filter === "All" ||
+    (filter === "Read" && selectedQuery?.isRead) ||
+    (filter === "Unread" && !selectedQuery?.isRead);
+
+  if (!stillExists || !matchesFilter) {
+    setSelectedQuery(null);
+  }
+}, [filter, queries]);
+
+
   return (
     <div className="flex h-screen bg-[#f5f0ec]">
       {/* Sidebar Filters */}
@@ -106,15 +119,15 @@ const Queries = () => {
       {/* Query List */}
       <div className="w-2/5 p-4 space-y-3 overflow-y-auto border-r">
         {filteredQueries.length === 0 && (
-          <p className="text-center text-gray-400">No queries to show.</p>
+          <p className="text-center text-gray-400">"No queries to show."</p>
         )}
         {filteredQueries.map((q) => (
           <div
             key={q.id}
             onClick={() => handleSelectQuery(q)}
             className={`rounded-lg shadow-sm cursor-pointer border-l-4 border-[#9b111e] transition-all duration-200 ${
-              q.isRead 
-                ? "bg-white hover:bg-gray-50" 
+              q.isRead
+                ? "bg-white hover:bg-gray-50"
                 : "bg-gray-100 hover:bg-gray-200"
             }`}
           >
@@ -137,7 +150,7 @@ const Queries = () => {
               className="text-[#9b111e] flex items-center mb-4"
             >
               <AiOutlineArrowLeft className="mr-2" />
-              Back to list
+              Back
             </button>
 
             <div className="flex items-center justify-between mb-3">
@@ -162,7 +175,7 @@ const Queries = () => {
           </>
         ) : (
           <p className="text-gray-400 text-center mt-10">
-            Select a query card to view full details
+            "Select a query card to view full details"
           </p>
         )}
       </div>
