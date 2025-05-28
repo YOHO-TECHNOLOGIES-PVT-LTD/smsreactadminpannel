@@ -5,7 +5,8 @@ export default defineConfig({
   base: '/',
   plugins: [react()],
   optimizeDeps: {
-    include: ['recharts']
+    include: ['recharts'],
+    exclude: ['recharts'] 
   },
   build: {
     minify: false, // ✅ HERE
