@@ -8,6 +8,8 @@
     "types": ["node"],
     "target": "ESNext",
     "module": "ESNext",
-    "moduleResolution": "Bundler"
+    "moduleResolution": "Bundler",
+        "jsx": "react-jsx"
+
   }
 }
