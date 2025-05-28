@@ -4,12 +4,8 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   base: '/',
   plugins: [react()],
-  optimizeDeps: {
-    include: ['recharts'],
-    exclude: ['recharts'] 
-  },
   build: {
-    minify: false, // ✅ HERE
+    minify: false,
     sourcemap: true,
     outDir: 'dist',
     assetsDir: 'assets',
