@@ -11,3 +11,4 @@
 
     [build.environment]
   NODE_VERSION = "18"
+  VITE_SSR_NO_EXTERNAL = "true"

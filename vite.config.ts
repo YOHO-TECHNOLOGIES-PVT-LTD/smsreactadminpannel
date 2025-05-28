@@ -4,11 +4,15 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
     base: '/',
   plugins: [react()],
+  optimizeDeps: {
+    include: ['recharts'] // <-- Force pre-bundling
+  },
   build: {
     outDir: 'dist',
     assetsDir: 'assets',
     chunkSizeWarningLimit: 2000, // Increase warning limit to 1MB (optional)
      sourcemap: true, 
+     minify: false,
 
     rollupOptions: {
       output: {

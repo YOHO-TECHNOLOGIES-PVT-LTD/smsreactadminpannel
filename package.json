@@ -9,7 +9,8 @@
 		"build": "tsc -b && vite build",
 		"lint": "eslint .",
 		"preview": "vite preview",
-		"tailwind": "tailwindcss -i ./src/styles/input.css -o ./src/styles/output.css --watch"
+		"tailwind": "tailwindcss -i ./src/styles/input.css -o ./src/styles/output.css --watch",
+		"postinstall": "patch-package"
 	},
 	"dependencies": {
 		"@emotion/react": "^11.14.0",
@@ -64,7 +65,9 @@
 		"eslint-plugin-react-hooks": "^5.2.0",
 		"eslint-plugin-react-refresh": "^0.4.19",
 		"globals": "^16.0.0",
+		"patch-package": "^8.0.0",
 		"postcss": "^8.5.3",
+		"postinstall-postinstall": "^2.1.0",
 		"rollup": "^3.29.4",
 		"tailwindcss": "^4.1.7",
 		"typescript": "~5.8.3",
