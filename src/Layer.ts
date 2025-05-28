@@ -1,3 +1,2 @@
-let j: number = 5;
-const a = j + 10;
-console.log(a);  // Now 'a' is used
+let j = 5;
+console.log(j);  // <-- using j before declaration
