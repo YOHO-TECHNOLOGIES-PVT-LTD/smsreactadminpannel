@@ -6,7 +6,7 @@
 
 [build.environment]
   NODE_VERSION = "18.19.0"
-  NPM_CONFIG_OPTIONAL = "true"
+  NPM_CONFIG_OPTIONAL = "false"
   NPM_FLAGS = "--legacy-peer-deps"
 
 
