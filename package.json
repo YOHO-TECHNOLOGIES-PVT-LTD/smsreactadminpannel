@@ -43,6 +43,7 @@
 		"react-router-dom": "^7.6.0",
 		"react-toastify": "^11.0.5",
 		"recharts": "^2.15.3",
+		"rollup": "^3.29.4",
 		"tailwind-scrollbar-hide": "^2.0.0",
 		"vanilla-calendar-pro": "^3.0.4"
 	},
