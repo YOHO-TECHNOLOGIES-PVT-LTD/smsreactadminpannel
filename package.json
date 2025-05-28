@@ -6,6 +6,7 @@
 	"homepage": "./",
 	"scripts": {
 		"dev": "vite",
+		"build": "tsc -b && vite build",
 		"lint": "eslint .",
 		"preview": "vite preview",
 		"tailwind": "tailwindcss -i ./src/styles/input.css -o ./src/styles/output.css --watch"
