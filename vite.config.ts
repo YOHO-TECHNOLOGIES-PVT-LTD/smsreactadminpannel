@@ -8,6 +8,7 @@ export default defineConfig({
     outDir: 'dist',
     assetsDir: 'assets',
     chunkSizeWarningLimit: 2000, // Increase warning limit to 1MB (optional)
+     sourcemap: true, 
 
     rollupOptions: {
       output: {
