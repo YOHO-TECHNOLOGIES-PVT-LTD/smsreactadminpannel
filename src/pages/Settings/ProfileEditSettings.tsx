@@ -12,27 +12,27 @@ const ProfileEditSettings = () => {
      <form className="mt-6">
         <div  className="grid grid-cols-2 gap-8">
          <div>
-            <label htmlFor="first_name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">First name</label>
+            <label htmlFor="first_name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-grey">First name</label>
             <input type="text" id="first_name" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 h-3/4" placeholder="John" required />
         </div>
         <div>
-            <label htmlFor="first_name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Last name</label>
+            <label htmlFor="first_name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-grey">Last name</label>
             <input type="text" id="first_name" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 h-3/4" placeholder="DuraiRaj" required />
         </div>
         <div>
-            <label htmlFor="first_name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email Address</label>
+            <label htmlFor="first_name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-grey">Email Address</label>
             <input type="email" id="first_name" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 h-3/4" placeholder="John@gmail.com" required />
         </div>
         <div>
-            <label htmlFor="first_name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Phone Number</label>
+            <label htmlFor="first_name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-grey">Phone Number</label>
             <input type="number" id="first_name" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 h-3/4" placeholder="0123456789" required />
         </div>
         <div>
-            <label htmlFor="first_name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Address</label>
+            <label htmlFor="first_name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-grey">Address</label>
             <input type="text" id="first_name" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 h-3/4" placeholder="Door no, Address" required />
         </div>
         <div>
-            <label htmlFor="first_name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Country</label>
+            <label htmlFor="first_name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-grey">Country</label>
             <select id="first_name" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 h-3/4">
                 <option>Choose a country</option>
                 <option value="London">London</option>
@@ -47,11 +47,11 @@ const ProfileEditSettings = () => {
             
         </div>
         <div>
-            <label htmlFor="first_name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Date of Birth</label>
+            <label htmlFor="first_name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-grey">Date of Birth</label>
             <input type="date" id="first_name" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 h-3/4" placeholder="John" required />
         </div>
         <div>
-            <label htmlFor="first_name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Gender</label>
+            <label htmlFor="first_name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-grey">Gender</label>
             <select id="first_name" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 h-3/4">
                 <option>Choose a Gender</option>
                 <option value="Male">Male</option>
@@ -76,17 +76,17 @@ const ProfileEditSettings = () => {
                 </select>
         </div> */}
          <div>
-            <label htmlFor="first_name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Company Name</label>
+            <label htmlFor="first_name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-grey">Company Name</label>
             <input type="text" id="first_name" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 h-3/4" placeholder="Company name" required />
         </div>
          <div>
-            <label htmlFor="first_name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Company Website</label>
+            <label htmlFor="first_name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-grey">Company Website</label>
             <input type="text" id="first_name" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 h-3/4" placeholder="http://companyname.com/" required />
         </div>
         </div>
         <div className="mt-10">
              <div>
-            <label htmlFor="first_name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Add your bio</label>
+            <label htmlFor="first_name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-grey">Add your bio</label>
             <textarea id="first_name" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 mt-6 h-32" placeholder="John" required />
         </div>
         <div className="mt-10">

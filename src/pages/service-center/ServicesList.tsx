@@ -21,7 +21,7 @@ interface ServiceOption {
 interface ServiceCategory {
   id: string;
   name: string;
-  icon: JSX.Element;
+  icon: React.ReactElement; // Changed from JSX.Element to React.ReactElement
   isOpen: boolean;
 }
 
@@ -132,7 +132,7 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({ onSpareParts, hand
   };
 
   // Helper function to get icon component
-  const getIconComponent = (iconName: string): JSX.Element | null => {
+  const getIconComponent = (iconName: string): React.ReactElement | null => { // Changed return type
     switch(iconName) {
       case 'washing': return <RiCarWashingFill />;
       case 'oil': return <RiOilFill />;
