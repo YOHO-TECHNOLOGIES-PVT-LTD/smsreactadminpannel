@@ -9,7 +9,6 @@
 		"build": "tsc -b && vite build",
 		"lint": "eslint .",
 		"preview": "vite preview",
-		"css.lint.unknownAtRules": "ignore",
 		"tailwind": "tailwindcss -i ./src/styles/input.css -o ./src/styles/output.css --watch"
 	},
 	"dependencies": {
