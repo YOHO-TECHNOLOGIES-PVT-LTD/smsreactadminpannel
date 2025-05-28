@@ -11,16 +11,16 @@ import { IoMdStats } from "react-icons/io";
 import { RiMoneyRupeeCircleLine } from "react-icons/ri";
 import { PiListNumbersFill } from "react-icons/pi";
 type Invoice = {
-	id: string;
-	name: string;
-	invoiceDate: string;
-	vehicle: string;
-	plate: string;
-	total: string;
-	paidAmount?: string;
-	BalanceDue: string;
-	profile: string;
-	jobStatus: string;
+  id: string;
+  name: string;
+  invoiceDate: string;
+  vehicle: string;
+  plate: string;
+  total: string;
+  paidAmount: string;
+  balanceDue: string;
+  profile: string;
+  jobStatus: string;
 };
 
 const invoices: Invoice[] = [
@@ -32,21 +32,57 @@ const invoices: Invoice[] = [
     plate: "ABC-1234",
     total: "$2500.00",
     paidAmount: "$500.00",
-    BalanceDue: "100.00",
+    balanceDue: "100.00",
     profile: "150",
     jobStatus: "completed",
   },
   {
-    id: "INV002",
+    id: "INV0014",
     name: "John Doe",
     invoiceDate: "2025-05-17",
     vehicle: "Honda",
     plate: "XYZ-5678",
     total: "$1800.00",
     paidAmount: "$500.00",
-    BalanceDue: "100.00",
+    balanceDue: "100.00",
     profile: "150",
     jobStatus: "in progress",
+  },
+  {
+    id: "INV0013",
+    name: "Jane Smith",
+    invoiceDate: "2025-05-16",
+    vehicle: "Suzuki",
+    plate: "LMN-9012",
+    total: "$3000.00",
+    paidAmount: "$500.00",
+    balanceDue: "100.00",
+    profile: "150",
+    jobStatus: "In Progress",
+  },
+  {
+    id: "INV0016",
+    name: "Smith",
+    invoiceDate: "2025-05-16",
+    vehicle: "Suzuki",
+    plate: "LMN-9012",
+    total: "$3000.00",
+    paidAmount: "$700.00",
+    balanceDue: "100.00",
+    profile: "150",
+    jobStatus: "Not started",
+  },
+  {
+    id: "INV0011",
+    name: "Jane",
+    invoiceDate: "2025-05-16",
+    vehicle: "Suzuki",
+    plate: "LMN-9012",
+    total: "$3000.00",
+    paidAmount: "$900.00",
+    balanceDue: "100.00",
+    profile: "150",
+    jobStatus: "In Progress",
   },
   {
     id: "INV003",
@@ -55,68 +91,32 @@ const invoices: Invoice[] = [
     vehicle: "Suzuki",
     plate: "LMN-9012",
     total: "$3000.00",
-    paidAmount: "$500.00",
-    BalanceDue: "100.00",
-    profile: "150",
-    jobStatus: "In Progress",
-  },
-  {
-    id: "INV005",
-    name: "Smith",
-    invoiceDate: "2025-05-16",
-    vehicle: "Suzuki",
-    plate: "LMN-9012",
-    total: "$3000.00",
-    paidAmount: "$700.00",
-    BalanceDue: "100.00",
-    profile: "150",
-    jobStatus: "Not started",
-  },
-  {
-    id: "INV006",
-    name: "Jane",
-    invoiceDate: "2025-05-16",
-    vehicle: "Suzuki",
-    plate: "LMN-9012",
-    total: "$3000.00",
     paidAmount: "$900.00",
-    BalanceDue: "100.00",
+    balanceDue: "100.00",
     profile: "150",
     jobStatus: "In Progress",
   },
   {
-    id: "INV006",
-    name: "Jane Smith",
-    invoiceDate: "2025-05-16",
-    vehicle: "Suzuki",
-    plate: "LMN-9012",
-    total: "$3000.00",
-    paidAmount: "$900.00",
-    BalanceDue: "100.00",
-    profile: "150",
-    jobStatus: "In Progress",
-  },
-  {
-    id: "INV006",
+    id: "INV007",
     name: "Carter",
     invoiceDate: "2025-05-16",
     vehicle: "Suzuki",
     plate: "LMN-9012",
     total: "$3000.00",
     paidAmount: "$900.00",
-    BalanceDue: "100.00",
+    balanceDue: "100.00",
     profile: "150",
     jobStatus: "In Progress",
   },
   {
-    id: "INV006",
+    id: "INV008",
     name: "Jack",
     invoiceDate: "2025-05-16",
     vehicle: "Suzuki",
     plate: "LMN-9012",
     total: "$3000.00",
     paidAmount: "$900.00",
-    BalanceDue: "100.00",
+    balanceDue: "100.00",
     profile: "150",
     jobStatus: "In Progress",
   },
@@ -127,11 +127,12 @@ export const JobCardsPage: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState("");
 
   const filteredInvoices = invoices.filter((invoice) => {
-    const query = searchQuery.toLowerCase();
+    const query = searchQuery.trim().toLowerCase();
     return (
       invoice.name.toLowerCase().includes(query) ||
       invoice.vehicle.toLowerCase().includes(query) ||
       invoice.id.toLowerCase().includes(query)
+      
     );
   });
 
@@ -186,16 +187,24 @@ export const JobCardsPage: React.FC = () => {
                     Vehicle</div>
                 </th>
                 <th className="px-4 py-3 text-left text-sm font-semibold text-[#9b111e] border-b">
-                  <div className="flex items-center gap-2"><PiListNumbersFill size={20}/>Plate</div>
+                  <div className="flex items-center gap-2">
+                    <PiListNumbersFill size={20}/>
+                    Plate</div>
                 </th>
                 <th className="px-4 py-3 text-left text-sm font-semibold text-[#9b111e] border-b lg:table-cell hidden">
-                  <div className="flex items-center gap-2"><RiMoneyRupeeCircleLine size={20} />Total</div>
+                  <div className="flex items-center gap-2">
+                    <RiMoneyRupeeCircleLine size={20} />
+                    Total</div>
                 </th>
                 <th className="px-4 py-3 text-left text-sm font-semibold text-[#9b111e] border-b">
-                  <div className="flex items-center gap-2"><IoMdStats size={20}/>Job Status</div> 
+                  <div className="flex items-center gap-2">
+                    <IoMdStats size={20}/>
+                    Job Status</div> 
                 </th>
                 <th className="px-4 py-3 text-left text-sm font-semibold text-[#9b111e] border-b">
-                  <div className="flex items-center gap-2"><GrView size={20}/>View</div>
+                  <div className="flex items-center gap-2">
+                    <GrView size={20}/>
+                    View</div>
                 </th>
               </tr>
             </thead>

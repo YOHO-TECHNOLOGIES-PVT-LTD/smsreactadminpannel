@@ -23,7 +23,8 @@ export const DashboardCard: React.FC<DashboardCardProps> = ({
   dataPoints,
 }) => {
   return (
-    <div className="rounded-xl bg-[#FAF3EB] shadow-md p-4 w-full max-w-[250px] h-[130px]">
+    <div className="rounded-xl bg-[#FAF3EB] shadow-md p-4 w-full max-w-[250px] h-[130px]   hover:scale-[1.06] "> 
+    {/* need to add hover effort of shaking */}
       <div className="flex items-center justify-between">
         {/* Icon box */}
         <div

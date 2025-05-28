@@ -11,10 +11,18 @@ type Props = {
 const VehicleModal: FC<Props> = ({ vehicle, onClose, redirectPath }) => {
 	const baseInfo = vehicle.BasevehicleInfo;
 
+	// Prevent modal from closing when clicking inside the modal content
+	const handleInnerClick = (e: MouseEvent<HTMLDivElement>) => {
+		e.stopPropagation();
+	};
+
 	return (
-		<div className='fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 '>
+		<div
+			className='fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4'
+			onClick={onClose}>
 			<div
-				className='bg-white rounded-xl p-6 relative w-full max-w-4xl h-[85vh] overflow-y-auto shadow-2xl'
+				className='bg-white rounded-xl p-6 relative w-full max-w-5xl h-[95vh] overflow-y-auto shadow-2xl'
+				onClick={handleInnerClick}
 				style={{
 					background: 'linear-gradient(180deg, #fdefe9 0%, #fff 100%)',
 					borderColor: '#E6A895',
@@ -34,7 +42,7 @@ const VehicleModal: FC<Props> = ({ vehicle, onClose, redirectPath }) => {
 
 				{/* Vehicle Image */}
 				<div className='flex justify-center items-center w-full py-4'>
-					<div className='w-100 h-72 bg-gray-100 rounded-lg overflow-hidden shadow'>
+					<div className='w-[450px] h-64 bg-gray-100 rounded-lg overflow-hidden shadow'>
 						<img
 							src={baseInfo.image}
 							alt={baseInfo.title}
