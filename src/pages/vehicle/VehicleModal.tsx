@@ -12,7 +12,7 @@ const VehicleModal: FC<Props> = ({ vehicle, onClose, redirectPath }) => {
 	const baseInfo = vehicle.BasevehicleInfo;
 
 	// Prevent modal from closing when clicking inside the modal content
-	const handleInnerClick = (e: MouseEvent<HTMLDivElement>) => {
+	const handleInnerClick = (e: React.MouseEvent<HTMLDivElement>) => {
 		e.stopPropagation();
 	};
 

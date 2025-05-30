@@ -131,7 +131,7 @@ export const Announcement = () => {
             >
               &times;
             </button>
-            <h2 className="text-xl font-bold mb-4 text-[#9b111e]">
+            <h2 className="text-xl font-bold mb-5 text-[#9b111e]">
               Add New {activeTab === 'offer' ? 'Offer' : activeTab === 'announcement' ? 'Announcement' : 'Partner'}
             </h2>
             <form onSubmit={handleSubmit} className="space-y-4">
