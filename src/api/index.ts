@@ -22,10 +22,10 @@ admin={
 },
 
    sos:{
-    post:(data:string,params:string)=>httpClient.post(API_END_POINTS.sos.Post,data,params),
-    put:(data:string,params:string)=>httpClient.update(API_END_POINTS.sos.Put,data,params),
-    get:(data:string)=>httpClient.get(API_END_POINTS.sos.Get,data,),
-    getAll:(data:string)=>httpClient.get(API_END_POINTS.sos.GetAll,data,)
+    post:(data:any,params:string)=>httpClient.post(API_END_POINTS.sos.Post,data,params),
+    put:(data:any,params:string)=>httpClient.update(API_END_POINTS.sos.Put,data,params),
+    get:(params:string)=>httpClient.get(API_END_POINTS.sos.Get,params,),
+    getAll:(params:string)=>httpClient.get(API_END_POINTS.sos.GetAll,params,)
    },
 
 
@@ -36,4 +36,4 @@ admin={
 
 
 
-export default new Client();
+export default Client;

@@ -29,7 +29,7 @@ class HttpClient{
     return response;
     }
 
-    async post(url:string,params:string,data:string){
+    async post(url:string,data:any,params:string,){
         const response:unknown =  await Axios.post(url,data,{
             params:params,
             headers:{

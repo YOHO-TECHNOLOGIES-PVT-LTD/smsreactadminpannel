@@ -91,6 +91,11 @@ const DashboardSos = () => {
     navigate("/sosdetails");
   };
 
+  //const handleViewClick = (uuid:string) => {
+  //   sos({})
+  //   navigate(`/sosdetails/${uuid}`);
+  // };
+
   const handleAddService = (e: React.FormEvent) => {
     e.preventDefault();
     if (!newServiceName.trim()) return;
