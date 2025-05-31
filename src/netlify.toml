@@ -1,6 +1,6 @@
 [build]
   command = "npm run build"
-  publish = "build"  # or "dist" depending on your framework
+  publish = "dist"  # or "dist" depending on your framework
 
 
 
