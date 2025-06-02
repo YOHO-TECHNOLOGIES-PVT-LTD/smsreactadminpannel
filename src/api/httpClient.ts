@@ -3,7 +3,7 @@ import axios from "axios";
 
 
 
-const backEndUrl:string = import.meta.env.VITE_PUBLIC_API_URL
+const backEndUrl:string = 'https://sms-node-backend-17xb.onrender.com/'
 
 
 const Axios = axios.create({
@@ -15,7 +15,14 @@ const Axios = axios.create({
 
 });
 
-
+Axios.interceptors.request.use((config)=> {
+    const token =localStorage.getItem("authToken");
+    
+    if(token){
+        config.headers["Authorization"] = `${token ? token :""}`;
+    }
+    return config;
+});
 
 class HttpClient{
     async get(url:string,params:string){
@@ -29,9 +36,9 @@ class HttpClient{
     return response;
     }
 
-    async post(url:string,data:any,params:string,){
+    async post(url:string,data:any){
         const response:unknown =  await Axios.post(url,data,{
-            params:params,
+          
             headers:{
 
             }

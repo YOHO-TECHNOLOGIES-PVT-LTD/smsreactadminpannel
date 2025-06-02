@@ -10,32 +10,32 @@ admin={
     delete:()=>httpClient.delete(API_END_POINTS.notification.delete),
     getAll:(data:string)=>httpClient.get(API_END_POINTS.notification.getall,data),
     getstats:(params:string)=>httpClient.get(API_END_POINTS.notification.Getstats,params),
-    create:(params:string,data:string)=>httpClient.post(API_END_POINTS.notification.create,params,data),
+    create:(data:string)=>httpClient.post(API_END_POINTS.notification.create,data),
     getByUser:(params:string)=>httpClient.get(API_END_POINTS.notification.getByUser,params) ,
     markAsRead:(params:string,data:string)=>httpClient.update(API_END_POINTS.notification.markAsRead,data,params),
     getUnreadCount:(params:string)=>httpClient.get(API_END_POINTS.notification.getUnreadCount,params),
-    createBulk:(data:string)=>httpClient.post(API_END_POINTS.notification.createBulk,'',data),
-    postpreferenceCreateOrUpdate:(data:string,params:string)=>httpClient.post(API_END_POINTS.notification.postperferenceCreateOrUpdate,data,params),
+    createBulk:(data:string)=>httpClient.post(API_END_POINTS.notification.createBulk,data),
+    postpreferenceCreateOrUpdate:(data:string)=>httpClient.post(API_END_POINTS.notification.postperferenceCreateOrUpdate,data),
     putpereferenceCreateOrUpdate:(data:string,params:string)=>httpClient.update(API_END_POINTS.notification.putpreferenceCreateOrUpdate,params,data),
     getpreferenceGet:(data:string)=>httpClient.get(API_END_POINTS.notification.getPreferenceGet,data,),
     update:(data:string,params:string)=>httpClient.update(API_END_POINTS.notification.update,params,data),
 },
 
    sos:{
-    post:(data:any,params:string)=>httpClient.post(API_END_POINTS.sos.Post,data,params),
+    post:(data:any,)=>httpClient.post(API_END_POINTS.sos.Post,data),
     put:(data:any,params:string)=>httpClient.update(API_END_POINTS.sos.Put,data,params),
     get:(params:string)=>httpClient.get(API_END_POINTS.sos.Get,params,),
-    getAll:(params:string)=>httpClient.get(API_END_POINTS.sos.GetAll,params,)
+    getAll:()=>httpClient.get(API_END_POINTS.sos.GetAll,'')
    },
 
    Announcement:{
-    post:(data:any,params:string)=>httpClient.post(API_END_POINTS.announcement.Post,data,params),
+    post:(data:any)=>httpClient.post(API_END_POINTS.announcement.Post,data),
     get:(data:any,)=>httpClient.get(API_END_POINTS.announcement.Get,data,)
 },
 
 
 spareparts:{
-    create:(data:any,params:string)=>httpClient.post(API_END_POINTS.spareparts.create,data,params),
+    create:(data:any)=>httpClient.post(API_END_POINTS.spareparts.create,data),
     get:(params:string)=>httpClient.get(API_END_POINTS.spareparts.get,params),
     getAll:(params:string)=>httpClient.get(API_END_POINTS.spareparts.getall,params),
     delete:()=>httpClient.delete(API_END_POINTS.spareparts.delete),
@@ -43,21 +43,21 @@ spareparts:{
    updatestatus:(data:string,params:string)=>httpClient.update(API_END_POINTS.spareparts.updatestatus,data,params)
 },
 auth:{
-  post:(data:any,params:string)=>httpClient.post(API_END_POINTS.auth.Post,data,params),
-  postotp:(data:any,params:string)=>httpClient.post(API_END_POINTS.auth.Postotp,data,params),
-  postreset:(data:any,params:string)=>httpClient.post(API_END_POINTS.auth.Postreset,data,params)  
+  post:(data:any)=>httpClient.post(API_END_POINTS.auth.Post,data),
+  postotp:(data:any)=>httpClient.post(API_END_POINTS.auth.Postotp,data,),
+  postreset:(data:any)=>httpClient.post(API_END_POINTS.auth.Postreset,data,)  
 },
 
 profile:{
     get:(params:string)=>httpClient.get(API_END_POINTS.profile.Get,params),
     put:(params:string,data:string)=>httpClient.update(API_END_POINTS.profile.Put,params,data),
-    post:(data:string,params:string)=>httpClient.post(API_END_POINTS.profile.Post,data,params),
-    postlogin:(data:string,params:string)=>httpClient.post(API_END_POINTS.profile.Postlogin,data,params)
+    post:(data:string)=>httpClient.post(API_END_POINTS.profile.Post,data,),
+    postlogin:(data:any)=>httpClient.post(API_END_POINTS.profile.Postlogin,data)
 },
 
 
 enquiry:{
-    post:(data:string,params:string)=>httpClient.post(API_END_POINTS.enquiry.Post,data,params),
+    post:(data:string)=>httpClient.post(API_END_POINTS.enquiry.Post,data,),
     get:(params:string)=>httpClient.get(API_END_POINTS.enquiry.Get,params),
     put:(data:string,params:string)=>httpClient.update(API_END_POINTS.enquiry.Put,data,params)
 },
@@ -69,8 +69,8 @@ enquiry:{
   jobcard:{
     get:(params:string)=>httpClient.get(API_END_POINTS.jobcard.Get,params),
     getAll:(params:string)=>httpClient.get(API_END_POINTS.jobcard.GetAll,params),
-    post:(data:string,params:string)=>httpClient.post(API_END_POINTS.jobcard.Post,data,params),
-    put:(data:string,params:string)=>httpClient.update(API_END_POINTS.jobcard.Put,data,params)
+    post:(data:string)=>httpClient.post(API_END_POINTS.jobcard.Post,data),
+    put:(data:any,params:string)=>httpClient.update(API_END_POINTS.jobcard.Put,data,params),
   },
 
  dashboard:{
