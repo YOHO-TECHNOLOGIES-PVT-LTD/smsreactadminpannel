@@ -28,6 +28,57 @@ admin={
     getAll:(params:string)=>httpClient.get(API_END_POINTS.sos.GetAll,params,)
    },
 
+   Announcement:{
+    post:(data:any,params:string)=>httpClient.post(API_END_POINTS.announcement.Post,data,params),
+    get:(data:any,)=>httpClient.get(API_END_POINTS.announcement.Get,data,)
+},
+
+
+spareparts:{
+    create:(data:any,params:string)=>httpClient.post(API_END_POINTS.spareparts.create,data,params),
+    get:(params:string)=>httpClient.get(API_END_POINTS.spareparts.get,params),
+    getAll:(params:string)=>httpClient.get(API_END_POINTS.spareparts.getall,params),
+    delete:()=>httpClient.delete(API_END_POINTS.spareparts.delete),
+    update:(data:string,params:string)=>httpClient.update(API_END_POINTS.spareparts.update,data,params),
+   updatestatus:(data:string,params:string)=>httpClient.update(API_END_POINTS.spareparts.updatestatus,data,params)
+},
+auth:{
+  post:(data:any,params:string)=>httpClient.post(API_END_POINTS.auth.Post,data,params),
+  postotp:(data:any,params:string)=>httpClient.post(API_END_POINTS.auth.Postotp,data,params),
+  postreset:(data:any,params:string)=>httpClient.post(API_END_POINTS.auth.Postreset,data,params)  
+},
+
+profile:{
+    get:(params:string)=>httpClient.get(API_END_POINTS.profile.Get,params),
+    put:(params:string,data:string)=>httpClient.update(API_END_POINTS.profile.Put,params,data),
+    post:(data:string,params:string)=>httpClient.post(API_END_POINTS.profile.Post,data,params),
+    postlogin:(data:string,params:string)=>httpClient.post(API_END_POINTS.profile.Postlogin,data,params)
+},
+
+
+enquiry:{
+    post:(data:string,params:string)=>httpClient.post(API_END_POINTS.enquiry.Post,data,params),
+    get:(params:string)=>httpClient.get(API_END_POINTS.enquiry.Get,params),
+    put:(data:string,params:string)=>httpClient.update(API_END_POINTS.enquiry.Put,data,params)
+},
+
+ vechiclemanage:{
+    get:(params:string)=>httpClient.get(API_END_POINTS.vechiclemanage.Get,params)
+ },
+
+  jobcard:{
+    get:(params:string)=>httpClient.get(API_END_POINTS.jobcard.Get,params),
+    getAll:(params:string)=>httpClient.get(API_END_POINTS.jobcard.GetAll,params),
+    post:(data:string,params:string)=>httpClient.post(API_END_POINTS.jobcard.Post,data,params),
+    put:(data:string,params:string)=>httpClient.update(API_END_POINTS.jobcard.Put,data,params)
+  },
+
+ dashboard:{
+    get:(params:string)=>httpClient.get(API_END_POINTS.dashboard.Get,params),
+    getTransaction:(params:string)=>httpClient.get(API_END_POINTS.dashboard.GetTransaction,params),
+    getCustomerDetails:(params:string)=>httpClient.get(API_END_POINTS.dashboard.GetCustomerDetails,params),
+ },
+
 
 }
 

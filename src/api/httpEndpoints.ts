@@ -49,7 +49,7 @@ export const API_END_POINTS ={
 
    auth:{
     Post:"/api/admin/auth/forget-pass",
-    POstotp:"/api/admin/auth/verfiy-otp",
+    Postotp:"/api/admin/auth/verfiy-otp",
     Postreset:"/api/admin/auth/reset-pass/:id",
    },
 

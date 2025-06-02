@@ -4,6 +4,7 @@ import { FiPlus } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import { carIcons } from "../../components/sos/sosicons";
 
+
 type SOSRequest = {
   vehicleNumber: string;
   location: string;
@@ -88,13 +89,12 @@ const DashboardSos = () => {
   });
 
   const handleViewClick = () => {
-    navigate("/sosdetails");
-  };
+  navigate("/sosdetails");
+   };
 
-  //const handleViewClick = (uuid:string) => {
-  //   sos({})
-  //   navigate(`/sosdetails/${uuid}`);
-  // };
+  // const handleViewClick = (uuid:string) => {
+  //    navigate(`/sosdetails/${uuid}`);
+  //  };
 
   const handleAddService = (e: React.FormEvent) => {
     e.preventDefault();
@@ -185,7 +185,7 @@ const DashboardSos = () => {
                     </td>
                     <td className="border border-gray-300 px-4 py-2">
                       <button
-                        onClick={handleViewClick}
+                        onClick={handleViewClick }
                         className="bg-gradient-to-r from-red-600 to-red-800 hover:scale-105 transition-transform text-white px-4 py-1 rounded w-full"
                         title={`View details for ${req.vehicleNumber}`}
                       >
