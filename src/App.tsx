@@ -5,8 +5,11 @@ import { BrowserRouter } from 'react-router-dom';
 import AppRoutes from './routes/AppRoutes.tsx';
 import { AuthProvider } from './pages/auth/AuthContext.tsx';
 import 'react-toastify/dist/ReactToastify.css';
+//import dotenv from 'dotenv'
+// dotenv.config()
 
 function App() {
+	// console.log(process.env.REACT_APP_PUBLIC_API_URL)
 	return (
 		<>
 			<BrowserRouter>

@@ -4,6 +4,8 @@ import {
     FaCodeBranch,
     FaRegAddressCard,
     FaUserCircle,
+    FaEdit,
+    FaTrash,
 } from "react-icons/fa";
 import { BsBuildings } from "react-icons/bs";
 import { SlCalender } from "react-icons/sl";
@@ -14,7 +16,6 @@ import { FcDataEncryption } from "react-icons/fc";
 import { BiSolidCertification } from "react-icons/bi";
 import { RiLockPasswordLine } from "react-icons/ri";
 import { LuPhoneCall } from "react-icons/lu";
-import { COLORS } from "../../constants/uiConstants";
 import { FONTS } from "../../constants/uiConstants";
 
 type ServiceCenterProfileProps = {
@@ -31,8 +32,23 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({ onServi
     const [showSuccessPopup, setShowSuccessPopup] = useState(false);
     const [showDeleteSuccessPopup, setShowDeleteSuccessPopup] = useState(false);
 
+    // Contact Info State
+    const [editCompanyName, setEditCompanyName] = useState("Hyundai Accent");
+    const [editEstablished, setEditEstablished] = useState("2005");
+    const [editBranches, setEditBranches] = useState("35");
+    const [editEvCertified, setEditEvCertified] = useState("Yes");
+    const [editPhone, setEditPhone] = useState("+91 98765 43210");
+    const [editEmail, setEditEmail] = useState("support@autonova.com");
+    const [editWebsite, setEditWebsite] = useState("www.autonova.com");
+    const [editAddress, setEditAddress] = useState("123 EV Road, Chennai, Tamil Nadu");
+    const [editDataEncrypted, setEditDataEncrypted] = useState("Yes");
+    const [editVerifiedCenter, setEditVerifiedCenter] = useState("✔️");
+    const [editLastAudit, setEditLastAudit] = useState("Jan 2025");
+    const [editCertification, setEditCertification] = useState("ISO 27001");
+
+    // Login Info State
     const [editUsername, setEditUsername] = useState("autonova_admin");
-    const [editEmail, setEditEmail] = useState("abc@gmail.com");
+    const [editLoginEmail, setEditLoginEmail] = useState("abc@gmail.com");
     const [editPassword, setEditPassword] = useState("abc@123456");
 
     const handleToggle = () => {
@@ -64,7 +80,23 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({ onServi
 
     const handleEditSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        console.log("Updated:", { editUsername, editEmail, editPassword });
+        console.log("Updated:", {
+            editCompanyName,
+            editEstablished,
+            editBranches,
+            editEvCertified,
+            editPhone,
+            editEmail,
+            editWebsite,
+            editAddress,
+            editDataEncrypted,
+            editVerifiedCenter,
+            editLastAudit,
+            editCertification,
+            editUsername,
+            editLoginEmail,
+            editPassword
+        });
         setShowEditForm(false);
         setShowSuccessPopup(true);
     };
@@ -84,102 +116,127 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({ onServi
     }, [showDeleteSuccessPopup]);
 
     return (
-        <div className=" min-h-screen pl-5 pr-2" style={{ backgroundColor: COLORS.bgColor ,fontFamily: FONTS.paragraph.fontSize}}>
-            <div className="">
-                    <button onClick={handleBack} className=""><MdOutlineKeyboardBackspace className="text-[#800000] text-3xl" /></button>
-                </div>
-                <h2 className="font-bold text-2xl text-[#9b111e]">Profile</h2>
+        <div className="min-h-screen p-6" style={{ fontFamily: FONTS.paragraph.fontSize }}>
+            {/* Header Section */}
+            <div className="flex items-center justify-between mb-6">
+                <button 
+                    onClick={handleBack} 
+                    className="flex items-center gap-2 text-[#9b111e] hover:text-[#800000] transition-colors"
+                >
+                    <MdOutlineKeyboardBackspace className="text-2xl" />
+                    <span className="font-medium">Back</span>
+                </button>
+                <h2 className="text-3xl font-bold text-[#9b111e]">Service Center Profile</h2>
+                <div className="w-10"></div> {/* Spacer for alignment */}
+            </div>
 
-                
-
-                <div className="flex items-center justify-between space-y-8 w-full p-2">
-                    <div className="flex items-center gap-4 pt-2">
-                        <img src="https://logodix.com/logo/2004138.jpg" alt="Logo" className="w-20 h-20 object-contain" />
-                        <h3 className="text-3xl font-extrabold text-black">Fast & Furious Auto Mobiles</h3>
+            {/* Profile Card */}
+            <div className="bg-white rounded-xl shadow-md overflow-hidden mb-8">
+                {/* Profile Header */}
+                <div className="flex flex-col md:flex-row items-center justify-between p-6 bg-gradient-to-r from-[#9b111e] to-[#d23c3c]">
+                    <div className="flex items-center gap-4 mb-4 md:mb-0">
+                        <div className="bg-white p-2 rounded-full">
+                            <img 
+                                src="https://logodix.com/logo/2004138.jpg" 
+                                alt="Logo" 
+                                className="w-16 h-16 object-contain" 
+                            />
+                        </div>
+                        <h3 className="text-2xl font-bold text-white">Fast & Furious Auto Mobiles</h3>
                     </div>
                     <button
                         onClick={onServices}
-                        className="text-white px-4 py-2 rounded-lg transition duration-200 flex items-center gap-2"
-                        style={{
-                            background: "linear-gradient(44.99deg, #700808 11%, #d23c3c 102.34%)",
-                        }}
+                        className="flex items-center gap-2 bg-white text-[#9b111e] px-5 py-2 rounded-lg font-medium hover:bg-gray-100 transition-colors shadow-sm"
                     >
-                        <FaArrowRight size={18} /> Services
+                        <span>View Services</span>
+                        <FaArrowRight size={16} />
                     </button>
                 </div>
-                
-                <div className="w-full h-px bg-[#910707] mt-4"  />
-                   
-                <h2 className="text-2xl font-bold text-[#800000] pt-5 pb-2">Contact Information</h2>
-                <div className="pt-2 pl-8">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-black text-base">
-                    <div className="space-y-4">
-                        <InfoItem icon={<BsBuildings className="text-[#800000]" />} label="Company Name" value="Hyundai Accent" />
-                        <InfoItem icon={<SlCalender className="text-[#800000]" />} label="Established" value="2005" />
-                        <InfoItem icon={<FaCodeBranch className="text-[#800000]" />} label="Branches" value="35" />
-                        <InfoItem icon={<AiFillSafetyCertificate className="text-[#800000]" />} label="EV Certified" value="Yes" />
-                    </div>
-                    <div className="space-y-4">
-                        <InfoItem icon={<LuPhoneCall className="text-[#800000]" />} label="Phone" value="+91 98765 43210" />
-                        <InfoItem icon={<MdEmail className="text-[#800000]" />} label="Email" value="support@autonova.com" />
-                        <InfoItem icon={<CgWebsite className="text-[#800000]" />} label="Website" value="www.autonova.com" />
-                        <InfoItem icon={<FaRegAddressCard className="text-[#800000]" />} label="Address" value="123 EV Road, Chennai, Tamil Nadu" />
-                    </div>
-                    <div className="space-y-4">
-                        <InfoItem icon={<FcDataEncryption className="text-[#800000]" />} label="Data Encrypted" value="Yes" />
-                        <InfoItem icon={<MdVerified className="text-[#800000]" />} label="Verified Center" value="✔️" />
-                        <InfoItem icon={<AiOutlineAudit className="text-[#800000]" />} label="Last Audit" value="Jan 2025" />
-                        <InfoItem icon={<BiSolidCertification className="text-[#800000]" />} label="Certification" value="ISO 27001" />
-                    </div>
-                </div>
-                </div>
 
-                <div className="mt-10 pb-5">
-                    <h2 className="text-2xl font-bold mb-6 text-[#800000]">Login Information</h2>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-black text-base pt-2 pl-8">
-                        <InfoItem icon={<FaUserCircle className="text-[#800000]" />} label="Username" value={editUsername} />
-                        <InfoItem icon={<MdOutlineMailOutline className="text-[#800000]" />} label="Email" value={editEmail} />
-                        <InfoItem icon={<RiLockPasswordLine className="text-[#800000]" />} label="Password" value={editPassword} />
-                    </div>
-                </div>
-                <div className="w-full h-px bg-[#910707]"></div>
-                <div className="mt-5 flex flex-col md:flex-row items-center justify-between gap-4 pb-5">
-                    <div className="flex items-center gap-3 bg-gray-100 px-4 py-2 rounded-full shadow">
-                        <span className="text-sm font-medium text-gray-700">
-                            {isActive ? "Active" : "Inactive"}
-                        </span>
-                        <label className="inline-flex items-center cursor-pointer relative">
+                <div className="p-6">
+                    {/* Status Bar */}
+                    <div className="flex flex-col md:flex-row items-center justify-between mb-8 p-4 bg-gray-50 rounded-lg">
+                        <div className="flex items-center gap-3 mb-3 md:mb-0">
+                            <div className={`w-3 h-3 rounded-full ${isActive ? 'bg-green-500' : 'bg-red-500'}`}></div>
+                            <span className="text-sm font-medium text-gray-700">
+                                {isActive ? "Active" : "Inactive"} Service Center
+                            </span>
+                        </div>
+                        <label className="inline-flex items-center cursor-pointer">
                             <input
                                 type="checkbox"
                                 className="sr-only peer"
                                 checked={isActive}
                                 onChange={handleToggle}
                             />
-                            <div className="w-11 h-6 bg-gray-300 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-red-500 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-red-600 relative"></div>
+                            <div className="relative w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-600"></div>
                         </label>
                     </div>
 
-                    <div className="flex gap-4">
+                    {/* Divider */}
+                    <div className="border-t border-gray-200 my-6"></div>
+
+                    {/* Contact Information Section */}
+                    <div className="mb-8">
+                        <h2 className="text-xl font-bold text-[#9b111e] mb-4 pb-2 border-b border-gray-200">Contact Information</h2>
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                            <div className="space-y-5">
+                                <InfoItem icon={<BsBuildings className="text-[#9b111e]" />} label="Company Name" value={editCompanyName} />
+                                <InfoItem icon={<SlCalender className="text-[#9b111e]" />} label="Established" value={editEstablished} />
+                                <InfoItem icon={<FaCodeBranch className="text-[#9b111e]" />} label="Branches" value={editBranches} />
+                                <InfoItem icon={<AiFillSafetyCertificate className="text-[#9b111e]" />} label="EV Certified" value={editEvCertified} />
+                            </div>
+                            <div className="space-y-5">
+                                <InfoItem icon={<LuPhoneCall className="text-[#9b111e]" />} label="Phone" value={editPhone} />
+                                <InfoItem icon={<MdEmail className="text-[#9b111e]" />} label="Email" value={editEmail} />
+                                <InfoItem icon={<CgWebsite className="text-[#9b111e]" />} label="Website" value={editWebsite} />
+                                <InfoItem icon={<FaRegAddressCard className="text-[#9b111e]" />} label="Address" value={editAddress} />
+                            </div>
+                            <div className="space-y-5">
+                                <InfoItem icon={<FcDataEncryption className="text-[#9b111e]" />} label="Data Encrypted" value={editDataEncrypted} />
+                                <InfoItem icon={<MdVerified className="text-[#9b111e]" />} label="Verified Center" value={editVerifiedCenter} />
+                                <InfoItem icon={<AiOutlineAudit className="text-[#9b111e]" />} label="Last Audit" value={editLastAudit} />
+                                <InfoItem icon={<BiSolidCertification className="text-[#9b111e]" />} label="Certification" value={editCertification} />
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Divider */}
+                    <div className="border-t border-gray-200 my-6"></div>
+
+                    {/* Login Information Section */}
+                    <div className="mb-8">
+                        <h2 className="text-xl font-bold text-[#9b111e] mb-4 pb-2 border-b border-gray-200">Login Information</h2>
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                            <InfoItem icon={<FaUserCircle className="text-[#9b111e]" />} label="Username" value={editUsername} />
+                            <InfoItem icon={<MdOutlineMailOutline className="text-[#9b111e]" />} label="Email" value={editLoginEmail} />
+                            <InfoItem icon={<RiLockPasswordLine className="text-[#9b111e]" />} label="Password" value="••••••••" />
+                        </div>
+                    </div>
+
+                    {/* Action Buttons */}
+                    <div className="flex flex-col sm:flex-row justify-end gap-4 mt-8 pt-6 border-t border-gray-200">
                         <button
-                            className="text-white px-4 py-2 rounded-lg transition duration-200 flex items-center gap-2"
-                            style={{ background: "linear-gradient(44.99deg, #700808 11%, #d23c3c 102.34%)" }}
                             onClick={() => setShowEditForm(true)}
+                            className="flex items-center justify-center gap-2 bg-[#9b111e] text-white px-6 py-2 rounded-lg font-medium hover:bg-[#800000] transition-colors"
                         >
-                            Edit
+                            <FaEdit /> Edit Profile
                         </button>
                         <button
-                            className="text-white px-4 py-2 rounded-lg transition duration-200 flex items-center gap-2"
-                            style={{ background: "linear-gradient(44.99deg, #700808 11%, #d23c3c 102.34%)" }}
                             onClick={() => setShowDeleteConfirm(true)}
+                            className="flex items-center justify-center gap-2 bg-white text-red-600 border border-red-600 px-6 py-2 rounded-lg font-medium hover:bg-red-50 transition-colors"
                         >
-                            Delete
+                            <FaTrash /> Delete Center
                         </button>
                     </div>
                 </div>
+            </div>
 
+            {/* Confirmation Modals */}
             {showConfirm && (
                 <ConfirmationModal
-                    title={pendingStatus ? "Do you want to activate this Service Center?" : "Do you want to deactivate this Service Center?"}
+                    title={pendingStatus ? "Activate Service Center?" : "Deactivate Service Center?"}
+                    message={pendingStatus ? "This will make the service center visible and available for bookings." : "This will hide the service center from customers and prevent new bookings."}
                     onConfirm={confirmChange}
                     onCancel={cancelChange}
                 />
@@ -187,77 +244,210 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({ onServi
 
             {showDeleteConfirm && (
                 <ConfirmationModal
-                    title="Are you sure you want to delete this Service Center?"
+                    title="Delete Service Center?"
+                    message="This action cannot be undone. All associated data will be permanently removed."
+                    confirmText="Delete"
+                    confirmColor="bg-red-600 hover:bg-red-700"
                     onConfirm={confirmDelete}
                     onCancel={cancelDelete}
                 />
             )}
 
+            {/* Enhanced Edit Form Modal */}
             {showEditForm && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
                     <form
                         onSubmit={handleEditSubmit}
-                        className="bg-white px-8 py-6 rounded-2xl shadow-lg w-full max-w-md space-y-4"
+                        className="bg-white rounded-xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto"
                     >
-                        <h2 className="text-xl font-semibold text-gray-900 text-center">Edit Login Info</h2>
-
-                        <div className="space-y-2">
-                            <label className="block text-gray-700 font-medium">Username</label>
-                            <input
-                                type="text"
-                                value={editUsername}
-                                onChange={(e) => setEditUsername(e.target.value)}
-                                className="w-full border rounded-lg px-4 py-2"
-                            />
-                        </div>
-
-                        <div className="space-y-2">
-                            <label className="block text-gray-700 font-medium">Email</label>
-                            <input
-                                type="email"
-                                value={editEmail}
-                                onChange={(e) => setEditEmail(e.target.value)}
-                                className="w-full border rounded-lg px-4 py-2"
-                            />
-                        </div>
-
-                        <div className="space-y-2">
-                            <label className="block text-gray-700 font-medium">Password</label>
-                            <input
-                                type="password"
-                                value={editPassword}
-                                onChange={(e) => setEditPassword(e.target.value)}
-                                className="w-full border rounded-lg px-4 py-2"
-                            />
-                        </div>
-
-                        <div className="flex justify-between pt-4">
+                        <div className="sticky top-0 bg-white p-6 border-b border-gray-200 flex justify-between items-center">
+                            <h2 className="text-2xl font-bold text-[#9b111e]">Edit Profile Information</h2>
                             <button
                                 type="button"
                                 onClick={() => setShowEditForm(false)}
-                                className="text-white px-4 py-2 rounded-lg"
-                                style={{ background: "linear-gradient(44.99deg, #700808 11%, #d23c3c 102.34%)" }}
+                                className="text-gray-500 hover:text-gray-700 transition-colors"
+                            >
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            </button>
+                        </div>
+
+                        <div className="p-6 grid grid-cols-1 md:grid-cols-2 gap-8">
+                            {/* Contact Information Section */}
+                            <div className="space-y-6">
+                                <div className="bg-[#f9f9f9] p-4 rounded-lg">
+                                    <h3 className="text-lg font-semibold text-[#9b111e] mb-4 flex items-center gap-2">
+                                        <BsBuildings className="text-[#9b111e]" />
+                                        Contact Information
+                                    </h3>
+                                    <div className="space-y-4">
+                                        <EnhancedEditField 
+                                            icon={<BsBuildings className="text-[#9b111e]" />}
+                                            label="Company Name" 
+                                            value={editCompanyName} 
+                                            onChange={setEditCompanyName} 
+                                        />
+                                        <EnhancedEditField 
+                                            icon={<SlCalender className="text-[#9b111e]" />}
+                                            label="Established" 
+                                            value={editEstablished} 
+                                            onChange={setEditEstablished} 
+                                        />
+                                        <EnhancedEditField 
+                                            icon={<FaCodeBranch className="text-[#9b111e]" />}
+                                            label="Branches" 
+                                            value={editBranches} 
+                                            onChange={setEditBranches} 
+                                        />
+                                        <EnhancedEditField 
+                                            icon={<AiFillSafetyCertificate className="text-[#9b111e]" />}
+                                            label="EV Certified" 
+                                            value={editEvCertified} 
+                                            onChange={setEditEvCertified} 
+                                        />
+                                        <EnhancedEditField 
+                                            icon={<LuPhoneCall className="text-[#9b111e]" />}
+                                            label="Phone" 
+                                            value={editPhone} 
+                                            onChange={setEditPhone} 
+                                        />
+                                        <EnhancedEditField 
+                                            icon={<MdEmail className="text-[#9b111e]" />}
+                                            label="Email" 
+                                            value={editEmail} 
+                                            onChange={setEditEmail} 
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Second Column */}
+                            <div className="space-y-6">
+                                <div className="bg-[#f9f9f9] p-4 rounded-lg">
+                                    <h3 className="text-lg font-semibold text-[#9b111e] mb-4 flex items-center gap-2">
+                                        <CgWebsite className="text-[#9b111e]" />
+                                        Website & Address
+                                    </h3>
+                                    <div className="space-y-4">
+                                        <EnhancedEditField 
+                                            icon={<CgWebsite className="text-[#9b111e]" />}
+                                            label="Website" 
+                                            value={editWebsite} 
+                                            onChange={setEditWebsite} 
+                                        />
+                                        <EnhancedEditField 
+                                            icon={<FaRegAddressCard className="text-[#9b111e]" />}
+                                            label="Address" 
+                                            value={editAddress} 
+                                            onChange={setEditAddress} 
+                                            textarea
+                                        />
+                                    </div>
+                                </div>
+
+                                <div className="bg-[#f9f9f9] p-4 rounded-lg">
+                                    <h3 className="text-lg font-semibold text-[#9b111e] mb-4 flex items-center gap-2">
+                                        <RiLockPasswordLine className="text-[#9b111e]" />
+                                        Login Information
+                                    </h3>
+                                    <div className="space-y-4">
+                                        <EnhancedEditField 
+                                            icon={<FaUserCircle className="text-[#9b111e]" />}
+                                            label="Username" 
+                                            value={editUsername} 
+                                            onChange={setEditUsername} 
+                                        />
+                                        <EnhancedEditField 
+                                            icon={<MdOutlineMailOutline className="text-[#9b111e]" />}
+                                            label="Login Email" 
+                                            value={editLoginEmail} 
+                                            onChange={setEditLoginEmail} 
+                                        />
+                                        <EnhancedEditField 
+                                            icon={<RiLockPasswordLine className="text-[#9b111e]" />}
+                                            label="Password" 
+                                            value={editPassword} 
+                                            onChange={setEditPassword} 
+                                            type="password"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Third Column */}
+                            <div className="md:col-span-2">
+                                <div className="bg-[#f9f9f9] p-4 rounded-lg">
+                                    <h3 className="text-lg font-semibold text-[#9b111e] mb-4 flex items-center gap-2">
+                                        <BiSolidCertification className="text-[#9b111e]" />
+                                        Additional Information
+                                    </h3>
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                        <EnhancedEditField 
+                                            icon={<FcDataEncryption className="text-[#9b111e]" />}
+                                            label="Data Encrypted" 
+                                            value={editDataEncrypted} 
+                                            onChange={setEditDataEncrypted} 
+                                        />
+                                        <EnhancedEditField 
+                                            icon={<MdVerified className="text-[#9b111e]" />}
+                                            label="Verified Center" 
+                                            value={editVerifiedCenter} 
+                                            onChange={setEditVerifiedCenter} 
+                                        />
+                                        <EnhancedEditField 
+                                            icon={<AiOutlineAudit className="text-[#9b111e]" />}
+                                            label="Last Audit" 
+                                            value={editLastAudit} 
+                                            onChange={setEditLastAudit} 
+                                        />
+                                        <EnhancedEditField 
+                                            icon={<BiSolidCertification className="text-[#9b111e]" />}
+                                            label="Certification" 
+                                            value={editCertification} 
+                                            onChange={setEditCertification} 
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="sticky bottom-0 bg-white p-4 border-t border-gray-200 flex justify-end gap-3">
+                            <button
+                                type="button"
+                                onClick={() => setShowEditForm(false)}
+                                className="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors"
                             >
                                 Cancel
                             </button>
                             <button
                                 type="submit"
-                                className="text-white px-4 py-2 rounded-lg"
-                                style={{ background: "linear-gradient(44.99deg, #700808 11%, #d23c3c 102.34%)" }}
+                                className="px-6 py-2 bg-[#9b111e] text-white rounded-lg hover:bg-[#800000] transition-colors flex items-center gap-2"
                             >
-                                Update
+                                <FaEdit /> Save Changes
                             </button>
                         </div>
                     </form>
                 </div>
             )}
 
+            {/* Success Popups */}
             {showSuccessPopup && (
-                <Popup message="Updated Successfully!" />
+                <Popup 
+                    message="Profile updated successfully!" 
+                    icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>}
+                />
             )}
 
             {showDeleteSuccessPopup && (
-                <Popup message="Successfully Deleted!" />
+                <Popup 
+                    message="Service center deleted successfully!" 
+                    icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>}
+                />
             )}
         </div>
     );
@@ -272,53 +462,96 @@ const InfoItem = ({
     label: string;
     value: string;
 }) => (
-    <div>
-        <div className="flex items-center gap-2 text-lg font-semibold">
-            {icon}
-            <p>{label}</p>
+    <div className="flex items-start gap-3">
+        <div className="mt-1 text-lg">{icon}</div>
+        <div>
+            <p className="text-sm font-medium text-gray-500">{label}</p>
+            <p className="text-lg font-normal text-gray-800">{value}</p>
         </div>
-        <p className="text-lg text-gray-700">{value}</p>
+    </div>
+);
+
+const EnhancedEditField = ({
+    icon,
+    label,
+    value,
+    onChange,
+    type = "text",
+    textarea = false
+}: {
+    icon?: React.ReactNode;
+    label: string;
+    value: string;
+    onChange: (value: string) => void;
+    type?: string;
+    textarea?: boolean;
+}) => (
+    <div className="space-y-2">
+        <label className="block text-sm font-medium text-gray-700 mb-1 flex items-center gap-2">
+            {icon}
+            <span>{label}</span>
+        </label>
+        {textarea ? (
+            <textarea
+                value={value}
+                onChange={(e) => onChange(e.target.value)}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#9b111e] focus:border-[#9b111e] outline-none transition min-h-[100px]"
+                rows={3}
+            />
+        ) : (
+            <input
+                type={type}
+                value={value}
+                onChange={(e) => onChange(e.target.value)}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#9b111e] focus:border-[#9b111e] outline-none transition"
+            />
+        )}
     </div>
 );
 
 const ConfirmationModal = ({
     title,
+    message,
+    confirmText = "Confirm",
+    confirmColor = "bg-[#9b111e] hover:bg-[#800000]",
     onConfirm,
     onCancel,
 }: {
     title: string;
+    message?: string;
+    confirmText?: string;
+    confirmColor?: string;
     onConfirm: () => void;
     onCancel: () => void;
 }) => (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
-        <div className="bg-white px-6 py-6 rounded-2xl shadow-lg w-full max-w-sm text-center space-y-4">
-            <h3 className="text-lg font-semibold text-gray-900">{title}</h3>
-            <div className="flex justify-center gap-6">
-                <button
-                    className="text-white px-4 py-2 rounded-lg"
-                    style={{ background: "linear-gradient(44.99deg, #700808 11%, #d23c3c 102.34%)" }}
-                    onClick={onConfirm}
-                >
-                    Yes
-                </button>
-                <button
-                    className="text-white px-4 py-2 rounded-lg"
-                    style={{ background: "linear-gradient(44.99deg, #700808 11%, #d23c3c 102.34%)" }}
-                    onClick={onCancel}
-                >
-                    No
-                </button>
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+        <div className="bg-white rounded-xl shadow-xl w-full max-w-md overflow-hidden">
+            <div className="p-6">
+                <h3 className="text-xl font-bold text-gray-900 mb-2">{title}</h3>
+                {message && <p className="text-gray-600 mb-6">{message}</p>}
+                <div className="flex justify-end gap-3">
+                    <button
+                        onClick={onCancel}
+                        className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors"
+                    >
+                        Cancel
+                    </button>
+                    <button
+                        onClick={onConfirm}
+                        className={`px-4 py-2 text-white rounded-lg transition-colors ${confirmColor}`}
+                    >
+                        {confirmText}
+                    </button>
+                </div>
             </div>
         </div>
     </div>
 );
 
-const Popup = ({ message }: { message: string }) => (
-    <div
-        className="fixed top-6 left-1/2 transform -translate-x-1/2 z-50 text-white px-4 py-2 rounded-lg shadow-lg"
-        style={{ background: "linear-gradient(44.99deg, #700808 11%, #d23c3c 102.34%)" }}
-    >
-        {message}
+const Popup = ({ message, icon }: { message: string; icon?: React.ReactNode }) => (
+    <div className="fixed top-6 left-1/2 transform -translate-x-1/2 z-50 flex items-center gap-2 bg-[#9b111e] text-white px-5 py-3 rounded-lg shadow-lg animate-fade-in-out">
+        {icon}
+        <span>{message}</span>
     </div>
 );
 
