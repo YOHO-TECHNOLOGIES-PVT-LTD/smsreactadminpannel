@@ -59,21 +59,23 @@ const VehicleManagementPage = () => {
 					{/* SEARCH BAR ALONG WITH ICON */}
 					<FaSearch
 						className='text-red-700 mt-3 '
-						style={{ position: 'relative', left: '32px', top: '1px' }}
+						style={{ position: 'relative', left: '32px', top: '5px' }}
+						size={18}
 					/>
 					<input
 						type='text'
 						placeholder='Search...'
 						value={searchTerm}
-						className='text-red-700 placeholder:text-red-400 border border-red-700 px-12 py-2 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-red-700 w-3/6'
+						className='text-red-700 placeholder:text-red-400 border border-red-700 px-12 py-2 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-red-700 w-3/6 h-[50px]'
 						onChange={(m) => setSearchTerm(m.target.value)}
 					/>
 
 					{/*RESET ICON */}
 					<RiResetLeftFill
 						className=' text-red-700 cursor-pointer hover:text-red-400 '
-						style={{ position: 'relative', left: '-30px', top: '15px' }}
+						style={{ position: 'relative', left: '-30px', top: '18px' }}
 						onClick={handleReset}
+						size={18}
 					/>
 				</div>
 			</div>
@@ -111,7 +113,7 @@ const VehicleManagementPage = () => {
 					<VehicleModal
 						vehicle={selectedVehicle} // This now matches the expected Vehicle type
 						onClose={() => setSelectedVehicle(null)}
-						redirectPath='/quotation'
+						redirectPath='/job-cards'
 					/>
 				)}
 			</div>
