@@ -17,6 +17,7 @@ import 'leaflet/dist/leaflet.css';
 import sos from '../../assets/sos.jpg';
 import { FaArrowLeft } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+import { getsos } from '../../components/sos/services';
 
 interface PostedDetail {
   id: number;
@@ -56,58 +57,64 @@ const SosDetails: React.FC = () => {
   const [postedDetails, setPostedDetails] = useState<PostedDetail[]>([]);
   const [statusFilter, setStatusFilter] = useState<string>('All');
 
-  const fetchPostedDetails = async () => {
+  // const fetchPostedDetails = async () => {
    
     
-    setPostedDetails([
-      {
-        id: 1,
-        title: 'Fire in Chennai',
-        latitude: 13.0827,
-        longitude: 80.2707,
-        postedDate: '2025-05-22',
-        deadline: '2025-05-23',
-        postedBy: 'Police Dept',
-        department: 'Emergency',
-        status: 'Not Started',
-        note: 'Reported fire in North Chennai',
-        location: 'Chennai',
-        contactName: 'Inspector Raj',
-        contactPhone: '1234567890',
-        contactEmail: 'raj@example.com',
-        imageUrl: '',
-        contactNumber:"99486637684",
-        type:"Own"
-      },
-      {
-        id: 2,
-        title: 'Flood Rescue',
-        latitude: 12.9716,
-        longitude: 77.5946,
-        postedDate: '2025-05-21',
-        deadline: '2025-05-22',
-        postedBy: 'Disaster Management',
-        department: 'Rescue',
-        status: 'In Progress',
-        note: 'Flooding in Bangalore suburbs',
-        location: 'Bangalore',
-        contactName: 'Officer Meera',
-        contactPhone: '9876543210',
-        contactEmail: 'meera@example.com',
-        imageUrl: '',
-        contactNumber: "99486637684",
-        type:"Other"
-      },
-    ]);
+  //   setPostedDetails([
+  //     {
+  //       id: 1,
+  //       title: 'Fire in Chennai',
+  //       latitude: 13.0827,
+  //       longitude: 80.2707,
+  //       postedDate: '2025-05-22',
+  //       deadline: '2025-05-23',
+  //       postedBy: 'Police Dept',
+  //       department: 'Emergency',
+  //       status: 'Not Started',
+  //       note: 'Reported fire in North Chennai',
+  //       location: 'Chennai',
+  //       contactName: 'Inspector Raj',
+  //       contactPhone: '1234567890',
+  //       contactEmail: 'raj@example.com',
+  //       imageUrl: '',
+  //       contactNumber:"99486637684",
+  //       type:"Own"
+  //     },
+  //     {
+  //       id: 2,
+  //       title: 'Flood Rescue',
+  //       latitude: 12.9716,
+  //       longitude: 77.5946,
+  //       postedDate: '2025-05-21',
+  //       deadline: '2025-05-22',
+  //       postedBy: 'Disaster Management',
+  //       department: 'Rescue',
+  //       status: 'In Progress',
+  //       note: 'Flooding in Bangalore suburbs',
+  //       location: 'Bangalore',
+  //       contactName: 'Officer Meera',
+  //       contactPhone: '9876543210',
+  //       contactEmail: 'meera@example.com',
+  //       imageUrl: '',
+  //       contactNumber: "99486637684",
+  //       type:"Other"
+  //     },
+  //   ]);
+  // };
+useEffect(() => {
+   
+    const fetchSosRequests = async (id:any) => {
+    try {
+      
+     const data:any = await getsos(id)
+   
+     console.log(data)
+    } catch (error) {
+      console.error("Error fetching SOS requests:", error);
+    }
   };
-
-  useEffect(() => {
-    fetchPostedDetails();
-    const interval = setInterval(() => {
-      fetchPostedDetails();
-    }, 10000);
-    return () => clearInterval(interval);
-  }, []);
+   fetchSosRequests();
+ }, []);
 
   
   const filteredDetails = statusFilter === 'All'
@@ -181,19 +188,19 @@ const SosDetails: React.FC = () => {
           <h2 className="text-[#9b111e] font-bold text-2xl mb-4">Personal Details</h2>
           <div className="flex items-center  mt-5">
               <FaUser className="text-[#9b111e] lg:text-md  xl:text-2xl mr-3" />
-            <div className="xl:text-lg lg:text-md font-semibold">{selected.contactName || 'John Doe'}</div>
+            <div className="xl:text-lg lg:text-md font-semibold">{selected.contactName }</div>
           </div>
           <div className="flex items-center mt-10">
               <FaMapMarkerAlt className="text-[#9b111e] lg:text-md  xl:text-2xl mr-3" />
-              <div className="text-lg lg:text-md  font-semibold">{selected.location || 'Chennai'}</div>
+              <div className="text-lg lg:text-md  font-semibold">{selected.location }</div>
           </div>
           <div className="flex items-center mt-10">
               <FaEnvelope className="text-[#9b111e] lg:text-md  xl:text-2xl mr-3" />
-              <div className="text-lg lg:text-md  font-semibold">{selected.contactEmail || 'john@example.com'}</div>
+              <div className="text-lg lg:text-md  font-semibold">{selected.contactEmail }</div>
           </div>
           <div className="flex items-center mt-10">
               <FaPhoneAlt className="text-[#9b111e] lg:text-md  xl:text-2xl mr-3" />
-              <div className="text-lg lg:text-md  font-semibold">{selected.contactNumber || 'John Doe'}</div>
+              <div className="text-lg lg:text-md  font-semibold">{selected.contactNumber}</div>
           </div>
         </div>
 
@@ -201,11 +208,11 @@ const SosDetails: React.FC = () => {
             <h2 className="text-[#9b111e] font-bold text-2xl  mb-4">Other Details</h2>
             <div className="flex items-center mt-10">
               <FaPhoneAlt className="text-[#9b111e]  xl:text-2xl lg:text-md mr-3" />
-              <div className="xl:text-lg lg:text-md  font-semibold">{selected.contactNumber || 'John Doe'}</div>
+              <div className="xl:text-lg lg:text-md  font-semibold">{selected.contactNumber }</div>
             </div>
             <div className="flex items-center mt-10">
               <FaMapMarkerAlt className="text-[#9b111e]  xl:text-2xl lg:text-md  mr-3" />
-              <div className="xl:text-lg lg:text-md  font-semibold">{selected.location || 'Chennai'}</div>
+              <div className="xl:text-lg lg:text-md  font-semibold">{selected.location }</div>
             </div>
 
             <div className="flex gap-4 mt-10">
@@ -294,7 +301,7 @@ const SosDetails: React.FC = () => {
                 <FaStickyNote className="text-[#9b111e]  text-2xl mr-3" />
                 <div>
                   <div className="font-semibold text-lg">Note</div>
-                  <div className="text-gray-600">{selected.note || 'No notes provided'}</div>
+                  <div className="text-gray-600">{selected.note}</div>
                 </div>
               </div>
 
@@ -302,7 +309,7 @@ const SosDetails: React.FC = () => {
                 <FaMapMarkerAlt className="text-[#9b111e]  text-2xl mr-3" />
                 <div>
                   <div className="font-semibold text-lg">Location</div>
-                  <div className="text-gray-600 text-2xl">{selected.location || 'chennai'}</div>
+                  <div className="text-gray-600 text-2xl">{selected.location}</div>
                 </div>
               </div>
 

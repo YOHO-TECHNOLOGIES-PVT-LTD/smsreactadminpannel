@@ -76,6 +76,7 @@ const [adminData, setAdminData] = useState(null);
       try {
          const params = '';
         const response:any = await new Client().admin.profile.get(params);
+        
         setAdminData(response.data);
         localStorage.setItem('adminuuid',response.data.data.uuid)
         localStorage.setItem('adminobjectid',response.data.data._id)
