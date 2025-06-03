@@ -68,14 +68,17 @@ const queries = [
 
 export const Dashboard = () => {
   const navigate = useNavigate();
-const [adminData, setAdminData] = useState(null);
+const [adminData, setAdminData] = useState<any[]>([]);
+const [active,setactive]=useState<any[]>([])
 
-
+ 
   useEffect(() => {
     const fetchAdminData = async () => {
       try {
          const params = '';
         const response:any = await new Client().admin.profile.get(params);
+        const data:any = await new Client().admin.dashboard.get(params)
+        setactive (data.data.data)
         setAdminData(response.data);
         localStorage.setItem('adminuuid',response.data.data.uuid)
         localStorage.setItem('adminobjectid',response.data.data._id)
@@ -87,7 +90,7 @@ const [adminData, setAdminData] = useState(null);
     fetchAdminData();
   }, []);
 
-
+    
    
   return (
     <div className="w-full px-4 py-6 -mt-6 ">
@@ -201,7 +204,7 @@ const [adminData, setAdminData] = useState(null);
             </button>{" "}
           </div>
           <div className="">
-            <SoSCard />
+            <SoSCard datas={active} />
           </div>
         </div>
       </div>

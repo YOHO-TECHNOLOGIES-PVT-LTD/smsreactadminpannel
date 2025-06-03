@@ -2,7 +2,7 @@
 import Client from "../../../api";
 
 
-export const sos =async (data:any)=>{
+export const getsos =async (data:any)=>{
     try{ 
         const response =  await new Client().admin.sos.get(data)
         // const data= <response />;
