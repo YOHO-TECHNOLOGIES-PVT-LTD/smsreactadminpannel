@@ -67,8 +67,8 @@ enquiry:{
  },
 
   jobcard:{
-    get:(params:string)=>httpClient.get(API_END_POINTS.jobcard.Get,params),
-    getAll:(params:string)=>httpClient.get(API_END_POINTS.jobcard.GetAll,params),
+    get:(params:string)=>httpClient.get(API_END_POINTS.jobcard.Get.replace(':id',params)),
+    getAll:()=>httpClient.get(API_END_POINTS.jobcard.GetAll),
     post:(data:string)=>httpClient.post(API_END_POINTS.jobcard.Post,data),
     put:(data:any,params:string)=>httpClient.update(API_END_POINTS.jobcard.Put,data,params),
   },

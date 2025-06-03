@@ -3,7 +3,7 @@ import axios from "axios";
 
 
 
-const backEndUrl:string = 'https://sms-node-backend-17xb.onrender.com/'
+const backEndUrl:string = ' http://localhost:3000/'
 
 
 const Axios = axios.create({
@@ -25,7 +25,7 @@ Axios.interceptors.request.use((config)=> {
 });
 
 class HttpClient{
-    async get(url:string,params:string){
+    async get(url:string,params?:string){
     const response:unknown = await Axios.get(url,{
         params:params,
         headers:{
