@@ -57,56 +57,56 @@ const SosDetails: React.FC = () => {
   const [postedDetails, setPostedDetails] = useState<PostedDetail[]>([]);
   const [statusFilter, setStatusFilter] = useState<string>('All');
 
-  // const fetchPostedDetails = async () => {
+  const fetchPostedDetails = async () => {
    
     
-  //   setPostedDetails([
-  //     {
-  //       id: 1,
-  //       title: 'Fire in Chennai',
-  //       latitude: 13.0827,
-  //       longitude: 80.2707,
-  //       postedDate: '2025-05-22',
-  //       deadline: '2025-05-23',
-  //       postedBy: 'Police Dept',
-  //       department: 'Emergency',
-  //       status: 'Not Started',
-  //       note: 'Reported fire in North Chennai',
-  //       location: 'Chennai',
-  //       contactName: 'Inspector Raj',
-  //       contactPhone: '1234567890',
-  //       contactEmail: 'raj@example.com',
-  //       imageUrl: '',
-  //       contactNumber:"99486637684",
-  //       type:"Own"
-  //     },
-  //     {
-  //       id: 2,
-  //       title: 'Flood Rescue',
-  //       latitude: 12.9716,
-  //       longitude: 77.5946,
-  //       postedDate: '2025-05-21',
-  //       deadline: '2025-05-22',
-  //       postedBy: 'Disaster Management',
-  //       department: 'Rescue',
-  //       status: 'In Progress',
-  //       note: 'Flooding in Bangalore suburbs',
-  //       location: 'Bangalore',
-  //       contactName: 'Officer Meera',
-  //       contactPhone: '9876543210',
-  //       contactEmail: 'meera@example.com',
-  //       imageUrl: '',
-  //       contactNumber: "99486637684",
-  //       type:"Other"
-  //     },
-  //   ]);
-  // };
+    setPostedDetails([
+      // {
+      //   id: 1,
+      //   title: 'Fire in Chennai',
+      //   latitude: 13.0827,
+      //   longitude: 80.2707,
+      //   postedDate: '2025-05-22',
+      //   deadline: '2025-05-23',
+      //   postedBy: 'Police Dept',
+      //   department: 'Emergency',
+      //   status: 'Not Started',
+      //   note: 'Reported fire in North Chennai',
+      //   location: 'Chennai',
+      //   contactName: 'Inspector Raj',
+      //   contactPhone: '1234567890',
+      //   contactEmail: 'raj@example.com',
+      //   imageUrl: '',
+      //   contactNumber:"99486637684",
+      //   type:"Own"
+      // },
+      // {
+      //   id: 2,
+      //   title: 'Flood Rescue',
+      //   latitude: 12.9716,
+      //   longitude: 77.5946,
+      //   postedDate: '2025-05-21',
+      //   deadline: '2025-05-22',
+      //   postedBy: 'Disaster Management',
+      //   department: 'Rescue',
+      //   status: 'In Progress',
+      //   note: 'Flooding in Bangalore suburbs',
+      //   location: 'Bangalore',
+      //   contactName: 'Officer Meera',
+      //   contactPhone: '9876543210',
+      //   contactEmail: 'meera@example.com',
+      //   imageUrl: '',
+      //   contactNumber: "99486637684",
+      //   type:"Other"
+      // },
+    ]);
+  };
 useEffect(() => {
    
-    const fetchSosRequests = async (id:any) => {
+    const fetchSosRequests = async () => {
     try {
       
-     const data:any = await getsos(id)
+     const data:any = await getsos()
    
      console.log(data)
     } catch (error) {

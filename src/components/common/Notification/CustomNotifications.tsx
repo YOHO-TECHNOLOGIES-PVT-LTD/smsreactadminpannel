@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 
 import { FaBell } from "react-icons/fa";
 
-import {  getAllNotification, getByUserNotification } from './services';
-import { getallSos } from '../../sos/services';
+import {  getAllNotification } from './services';
+
 
 
 
@@ -28,19 +28,19 @@ const NotificationPanel = () => {
 }, []);
   
 
-  const handleDelete = (id: number) => {
-    setNotifications(notifications.filter((n) => n.id !== id));
-  };
+  // const handleDelete = (id: number) => {
+  //   setNotifications(notifications.filter((n) => n.id !== id));
+  // };
 
-  const handleMarkAsRead = (id: number) => {
-    setNotifications((prev) =>
-      prev
-        .map((notif) =>
-          notif.id === id ? { ...notif, status: '' } : notif
-        )
-        .filter((notif) => notif.id !== id || notif.type !== 'error')
-    );
-  };
+  // const handleMarkAsRead = (id: number) => {
+  //   setNotifications((prev) =>
+  //     prev
+  //       .map((notif) =>
+  //         notif.id === id ? { ...notif, status: '' } : notif
+  //       )
+  //       .filter((notif) => notif.id !== id || notif.type !== 'error')
+  //   );
+  // };
 
   const filteredNotifications = notifications.filter((notif) => {
     if (filter === 'all') return true;

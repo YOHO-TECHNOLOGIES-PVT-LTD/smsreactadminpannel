@@ -3,7 +3,7 @@ import { MdToggleOn, MdToggleOff, MdClose } from "react-icons/md";
 import { FiPlus } from "react-icons/fi";
 import {  useNavigate } from "react-router-dom";
 import { carIcons } from "../../components/sos/sosicons";
-import { getallSos, sos } from "../../components/sos/services";
+import { getallSos } from "../../components/sos/services";
 
 
 type SOSRequest = {
@@ -62,7 +62,7 @@ const DashboardSos = () => {
   //   return true;
   // });
   const handleViewClick = (uuid:string) => {
-sos({})
+
   navigate(`/sosdetails/${uuid}`);
   };
 

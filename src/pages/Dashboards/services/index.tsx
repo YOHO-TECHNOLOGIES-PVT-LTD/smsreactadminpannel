@@ -1,11 +1,33 @@
-// import Client from "../../../api";
+import Client from "../../../api";
 
-// export const getDashboard = async (data:any)=>{
-//      try{
-//         const response = await new Client().admin.Announcement.get(data)
-//         return response;
-//     }
-//     catch(error){
-//         console.log('Error fetching data:',error);
-//     }
-// }
+export const getDashboard = async (data:any)=>{
+     try{
+        const response = await new Client().admin.dashboard.get(data)
+        return response;
+    }
+    catch(error){
+        console.log('Error fetching data:',error);
+    }
+}
+
+export  const GetTransactionDashboard = async (data:any)=>{
+     try{
+        const response = await new Client().admin.dashboard.get(data)
+        return response;
+    }
+    catch(error){
+        console.log('Error fetching data:',error);
+    }
+} 
+
+
+
+export  const GetCustomerDetailsDashboard = async (data:any)=>{
+     try{
+        const response = await new Client().admin.dashboard.get(data)
+        return response;
+    }
+    catch(error){
+        console.log('Error fetching data:',error);
+    }
+} 

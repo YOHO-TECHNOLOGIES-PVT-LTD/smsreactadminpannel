@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Offer from '../../components/common/Announcement/Offer';
 import AnnouncementList from '../../components/common/Announcement/AnnouncementList';
 import Partner from '../../components/common/Announcement/Partner';
-import { getAnnouncement, postAnnouncement } from './services';
+import {  getAnnouncement, postAnnouncement } from './services';
 
 // Define the partner data type
 type PartnerData = {
@@ -25,7 +25,7 @@ export const Announcement = () => {
   if (activeTab === 'announcement') {
     const fetchAnnouncements = async () => {
       try {
-        const data:any = await getAnnouncement()  ; 
+        const data:any = await getAnnouncement('')  ; 
         console.log(data); 
       } catch (error) {
         console.error('Error fetching announcements:', error);
