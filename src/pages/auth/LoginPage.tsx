@@ -1,15 +1,18 @@
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
 import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, } from 'react-router-dom';
 import carImage from '../../assets/loginimg/car-img.png';
 import { FONTS } from '../../constants/uiConstants';
 import { useAuth } from './AuthContext';
+import { postLogin } from './services';
 
 type LoginData = {
 	email: string;
 	password: string;
 };
+
+// const [ Login,setLogin]= useState<LoginData>();
 
 const LoginPage = () => {
 	const {
@@ -18,13 +21,21 @@ const LoginPage = () => {
 		formState: { errors },
 	} = useForm<LoginData>();
 	const [showPassword, setShowPassword] = useState<boolean>(false);
-	const navigate = useNavigate();
+	//const navigate = useNavigate();
 	const { login } = useAuth();
 
-	const onSubmit = (data: LoginData) => {
-		if (data?.email && data?.password) {
-			login();
-			navigate('/');
+	const onSubmit = async (data: LoginData) => {
+		// if (data?.email && data?.password) {
+		// 	login();
+		// 	navigate('/');
+		// }
+		try{
+			const  User:any = await postLogin(data)
+			login(User.data.data)
+			console.log(User);
+		}
+		catch (error){
+            console.log('error',error)
 		}
 	};
 

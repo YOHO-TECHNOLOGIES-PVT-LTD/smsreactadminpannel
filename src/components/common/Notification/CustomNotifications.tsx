@@ -1,67 +1,46 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { FaBell } from "react-icons/fa";
 
-const mockNotifications = [
-  {
-    id: 1,
-    title: 'Meeting at 7:30 PM',
-    description: 'You have an upcoming meeting with Alex regarding digital marketing',
-    status: 'new',
-    type: 'info',
-    date: '2025-12-24T19:30:00',
-  },
-  {
-    id: 2,
-    title: 'New Session booked by Anthony M',
-    description: 'New session is booked by Anthony, on 27th Jan at 5:30 PM',
-    status: 'new',
-    type: 'info',
-    date: '2025-01-27T17:30:00',
-  },
-  {
-    id: 3,
-    title: 'You have a new message from Iuko',
-    description: 'You have a new message in conversations from Iuko Wild',
-    status: '',
-    type: 'info',
-    date: '2025-12-24T20:45:00',
-  },
-  {
-    id: 4,
-    title: 'Meeting at 06:45 PM',
-    description: 'You have a meeting with Lauren regarding career navigation',
-    status: '',
-    type: 'info',
-    date: '2025-12-13T18:45:00',
-  },
-  {
-    id: 5,
-    title: 'Congratulations your profile is 100% complete',
-    description: 'Your payment for booking #12345 has been received.',
-    status: '',
-    type: 'info',
-    date: '2025-12-09T12:00:00',
-  },
-];
+import {  getAllNotification } from './services';
+
+
+
 
 const NotificationPanel = () => {
-  const [notifications, setNotifications] = useState(mockNotifications);
+  const [notifications, setNotifications] = useState([]);
   const [filter, setFilter] = useState<'all' | 'read' | 'unread'>('all');
+  
 
-  const handleDelete = (id: number) => {
-    setNotifications(notifications.filter((n) => n.id !== id));
+  
+  useEffect(() => {
+  const fetchUserNotifications = async () => {
+    try {
+      const res: any = await getAllNotification('');
+      const data = Array.isArray(res?.data?.data) ? res.data.data : [];
+      setNotifications(data);
+    } catch (err) {
+      console.log("Error fetching user notifications:", err);
+    }
   };
 
-  const handleMarkAsRead = (id: number) => {
-    setNotifications((prev) =>
-      prev
-        .map((notif) =>
-          notif.id === id ? { ...notif, status: '' } : notif
-        )
-        .filter((notif) => notif.id !== id || notif.type !== 'error')
-    );
-  };
+  fetchUserNotifications();
+}, []);
+  
+
+  // const handleDelete = (id: number) => {
+  //   setNotifications(notifications.filter((n) => n.id !== id));
+  // };
+
+  // const handleMarkAsRead = (id: number) => {
+  //   setNotifications((prev) =>
+  //     prev
+  //       .map((notif) =>
+  //         notif.id === id ? { ...notif, status: '' } : notif
+  //       )
+  //       .filter((notif) => notif.id !== id || notif.type !== 'error')
+  //   );
+  // };
 
   const filteredNotifications = notifications.filter((notif) => {
     if (filter === 'all') return true;
@@ -82,7 +61,7 @@ const NotificationPanel = () => {
   };
 
   return (
-    <div className="w-full mx-auto mt-5 bg-white rounded-2xl p-6 shadow">
+    <div className="w-full h-full mt-5 bg-white rounded-2xl p-6 shadow">
       <div className="flex justify-between gap-4 mb-6">
         <div className="flex gap-4">
           {['all', 'read', 'unread'].map((type) => (
@@ -97,6 +76,8 @@ const NotificationPanel = () => {
             >
               {type.charAt(0).toUpperCase() + type.slice(1)}
             </button>
+
+            
           ))}
         </div>
         <button
