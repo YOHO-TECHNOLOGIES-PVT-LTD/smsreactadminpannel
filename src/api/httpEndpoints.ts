@@ -79,6 +79,10 @@ export const API_END_POINTS ={
     delete:"/api/admin/spareparts/delete/:id",
    },
 
+   serviceCenter:{
+     getAll: "/api/admin/servicecenter/getall"   
+   }
+
 
 
    
