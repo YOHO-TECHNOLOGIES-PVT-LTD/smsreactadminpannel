@@ -32,7 +32,7 @@ const customerData = [
 ];
 
 const CustomerAnalyticsChart: React.FC = () => {
-  const [selectedRange, setSelectedRange] = useState(''); // Set default value
+  const [selectedRange, setSelectedRange] = useState('Monthly'); // Set default value and will be used
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null)
 
@@ -46,6 +46,32 @@ const CustomerAnalyticsChart: React.FC = () => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
+  // Function to get filtered data based on selected range
+  const getFilteredData = () => {
+    // Add your filtering logic here based on selectedRange
+    // For now, returning the same data, but you can modify this based on your needs
+    switch (selectedRange) {
+      case 'Weekly':
+        // You can return weekly data here - for demo, showing first 4 months
+        return customerData.slice(0, 4).map(item => ({
+          ...item,
+          month: `Week ${customerData.indexOf(item) + 1}`
+        }));
+      case 'Monthly':
+        return customerData;
+      case 'Yearly':
+        // You can return yearly aggregated data here - for demo, showing quarterly data
+        return [
+          { month: "Q1", current: 139000, lastYear: 152000 },
+          { month: "Q2", current: 157000, lastYear: 167000 },
+          { month: "Q3", current: 166000, lastYear: 144000 },
+          { month: "Q4", current: 195000, lastYear: 174000 },
+        ];
+      default:
+        return customerData;
+    }
+  };
+
   return (
     <div className="">
       <div className="flex items-center justify-between mb-4">
@@ -54,13 +80,13 @@ const CustomerAnalyticsChart: React.FC = () => {
           <div className="relative " ref={dropdownRef}>
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="flex items-center text-xs text-[#9b111e] border px-1 py-1.5 rounded-md bg-white hover:bg-gray-50"
+              className="flex items-center text-xs text-[#9b111e] border px-3 py-1.5 rounded-md bg-white hover:bg-gray-50"
             >
-             
-              <ChevronDown className="w-6 h-4 text-[#9b111e]" />
+              <span className="mr-2">{selectedRange}</span>
+              <ChevronDown className="w-4 h-4 text-[#9b111e]" />
             </button>
             {isOpen && (
-              <div className="absolute mt-2 bg-white text-[#9b111e] border rounded-md shadow-lg z-10">
+              <div className="absolute right-0 mt-2 bg-white text-[#9b111e] border rounded-md shadow-lg z-10 min-w-[100px]">
                 {dateRanges.map((range) => (
                   <button
                     key={range}
@@ -68,7 +94,11 @@ const CustomerAnalyticsChart: React.FC = () => {
                       setSelectedRange(range);
                       setIsOpen(false);
                     }}
-                    className="block w-full text-left px-4 py-2 text-sm hover:text-red-600"
+                    className={`block w-full text-left px-4 py-2 text-sm hover:bg-gray-50 ${
+                      selectedRange === range 
+                        ? 'text-[#9b111e] bg-gray-50 font-medium' 
+                        : 'text-gray-700'
+                    }`}
                   >
                     {range}
                   </button>
@@ -80,7 +110,7 @@ const CustomerAnalyticsChart: React.FC = () => {
       </div>
 
       <ResponsiveContainer width="100%" height={300}>
-        <LineChart data={customerData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+        <LineChart data={getFilteredData()} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
           <defs>
             <linearGradient id="colorCurrent" x1="0" y1="0" x2="0" y2="1">
               <stop offset="0%" stopColor="#6366F1" stopOpacity={0.5} />

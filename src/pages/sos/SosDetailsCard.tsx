@@ -17,6 +17,7 @@ import 'leaflet/dist/leaflet.css';
 import sos from '../../assets/sos.jpg';
 import { FaArrowLeft } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+import { getsos } from '../../components/sos/services';
 
 interface PostedDetail {
   id: number;
@@ -58,56 +59,62 @@ const SosDetails: React.FC = () => {
 
   const fetchPostedDetails = async () => {
    
-    // Example dummy data:
+    
     setPostedDetails([
-      {
-        id: 1,
-        title: 'Fire in Chennai',
-        latitude: 13.0827,
-        longitude: 80.2707,
-        postedDate: '2025-05-22',
-        deadline: '2025-05-23',
-        postedBy: 'Police Dept',
-        department: 'Emergency',
-        status: 'Not Started',
-        note: 'Reported fire in North Chennai',
-        location: 'Chennai',
-        contactName: 'Inspector Raj',
-        contactPhone: '1234567890',
-        contactEmail: 'raj@example.com',
-        imageUrl: '',
-        contactNumber:"99486637684",
-        type:"Own"
-      },
-      {
-        id: 2,
-        title: 'Flood Rescue',
-        latitude: 12.9716,
-        longitude: 77.5946,
-        postedDate: '2025-05-21',
-        deadline: '2025-05-22',
-        postedBy: 'Disaster Management',
-        department: 'Rescue',
-        status: 'In Progress',
-        note: 'Flooding in Bangalore suburbs',
-        location: 'Bangalore',
-        contactName: 'Officer Meera',
-        contactPhone: '9876543210',
-        contactEmail: 'meera@example.com',
-        imageUrl: '',
-        contactNumber: "99486637684",
-        type:"Other"
-      },
+      // {
+      //   id: 1,
+      //   title: 'Fire in Chennai',
+      //   latitude: 13.0827,
+      //   longitude: 80.2707,
+      //   postedDate: '2025-05-22',
+      //   deadline: '2025-05-23',
+      //   postedBy: 'Police Dept',
+      //   department: 'Emergency',
+      //   status: 'Not Started',
+      //   note: 'Reported fire in North Chennai',
+      //   location: 'Chennai',
+      //   contactName: 'Inspector Raj',
+      //   contactPhone: '1234567890',
+      //   contactEmail: 'raj@example.com',
+      //   imageUrl: '',
+      //   contactNumber:"99486637684",
+      //   type:"Own"
+      // },
+      // {
+      //   id: 2,
+      //   title: 'Flood Rescue',
+      //   latitude: 12.9716,
+      //   longitude: 77.5946,
+      //   postedDate: '2025-05-21',
+      //   deadline: '2025-05-22',
+      //   postedBy: 'Disaster Management',
+      //   department: 'Rescue',
+      //   status: 'In Progress',
+      //   note: 'Flooding in Bangalore suburbs',
+      //   location: 'Bangalore',
+      //   contactName: 'Officer Meera',
+      //   contactPhone: '9876543210',
+      //   contactEmail: 'meera@example.com',
+      //   imageUrl: '',
+      //   contactNumber: "99486637684",
+      //   type:"Other"
+      // },
     ]);
   };
-
-  useEffect(() => {
-    fetchPostedDetails();
-    const interval = setInterval(() => {
-      fetchPostedDetails();
-    }, 10000);
-    return () => clearInterval(interval);
-  }, []);
+useEffect(() => {
+   
+    const fetchSosRequests = async () => {
+    try {
+      
+     const data:any = await getsos()
+   
+     console.log(data)
+    } catch (error) {
+      console.error("Error fetching SOS requests:", error);
+    }
+  };
+   fetchSosRequests();
+ }, []);
 
   
   const filteredDetails = statusFilter === 'All'
@@ -177,35 +184,35 @@ const SosDetails: React.FC = () => {
 
       <div className='flex flex-row w-full gap-5'>
 
-        <div className="bg-white rounded-xl w-96 shadow-md p-5">
-          <h2 className="text-[#9b111e] font-bold text-4xl mb-4">Personal Details</h2>
+        <div className="bg-white rounded-xl xl:pl-10 w-6/12 shadow-md p-5">
+          <h2 className="text-[#9b111e] font-bold text-2xl mb-4">Personal Details</h2>
           <div className="flex items-center  mt-5">
-            <FaUser className="text-[#9b111e]  text-2xl mr-3" />
-            <div className="text-lg font-semibold">{selected.contactName || 'John Doe'}</div>
+              <FaUser className="text-[#9b111e] lg:text-md  xl:text-2xl mr-3" />
+            <div className="xl:text-lg lg:text-md font-semibold">{selected.contactName }</div>
           </div>
           <div className="flex items-center mt-10">
-            <FaMapMarkerAlt className="text-[#9b111e]  text-2xl mr-3" />
-            <div className="text-lg font-semibold">{selected.location || 'Chennai'}</div>
+              <FaMapMarkerAlt className="text-[#9b111e] lg:text-md  xl:text-2xl mr-3" />
+              <div className="text-lg lg:text-md  font-semibold">{selected.location }</div>
           </div>
           <div className="flex items-center mt-10">
-            <FaEnvelope className="text-[#9b111e]  text-2xl mr-3" />
-            <div className="text-lg font-semibold">{selected.contactEmail || 'john@example.com'}</div>
+              <FaEnvelope className="text-[#9b111e] lg:text-md  xl:text-2xl mr-3" />
+              <div className="text-lg lg:text-md  font-semibold">{selected.contactEmail }</div>
           </div>
           <div className="flex items-center mt-10">
-            <FaPhoneAlt className="text-[#9b111e]  text-2xl mr-3" />
-            <div className="text-lg font-semibold">{selected.contactNumber || 'John Doe'}</div>
+              <FaPhoneAlt className="text-[#9b111e] lg:text-md  xl:text-2xl mr-3" />
+              <div className="text-lg lg:text-md  font-semibold">{selected.contactNumber}</div>
           </div>
         </div>
 
-          <div className="bg-white w-96 rounded-xl shadow-md p-5">
-            <h2 className="text-[#9b111e] font-bold text-4xl mb-4">Other Details</h2>
+          <div className="bg-white xl:pl-10 w-6/12 rounded-xl shadow-md p-5">
+            <h2 className="text-[#9b111e] font-bold text-2xl  mb-4">Other Details</h2>
             <div className="flex items-center mt-10">
-              <FaPhoneAlt className="text-[#9b111e]  text-2xl mr-3" />
-              <div className="text-lg font-semibold">{selected.contactNumber || 'John Doe'}</div>
+              <FaPhoneAlt className="text-[#9b111e]  xl:text-2xl lg:text-md mr-3" />
+              <div className="xl:text-lg lg:text-md  font-semibold">{selected.contactNumber }</div>
             </div>
             <div className="flex items-center mt-10">
-              <FaMapMarkerAlt className="text-[#9b111e]  text-2xl mr-3" />
-              <div className="text-lg font-semibold">{selected.location || 'Chennai'}</div>
+              <FaMapMarkerAlt className="text-[#9b111e]  xl:text-2xl lg:text-md  mr-3" />
+              <div className="xl:text-lg lg:text-md  font-semibold">{selected.location }</div>
             </div>
 
             <div className="flex gap-4 mt-10">
@@ -238,42 +245,63 @@ const SosDetails: React.FC = () => {
 
        
         <div className="bg-white rounded-xl shadow-md p-5">
-          <h2 className="text-[#9b111e] font-bold text-5xl mb-4">SOS Info</h2>
+          <h2 className="text-[#9b111e] font-bold text-2xl mb-4 xl:ml-5">SOS Info</h2>
 
-          <div className='flex flex-row gap-20 mt-10'>
+          <div className='flex flex-row xl:gap-20 lg:ml-1 xl:ml-10 lg:gap-5 mt-10'>
 
-          <div className="flex items-start mb-4">
-            <FaInfoCircle className="text-[#9b111e] mt-4 text-2xl " />
-            <div>
-              <div className="font-semibold text-center text-2xl">Status :<select
-          value={statusFilter}
-          onChange={(e) => setStatusFilter(e.target.value)}
-          className="border border-gray-300 text-black  ml-10 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#9b111e] transition duration-200"
-        >
-          <option className="p-2 " value="Not Started">Not Started</option>
-          <option className="p-2 "  value="In Progress">In Progress</option>
-          <option  className="p-2 " value="Completed">Completed</option>
-        </select></div>
-        <div className='flex flex-row gap-20'>
-        <div
-           className={`text-xl mt-10 font-semibold inline-block px-4 py-2 rounded ml-5 ${getStatusStyles(
-                    selected.status || "Completed"
-                  )}`}
-                >
-                  {selected.status || "Completed"}
+            <div className="flex items-start mb-4">
+              <FaInfoCircle className="text-[#9b111e] mt-1 text-xl sm:text-2xl" />
+
+              <div className="ml-3 w-full">
+                <div className="font-semibold text-base sm:text-lg md:text-xl mb-2">
+                  Status:
                 </div>
-                 
-               </div>
-              </div>
-          </div>
 
-          <div className='flex flex-col'>
+                <select
+                  value={statusFilter}
+                  onChange={(e) => setStatusFilter(e.target.value)}
+                  className=" sm:w-72 bg-gradient-to-r from-red-500 via-red-600 to-red-700
+    text-white
+    rounded-lg
+    px-4 py-3
+    text-base sm:text-lg
+    font-semibold
+    shadow-lg
+    focus:outline-none
+    focus:ring-4 focus:ring-red-400
+    transition duration-300 ease-in-out
+    hover:from-red-600 hover:to-red-800
+    cursor-pointer
+  "
+   style={{width:"150px"}}
+                >
+                  <option value="Not Started" className="text-black">Not Started</option>
+                  <option value="In Progress" className="text-black">In Progress</option>
+                  <option value="Completed" className="text-black">Completed</option>
+                </select>
+
+
+                <div className="flex flex-row gap-4 mt-4">
+                  <div
+                    className={`text-sm sm:text-base md:text-lg font-semibold inline-block px-4 py-2 rounded ${getStatusStyles(
+                      selected.status || "Completed"
+                    )}`}
+                  >
+                    {selected.status || "Completed"}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+
+          <div className='flex flex-col xl:ml-25 lg:ml-18'>
 
               <div className="flex items-start mb-4">
                 <FaStickyNote className="text-[#9b111e]  text-2xl mr-3" />
                 <div>
                   <div className="font-semibold text-lg">Note</div>
-                  <div className="text-gray-600">{selected.note || 'No notes provided'}</div>
+                  <div className="text-gray-600">{selected.note}</div>
                 </div>
               </div>
 
@@ -281,7 +309,7 @@ const SosDetails: React.FC = () => {
                 <FaMapMarkerAlt className="text-[#9b111e]  text-2xl mr-3" />
                 <div>
                   <div className="font-semibold text-lg">Location</div>
-                  <div className="text-gray-600 text-2xl">{selected.location || 'chennai'}</div>
+                  <div className="text-gray-600 text-2xl">{selected.location}</div>
                 </div>
               </div>
 
@@ -298,3 +326,4 @@ const SosDetails: React.FC = () => {
 };
 
 export default SosDetails;
+  
