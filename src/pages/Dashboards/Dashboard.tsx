@@ -28,6 +28,9 @@ import dummpypic from "../../assets/Dashboard/images.jpg";
 import { SoSCard } from "../../components/common/dashboard/SoSCard/SoSCard";
 import TotalRevenue from "../../components/common/dashboard/TotalRevenue/TotalRevenue";
 import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+
+import Client from "../../api";
 
 const queries = [
   {
@@ -65,7 +68,30 @@ const queries = [
 
 export const Dashboard = () => {
   const navigate = useNavigate();
+const [adminData, setAdminData] = useState<any[]>([]);
+const [active,setactive]=useState<any[]>([])
 
+ 
+  useEffect(() => {
+    const fetchAdminData = async () => {
+      try {
+         const params = '';
+        const response:any = await new Client().admin.profile.get(params);
+        const data:any = await new Client().admin.dashboard.get(params)
+        setactive (data.data.data)
+        setAdminData(response.data);
+        localStorage.setItem('adminuuid',response.data.data.uuid)
+        localStorage.setItem('adminobjectid',response.data.data._id)
+      } catch (error) {
+        console.error("Error fetching admin data:", error);
+      }
+    };
+
+    fetchAdminData();
+  }, []);
+
+    
+   
   return (
     <div className="w-full px-4 py-6 -mt-6 ">
       {/* Header */}
@@ -178,7 +204,7 @@ export const Dashboard = () => {
             </button>{" "}
           </div>
           <div className="">
-            <SoSCard />
+            <SoSCard datas={active} />
           </div>
         </div>
       </div>

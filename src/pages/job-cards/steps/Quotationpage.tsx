@@ -1,17 +1,47 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Logo from "../../../assets/LOGO.jpg";
 import { HiOutlineXMark } from "react-icons/hi2";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
+import Client from "../../../api";
 type QuotationItem = {
   description: string;
   qty: number;
   unitPrice: number;
 };
 
+type quotation ={
+  customerInfo:{
+    name:string;
+    adsress:string;
+    contactNo:string;
+    email:string;
+  },
+  serviceInfo:{
+    amount:string;
+  }
+}
+
 const QuotationPage: React.FC = () => {
 
   const navigate = useNavigate();
+
+  const [quotation, setquotation] = useState<quotation>();
+
+  const {id} = useParams()
+
+  useEffect(() => {
+    async function fetchdata(ids:any) {
+      const response:any = await new Client().admin.jobcard.get(ids)
+      console.log(response.data,"get data")
+      setquotation(response.data.data)
+    }
+    fetchdata(id)
+    return () => {
+      
+    };
+  }, []);
+
   const handleClick = () => {
     navigate(-1);
   };
@@ -61,10 +91,10 @@ const QuotationPage: React.FC = () => {
 
         <div className="mb-6 border border-gray-400 p-4">
           <h3 className="font-bold mb-2">CUSTOMER INFO</h3>
-          <p>Name</p>
-          <p>Street Address</p>
-          <p>City, ST ZIP</p>
-          <p>Phone, Email</p>
+          <p>{quotation?.customerInfo.name}</p>
+          <p>{quotation?.customerInfo.adsress}</p>
+          <p>{quotation?.customerInfo.contactNo}</p>
+          <p>{quotation?.customerInfo.email}</p>
         </div>
 
         <div className="mb-6">
