@@ -18,7 +18,7 @@ export const API_END_POINTS ={
 
     
    vechiclemanage:{
-            Get:"/api/admin/vehicleManage/",
+            Get:"/api/vehicle/getall/",
    }  ,
 
    
