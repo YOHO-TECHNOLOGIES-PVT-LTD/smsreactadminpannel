@@ -3,7 +3,7 @@ import { MdToggleOn, MdToggleOff, MdClose } from "react-icons/md";
 import { FiPlus } from "react-icons/fi";
 import {  useNavigate } from "react-router-dom";
 import { carIcons } from "../../components/sos/sosicons";
-import { getallSos } from "../../components/sos/services";
+import { getallSos, postSos, updatelistedsos } from "../../components/sos/services";
 
 
 type SOSRequest = {
@@ -66,29 +66,49 @@ const DashboardSos = () => {
   navigate(`/sosdetails/${uuid}`);
   };
 
-  //  const handleViewClick = (uuid:string) => {
-  //     navigate(`/sosdetails/${uuid}`);
-  //  };
+  
+ 
 
-  const handleAddService = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!newServiceName.trim()) return;
+const handleAddService = async (e:any) => {
+  e.preventDefault();
+  if (!newServiceName || selectedIconIndex === null) return;
 
-    const icon =
-      selectedIconIndex !== null ? carIcons[selectedIconIndex].icon : undefined;
+  const selectedIcon = carIcons[selectedIconIndex];
 
-    const newService: Service = {
-      id: services.length + 1,
-      name: newServiceName.trim(),
-      active: false,
-      icon,
-    };
+  const newService = {
+    name: newServiceName,
+    icon: selectedIcon.name, 
+    status: 'pending',
+    comment: '',
+  };
 
-    setServices((prev) => [...prev, newService]);
-    setNewServiceName("");
+  try {
+    const response = await postSos(newService);
+    console.log("SOS service created:", response);
+    setNewServiceName('');
     setSelectedIconIndex(null);
     setShowForm(false);
-  };
+  
+  } catch (error) {
+    console.error("Failed to add service:", error);
+  }
+};
+
+const handleToggleService = async (service:any) => {
+  const updatedActive= !service.active;
+  try {
+    await updatelistedsos(service.id, { active: updatedActive });
+
+    
+    setServices((prevServices) =>
+      prevServices.map((s) =>
+        s.id === service.id ? { ...s, active: updatedActive } : s
+      )
+    );
+  } catch (error) {
+    console.error("Failed to update service status:", error);
+  }
+};
 
   return (
     <div className="flex flex-col md:flex-row gap-6 p-4 md:p-6 text-gray-800 h-screen bg-gray-50">
@@ -163,9 +183,9 @@ const DashboardSos = () => {
 
                     <td className="border border-gray-300 px-4 py-2">
                       <button
-                       onClick={() => handleViewClick(req.vehicleNumber)}
+                       onClick={() => handleViewClick(req._id)}
                         className="bg-gradient-to-r from-red-600 to-red-800 hover:scale-105 transition-transform text-white px-4 py-1 rounded w-full"
-                        title={`View details for ${req.vehicleNumber}`}
+                        title={`View details for ${req._id}`}
                       >
                         {req.view}view
                       </button>
@@ -210,25 +230,19 @@ const DashboardSos = () => {
                   </div>
                 </div>
               </div>
-              <button
-                aria-label={`Toggle ${service.name} ${service.active ? "off" : "on"
-                  }`}
-                onClick={() => {
-                  setServices((prevServices) =>
-                    prevServices.map((s) =>
-                      s.id === service.id ? { ...s, active: !s.active } : s
-                    )
-                  );
-                }}
-                className="focus:outline-none"
-                title={service.active ? "Enabled" : "Disabled"}
-              >
-                {service.active ? (
-                  <MdToggleOn className="text-[#800000] text-6xl" />
-                ) : (
-                  <MdToggleOff className="text-gray-400 text-6xl" />
-                )}
-              </button>
+             <button
+       aria-label={`Toggle ${service.name} ${service.active ? "off" : "on"}`}
+       onClick={() => handleToggleService(service)}
+       className="focus:outline-none"
+       title={service.active ? "Enabled" : "Disabled"}
+>
+          {service.active ? (
+       <MdToggleOn className="text-[#800000] text-6xl" />
+  ) : (
+         <MdToggleOff className="text-gray-400 text-6xl" />
+      )}
+</button>
+
             </li>
           ))}
         </ul>

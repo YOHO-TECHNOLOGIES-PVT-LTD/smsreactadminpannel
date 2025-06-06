@@ -25,8 +25,9 @@ admin={
    sos:{
     post:(data:any,)=>httpClient.post(API_END_POINTS.sos.Post,data),
     put:(data:any,params:string)=>httpClient.update(API_END_POINTS.sos.Put,data,params),
-    get:(params:string)=>httpClient.get(API_END_POINTS.sos.Get,params,),
-    getAll:()=>httpClient.get(API_END_POINTS.sos.GetAll,'')
+    get:(params:string)=>httpClient.get(API_END_POINTS.sos.Get.replace(':id',params)),
+    getAll:()=>httpClient.get(API_END_POINTS.sos.GetAll,''),
+    put:(data:any,params:string)=>httpClient.update(API_END_POINTS.sos.put,data,params)
    },
 
    Announcement:{

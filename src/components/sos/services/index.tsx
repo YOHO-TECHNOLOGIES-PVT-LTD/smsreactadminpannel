@@ -4,9 +4,10 @@ import Client from "../../../api";
 
 export const getsos =async (data:any)=>{
     try{ 
-        const response =  await new Client().admin.sos.get(data)
+        const response:any =  await new Client().admin.sos.get(data)
         // const data= <response />;
         console.log(response);
+        return response.data
     }
     catch(error)
     {
@@ -46,4 +47,12 @@ export const postSos = async (data:any)=>{
     }
 }
 
-
+export const updatelistedsos = async (data:any,params:string) =>{
+    try{
+        const response = await new Client().admin.sos.put(data,params)
+        console.log(response);
+    }
+    catch(error){
+        console.log('error listed data:',error)
+    }
+}

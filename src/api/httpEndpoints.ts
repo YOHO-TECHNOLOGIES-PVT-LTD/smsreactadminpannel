@@ -37,7 +37,8 @@ export const API_END_POINTS ={
     Post:"/api/sos/add",
     GetAll:"/api/sos/getall",
     Get:"/api/sos/get/:id",
-    Put:"/api/sos/update/:id"
+    Put:"/api/sos/update/:id",
+    put:"/api/sos/updatelist/:id"
    },
 
    profile:{

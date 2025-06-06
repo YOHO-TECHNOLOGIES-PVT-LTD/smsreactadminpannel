@@ -44,7 +44,7 @@ const AppRoutes = () => {
         <Route path="announcement" element={<Announcement />} />
         <Route path="settings" element={<GeneralSettings />} />
         <Route path="sos" element={<DashboardSos />} />
-        <Route path="sosdetails/:uuid" element={<SosDetailsCard />} />
+        <Route path="sosdetails/:id" element={<SosDetailsCard />} />
         <Route path="quotation/:id" element={<QuotationPage />} />
         <Route path="*" element={<Navigate to="/" />} />
         <Route path="/queries" element={<Queries />} />
