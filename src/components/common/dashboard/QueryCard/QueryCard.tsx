@@ -1,4 +1,5 @@
 import React from "react";
+import dummpypic from "../../../../assets/Dashboard/images.jpg";
 
 type Props = {
   icon: React.ReactNode;
@@ -48,7 +49,7 @@ export const QueryCard: React.FC<Props> = ({
       }`}>
         <div className="w-12 h-12 rounded-full overflow-hidden mr-4 flex-shrink-0">
           <img
-            src={profilePicUrl}
+            src={profilePicUrl || dummpypic}
             alt="Profile"
             className="w-full h-full object-cover"
           />

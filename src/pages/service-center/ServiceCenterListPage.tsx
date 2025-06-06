@@ -7,6 +7,7 @@ import { MdAddCircleOutline, MdOutlineKeyboardBackspace } from "react-icons/md";
 import { FiSearch } from "react-icons/fi";
 import { COLORS } from "../../constants/uiConstants";
 import { getServiceCenter } from "../../features/ServiceCenter/Service";
+import logo from '../../assets/LOGO.jpg'
 
 const ServiceCenterFilter = () => {
   const [showFilters, setShowFilters] = useState(false);
@@ -168,7 +169,7 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({ onView
               <div key={index}>
                 <div className="bg-white p-6 rounded-lg shadow flex flex-col sm:flex-row gap-20 items-start w-full max-w-[2000px]">
                   <img
-                    src={center.image}
+                    src={center.image || logo}
                     alt={center.firstName}
                     className="w-72 h-40 object-cover rounded-lg"
                   />
