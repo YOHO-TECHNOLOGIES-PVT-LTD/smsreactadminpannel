@@ -149,16 +149,18 @@ const DashboardSos = () => {
                     <td className="border border-gray-300 px-4 py-2">{req.phoneNumber}</td>
                     
 
-                    <td
-                      className={`border border-gray-300 px-4 py-2 font-semibold ${req.status.toLowerCase() === "not started"
-                          ? "text-[#800000]"
-                          : req.status.toLowerCase() === "in progress"
-                            ? "text-gray-600"
-                            : "text-green-600"
-                        }`}
-                    >
-                      {req.status}
-                    </td>
+                   <td
+  className={`border border-gray-300 px-4 py-2 font-semibold ${
+    {
+      "pending": "text-orange-500",
+      "in progress": "text-green-600",
+      "not started": "text-red-600",
+    }[req.status.toLowerCase()] || "text-black"
+  }`}
+>
+  {req.status}
+</td>
+
                     <td className="border border-gray-300 px-4 py-2">
                       <button
                        onClick={() => handleViewClick(req.vehicleNumber)}
