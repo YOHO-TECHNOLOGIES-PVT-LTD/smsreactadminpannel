@@ -19,6 +19,7 @@ admin={
     putpereferenceCreateOrUpdate:(data:string,params:string)=>httpClient.update(API_END_POINTS.notification.putpreferenceCreateOrUpdate,params,data),
     getpreferenceGet:(data:string)=>httpClient.get(API_END_POINTS.notification.getPreferenceGet,data,),
     update:(data:string,params:string)=>httpClient.update(API_END_POINTS.notification.update,params,data),
+
 },
 
    sos:{
@@ -78,6 +79,10 @@ enquiry:{
     getTransaction:(params:string)=>httpClient.get(API_END_POINTS.dashboard.GetTransaction,params),
     getCustomerDetails:(params:string)=>httpClient.get(API_END_POINTS.dashboard.GetCustomerDetails,params),
  },
+
+ servicecenter:{
+  getAll:(data:string)=>httpClient.get(API_END_POINTS.serviceCenter.getAll,data)
+ }
 
 
 }

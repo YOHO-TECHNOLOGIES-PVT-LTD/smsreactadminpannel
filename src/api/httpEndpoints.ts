@@ -18,7 +18,7 @@ export const API_END_POINTS ={
 
     
    vechiclemanage:{
-            Get:"/api/admin/vehicleManage/",
+            Get:"/api/vehicle/getall/",
    }  ,
 
    
@@ -78,6 +78,10 @@ export const API_END_POINTS ={
     updatestatus:"/api/admin/spareparts/updatestatus/:id",
     delete:"/api/admin/spareparts/delete/:id",
    },
+
+   serviceCenter:{
+     getAll: "/api/admin/servicecenter/getall"   
+   }
 
 
 
