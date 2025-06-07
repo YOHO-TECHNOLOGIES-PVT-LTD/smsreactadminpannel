@@ -22,7 +22,6 @@ export const Announcement = () => {
   const [image, setImage] = useState<File | null>(null);
 
   useEffect(() => {
-  if (activeTab === 'announcement') {
     const fetchAnnouncements = async () => {
       try {
         const data:any = await getAnnouncement('')  ; 
@@ -33,8 +32,7 @@ export const Announcement = () => {
     };
 
     fetchAnnouncements();
-  }
-}, [activeTab]);
+}, []);
 
   // Remove unused partnerData state to fix TypeScript warning
   // const [partnerData, setPartnerData] = useState<PartnerData[]>([]);
@@ -49,23 +47,26 @@ export const Announcement = () => {
   const handleSubmit = async (e: React.FormEvent) => {
   e.preventDefault();
 
-  const newData: PartnerData = {
-    title: heading,
-    description,
-    price,
-    image: image ? URL.createObjectURL(image) : '',
-  };
+  // const newData: PartnerData = {
+  //   title: heading,
+  //   description,
+  //   price,
+  //   image: image ? URL.createObjectURL(image) : '',
+  // };
 
-  if (activeTab === 'offer') {
-    console.log('Offer added:', newData);
-  } else if (activeTab === 'announcement') {
-    console.log('Announcement added:', newData);
+  // if (activeTab === 'offer') {
+  //   console.log('Offer added:', newData);
+  // } else if (activeTab === 'announcement') {
+  //   console.log('Announcement added:', newData);
+  // } else if (activeTab === 'partner') {
+  //   console.log('Partner added:', newData);
+  // }
 
-   
     const formData = new FormData();
-    formData.append('title', heading);
+    formData.append('subject', heading);
     formData.append('description', description);
     formData.append('price', price);
+    formData.append('title',"title-data")
     if (image) {
       formData.append('image', image);
     }
@@ -76,9 +77,6 @@ export const Announcement = () => {
     } catch (error) {
       console.error('Failed to post announcement:', error);
     }
-  } else if (activeTab === 'partner') {
-    console.log('Partner added:', newData);
-  }
 
   resetForm();
   setShowModal(false);

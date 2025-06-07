@@ -75,7 +75,7 @@ const ServiceCenterFilter = () => {
 };
 
 type ServiceCenterListProps = {
-  onView: () => void;  // A function that returns nothing
+  onView: (setp:any,id:any) => void;  // A function that returns nothing
   handleBack: () => void;
 };
 
@@ -198,7 +198,7 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({ onView
                   <div className="flex gap-2 mt-2 sm:mt-0">
                     {selectedCardIndex !== index && (
                       <button
-                        onClick={onView}
+                        onClick={()=>onView(1,center._id)}
                         className="text-white px-4 py-2 rounded-md transition duration-200 flex items-center gap-1.5 text-sm"
                         style={{
                           background: "linear-gradient(44.99deg, #700808 11%, #d23c3c 102.34%)",
