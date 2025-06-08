@@ -24,6 +24,15 @@ Axios.interceptors.request.use((config)=> {
     return config;
 });
 
+Axios.interceptors.response.use(
+    (response)=>response,
+    (error)=>{
+        if (error?.response && error?.response?.status === 401 && error?.response?.data?.status === "session_expired") {
+            localStorage.removeItem("authToken")
+        }
+    }
+)
+
 class HttpClient{
     async get(url:string,params?:string){
     const response:unknown = await Axios.get(url,{
@@ -46,7 +55,7 @@ class HttpClient{
         return response;
     }
 
-  async update(url:string,params:string,data:string){
+  async update(url:string,data:string,params:string){
 
     const response =await Axios.put(url,data,{
         params:params,

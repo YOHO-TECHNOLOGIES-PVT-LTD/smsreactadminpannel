@@ -7,6 +7,7 @@ import { getallSos } from "../../components/sos/services";
 
 
 type SOSRequest = {
+  _id:string;
   vehicleNumber: string;
   location: string;
   name: string;
@@ -53,14 +54,14 @@ const DashboardSos = () => {
 
  console.log(activeRequest,'sos data')
 
-  // const filteredRequests = activeRequest.filter((req) => {
-  //   const status = req.status.toLowerCase();
-  //   if (filterStatus === "All") return true;
-  //   if (filterStatus === "In Progress") return status.includes("progress");
-  //   if (filterStatus === "Completed") return status === "completed";
-  //   if (filterStatus === "Not Started") return status === "not started";
-  //   return true;
-  // });
+  const filteredRequests = activeRequest.filter((req) => {
+    const status = req.status.toLowerCase();
+    if (filterStatus === "All") return true;
+    if (filterStatus === "In Progress") return status.includes("progress");
+    if (filterStatus === "Completed") return status === "completed";
+    if (filterStatus === "Not Started") return status === "not started";
+    return true;
+  });
   const handleViewClick = (uuid:string) => {
 
   navigate(`/sosdetails/${uuid}`);
@@ -141,7 +142,7 @@ const DashboardSos = () => {
                   </td>
                 </tr>
               ) : (
-                activeRequest.map((req, index) => (
+                  filteredRequests.map((req, index) => (
                   <tr key={index} className="hover:bg-gray-50">
                     <td className="border border-gray-300 px-4 py-2">{req.vehicleNumber}</td>
                     <td className="border border-gray-300 px-4 py-2">{req.location}</td>
@@ -152,10 +153,10 @@ const DashboardSos = () => {
                    <td
   className={`border border-gray-300 px-4 py-2 font-semibold ${
     {
-      "pending": "text-orange-500",
-      "in progress": "text-green-600",
-      "not started": "text-red-600",
-    }[req.status.toLowerCase()] || "text-black"
+      "Completed": "text-orange-500",
+      "In Progress": "text-green-600",
+      "Not Started": "text-black",
+    }[req.status] || "text-black"
   }`}
 >
   {req.status}
@@ -163,7 +164,7 @@ const DashboardSos = () => {
 
                     <td className="border border-gray-300 px-4 py-2">
                       <button
-                       onClick={() => handleViewClick(req.vehicleNumber)}
+                       onClick={() => handleViewClick(req._id)}
                         className="bg-gradient-to-r from-red-600 to-red-800 hover:scale-105 transition-transform text-white px-4 py-1 rounded w-full"
                         title={`View details for ${req.vehicleNumber}`}
                       >

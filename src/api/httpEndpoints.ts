@@ -37,7 +37,7 @@ export const API_END_POINTS ={
     Post:"/api/sos/add",
     GetAll:"/api/sos/getall",
     Get:"/api/sos/get/:id",
-    Put:"/api/sos/update/:id"
+    Put:"/api/sos/update/"
    },
 
    profile:{
@@ -80,8 +80,11 @@ export const API_END_POINTS ={
    },
 
    serviceCenter:{
-     getAll: "/api/admin/servicecenter/getall"   
-   }
+     getAll: "/api/admin/servicecenter/getall",
+     getAllCat: "/api/admin/category/getAll/:uuid",
+     postPartner: "/api/partner/auth/register",
+     updatePatner: "/api/partner/auth/update/:id",
+    }
 
 
 
