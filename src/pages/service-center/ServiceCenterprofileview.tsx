@@ -17,6 +17,7 @@ import { BiSolidCertification } from "react-icons/bi";
 import { RiLockPasswordLine } from "react-icons/ri";
 import { LuPhoneCall } from "react-icons/lu";
 import { FONTS } from "../../constants/uiConstants";
+import Client from "../../api";
 
 type ServiceCenterProfileProps = {
     onServices: () => void;
@@ -80,9 +81,9 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({ onServi
         setShowDeleteConfirm(false);
     };
 
-    const handleEditSubmit = (e: React.FormEvent) => {
+    const handleEditSubmit = async(e: React.FormEvent) => {
         e.preventDefault();
-        console.log("Updated:", {
+        const data:any = {
             editCompanyName,
             editEstablished,
             editBranches,
@@ -98,7 +99,13 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({ onServi
             editUsername,
             editLoginEmail,
             editPassword
-        });
+        }
+        try {
+            const response:any = await new Client().admin.servicecenter.update(data,partner._id)
+            console.log(response)
+        } catch (error) {
+            console.log("profile update", error)
+        }
         setShowEditForm(false);
         setShowSuccessPopup(true);
     };
@@ -120,6 +127,9 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({ onServi
     function onChangeCat(id:string){
         setpartnerId(id)
         onServices()
+    }
+    function saveChanges(){
+       
     }
 
     return (
@@ -429,6 +439,7 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({ onServi
                             </button>
                             <button
                                 type="submit"
+                                onClick={saveChanges}
                                 className="px-6 py-2 bg-[#9b111e] text-white rounded-lg hover:bg-[#800000] transition-colors flex items-center gap-2"
                             >
                                 <FaEdit /> Save Changes
