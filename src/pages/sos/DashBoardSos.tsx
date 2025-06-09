@@ -28,11 +28,11 @@ const DashboardSos = () => {
 
   const [filterStatus, setFilterStatus] = useState<string>("All");
   const [services, setServices] = useState<Service[]>([
-    { id: 1, name: "Pickup Truck", active: true },
-    { id: 2, name: "Car Wheel", active: false },
-    { id: 3, name: "Gas Pump", active: true },
-    { id: 4, name: "Tools", active: false },
-    { id: 5, name: "Garage", active: true },
+    // { id: 1, name: "Pickup Truck", active: true },
+    // { id: 2, name: "Car Wheel", active: false },
+    // { id: 3, name: "Gas Pump", active: true },
+    // { id: 4, name: "Tools", active: false },
+    // { id: 5, name: "Garage", active: true },
   ]);
   const [showForm, setShowForm] = useState(false);
   const [newServiceName, setNewServiceName] = useState("");
@@ -70,30 +70,58 @@ const DashboardSos = () => {
   
  
 
-const handleAddService = async (e:any) => {
+const handleAddService = async (e: any) => {
   e.preventDefault();
   if (!newServiceName || selectedIconIndex === null) return;
 
   const selectedIcon = carIcons[selectedIconIndex];
-
-  const newService = {
-    name: newServiceName,
-    icon: selectedIcon.name, 
-    status: 'pending',
-    comment: '',
-  };
+  const existingService = services.find(
+    (s) => s.name.toLowerCase() === newServiceName.toLowerCase()
+  );
 
   try {
-    const response = await postSos(newService);
-    console.log("SOS service created:", response);
-    setNewServiceName('');
+    if (existingService) {
+      // Update the existing service's status to active
+      const response = await updatelistedsos(newService,'');
+
+      setServices((prev) =>
+        prev.map((s) =>
+          s.id === existingService.id ? { ...s, active: true } : s
+        )
+      );
+      console.log("Service updated:", existingService.name);
+    } else {
+    
+      const newService = {
+        name: newServiceName,
+        icon: selectedIcon.name,
+        active: true,
+      };
+
+      const response = await updatelistedsos(newService,'');
+      const newId = response.data?.id; 
+
+      setServices((prev) => [
+        ...prev,
+        {
+          id: newId,
+          name: newService.name,
+          icon: selectedIcon.icon,
+          active: true,
+        },
+      ]);
+      console.log("Service added:", newService.name);
+    }
+
+    
+    setNewServiceName("");
     setSelectedIconIndex(null);
     setShowForm(false);
-  
   } catch (error) {
-    console.error("Failed to add service:", error);
+    console.error("Error adding or updating service:", error);
   }
 };
+
 
 const handleToggleService = async (service:any) => {
   const updatedActive= !service.active;

@@ -48,7 +48,7 @@ export const postSos = async (data:any)=>{
 
 export const updatelistedsos = async (data:any,params:string) =>{
     try{
-        const response = await new Client().admin.sos.put(data,params)
+        const response = await new Client().admin.sos.updatelist(data,params)
         console.log(response);
     }
     catch(error){
