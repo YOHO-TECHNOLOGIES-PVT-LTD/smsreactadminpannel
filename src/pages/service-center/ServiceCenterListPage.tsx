@@ -8,6 +8,7 @@ import { FiSearch } from "react-icons/fi";
 import { COLORS } from "../../constants/uiConstants";
 import { getServiceCenter } from "../../features/ServiceCenter/Service";
 import logo from '../../assets/LOGO.jpg'
+import { useNavigate } from "react-router-dom";
 
 const ServiceCenterFilter = () => {
   const [showFilters, setShowFilters] = useState(false);
@@ -75,15 +76,18 @@ const ServiceCenterFilter = () => {
 };
 
 type ServiceCenterListProps = {
-  onView: () => void;  // A function that returns nothing
+  onView: (setp:any) => void;  // A function that returns nothing
   handleBack: () => void;
+  partner:any;
+  setpartner:(id:number)=>void;
 };
 
-export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({ onView, handleBack }) => {
+export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({ onView, handleBack,partner,setpartner }) => {
   const [selectedCardIndex, setSelectedCardIndex] = useState<number | null>(null);
   const [showSearch, setShowSearch] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
-  const [partner, setPartner] = useState<any[]>([])
+  const navigate = useNavigate()
+  // const [partner, setPartner] = useState<any[]>([])
 
   // const centers = [
   //   {
@@ -106,20 +110,24 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({ onView
   //   },
   // ];
 
-  useEffect(() => {
-    const getPartner = async() => {
+  // useEffect(() => {
+  //   const getPartner = async() => {
       
-        try {
-          const data:any = await getServiceCenter('')
-          setPartner(data.data.data)
-        } catch (error) {
-          console.error('failed to get servicecenter:', error)
+  //       try {
+  //         const data:any = await getServiceCenter('')
+  //         setPartner(data.data.data)
+  //       } catch (error) {
+  //         console.error('failed to get servicecenter:', error)
 
-        }
-      }
-    getPartner()
-  },[])
+  //       }
+  //     }
+  //   getPartner()
+  // },[])
 
+  function changeData(index:number){
+    onView(1)
+    setpartner(index)
+  }
 
   return (
     <div className="flex flex-col   bg-gray-100" style={{ background: COLORS.bgColor }}>
@@ -156,6 +164,7 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({ onView
               <button
                 className="text-white px-4 py-2 rounded-lg transition duration-200 flex items-center gap-2"
                 style={{ background: "linear-gradient(44.99deg, #700808 11%, #d23c3c 102.34%)" }}
+                onClick={()=>navigate("/partnerreg")}
               >
                 <MdAddCircleOutline size={18} /> Add
               </button>
@@ -165,7 +174,7 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({ onView
           <ServiceCenterFilter />
 
           <div className="flex flex-col gap-4 mt-4">
-            {partner.map((center, index) => (
+            {partner.map((center:any, index:number) => (
               <div key={index}>
                 <div className="bg-white p-6 rounded-lg shadow flex flex-col sm:flex-row gap-20 items-start w-full max-w-[2000px]">
                   <img
@@ -190,7 +199,7 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({ onView
                       </span>
                     </div>
 
-                    <p className="text-sm text-gray-500 mt-1 border border-[1px] border-[#800000] bg-[#F9E6E6] px-2 py-1 rounded inline-block w-fit mt-5">
+                    <p className="text-sm text-gray-500 mt-1 border-[1px] border-[#800000] bg-[#F9E6E6] px-2 py-1 rounded inline-block w-fit mt-5">
                       {center.location}
                     </p>
                   </div>
@@ -198,7 +207,7 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({ onView
                   <div className="flex gap-2 mt-2 sm:mt-0">
                     {selectedCardIndex !== index && (
                       <button
-                        onClick={onView}
+                        onClick={()=>changeData(index)}
                         className="text-white px-4 py-2 rounded-md transition duration-200 flex items-center gap-1.5 text-sm"
                         style={{
                           background: "linear-gradient(44.99deg, #700808 11%, #d23c3c 102.34%)",

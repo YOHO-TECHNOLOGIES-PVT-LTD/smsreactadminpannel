@@ -1,51 +1,76 @@
 import { useEffect, useState } from 'react';
-
 import { FaBell } from "react-icons/fa";
+import { getAllNotification } from './services';
 
-import {  getAllNotification } from './services';
+// Define the shape of a notification object
+interface Notification {
+  _id: string;
+  uuid: string;
+  title: string;
+  message: string;
+  type: 'info' | 'success' | 'warning' | 'error' | 'promotion' | 'system' | 'chat' | 'order' | 'payment';
+  priority: 'low' | 'medium' | 'high' | 'urgent';
+  recipient_type: 'user' | 'admin' | 'partner' | 'all';
+  recipient_id?: string;
+  sender_id?: string;
+  delivery_status?: {
+    in_app?: {
+      sent: boolean;
+      delivered: boolean;
+      read: boolean;
+      sent_at?: string;
+      delivered_at?: string;
+      read_at?: string;
+    };
+  };
+  metadata?: any;
+  scheduled_at?: string;
+  expires_at?: string;
+  action_url?: string;
+  action_type: 'redirect' | 'modal' | 'api_call' | 'none';
+  is_read: boolean;
+  is_sent: boolean;
+  is_active: boolean;
+  is_deleted: boolean;
+  created_at: string;
+  updated_at: string;
+}
 
-
-
-
-const NotificationPanel = () => {
-  const [notifications, setNotifications] = useState([]);
+const NotificationPanel: React.FC = () => {
+  const [notifications, setNotifications] = useState<Notification[]>([]);
   const [filter, setFilter] = useState<'all' | 'read' | 'unread'>('all');
-  
 
-  
   useEffect(() => {
-  const fetchUserNotifications = async () => {
-    try {
-      const res: any = await getAllNotification('');
-      const data = Array.isArray(res?.data?.data) ? res.data.data : [];
-      setNotifications(data);
-    } catch (err) {
-      console.log("Error fetching user notifications:", err);
-    }
+    const fetchUserNotifications = async () => {
+      try {
+        const res = await getAllNotification('');
+        const data: Notification[] = Array.isArray(res?.data?.data) ? res.data.data : [];
+        setNotifications(data);
+      } catch (err) {
+        console.error("Error fetching notifications:", err);
+      }
+    };
+
+    fetchUserNotifications();
+  }, []);
+
+  const handleDelete = (id: string) => {
+    setNotifications((prev) => prev.filter((n) => n._id !== id));
   };
 
-  fetchUserNotifications();
-}, []);
-  
-
-  // const handleDelete = (id: number) => {
-  //   setNotifications(notifications.filter((n) => n.id !== id));
-  // };
-
-  // const handleMarkAsRead = (id: number) => {
-  //   setNotifications((prev) =>
-  //     prev
-  //       .map((notif) =>
-  //         notif.id === id ? { ...notif, status: '' } : notif
-  //       )
-  //       .filter((notif) => notif.id !== id || notif.type !== 'error')
-  //   );
-  // };
+  const handleMarkAsRead = (id: string) => {
+    setNotifications((prev) =>
+      prev.map((notif) =>
+        notif._id === id ? { ...notif, is_read: true } : notif
+      )
+    );
+    // Optionally trigger backend update here
+  };
 
   const filteredNotifications = notifications.filter((notif) => {
     if (filter === 'all') return true;
-    if (filter === 'unread') return notif.status === 'new';
-    if (filter === 'read') return notif.status !== 'new';
+    if (filter === 'unread') return notif.is_read === false;
+    if (filter === 'read') return notif.is_read === true;
     return true;
   });
 
@@ -67,25 +92,20 @@ const NotificationPanel = () => {
           {['all', 'read', 'unread'].map((type) => (
             <button
               key={type}
-              onClick={() => setFilter(type as any)}
-              className={`w-24 h-10 rounded px-4 py-2  ${
-                filter === type
-                  ? 'bg-[#9b111e] text-white'
-                  : '  border-2 border-[#9b111e] text-[#9b111e]'
-              }`}
+              onClick={() => setFilter(type as 'all' | 'read' | 'unread')}
+              className={`w-24 h-10 rounded px-4 py-2 ${filter === type
+                ? 'bg-[#9b111e] text-white'
+                : 'border-2 border-[#9b111e] text-[#9b111e]'
+                }`}
             >
               {type.charAt(0).toUpperCase() + type.slice(1)}
             </button>
-
-            
           ))}
         </div>
         <button
           onClick={() =>
             setNotifications((prev) =>
-              prev
-                .map((n) => ({ ...n, status: '' }))
-                .filter((n) => n.type !== 'error')
+              prev.map((n) => ({ ...n, is_read: true }))
             )
           }
           className="text-sm text-[#9b111e] hover:underline"
@@ -96,44 +116,30 @@ const NotificationPanel = () => {
 
       <div className="space-y-4">
         {filteredNotifications.map((notif) => {
-          const isUnread = notif.status === 'new';
+          const isUnread = !notif.is_read;
           return (
             <div
-              key={notif.id}
-              className={`flex items-start justify-between p-4 rounded-xl border transition ${
-                notif.type === 'error'
-                  ? 'bg-red-50 border-red-300'
-                  : isUnread
+              key={notif._id}
+              className={`flex items-start justify-between p-4 rounded-xl border transition ${notif.type === 'error'
+                ? 'bg-red-50 border-red-300'
+                : isUnread
                   ? 'bg-orange-100 border-yellow-300'
                   : 'border-gray-200'
-              }`}
+                }`}
             >
-              <div className="flex items-start gap-3 cursor-pointer" onClick={() => handleMarkAsRead(notif.id)}>
+              <div
+                className="flex items-start gap-3 cursor-pointer"
+                onClick={() => handleMarkAsRead(notif._id)}
+              >
                 <span className={`text-lg mt-1 ${notif.type === 'error' ? 'text-red-500' : 'text-gray-400'}`}>
-                  {notif.type === 'error' ? '⚠️' : <FaBell  className='text-[#9b111e] text-center'/>}
+                  {notif.type === 'error' ? '⚠️' : <FaBell className="text-[#9b111e]" />}
                 </span>
                 <div>
-                  <h4
-                    className={`font-medium ${
-                      notif.type === 'error'
-                        ? 'text-red-600'
-                        : isUnread
-                        ? 'text-black'
-                        : 'text-gray-600'
-                    }`}
-                  >
+                  <h4 className={`font-medium ${notif.type === 'error' ? 'text-red-600' : isUnread ? 'text-black' : 'text-gray-600'}`}>
                     {notif.title}
                   </h4>
-                  <p
-                    className={`text-sm ${
-                      notif.type === 'error'
-                        ? 'text-red-500'
-                        : isUnread
-                        ? 'text-gray-800'
-                        : 'text-gray-500'
-                    }`}
-                  >
-                    {notif.description}
+                  <p className={`text-sm ${notif.type === 'error' ? 'text-red-500' : isUnread ? 'text-gray-800' : 'text-gray-500'}`}>
+                    {notif.message}
                   </p>
                 </div>
               </div>
@@ -146,17 +152,15 @@ const NotificationPanel = () => {
                     </span>
                   )}
                   <p className="text-xs text-gray-500 whitespace-nowrap">
-                    {formatDate(notif.date)}
+                    {formatDate(notif.created_at)}
                   </p>
-
                   <button
-                  onClick={() => handleDelete(notif.id)}
-                  className="bg-red-100 text-red-500 px-2 py-1 rounded text-sm hover:bg-red-200"
-                >
-                  Delete
-                </button>
+                    onClick={() => handleDelete(notif._id)}
+                    className="bg-red-100 text-red-500 px-2 py-1 rounded text-sm hover:bg-red-200"
+                  >
+                    Delete
+                  </button>
                 </div>
-                
               </div>
             </div>
           );

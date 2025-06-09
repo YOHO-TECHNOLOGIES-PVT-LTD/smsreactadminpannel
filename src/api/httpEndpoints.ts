@@ -10,10 +10,10 @@ export const API_END_POINTS ={
 
 
     jobcard:{
-            Post:"/api/jobcards",
-            Get:"/api/jobcards/:id",
-            GetAll:"/api/jobcards",
-            Put:"/api/jobcards/:id",
+            Post:"/api/jobcardscreateCard",
+            Get:"/api/jobcards/getOne/:id",
+            GetAll:"/api/jobcards/getAll",
+            Put:"/api/jobcards/updateCard/:id",
     } ,
 
     
@@ -37,8 +37,7 @@ export const API_END_POINTS ={
     Post:"/api/sos/add",
     GetAll:"/api/sos/getall",
     Get:"/api/sos/get/:id",
-    Put:"/api/sos/update/:id",
-    put:"/api/sos/updatelist/:id"
+    Put:"/api/sos/update/"
    },
 
    profile:{
@@ -81,8 +80,11 @@ export const API_END_POINTS ={
    },
 
    serviceCenter:{
-     getAll: "/api/admin/servicecenter/getall"   
-   }
+     getAll: "/api/admin/servicecenter/getall",
+     getAllCat: "/api/admin/category/getAll/:uuid",
+     postPartner: "/api/partner/auth/register",
+     updatePatner: "/api/partner/auth/update/:id",
+    }
 
 
 

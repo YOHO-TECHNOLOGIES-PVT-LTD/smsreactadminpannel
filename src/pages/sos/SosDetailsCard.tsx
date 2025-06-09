@@ -17,17 +17,24 @@ import {
 import 'leaflet/dist/leaflet.css';
 import sos from '../../assets/sos.jpg';
 import { Link, useParams } from 'react-router-dom';
-import { getsos } from '../../components/sos/services';
-
-interface ResponseItem {
-  responder: string;
-  message: string;
-  timestamp: string;
-}
+import { getsos, updatesos } from '../../components/sos/services';
 
 interface PostedDetail {
-  id: number;
+
+  customerId:{
+    contact_info: {
+      phoneNumber:string;
+    }
+    email: string;
+    firstName: string;
+    lastName: string;
+  },
+   
   title: string;
+  vehicleInfo: {
+    model: string;
+    registerNumber: string;
+  }
   latitude: number;
   longitude: number;
   postedDate: string;
@@ -35,19 +42,18 @@ interface PostedDetail {
   postedBy: string;
   department: string;
   status: string;
-  note: string;
+  description: string;
   location: string;
-  contactName: string;
-  contactPhone: string;
+  name: string;
+  phoneNumber: string;
   contactEmail: string;
+  contactName:string;
   imageUrl?: string;
   contactNumber: string;
-  type: string;
-  responses?: ResponseItem[];
+  type:string;
 }
 
 const SosDetails: React.FC = () => {
-  const { id } = useParams();
 
   const getStatusStyles = (status: string) => {
     switch (status.toLowerCase()) {
@@ -62,41 +68,69 @@ const SosDetails: React.FC = () => {
     }
   };
 
-  const [postedDetails, setPostedDetails] = useState<PostedDetail>({
-  id: 0,
-  title: '',
-  latitude: 0,
-  longitude: 0,
-  postedDate: '',
-  deadline: '',
-  postedBy: '',
-  department: '',
-  status: '',
-  note: '',
-  location: '',
-  contactName: '',
-  contactPhone: '',
-  contactEmail: '',
-  imageUrl: '',
-  contactNumber: '',
-  type: '',
-  responses: []
-});
+  const [postedDetails, setPostedDetails] = useState<PostedDetail[]>([]);
   const [statusFilter, setStatusFilter] = useState<string>('All');
 
-  useEffect(() => {
+  const fetchPostedDetails = async () => {
+   
+    
+    setPostedDetails([
+      // {
+      //   id: 1,
+      //   title: 'Fire in Chennai',
+      //   latitude: 13.0827,
+      //   longitude: 80.2707,
+      //   postedDate: '2025-05-22',
+      //   deadline: '2025-05-23',
+      //   postedBy: 'Police Dept',
+      //   department: 'Emergency',
+      //   status: 'Not Started',
+      //   note: 'Reported fire in North Chennai',
+      //   location: 'Chennai',
+      //   contactName: 'Inspector Raj',
+      //   contactPhone: '1234567890',
+      //   contactEmail: 'raj@example.com',
+      //   imageUrl: '',
+      //   contactNumber:"99486637684",
+      //   type:"Own"
+      // },
+      // {
+      //   id: 2,
+      //   title: 'Flood Rescue',
+      //   latitude: 12.9716,
+      //   longitude: 77.5946,
+      //   postedDate: '2025-05-21',
+      //   deadline: '2025-05-22',
+      //   postedBy: 'Disaster Management',
+      //   department: 'Rescue',
+      //   status: 'In Progress',
+      //   note: 'Flooding in Bangalore suburbs',
+      //   location: 'Bangalore',
+      //   contactName: 'Officer Meera',
+      //   contactPhone: '9876543210',
+      //   contactEmail: 'meera@example.com',
+      //   imageUrl: '',
+      //   contactNumber: "99486637684",
+      //   type:"Other"
+      // },
+    ]);
+  };
+useEffect(() => {
+   
     const fetchSosRequests = async () => {
-      try {
-        const response: any = await getsos(id);
-         setPostedDetails(response.data); 
-      } catch (error) {
-        console.log("Error fetching SOS requests:", error);
-      }
-    };
+    try {
+      
+     const data:any = await getsos()
+   
+     console.log(data)
+    } catch (error) {
+      console.error("Error fetching SOS requests:", error);
+    }
+  };
+   fetchSosRequests();
+ }, []);
 
-    fetchSosRequests();
-  }, [id]);
-
+  
   const filteredDetails = statusFilter === 'All'
     ? postedDetails
     : postedDetails.filter(detail => detail.status === statusFilter);
@@ -116,9 +150,6 @@ const SosDetails: React.FC = () => {
     latitude: 37.773972,
     longitude: -122.431297,
     imageUrl: '',
-    contactNumber: '',
-    type: '',
-    responses: [],
   };
 
   return (
@@ -135,14 +166,16 @@ const SosDetails: React.FC = () => {
           <img
             className="w-full h-80 object-cover rounded-xl"
             src={selected.imageUrl || sos}
-            onError={(e) => { e.currentTarget.src = sos }}
-            alt="User or default"
+            onError={(e) => {
+              e.currentTarget.src = sos;
+            }}
+            alt="User or default image"
           />
         </div>
 
         <div className="bg-white rounded-xl shadow-md p-4 h-80">
           <MapContainer
-            center={[selected.latitude, selected.longitude]}
+            center={[postedDetails.latitude, postedDetails.longitude]}
             zoom={12}
             scrollWheelZoom={true}
             className="w-full h-full rounded-lg"
@@ -150,63 +183,72 @@ const SosDetails: React.FC = () => {
             <TileLayer
               attribution=""
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            />
-            {filteredDetails
-              .filter(detail=> detail.latitude && detail.longitude)
-              .map(detail => (
-                <Marker key={detail.id} position={[detail.latitude, detail.longitude]}>
-                  <Popup>
-                    <strong>{detail.title}</strong><br />
-                    {detail.location}<br />
-                    <em>{detail.status}</em>
-                  </Popup>
-                </Marker>
-              ))}
+            /> 
+            {filteredDetails.map(detail => (
+              <Marker key={detail.id} position={[detail.latitude, detail.longitude]}>
+                <Popup>
+                  <strong>{detail.title}</strong><br />
+                  {detail.location}<br />
+                  <em>{detail.status}</em>
+                </Popup>
+              </Marker>
+            ))}
           </MapContainer>
         </div>
 
-        <div className='flex flex-row w-full gap-5'>
-          <div className="bg-white rounded-xl xl:pl-10 w-6/12 shadow-md p-5">
-            <h2 className="text-[#9b111e] font-bold text-2xl mb-4">Personal Details</h2>
-            <div className="flex items-center mt-5">
-              <FaUser className="text-[#9b111e] xl:text-2xl mr-3" />
-              <div className="xl:text-lg font-semibold">{selected.contactName}</div>
-            </div>
-            <div className="flex items-center mt-10">
-              <FaMapMarkerAlt className="text-[#9b111e] xl:text-2xl mr-3" />
-              <div className="text-lg font-semibold">{selected.location}</div>
-            </div>
-            <div className="flex items-center mt-10">
-              <FaEnvelope className="text-[#9b111e] xl:text-2xl mr-3" />
-              <div className="text-lg font-semibold">{selected.contactEmail}</div>
-            </div>
-            <div className="flex items-center mt-10">
-              <FaPhoneAlt className="text-[#9b111e] xl:text-2xl mr-3" />
-              <div className="text-lg font-semibold">{selected.contactNumber}</div>
-            </div>
+      <div className='flex flex-row w-full gap-5'>
+
+        <div className="bg-white rounded-xl xl:pl-10 w-6/12 shadow-md p-5">
+          <h2 className="text-[#9b111e] font-bold text-2xl mb-4">Personal Details</h2>
+          <div className="flex items-center  mt-5">
+              <FaUser className="text-[#9b111e] lg:text-md  xl:text-2xl mr-3" />
+            <div className="xl:text-lg lg:text-md font-semibold">{selected.contactName }</div>
           </div>
+          <div className="flex items-center mt-10">
+              <FaMapMarkerAlt className="text-[#9b111e] lg:text-md  xl:text-2xl mr-3" />
+              <div className="text-lg lg:text-md  font-semibold">{selected.location }</div>
+          </div>
+          <div className="flex items-center mt-10">
+              <FaEnvelope className="text-[#9b111e] lg:text-md  xl:text-2xl mr-3" />
+              <div className="text-lg lg:text-md  font-semibold">{selected.contactEmail }</div>
+          </div>
+          <div className="flex items-center mt-10">
+              <FaPhoneAlt className="text-[#9b111e] lg:text-md  xl:text-2xl mr-3" />
+              <div className="text-lg lg:text-md  font-semibold">{selected.contactNumber}</div>
+          </div>
+        </div>
 
           <div className="bg-white xl:pl-10 w-6/12 rounded-xl shadow-md p-5">
             <h2 className="text-[#9b111e] font-bold text-2xl mb-4">Other Details</h2>
             <div className="flex items-center mt-10">
-              <FaPhoneAlt className="text-[#9b111e] xl:text-2xl mr-3" />
-              <div className="xl:text-lg font-semibold">{selected.contactNumber}</div>
+              <FaPhoneAlt className="text-[#9b111e]  xl:text-2xl lg:text-md mr-3" />
+              <div className="xl:text-lg lg:text-md  font-semibold">{selected.contactNumber }</div>
             </div>
             <div className="flex items-center mt-10">
-              <FaMapMarkerAlt className="text-[#9b111e] xl:text-2xl mr-3" />
-              <div className="xl:text-lg font-semibold">{selected.location}</div>
+              <FaMapMarkerAlt className="text-[#9b111e]  xl:text-2xl lg:text-md  mr-3" />
+              <div className="xl:text-lg lg:text-md  font-semibold">{selected.location }</div>
             </div>
             <div className="flex gap-4 mt-10">
-              {selected.type === "Own" && (
-                <button className="px-4 py-2 ml-5 rounded font-semibold border bg-[#9b111e] text-white">
+              {
+                selected.type === "Own" && <button
+                  className={`px-4 py-2 ml-5 rounded font-semibold border ${"Own" === "Own"
+                    ? "bg-[#9b111e] text-white"
+                    : "bg-white text-[#9b111e] border-[#9b111e]"
+                    }`}
+                >
                   Own
                 </button>
-              )}
-              {selected.type === "Other" && (
-                <button className="px-4 py-2 ml-5 rounded font-semibold border bg-[#9b111e] text-white">
+              }
+              {
+                selected.type === "Other" && <button
+                  className={`px-4 py-2 ml-5 rounded font-semibold border ${"Other" === "Other"
+                    ? "bg-[#9b111e] text-white"
+                    : "bg-white text-[#9b111e] border-[#9b111e]"
+                    }`}
+                >
                   Others
                 </button>
-              )}
+              }
             </div>
           </div>
         </div>
@@ -221,8 +263,20 @@ const SosDetails: React.FC = () => {
                 <select
                   value={statusFilter}
                   onChange={(e) => setStatusFilter(e.target.value)}
-                  className="sm:w-72 bg-gradient-to-r from-red-500 via-red-600 to-red-700 text-white rounded-lg px-4 py-3 text-base font-semibold shadow-lg focus:outline-none focus:ring-4 focus:ring-red-400 transition duration-300 ease-in-out hover:from-red-600 hover:to-red-800 cursor-pointer"
-                  style={{ width: "150px" }}
+                  className=" sm:w-72 bg-gradient-to-r from-red-500 via-red-600 to-red-700
+    text-white
+    rounded-lg
+    px-4 py-3
+    text-base sm:text-lg
+    font-semibold
+    shadow-lg
+    focus:outline-none
+    focus:ring-4 focus:ring-red-400
+    transition duration-300 ease-in-out
+    hover:from-red-600 hover:to-red-800
+    cursor-pointer
+  "
+   style={{width:"150px"}}
                 >
                   <option value="Not Started" className="text-black">Not Started</option>
                   <option value="In Progress" className="text-black">In Progress</option>
@@ -230,11 +284,11 @@ const SosDetails: React.FC = () => {
                 </select>
 
                 <div className="flex flex-row gap-4 mt-4">
-            <div
-  className={`text-sm font-semibold inline-block px-4 py-2 rounded ${getStatusStyles(
-    selected.status || "Completed"
-  )}`}
->
+                  <div
+                    className={`text-sm sm:text-base md:text-lg font-semibold inline-block px-4 py-2 rounded ${getStatusStyles(
+                      selected.status || "Completed"
+                    )}`}
+                  >
                     {selected.status || "Completed"}
                   </div>
                 </div>
@@ -246,7 +300,7 @@ const SosDetails: React.FC = () => {
                 <FaStickyNote className="text-[#9b111e] text-2xl mr-3" />
                 <div>
                   <div className="font-semibold text-lg">Note</div>
-                  <div className="text-gray-600">{selected.note}</div>
+                  <div className="text-gray-600">{postedDetails.description}</div>
                 </div>
               </div>
 
@@ -254,7 +308,7 @@ const SosDetails: React.FC = () => {
                 <FaMapMarkerAlt className="text-[#9b111e] text-2xl mr-3" />
                 <div>
                   <div className="font-semibold text-lg">Location</div>
-                  <div className="text-gray-600 text-2xl">{selected.location}</div>
+                  <div className="text-gray-600 text-2xl">{postedDetails.location}</div>
                 </div>
               </div>
             </div>
@@ -262,20 +316,7 @@ const SosDetails: React.FC = () => {
         </div>
 
        
-        {selected.responses && selected.responses.length > 0 && (
-          <div className="bg-white rounded-xl shadow-md p-5 mt-6 col-span-2">
-            <h2 className="text-[#9b111e] font-bold text-2xl mb-4">Response Updates</h2>
-            <ul className="space-y-4">
-              {selected.responses.map((res, idx) => (
-                <li key={idx} className="border p-4 rounded shadow-sm">
-                  <div className="font-semibold text-lg text-gray-800">{res.responder}</div>
-                  <div className="text-gray-600">{res.message}</div>
-                  <div className="text-sm text-gray-400 mt-2">{new Date(res.timestamp).toLocaleString()}</div>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
+       
       </div>
     </div>
   );

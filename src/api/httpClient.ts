@@ -3,7 +3,7 @@ import axios from "axios";
 
 
 
-const backEndUrl:string = ' https://sms-node-backend-17xb.onrender.com/'
+const backEndUrl: string = 'https://sms-node-backend-17xb.onrender.com'
 
 
 const Axios = axios.create({
@@ -23,6 +23,15 @@ Axios.interceptors.request.use((config)=> {
     }
     return config;
 });
+
+Axios.interceptors.response.use(
+    (response)=>response,
+    (error)=>{
+        if (error?.response && error?.response?.status === 401 && error?.response?.data?.status === "session_expired") {
+            localStorage.removeItem("authToken")
+        }
+    }
+)
 
 class HttpClient{
     async get(url:string,params?:string){
@@ -46,7 +55,7 @@ class HttpClient{
         return response;
     }
 
-  async update(url:string,params:string,data:string){
+  async update(url:string,data:string,params:string){
 
     const response =await Axios.put(url,data,{
         params:params,

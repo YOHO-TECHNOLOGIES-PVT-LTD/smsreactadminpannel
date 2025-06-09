@@ -24,10 +24,9 @@ admin={
 
    sos:{
     post:(data:any,)=>httpClient.post(API_END_POINTS.sos.Post,data),
-    put:(data:any,params:string)=>httpClient.update(API_END_POINTS.sos.Put,data,params),
-    get:(params:string)=>httpClient.get(API_END_POINTS.sos.Get.replace(':id',params)),
-    getAll:()=>httpClient.get(API_END_POINTS.sos.GetAll,''),
-    put:(data:any,params:string)=>httpClient.update(API_END_POINTS.sos.put,data,params)
+    put:(data:any,params:string)=>httpClient.update(API_END_POINTS.sos.Put+params,data,''),
+    get:(params:string)=>httpClient.get(API_END_POINTS.sos.Get.replace(':id',params),),
+    getAll:()=>httpClient.get(API_END_POINTS.sos.GetAll,'')
    },
 
    Announcement:{
@@ -82,7 +81,10 @@ enquiry:{
  },
 
  servicecenter:{
-  getAll:(data:string)=>httpClient.get(API_END_POINTS.serviceCenter.getAll,data)
+  getAll:(data:string)=>httpClient.get(API_END_POINTS.serviceCenter.getAll,data),
+  getAllCat:(params:string)=>httpClient.get(API_END_POINTS.serviceCenter.getAllCat.replace(':uuid',params)),
+  postPartner:(data:any)=>httpClient.post(API_END_POINTS.serviceCenter.postPartner,data),
+  update:(data:any,params:string)=>httpClient.update(API_END_POINTS.serviceCenter.updatePatner.replace(':id',params),data,'')
  }
 
 

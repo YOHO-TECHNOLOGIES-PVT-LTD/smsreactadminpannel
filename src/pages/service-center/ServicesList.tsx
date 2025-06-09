@@ -1,14 +1,16 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { COLORS, FONTS } from "../../constants/uiConstants";
 import { RiCarWashingFill } from "react-icons/ri";
 import { RiOilFill } from "react-icons/ri";
 import { MdOutlineKeyboardBackspace } from "react-icons/md";
 import { FiSearch } from "react-icons/fi";
 import { FaPlus } from "react-icons/fa";
+import Client from "../../api";
 
 type ServiceCenterServicesProps = {
   onSpareParts: () => void;
   handleBack: () => void;
+  partnerId:string;
 };
 
 interface ServiceOption {
@@ -25,7 +27,7 @@ interface ServiceCategory {
   isOpen: boolean;
 }
 
-const ServicesList: React.FC<ServiceCenterServicesProps> = ({ onSpareParts, handleBack }) => {
+const ServicesList: React.FC<ServiceCenterServicesProps> = ({ onSpareParts, handleBack,partnerId }) => {
   // Existing states
   const [showSearch, setShowSearch] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
@@ -51,6 +53,14 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({ onSpareParts, hand
     }
   ]);
 
+  useEffect(() => {
+   async function fetchdata(){
+      const response:any = await new Client().admin.servicecenter.getAllCat(partnerId)
+      console.log(response.data.data)
+    }
+    fetchdata()
+  }, []);
+
   // New category form state
   const [newCategory, setNewCategory] = useState({
     name: "",
@@ -60,18 +70,18 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({ onSpareParts, hand
   // Service options states
   const [serviceOptions, setServiceOptions] = useState<Record<string, ServiceOption[]>>({
     washing: [
-      { name: "Tyre Change", price: "$10", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR7cfmoK1zcVVgHGzjXvy0T3YqtDrdMWgSzGw&s", active: true },
-      { name: "Mirror change", price: "$15", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbXdy7iuelJuLwHjgqX0mzEUKVDTQay83ylw&s", active: true },
-      { name: "Bonnet", price: "$20", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTcbcTJZP0ofDRdbcBmbeXxBMK7f8S75TBEUA&s", active: true },
-      { name: "Seat repair", price: "$12", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-x14GdoGRcfG_OngpmDolY7yRRH9bumCrLg&s", active: true },
-      { name: "Paint check", price: "$8", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR31Hsugf2yE-h8T-Zcn_wO5WNqKgSm3VrVbA&s", active: true },
+      { name: "Tyre Change", price: "10", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR7cfmoK1zcVVgHGzjXvy0T3YqtDrdMWgSzGw&s", active: true },
+      { name: "Mirror change", price: "15", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbXdy7iuelJuLwHjgqX0mzEUKVDTQay83ylw&s", active: true },
+      { name: "Bonnet", price: "20", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTcbcTJZP0ofDRdbcBmbeXxBMK7f8S75TBEUA&s", active: true },
+      { name: "Seat repair", price: "12", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-x14GdoGRcfG_OngpmDolY7yRRH9bumCrLg&s", active: true },
+      { name: "Paint check", price: "8", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR31Hsugf2yE-h8T-Zcn_wO5WNqKgSm3VrVbA&s", active: true },
     ],
     oil: [
-      { name: "Oil service", price: "$10", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR7cfmoK1zcVVgHGzjXvy0T3YqtDrdMWgSzGw&s", active: true },
-      { name: "Oil check", price: "$15", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbXdy7iuelJuLwHjgqX0mzEUKVDTQay83ylw&s", active: true },
-      { name: "Premium oil change", price: "$20", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTcbcTJZP0ofDRdbcBmbeXxBMK7f8S75TBEUA&s", active: true },
-      { name: "Engine check", price: "$12", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-x14GdoGRcfG_OngpmDolY7yRRH9bumCrLg&s", active: true },
-      { name: "All in one combo", price: "$8", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR31Hsugf2yE-h8T-Zcn_wO5WNqKgSm3VrVbA&s", active: true },
+      { name: "Oil service", price: "10", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR7cfmoK1zcVVgHGzjXvy0T3YqtDrdMWgSzGw&s", active: true },
+      { name: "Oil check", price: "15", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbXdy7iuelJuLwHjgqX0mzEUKVDTQay83ylw&s", active: true },
+      { name: "Premium oil change", price: "20", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTcbcTJZP0ofDRdbcBmbeXxBMK7f8S75TBEUA&s", active: true },
+      { name: "Engine check", price: "12", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-x14GdoGRcfG_OngpmDolY7yRRH9bumCrLg&s", active: true },
+      { name: "All in one combo", price: "8", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR31Hsugf2yE-h8T-Zcn_wO5WNqKgSm3VrVbA&s", active: true },
     ]
   });
 
@@ -221,7 +231,7 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({ onSpareParts, hand
       {/* Header Section */}
       <div className="flex p-4 sticky top-0 shadow-inner-top border-b-2 border-orange-700" style={{ backgroundColor: COLORS.bgColor }}>
         <div>
-          <h1 className="font-bold text-3xl pt-2 pl-0" style={{ color: "#9b111e" }}>Services Lists Management</h1>
+          <h1 className="font-bold text-3xl pt-2 pl-0" style={{ color: "#9b111e" }}>Service Catalog</h1>
         </div>
         <div className="ml-auto flex items-center gap-4">
           <button
@@ -298,10 +308,10 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({ onSpareParts, hand
                   <table className="min-w-full text-left text-sm font-light text-gray-900 ">
                     <thead className="border-b font-medium ">
                       <tr>
-                        <th className="px-4 py-2">Service</th>
-                        <th className="px-4 py-2">Service Name</th>
-                        <th className="px-4 py-2">Price</th>
-                        <th className="px-4 py-2">Status</th>
+                        <th className="px-4 py-2 text-xl">Service</th>
+                        <th className="px-4 py-2 text-xl">Service Name</th>
+                        <th className="px-4 py-2 text-xl">Price</th>
+                        <th className="px-4 py-2 text-xl">Status</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -316,8 +326,8 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({ onSpareParts, hand
                               </div>
                             )}
                           </td>
-                          <td className="px-4 py-2 text-2xl font-normal">{option.name}</td>
-                          <td className="px-4 py-2 text-2xl font-normal">{option.price}</td>
+                          <td className="px-4 py-2 font-normal">{option.name}</td>
+                          <td className="px-4 py-2 font-normal"><span>&#8377;</span>{option.price}</td>
                           <td className="px-4 py-2">
                             <label className="inline-flex items-center cursor-pointer">
                               <input
