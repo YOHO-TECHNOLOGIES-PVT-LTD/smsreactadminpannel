@@ -3,7 +3,7 @@ import { MdToggleOn, MdToggleOff, MdClose } from "react-icons/md";
 import { FiPlus } from "react-icons/fi";
 import {  useNavigate } from "react-router-dom";
 import { carIcons } from "../../components/sos/sosicons";
-import { getallSos, postSos, updatelistedsos } from "../../components/sos/services";
+import { getallSos, getServiceList, statusupdatesos, updatelistedsos } from "../../components/sos/services";
 
 
 type SOSRequest = {
@@ -17,8 +17,8 @@ type SOSRequest = {
 };
 
  type Service = {
- id: number;
-  name: string;
+  _id: string;
+  title: string;
   active: boolean;
   icon?: React.ReactNode;
 };
@@ -27,32 +27,35 @@ const DashboardSos = () => {
   const navigate = useNavigate();
 
   const [filterStatus, setFilterStatus] = useState<string>("All");
-  const [services, setServices] = useState<Service[]>([
-    // { id: 1, name: "Pickup Truck", active: true },
-    // { id: 2, name: "Car Wheel", active: false },
-    // { id: 3, name: "Gas Pump", active: true },
-    // { id: 4, name: "Tools", active: false },
-    // { id: 5, name: "Garage", active: true },
-  ]);
+  const [services, setServices] = useState<Service[]>([]);
   const [showForm, setShowForm] = useState(false);
   const [newServiceName, setNewServiceName] = useState("");
   const [selectedIconIndex, setSelectedIconIndex] = useState<number | null>(null);
  const [activeRequest, setactiverequest] = useState<SOSRequest[]>([]);
   
- useEffect(() => {
-    const fetchSosRequests = async () => {
+
+  const fetchSosRequests = async () => {
     try {
-     const data:any = await getallSos()
-     setactiverequest(data.data.data);  
-     console.log('sosdetails',data)
+      const data: any = await getallSos()
+      setactiverequest(data.data.data);
     } catch (error) {
       console.error("Error fetching SOS requests:", error);
     }
   };
-   fetchSosRequests();
- }, []);
 
- console.log(activeRequest,'sos data')
+  const fetchSoslist = async () => {
+    try {
+      const datas: any = await getServiceList()
+      setServices(datas.data.data)
+    } catch (error) {
+      console.error("Error fetching SOS requests:", error);
+    }
+  };
+
+ useEffect(() => {
+   fetchSosRequests();
+   fetchSoslist();
+ }, []);
 
   const filteredRequests = activeRequest.filter((req) => {
     const status = req.status.toLowerCase();
@@ -76,41 +79,36 @@ const handleAddService = async (e: any) => {
 
   const selectedIcon = carIcons[selectedIconIndex];
   const existingService = services.find(
-    (s) => s.name.toLowerCase() === newServiceName.toLowerCase()
+    (s) => s.title.toLowerCase() === newServiceName.toLowerCase()
   );
 
   try {
     if (existingService) {
       // Update the existing service's status to active
-      const response = await updatelistedsos(newService,'');
 
       setServices((prev) =>
         prev.map((s) =>
-          s.id === existingService.id ? { ...s, active: true } : s
+          s._id=== existingService._id ? { ...s, active: true } : s
         )
       );
-      console.log("Service updated:", existingService.name);
+
+      // await updatelistedsos({ active: true },existingService._id)
+      await statusupdatesos({active:true},existingService._id)
+      
+      console.log("Service updated:", existingService.title);
     } else {
     
       const newService = {
-        name: newServiceName,
+        title: newServiceName,
         icon: selectedIcon.name,
         active: true,
       };
 
       const response = await updatelistedsos(newService,'');
-      const newId = response.data?.id; 
+      const newId = response.data; 
 
-      setServices((prev) => [
-        ...prev,
-        {
-          id: newId,
-          name: newService.name,
-          icon: selectedIcon.icon,
-          active: true,
-        },
-      ]);
-      console.log("Service added:", newService.name);
+      setServices((prev) => [...prev,newId]);
+      console.log("Service added:", newService.title);
     }
 
     
@@ -126,12 +124,11 @@ const handleAddService = async (e: any) => {
 const handleToggleService = async (service:any) => {
   const updatedActive= !service.active;
   try {
-    await updatelistedsos(service.id, { active: updatedActive });
-
+    await statusupdatesos({ active: updatedActive }, service._id)
     
     setServices((prevServices) =>
       prevServices.map((s) =>
-        s.id === service.id ? { ...s, active: updatedActive } : s
+        s._id === service._id ? { ...s, active: updatedActive } : s
       )
     );
   } catch (error) {
@@ -239,18 +236,17 @@ const handleToggleService = async (service:any) => {
         </div>
 
         <ul className="flex flex-col gap-4 overflow-auto scrollbar-thin scrollbar-thumb-red-600 scrollbar-track-gray-100 px-1 md:px-4">
-          {services.map((service) => (
+          {services.length > 0 && services.map((service,index) => (
             <li
-              key={service.id}
+              key={index}
               className="flex items-center justify-between border border-gray-200 rounded p-3 shadow-sm"
             >
               <div className="flex items-center gap-3">
                 <div className="w-6 h-6 flex justify-center items-center text-2xl">
-                  {service.icon ||
-                    carIcons.find((item) => item.name === service.name)?.icon}
+                  {carIcons.find((item) => item.name === service.icon)?.icon}
                 </div>
                 <div>
-                  <div className="font-semibold text-lg">{service.name}</div>
+                  <div className="font-semibold text-lg">{service.title}</div>
                   <div
                     className={`mt-1 font-semibold ${service.active ? "text-green-600" : "text-red-600"
                       }`}
@@ -260,7 +256,7 @@ const handleToggleService = async (service:any) => {
                 </div>
               </div>
              <button
-       aria-label={`Toggle ${service.name} ${service.active ? "off" : "on"}`}
+       aria-label={`Toggle ${service.title} ${service.active ? "off" : "on"}`}
        onClick={() => handleToggleService(service)}
        className="focus:outline-none"
        title={service.active ? "Enabled" : "Disabled"}
