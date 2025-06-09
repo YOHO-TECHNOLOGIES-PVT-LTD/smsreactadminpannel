@@ -82,7 +82,7 @@ const handleAddService = async (e: any) => {
   try {
     if (existingService) {
       // Update the existing service's status to active
-      const response = await updatelistedsos(newService,'');
+      const response= await updatelistedsos(newService,'');
 
       setServices((prev) =>
         prev.map((s) =>
