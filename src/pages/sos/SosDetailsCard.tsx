@@ -10,8 +10,8 @@ import {
 import {
   MapContainer,
   TileLayer,
-  Marker,
-  Popup,
+  //Marker,
+ // Popup,
 } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import sos from '../../assets/sos.jpg';
@@ -99,7 +99,7 @@ const SosDetails: React.FC = () => {
     contactNumber: "",
     type: "",
   });
-  const [statusFilter, setStatusFilter] = useState<string>('All');
+ /// const [statusFilter, setStatusFilter] = useState<string>('All');
 
 
   useEffect(() => {

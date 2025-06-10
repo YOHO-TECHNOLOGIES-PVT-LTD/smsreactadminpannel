@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import { IoFilterSharp } from "react-icons/io5";
 import { FaArrowTrendUp } from "react-icons/fa6";
 import { BsEye } from "react-icons/bs";
