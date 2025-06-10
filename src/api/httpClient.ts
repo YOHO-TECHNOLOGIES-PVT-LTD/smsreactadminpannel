@@ -5,7 +5,7 @@ import axios from "axios";
 
 const backEndUrl: string = 'https://sms-node-backend-17xb.onrender.com'
 
-
+// const backEndUrl: string = 'http://localhost:3000'
 const Axios = axios.create({
     baseURL:backEndUrl,
     timeout:50000000,
@@ -55,7 +55,7 @@ class HttpClient{
         return response;
     }
 
-  async update(url:string,data:string,params:string){
+  async update(url:string,data:string,params?:string){
 
     const response =await Axios.put(url,data,{
         params:params,

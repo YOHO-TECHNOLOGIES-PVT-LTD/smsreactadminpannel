@@ -46,4 +46,30 @@ export const postSos = async (data:any)=>{
     }
 }
 
+export const updatelistedsos = async (data:any,params:string) =>{
+    try{
+        const response = await new Client().admin.sos.updatelist(data,params)
+        console.log(response);
+        return response
+    }
+    catch(error){
+        console.log('error listed data:',error)
+    }
+}
 
+export const getServiceList = async()=>{
+    try {
+        const response = await new Client().admin.sos.getsosList()
+        return response
+    } catch (error) {
+        console.log("get service list",error)
+    }
+}
+
+export const statusupdatesos = async(data:any,params:string)=>{
+    try {
+        await new Client().admin.sos.statuslist(params,data)
+    } catch (error) {
+        console.log("get service list", error)
+    }
+}
