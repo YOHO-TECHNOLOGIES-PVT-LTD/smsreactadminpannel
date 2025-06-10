@@ -3,9 +3,9 @@ import axios from "axios";
 
 
 
-//const backEndUrl: string = 'https://sms-node-backend-17xb.onrender.com'
+const backEndUrl: string = 'https://sms-node-backend-17xb.onrender.com'
 
- const backEndUrl: string = 'http://localhost:3000'
+//  const backEndUrl: string = 'http://localhost:3000'
 const Axios = axios.create({
     baseURL:backEndUrl,
     timeout:50000000,
