@@ -1,4 +1,5 @@
 import React from "react";
+import dummpypic from "../../../../assets/Dashboard/images.jpg";
 
 type Props = {
   icon: React.ReactNode;
@@ -7,20 +8,29 @@ type Props = {
   profilePicUrl: string;
   time?: string;
   onClick?: () => void;
-  backgroundColor?: string; // New prop for custom background
+  backgroundColor?: string; 
 };
 
-const getIndiaDateTime = () => {
-  return new Intl.DateTimeFormat("en-IN", {
-    timeZone: "Asia/Kolkata",
-    year: "numeric",
-    month: "short",
-    day: "2-digit",
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: true,
-  }).format(new Date());
-};
+// const getIndiaDateTime = () => {
+//   return new Intl.DateTimeFormat("en-IN", {
+//     timeZone: "Asia/Kolkata",
+//     year: "numeric",
+//     month: "short",
+//     day: "2-digit",
+//     hour: "2-digit",
+//     minute: "2-digit",
+//     hour12: true,
+//   }).format(new Date());
+// };
+// const postDate = "2025-06-03T05:56:39.184Z";
+// const formatted = new Date(postDate).toLocaleString("en-IN", {
+//   day: "2-digit",
+//   month: "2-digit",
+//   year: "numeric",
+//   hour: "2-digit",
+//   minute: "2-digit",
+//   hour12: true,
+// });
 
 export const QueryCard: React.FC<Props> = ({
   title,
@@ -39,7 +49,7 @@ export const QueryCard: React.FC<Props> = ({
       }`}>
         <div className="w-12 h-12 rounded-full overflow-hidden mr-4 flex-shrink-0">
           <img
-            src={profilePicUrl}
+            src={profilePicUrl || dummpypic}
             alt="Profile"
             className="w-full h-full object-cover"
           />
@@ -48,7 +58,7 @@ export const QueryCard: React.FC<Props> = ({
           <p className="font-semibold text-[#9b111e]">{title}</p>
           <p className="font-thin line-clamp-1">{desc}</p>
           <p className="text-xs text-gray-500 mt-1">
-            {time || getIndiaDateTime()}
+            {time}
           </p>
         </div>
         <div className="w-10 h-10 flex items-center justify-center text-xl text-green-600">
