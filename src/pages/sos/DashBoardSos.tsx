@@ -247,7 +247,7 @@ const handleDeleteService = (index: number) => {
               key={index}
               className="flex items-center justify-between border border-gray-200 rounded p-3 shadow-sm"
             >
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-3" style={{width:"60%"}}>
                 <div className="w-6 h-6 flex justify-center items-center text-2xl">
                   {carIcons.find((item) => item.name === service.icon)?.icon}
                 </div>
