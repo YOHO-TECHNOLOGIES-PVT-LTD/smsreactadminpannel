@@ -1,28 +1,11 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react-swc';
 
+// https://vite.dev/config/
 export default defineConfig({
-  base: '/',
-  plugins: [react()],
-  optimizeDeps: {
-    exclude: ['recharts'],
-  },
-  build: {
-    minify: false,
-    sourcemap: true,
+	plugins: [react()],
+	build: {
     outDir: 'dist',
     assetsDir: 'assets',
-    chunkSizeWarningLimit: 2000,
-    rollupOptions: {
-      output: {
-        manualChunks(id) {
-          if (id.includes('node_modules')) {
-            if (id.includes('react')) return 'vendor_react'
-            if (id.includes('lodash')) return 'vendor_lodash'
-            return 'vendor'
-          }
-        }
-      }
-    }
   }
-})
+});

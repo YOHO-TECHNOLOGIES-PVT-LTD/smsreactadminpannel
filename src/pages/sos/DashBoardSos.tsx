@@ -1,10 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { MdToggleOn, MdToggleOff, MdClose } from "react-icons/md";
 import { FiPlus } from "react-icons/fi";
-import { useNavigate } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 import { carIcons } from "../../components/sos/sosicons";
+import { getallSos } from "../../components/sos/services";
+
 
 type SOSRequest = {
+  _id:string;
   vehicleNumber: string;
   location: string;
   name: string;
@@ -13,8 +16,8 @@ type SOSRequest = {
   view: string;
 };
 
-type Service = {
-  id: number;
+ type Service = {
+ id: number;
   name: string;
   active: boolean;
   icon?: React.ReactNode;
@@ -34,51 +37,24 @@ const DashboardSos = () => {
   const [showForm, setShowForm] = useState(false);
   const [newServiceName, setNewServiceName] = useState("");
   const [selectedIconIndex, setSelectedIconIndex] = useState<number | null>(null);
+ const [activeRequest, setactiverequest] = useState<SOSRequest[]>([]);
+  
+ useEffect(() => {
+    const fetchSosRequests = async () => {
+    try {
+     const data:any = await getallSos()
+     setactiverequest(data.data.data);  
+     console.log('sosdetails',data)
+    } catch (error) {
+      console.error("Error fetching SOS requests:", error);
+    }
+  };
+   fetchSosRequests();
+ }, []);
 
-  const activeRequests: SOSRequest[] = [
-    {
-      vehicleNumber: "1234",
-      location: "New York",
-      name: "John Doe",
-      phoneNumber: "9876543210",
-      status: "Not started",
-      view: "View",
-    },
-    {
-      vehicleNumber: "5678",
-      location: "Los Angeles",
-      name: "Joe Allen",
-      phoneNumber: "9876543211",
-      status: "Completed",
-      view: "View",
-    },
-    {
-      vehicleNumber: "4321",
-      location: "Chicago",
-      name: "Joe Kelley",
-      phoneNumber: "9876543212",
-      status: "In Progress",
-      view: "View",
-    },
-    {
-      vehicleNumber: "8765",
-      location: "Houston",
-      name: "Alex Doe",
-      phoneNumber: "9876543213",
-      status: "Completed",
-      view: "View",
-    },
-    {
-      vehicleNumber: "6789",
-      location: "Phoenix",
-      name: "Alex Goan",
-      phoneNumber: "9876543214",
-      status: "In Progress",
-      view: "View",
-    },
-  ];
+ console.log(activeRequest,'sos data')
 
-  const filteredRequests = activeRequests.filter((req) => {
+  const filteredRequests = activeRequest.filter((req) => {
     const status = req.status.toLowerCase();
     if (filterStatus === "All") return true;
     if (filterStatus === "In Progress") return status.includes("progress");
@@ -86,10 +62,14 @@ const DashboardSos = () => {
     if (filterStatus === "Not Started") return status === "not started";
     return true;
   });
+  const handleViewClick = (uuid:string) => {
 
-  const handleViewClick = () => {
-    navigate("/sosdetails");
+  navigate(`/sosdetails/${uuid}`);
   };
+
+  //  const handleViewClick = (uuid:string) => {
+  //     navigate(`/sosdetails/${uuid}`);
+  //  };
 
   const handleAddService = (e: React.FormEvent) => {
     e.preventDefault();
@@ -152,7 +132,7 @@ const DashboardSos = () => {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-300">
-              {filteredRequests.length === 0 ? (
+              {activeRequest.length === 0 ? (
                 <tr>
                   <td
                     colSpan={6}
@@ -162,29 +142,33 @@ const DashboardSos = () => {
                   </td>
                 </tr>
               ) : (
-                filteredRequests.map((req, index) => (
+                  filteredRequests.map((req, index) => (
                   <tr key={index} className="hover:bg-gray-50">
                     <td className="border border-gray-300 px-4 py-2">{req.vehicleNumber}</td>
                     <td className="border border-gray-300 px-4 py-2">{req.location}</td>
                     <td className="border border-gray-300 px-4 py-2">{req.name}</td>
                     <td className="border border-gray-300 px-4 py-2">{req.phoneNumber}</td>
-                    <td
-                      className={`border border-gray-300 px-4 py-2 font-semibold ${req.status.toLowerCase() === "not started"
-                          ? "text-[#800000]"
-                          : req.status.toLowerCase() === "in progress"
-                            ? "text-gray-600"
-                            : "text-green-600"
-                        }`}
-                    >
-                      {req.status}
-                    </td>
+                    
+
+                   <td
+  className={`border border-gray-300 px-4 py-2 font-semibold ${
+    {
+      "Completed": "text-orange-500",
+      "In Progress": "text-green-600",
+      "Not Started": "text-black",
+    }[req.status] || "text-black"
+  }`}
+>
+  {req.status}
+</td>
+
                     <td className="border border-gray-300 px-4 py-2">
                       <button
-                        onClick={handleViewClick}
+                       onClick={() => handleViewClick(req._id)}
                         className="bg-gradient-to-r from-red-600 to-red-800 hover:scale-105 transition-transform text-white px-4 py-1 rounded w-full"
                         title={`View details for ${req.vehicleNumber}`}
                       >
-                        {req.view}
+                        {req.view}view
                       </button>
                     </td>
                   </tr>

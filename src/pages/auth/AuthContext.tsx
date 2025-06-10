@@ -3,7 +3,7 @@ import type { ReactNode } from 'react';
 
 type AuthContextType = {
 	isAuthenticated: boolean;
-	login: () => void;
+	login: (data:string) => void;
 	logout: () => void;
 };
 
@@ -17,18 +17,19 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 		setIsAuthenticated(!!token);
 	}, []);
 
-	const login = () => {
-		localStorage.setItem('authToken', 'dummy-token');
+	const login = (data:string) => {
+		localStorage.setItem('authToken', data);
 		setIsAuthenticated(true);
 	};
 
 	const logout = () => {
+
 		localStorage.removeItem('authToken');
 		setIsAuthenticated(false);
 	};
 
 	return (
-		<AuthContext.Provider value={{ isAuthenticated, login, logout }}>
+		<AuthContext.Provider value={{ isAuthenticated,login, logout }}>
 			{children}
 		</AuthContext.Provider>
 	);

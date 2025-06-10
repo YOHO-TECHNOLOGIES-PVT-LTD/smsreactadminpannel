@@ -1,15 +1,26 @@
 import { Chart as ChartJS, ArcElement, Tooltip } from 'chart.js';
+import type React from 'react';
 import { Doughnut } from 'react-chartjs-2';
+
 
 ChartJS.register(ArcElement, Tooltip);
 
 // Sample data
+interface sosprops{
+  datas:any
+}
+
+export const SoSCard:React.FC <sosprops>=({datas})=> {
+
+  console.log(datas.sosdetails)
+
 const labels = ['Completed', 'Pending', 'In Progress'];
-const values = [12, 5, 8];
+//const values = [datas.completed.count , datas.pending.count , datas.notstarted.count  ];
+const values = [12,8,9];
 const colors = ['#EEA29A', '#DAC292', '#B7D7E8'];
 const total = values.reduce((sum, val) => sum + val, 0);
 
-export const data = {
+const data = {
   labels,
   datasets: [
     {
@@ -24,7 +35,6 @@ export const data = {
   ],
 };
 
-export function SoSCard() {
   return (
     <div className=" space-y-6">
         {/* Custom Legend */}
