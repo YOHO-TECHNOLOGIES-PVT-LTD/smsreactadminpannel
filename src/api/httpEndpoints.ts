@@ -82,9 +82,4 @@ export const API_END_POINTS ={
    serviceCenter:{
      getAll: "/api/admin/servicecenter/getall"   
    }
-
-
-
-   
-
 }
