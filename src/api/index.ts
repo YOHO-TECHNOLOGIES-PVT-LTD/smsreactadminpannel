@@ -54,7 +54,7 @@ auth:{
 
 profile:{
     get:(params:string)=>httpClient.get(API_END_POINTS.profile.Get,params),
-    put:(params:string,data:string)=>httpClient.update(API_END_POINTS.profile.Put,params,data),
+    put:(data:string)=>httpClient.update(API_END_POINTS.profile.Put,data),
     post:(data:string)=>httpClient.post(API_END_POINTS.profile.Post,data,),
     postlogin:(data:any)=>httpClient.post(API_END_POINTS.profile.Postlogin,data)
 },
