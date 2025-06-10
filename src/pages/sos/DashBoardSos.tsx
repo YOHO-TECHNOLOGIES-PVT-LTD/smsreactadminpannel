@@ -4,7 +4,7 @@ import { FiPlus } from "react-icons/fi";
 import {  useNavigate } from "react-router-dom";
 import { carIcons } from "../../components/sos/sosicons";
 import { getallSos, getServiceList, statusupdatesos, updatelistedsos } from "../../components/sos/services";
-
+import { MdDelete } from "react-icons/md";
 
 type SOSRequest = {
   _id:string;
@@ -134,6 +134,12 @@ const handleToggleService = async (service:any) => {
   } catch (error) {
     console.error("Failed to update service status:", error);
   }
+};
+
+const handleDeleteService = (index: number) => {
+  const updated = [...services];
+  updated.splice(index, 1); 
+  setServices(updated);
 };
 
   return (
@@ -266,6 +272,13 @@ const handleToggleService = async (service:any) => {
   ) : (
          <MdToggleOff className="text-gray-400 text-6xl" />
       )}
+</button>
+  <button
+   onClick={() => handleDeleteService(index)}
+   className="focus:outline-none"
+   title="Delete Service"
+ >
+   <MdDelete size={28} className="text-[#9b111e] hover:text-red-800" />
 </button>
 
             </li>
