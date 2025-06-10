@@ -6,7 +6,7 @@ import { IoClose } from "react-icons/io5";
 import { MdAddCircleOutline, MdOutlineKeyboardBackspace } from "react-icons/md";
 import { FiSearch } from "react-icons/fi";
 import { COLORS } from "../../constants/uiConstants";
-import { getServiceCenter } from "../../features/ServiceCenter/Service";
+//import { getServiceCenter } from "../../features/ServiceCenter/Service";
 import logo from '../../assets/LOGO.jpg'
 import { useNavigate } from "react-router-dom";
 

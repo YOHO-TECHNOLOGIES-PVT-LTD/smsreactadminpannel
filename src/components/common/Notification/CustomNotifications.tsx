@@ -54,9 +54,9 @@ const NotificationPanel: React.FC = () => {
     fetchUserNotifications();
   }, []);
 
-  const handleDelete = (id: string) => {
-    setNotifications((prev) => prev.filter((n) => n._id !== id));
-  };
+  // const handleDelete = (id: string) => {
+  //   setNotifications((prev) => prev.filter((n) => n._id !== id));
+  // };
 
   const handleMarkAsRead = (id: string) => {
     setNotifications((prev) =>
@@ -93,7 +93,7 @@ const NotificationPanel: React.FC = () => {
             <button
               key={type}
               onClick={() => setFilter(type as 'all' | 'read' | 'unread')}
-              className={`w-24 h-10 rounded px-4 py-2 ${filter === type
+              className={`w-24 h-10 rounded font-bold  px-4 py-2 ${filter === type
                 ? 'bg-[#9b111e] text-white'
                 : 'border-2 border-[#9b111e] text-[#9b111e]'
                 }`}
@@ -151,15 +151,15 @@ const NotificationPanel: React.FC = () => {
                       New
                     </span>
                   )}
-                  <p className="text-xs text-gray-500 whitespace-nowrap">
+                  <p className="text-2xs text-gray-900 whitespace-nowrap">
                     {formatDate(notif.created_at)}
                   </p>
-                  <button
+                  {/* <button
                     onClick={() => handleDelete(notif._id)}
                     className="bg-red-100 text-red-500 px-2 py-1 rounded text-sm hover:bg-red-200"
                   >
                     Delete
-                  </button>
+                  </button> */}
                 </div>
               </div>
             </div>

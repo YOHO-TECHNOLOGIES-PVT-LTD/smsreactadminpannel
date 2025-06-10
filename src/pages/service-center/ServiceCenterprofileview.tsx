@@ -71,10 +71,17 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({ onServi
         setShowConfirm(false);
     };
 
-    const confirmDelete = () => {
+    const confirmDelete = async () => {
         setShowDeleteConfirm(false);
-        console.log("Service Center Deleted");
-        setShowDeleteSuccessPopup(true);
+        try {
+            await new Client().admin.servicecenter.delete(); 
+            console.log("Service Center Deleted");
+            setShowDeleteSuccessPopup(true);
+            handleBack(); 
+        } catch (error) {
+            console.error("Error deleting service center:", error);
+            
+        }
     };
 
     const cancelDelete = () => {

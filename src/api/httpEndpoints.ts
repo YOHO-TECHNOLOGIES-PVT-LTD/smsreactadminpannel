@@ -38,7 +38,9 @@ export const API_END_POINTS ={
     GetAll:"/api/sos/getall",
     Get:"/api/sos/get/:id",
     Put:"/api/sos/update/",
-    put:"/api/sos/updatelist",
+    put:"/api/sos/addlist",
+    getsoslis:"/api/sos/soslist",
+    updatelist:"/api/sos/updatelist/:id",
    },
 
    profile:{
@@ -85,6 +87,7 @@ export const API_END_POINTS ={
      getAllCat: "/api/admin/category/getAll/:uuid",
      postPartner: "/api/partner/auth/register",
      updatePatner: "/api/partner/auth/update/:id",
+     delete:"/api/admin/servicecenter/delete/:id"
     }
 
 

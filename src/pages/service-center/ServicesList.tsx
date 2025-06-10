@@ -342,6 +342,16 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({ onSpareParts, hand
             
                             </label>
                           </td>
+                           {/* <td className="px-4 py-2 flex gap-3 text-lg">
+        <FiEdit
+          className="text-blue-600 cursor-pointer hover:scale-110"
+          onClick={() => handleEditService(option, category.id)}
+        />
+        <FiTrash2
+          className="text-red-600 cursor-pointer hover:scale-110"
+          onClick={() => handleDeleteClick(option._id, category.id)}
+        />
+      </td> */}
                         </tr>
                       ))}
                     </tbody>
