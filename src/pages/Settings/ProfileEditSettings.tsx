@@ -32,8 +32,11 @@ const ProfileEditSettings: React.FC = () => {
         },
         gender: "",
         image: null,
+        facebook:"",
+        twitter:"",
+        youtube:"",
     });
-
+ 
     const fetchData = async () => {
         const response = await getProfile();
         setProfile(response.data);

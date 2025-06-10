@@ -73,3 +73,13 @@ export const statusupdatesos = async(data:any,params:string)=>{
         console.log("get service list", error)
     }
 }
+
+export const deletesos = async ()=>{
+    try{
+       const response:any = await new Client().admin.sos.delete()
+       return response;
+    }
+    catch(error){
+console.log("deleted sos",error)
+    }
+}
