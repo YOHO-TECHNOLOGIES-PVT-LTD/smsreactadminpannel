@@ -1,16 +1,17 @@
 import type React from "react"
 
 import { useState, useRef, useEffect } from "react"
-import { ArrowLeft, Search, Plus, Car, Wrench, X, Edit3, Trash2, List, Eye, EyeOff, Settings } from "lucide-react"
+import { ArrowLeft, Search, Plus, Car, Wrench, X, Edit3, Trash2, Eye, EyeOff, Settings } from "lucide-react"
+// import { set } from "react-hook-form"
 
 // Mock constants
-const COLORS = {
-  bgColor: "#f8fafc",
-}
+// const COLORS = {
+//   bgColor: "#f8fafc",
+// }
 
-const FONTS = {
-  header: { fontFamily: "Inter, system-ui, sans-serif" },
-}
+// const FONTS = {
+//   header: { fontFamily: "Inter, system-ui, sans-serif" },
+// }
 
 type ServiceCenterServicesProps = {
   onSpareParts: () => void
@@ -75,6 +76,7 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({ onSpareParts, hand
       }
     }
     fetchdata()
+    setViewMode("table")
   }, [partnerId])
 
   const [newCategory, setNewCategory] = useState({
