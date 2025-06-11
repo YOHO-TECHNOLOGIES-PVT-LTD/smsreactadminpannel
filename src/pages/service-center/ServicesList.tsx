@@ -1,437 +1,773 @@
-import { useState, useRef } from "react";
-import { COLORS, FONTS } from "../../constants/uiConstants";
-import { RiCarWashingFill } from "react-icons/ri";
-import { RiOilFill } from "react-icons/ri";
-import { MdOutlineKeyboardBackspace } from "react-icons/md";
-import { FiSearch } from "react-icons/fi";
-import { FaPlus } from "react-icons/fa";
+import type React from "react"
+
+import { useState, useRef, useEffect } from "react"
+import { ArrowLeft, Search, Plus, Car, Wrench, X, Edit3, Trash2, Eye, EyeOff, Settings } from "lucide-react"
+// import { set } from "react-hook-form"
+
+// Mock constants
+// const COLORS = {
+//   bgColor: "#f8fafc",
+// }
+
+// const FONTS = {
+//   header: { fontFamily: "Inter, system-ui, sans-serif" },
+// }
 
 type ServiceCenterServicesProps = {
-  onSpareParts: () => void;
-  handleBack: () => void;
-};
+  onSpareParts: () => void
+  handleBack: () => void
+  partnerId: string
+}
 
 interface ServiceOption {
-  name: string;
-  price: string;
-  image: string | ArrayBuffer | null;
-  active: boolean;
+  id: string
+  name: string
+  price: string
+  image: string | ArrayBuffer | null
+  active: boolean
+  description?: string
+  duration?: string
 }
 
 interface ServiceCategory {
-  id: string;
-  name: string;
-  icon: React.ReactElement; // Changed from JSX.Element to React.ReactElement
-  isOpen: boolean;
+  id: string
+  name: string
+  icon: React.ReactElement
+  isOpen: boolean
+  color: string
+  count: number
 }
 
-const ServicesList: React.FC<ServiceCenterServicesProps> = ({ onSpareParts, handleBack }) => {
-  // Existing states
-  const [showSearch, setShowSearch] = useState(false);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [showAddForm, setShowAddForm] = useState(false);
-  const [showAddCategoryForm, setShowAddCategoryForm] = useState(false);
-  const [activeServiceType, setActiveServiceType] = useState<string>('');
-  const fileInputRef = useRef<HTMLInputElement>(null);
-  const categoryIconRef = useRef<HTMLSelectElement>(null);
+const ServicesList: React.FC<ServiceCenterServicesProps> = ({ onSpareParts, handleBack, partnerId }) => {
+  const [searchTerm, setSearchTerm] = useState("")
+  const [showAddForm, setShowAddForm] = useState(false)
+  const [showAddCategoryForm, setShowAddCategoryForm] = useState(false)
+  const [activeServiceType, setActiveServiceType] = useState<string>("")
+  const [selectedCategory, setSelectedCategory] = useState<string>("all")
+  const [viewMode, setViewMode] = useState<"grid" | "table">("table")
+  const [editingService, setEditingService] = useState<ServiceOption | null>(null)
+  const fileInputRef = useRef<HTMLInputElement>(null)
 
-  // Categories state
   const [categories, setCategories] = useState<ServiceCategory[]>([
-    { 
-      id: 'washing',
-      name: 'Washing',
-      icon: <RiCarWashingFill />,
-      isOpen: false
+    {
+      id: "washing",
+      name: "Car Washing",
+      icon: <Car className="w-5 h-5" />,
+      isOpen: true,
+      color: "bg-blue-500",
+      count: 4,
     },
-    { 
-      id: 'oil',
-      name: 'Oil Services',
-      icon: <RiOilFill />,
-      isOpen: false
-    }
-  ]);
+    {
+      id: "oil",
+      name: "Oil Services",
+      icon: <Wrench className="w-5 h-5" />,
+      isOpen: true,
+      color: "bg-orange-500",
+      count: 4,
+    },
+  ])
 
-  // New category form state
+  useEffect(() => {
+    async function fetchdata() {
+      try {
+        console.log(`Fetching data for partner: ${partnerId}`)
+      } catch (error) {
+        console.error("Error fetching data:", error)
+      }
+    }
+    fetchdata()
+    setViewMode("table")
+  }, [partnerId])
+
   const [newCategory, setNewCategory] = useState({
     name: "",
-    icon: ""
-  });
+    icon: "",
+    color: "bg-gray-500",
+  })
 
-  // Service options states
   const [serviceOptions, setServiceOptions] = useState<Record<string, ServiceOption[]>>({
     washing: [
-      { name: "Tyre Change", price: "$10", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR7cfmoK1zcVVgHGzjXvy0T3YqtDrdMWgSzGw&s", active: true },
-      { name: "Mirror change", price: "$15", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbXdy7iuelJuLwHjgqX0mzEUKVDTQay83ylw&s", active: true },
-      { name: "Bonnet", price: "$20", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTcbcTJZP0ofDRdbcBmbeXxBMK7f8S75TBEUA&s", active: true },
-      { name: "Seat repair", price: "$12", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-x14GdoGRcfG_OngpmDolY7yRRH9bumCrLg&s", active: true },
-      { name: "Paint check", price: "$8", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR31Hsugf2yE-h8T-Zcn_wO5WNqKgSm3VrVbA&s", active: true },
+      {
+        id: "1",
+        name: "Premium Car Wash",
+        price: "25",
+        image: "https://www.pixelstalk.net/wp-content/uploads/2016/08/Lamborghini-mountain-fog-sports-car-photos.jpg",
+        active: true,
+        description: "Complete exterior wash premium soap",
+        duration: "30 min",
+      },
+      {
+        id: "2",
+        name: "Interior Cleaning",
+        price: "35",
+        image: "https://www.pixelstalk.net/wp-content/uploads/2016/08/Lamborghini-mountain-fog-sports-car-photos.jpg",
+        active: true,
+        description: "Deep interior cleaning and vacuuming",
+        duration: "45 min",
+      },
+      // {
+      //   id: "3",
+      //   name: "Wax & Polish",
+      //   price: "45",
+      //   image: "https://www.pixelstalk.net/wp-content/uploads/2016/08/Lamborghini-mountain-fog-sports-car-photos.jpg",
+      //   active: true,
+      //   description: "Professional waxing and polishing service",
+      //   duration: "60 min",
+      // },
+      // {
+      //   id: "4",
+      //   name: "Tire Cleaning",
+      //   price: "15",
+      //   image: "https://www.pixelstalk.net/wp-content/uploads/2016/08/Lamborghini-mountain-fog-sports-car-photos.jpg",
+      //   active: false,
+      //   description: "Tire cleaning and shine treatment",
+      //   duration: "15 min",
+      // },
     ],
     oil: [
-      { name: "Oil service", price: "$10", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR7cfmoK1zcVVgHGzjXvy0T3YqtDrdMWgSzGw&s", active: true },
-      { name: "Oil check", price: "$15", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbXdy7iuelJuLwHjgqX0mzEUKVDTQay83ylw&s", active: true },
-      { name: "Premium oil change", price: "$20", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTcbcTJZP0ofDRdbcBmbeXxBMK7f8S75TBEUA&s", active: true },
-      { name: "Engine check", price: "$12", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-x14GdoGRcfG_OngpmDolY7yRRH9bumCrLg&s", active: true },
-      { name: "All in one combo", price: "$8", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR31Hsugf2yE-h8T-Zcn_wO5WNqKgSm3VrVbA&s", active: true },
-    ]
-  });
+      {
+        id: "5",
+        name: "Oil Change Service",
+        price: "50",
+        image: "https://www.pixelstalk.net/wp-content/uploads/2016/08/Lamborghini-mountain-fog-sports-car-photos.jpg",
+        active: true,
+        description: "Standard oil change with filter",
+        duration: "30 min",
+      },
+      {
+        id: "6",
+        name: "Filter Replacement",
+        price: "25",
+        image: "https://www.pixelstalk.net/wp-content/uploads/2016/08/Lamborghini-mountain-fog-sports-car-photos.jpg",
+        active: true,
+        description: "Air and oil filter replacement",
+        duration: "20 min",
+      },
+      // {
+      //   id: "7",
+      //   name: "Premium Oil Package",
+      //   price: "75",
+      //   image: "https://www.pixelstalk.net/wp-content/uploads/2016/08/Lamborghini-mountain-fog-sports-car-photos.jpg",
+      //   active: true,
+      //   description: "Premium synthetic oil change",
+      //   duration: "45 min",
+      // },
+      // {
+      //   id: "8",
+      //   name: "Engine Diagnostic",
+      //   price: "40",
+      //   image: "https://www.pixelstalk.net/wp-content/uploads/2016/08/Lamborghini-mountain-fog-sports-car-photos.jpg",
+      //   active: true,
+      //   description: "Complete engine diagnostic check",
+      //   duration: "60 min",
+      // },
+    ],
+  })
 
   const [newService, setNewService] = useState({
     name: "",
     price: "",
+    description: "",
+    duration: "",
     image: null as string | ArrayBuffer | null,
-    active: true
-  });
+    active: true,
+  })
 
-  // Toggle category open/close
-  const toggleCategory = (id: string) => {
-    setCategories(categories.map(cat => 
-      cat.id === id ? { ...cat, isOpen: !cat.isOpen } : cat
-    ));
-  };
+  // Get all services for display
+  const getAllServices = () => {
+    const allServices: (ServiceOption & { categoryId: string; categoryName: string })[] = []
+    categories.forEach((category) => {
+      const services = serviceOptions[category.id] || []
+      services.forEach((service) => {
+        allServices.push({
+          ...service,
+          categoryId: category.id,
+          categoryName: category.name,
+        })
+      })
+    })
+    return allServices
+  }
 
-  // Handle adding a new category
+  // Filter services based on search and category
+  const getFilteredServices = () => {
+    let services = getAllServices()
+
+    if (selectedCategory !== "all") {
+      services = services.filter((service) => service.categoryId === selectedCategory)
+    }
+
+    if (searchTerm) {
+      services = services.filter(
+        (service) =>
+          service.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          service.description?.toLowerCase().includes(searchTerm.toLowerCase()),
+      )
+    }
+
+    return services
+  }
+
   const handleAddCategory = () => {
-    setShowAddCategoryForm(true);
-  };
+    setShowAddCategoryForm(true)
+  }
 
   const handleCancelAddCategory = () => {
-    setShowAddCategoryForm(false);
-    setNewCategory({ name: "", icon: "" });
-  };
+    setShowAddCategoryForm(false)
+    setNewCategory({ name: "", icon: "", color: "bg-gray-500" })
+  }
 
   const handleCategoryInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    setNewCategory(prev => ({
+    const { name, value } = e.target
+    setNewCategory((prev) => ({
       ...prev,
-      [name]: value
-    }));
-  };
+      [name]: value,
+    }))
+  }
 
   const handleSubmitCategory = (e: React.FormEvent) => {
-    e.preventDefault();
+    e.preventDefault()
     if (newCategory.name && newCategory.icon) {
-      const iconComponent = getIconComponent(newCategory.icon);
+      const iconComponent = getIconComponent(newCategory.icon)
       if (iconComponent) {
         const newCategoryItem = {
-          id: newCategory.name.toLowerCase().replace(/\s+/g, '-'),
+          id: newCategory.name.toLowerCase().replace(/\s+/g, "-"),
           name: newCategory.name,
           icon: iconComponent,
-          isOpen: false
-        };
-        
-        setCategories([...categories, newCategoryItem]);
+          isOpen: true,
+          color: newCategory.color,
+          count: 0,
+        }
+
+        setCategories([...categories, newCategoryItem])
         setServiceOptions({
           ...serviceOptions,
-          [newCategoryItem.id]: []
-        });
-        
-        setNewCategory({ name: "", icon: "" });
-        setShowAddCategoryForm(false);
+          [newCategoryItem.id]: [],
+        })
+
+        setNewCategory({ name: "", icon: "", color: "bg-gray-500" })
+        setShowAddCategoryForm(false)
       }
     }
-  };
+  }
 
-  // Helper function to get icon component
-  const getIconComponent = (iconName: string): React.ReactElement | null => { // Changed return type
-    switch(iconName) {
-      case 'washing': return <RiCarWashingFill />;
-      case 'oil': return <RiOilFill />;
-      // Add more icons as needed
-      default: return null;
+  const getIconComponent = (iconName: string): React.ReactElement | null => {
+    switch (iconName) {
+      case "washing":
+        return <Car className="w-5 h-5" />
+      case "oil":
+        return <Wrench className="w-5 h-5" />
+      default:
+        return null
     }
-  };
+  }
 
-  // Existing service functions (modified to work with dynamic categories)
-  const handleAddService = (type: string) => {
-    setActiveServiceType(type);
-    setShowAddForm(true);
-  };
+  const handleAddService = (type?: string) => {
+    setActiveServiceType(type || selectedCategory)
+    setEditingService(null)
+    setNewService({ name: "", price: "", description: "", duration: "", image: null, active: true })
+    setShowAddForm(true)
+  }
+
+  const handleEditService = (service: ServiceOption & { categoryId: string }) => {
+    setActiveServiceType(service.categoryId)
+    setEditingService(service)
+    setNewService({
+      name: service.name,
+      price: service.price,
+      description: service.description || "",
+      duration: service.duration || "",
+      image: service.image,
+      active: service.active,
+    })
+    setShowAddForm(true)
+  }
 
   const handleCancelAdd = () => {
-    setShowAddForm(false);
-    setNewService({ name: "", price: "", image: null, active: true });
+    setShowAddForm(false)
+    setEditingService(null)
+    setNewService({ name: "", price: "", description: "", duration: "", image: null, active: true })
     if (fileInputRef.current) {
-      fileInputRef.current.value = "";
+      fileInputRef.current.value = ""
     }
-  };
+  }
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value, type, checked } = e.target;
-    setNewService(prev => ({
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value, type } = e.target
+    const checked = (e.target as HTMLInputElement).checked
+    setNewService((prev) => ({
       ...prev,
-      [name]: type === 'checkbox' ? checked : value
-    }));
-  };
+      [name]: type === "checkbox" ? checked : value,
+    }))
+  }
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
+    const file = e.target.files?.[0]
     if (file) {
-      const reader = new FileReader();
+      const reader = new FileReader()
       reader.onloadend = () => {
-        setNewService(prev => ({
+        setNewService((prev) => ({
           ...prev,
-          image: reader.result
-        }));
-      };
-      reader.readAsDataURL(file);
+          image: reader.result,
+        }))
+      }
+      reader.readAsDataURL(file)
     }
-  };
+  }
 
-  const handleToggleActive = (index: number, type: string) => {
-    const updatedOptions = [...serviceOptions[type]];
-    updatedOptions[index].active = !updatedOptions[index].active;
+  const handleToggleActive = (serviceId: string, categoryId: string) => {
+    const updatedOptions = serviceOptions[categoryId].map((service) =>
+      service.id === serviceId ? { ...service, active: !service.active } : service,
+    )
     setServiceOptions({
       ...serviceOptions,
-      [type]: updatedOptions
-    });
-  };
+      [categoryId]: updatedOptions,
+    })
+  }
+
+  const handleDeleteService = (serviceId: string, categoryId: string) => {
+    const updatedOptions = serviceOptions[categoryId].filter((service) => service.id !== serviceId)
+    setServiceOptions({
+      ...serviceOptions,
+      [categoryId]: updatedOptions,
+    })
+  }
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+    e.preventDefault()
     if (newService.name && newService.price && activeServiceType) {
-      const newServiceItem = {
+      const serviceItem = {
+        id: editingService?.id || `svc-${Date.now()}`,
         name: newService.name,
-        price: `$${newService.price}`,
-        image: newService.image || "https://via.placeholder.com/150",
-        active: newService.active
-      };
+        price: newService.price,
+        description: newService.description,
+        duration: newService.duration,
+        image: newService.image || "/placeholder.svg?height=100&width=150",
+        active: newService.active,
+      }
 
-      setServiceOptions({
-        ...serviceOptions,
-        [activeServiceType]: [...serviceOptions[activeServiceType], newServiceItem]
-      });
+      if (editingService) {
+        const updatedOptions = serviceOptions[activeServiceType].map((service) =>
+          service.id === editingService.id ? serviceItem : service,
+        )
+        setServiceOptions({
+          ...serviceOptions,
+          [activeServiceType]: updatedOptions,
+        })
+      } else {
+        setServiceOptions({
+          ...serviceOptions,
+          [activeServiceType]: [...serviceOptions[activeServiceType], serviceItem],
+        })
+      }
 
-      setNewService({ name: "", price: "", image: null, active: true });
-      setShowAddForm(false);
+      setNewService({ name: "", price: "", description: "", duration: "", image: null, active: true })
+      setShowAddForm(false)
+      setEditingService(null)
       if (fileInputRef.current) {
-        fileInputRef.current.value = "";
+        fileInputRef.current.value = ""
       }
     }
-  };
+  }
+
+  const filteredServices = getFilteredServices()
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: COLORS.bgColor }}>
-      {/* Back Button */}
-      <div className="p-4">
-        <button onClick={handleBack} className="">
-          <MdOutlineKeyboardBackspace className="text-[#800000] text-3xl" />
-        </button>
-      </div>
+    <div className="min-h-screen bg-gray-50 flex">
+      {/* Sidebar */}
+      <div className="w-80 bg-pink-50 shadow-lg border-r border-gray-200 flex flex-col">
+        {/* Sidebar Header */}
+        <div className="p-6 border-b border-gray-200">
+          <div className="flex items-center space-x-3 mb-4">
+            <button onClick={handleBack} className="p-2 rounded-lg hover:bg-gray-100 transition-colors">
+              <ArrowLeft className="w-5 h-5 text-gray-600" />
+            </button>
+            <div>
+              <h1 className="text-xl font-bold text-gray-900">Service Catalog</h1>
+              <p className="text-sm text-gray-500">Manage services</p>
+            </div>
+          </div>
 
-      {/* Header Section */}
-      <div className="flex p-4 sticky top-0 shadow-inner-top border-b-2 border-orange-700" style={{ backgroundColor: COLORS.bgColor }}>
-        <div>
-          <h1 className="font-bold text-3xl pt-2 pl-0" style={{ color: "#9b111e" }}>Services Lists Management</h1>
-        </div>
-        <div className="ml-auto flex items-center gap-4">
-          <button
-            className="bg-[#fce8e8] text-gray-600 hover:text-[#9b111e] p-2 rounded-full transition"
-            title="Search"
-            onClick={() => setShowSearch(!showSearch)}
-          >
-            <FiSearch size={22} className="text-[#800000]" />
-          </button>
-
-          {showSearch && (
-            <input
-              type="text"
-              className="px-4 py-1.5 border border-[#800000] focus:border-[#800000] rounded-md shadow-sm focus:outline-none"
-              placeholder="Search services..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-          )}
-
-          <button
-            className="text-white px-4 py-2 rounded-lg transition duration-200 flex items-center gap-2"
-            style={{ background: "linear-gradient(44.99deg, #700808 11%, #d23c3c 102.34%)" }}
-            onClick={onSpareParts}
-          >
-            Spares
-          </button>
-        </div>
-      </div>
-
-      {/* Categories Section */}
-      <div className="p-4">
-        <div className="flex justify-between items-center mb-4">
-          <h2 className="text-2xl font-bold" style={{ color: "#9b111e" }}></h2>
           <button
             onClick={handleAddCategory}
-            className="flex items-center gap-2 text-white px-4 py-2 rounded-lg"
-            style={{ background: "linear-gradient(44.99deg, #700808 11%, #d23c3c 102.34%)" }}
+            className="w-full flex items-center justify-center space-x-2 px-4 py-2 bg-[#800000] text-white rounded-lg hover:bg-[#800000] transition-colors"
           >
-            <FaPlus /> Add Category
+            <Plus className="w-4 h-4" />
+            <span>Add Category</span>
+          </button>
+        </div>
+
+        {/* Categories */}
+        <div className="flex-1 p-4 space-y-2">
+          <div className="mb-4">
+            <h3 className="text-sm font-semibold text-gray-700 mb-2">CATEGORIES</h3>
+          </div>
+
+          <button
+            onClick={() => setSelectedCategory("all")}
+            className={`w-full flex items-center space-x-3 px-3 py-2 rounded-lg transition-colors ${
+              selectedCategory === "all"
+                ? "bg-[#800000]/10 text-[#800000]"
+                : "text-gray-700 hover:bg-[#800000]/10 hover:text-[#800000]"
+            }`}
+          >
+            <div className="flex-1 text-left">
+              <div className="font-medium">All Services</div>
+              <div className="text-xs text-gray-500">{getAllServices().length} services</div>
+            </div>
+          </button>
+
+          {categories.map((category) => (
+            <button
+              key={category.id}
+              onClick={() => setSelectedCategory(category.id)}
+              className={`w-full flex items-center space-x-3 px-3 py-2 rounded-lg transition-colors ${
+                selectedCategory === category.id
+                  ? "bg-[#800000]/10 text-[#800000]"
+                  : "text-gray-700 hover:bg-[#800000]/10 hover:text-[#800000]"
+              }`}
+            >
+              <div className="flex-1 text-left">
+                <div className="font-medium">{category.name}</div>
+                <div className="text-xs text-gray-500">{serviceOptions[category.id]?.length || 0} services</div>
+              </div>
+            </button>
+          ))}
+        </div>
+
+        {/* Sidebar Footer */}
+        <div className="p-4 border-t border-gray-200">
+          <button
+            onClick={onSpareParts}
+            className="w-full flex items-center justify-center space-x-2 px-4 py-2 bg-gray-900 text-white rounded-lg hover:bg-gray-800 transition-colors"
+          >
+            <Settings className="w-4 h-4" />
+            <span>Spare Parts</span>
           </button>
         </div>
       </div>
 
-      {/* Services Section */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 text-2xl mt-0 p-3" style={{ fontFamily: FONTS.header.fontFamily }}>
-        {/* Dynamic Categories */}
-        {categories.map((category) => (
-          <div key={category.id}>
-            <div className="w-full p-4 bg-white border border-gray-200 rounded-lg shadow-sm sm:p-8">
-              <div className="flex items-center justify-between mb-4 cursor-pointer">
-                <h5 className="text-2xl font-bold leading-none flex gap-2" style={{ color: "#9b111e" }}>
-                  {category.icon} {category.name}
-                </h5>
-                <span
-                  className="text-sm font-medium text-orange-800 hover:underline"
-                  onClick={() => toggleCategory(category.id)}
-                >
-                  {category.isOpen ? 'Hide' : 'View all'}
-                </span>
+      {/* Main Content */}
+      <div className="flex-1 flex flex-col">
+        {/* Top Bar */}
+        <div className="bg-pink-50 shadow-sm border-b border-gray-200 p-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <h2 className="text-2xl font-bold text-gray-900">
+                {selectedCategory === "all" ? "All Services" : categories.find((c) => c.id === selectedCategory)?.name}
+              </h2>
+              <p className="text-gray-500">{filteredServices.length} services found</p>
+            </div>
+
+            <div className="flex items-center space-x-1">
+              {/* Search */}
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+                <input
+                  type="text"
+                  className="pl-10 pr-4 py-2 w-80 border border-gray-300 rounded-lg  focus:border-indigo-500"
+                  placeholder="Search services..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                />
               </div>
 
-              {category.isOpen && (
-                <div className="overflow-x-auto">
-                  <button
-                    type="button"
-                    className="text-white font-medium rounded-lg text-sm px-3 py-1 mt-2 flex ml-auto me-2 mb-2 focus:outline-none"
-                    style={{ background: "linear-gradient(44.99deg,#700808 11%,#d23c3c 102.34%)" }}
-                    onClick={() => handleAddService(category.id)}
-                  >
-                    Add Service
-                  </button>
+              {/* View Toggle */}
+              <div className="flex items-center bg-gray-100 rounded-lg p-1">
+                
+              </div>
 
-                  <table className="min-w-full text-left text-sm font-light text-gray-900 ">
-                    <thead className="border-b font-medium ">
-                      <tr>
-                        <th className="px-4 py-2">Service</th>
-                        <th className="px-4 py-2">Service Name</th>
-                        <th className="px-4 py-2">Price</th>
-                        <th className="px-4 py-2">Status</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {serviceOptions[category.id]?.map((option, index) => (
-                        <tr key={`${category.id}-${index}`} className="border-b ">
-                          <td className="px-0 py-0 text-2xl font-normal">
-                            {typeof option.image === 'string' ? (
-                              <img src={option.image} alt="service" className="w-16 h-12 object-cover" />
-                            ) : (
-                              <div className="w-16 h-12 bg-gray-200 flex items-center justify-center">
-                                No Image
-                              </div>
-                            )}
-                          </td>
-                          <td className="px-4 py-2 text-2xl font-normal">{option.name}</td>
-                          <td className="px-4 py-2 text-2xl font-normal">{option.price}</td>
-                          <td className="px-4 py-2">
-                            <label className="inline-flex items-center cursor-pointer">
-                              <input
-                                type="checkbox"
-                                checked={option.active}
-                                onChange={() => handleToggleActive(index, category.id)}
-                                className="sr-only peer"
-                              />
-                              <div className={`relative w-9 h-5 rounded-full peer ${option.active ? 'bg-green-500' : 'bg-gray-200'}`}>
-                                <div className={`absolute top-[2px] ${option.active ? 'left-[18px]' : 'left-[2px]'} bg-white rounded-full h-4 w-4 transition-all`}></div>
-                              </div>
-            
-                            </label>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
+              {/* Add Service */}
+              <button
+                onClick={() => handleAddService()}
+                className="flex items-center space-x-2 px-4 py-2 bg-[#800000] text-white rounded-lg hover:bg-[#800000] transition-colors"
+              >
+                <Plus className="w-4 h-4" />
+                <span>Add Service</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Content Area */}
+        <div className="flex-1 p-6">
+          {viewMode === "grid" ? (
+            /* Table View */
+            <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+              <table className="w-full">
+                <thead className="bg-gray-50 border-b border-gray-200">
+                  <tr>
+                    <th className="text-left py-4 px-6 font-semibold text-gray-900">Service</th>
+                    <th className="text-left py-4 px-6 font-semibold text-gray-900">Category</th>
+                    <th className="text-left py-4 px-6 font-semibold text-gray-900">Price</th>
+                    <th className="text-left py-4 px-6 font-semibold text-gray-900">Duration</th>
+                    <th className="text-left py-4 px-6 font-semibold text-gray-900">Status</th>
+                    <th className="text-left py-4 px-6 font-semibold text-gray-900">Actions</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-200">
+                  {filteredServices.map((service) => (
+                    <tr key={service.id} className="hover:bg-gray-50">
+                      <td className="py-4 px-6">
+                        <div className="flex items-center space-x-3">
+                          <img
+                            src={typeof service.image === "string" ? service.image : "/placeholder.svg"}
+                            alt={service.name}
+                            className="w-12 h-12 object-cover rounded-lg"
+                          />
+                          <div>
+                            <div className="font-medium text-gray-900">{service.name}</div>
+                            <div className="text-sm text-gray-500">{service.description}</div>
+                          </div>
+                        </div>
+                      </td>
+                      <td className="py-4 px-6">
+                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                          {service.categoryName}
+                        </span>
+                      </td>
+                      <td className="py-4 px-6 font-semibold text-gray-900">₹{service.price}</td>
+                      <td className="py-4 px-6 text-gray-500">{service.duration}</td>
+                      <td className="py-4 px-6">
+                        <button
+                          onClick={() => handleToggleActive(service.id, service.categoryId)}
+                          className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                            service.active ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"
+                          }`}
+                        >
+                          {service.active ? "Active" : "Inactive"}
+                        </button>
+                      </td>
+                      <td className="py-4 px-6">
+                        <div className="flex items-center space-x-2">
+                          <button
+                            onClick={() => handleEditService(service)}
+                            className="p-1 text-gray-400 hover:text-indigo-600 transition-colors"
+                          >
+                            <Edit3 className="w-4 h-4" />
+                          </button>
+                          <button
+                            onClick={() => handleDeleteService(service.id, service.categoryId)}
+                            className="p-1 text-gray-400 hover:text-red-600 transition-colors"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+
+              {filteredServices.length === 0 && (
+                <div className="text-center py-12">
+                  <div className="text-gray-400 mb-4">
+                    <Search className="w-12 h-12 mx-auto" />
+                  </div>
+                  <h3 className="text-lg font-medium text-gray-900 mb-2">No services found</h3>
+                  <p className="text-gray-500">Try adjusting your search or add a new service</p>
                 </div>
               )}
             </div>
-          </div>
-        ))}
+          ) : (
+            /* Grid View */
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              {filteredServices.map((service) => (
+                <div
+                  key={service.id}
+                  className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow"
+                >
+                  <div className="relative">
+                    <img
+                      src={typeof service.image === "string" ? service.image : "/placeholder.svg"}
+                      alt={service.name}
+                      className="w-full h-48 object-cover"
+                    />
+                    <div className="absolute top-3 right-3">
+                      <button
+                        onClick={() => handleToggleActive(service.id, service.categoryId)}
+                        className={`p-1 rounded-full ${service.active ? "bg-green-500" : "bg-red-500"}`}
+                      >
+                        {service.active ? (
+                          <Eye className="w-4 h-4 text-white" />
+                        ) : (
+                          <EyeOff className="w-4 h-4 text-white" />
+                        )}
+                      </button>
+                    </div>
+                  </div>
+                  <div className="p-4">
+                    <div className="flex items-center justify-between mb-2">
+                      <h3 className="font-semibold text-gray-900">{service.name}</h3>
+                      <span className="text-lg font-bold text-gray-900">₹{service.price}</span>
+                    </div>
+                    <p className="text-sm text-gray-500 mb-3">{service.description}</p>
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs text-gray-400">{service.duration}</span>
+                      <div className="flex items-center space-x-1">
+                        <button
+                          onClick={() => handleEditService(service)}
+                          className="p-1 text-[#800000] hover:text-[#800000] transition-colors"
+                        >
+                          <Edit3 className="w-4 h-4" />
+                        </button>
+                        <button
+                          onClick={() => handleDeleteService(service.id, service.categoryId)}
+                          className="p-1 text-[#800000] hover:text-[#800000] transition-colors"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+
+              {filteredServices.length === 0 && (
+                <div className="col-span-full text-center py-12">
+                  <div className="text-gray-400 mb-4">
+                    <Search className="w-12 h-12 mx-auto" />
+                  </div>
+                  <h3 className="text-lg font-medium text-gray-900 mb-2">No services found</h3>
+                  <p className="text-gray-500">Try adjusting your search or add a new service</p>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
       </div>
 
-      {/* Add Service Modal */}
+      {/* Add/Edit Service Modal */}
       {showAddForm && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg shadow-xl w-full max-w-md p-6">
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="text-xl font-semibold text-gray-900">
-                Add New {categories.find(c => c.id === activeServiceType)?.name || ''} Service
-              </h3>
-              <button
-                onClick={handleCancelAdd}
-                className="text-gray-400 hover:text-gray-500"
-              >
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path>
-                </svg>
-              </button>
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+            <div className="p-6 border-b border-gray-200">
+              <div className="flex items-center justify-between">
+                <h3 className="text-xl font-bold text-gray-900">
+                  {editingService ? "Edit Service" : "Add New Service"}
+                </h3>
+                <button onClick={handleCancelAdd} className="p-2 hover:bg-gray-100 rounded-full transition-colors">
+                  <X className="w-5 h-5 text-gray-500" />
+                </button>
+              </div>
             </div>
 
-            <form onSubmit={handleSubmit}>
-              <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700 mb-1">Service Name</label>
-                <input
-                  type="text"
-                  name="name"
-                  value={newService.name}
+            <form onSubmit={handleSubmit} className="p-6 space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">Service Name</label>
+                  <input
+                    type="text"
+                    name="name"
+                    value={newService.name}
+                    onChange={handleInputChange}
+                    className="w-full p-3 border border-gray-300 rounded-lg   focus:border-black"
+                    placeholder="Enter service name"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">Price (₹)</label>
+                  <input
+                    type="number"
+                    name="price"
+                    value={newService.price}
+                    onChange={handleInputChange}
+                    className="w-full p-3 border border-gray-300 rounded-lg  focus:border-black"
+                    placeholder="Enter price"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">Duration</label>
+                  <input
+                    type="text"
+                    name="duration"
+                    value={newService.duration}
+                    onChange={handleInputChange}
+                    className="w-full p-3 border border-gray-300 rounded-lg  focus:border-black"
+                    placeholder="e.g., 30 min"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">Category</label>
+                  <select
+                    value={activeServiceType}
+                    onChange={(e) => setActiveServiceType(e.target.value)}
+                    className="w-full p-3 border border-gray-300 rounded-lg  focus:border-black"
+                    required
+                  >
+                    <option value="">Select category</option>
+                    {categories.map((category) => (
+                      <option key={category.id} value={category.id}>
+                        {category.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">Description</label>
+                <textarea
+                  name="description"
+                  value={newService.description}
                   onChange={handleInputChange}
-                  className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
-                  required
+                  rows={3}
+                  className="w-full p-3 border border-gray-300 rounded-lg  focus:border-black"
+                  placeholder="Enter service description"
                 />
               </div>
 
-              <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700 mb-1">Price (without $ sign)</label>
-                <input
-                  type="text"
-                  name="price"
-                  value={newService.price}
-                  onChange={handleInputChange}
-                  className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
-                  required
-                />
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">Service Image</label>
+                <div className="relative">
+                  <input
+                    type="file"
+                    ref={fileInputRef}
+                    onChange={handleImageUpload}
+                    accept="image/*"
+                    className="w-full p-3 border border-gray-300 rounded-lg  focus:border-black"
+                  />
+                  {newService.image && (
+                    <div className="mt-3">
+                      <img
+                        src={typeof newService.image === "string" ? newService.image : ""}
+                        alt="Preview"
+                        className="h-32 w-48 object-cover rounded-lg shadow-sm"
+                      />
+                    </div>
+                  )}
+                </div>
               </div>
 
-              <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700 mb-1">Service Image</label>
-                <input
-                  type="file"
-                  ref={fileInputRef}
-                  onChange={handleImageUpload}
-                  accept="image/*"
-                  className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
-                />
-                {newService.image && (
-                  <div className="mt-2">
-                    <p className="text-sm text-gray-500">Preview:</p>
-                    <img
-                      src={typeof newService.image === 'string' ? newService.image : ''}
-                      alt="Preview"
-                      className="h-20 w-20 object-cover mt-1"
-                    />
-                  </div>
-                )}
-              </div>
-
-              <div className="mb-6 flex items-center">
+              <div className="flex items-center space-x-3">
                 <input
                   type="checkbox"
                   name="active"
                   checked={newService.active}
                   onChange={handleInputChange}
-                  className="h-4 w-4 text-amber-600 focus:ring-amber-500 border-gray-300 rounded"
+                  className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
                 />
-                <label className="ml-2 block text-sm text-gray-700">Active Service</label>
+                <label className="text-sm font-medium text-gray-700">Activate service immediately</label>
               </div>
 
-              <div className="flex justify-end gap-3">
+              <div className="flex space-x-3 pt-4">
                 <button
                   type="button"
                   onClick={handleCancelAdd}
-                  className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-200 rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500"
+                  className="flex-1 px-4 py-3 text-sm font-semibold text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 text-sm font-medium text-white rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500"
-                  style={{ background: "linear-gradient(44.99deg,#700808 11%,#d23c3c 102.34%)" }}
+                  className="flex-1 px-4 py-3 text-sm font-semibold text-white bg-[#800000] rounded-lg hover:bg-[#800000] transition-colors"
                 >
-                  Add Service
+                  {editingService ? "Update Service" : "Add Service"}
                 </button>
               </div>
             </form>
@@ -441,62 +777,77 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({ onSpareParts, hand
 
       {/* Add Category Modal */}
       {showAddCategoryForm && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg shadow-xl w-full max-w-md p-6">
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="text-xl font-semibold text-gray-900">Add New Service Category</h3>
-              <button
-                onClick={handleCancelAddCategory}
-                className="text-gray-400 hover:text-gray-500"
-              >
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path>
-                </svg>
-              </button>
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md">
+            <div className="p-6 border-b border-gray-200">
+              <div className="flex items-center justify-between">
+                <h3 className="text-xl font-bold text-gray-900">Add New Category</h3>
+                <button
+                  onClick={handleCancelAddCategory}
+                  className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+                >
+                  <X className="w-5 h-5 text-gray-500" />
+                </button>
+              </div>
             </div>
 
-            <form onSubmit={handleSubmitCategory}>
-              <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700 mb-1">Category Name</label>
+            <form onSubmit={handleSubmitCategory} className="p-6 space-y-6">
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">Category Name</label>
                 <input
                   type="text"
                   name="name"
                   value={newCategory.name}
                   onChange={handleCategoryInputChange}
-                  className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
+                  className="w-full p-3 border border-gray-300 rounded-lg  focus:border-black"
+                  placeholder="Enter category name"
                   required
                 />
               </div>
 
-              <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700 mb-1">Category Icon</label>
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">Category Icon</label>
                 <select
                   name="icon"
                   value={newCategory.icon}
                   onChange={handleCategoryInputChange}
-                  className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
+                  className="w-full p-3 border border-gray-300 rounded-lg  focus:border-black"
                   required
-                  ref={categoryIconRef}
                 >
                   <option value="">Select an icon</option>
-                  <option value="washing">Washing Icon</option>
+                  <option value="washing">Car Washing Icon</option>
                   <option value="oil">Oil Services Icon</option>
-                  {/* Add more icons as needed */}
                 </select>
               </div>
 
-              <div className="flex justify-end gap-3">
+              {/* <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">Color Theme</label>
+                <select
+                  name="color"
+                  value={newCategory.color}
+                  onChange={handleCategoryInputChange}
+                  className="w-full p-3 border border-gray-300 rounded-lg  focus:border-black"
+                >
+                  <option value="bg-blue-500">Blue</option>
+                  <option value="bg-green-500">Green</option>
+                  <option value="bg-purple-500">Purple</option>
+                  <option value="bg-orange-500">Orange</option>
+                  <option value="bg-pink-500">Pink</option>
+                  <option value="bg-gray-500">Gray</option>
+                </select>
+              </div> */}
+
+              <div className="flex space-x-3 pt-4">
                 <button
                   type="button"
                   onClick={handleCancelAddCategory}
-                  className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-200 rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500"
+                  className="flex-1 px-4 py-3 text-sm font-semibold text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 text-sm font-medium text-white rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500"
-                  style={{ background: "linear-gradient(44.99deg,#700808 11%,#d23c3c 102.34%)" }}
+                  className="flex-1 px-4 py-3 text-sm font-semibold text-white bg-[#800000] rounded-lg hover:bg-[#800000] transition-colors"
                 >
                   Add Category
                 </button>
@@ -506,7 +857,7 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({ onSpareParts, hand
         </div>
       )}
     </div>
-  );
-};
+  )
+}
 
-export default ServicesList;
+export default ServicesList

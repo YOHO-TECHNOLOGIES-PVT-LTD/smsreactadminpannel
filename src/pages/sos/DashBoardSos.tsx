@@ -3,10 +3,11 @@ import { MdToggleOn, MdToggleOff, MdClose } from "react-icons/md";
 import { FiPlus } from "react-icons/fi";
 import {  useNavigate } from "react-router-dom";
 import { carIcons } from "../../components/sos/sosicons";
-import { getallSos } from "../../components/sos/services";
-
+import { deletesos, getallSos, getServiceList, statusupdatesos, updatelistedsos } from "../../components/sos/services";
+import { MdDelete } from "react-icons/md";
 
 type SOSRequest = {
+  _id:string;
   vehicleNumber: string;
   location: string;
   name: string;
@@ -16,8 +17,8 @@ type SOSRequest = {
 };
 
  type Service = {
- id: number;
-  name: string;
+  _id: string;
+  title: string;
   active: boolean;
   icon?: React.ReactNode;
 };
@@ -26,69 +27,125 @@ const DashboardSos = () => {
   const navigate = useNavigate();
 
   const [filterStatus, setFilterStatus] = useState<string>("All");
-  const [services, setServices] = useState<Service[]>([
-    { id: 1, name: "Pickup Truck", active: true },
-    { id: 2, name: "Car Wheel", active: false },
-    { id: 3, name: "Gas Pump", active: true },
-    { id: 4, name: "Tools", active: false },
-    { id: 5, name: "Garage", active: true },
-  ]);
+  const [services, setServices] = useState<Service[]>([]);
   const [showForm, setShowForm] = useState(false);
   const [newServiceName, setNewServiceName] = useState("");
   const [selectedIconIndex, setSelectedIconIndex] = useState<number | null>(null);
  const [activeRequest, setactiverequest] = useState<SOSRequest[]>([]);
   
- useEffect(() => {
-    const fetchSosRequests = async () => {
+
+  const fetchSosRequests = async () => {
     try {
-     const data:any = await getallSos()
-     setactiverequest(data.data.data);  
-     console.log('sosdetails',data)
+      const data: any = await getallSos()
+      setactiverequest(data.data.data);
     } catch (error) {
       console.error("Error fetching SOS requests:", error);
     }
   };
+
+  const fetchSoslist = async () => {
+    try {
+      const datas: any = await getServiceList()
+      setServices(datas.data.data)
+    } catch (error) {
+      console.error("Error fetching SOS requests:", error);
+    }
+  };
+
+ useEffect(() => {
    fetchSosRequests();
+   fetchSoslist();
  }, []);
 
- console.log(activeRequest,'sos data')
-
-  // const filteredRequests = activeRequest.filter((req) => {
-  //   const status = req.status.toLowerCase();
-  //   if (filterStatus === "All") return true;
-  //   if (filterStatus === "In Progress") return status.includes("progress");
-  //   if (filterStatus === "Completed") return status === "completed";
-  //   if (filterStatus === "Not Started") return status === "not started";
-  //   return true;
-  // });
+  const filteredRequests = activeRequest.filter((req) => {
+    const status = req.status.toLowerCase();
+    if (filterStatus === "All") return true;
+    if (filterStatus === "In Progress") return status.includes("progress");
+    if (filterStatus === "Completed") return status === "completed";
+    if (filterStatus === "Not Started") return status === "not started";
+    return true;
+  });
   const handleViewClick = (uuid:string) => {
 
   navigate(`/sosdetails/${uuid}`);
   };
 
-  //  const handleViewClick = (uuid:string) => {
-  //     navigate(`/sosdetails/${uuid}`);
-  //  };
+  
+ 
 
-  const handleAddService = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!newServiceName.trim()) return;
+const handleAddService = async (e: any) => {
+  e.preventDefault();
+  if (!newServiceName || selectedIconIndex === null) return;
 
-    const icon =
-      selectedIconIndex !== null ? carIcons[selectedIconIndex].icon : undefined;
+  const selectedIcon = carIcons[selectedIconIndex];
+  const existingService = services.find(
+    (s) => s.title.toLowerCase() === newServiceName.toLowerCase()
+  );
 
-    const newService: Service = {
-      id: services.length + 1,
-      name: newServiceName.trim(),
-      active: false,
-      icon,
-    };
+  try {
+    if (existingService) {
+      // Update the existing service's status to active
 
-    setServices((prev) => [...prev, newService]);
+      setServices((prev) =>
+        prev.map((s) =>
+          s._id=== existingService._id ? { ...s, active: true } : s
+        )
+      );
+
+      // await updatelistedsos({ active: true },existingService._id)
+      await statusupdatesos({active:true},existingService._id)
+      
+      console.log("Service updated:", existingService.title);
+    } else {
+    
+      const newService = {
+        title: newServiceName,
+        icon: selectedIcon.name,
+        active: true,
+      };
+
+      const response = await updatelistedsos(newService,'');
+      const newId = response.data; 
+
+      setServices((prev) => [...prev,newId]);
+      console.log("Service added:", newService.title);
+    }
+
+    
     setNewServiceName("");
     setSelectedIconIndex(null);
     setShowForm(false);
-  };
+  } catch (error) {
+    console.error("Error adding or updating service:", error);
+  }
+};
+
+
+const handleToggleService = async (service:any) => {
+  const updatedActive= !service.active;
+  try {
+    await statusupdatesos({ active: updatedActive }, service._id)
+    
+    setServices((prevServices) =>
+      prevServices.map((s) =>
+        s._id === service._id ? { ...s, active: updatedActive } : s
+      )
+    );
+  } catch (error) {
+    console.error("Failed to update service status:", error);
+  }
+};
+
+const handleDeleteService = async(index: number,id:string) => {
+  try {
+    await deletesos(id)
+    const updated = [...services];
+    updated.splice(index, 1);
+    setServices(updated);
+  } catch (error) {
+    console.log("sos delete",error)
+  }
+};
 
   return (
     <div className="flex flex-col md:flex-row gap-6 p-4 md:p-6 text-gray-800 h-screen bg-gray-50">
@@ -141,7 +198,7 @@ const DashboardSos = () => {
                   </td>
                 </tr>
               ) : (
-                activeRequest.map((req, index) => (
+                  filteredRequests.map((req, index) => (
                   <tr key={index} className="hover:bg-gray-50">
                     <td className="border border-gray-300 px-4 py-2">{req.vehicleNumber}</td>
                     <td className="border border-gray-300 px-4 py-2">{req.location}</td>
@@ -149,21 +206,23 @@ const DashboardSos = () => {
                     <td className="border border-gray-300 px-4 py-2">{req.phoneNumber}</td>
                     
 
-                    <td
-                      className={`border border-gray-300 px-4 py-2 font-semibold ${req.status.toLowerCase() === "not started"
-                          ? "text-[#800000]"
-                          : req.status.toLowerCase() === "in progress"
-                            ? "text-gray-600"
-                            : "text-green-600"
-                        }`}
-                    >
-                      {req.status}
-                    </td>
+                   <td
+  className={`border border-gray-300 px-4 py-2 font-semibold ${
+    {
+      "Completed": "text-orange-500",
+      "In Progress": "text-green-600",
+      "Not Started": "text-black",
+    }[req.status] || "text-black"
+  }`}
+>
+  {req.status}
+</td>
+
                     <td className="border border-gray-300 px-4 py-2">
                       <button
-                       onClick={() => handleViewClick(req.vehicleNumber)}
+                       onClick={() => handleViewClick(req._id)}
                         className="bg-gradient-to-r from-red-600 to-red-800 hover:scale-105 transition-transform text-white px-4 py-1 rounded w-full"
-                        title={`View details for ${req.vehicleNumber}`}
+                        title={`View details for ${req._id}`}
                       >
                         {req.view}view
                       </button>
@@ -188,18 +247,17 @@ const DashboardSos = () => {
         </div>
 
         <ul className="flex flex-col gap-4 overflow-auto scrollbar-thin scrollbar-thumb-red-600 scrollbar-track-gray-100 px-1 md:px-4">
-          {services.map((service) => (
+          {services.length > 0 && services.map((service,index) => (
             <li
-              key={service.id}
+              key={index}
               className="flex items-center justify-between border border-gray-200 rounded p-3 shadow-sm"
             >
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-3" style={{width:"60%"}}>
                 <div className="w-6 h-6 flex justify-center items-center text-2xl">
-                  {service.icon ||
-                    carIcons.find((item) => item.name === service.name)?.icon}
+                  {carIcons.find((item) => item.name === service.icon)?.icon}
                 </div>
                 <div>
-                  <div className="font-semibold text-lg">{service.name}</div>
+                  <div className="font-semibold text-lg">{service.title}</div>
                   <div
                     className={`mt-1 font-semibold ${service.active ? "text-green-600" : "text-red-600"
                       }`}
@@ -208,25 +266,26 @@ const DashboardSos = () => {
                   </div>
                 </div>
               </div>
-              <button
-                aria-label={`Toggle ${service.name} ${service.active ? "off" : "on"
-                  }`}
-                onClick={() => {
-                  setServices((prevServices) =>
-                    prevServices.map((s) =>
-                      s.id === service.id ? { ...s, active: !s.active } : s
-                    )
-                  );
-                }}
-                className="focus:outline-none"
-                title={service.active ? "Enabled" : "Disabled"}
-              >
-                {service.active ? (
-                  <MdToggleOn className="text-[#800000] text-6xl" />
-                ) : (
-                  <MdToggleOff className="text-gray-400 text-6xl" />
-                )}
-              </button>
+             <button
+       aria-label={`Toggle ${service.title} ${service.active ? "off" : "on"}`}
+       onClick={() => handleToggleService(service)}
+       className="focus:outline-none"
+       title={service.active ? "Enabled" : "Disabled"}
+>
+          {service.active ? (
+       <MdToggleOn className="text-[#800000] text-6xl" />
+  ) : (
+         <MdToggleOff className="text-gray-400 text-6xl" />
+      )}
+</button>
+  <button
+   onClick={() => handleDeleteService(index,service._id)}
+   className="focus:outline-none"
+   title="Delete Service"
+ >
+   <MdDelete size={28} className="text-[#9b111e] hover:text-red-800" />
+</button>
+
             </li>
           ))}
         </ul>
