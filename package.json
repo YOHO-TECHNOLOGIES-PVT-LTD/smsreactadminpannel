@@ -47,6 +47,7 @@
 		"react-toastify": "^11.0.5",
 		"recharts": "^2.15.3",
 		"rollup": "^3.29.4",
+		"socket.io-client": "^4.8.1",
 		"tailwind-scrollbar-hide": "^2.0.0",
 		"vanilla-calendar-pro": "^3.0.4",
 		"yup": "^1.6.1"
@@ -63,6 +64,7 @@
 		"@types/react": "^19.1.4",
 		"@types/react-dom": "^19.1.5",
 		"@types/react-router-dom": "^5.3.3",
+		"@types/socket.io": "^3.0.1",
 		"@vitejs/plugin-react": "^4.4.1",
 		"@vitejs/plugin-react-swc": "^3.9.0",
 		"autoprefixer": "^10.4.21",
