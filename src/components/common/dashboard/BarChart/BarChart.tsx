@@ -1,66 +1,130 @@
-import React, { useState } from 'react';
-import { FONTS } from "../../../../constants/uiConstants"//FONT
-import {COLORS} from "../../../../constants/uiConstants"//COLOUR
+import React, { useState, useRef, useEffect } from 'react';
+// import { FONTS } from "../../../../constants/uiConstants"//FONT
+import { COLORS } from "../../../../constants/uiConstants"//COLOUR
 
 import {
-  BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
+  BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer,
 } from 'recharts';
 import { ChevronDown } from 'lucide-react';
+import { GetCustomerDetailsDashboard } from '../../../../pages/Dashboards/services/index';
 
-const data = [
-  { day: 'Mon', newCustomers: 50 },
-  { day: 'Tue', newCustomers: 35 },
-  { day: 'Wed', newCustomers: 25 },
-  { day: 'Thu', newCustomers: 40 },
-  { day: 'Fri', newCustomers: 12 },
-  { day: 'Sat', newCustomers: 32 },
-  { day: 'Sun', newCustomers: 24 },
-];
+//for data
+// const data = [
+//   { day: 'Mon', newCustomers: 50, returnCustomers: 80 },
+//   { day: 'Tue', newCustomers: 35 },
+//   { day: 'Wed', newCustomers: 25 },
+//   { day: 'Thu', newCustomers: 40 },
+//   { day: 'Fri', newCustomers: 12 },
+//   { day: 'Sat', newCustomers: 32 },
+//   { day: 'Sun', newCustomers: 24 },
+// ];
 
-const dateRanges = ['Weekly', 'Monthly', 'Yearly'];
+//for drop down
+const dateRanges = ['weekly', 'monthly', 'yearly'];
 
 const BarCharts: React.FC = () => {
-  const [selectedRange, setSelectedRange] = useState('Weekly');
+  const [selectedRange, setSelectedRange] = useState('weekly'); // Set default value and will be used
   const [isOpen, setIsOpen] = useState(false);
+  const [customerData, setCustomerData]= useState<any[]>([]);
+  const dropdownRef = useRef<HTMLDivElement>(null)
+
+  useEffect(()=>{
+    const fetchcustomerData = async ()=>{
+      try{
+        const response:any=await GetCustomerDetailsDashboard({ period :selectedRange });
+        setCustomerData(response?.data?.data || []);
+       
+        console.log("📊 Real Customer Data:", response);
+      }catch (error){
+        console.error("Error fetching customer data :",error)
+      }
+    }
+       fetchcustomerData();
+  }, [selectedRange]);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+ // Inside BarCharts component
+const getFilteredData = () => {
+  if (!customerData || Object.keys(customerData).length === 0) {
+    return [{ day: "No Data", newCustomers: 0, returnCustomers: 0 }];
+  }
+
+  return Object.entries(customerData).map(([key, value]) => {
+    let day = key;
+
+    // Format the label nicely for display
+    if (selectedRange === 'weekly') {
+      day = key.slice(0, 3).toUpperCase(); // mon -> MON
+    } else if (selectedRange === 'monthly') {
+      day = key.charAt(0).toUpperCase() + key.slice(1); // jan -> Jan
+    } else if (selectedRange === 'yearly') {
+      day = key.replace(/week/i, 'Week '); // week1 -> Week 1
+    }
+
+    return {
+      day,
+      newCustomers: value,
+      //returnCustomers: 0, // Assuming returnCustomers is also in the same object
+
+    };
+  });
+};
+
+
+
 
   return (
-    <div className="bg-white w-full lg:max-w-xl md:max-h-[350px] mx-auto relative">
+    <div className="bg-white w-full  ">
       <div className="flex justify-between items-center ">
-        <div>
-          <h2 className="text-lg font-semibold" style={{...FONTS.paragraph,color:COLORS.primary}}>Vehicle Management</h2>
+        {/* content  */}
+        <div className=''>
+          <h2 className="text-lg " style={{ color: COLORS.primary }}>Total Customers</h2>
           <div className="flex space-x-4 text-xs mt-4">
             <div className="flex items-center space-x-1 text-blue-600">
-              <span className="h-2 w-2 bg-blue-600 rounded-full"></span>
-              <span>New Customers</span>
+              <span className="h-2 w-2 bg-[#ebb8ee] rounded-full"></span>
+              <span className='text-[#eca9f0]' >New Customers</span>
             </div>
             <div className="flex items-center space-x-1 text-rose-400">
-              <span className="h-2 w-2 bg-rose-400 rounded-full"></span>
-              <span>Returning Customers</span>
+              <span className="h-2 w-2 bg-[#aac3c4] rounded-full"></span>
+              <span className='text-[#aac3c4] '>Returning Customers</span>
             </div>
           </div>
         </div>
 
         {/* Dropdown */}
-        <div className="relative">
+        <div className="relative" ref={dropdownRef}>
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="flex items-center text-xs text-gray-700 border  px-1 py-1.5 rounded-md bg-white hover:bg-gray-50"
+            className="flex items-center text-xs text-gray-700 border px-3 py-1.5 rounded-md bg-white hover:bg-gray-50"
           >
-            {selectedRange}
-            <ChevronDown className="w-6 h-4 ml-1" />
+            <span className="mr-2">{selectedRange}</span>
+            <ChevronDown className="w-4 h-4 text-[#9b111e]" />
           </button>
           {isOpen && (
-            <div className="absolute  mt-2 bg-white border rounded-md shadow-lg z-10">
-              {dateRanges.map((range) => (
+            <div className="absolute right-0 mt-2 bg-white border rounded-md shadow-lg z-10 min-w-[100px]">
+              {dateRanges.map((period) => (
                 <button
-                  key={range}
+                  key={period}
                   onClick={() => {
-                    setSelectedRange(range);
+                    setSelectedRange(period);
                     setIsOpen(false);
                   }}
-                  className="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100"
+                  className={`block w-full text-left px-4 py-2 text-sm hover:bg-gray-50 ${
+                    selectedRange === period
+                      ? 'text-[#9b111e] bg-gray-50 font-medium'
+                      : 'text-gray-700'
+                  }`}
                 >
-                  {range}
+                  {period}
                 </button>
               ))}
             </div>
@@ -69,16 +133,16 @@ const BarCharts: React.FC = () => {
       </div>
 
       {/* Chart */}
-      <div className='mt-9 -ml-10'>
-        <ResponsiveContainer width="100%" height={240}>
-        <BarChart data={data}>
-          <CartesianGrid strokeDasharray="3 3" vertical={false} />
-          <XAxis dataKey="day" />
-          <YAxis />
-          <Tooltip />
-          <Bar dataKey="newCustomers" fill="#0A68FF" barSize={10} radius={[6, 6, 0, 0]} />
-        </BarChart>
-      </ResponsiveContainer>
+      <div className='-ml-10'>
+        <ResponsiveContainer width="100%" height={100}>
+          <BarChart data={getFilteredData()}>
+            <XAxis dataKey="day" width={1} />
+            <YAxis />
+            <Tooltip />
+            <Bar dataKey="newCustomers" fill="#eca9f0" barSize={10} radius={[0, 0, 0, 0]} />
+           {/* <Bar dataKey="returnCustomers" fill="#aac3c4" barSize={10} radius={[0, 0, 0, 0]} /> */}
+          </BarChart>
+        </ResponsiveContainer>
       </div>
     </div>
   );

@@ -9,12 +9,12 @@ import {
   FiTruck,
   FiSettings,
   FiAlertTriangle,
-  FiMenu,
 } from "react-icons/fi";
 import Logo from "../../../assets/LOGO.jpg";
+import { RiMenu2Line,RiMenu3Line} from "react-icons/ri";
 import { Megaphone } from "lucide-react";
+import { MdHelpOutline } from 'react-icons/md';
 
-// import { COLORS } from "../../../constants/uiConstants";
 
 const COLOR = {
   primary: "#9b111e",
@@ -24,7 +24,6 @@ const COLOR = {
 
 export const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(true);
-  const location = useLocation();
 
   const handleLinkClick = () => {
     setIsOpen(false);
@@ -43,13 +42,19 @@ export const Sidebar = () => {
           />
         </div>
         <div className="w-full flex justify-end px-2 mt-2">
-          <button
-            onClick={() => setIsOpen(!isOpen)}
-            className="text-gray-600 hover:text-black p-2 rounded-md transition duration-200 hover:bg-gray-100"
-            title="Toggle Sidebar"
-          >
-            <FiMenu size={20} style={{ color: COLOR.primary }} />
-          </button>
+        
+       <button
+         onClick={() => setIsOpen(!isOpen)}
+         className="text-gray-600 hover:text-black p-2 rounded-md transition duration-200 hover:bg-gray-100"
+         title="Toggle Sidebar"
+       >
+        {isOpen ? (
+          <RiMenu3Line size={20} style={{ color: COLOR.primary }} />
+            ) : (
+          <RiMenu2Line size={20} style={{ color: COLOR.primary }} />
+            )}
+      </button>
+
         </div>
 
         <nav className="flex flex-col gap-4 mt-4 w-full items-center">
@@ -70,7 +75,7 @@ export const Sidebar = () => {
           <SidebarLink
             to="/service"
             icon={<FiUsers />}
-            label="Service"
+            label="Partner"
             isOpen={isOpen}
             onClick={handleLinkClick}
           />
@@ -103,6 +108,13 @@ export const Sidebar = () => {
             onClick={handleLinkClick}
           />
           <SidebarLink
+            to="/queries"
+            icon={< MdHelpOutline/>}
+            label="Queries"
+            isOpen={isOpen}
+            onClick={handleLinkClick}
+          />
+          <SidebarLink
             to="/settings"
             icon={<FiSettings />}
             label="Settings"
@@ -118,11 +130,10 @@ export const Sidebar = () => {
           />
         </nav>
       </div>
-      <div
-        className={`transition-all duration-300 ${
-          isOpen ? "ml-48" : "ml-16"
-        } flex-1`}
-      ></div>
+         <div
+  className={`transition-all duration-300 ${isOpen ? "ml-48" : "ml-16"} flex-1`}
+         >
+      </div>
     </div>
   );
 };
@@ -143,28 +154,33 @@ const SidebarLink = ({
   const location = useLocation();
   const [isHovered, setIsHovered] = useState(false);
   const isActive = location.pathname === to;
+
+  const backgroundColor = isActive
+    ? COLOR.primary
+    : isHovered
+    ? COLOR.bgColor
+    : "transparent";
+
+  const textColor = isActive
+    ? COLOR.bgColor
+    : COLOR.primary;
+
   return (
     <Link
       to={to}
       onClick={onClick}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      style={{
-        backgroundColor: isHovered || isActive ? "#faf3eb" : "transparent",
-      }}
+      style={{ backgroundColor }}
       className={`flex items-center transition-all px-2 py-1 
-        ${
-          isOpen
-            ? "w-full justify-start gap-5 pl-5 pr-1"
-            : "justify-center w-10 h-8"
-        } 
-        ${isHovered || isActive ? "bg-[#faf3eb] rounded-full" : "rounded-full"}
+        ${isOpen ? "w-full justify-start gap-5 pl-5 pr-1" : "justify-center w-10 h-8"} 
+        rounded-full
       `}
     >
-      <div className="text-xl" style={{ color: COLOR.primary }}>
+      <div className="text-xl" style={{ color: textColor }}>
         {icon}
-      </div>
-      {isOpen && <span style={{ color: COLOR.primary }}>{label}</span>}
+       </div>
+      {isOpen && <span style={{ color: textColor }}>{label}</span>}
     </Link>
   );
 };
