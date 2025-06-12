@@ -1,71 +1,60 @@
 import type React from "react"
-
 import { useState, useRef, useEffect } from "react"
-import { ArrowLeft, Search, Plus, Car, Wrench, X, Edit3, Trash2, List, Eye, EyeOff, Settings } from "lucide-react"
+import { ArrowLeft, Search, Plus, X, Edit3, Trash2, Settings } from "lucide-react"
 
-// Mock constants
-const COLORS = {
-  bgColor: "#f8fafc",
+interface Service {
+  _id: string
+  service_name: string
+  slug: string
+  description?: string
+  price?: number
+  category_id?: string
+  partner_id?: string
+  is_active?: boolean
+  is_deleted?: boolean
+  created_at?: string
+  updated_at?: string
+  uuid?: string
+  image?: string
+  duration?: string
 }
 
-const FONTS = {
-  header: { fontFamily: "Inter, system-ui, sans-serif" },
+interface Category {
+  _id: string
+  id: number
+  category_name: string
+  slug: string
+  is_active: boolean
+  is_deleted: boolean
+  services: Service[] // Array of actual service objects
+  uuid: string
+  createdAt: string
+  updatedAt: string
+  __v?: number
 }
 
 type ServiceCenterServicesProps = {
   onSpareParts: () => void
   handleBack: () => void
   partnerId: string
+  Services: Category[] // Your actual data
 }
 
-interface ServiceOption {
-  id: string
-  name: string
-  price: string
-  image: string | ArrayBuffer | null
-  active: boolean
-  description?: string
-  duration?: string
-}
-
-interface ServiceCategory {
-  id: string
-  name: string
-  icon: React.ReactElement
-  isOpen: boolean
-  color: string
-  count: number
-}
-
-const ServicesList: React.FC<ServiceCenterServicesProps> = ({ onSpareParts, handleBack, partnerId }) => {
+const ServicesList: React.FC<ServiceCenterServicesProps> = ({ onSpareParts, handleBack, partnerId, Services = [] }) => {
   const [searchTerm, setSearchTerm] = useState("")
   const [showAddForm, setShowAddForm] = useState(false)
   const [showAddCategoryForm, setShowAddCategoryForm] = useState(false)
   const [activeServiceType, setActiveServiceType] = useState<string>("")
   const [selectedCategory, setSelectedCategory] = useState<string>("all")
-  const [viewMode, setViewMode] = useState<"grid" | "table">("table")
-  const [editingService, setEditingService] = useState<ServiceOption | null>(null)
+  const [viewMode, setViewMode] = useState<"grid" | "table">("grid")
+  const [editingService, setEditingService] = useState<Service | null>(null)
+  const [editingCategory, setEditingCategory] = useState<Category | null>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
 
-  const [categories, setCategories] = useState<ServiceCategory[]>([
-    {
-      id: "washing",
-      name: "Car Washing",
-      icon: <Car className="w-5 h-5" />,
-      isOpen: true,
-      color: "bg-blue-500",
-      count: 4,
-    },
-    {
-      id: "oil",
-      name: "Oil Services",
-      icon: <Wrench className="w-5 h-5" />,
-      isOpen: true,
-      color: "bg-orange-500",
-      count: 4,
-    },
-  ])
+  // State for managing categories and services
+  const [categories, setCategories] = useState<Category[]>([])
 
+  // Initialize categories from props
   useEffect(() => {
     async function fetchdata() {
       try {
@@ -78,111 +67,33 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({ onSpareParts, hand
   }, [partnerId])
 
   const [newCategory, setNewCategory] = useState({
-    name: "",
-    icon: "",
-    color: "bg-gray-500",
-  })
-
-  const [serviceOptions, setServiceOptions] = useState<Record<string, ServiceOption[]>>({
-    washing: [
-      {
-        id: "1",
-        name: "Premium Car Wash",
-        price: "25",
-        image: "https://www.pixelstalk.net/wp-content/uploads/2016/08/Lamborghini-mountain-fog-sports-car-photos.jpg",
-        active: true,
-        description: "Complete exterior wash premium soap",
-        duration: "30 min",
-      },
-      {
-        id: "2",
-        name: "Interior Cleaning",
-        price: "35",
-        image: "https://www.pixelstalk.net/wp-content/uploads/2016/08/Lamborghini-mountain-fog-sports-car-photos.jpg",
-        active: true,
-        description: "Deep interior cleaning and vacuuming",
-        duration: "45 min",
-      },
-      // {
-      //   id: "3",
-      //   name: "Wax & Polish",
-      //   price: "45",
-      //   image: "https://www.pixelstalk.net/wp-content/uploads/2016/08/Lamborghini-mountain-fog-sports-car-photos.jpg",
-      //   active: true,
-      //   description: "Professional waxing and polishing service",
-      //   duration: "60 min",
-      // },
-      // {
-      //   id: "4",
-      //   name: "Tire Cleaning",
-      //   price: "15",
-      //   image: "https://www.pixelstalk.net/wp-content/uploads/2016/08/Lamborghini-mountain-fog-sports-car-photos.jpg",
-      //   active: false,
-      //   description: "Tire cleaning and shine treatment",
-      //   duration: "15 min",
-      // },
-    ],
-    oil: [
-      {
-        id: "5",
-        name: "Oil Change Service",
-        price: "50",
-        image: "https://www.pixelstalk.net/wp-content/uploads/2016/08/Lamborghini-mountain-fog-sports-car-photos.jpg",
-        active: true,
-        description: "Standard oil change with filter",
-        duration: "30 min",
-      },
-      {
-        id: "6",
-        name: "Filter Replacement",
-        price: "25",
-        image: "https://www.pixelstalk.net/wp-content/uploads/2016/08/Lamborghini-mountain-fog-sports-car-photos.jpg",
-        active: true,
-        description: "Air and oil filter replacement",
-        duration: "20 min",
-      },
-      // {
-      //   id: "7",
-      //   name: "Premium Oil Package",
-      //   price: "75",
-      //   image: "https://www.pixelstalk.net/wp-content/uploads/2016/08/Lamborghini-mountain-fog-sports-car-photos.jpg",
-      //   active: true,
-      //   description: "Premium synthetic oil change",
-      //   duration: "45 min",
-      // },
-      // {
-      //   id: "8",
-      //   name: "Engine Diagnostic",
-      //   price: "40",
-      //   image: "https://www.pixelstalk.net/wp-content/uploads/2016/08/Lamborghini-mountain-fog-sports-car-photos.jpg",
-      //   active: true,
-      //   description: "Complete engine diagnostic check",
-      //   duration: "60 min",
-      // },
-    ],
+    category_name: "",
+    is_active: true,
   })
 
   const [newService, setNewService] = useState({
-    name: "",
+    service_name: "",
     price: "",
     description: "",
     duration: "",
     image: null as string | ArrayBuffer | null,
-    active: true,
+    is_active: true,
   })
 
   // Get all services for display
   const getAllServices = () => {
-    const allServices: (ServiceOption & { categoryId: string; categoryName: string })[] = []
+    const allServices: (Service & { categoryName: string })[] = []
     categories.forEach((category) => {
-      const services = serviceOptions[category.id] || []
-      services.forEach((service) => {
-        allServices.push({
-          ...service,
-          categoryId: category.id,
-          categoryName: category.name,
-        })
-      })
+      if (category.is_active && category.services && category.services.length > 0) {
+        category.services
+          .filter((service) => service && !service.is_deleted)
+          .forEach((service) => {
+            allServices.push({
+              ...service,
+              categoryName: category.category_name,
+            })
+          })
+      }
     })
     return allServices
   }
@@ -192,13 +103,24 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({ onSpareParts, hand
     let services = getAllServices()
 
     if (selectedCategory !== "all") {
-      services = services.filter((service) => service.categoryId === selectedCategory)
+      const selectedCat = categories.find((cat) => cat._id === selectedCategory)
+      if (selectedCat && selectedCat.is_active) {
+        // Get services from the selected category only
+        services = selectedCat.services
+          .filter((service) => service && !service.is_deleted)
+          .map((service) => ({
+            ...service,
+            categoryName: selectedCat.category_name,
+          }))
+      } else {
+        services = []
+      }
     }
 
     if (searchTerm) {
       services = services.filter(
         (service) =>
-          service.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          service.service_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
           service.description?.toLowerCase().includes(searchTerm.toLowerCase()),
       )
     }
@@ -207,76 +129,101 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({ onSpareParts, hand
   }
 
   const handleAddCategory = () => {
+    setEditingCategory(null)
+    setNewCategory({ category_name: "", is_active: true })
+    setShowAddCategoryForm(true)
+  }
+
+  const handleEditCategory = (category: Category) => {
+    setEditingCategory(category)
+    setNewCategory({
+      category_name: category.category_name,
+      is_active: category.is_active,
+    })
     setShowAddCategoryForm(true)
   }
 
   const handleCancelAddCategory = () => {
     setShowAddCategoryForm(false)
-    setNewCategory({ name: "", icon: "", color: "bg-gray-500" })
+    setEditingCategory(null)
+    setNewCategory({ category_name: "", is_active: true })
   }
 
   const handleCategoryInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const { name, value } = e.target
+    const { name, value, type } = e.target
+    const checked = (e.target as HTMLInputElement).checked
     setNewCategory((prev) => ({
       ...prev,
-      [name]: value,
+      [name]: type === "checkbox" ? checked : value,
     }))
   }
 
-  const handleSubmitCategory = (e: React.FormEvent) => {
+  const handleSubmitCategory = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (newCategory.name && newCategory.icon) {
-      const iconComponent = getIconComponent(newCategory.icon)
-      if (iconComponent) {
-        const newCategoryItem = {
-          id: newCategory.name.toLowerCase().replace(/\s+/g, "-"),
-          name: newCategory.name,
-          icon: iconComponent,
-          isOpen: true,
-          color: newCategory.color,
-          count: 0,
+    if (newCategory.category_name) {
+      try {
+        // Here you would make an API call to create/update the category
+        console.log("Creating/updating category:", newCategory)
+
+        if (editingCategory) {
+          // Update existing category
+          const updatedCategories = categories.map((cat) =>
+            cat._id === editingCategory._id
+              ? { ...cat, category_name: newCategory.category_name, is_active: newCategory.is_active }
+              : cat,
+          )
+          setCategories(updatedCategories)
+        } else {
+          // Create new category
+          const newCategoryItem: Category = {
+            _id: `temp-${Date.now()}`,
+            id: Date.now(),
+            category_name: newCategory.category_name,
+            slug: newCategory.category_name.toLowerCase().replace(/\s+/g, "-"),
+            is_active: newCategory.is_active,
+            is_deleted: false,
+            services: [],
+            uuid: `temp-uuid-${Date.now()}`,
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString(),
+          }
+          setCategories([...categories, newCategoryItem])
         }
 
-        setCategories([...categories, newCategoryItem])
-        setServiceOptions({
-          ...serviceOptions,
-          [newCategoryItem.id]: [],
-        })
-
-        setNewCategory({ name: "", icon: "", color: "bg-gray-500" })
+        setNewCategory({ category_name: "", is_active: true })
         setShowAddCategoryForm(false)
+        setEditingCategory(null)
+      } catch (error) {
+        console.error("Error saving category:", error)
       }
     }
   }
 
-  const getIconComponent = (iconName: string): React.ReactElement | null => {
-    switch (iconName) {
-      case "washing":
-        return <Car className="w-5 h-5" />
-      case "oil":
-        return <Wrench className="w-5 h-5" />
-      default:
-        return null
-    }
-  }
-
-  const handleAddService = (type?: string) => {
-    setActiveServiceType(type || selectedCategory)
+  const handleAddService = (categoryId?: string) => {
+    setActiveServiceType(categoryId || selectedCategory)
     setEditingService(null)
-    setNewService({ name: "", price: "", description: "", duration: "", image: null, active: true })
+    setNewService({
+      service_name: "",
+      price: "",
+      description: "",
+      duration: "",
+      image: null,
+      is_active: true,
+    })
     setShowAddForm(true)
   }
 
-  const handleEditService = (service: ServiceOption & { categoryId: string }) => {
-    setActiveServiceType(service.categoryId)
+  const handleEditService = (service: Service) => {
+    const category = categories.find((cat) => cat.services.some((s) => s._id === service._id))
+    setActiveServiceType(category?._id || "")
     setEditingService(service)
     setNewService({
-      name: service.name,
-      price: service.price,
+      service_name: service.service_name,
+      price: service.price?.toString() || "",
       description: service.description || "",
       duration: service.duration || "",
-      image: service.image,
-      active: service.active,
+      image: service.image || null,
+      is_active: service.is_active ?? true,
     })
     setShowAddForm(true)
   }
@@ -284,7 +231,14 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({ onSpareParts, hand
   const handleCancelAdd = () => {
     setShowAddForm(false)
     setEditingService(null)
-    setNewService({ name: "", price: "", description: "", duration: "", image: null, active: true })
+    setNewService({
+      service_name: "",
+      price: "",
+      description: "",
+      duration: "",
+      image: null,
+      is_active: true,
+    })
     if (fileInputRef.current) {
       fileInputRef.current.value = ""
     }
@@ -313,57 +267,109 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({ onSpareParts, hand
     }
   }
 
-  const handleToggleActive = (serviceId: string, categoryId: string) => {
-    const updatedOptions = serviceOptions[categoryId].map((service) =>
-      service.id === serviceId ? { ...service, active: !service.active } : service,
-    )
-    setServiceOptions({
-      ...serviceOptions,
-      [categoryId]: updatedOptions,
-    })
+  const handleToggleActive = async (serviceId: string) => {
+    try {
+      // Here you would make an API call to toggle the service status
+      console.log("Toggling service status:", serviceId)
+
+      const updatedCategories = categories.map((category) => ({
+        ...category,
+        services: category.services.map((service) =>
+          service._id === serviceId ? { ...service, is_active: !service.is_active } : service,
+        ),
+      }))
+      setCategories(updatedCategories)
+    } catch (error) {
+      console.error("Error toggling service status:", error)
+    }
   }
 
-  const handleDeleteService = (serviceId: string, categoryId: string) => {
-    const updatedOptions = serviceOptions[categoryId].filter((service) => service.id !== serviceId)
-    setServiceOptions({
-      ...serviceOptions,
-      [categoryId]: updatedOptions,
-    })
+  const handleDeleteService = async (serviceId: string) => {
+    try {
+      // Here you would make an API call to soft delete the service
+      console.log("Deleting service:", serviceId)
+
+      const updatedCategories = categories.map((category) => ({
+        ...category,
+        services: category.services.map((service) =>
+          service._id === serviceId ? { ...service, is_deleted: true } : service,
+        ),
+      }))
+      setCategories(updatedCategories)
+    } catch (error) {
+      console.error("Error deleting service:", error)
+    }
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (newService.name && newService.price && activeServiceType) {
-      const serviceItem = {
-        id: editingService?.id || `svc-${Date.now()}`,
-        name: newService.name,
-        price: newService.price,
-        description: newService.description,
-        duration: newService.duration,
-        image: newService.image || "/placeholder.svg?height=100&width=150",
-        active: newService.active,
-      }
+    if (newService.service_name && newService.price && activeServiceType) {
+      try {
+        const selectedCat = categories.find((cat) => cat._id === activeServiceType)
+        if (!selectedCat) return
 
-      if (editingService) {
-        const updatedOptions = serviceOptions[activeServiceType].map((service) =>
-          service.id === editingService.id ? serviceItem : service,
-        )
-        setServiceOptions({
-          ...serviceOptions,
-          [activeServiceType]: updatedOptions,
-        })
-      } else {
-        setServiceOptions({
-          ...serviceOptions,
-          [activeServiceType]: [...serviceOptions[activeServiceType], serviceItem],
-        })
-      }
+        if (editingService) {
+          // Update existing service
+          const updatedCategories = categories.map((category) => ({
+            ...category,
+            services: category.services.map((service) =>
+              service._id === editingService._id
+                ? {
+                    ...service,
+                    service_name: newService.service_name,
+                    price: Number.parseFloat(newService.price),
+                    description: newService.description,
+                    duration: newService.duration,
+                    image: newService.image as string,
+                    is_active: newService.is_active,
+                    updated_at: new Date().toISOString(),
+                  }
+                : service,
+            ),
+          }))
+          setCategories(updatedCategories)
+        } else {
+          // Create new service
+          const newServiceItem: Service = {
+            _id: `temp-${Date.now()}`,
+            service_name: newService.service_name,
+            slug: newService.service_name.toLowerCase().replace(/\s+/g, "-"),
+            description: newService.description,
+            price: Number.parseFloat(newService.price),
+            category_id: selectedCat.uuid,
+            partner_id: partnerId,
+            is_active: newService.is_active,
+            is_deleted: false,
+            created_at: new Date().toISOString(),
+            updated_at: new Date().toISOString(),
+            uuid: `temp-service-${Date.now()}`,
+            image: newService.image as string,
+            duration: newService.duration,
+          }
 
-      setNewService({ name: "", price: "", description: "", duration: "", image: null, active: true })
-      setShowAddForm(false)
-      setEditingService(null)
-      if (fileInputRef.current) {
-        fileInputRef.current.value = ""
+          const updatedCategories = categories.map((category) =>
+            category._id === activeServiceType
+              ? { ...category, services: [...category.services, newServiceItem] }
+              : category,
+          )
+          setCategories(updatedCategories)
+        }
+
+        setNewService({
+          service_name: "",
+          price: "",
+          description: "",
+          duration: "",
+          image: null,
+          is_active: true,
+        })
+        setShowAddForm(false)
+        setEditingService(null)
+        if (fileInputRef.current) {
+          fileInputRef.current.value = ""
+        }
+      } catch (error) {
+        console.error("Error saving service:", error)
       }
     }
   }
@@ -388,7 +394,7 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({ onSpareParts, hand
 
           <button
             onClick={handleAddCategory}
-            className="w-full flex items-center justify-center space-x-2 px-4 py-2 bg-[#800000] text-white rounded-lg hover:bg-[#800000] transition-colors"
+            className="w-full flex items-center justify-center space-x-2 px-4 py-2 bg-[#800000] text-white rounded-lg hover:bg-[#600000] transition-colors"
           >
             <Plus className="w-4 h-4" />
             <span>Add Category</span>
@@ -415,22 +421,36 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({ onSpareParts, hand
             </div>
           </button>
 
-          {categories.map((category) => (
-            <button
-              key={category.id}
-              onClick={() => setSelectedCategory(category.id)}
-              className={`w-full flex items-center space-x-3 px-3 py-2 rounded-lg transition-colors ${
-                selectedCategory === category.id
-                  ? "bg-[#800000]/10 text-[#800000]"
-                  : "text-gray-700 hover:bg-[#800000]/10 hover:text-[#800000]"
-              }`}
-            >
-              <div className="flex-1 text-left">
-                <div className="font-medium">{category.name}</div>
-                <div className="text-xs text-gray-500">{serviceOptions[category.id]?.length || 0} services</div>
+          {categories
+            .filter((cat) => cat.is_active && !cat.is_deleted)
+            .map((category) => (
+              <div key={category._id} className="group">
+                <button
+                  onClick={() => setSelectedCategory(category._id)}
+                  className={`w-full flex items-center space-x-3 px-3 py-2 rounded-lg transition-colors ${
+                    selectedCategory === category._id
+                      ? "bg-[#800000]/10 text-[#800000]"
+                      : "text-gray-700 hover:bg-[#800000]/10 hover:text-[#800000]"
+                  }`}
+                >
+                  <div className="flex-1 text-left">
+                    <div className="font-medium">{category.category_name}</div>
+                    <div className="text-xs text-gray-500">
+                      {category.services?.filter((s) => s && !s.is_deleted).length || 0} services
+                    </div>
+                  </div>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      handleEditCategory(category)
+                    }}
+                    className="opacity-0 group-hover:opacity-100 p-1 hover:bg-gray-200 rounded transition-all"
+                  >
+                    <Edit3 className="w-3 h-3" />
+                  </button>
+                </button>
               </div>
-            </button>
-          ))}
+            ))}
         </div>
 
         {/* Sidebar Footer */}
@@ -452,33 +472,31 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({ onSpareParts, hand
           <div className="flex items-center justify-between">
             <div>
               <h2 className="text-2xl font-bold text-gray-900">
-                {selectedCategory === "all" ? "All Services" : categories.find((c) => c.id === selectedCategory)?.name}
+                {selectedCategory === "all"
+                  ? "All Services"
+                  : categories.find((c) => c._id === selectedCategory)?.category_name}
               </h2>
               <p className="text-gray-500">{filteredServices.length} services found</p>
             </div>
 
-            <div className="flex items-center space-x-1">
+            <div className="flex items-center space-x-4">
               {/* Search */}
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
                 <input
                   type="text"
-                  className="pl-10 pr-4 py-2 w-80 border border-gray-300 rounded-lg  focus:border-indigo-500"
+                  className="pl-10 pr-4 py-2 w-80 border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500"
                   placeholder="Search services..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                 />
               </div>
 
-              {/* View Toggle */}
-              <div className="flex items-center bg-gray-100 rounded-lg p-1">
-                
-              </div>
-
+              
               {/* Add Service */}
               <button
                 onClick={() => handleAddService()}
-                className="flex items-center space-x-2 px-4 py-2 bg-[#800000] text-white rounded-lg hover:bg-[#800000] transition-colors"
+                className="flex items-center space-x-2 px-4 py-2 bg-[#800000] text-white rounded-lg hover:bg-[#600000] transition-colors"
               >
                 <Plus className="w-4 h-4" />
                 <span>Add Service</span>
@@ -490,7 +508,57 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({ onSpareParts, hand
         {/* Content Area */}
         <div className="flex-1 p-6">
           {viewMode === "grid" ? (
-            /* Table View */
+            // Grid View
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              {filteredServices.map((service) => (
+                <div key={service._id} className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                  <div className="relative">
+                    <img
+                      src={service.image || "https://images.pexels.com/photos/120049/pexels-photo-120049.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"}
+                      alt={service.service_name}
+                      className="w-full h-48 object-cover"
+                    />
+                    <div className="absolute top-2 right-2 flex space-x-1">
+                      <button
+                        onClick={() => handleEditService(service)}
+                        className="p-2 bg-white/90 rounded-full shadow hover:bg-gray-100 transition-colors"
+                      >
+                        <Edit3 className="w-4 h-4 text-gray-700" />
+                      </button>
+                      <button
+                        onClick={() => handleDeleteService(service._id)}
+                        className="p-2 bg-white/90 rounded-full shadow hover:bg-red-100 transition-colors"
+                      >
+                        <Trash2 className="w-4 h-4 text-red-600" />
+                      </button>
+                    </div>
+                  </div>
+                  <div className="p-4">
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <h3 className="font-bold text-lg text-gray-900">{service.service_name}</h3>
+                        <p className="text-sm text-gray-500">{service.categoryName}</p>
+                      </div>
+                      <span className="font-bold text-gray-900">₹{service.price || 0}</span>
+                    </div>
+                    <p className="mt-2 text-sm text-gray-600 line-clamp-2">{service.description || "No description"}</p>
+                    <div className="mt-4 flex justify-between items-center">
+                      <span className="text-sm text-gray-500">{service.duration || "N/A"}</span>
+                      <button
+                        onClick={() => handleToggleActive(service._id)}
+                        className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                          service.is_active ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"
+                        }`}
+                      >
+                        {service.is_active ? "Active" : "Inactive"}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            // Table View
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
               <table className="w-full">
                 <thead className="bg-gray-50 border-b border-gray-200">
@@ -505,16 +573,16 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({ onSpareParts, hand
                 </thead>
                 <tbody className="divide-y divide-gray-200">
                   {filteredServices.map((service) => (
-                    <tr key={service.id} className="hover:bg-gray-50">
+                    <tr key={service._id} className="hover:bg-gray-50">
                       <td className="py-4 px-6">
                         <div className="flex items-center space-x-3">
                           <img
-                            src={typeof service.image === "string" ? service.image : "/placeholder.svg"}
-                            alt={service.name}
+                            src={service.image || "/placeholder.svg?height=48&width=48"}
+                            alt={service.service_name}
                             className="w-12 h-12 object-cover rounded-lg"
                           />
                           <div>
-                            <div className="font-medium text-gray-900">{service.name}</div>
+                            <div className="font-medium text-gray-900">{service.service_name}</div>
                             <div className="text-sm text-gray-500">{service.description}</div>
                           </div>
                         </div>
@@ -524,16 +592,16 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({ onSpareParts, hand
                           {service.categoryName}
                         </span>
                       </td>
-                      <td className="py-4 px-6 font-semibold text-gray-900">₹{service.price}</td>
-                      <td className="py-4 px-6 text-gray-500">{service.duration}</td>
+                      <td className="py-4 px-6 font-semibold text-gray-900">₹{service.price || 0}</td>
+                      <td className="py-4 px-6 text-gray-500">{service.duration || "N/A"}</td>
                       <td className="py-4 px-6">
                         <button
-                          onClick={() => handleToggleActive(service.id, service.categoryId)}
+                          onClick={() => handleToggleActive(service._id)}
                           className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                            service.active ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"
+                            service.is_active ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"
                           }`}
                         >
-                          {service.active ? "Active" : "Inactive"}
+                          {service.is_active ? "Active" : "Inactive"}
                         </button>
                       </td>
                       <td className="py-4 px-6">
@@ -545,7 +613,7 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({ onSpareParts, hand
                             <Edit3 className="w-4 h-4" />
                           </button>
                           <button
-                            onClick={() => handleDeleteService(service.id, service.categoryId)}
+                            onClick={() => handleDeleteService(service._id)}
                             className="p-1 text-gray-400 hover:text-red-600 transition-colors"
                           >
                             <Trash2 className="w-4 h-4" />
@@ -556,80 +624,20 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({ onSpareParts, hand
                   ))}
                 </tbody>
               </table>
-
-              {filteredServices.length === 0 && (
-                <div className="text-center py-12">
-                  <div className="text-gray-400 mb-4">
-                    <Search className="w-12 h-12 mx-auto" />
-                  </div>
-                  <h3 className="text-lg font-medium text-gray-900 mb-2">No services found</h3>
-                  <p className="text-gray-500">Try adjusting your search or add a new service</p>
-                </div>
-              )}
             </div>
-          ) : (
-            /* Grid View */
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {filteredServices.map((service) => (
-                <div
-                  key={service.id}
-                  className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow"
-                >
-                  <div className="relative">
-                    <img
-                      src={typeof service.image === "string" ? service.image : "/placeholder.svg"}
-                      alt={service.name}
-                      className="w-full h-48 object-cover"
-                    />
-                    <div className="absolute top-3 right-3">
-                      <button
-                        onClick={() => handleToggleActive(service.id, service.categoryId)}
-                        className={`p-1 rounded-full ${service.active ? "bg-green-500" : "bg-red-500"}`}
-                      >
-                        {service.active ? (
-                          <Eye className="w-4 h-4 text-white" />
-                        ) : (
-                          <EyeOff className="w-4 h-4 text-white" />
-                        )}
-                      </button>
-                    </div>
-                  </div>
-                  <div className="p-4">
-                    <div className="flex items-center justify-between mb-2">
-                      <h3 className="font-semibold text-gray-900">{service.name}</h3>
-                      <span className="text-lg font-bold text-gray-900">₹{service.price}</span>
-                    </div>
-                    <p className="text-sm text-gray-500 mb-3">{service.description}</p>
-                    <div className="flex items-center justify-between">
-                      <span className="text-xs text-gray-400">{service.duration}</span>
-                      <div className="flex items-center space-x-1">
-                        <button
-                          onClick={() => handleEditService(service)}
-                          className="p-1 text-[#800000] hover:text-[#800000] transition-colors"
-                        >
-                          <Edit3 className="w-4 h-4" />
-                        </button>
-                        <button
-                          onClick={() => handleDeleteService(service.id, service.categoryId)}
-                          className="p-1 text-[#800000] hover:text-[#800000] transition-colors"
-                        >
-                          <Trash2 className="w-4 h-4" />
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ))}
+          )}
 
-              {filteredServices.length === 0 && (
-                <div className="col-span-full text-center py-12">
-                  <div className="text-gray-400 mb-4">
-                    <Search className="w-12 h-12 mx-auto" />
-                  </div>
-                  <h3 className="text-lg font-medium text-gray-900 mb-2">No services found</h3>
-                  <p className="text-gray-500">Try adjusting your search or add a new service</p>
-                </div>
-              )}
+          {filteredServices.length === 0 && (
+            <div className="text-center py-12">
+              <div className="text-gray-400 mb-4">
+                <Search className="w-12 h-12 mx-auto" />
+              </div>
+              <h3 className="text-lg font-medium text-gray-900 mb-2">No services found</h3>
+              <p className="text-gray-500">
+                {selectedCategory === "all"
+                  ? "Try adjusting your search or add a new service"
+                  : `No services available in ${categories.find((c) => c._id === selectedCategory)?.category_name || "this category"}. Add a service to get started.`}
+              </p>
             </div>
           )}
         </div>
@@ -656,10 +664,10 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({ onSpareParts, hand
                   <label className="block text-sm font-semibold text-gray-700 mb-2">Service Name</label>
                   <input
                     type="text"
-                    name="name"
-                    value={newService.name}
+                    name="service_name"
+                    value={newService.service_name}
                     onChange={handleInputChange}
-                    className="w-full p-3 border border-gray-300 rounded-lg   focus:border-black"
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-black"
                     placeholder="Enter service name"
                     required
                   />
@@ -672,7 +680,7 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({ onSpareParts, hand
                     name="price"
                     value={newService.price}
                     onChange={handleInputChange}
-                    className="w-full p-3 border border-gray-300 rounded-lg  focus:border-black"
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-black"
                     placeholder="Enter price"
                     required
                   />
@@ -685,7 +693,7 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({ onSpareParts, hand
                     name="duration"
                     value={newService.duration}
                     onChange={handleInputChange}
-                    className="w-full p-3 border border-gray-300 rounded-lg  focus:border-black"
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-black"
                     placeholder="e.g., 30 min"
                   />
                 </div>
@@ -695,15 +703,17 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({ onSpareParts, hand
                   <select
                     value={activeServiceType}
                     onChange={(e) => setActiveServiceType(e.target.value)}
-                    className="w-full p-3 border border-gray-300 rounded-lg  focus:border-black"
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-black"
                     required
                   >
                     <option value="">Select category</option>
-                    {categories.map((category) => (
-                      <option key={category.id} value={category.id}>
-                        {category.name}
-                      </option>
-                    ))}
+                    {categories
+                      .filter((cat) => cat.is_active && !cat.is_deleted)
+                      .map((category) => (
+                        <option key={category._id} value={category._id}>
+                          {category.category_name}
+                        </option>
+                      ))}
                   </select>
                 </div>
               </div>
@@ -715,7 +725,7 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({ onSpareParts, hand
                   value={newService.description}
                   onChange={handleInputChange}
                   rows={3}
-                  className="w-full p-3 border border-gray-300 rounded-lg  focus:border-black"
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-black"
                   placeholder="Enter service description"
                 />
               </div>
@@ -728,7 +738,7 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({ onSpareParts, hand
                     ref={fileInputRef}
                     onChange={handleImageUpload}
                     accept="image/*"
-                    className="w-full p-3 border border-gray-300 rounded-lg  focus:border-black"
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-black"
                   />
                   {newService.image && (
                     <div className="mt-3">
@@ -745,8 +755,8 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({ onSpareParts, hand
               <div className="flex items-center space-x-3">
                 <input
                   type="checkbox"
-                  name="active"
-                  checked={newService.active}
+                  name="is_active"
+                  checked={newService.is_active}
                   onChange={handleInputChange}
                   className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
                 />
@@ -763,7 +773,7 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({ onSpareParts, hand
                 </button>
                 <button
                   type="submit"
-                  className="flex-1 px-4 py-3 text-sm font-semibold text-white bg-[#800000] rounded-lg hover:bg-[#800000] transition-colors"
+                  className="flex-1 px-4 py-3 text-sm font-semibold text-white bg-[#800000] rounded-lg hover:bg-[#600000] transition-colors"
                 >
                   {editingService ? "Update Service" : "Add Service"}
                 </button>
@@ -773,13 +783,15 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({ onSpareParts, hand
         </div>
       )}
 
-      {/* Add Category Modal */}
+      {/* Add/Edit Category Modal */}
       {showAddCategoryForm && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md">
             <div className="p-6 border-b border-gray-200">
               <div className="flex items-center justify-between">
-                <h3 className="text-xl font-bold text-gray-900">Add New Category</h3>
+                <h3 className="text-xl font-bold text-gray-900">
+                  {editingCategory ? "Edit Category" : "Add New Category"}
+                </h3>
                 <button
                   onClick={handleCancelAddCategory}
                   className="p-2 hover:bg-gray-100 rounded-full transition-colors"
@@ -794,46 +806,25 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({ onSpareParts, hand
                 <label className="block text-sm font-semibold text-gray-700 mb-2">Category Name</label>
                 <input
                   type="text"
-                  name="name"
-                  value={newCategory.name}
+                  name="category_name"
+                  value={newCategory.category_name}
                   onChange={handleCategoryInputChange}
-                  className="w-full p-3 border border-gray-300 rounded-lg  focus:border-black"
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-black"
                   placeholder="Enter category name"
                   required
                 />
               </div>
 
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">Category Icon</label>
-                <select
-                  name="icon"
-                  value={newCategory.icon}
+              <div className="flex items-center space-x-3">
+                <input
+                  type="checkbox"
+                  name="is_active"
+                  checked={newCategory.is_active}
                   onChange={handleCategoryInputChange}
-                  className="w-full p-3 border border-gray-300 rounded-lg  focus:border-black"
-                  required
-                >
-                  <option value="">Select an icon</option>
-                  <option value="washing">Car Washing Icon</option>
-                  <option value="oil">Oil Services Icon</option>
-                </select>
+                  className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+                />
+                <label className="text-sm font-medium text-gray-700">Activate category immediately</label>
               </div>
-
-              {/* <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">Color Theme</label>
-                <select
-                  name="color"
-                  value={newCategory.color}
-                  onChange={handleCategoryInputChange}
-                  className="w-full p-3 border border-gray-300 rounded-lg  focus:border-black"
-                >
-                  <option value="bg-blue-500">Blue</option>
-                  <option value="bg-green-500">Green</option>
-                  <option value="bg-purple-500">Purple</option>
-                  <option value="bg-orange-500">Orange</option>
-                  <option value="bg-pink-500">Pink</option>
-                  <option value="bg-gray-500">Gray</option>
-                </select>
-              </div> */}
 
               <div className="flex space-x-3 pt-4">
                 <button
@@ -845,9 +836,9 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({ onSpareParts, hand
                 </button>
                 <button
                   type="submit"
-                  className="flex-1 px-4 py-3 text-sm font-semibold text-white bg-[#800000] rounded-lg hover:bg-[#800000] transition-colors"
+                  className="flex-1 px-4 py-3 text-sm font-semibold text-white bg-[#800000] rounded-lg hover:bg-[#600000] transition-colors"
                 >
-                  Add Category
+                  {editingCategory ? "Update Category" : "Add Category"}
                 </button>
               </div>
             </form>

@@ -90,6 +90,8 @@ const [active,setactive]=useState<any[]>([])
     fetchAdminData();
   }, []);
 
+  console.log(adminData)
+
     
    
   return (
