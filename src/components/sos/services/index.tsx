@@ -74,9 +74,10 @@ export const statusupdatesos = async(data:any,params:string)=>{
     }
 }
 
-export const deletesos = async ()=>{
+export const deletesos = async (id:string)=>{
     try{
-       const response:any = await new Client().admin.sos.delete()
+        console.log(id)
+       const response:any = await new Client().admin.sos.delete(id)
        return response;
     }
     catch(error){

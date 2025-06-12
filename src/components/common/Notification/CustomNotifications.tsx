@@ -43,7 +43,7 @@ const NotificationPanel: React.FC = () => {
   useEffect(() => {
     const fetchUserNotifications = async () => {
       try {
-        const res = await getAllNotification('');
+        const res:any = await getAllNotification('');
         const data: Notification[] = Array.isArray(res?.data?.data) ? res.data.data : [];
         setNotifications(data);
       } catch (err) {

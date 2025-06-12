@@ -30,7 +30,7 @@ admin={
     updatelist:(data:string,params:string)=>httpClient.update(API_END_POINTS.sos.put,data,params),
     getsosList:()=>httpClient.get(API_END_POINTS.sos.getsoslis),
     statuslist:(params:string,data:any)=>httpClient.update(API_END_POINTS.sos.updatelist.replace(':id',params),data),
-    delete:()=>httpClient.delete(API_END_POINTS.sos.delete)
+    delete:(id:string)=>httpClient.delete(API_END_POINTS.sos.delete+id)
    },
 
    Announcement:{

@@ -1,16 +1,17 @@
 import type React from "react"
 
 import { useState, useRef, useEffect } from "react"
-import { ArrowLeft, Search, Plus, Car, Wrench, X, Edit3, Trash2, List, Eye, EyeOff, Settings } from "lucide-react"
+import { ArrowLeft, Search, Plus, Car, Wrench, X, Edit3, Trash2, Eye, EyeOff, Settings } from "lucide-react"
+// import { set } from "react-hook-form"
 
 // Mock constants
-const COLORS = {
-  bgColor: "#f8fafc",
-}
+// const COLORS = {
+//   bgColor: "#f8fafc",
+// }
 
-const FONTS = {
-  header: { fontFamily: "Inter, system-ui, sans-serif" },
-}
+// const FONTS = {
+//   header: { fontFamily: "Inter, system-ui, sans-serif" },
+// }
 
 type ServiceCenterServicesProps = {
   onSpareParts: () => void
@@ -75,6 +76,7 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({ onSpareParts, hand
       }
     }
     fetchdata()
+    setViewMode("table")
   }, [partnerId])
 
   const [newCategory, setNewCategory] = useState({
@@ -91,7 +93,7 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({ onSpareParts, hand
         price: "25",
         image: "https://www.pixelstalk.net/wp-content/uploads/2016/08/Lamborghini-mountain-fog-sports-car-photos.jpg",
         active: true,
-        description: "Complete exterior wash with premium soap",
+        description: "Complete exterior wash premium soap",
         duration: "30 min",
       },
       {
@@ -103,24 +105,24 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({ onSpareParts, hand
         description: "Deep interior cleaning and vacuuming",
         duration: "45 min",
       },
-      {
-        id: "3",
-        name: "Wax & Polish",
-        price: "45",
-        image: "https://www.pixelstalk.net/wp-content/uploads/2016/08/Lamborghini-mountain-fog-sports-car-photos.jpg",
-        active: true,
-        description: "Professional waxing and polishing service",
-        duration: "60 min",
-      },
-      {
-        id: "4",
-        name: "Tire Cleaning",
-        price: "15",
-        image: "https://www.pixelstalk.net/wp-content/uploads/2016/08/Lamborghini-mountain-fog-sports-car-photos.jpg",
-        active: false,
-        description: "Tire cleaning and shine treatment",
-        duration: "15 min",
-      },
+      // {
+      //   id: "3",
+      //   name: "Wax & Polish",
+      //   price: "45",
+      //   image: "https://www.pixelstalk.net/wp-content/uploads/2016/08/Lamborghini-mountain-fog-sports-car-photos.jpg",
+      //   active: true,
+      //   description: "Professional waxing and polishing service",
+      //   duration: "60 min",
+      // },
+      // {
+      //   id: "4",
+      //   name: "Tire Cleaning",
+      //   price: "15",
+      //   image: "https://www.pixelstalk.net/wp-content/uploads/2016/08/Lamborghini-mountain-fog-sports-car-photos.jpg",
+      //   active: false,
+      //   description: "Tire cleaning and shine treatment",
+      //   duration: "15 min",
+      // },
     ],
     oil: [
       {
@@ -141,24 +143,24 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({ onSpareParts, hand
         description: "Air and oil filter replacement",
         duration: "20 min",
       },
-      {
-        id: "7",
-        name: "Premium Oil Package",
-        price: "75",
-        image: "https://www.pixelstalk.net/wp-content/uploads/2016/08/Lamborghini-mountain-fog-sports-car-photos.jpg",
-        active: true,
-        description: "Premium synthetic oil change",
-        duration: "45 min",
-      },
-      {
-        id: "8",
-        name: "Engine Diagnostic",
-        price: "40",
-        image: "https://www.pixelstalk.net/wp-content/uploads/2016/08/Lamborghini-mountain-fog-sports-car-photos.jpg",
-        active: true,
-        description: "Complete engine diagnostic check",
-        duration: "60 min",
-      },
+      // {
+      //   id: "7",
+      //   name: "Premium Oil Package",
+      //   price: "75",
+      //   image: "https://www.pixelstalk.net/wp-content/uploads/2016/08/Lamborghini-mountain-fog-sports-car-photos.jpg",
+      //   active: true,
+      //   description: "Premium synthetic oil change",
+      //   duration: "45 min",
+      // },
+      // {
+      //   id: "8",
+      //   name: "Engine Diagnostic",
+      //   price: "40",
+      //   image: "https://www.pixelstalk.net/wp-content/uploads/2016/08/Lamborghini-mountain-fog-sports-car-photos.jpg",
+      //   active: true,
+      //   description: "Complete engine diagnostic check",
+      //   duration: "60 min",
+      // },
     ],
   })
 
@@ -818,7 +820,7 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({ onSpareParts, hand
                 </select>
               </div>
 
-              <div>
+              {/* <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">Color Theme</label>
                 <select
                   name="color"
@@ -833,7 +835,7 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({ onSpareParts, hand
                   <option value="bg-pink-500">Pink</option>
                   <option value="bg-gray-500">Gray</option>
                 </select>
-              </div>
+              </div> */}
 
               <div className="flex space-x-3 pt-4">
                 <button

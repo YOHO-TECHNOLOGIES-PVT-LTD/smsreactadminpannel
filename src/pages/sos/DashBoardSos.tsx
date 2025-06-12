@@ -3,7 +3,7 @@ import { MdToggleOn, MdToggleOff, MdClose } from "react-icons/md";
 import { FiPlus } from "react-icons/fi";
 import {  useNavigate } from "react-router-dom";
 import { carIcons } from "../../components/sos/sosicons";
-import { getallSos, getServiceList, statusupdatesos, updatelistedsos } from "../../components/sos/services";
+import { deletesos, getallSos, getServiceList, statusupdatesos, updatelistedsos } from "../../components/sos/services";
 import { MdDelete } from "react-icons/md";
 
 type SOSRequest = {
@@ -136,10 +136,15 @@ const handleToggleService = async (service:any) => {
   }
 };
 
-const handleDeleteService = (index: number) => {
-  const updated = [...services];
-  updated.splice(index, 1); 
-  setServices(updated);
+const handleDeleteService = async(index: number,id:string) => {
+  try {
+    await deletesos(id)
+    const updated = [...services];
+    updated.splice(index, 1);
+    setServices(updated);
+  } catch (error) {
+    console.log("sos delete",error)
+  }
 };
 
   return (
@@ -247,7 +252,7 @@ const handleDeleteService = (index: number) => {
               key={index}
               className="flex items-center justify-between border border-gray-200 rounded p-3 shadow-sm"
             >
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-3" style={{width:"60%"}}>
                 <div className="w-6 h-6 flex justify-center items-center text-2xl">
                   {carIcons.find((item) => item.name === service.icon)?.icon}
                 </div>
@@ -274,7 +279,7 @@ const handleDeleteService = (index: number) => {
       )}
 </button>
   <button
-   onClick={() => handleDeleteService(index)}
+   onClick={() => handleDeleteService(index,service._id)}
    className="focus:outline-none"
    title="Delete Service"
  >
