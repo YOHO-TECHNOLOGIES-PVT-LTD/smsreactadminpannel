@@ -4,9 +4,9 @@ import { useState, useEffect } from "react"
 import { Search, ArrowLeft, Star, Plus, Eye } from "lucide-react"
 
 // Define colors directly to avoid import issues
-const COLORS = {
-  bgColor: "#f9fafb", // gray-50
-}
+// const COLORS = {
+//   bgColor: "#f9fafb", // gray-50
+// }
 
 interface ApiSparePart {
   _id: string

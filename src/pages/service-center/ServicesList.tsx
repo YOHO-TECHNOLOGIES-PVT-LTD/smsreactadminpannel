@@ -1,6 +1,6 @@
 import type React from "react"
 import { useState, useRef, useEffect } from "react"
-import { ArrowLeft, Search, Plus, X, Edit3, Trash2, Settings } from "lucide-react"
+import { ArrowLeft, Search, Plus, X, Edit3, Trash2, Settings, Grid, List } from "lucide-react"
 
 interface Service {
   _id: string
@@ -59,12 +59,14 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({ onSpareParts, hand
     async function fetchdata() {
       try {
         console.log(`Fetching data for partner: ${partnerId}`)
+        // Initialize with Services prop data
+        setCategories(Services)
       } catch (error) {
         console.error("Error fetching data:", error)
       }
     }
     fetchdata()
-  }, [partnerId])
+  }, [partnerId, Services])
 
   const [newCategory, setNewCategory] = useState({
     category_name: "",
@@ -492,6 +494,25 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({ onSpareParts, hand
                 />
               </div>
 
+              {/* View Mode Toggle */}
+              <div className="flex items-center bg-gray-100 rounded-lg p-1">
+                <button
+                  onClick={() => setViewMode("grid")}
+                  className={`p-2 rounded-md transition-colors ${
+                    viewMode === "grid" ? "bg-white shadow-sm text-gray-900" : "text-gray-500 hover:text-gray-700"
+                  }`}
+                >
+                  <Grid className="w-4 h-4" />
+                </button>
+                <button
+                  onClick={() => setViewMode("table")}
+                  className={`p-2 rounded-md transition-colors ${
+                    viewMode === "table" ? "bg-white shadow-sm text-gray-900" : "text-gray-500 hover:text-gray-700"
+                  }`}
+                >
+                  <List className="w-4 h-4" />
+                </button>
+              </div>
               
               {/* Add Service */}
               <button
@@ -718,62 +739,60 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({ onSpareParts, hand
                 </div>
               </div>
 
-              <div>
+            <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">Description</label>
                 <textarea
                   name="description"
                   value={newService.description}
                   onChange={handleInputChange}
-                  rows={3}
                   className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-black"
                   placeholder="Enter service description"
+                  rows={3}
                 />
               </div>
 
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">Service Image</label>
-                <div className="relative">
-                  <input
-                    type="file"
-                    ref={fileInputRef}
-                    onChange={handleImageUpload}
-                    accept="image/*"
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-black"
-                  />
-                  {newService.image && (
-                    <div className="mt-3">
-                      <img
-                        src={typeof newService.image === "string" ? newService.image : ""}
-                        alt="Preview"
-                        className="h-32 w-48 object-cover rounded-lg shadow-sm"
-                      />
-                    </div>
-                  )}
-                </div>
+                <input
+                  type="file"
+                  ref={fileInputRef}
+                  onChange={handleImageUpload}
+                  accept="image/*"
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-black"
+                />
+                {newService.image && (
+                  <div className="mt-2">
+                    <img
+                      src={newService.image as string}
+                      alt="Preview"
+                      className="w-24 h-24 object-cover rounded-lg"
+                    />
+                  </div>
+                )}
               </div>
 
-              <div className="flex items-center space-x-3">
+              <div className="flex items-center">
                 <input
                   type="checkbox"
                   name="is_active"
                   checked={newService.is_active}
                   onChange={handleInputChange}
-                  className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+                  className="mr-2"
                 />
-                <label className="text-sm font-medium text-gray-700">Activate service immediately</label>
+                <label className="text-sm font-semibold text-gray-700">Active</label>
               </div>
 
-              <div className="flex space-x-3 pt-4">
+              <div className="flex justify-end space-x-4 pt-4">
                 <button
                   type="button"
                   onClick={handleCancelAdd}
-                  className="flex-1 px-4 py-3 text-sm font-semibold text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
+                  className="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="flex-1 px-4 py-3 text-sm font-semibold text-white bg-[#800000] rounded-lg hover:bg-[#600000] transition-colors"
+                  className="px-6 py-2 bg-[#800000] text-white rounded-lg hover:bg-[#600000] transition-colors"
                 >
                   {editingService ? "Update Service" : "Add Service"}
                 </button>
@@ -801,7 +820,7 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({ onSpareParts, hand
               </div>
             </div>
 
-            <form onSubmit={handleSubmitCategory} className="p-6 space-y-6">
+            <form onSubmit={handleSubmitCategory} className="p-6 space-y-4">
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">Category Name</label>
                 <input
@@ -815,28 +834,28 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({ onSpareParts, hand
                 />
               </div>
 
-              <div className="flex items-center space-x-3">
+              <div className="flex items-center">
                 <input
                   type="checkbox"
                   name="is_active"
                   checked={newCategory.is_active}
                   onChange={handleCategoryInputChange}
-                  className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+                  className="mr-2"
                 />
-                <label className="text-sm font-medium text-gray-700">Activate category immediately</label>
+                <label className="text-sm font-semibold text-gray-700">Active</label>
               </div>
 
-              <div className="flex space-x-3 pt-4">
+              <div className="flex justify-end space-x-4 pt-4">
                 <button
                   type="button"
                   onClick={handleCancelAddCategory}
-                  className="flex-1 px-4 py-3 text-sm font-semibold text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
+                  className="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="flex-1 px-4 py-3 text-sm font-semibold text-white bg-[#800000] rounded-lg hover:bg-[#600000] transition-colors"
+                  className="px-6 py-2 bg-[#800000] text-white rounded-lg hover:bg-[#600000] transition-colors"
                 >
                   {editingCategory ? "Update Category" : "Add Category"}
                 </button>
