@@ -62,7 +62,7 @@ const NotificationPanel: React.FC = () => {
     socket.on("new_notification", (newNotif: Notification) => {
       setNotifications((prev) => [newNotif, ...prev]);
     });
-
+    socket.emit("join_room",)
     // return () => {
     //   socket.off("new_notification");
     // };
