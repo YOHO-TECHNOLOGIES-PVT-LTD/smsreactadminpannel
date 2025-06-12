@@ -1,6 +1,7 @@
 import type React from "react"
 import { useState, useRef, useEffect } from "react"
 import { ArrowLeft, Search, Plus, X, Edit3, Trash2, Settings } from "lucide-react"
+import Client from "../../api"
 
 interface Service {
   _id: string
@@ -58,7 +59,9 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({ onSpareParts, hand
   useEffect(() => {
     async function fetchdata() {
       try {
-        console.log(`Fetching data for partner: ${partnerId}`)
+        const  response:any = await new Client().admin.servicecenter.getCatEvery()
+        console.log(response.data.data)
+        setCategories(response.data.data)
       } catch (error) {
         console.error("Error fetching data:", error)
       }
@@ -128,10 +131,15 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({ onSpareParts, hand
     return services
   }
 
-  const handleAddCategory = () => {
-    setEditingCategory(null)
-    setNewCategory({ category_name: "", is_active: true })
-    setShowAddCategoryForm(true)
+  const handleAddCategory = async() => {
+    try {
+     
+      setEditingCategory(null)
+      setNewCategory({ category_name: "", is_active: true })
+      setShowAddCategoryForm(true)
+    } catch (error) {
+      console.log("add category:",error)
+    }
   }
 
   const handleEditCategory = (category: Category) => {
@@ -167,27 +175,41 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({ onSpareParts, hand
 
         if (editingCategory) {
           // Update existing category
-          const updatedCategories = categories.map((cat) =>
-            cat._id === editingCategory._id
-              ? { ...cat, category_name: newCategory.category_name, is_active: newCategory.is_active }
-              : cat,
-          )
-          setCategories(updatedCategories)
+          const updatedCategories = await Promise.all(
+            categories.map(async (cat) => {
+              if (cat._id === editingCategory._id) {
+                const response: any = await new Client().admin.category.update(newCategory, cat.uuid);
+                const { data } = response.data;
+
+                return {
+                  ...cat,
+                  data
+                };
+              } else {
+                return cat;
+              }
+            })
+          );
+
+          setCategories(updatedCategories);
+          
         } else {
           // Create new category
-          const newCategoryItem: Category = {
-            _id: `temp-${Date.now()}`,
+          const newCategoryItem: any = {
+            // _id: `temp-${Date.now()}`,
             id: Date.now(),
             category_name: newCategory.category_name,
             slug: newCategory.category_name.toLowerCase().replace(/\s+/g, "-"),
             is_active: newCategory.is_active,
             is_deleted: false,
-            services: [],
-            uuid: `temp-uuid-${Date.now()}`,
-            createdAt: new Date().toISOString(),
-            updatedAt: new Date().toISOString(),
+            // services: [],
+            // uuid: `temp-uuid-${Date.now()}`,
+            // createdAt: new Date().toISOString(),
+            // updatedAt: new Date().toISOString(),
           }
-          setCategories([...categories, newCategoryItem])
+         const response:any =  await new Client().admin.category.create(newCategoryItem)
+         console.log(response.data.data)
+          setCategories([...categories, response.data.data])
         }
 
         setNewCategory({ category_name: "", is_active: true })
@@ -310,46 +332,65 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({ onSpareParts, hand
 
         if (editingService) {
           // Update existing service
-          const updatedCategories = categories.map((category) => ({
-            ...category,
-            services: category.services.map((service) =>
-              service._id === editingService._id
-                ? {
-                    ...service,
-                    service_name: newService.service_name,
-                    price: Number.parseFloat(newService.price),
-                    description: newService.description,
-                    duration: newService.duration,
-                    image: newService.image as string,
-                    is_active: newService.is_active,
-                    updated_at: new Date().toISOString(),
+          const editservice:any = {
+            service_name: newService.service_name,
+            price: Number.parseFloat(newService.price),
+            description: newService.description,
+            duration: newService.duration,
+            image: newService.image as string,
+            // is_active: newService.is_active,
+            // updated_at: new Date().toISOString(),
+          }
+          
+          const updatedCategories = await Promise.all(
+            categories.map(async (category) => {
+              const updatedServices = await Promise.all(
+                category.services.map(async (service:any) => {
+                  if (service._id === editingService._id) {
+                    const response: any = await new Client().admin.service.update(editservice, service.uuid);
+                    const { data } = response.data;
+
+                    return {
+                      ...service,
+                      data,
+                    };
+                  } else {
+                    return service;
                   }
-                : service,
-            ),
-          }))
-          setCategories(updatedCategories)
+                })
+              );
+
+              return {
+                ...category,
+                services: updatedServices,
+              };
+            })
+          );
+
+          setCategories(updatedCategories);
+          
         } else {
           // Create new service
-          const newServiceItem: Service = {
-            _id: `temp-${Date.now()}`,
+          const newServiceItem: any = {
+            // _id: `temp-${Date.now()}`,
             service_name: newService.service_name,
-            slug: newService.service_name.toLowerCase().replace(/\s+/g, "-"),
+            // slug: newService.service_name.toLowerCase().replace(/\s+/g, "-"),
             description: newService.description,
             price: Number.parseFloat(newService.price),
             category_id: selectedCat.uuid,
             partner_id: partnerId,
-            is_active: newService.is_active,
-            is_deleted: false,
-            created_at: new Date().toISOString(),
-            updated_at: new Date().toISOString(),
-            uuid: `temp-service-${Date.now()}`,
-            image: newService.image as string,
+            // is_active: newService.is_active,
+            // is_deleted: false,
+            // created_at: new Date().toISOString(),
+            // updated_at: new Date().toISOString(),
+            // uuid: `temp-service-${Date.now()}`,
+            // image: newService.image as string,
             duration: newService.duration,
           }
-
+          const response:any = await new Client().admin.service.create(newServiceItem)
           const updatedCategories = categories.map((category) =>
             category._id === activeServiceType
-              ? { ...category, services: [...category.services, newServiceItem] }
+              ? { ...category, services: [...category.services, response.data.data] }
               : category,
           )
           setCategories(updatedCategories)
