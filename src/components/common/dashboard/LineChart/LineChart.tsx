@@ -1,7 +1,5 @@
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Tooltip, Filler } from 'chart.js';
 import { Line } from 'react-chartjs-2';
-import React from 'react';
-
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Tooltip, Filler);
 
 type Props = {
@@ -10,7 +8,7 @@ type Props = {
   backgroundColor: string;
 };
 
-export const ChartCard: React.FC<Props> = ({ dataPoints, borderColor, backgroundColor }) => {
+export const ChartCard = ({ dataPoints, borderColor, backgroundColor }: Props) => {
   const data = {
     labels: dataPoints.map((_, i) => i + 1),
     datasets: [

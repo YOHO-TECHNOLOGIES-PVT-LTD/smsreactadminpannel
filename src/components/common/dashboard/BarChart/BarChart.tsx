@@ -1,10 +1,10 @@
-import React, { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 // import { FONTS } from "../../../../constants/uiConstants"//FONT
 import { COLORS } from "../../../../constants/uiConstants"//COLOUR
 
 import {
   BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer,
-} from 'recharts';
+} from '../../charts/RechartsWrapper';
 import { ChevronDown } from 'lucide-react';
 
 //for data
@@ -21,7 +21,7 @@ const data = [
 //for drop down
 const dateRanges = ['Weekly', 'Monthly', 'Yearly'];
 
-const BarCharts: React.FC = () => {
+const BarCharts = () => {
   const [selectedRange, setSelectedRange] = useState('Weekly'); // Set default value and will be used
   const [isOpen, setIsOpen] = useState(false);
 

@@ -10,6 +10,7 @@ export default defineConfig({
     define: {
       global: 'globalThis',
       'process.env': {},
+      __DEV__: 'false',
     },
     optimizeDeps: {
       include: ['react', 'react-dom', 'recharts'],

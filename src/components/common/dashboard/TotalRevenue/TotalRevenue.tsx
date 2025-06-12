@@ -110,10 +110,10 @@
 
 
 // // //this is the stack bar 
-import React from 'react';
+import { } from 'react';
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
-} from 'recharts';
+} from '../../charts/RechartsWrapper';
 // import { ChevronDown } from 'lucide-react';
 import { COLORS } from "../../../../constants/uiConstants"; // your color constants
 
