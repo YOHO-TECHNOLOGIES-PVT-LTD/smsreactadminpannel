@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { COLORS } from "../../../../constants/uiConstants"//COLOUR
 
 import {
@@ -10,7 +10,7 @@ import {
   Tooltip,
   ResponsiveContainer,
   Legend,
-} from "recharts";
+} from "../../charts/RechartsWrapper";
 
 import { ChevronDown } from "lucide-react";
 
@@ -31,7 +31,7 @@ const customerData = [
   { month: "Dec", current: 70000, lastYear: 61000 },
 ];
 
-const CustomerAnalyticsChart: React.FC = () => {
+const CustomerAnalyticsChart = () => {
   const [selectedRange, setSelectedRange] = useState('Monthly'); // Set default value and will be used
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null)
