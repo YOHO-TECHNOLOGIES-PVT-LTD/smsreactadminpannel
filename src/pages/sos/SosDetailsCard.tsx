@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import {
   FaInfoCircle,
   FaStickyNote,
@@ -52,7 +52,7 @@ interface PostedDetail {
   type: string;
 }
 
-const SosDetails: React.FC = () => {
+const SosDetails = () => {
   const { uuid } = useParams()
 
   const getStatusStyles = (status: string) => {

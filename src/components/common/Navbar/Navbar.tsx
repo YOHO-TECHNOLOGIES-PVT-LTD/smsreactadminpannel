@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import { COLORS } from "../../../constants/uiConstants";
 import { useNavigate } from "react-router-dom";
 import FullscreenButton from "./Fullscreen";
@@ -23,7 +23,7 @@ interface Notification {
   isRead: boolean;
 }
 
-export const Navbar: React.FC = () => {
+export const Navbar = () => {
   const [isBellActive, setIsBellActive] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [showProfileDetails, setShowProfileDetails] = useState(false);
