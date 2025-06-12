@@ -18,12 +18,12 @@ export const AdminSocketProvider: React.FC<AdminSocketProviderProps> = ({ childr
   const [socket, setSocket] = useState<SocketType>(null);
 
   useEffect(() => {
+    console.log("check url", import.meta.env.VITE_PUBLIC_API_URL)
     const newSocket =io(import.meta.env.VITE_PUBLIC_API_URL, {
       transports: ['websocket'],
       autoConnect: false,
     });
     setSocket(newSocket);
-
     return () => {
       newSocket.disconnect();
     };
