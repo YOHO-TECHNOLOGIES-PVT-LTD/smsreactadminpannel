@@ -30,12 +30,20 @@ export default defineConfig({
       include: [/recharts/, /node_modules/]
     },
     rollupOptions: {
+      external: () => {
+        // Don't externalize React for recharts
+        return false;
+      },
       output: {
         manualChunks: {
           vendor: ['react', 'react-dom'],
           router: ['react-router-dom'],
           charts: ['recharts'],
         },
+        globals: {
+          'react': 'React',
+          'react-dom': 'ReactDOM'
+        }
       },
     },
   },
