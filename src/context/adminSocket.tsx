@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import React, { createContext, useContext, useState, useEffect, type ReactNode } from 'react';
 import { io, Socket } from 'socket.io-client';
 
 
@@ -19,10 +19,7 @@ export const AdminSocketProvider: React.FC<AdminSocketProviderProps> = ({ childr
 
   useEffect(() => {
     console.log("check url", import.meta.env.VITE_PUBLIC_API_URL)
-    const newSocket =io(import.meta.env.VITE_PUBLIC_API_URL, {
-      transports: ['websocket'],
-      autoConnect: false,
-    });
+    const newSocket =io(import.meta.env.VITE_PUBLIC_API_URL);
     setSocket(newSocket);
     return () => {
       newSocket.disconnect();
