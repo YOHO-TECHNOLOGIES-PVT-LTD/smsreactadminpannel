@@ -8,7 +8,7 @@ interface SosProps {
   datas: any;
 }
 
-export const SoSCard: React.FC<SosProps> = ({ datas }) => {
+export const SoSCard: React.FC<SosProps> = () => {
   const labels = ["Completed", "Pending", "In Progress"];
   const values = [12, 8, 9];
   const colors = ["#EEA29A", "#DAC292", "#B7D7E8"];
