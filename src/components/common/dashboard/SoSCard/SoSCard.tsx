@@ -1,3 +1,4 @@
+import react from "react"
 import { Chart as ChartJS, ArcElement, Tooltip } from 'chart.js';
 import type React from 'react';
 import { Doughnut } from 'react-chartjs-2';
