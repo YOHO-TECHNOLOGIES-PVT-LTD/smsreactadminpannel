@@ -86,7 +86,7 @@ const handleBack = () => {
         {activeStep === 2 && (
           <ServicesList partnerId={partnerId} onSpareParts={() => setActiveStep(3)} Services={Services}  handleBack={handleBack}/>
         )}
-        {activeStep === 3 && <ServiceSpareParts Spareparts={Spareparts} handleBack={handleBack}/>}
+        {activeStep === 3 && <ServiceSpareParts Spareparts={Spareparts} partnerId={partnerId} handleBack={handleBack}/>}
       </div>
     </div>
     )

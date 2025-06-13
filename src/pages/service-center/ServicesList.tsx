@@ -311,6 +311,8 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({ onSpareParts, hand
       // Here you would make an API call to soft delete the service
       console.log("Deleting service:", serviceId)
 
+      await new Client().admin.service.delete(serviceId)
+
       const updatedCategories = categories.map((category) => ({
         ...category,
         services: category.services.map((service) =>
@@ -347,19 +349,27 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({ onSpareParts, hand
               const updatedServices = await Promise.all(
                 category.services.map(async (service:any) => {
                   if (service._id === editingService._id) {
-                    const response: any = await new Client().admin.service.update(editservice, service.uuid);
-                    const { data } = response.data;
-
+                    await new Client().admin.service.update(editservice, service.uuid);
+                    const data:any = {
+                      service_name: newService.service_name,
+                      price: Number.parseFloat(newService.price),
+                      description: newService.description,
+                      duration: newService.duration,
+                      image: newService.image as string,
+                      is_active: newService.is_active,
+                      updated_at: new Date().toISOString(),
+                    }
                     return {
                       ...service,
-                      data,
+                      data
                     };
                   } else {
                     return service;
                   }
                 })
               );
-
+              console.log(updatedServices)
+              console.log(categories)
               return {
                 ...category,
                 services: updatedServices,

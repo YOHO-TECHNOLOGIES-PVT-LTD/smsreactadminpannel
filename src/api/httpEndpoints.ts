@@ -101,6 +101,7 @@ export const API_END_POINTS ={
         getall:'/api/admin/service/',
         put:'/api/admin/service/:uuid',
         patch:'/api/admin/service/toggle-status/:uuid',
+        delete:'/api/admin/service/remove/:id',
     }
 
 

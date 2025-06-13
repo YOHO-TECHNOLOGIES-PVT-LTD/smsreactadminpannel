@@ -1,106 +1,125 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
+import Offer from '../../components/common/Announcement/Offer';
 import AnnouncementList from '../../components/common/Announcement/AnnouncementList';
-import { getAnnouncement, postAnnouncement } from './services';
+import Partner from '../../components/common/Announcement/Partner';
 
-type AnnouncementData = {
-  id?: string;
+// Define the partner data type
+type PartnerData = {
   title: string;
-  subject: string;
   description: string;
-  category?: string;
-  image?: string;
-  type?: string;
+  price: string;
+  image: string;
 };
 
 export const Announcement = () => {
+  const [activeTab, setActiveTab] = useState<'offer' | 'announcement' | 'partner'>('offer');
   const [showModal, setShowModal] = useState(false);
 
-  const [title, setTitle] = useState('');
-  const [subject, setSubject] = useState('');
+  const [heading, setHeading] = useState('');
   const [description, setDescription] = useState('');
-  const [category, setCategory] = useState('');
+  const [price, setPrice] = useState('');
   const [image, setImage] = useState<File | null>(null);
 
-  const [announcements, setAnnouncements] = useState<AnnouncementData[]>([]);
-
-  useEffect(() => {
-    const fetchAnnouncements = async () => {
-      try {
-        const response: any = await getAnnouncement('');
-        setAnnouncements(response.data.data);
-      } catch (error) {
-        console.error('Error fetching announcements:', error);
-      }
-    };
-
-    fetchAnnouncements();
-  }, []);
+  // Remove unused partnerData state to fix TypeScript warning
+  // const [partnerData, setPartnerData] = useState<PartnerData[]>([]);
 
   const resetForm = () => {
-    setTitle('');
-    setSubject('');
+    setHeading('');
     setDescription('');
-    setCategory('');
+    setPrice('');
     setImage(null);
   };
 
-  console.log(announcements)
-
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    const formData = new FormData();
-    formData.append('title', title);
-    formData.append('subject', subject);
-    formData.append('description', description);
-    formData.append('category', category || 'general');
-    formData.append('type', 'announcement');
-    if (image) {
-      formData.append('image', image);
+    const newData: PartnerData = {
+      title: heading,
+      description,
+      price,
+      image: image ? URL.createObjectURL(image) : '',
+    };
+
+    // Store data based on active tab
+    if (activeTab === 'offer') {
+      // Handle offer data submission
+      console.log('Offer added:', newData);
+    } else if (activeTab === 'announcement') {
+      // Handle announcement data submission
+      console.log('Announcement added:', newData);
+    } else if (activeTab === 'partner') {
+      // Handle partner data submission
+      console.log('Partner added:', newData);
+      // If Partner component has methods to add data, you could call them here
+      // For example: PartnerService.addPartner(newData);
     }
 
-    try {
-      const response:any = await postAnnouncement(formData);
-      const responseData = response.data || {};
+    resetForm();
+    setShowModal(false);
+  };
 
-      const newItem: AnnouncementData = {
-        title: responseData.title || title,
-        subject,
-        description,
-        category: responseData.category || category || 'general',
-        image: responseData.image || '',
-        type: 'announcement',
-      };
-
-      setAnnouncements(prev => [...prev,newItem]);
-      resetForm();
-      setShowModal(false);
-    } catch (error) {
-      console.error('Failed to post announcement:', error);
+  const renderComponent = () => {
+    switch (activeTab) {
+      case 'offer':
+        return (
+          <Offer
+            showModal={false}
+            closeModal={() => { }}
+          />
+        );
+      case 'announcement':
+        return <AnnouncementList />;
+      case 'partner':
+        // Remove the data prop since Partner component doesn't accept it
+        return <Partner />;
+      default:
+        return null;
     }
   };
 
   return (
     <div className="min-h-screen bg-[#FFF4EC] p-6">
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold text-[#9b111e]">Latest Announcements</h1>
-        <button
-          onClick={() => setShowModal(true)}
-          className="bg-[#9b111e] text-white px-4 py-2 rounded-full font-semibold hover:bg-red-700 transition"
-        >
-          + Add
-        </button>
+        <div className="flex space-x-4">
+          {['offer', 'announcement', 'partner'].map((tab) => (
+            <button
+              key={tab}
+              onClick={() => setActiveTab(tab as 'offer' | 'announcement' | 'partner')}
+              className={`px-4 py-2 rounded-full font-semibold transition ${activeTab === tab
+                  ? 'bg-[#9b111e] text-white'
+                  : 'bg-white text-[#9b111e] border border-[#9b111e]'
+                }`}
+            >
+              {tab.charAt(0).toUpperCase() + tab.slice(1)}
+            </button>
+          ))}
+        </div>
+        {(activeTab === 'offer' || activeTab === 'announcement' || activeTab === 'partner') && (
+          <button
+            onClick={() => setShowModal(true)}
+            className="bg-[#9b111e] text-white px-4 py-2 rounded-full font-semibold hover:bg-red-700 transition"
+          >
+            + Add
+          </button>
+        )}
       </div>
 
-      <p className="text-gray-600 mb-6">Stay up to date with our latest news</p>
+      <h1 className="text-2xl font-bold text-[#9b111e] mb-2">
+        {activeTab === 'offer'
+          ? 'Special Offers'
+          : activeTab === 'announcement'
+            ? 'Latest Announcements'
+            : 'Our Partners'}
+      </h1>
+      <p className="text-gray-600 mb-6">
+        {activeTab === 'offer'
+          ? 'Experience the Art of Automotive Renewal'
+          : activeTab === 'announcement'
+            ? 'Stay up to date with our latest news'
+            : 'Meet our trusted collaborators'}
+      </p>
 
-      <div className="grid md:grid-cols-3 gap-4">
-        {announcements.map((data, index) => (
-          <AnnouncementList key={index} data={data} />
-        ))}
-      </div>
-
-  
+      <div className="grid md:grid-cols-3 gap-4">{renderComponent()}</div>
 
       {showModal && (
         <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex justify-center items-center">
@@ -111,22 +130,16 @@ export const Announcement = () => {
             >
               &times;
             </button>
-            <h2 className="text-xl font-bold mb-5 text-[#9b111e]">Add New Announcement</h2>
+            <h2 className="text-xl font-bold mb-4 text-[#9b111e]">
+              Add New {activeTab === 'offer' ? 'Offer' : activeTab === 'announcement' ? 'Announcement' : 'Partner'}
+            </h2>
             <form onSubmit={handleSubmit} className="space-y-4">
               <input
                 type="text"
-                placeholder="Title"
+                placeholder="Heading"
                 className="w-full p-2 border border-gray-300 rounded"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-                required
-              />
-              <input
-                type="text"
-                placeholder="Subject"
-                className="w-full p-2 border border-gray-300 rounded"
-                value={subject}
-                onChange={(e) => setSubject(e.target.value)}
+                value={heading}
+                onChange={(e) => setHeading(e.target.value)}
                 required
               />
               <textarea
@@ -138,10 +151,11 @@ export const Announcement = () => {
               />
               <input
                 type="text"
-                placeholder="Category (optional)"
+                placeholder="Offer Price"
                 className="w-full p-2 border border-gray-300 rounded"
-                value={category}
-                onChange={(e) => setCategory(e.target.value)}
+                value={price}
+                onChange={(e) => setPrice(e.target.value)}
+                required
               />
               <input
                 type="file"

@@ -319,7 +319,7 @@ const handleDeleteService = async(index: number,id:string) => {
             aria-label="Service Name"
           />
 
-          <div className="grid grid-cols-6 gap-3 bg-gray-100 p-3 rounded max-h-24 overflow-auto">
+          <div className="grid grid-cols-6 gap-3 bg-gray-100 p-3 rounded h-38 overflow-auto">
             {carIcons.map((item, idx) => (
               <button
                 key={idx}

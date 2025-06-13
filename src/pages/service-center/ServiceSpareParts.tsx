@@ -2,6 +2,7 @@
 import type React from "react"
 import { useState, useEffect } from "react"
 import { Search, ArrowLeft, Star, Plus, Eye } from "lucide-react"
+import Client from "../../api"
 
 // Define colors directly to avoid import issues
 const COLORS = {
@@ -32,7 +33,7 @@ interface SparePart {
   id: string
   name: string
   image: string
-  price: number
+  price: string
   quantity: number
   category: string
   brand: string
@@ -53,9 +54,10 @@ interface ApiResponse {
 type ReactComponent = {
   handleBack: () => void
   Spareparts?: ApiSparePart[] | ApiResponse
+  partnerId:string
 }
 
-const ServiceSpareParts: React.FC<ReactComponent> = ({ handleBack, Spareparts = [] }) => {
+const ServiceSpareParts: React.FC<ReactComponent> = ({ handleBack, Spareparts = [],partnerId }) => {
   const [searchTerm, setSearchTerm] = useState("")
   const [showSearch, setShowSearch] = useState(false)
   const [hoveredCard, setHoveredCard] = useState<string | null>(null)
@@ -64,7 +66,7 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ handleBack, Spareparts = 
   const [newPart, setNewPart] = useState<Omit<SparePart, "id" | "inStock" | "reviews" | "rating">>({
     name: "",
     image: "",
-    price: 0,
+    price: '0',
     quantity: 0,
     category: "",
     brand: "",
@@ -93,7 +95,7 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ handleBack, Spareparts = 
         id: item._id,
         name: item.productName,
         image: item.image || "/placeholder.svg?height=200&width=200",
-        price: Number.parseInt(item.price) || 0,
+        price: item.price || '0',
         quantity: Number.parseInt(item.stock) || 0,
         category: item.category,
         brand: item.brand,
@@ -118,8 +120,8 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ handleBack, Spareparts = 
       part.brand.toLowerCase().includes(searchTerm.toLowerCase()),
   )
 
-  const calculateDiscountedPrice = (price: number, discount: number) => {
-    return price - (price * discount) / 100
+  const calculateDiscountedPrice = (price: string, discount: number) => {
+    return Number.parseInt(price) - (Number.parseInt(price) * discount) / 100
   }
 
   const renderStars = (rating: number) => {
@@ -139,7 +141,7 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ handleBack, Spareparts = 
     )
   }
 
-  const handleAddPart = () => {
+  const handleAddPart = async() => {
     const newSparePart: SparePart = {
       ...newPart,
       id: `new-${Date.now()}`,
@@ -147,12 +149,25 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ handleBack, Spareparts = 
       reviews: 0,
       rating: 0,
     }
+    const data:any = {
+      productName:newPart.name,
+      stock:String(newPart.quantity),
+      price:newPart.price,
+      brand:newPart.brand,
+      category:newPart.category,
+      warrantyPeriod:newPart.warrantyPeriod,
+      image:newPart.image,
+      slug:newPart.slug,
+      partnerId
+    }
+    const response:any = await new Client().admin.spareparts.create(data)
+    console.log(response)
 
     setSpareParts([...spareParts, newSparePart])
     setNewPart({
       name: "",
       image: "",
-      price: 0,
+      price: '0',
       quantity: 0,
       category: "",
       brand: "",
@@ -161,7 +176,7 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ handleBack, Spareparts = 
       warrantyPeriod: "",
       slug: "",
     })
-    setShowAddModal(false)
+    // setShowAddModal(false)
   }
 
   const toggleActiveStatus = (id: string) => {
@@ -442,7 +457,7 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ handleBack, Spareparts = 
                     type="number"
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500"
                     value={newPart.price || ""}
-                    onChange={(e) => setNewPart({ ...newPart, price: Number(e.target.value) })}
+                    onChange={(e) => setNewPart({ ...newPart, price: e.target.value })}
                     placeholder="Enter price"
                     min="0"
                     required

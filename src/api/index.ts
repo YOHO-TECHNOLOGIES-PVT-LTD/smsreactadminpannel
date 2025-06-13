@@ -103,7 +103,8 @@ enquiry:{
   create:(data:any)=>httpClient.post(API_END_POINTS.service.create,data),
   update:(data:any,params:string)=>httpClient.update(API_END_POINTS.service.put.replace(':uuid',params),data),
   get:()=>httpClient.get(API_END_POINTS.service.getall),
-  patch:(params:string)=>httpClient.patch(API_END_POINTS.service.patch.replace(':uuid',params))
+  patch:(params:string)=>httpClient.patch(API_END_POINTS.service.patch.replace(':uuid',params)),
+  delete:(params:string)=>httpClient.delete(API_END_POINTS.service.delete.replace(':id',params))
  }
 
 
