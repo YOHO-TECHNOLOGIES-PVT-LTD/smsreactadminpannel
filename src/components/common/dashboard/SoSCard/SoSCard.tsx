@@ -1,44 +1,36 @@
-import react from "react"
-import { Chart as ChartJS, ArcElement, Tooltip } from 'chart.js';
-import type React from 'react';
-import { Doughnut } from 'react-chartjs-2';
-
+import React from "react";
+import { Chart as ChartJS, ArcElement, Tooltip } from "chart.js";
+import { Doughnut } from "react-chartjs-2";
 
 ChartJS.register(ArcElement, Tooltip);
 
-// Sample data
-interface sosprops{
-  datas:any
+interface SosProps {
+  datas: any;
 }
 
-export const SoSCard:React.FC <sosprops>=({datas})=> {
+export const SoSCard: React.FC<SosProps> = ({ datas }) => {
+  const labels = ["Completed", "Pending", "In Progress"];
+  const values = [12, 8, 9];
+  const colors = ["#EEA29A", "#DAC292", "#B7D7E8"];
+  const total = values.reduce((sum, val) => sum + val, 0);
 
-  console.log(datas.sosdetails)
-
-const labels = ['Completed', 'Pending', 'In Progress'];
-//const values = [datas.completed.count , datas.pending.count , datas.notstarted.count  ];
-const values = [12,8,9];
-const colors = ['#EEA29A', '#DAC292', '#B7D7E8'];
-const total = values.reduce((sum, val) => sum + val, 0);
-
-const data = {
-  labels,
-  datasets: [
-    {
-      label: 'Orders',
-      data: values,
-      backgroundColor: colors, // semi-transparent
-      borderColor: colors,
-      borderWidth: 1,
-      hoverBorder:colors,
-      hoverBorderWidth:0,
-    },
-  ],
-};
+  const data = {
+    labels,
+    datasets: [
+      {
+        label: "Orders",
+        data: values,
+        backgroundColor: colors,
+        borderColor: colors,
+        borderWidth: 1,
+        hoverBorderColor: colors,
+        hoverBorderWidth: 0,
+      },
+    ],
+  };
 
   return (
-    <div className=" space-y-6">
-        {/* Custom Legend */}
+    <div className="space-y-6">
       <div className="flex justify-around text-sm -mb-3">
         {labels.map((label, idx) => (
           <div key={idx} className="flex items-center gap-2">
@@ -50,24 +42,19 @@ const data = {
           </div>
         ))}
       </div>
-      {/* Doughnut Chart */}
-      <div className="w-50 h-50 mx-auto ">
+
+      <div className="w-50 h-50 mx-auto">
         <Doughnut
           data={data}
           options={{
-            plugins: {
-              legend: {
-                display: true,
-              },
-            },
-            cutout: '60%',
+            plugins: { legend: { display: true } },
+            cutout: "60%",
             maintainAspectRatio: false,
           }}
         />
       </div>
 
-      {/* Progress Bars */}
-      <div className="space-y-2 ">
+      <div className="space-y-2">
         {labels.map((label, idx) => {
           const percentage = ((values[idx] / total) * 100).toFixed(0);
           return (
@@ -91,4 +78,4 @@ const data = {
       </div>
     </div>
   );
-}
+};
