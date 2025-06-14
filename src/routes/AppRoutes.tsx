@@ -16,9 +16,10 @@ import SosDetailsCard from "../pages/sos/SosDetailsCard";
 import DashboardSos from "../pages/sos/DashBoardSos";
 import QuotationPage from "../pages/job-cards/steps/Quotationpage";
 import Queries from "../pages/Queries/Queries";
-import PartnerRegForm from "../pages/service-center/PartnerRegForm";
+import ScheduleRequestPage from "../pages/Request-Queue/ScheduleRequestPage";
 import TermsConditionsSettings from "../pages/Settings/TermsConditionsSettings";
 import PrivacyPolicySettings from "../pages/Settings/PrivacyPolicySettings";
+
 
 const AppRoutes = () => {
   const { isAuthenticated } = useAuth();
@@ -51,9 +52,9 @@ const AppRoutes = () => {
         <Route path="quotation/:id" element={<QuotationPage />} />
         <Route path="*" element={<Navigate to="/" />} />
         <Route path="/queries" element={<Queries />} />
-        <Route path="/partnerreg" element={<PartnerRegForm/>}/>
-        <Route path="/terms-conditions" element={<TermsConditionsSettings />}/>
-        <Route path="/privacy-policy" element={<PrivacyPolicySettings />}/>
+        <Route path="/request-queue/schedule" element={<ScheduleRequestPage />} />
+        <Route path="/terms-conditions" element={<TermsConditionsSettings />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicySettings />} />
       </Route>
     </Routes>
   );

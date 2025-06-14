@@ -1,9 +1,8 @@
 import axios from "axios";
 
 
-const backEndUrl:string='http://192.168.1.2:3000'
 
-// const backEndUrl: string = 'https://sms-node-backend-17xb.onrender.com'
+const backEndUrl: string = import.meta.env.VITE_PUBLIC_API_URL
 
 const Axios = axios.create({
     baseURL:backEndUrl,
