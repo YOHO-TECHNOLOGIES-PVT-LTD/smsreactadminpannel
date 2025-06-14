@@ -102,9 +102,23 @@ export const API_END_POINTS ={
         put:'/api/admin/service/:uuid',
         patch:'/api/admin/service/toggle-status/:uuid',
         delete:'/api/admin/service/remove/:id',
-    }
+    },
 
+    order_history: {
+      create: `/api/partner/order-history/create`,
+      getById: `/api/partner/order-history/get/:id`,
+      getAll: `/api/partner/order-history/getall`,
+      update: `/api/partner/order-history/update/:id`,
+      updateStatus: `/api/partner/order-history/updatestatus/:id`,
+      delete: `/api/partner/order-history/delete/:id`,
+    },
 
+    customer_management: {
+      getAll :`/api/partner/customermanage`,
+    },
+    customermanagement_history:{
+      getAll: `/api/partner/CustomerManagement/service-history`
+    },
    
 
 }
