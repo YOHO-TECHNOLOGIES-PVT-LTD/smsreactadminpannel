@@ -72,14 +72,7 @@ export const Sidebar = () => {
             label="Bookings"
             isOpen={isOpen}
             onClick={handleLinkClick}
-          />
-          <SidebarLink
-            to="/notifications"
-            icon={<FiBell />}
-            label="Notifications"
-            isOpen={isOpen}
-            onClick={handleLinkClick}
-          />
+          />       
           <SidebarLink
             to="/service"
             icon={<FiUsers />}
@@ -130,9 +123,9 @@ export const Sidebar = () => {
             onClick={handleLinkClick}
           />
           <SidebarLink
-            to="/announcement"
-            icon={<Megaphone />}
-            label="Announcement"
+            to="/sos"
+            icon={<FiAlertTriangle />}
+            label="SOS"
             isOpen={isOpen}
             onClick={handleLinkClick}
           />
@@ -150,10 +143,18 @@ export const Sidebar = () => {
             isOpen={isOpen}
             onClick={handleLinkClick}
           />
+          
           <SidebarLink
-            to="/sos"
-            icon={<FiAlertTriangle />}
-            label="SOS"
+            to="/announcement"
+            icon={<Megaphone />}
+            label="Announcement"
+            isOpen={isOpen}
+            onClick={handleLinkClick}
+          />
+          <SidebarLink
+            to="/notifications"
+            icon={<FiBell />}
+            label="Notifications"
             isOpen={isOpen}
             onClick={handleLinkClick}
           />
