@@ -153,7 +153,7 @@ const handleDeleteService = async(index: number,id:string) => {
       {/* SOS Requests */}
       <div className="rounded-xl p-4 md:w-2/3 bg-white border-2 flex flex-col shadow-md">
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl md:text-4xl !font-bold" style={{...FONTS.header}}>Active SOS Requests</h2>
+          <h2 className="text-2xl md:text-4xl font-bold" style={{...FONTS.header}}>Active SOS Requests</h2>
           <MdClose
             onClick={() => navigate("/")}
             className="text-3xl text-red-700 cursor-pointer hover:text-red-900 transition-colors"
@@ -241,7 +241,7 @@ const handleDeleteService = async(index: number,id:string) => {
       {/* SOS Services */}
       <div className="rounded-xl p-4 md:w-1/3 bg-white border-2 flex flex-col shadow-md">
         <div className="flex justify-between items-center mb-6 px-1 md:px-4">
-          <h2 className="text-3xl md:text-4xl !font-bold" style={{...FONTS.header}}>SOS Services</h2>
+          <h2 className="text-3xl md:text-4xl font-bold" style={{...FONTS.header}}>SOS Services</h2>
           <FiPlus
             onClick={() => setShowForm(true)}
             className="text-3xl text-red-800 cursor-pointer hover:text-red-900 transition-colors"

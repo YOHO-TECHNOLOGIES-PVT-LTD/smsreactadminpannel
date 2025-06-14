@@ -14,13 +14,8 @@ import { LuPhoneCall } from "react-icons/lu"
 import { CheckCircle, AlertCircle } from "lucide-react"
 import { Settings } from "lucide-react";
 import Client from "../../api"
+import { FONTS } from "../../constants/uiConstants"
 
-// Mock FONTS constant
-const FONTS = {
-  paragraph: {
-    fontSize: "'Inter', sans-serif",
-  },
-}
 
 // Mock Client class
 // class Client {
@@ -226,7 +221,7 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({
   }
 
   return (
-    <div className="min-h-screen p-6" style={{ fontFamily: FONTS.paragraph.fontSize }}>
+    <div className="min-h-screen p-6" >
       {/* Header Section */}
       <div className="flex items-center justify-between mb-6">
         <button
@@ -236,7 +231,7 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({
           <MdOutlineKeyboardBackspace className="text-2xl" />
           <span className="font-medium">Back</span>
         </button>
-        <h2 className="text-3xl font-bold text-[#9b111e]">Service Center Profile</h2>
+        <h2 className="text-3xl font-bold text-[#9b111e]" style={{...FONTS.header}} >Profile</h2>
         <div className="w-10"></div>
       </div>
 
@@ -248,19 +243,21 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({
             <div className="bg-white p-2 rounded-full" >
               <img src="https://logodix.com/logo/2004138.jpg" alt="Logo" className="w-16 h-16 object-contain" />
             </div >
-            <h3 className="font-bold text-white" >{partner?.firstName + " " + partner?.lastName}</h3>
+            <h3 className="!font-bold !text-white" style={{...FONTS.cardheader}}>{partner?.firstName + " " + partner?.lastName}</h3>
           </div>
           <div className="flex gap-4">
           <button
+          style={{...FONTS.paragraph}}
             onClick={onSpareParts}
-            className="flex items-center gap-2 bg-white text-[#9b111e] px-5 py-2 rounded-lg font-medium hover:bg-gray-100 transition-colors shadow-sm"
+            className="flex items-center gap-2 bg-white !text-[#9b111e] px-5 py-2 rounded-lg font-medium hover:bg-gray-100 transition-colors shadow-sm"
           >
             <Settings className="w-4 h-4" />
             <span>Spare Parts</span>
           </button>
           <button
+            style={{...FONTS.paragraph}}
             onClick={() => onChangeCat(partner._id)}
-            className="flex items-center gap-2 bg-white text-[#9b111e] px-5 py-2 rounded-lg font-medium hover:bg-gray-100 transition-colors shadow-sm"
+            className="flex items-center gap-2 bg-white !text-[#9b111e] px-5 py-2 rounded-lg font-medium hover:bg-gray-100 transition-colors shadow-sm"
           >
             <span>View Services</span>
             <FaArrowRight size={16} />
@@ -288,9 +285,9 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({
 
           {/* Contact Information Section */}
           <div className="mb-8">
-            <h2 className="text-xl font-bold text-[#9b111e] mb-4 pb-2 border-b border-gray-200">Contact Information</h2>
+            <h2 className="text-xl !font-bold text-[#9b111e] mb-4 pb-2 border-b border-gray-200" style={{...FONTS.cardSubHeader}}>Contact Information</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <div className="space-y-5">
+              <div className="space-y-5" >
                 <InfoItem
                   icon={<BsBuildings className="text-[#9b111e]" />}
                   label="Company Name"
@@ -344,7 +341,7 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({
 
           {/* Login Information Section */}
           <div className="mb-8">
-            <h2 className="text-xl font-bold text-[#9b111e] mb-4 pb-2 border-b border-gray-200">Login Information</h2>
+            <h2 className="text-xl !font-bold text-[#9b111e] mb-4 pb-2 border-b border-gray-200" style={{...FONTS.cardSubHeader}}>Login Information</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               <InfoItem icon={<FaUserCircle className="text-[#9b111e]" />} label="Username" value={editUsername} />
               <InfoItem
@@ -359,12 +356,14 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({
           {/* Action Buttons */}
           <div className="flex flex-col sm:flex-row justify-end gap-4 mt-8 pt-6 border-t border-gray-200">
             <button
+              style={{...FONTS.paragraph}}
               onClick={() => setShowEditForm(true)}
-              className="flex items-center justify-center gap-2 bg-[#9b111e] text-white px-6 py-2 rounded-lg font-medium hover:bg-[#800000] transition-colors"
+              className="flex items-center justify-center gap-2 bg-[#9b111e] !text-white px-6 py-2 rounded-lg font-medium hover:bg-[#800000] transition-colors"
             >
               <FaEdit /> Edit Profile
             </button>
             <button
+              style={{...FONTS.paragraph}}
               onClick={() => setShowDeleteConfirm(true)}
               className="flex items-center justify-center gap-2 bg-white text-red-600 border border-red-600 px-6 py-2 rounded-lg font-medium hover:bg-red-50 transition-colors"
             >

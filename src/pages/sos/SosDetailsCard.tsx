@@ -158,7 +158,7 @@ const SosDetails: React.FC = () => {
         <Link to="/sos" className="mr-4 text-[#9b111e] hover:text-red-800">
           <FaArrowLeft className="text-3xl" />
         </Link>
-        <h1 className="text-[#9b111e] text-5xl !font-bold" style={{...FONTS.header}}>SOS Details</h1>
+        <h1 className="text-[#9b111e] text-5xl font-bold" style={{...FONTS.header}}>SOS Details</h1>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="bg-white rounded-xl shadow-md overflow-hidden flex justify-center items-center">
