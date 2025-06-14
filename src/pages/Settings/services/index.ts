@@ -11,7 +11,7 @@ export const getProfile=async () => {
 
 export const updateProfile=async (data:any) => {
     try {
-        const response:any = await new Client().admin.profile.put('',data)
+        const response:any = await new Client().admin.profile.put(data)
         return response
     } catch (error) {
         console.log(error)

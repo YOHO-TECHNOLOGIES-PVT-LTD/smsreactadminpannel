@@ -19,13 +19,18 @@ admin={
     putpereferenceCreateOrUpdate:(data:string,params:string)=>httpClient.update(API_END_POINTS.notification.putpreferenceCreateOrUpdate,params,data),
     getpreferenceGet:(data:string)=>httpClient.get(API_END_POINTS.notification.getPreferenceGet,data,),
     update:(data:string,params:string)=>httpClient.update(API_END_POINTS.notification.update,params,data),
+
 },
 
    sos:{
     post:(data:any,)=>httpClient.post(API_END_POINTS.sos.Post,data),
-    put:(data:any,params:string)=>httpClient.update(API_END_POINTS.sos.Put,data,params),
-    get:(params:string)=>httpClient.get(API_END_POINTS.sos.Get,params,),
-    getAll:()=>httpClient.get(API_END_POINTS.sos.GetAll,'')
+    put:(data:any,params:string)=>httpClient.update(API_END_POINTS.sos.Put+params,data,''),
+    get:(params:string)=>httpClient.get(API_END_POINTS.sos.Get.replace(':id',params),),
+    getAll:()=>httpClient.get(API_END_POINTS.sos.GetAll,''),
+    updatelist:(data:string,params:string)=>httpClient.update(API_END_POINTS.sos.put,data,params),
+    getsosList:()=>httpClient.get(API_END_POINTS.sos.getsoslis),
+    statuslist:(params:string,data:any)=>httpClient.update(API_END_POINTS.sos.updatelist.replace(':id',params),data),
+    delete:(id:string)=>httpClient.delete(API_END_POINTS.sos.delete+id)
    },
 
    Announcement:{
@@ -50,7 +55,7 @@ auth:{
 
 profile:{
     get:(params:string)=>httpClient.get(API_END_POINTS.profile.Get,params),
-    put:(params:string,data:string)=>httpClient.update(API_END_POINTS.profile.Put,params,data),
+    put:(data:string)=>httpClient.update(API_END_POINTS.profile.Put,data),
     post:(data:string)=>httpClient.post(API_END_POINTS.profile.Post,data,),
     postlogin:(data:any)=>httpClient.post(API_END_POINTS.profile.Postlogin,data)
 },
@@ -78,6 +83,14 @@ enquiry:{
     getTransaction:(params:string)=>httpClient.get(API_END_POINTS.dashboard.GetTransaction,params),
     getCustomerDetails:(params:string)=>httpClient.get(API_END_POINTS.dashboard.GetCustomerDetails,params),
  },
+
+ servicecenter:{
+  getAll:(data:string)=>httpClient.get(API_END_POINTS.serviceCenter.getAll,data),
+  getAllCat:(params:string)=>httpClient.get(API_END_POINTS.serviceCenter.getAllCat.replace(':uuid',params)),
+  postPartner:(data:any)=>httpClient.post(API_END_POINTS.serviceCenter.postPartner,data),
+  update:(data:any,params:string)=>httpClient.update(API_END_POINTS.serviceCenter.updatePatner.replace(':id',params),data,''),
+  delete:()=>httpClient.delete(API_END_POINTS.serviceCenter.delete)
+ }
 
 
 }
