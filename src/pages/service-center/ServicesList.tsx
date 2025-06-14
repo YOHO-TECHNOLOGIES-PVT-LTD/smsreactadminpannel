@@ -540,7 +540,7 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({ onSpareParts, hand
     ))}
 </div>
         {/* Sidebar Footer */}
-        <div className="p-4 border-t border-gray-200">
+        {/* <div className="p-4 border-t border-gray-200">
           <button
             onClick={onSpareParts}
             className="w-full flex items-center justify-center space-x-2 px-4 py-2 bg-gray-900 text-white rounded-lg hover:bg-gray-800 transition-colors"
@@ -548,7 +548,7 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({ onSpareParts, hand
             <Settings className="w-4 h-4" />
             <span>Spare Parts</span>
           </button>
-        </div>
+        </div> */}
       </div>
 
       {/* Main Content */}

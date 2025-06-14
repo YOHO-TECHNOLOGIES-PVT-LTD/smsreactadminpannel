@@ -11,7 +11,6 @@ import { BiSolidCertification } from "react-icons/bi"
 import { RiLockPasswordLine } from "react-icons/ri"
 import { LuPhoneCall } from "react-icons/lu"
 import { CheckCircle, AlertCircle } from "lucide-react"
-import Client from "../../api"
 
 // Mock FONTS constant
 const FONTS = {
@@ -21,105 +20,56 @@ const FONTS = {
 }
 
 // Mock Client class
-// class Client {
-//   admin = {
-//     servicecenter: {
-//       delete: async () => {
-//         // Mock API call
-//         return new Promise((resolve) => setTimeout(resolve, 1000))
-//       },
-//       update: async () => {
-//         // Mock API call
-//         return new Promise((resolve) => setTimeout(() => resolve({ success: true }), 1000))
-//       },
-//     },
-//   }
-// }
+class Client {
+  admin = {
+    servicecenter: {
+      delete: async () => {
+        // Mock API call
+        return new Promise((resolve) => setTimeout(resolve, 1000))
+      },
+      update: async (data: any, id: string) => {
+        // Mock API call
+        return new Promise((resolve) => setTimeout(() => resolve({ success: true }), 1000))
+      },
+    },
+  }
+}
 
 type ServiceCenterProfileProps = {
   onServices: () => void
   handleBack: () => void
   setpartnerId: (id: string) => void
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  partner:any
+  partner: any
 }
 
-const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({
-  onServices,
-  handleBack,
-  partner,
-  setpartnerId,
-}) => {
-  const [isActive, setIsActive] = useState(true)
-  const [showConfirm, setShowConfirm] = useState(false)
-  const [pendingStatus, setPendingStatus] = useState<boolean | null>(null)
-  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
-  const [showEditForm, setShowEditForm] = useState(false)
-  const [showSuccessPopup, setShowSuccessPopup] = useState(false)
-  const [showNoChangesPopup, setShowNoChangesPopup] = useState(false)
-  const [showDeleteSuccessPopup, setShowDeleteSuccessPopup] = useState(false)
+const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({ onServices, handleBack ,partner, setpartnerId}) => {
+    const [isActive, setIsActive] = useState(true);
+    const [showConfirm, setShowConfirm] = useState(false);
+    const [pendingStatus, setPendingStatus] = useState<boolean | null>(null);
+    const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+    const [showEditForm, setShowEditForm] = useState(false);
+    const [showSuccessPopup, setShowSuccessPopup] = useState(false);
+    const [showDeleteSuccessPopup, setShowDeleteSuccessPopup] = useState(false);
+    const [showNoChangesPopup, setShowNoChangesPopup] = useState(false);
 
-  // Original values for comparison
-  const [originalValues, setOriginalValues] = useState({
-    editCompanyName: partner?.companyName || "yes mechanic",
-    editEstablished: "2005",
-    editBranches: "35",
-    editEvCertified: "Yes",
-    editPhone: partner?.contact_info?.phoneNumber || "",
-    editEmail: partner?.email || "",
-    editWebsite: "www.autonova.com",
-    editAddress:
-      `${partner?.contact_info?.address1 || ""} ${partner?.contact_info?.address2 || ""} ${partner?.contact_info?.city || ""} ${partner?.contact_info?.state || ""}`.trim(),
-    editDataEncrypted: "Yes",
-    editVerifiedCenter: "✔️",
-    editLastAudit: "Jan 2025",
-    editCertification: "ISO 27001",
-    editUsername: "autonova_admin",
-    editLoginEmail: partner?.email || "",
-    editPassword: "abc@123456",
-  })
+    // Contact Info State
+    const [editCompanyName, setEditCompanyName] = useState(partner?.companyName || "yes mechanic");
+    const [editEstablished, setEditEstablished] = useState("2005");
+    const [editBranches, setEditBranches] = useState("35");
+    const [editEvCertified, setEditEvCertified] = useState("Yes");
+    const [editPhone, setEditPhone] = useState(partner?.contact_info?.phoneNumber);
+    const [editEmail, setEditEmail] = useState(partner?.email);
+    const [editWebsite, setEditWebsite] = useState("www.autonova.com");
+    const [editAddress, setEditAddress] = useState(partner?.contact_info?.address1 +' '+ partner?.contact_info?.address2+' '+partner?.contact_info?.city + ' '+ partner?.contact_info?.state);
+    const [editDataEncrypted, setEditDataEncrypted] = useState("Yes");
+    const [editVerifiedCenter, setEditVerifiedCenter] = useState("✔️");
+    const [editLastAudit, setEditLastAudit] = useState("Jan 2025");
+    const [editCertification, setEditCertification] = useState("ISO 27001");
 
-  // Current edit values
-  const [editCompanyName, setEditCompanyName] = useState(originalValues.editCompanyName)
-  const [editEstablished, setEditEstablished] = useState(originalValues.editEstablished)
-  const [editBranches, setEditBranches] = useState(originalValues.editBranches)
-  const [editEvCertified, setEditEvCertified] = useState(originalValues.editEvCertified)
-  const [editPhone, setEditPhone] = useState(originalValues.editPhone)
-  const [editEmail, setEditEmail] = useState(originalValues.editEmail)
-  const [editWebsite, setEditWebsite] = useState(originalValues.editWebsite)
-  const [editAddress, setEditAddress] = useState(originalValues.editAddress)
-  const [editDataEncrypted, setEditDataEncrypted] = useState(originalValues.editDataEncrypted)
-  const [editVerifiedCenter, setEditVerifiedCenter] = useState(originalValues.editVerifiedCenter)
-  const [editLastAudit, setEditLastAudit] = useState(originalValues.editLastAudit)
-  const [editCertification, setEditCertification] = useState(originalValues.editCertification)
-  const [editUsername, setEditUsername] = useState(originalValues.editUsername)
-  const [editLoginEmail, setEditLoginEmail] = useState(originalValues.editLoginEmail)
-  const [editPassword, setEditPassword] = useState(originalValues.editPassword)
-
-  // Function to check if any values have changed
-  const hasChanges = () => {
-    const currentValues = {
-      editCompanyName,
-      editEstablished,
-      editBranches,
-      editEvCertified,
-      editPhone,
-      editEmail,
-      editWebsite,
-      editAddress,
-      editDataEncrypted,
-      editVerifiedCenter,
-      editLastAudit,
-      editCertification,
-      editUsername,
-      editLoginEmail,
-      editPassword,
-    }
-
-    return Object.keys(originalValues).some(
-      (key) => originalValues[key as keyof typeof originalValues] !== currentValues[key as keyof typeof currentValues],
-    )
-  }
+    // Login Info State
+    const [editUsername, setEditUsername] = useState("autonova_admin");
+    const [editLoginEmail, setEditLoginEmail] = useState(partner?.email);
+    const [editPassword, setEditPassword] = useState("abc@123456");
 
   const handleToggle = () => {
     setPendingStatus(!isActive)
@@ -138,63 +88,51 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({
     setShowConfirm(false)
   }
 
-  const confirmDelete = async () => {
-    setShowDeleteConfirm(false)
-    try {
-      await new Client().admin.servicecenter.delete()
-      console.log("Service Center Deleted")
-      setShowDeleteSuccessPopup(true)
-      handleBack()
-    } catch (error) {
-      console.error("Error deleting service center:", error)
-    }
-  }
+    const confirmDelete = async () => {
+        setShowDeleteConfirm(false);
+        try {
+            await new Client().admin.servicecenter.delete(); 
+            console.log("Service Center Deleted");
+            setShowDeleteSuccessPopup(true);
+            handleBack(); 
+        } catch (error) {
+            console.error("Error deleting service center:", error);
+            
+        }
+    };
 
-  const cancelDelete = () => {
-    setShowDeleteConfirm(false)
-  }
+    const cancelDelete = () => {
+        setShowDeleteConfirm(false);
+    };
 
-  const handleEditSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-
-    // Check if there are any changes
-    if (!hasChanges()) {
-      setShowEditForm(false)
-      setShowNoChangesPopup(true)
-      return
-    }
-
-    const data = {
-      editCompanyName,
-      editEstablished,
-      editBranches,
-      editEvCertified,
-      editPhone,
-      editEmail,
-      editWebsite,
-      editAddress,
-      editDataEncrypted,
-      editVerifiedCenter,
-      editLastAudit,
-      editCertification,
-      editUsername,
-      editLoginEmail,
-      editPassword,
-    }
-
-    try {
-      const response = await new Client().admin.servicecenter.update(data, partner._id)
-      console.log(response)
-
-      // Update original values after successful save
-      setOriginalValues(data)
-
-      setShowEditForm(false)
-      setShowSuccessPopup(true)
-    } catch (error) {
-      console.log("profile update", error)
-    }
-  }
+    const handleEditSubmit = async(e: React.FormEvent) => {
+        e.preventDefault();
+        const data:any = {
+            editCompanyName,
+            editEstablished,
+            editBranches,
+            editEvCertified,
+            editPhone,
+            editEmail,
+            editWebsite,
+            editAddress,
+            editDataEncrypted,
+            editVerifiedCenter,
+            editLastAudit,
+            editCertification,
+            editUsername,
+            editLoginEmail,
+            editPassword
+        }
+        try {
+            const response:any = await new Client().admin.servicecenter.update(data,partner._id)
+            console.log(response)
+        } catch (error) {
+            console.log("profile update", error)
+        }
+        setShowEditForm(false);
+        setShowSuccessPopup(true);
+    };
 
   useEffect(() => {
     if (showSuccessPopup) {
@@ -217,44 +155,51 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({
     }
   }, [showDeleteSuccessPopup])
 
-  function onChangeCat(id: string) {
-    setpartnerId(id)
-    onServices()
-  }
+    function onChangeCat(id:string){
+        setpartnerId(id)
+        onServices()
+    }
+    function saveChanges(){
+       
+    }
 
-  return (
-    <div className="min-h-screen p-6" style={{ fontFamily: FONTS.paragraph.fontSize }}>
-      {/* Header Section */}
-      <div className="flex items-center justify-between mb-6">
-        <button
-          onClick={handleBack}
-          className="flex items-center gap-2 text-[#9b111e] hover:text-[#800000] transition-colors"
-        >
-          <MdOutlineKeyboardBackspace className="text-2xl" />
-          <span className="font-medium">Back</span>
-        </button>
-        <h2 className="text-3xl font-bold text-[#9b111e]">Service Center Profile</h2>
-        <div className="w-10"></div>
-      </div>
-
-      {/* Profile Card */}
-      <div className="bg-white rounded-xl shadow-md overflow-hidden mb-8">
-        {/* Profile Header */}
-        <div className="flex flex-col md:flex-row items-center justify-between p-6 bg-gradient-to-r from-[#9b111e] to-[#d23c3c]">
-          <div className="flex items-center gap-4 mb-4 md:mb-0">
-            <div className="bg-white p-2 rounded-full">
-              <img src="https://logodix.com/logo/2004138.jpg" alt="Logo" className="w-16 h-16 object-contain" />
+    return (
+        <div className="min-h-screen p-6" style={{ fontFamily: FONTS.paragraph.fontSize }}>
+            {/* Header Section */}
+            <div className="flex items-center justify-between mb-6">
+                <button 
+                    onClick={handleBack} 
+                    className="flex items-center gap-2 text-[#9b111e] hover:text-[#800000] transition-colors"
+                >
+                    <MdOutlineKeyboardBackspace className="text-2xl" />
+                    <span className="font-medium">Back</span>
+                </button>
+                <h2 className="text-3xl font-bold text-[#9b111e]">Service Center Profile</h2>
+                <div className="w-10"></div> {/* Spacer for alignment */}
             </div>
-            <h3 className="text-2xl font-bold text-white">{partner?.firstName + " " + partner?.lastName}</h3>
-          </div>
-          <button
-            onClick={() => onChangeCat(partner._id)}
-            className="flex items-center gap-2 bg-white text-[#9b111e] px-5 py-2 rounded-lg font-medium hover:bg-gray-100 transition-colors shadow-sm"
-          >
-            <span>View Services</span>
-            <FaArrowRight size={16} />
-          </button>
-        </div>
+
+            {/* Profile Card */}
+            <div className="bg-white rounded-xl shadow-md overflow-hidden mb-8">
+                {/* Profile Header */}
+                <div className="flex flex-col md:flex-row items-center justify-between p-6 bg-gradient-to-r from-[#9b111e] to-[#d23c3c]">
+                    <div className="flex items-center gap-4 mb-4 md:mb-0">
+                        <div className="bg-white p-2 rounded-full">
+                            <img 
+                                src="https://logodix.com/logo/2004138.jpg" 
+                                alt="Logo" 
+                                className="w-16 h-16 object-contain" 
+                            />
+                        </div>
+                        <h3 className="text-2xl font-bold text-white">{partner?.firstName + ' '+ partner?.lastName}</h3>
+                    </div>
+                    <button
+                        onClick={()=>onChangeCat(partner._id)}
+                        className="flex items-center gap-2 bg-white text-[#9b111e] px-5 py-2 rounded-lg font-medium hover:bg-gray-100 transition-colors shadow-sm"
+                    >
+                        <span>View Services</span>
+                        <FaArrowRight size={16} />
+                    </button>
+                </div>
 
         <div className="p-6">
           {/* Status Bar */}
@@ -413,144 +358,144 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({
               </button>
             </div>
 
-            <div className="p-6 grid grid-cols-1 md:grid-cols-2 gap-8">
-              {/* Contact Information Section */}
-              <div className="space-y-6">
-                <div className="bg-[#f9f9f9] p-4 rounded-lg">
-                  <h3 className="text-lg font-semibold text-[#9b111e] mb-4 flex items-center gap-2">
-                    <BsBuildings className="text-[#9b111e]" />
-                    Contact Information
-                  </h3>
-                  <div className="space-y-4">
-                    <EnhancedEditField
-                      icon={<BsBuildings className="text-[#9b111e]" />}
-                      label="Company Name"
-                      value={editCompanyName}
-                      onChange={setEditCompanyName}
-                    />
-                    <EnhancedEditField
-                      icon={<SlCalender className="text-[#9b111e]" />}
-                      label="Established"
-                      value={editEstablished}
-                      onChange={setEditEstablished}
-                    />
-                    <EnhancedEditField
-                      icon={<FaCodeBranch className="text-[#9b111e]" />}
-                      label="Branches"
-                      value={editBranches}
-                      onChange={setEditBranches}
-                    />
-                    <EnhancedEditField
-                      icon={<AiFillSafetyCertificate className="text-[#9b111e]" />}
-                      label="EV Certified"
-                      value={editEvCertified}
-                      onChange={setEditEvCertified}
-                    />
-                    <EnhancedEditField
-                      icon={<LuPhoneCall className="text-[#9b111e]" />}
-                      label="Phone"
-                      value={editPhone}
-                      onChange={setEditPhone}
-                    />
-                    <EnhancedEditField
-                      icon={<MdEmail className="text-[#9b111e]" />}
-                      label="Email"
-                      value={editEmail}
-                      onChange={setEditEmail}
-                    />
-                  </div>
-                </div>
-              </div>
+                        <div className="p-6 grid grid-cols-1 md:grid-cols-2 gap-8">
+                            {/* Contact Information Section */}
+                            <div className="space-y-6">
+                                <div className="bg-[#f9f9f9] p-4 rounded-lg">
+                                    <h3 className="text-lg font-semibold text-[#9b111e] mb-4 flex items-center gap-2">
+                                        <BsBuildings className="text-[#9b111e]" />
+                                        Contact Information
+                                    </h3>
+                                    <div className="space-y-4">
+                                        <EnhancedEditField 
+                                            icon={<BsBuildings className="text-[#9b111e]" />}
+                                            label="Company Name" 
+                                            value={editCompanyName} 
+                                            onChange={setEditCompanyName} 
+                                        />
+                                        <EnhancedEditField 
+                                            icon={<SlCalender className="text-[#9b111e]" />}
+                                            label="Established" 
+                                            value={editEstablished} 
+                                            onChange={setEditEstablished} 
+                                        />
+                                        <EnhancedEditField 
+                                            icon={<FaCodeBranch className="text-[#9b111e]" />}
+                                            label="Branches" 
+                                            value={editBranches} 
+                                            onChange={setEditBranches} 
+                                        />
+                                        <EnhancedEditField 
+                                            icon={<AiFillSafetyCertificate className="text-[#9b111e]" />}
+                                            label="EV Certified" 
+                                            value={editEvCertified} 
+                                            onChange={setEditEvCertified} 
+                                        />
+                                        <EnhancedEditField 
+                                            icon={<LuPhoneCall className="text-[#9b111e]" />}
+                                            label="Phone" 
+                                            value={editPhone} 
+                                            onChange={setEditPhone} 
+                                        />
+                                        <EnhancedEditField 
+                                            icon={<MdEmail className="text-[#9b111e]" />}
+                                            label="Email" 
+                                            value={editEmail} 
+                                            onChange={setEditEmail} 
+                                        />
+                                    </div>
+                                </div>
+                            </div>
 
-              {/* Second Column */}
-              <div className="space-y-6">
-                <div className="bg-[#f9f9f9] p-4 rounded-lg">
-                  <h3 className="text-lg font-semibold text-[#9b111e] mb-4 flex items-center gap-2">
-                    <CgWebsite className="text-[#9b111e]" />
-                    Website & Address
-                  </h3>
-                  <div className="space-y-4">
-                    <EnhancedEditField
-                      icon={<CgWebsite className="text-[#9b111e]" />}
-                      label="Website"
-                      value={editWebsite}
-                      onChange={setEditWebsite}
-                    />
-                    <EnhancedEditField
-                      icon={<FaRegAddressCard className="text-[#9b111e]" />}
-                      label="Address"
-                      value={editAddress}
-                      onChange={setEditAddress}
-                      textarea
-                    />
-                  </div>
-                </div>
+                            {/* Second Column */}
+                            <div className="space-y-6">
+                                <div className="bg-[#f9f9f9] p-4 rounded-lg">
+                                    <h3 className="text-lg font-semibold text-[#9b111e] mb-4 flex items-center gap-2">
+                                        <CgWebsite className="text-[#9b111e]" />
+                                        Website & Address
+                                    </h3>
+                                    <div className="space-y-4">
+                                        <EnhancedEditField 
+                                            icon={<CgWebsite className="text-[#9b111e]" />}
+                                            label="Website" 
+                                            value={editWebsite} 
+                                            onChange={setEditWebsite} 
+                                        />
+                                        <EnhancedEditField 
+                                            icon={<FaRegAddressCard className="text-[#9b111e]" />}
+                                            label="Address" 
+                                            value={editAddress} 
+                                            onChange={setEditAddress} 
+                                            textarea
+                                        />
+                                    </div>
+                                </div>
 
-                <div className="bg-[#f9f9f9] p-4 rounded-lg">
-                  <h3 className="text-lg font-semibold text-[#9b111e] mb-4 flex items-center gap-2">
-                    <RiLockPasswordLine className="text-[#9b111e]" />
-                    Login Information
-                  </h3>
-                  <div className="space-y-4">
-                    <EnhancedEditField
-                      icon={<FaUserCircle className="text-[#9b111e]" />}
-                      label="Username"
-                      value={editUsername}
-                      onChange={setEditUsername}
-                    />
-                    <EnhancedEditField
-                      icon={<MdOutlineMailOutline className="text-[#9b111e]" />}
-                      label="Login Email"
-                      value={editLoginEmail}
-                      onChange={setEditLoginEmail}
-                    />
-                    <EnhancedEditField
-                      icon={<RiLockPasswordLine className="text-[#9b111e]" />}
-                      label="Password"
-                      value={editPassword}
-                      onChange={setEditPassword}
-                      type="password"
-                    />
-                  </div>
-                </div>
-              </div>
+                                <div className="bg-[#f9f9f9] p-4 rounded-lg">
+                                    <h3 className="text-lg font-semibold text-[#9b111e] mb-4 flex items-center gap-2">
+                                        <RiLockPasswordLine className="text-[#9b111e]" />
+                                        Login Information
+                                    </h3>
+                                    <div className="space-y-4">
+                                        <EnhancedEditField 
+                                            icon={<FaUserCircle className="text-[#9b111e]" />}
+                                            label="Username" 
+                                            value={editUsername} 
+                                            onChange={setEditUsername} 
+                                        />
+                                        <EnhancedEditField 
+                                            icon={<MdOutlineMailOutline className="text-[#9b111e]" />}
+                                            label="Login Email" 
+                                            value={editLoginEmail} 
+                                            onChange={setEditLoginEmail} 
+                                        />
+                                        <EnhancedEditField 
+                                            icon={<RiLockPasswordLine className="text-[#9b111e]" />}
+                                            label="Password" 
+                                            value={editPassword} 
+                                            onChange={setEditPassword} 
+                                            type="password"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
 
-              {/* Third Column */}
-              <div className="md:col-span-2">
-                <div className="bg-[#f9f9f9] p-4 rounded-lg">
-                  <h3 className="text-lg font-semibold text-[#9b111e] mb-4 flex items-center gap-2">
-                    <BiSolidCertification className="text-[#9b111e]" />
-                    Additional Information
-                  </h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <EnhancedEditField
-                      icon={<FcDataEncryption className="text-[#9b111e]" />}
-                      label="Data Encrypted"
-                      value={editDataEncrypted}
-                      onChange={setEditDataEncrypted}
-                    />
-                    <EnhancedEditField
-                      icon={<MdVerified className="text-[#9b111e]" />}
-                      label="Verified Center"
-                      value={editVerifiedCenter}
-                      onChange={setEditVerifiedCenter}
-                    />
-                    <EnhancedEditField
-                      icon={<AiOutlineAudit className="text-[#9b111e]" />}
-                      label="Last Audit"
-                      value={editLastAudit}
-                      onChange={setEditLastAudit}
-                    />
-                    <EnhancedEditField
-                      icon={<BiSolidCertification className="text-[#9b111e]" />}
-                      label="Certification"
-                      value={editCertification}
-                      onChange={setEditCertification}
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
+                            {/* Third Column */}
+                            <div className="md:col-span-2">
+                                <div className="bg-[#f9f9f9] p-4 rounded-lg">
+                                    <h3 className="text-lg font-semibold text-[#9b111e] mb-4 flex items-center gap-2">
+                                        <BiSolidCertification className="text-[#9b111e]" />
+                                        Additional Information
+                                    </h3>
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                        <EnhancedEditField 
+                                            icon={<FcDataEncryption className="text-[#9b111e]" />}
+                                            label="Data Encrypted" 
+                                            value={editDataEncrypted} 
+                                            onChange={setEditDataEncrypted} 
+                                        />
+                                        <EnhancedEditField 
+                                            icon={<MdVerified className="text-[#9b111e]" />}
+                                            label="Verified Center" 
+                                            value={editVerifiedCenter} 
+                                            onChange={setEditVerifiedCenter} 
+                                        />
+                                        <EnhancedEditField 
+                                            icon={<AiOutlineAudit className="text-[#9b111e]" />}
+                                            label="Last Audit" 
+                                            value={editLastAudit} 
+                                            onChange={setEditLastAudit} 
+                                        />
+                                        <EnhancedEditField 
+                                            icon={<BiSolidCertification className="text-[#9b111e]" />}
+                                            label="Certification" 
+                                            value={editCertification} 
+                                            onChange={setEditCertification} 
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
             <div className="sticky bottom-0 bg-white p-4 border-t border-gray-200 flex justify-end gap-3">
               <button
@@ -571,31 +516,27 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({
         </div>
       )}
 
-      {/* Success Popup - Green Background */}
-      {showSuccessPopup && (
-        <SuccessPopup
-          message="Profile updated successfully!"
-          icon={<CheckCircle className="h-6 w-6" />}
-          type="success"
-        />
-      )}
+            {/* Success Popups */}
+            {showSuccessPopup && (
+                <Popup 
+                    message="Profile updated successfully!" 
+                    icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>}
+                />
+            )}
 
-      {/* No Changes Popup - Orange/Yellow Background */}
-      {showNoChangesPopup && (
-        <SuccessPopup message="No changes detected!" icon={<AlertCircle className="h-6 w-6" />} type="warning" />
-      )}
-
-      {/* Delete Success Popup */}
-      {showDeleteSuccessPopup && (
-        <SuccessPopup
-          message="Service center deleted successfully!"
-          icon={<CheckCircle className="h-6 w-6" />}
-          type="success"
-        />
-      )}
-    </div>
-  )
-}
+            {showDeleteSuccessPopup && (
+                <Popup 
+                    message="Service center deleted successfully!" 
+                    icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>}
+                />
+            )}
+        </div>
+    );
+};
 
 const InfoItem = ({
   icon,
