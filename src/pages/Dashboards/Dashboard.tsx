@@ -142,22 +142,25 @@ const [active,setactive]=useState<any[]>([])
               title="Schedule Request"
               value={20}
               per={10}
+              
               perColor="#facc15"
               borderColor="rgba(234,179,8,0.8)"
               backgroundColor="#facc15"
               dataPoints={[1, 3, 2, 5, 4, 6, 5]}
+              
             />
 
-            <DashboardCard
-              icon={<GrTransaction />}
-              title="Total Transactions"
-              value={22}
-              per={15}
-              perColor="#10b981"
-              borderColor="rgba(16,185,129,0.8)"
-              backgroundColor="#10b981"
-              dataPoints={[1, 5, 2, 4, 3, 5, 6]}
-            />
+              <DashboardCard
+      icon={<RiCalendarScheduleFill />}
+      title="Schedule Request"
+      value={20}
+      per={10}
+      perColor="#facc15"
+      borderColor="rgba(234,179,8,0.8)"
+      backgroundColor="#facc15"
+      dataPoints={[1, 3, 2, 5, 4, 6, 5]}
+      // onClick={() => navigate("/request-queue/schedule")}
+    />
 
             <DashboardCard
               icon={<MdOutlinePendingActions />}

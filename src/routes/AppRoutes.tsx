@@ -20,7 +20,9 @@ import PartnerRegForm from "../pages/service-center/PartnerRegForm";
 import ScheduleRequestPage from "../pages/Request-Queue/ScheduleRequestPage";
 
 const AppRoutes = () => {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, isLoading } = useAuth();
+
+  if (isLoading) return null;
 
   const AuthRoutes = () => (
     <Routes>
