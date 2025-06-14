@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { FONTS } from '../../../constants/uiConstants';
 
 const AnnouncementList = () => {
   const [announcements, setAnnouncements] = useState([
@@ -53,9 +54,9 @@ const AnnouncementList = () => {
       <div className="flex justify-between items-center px-6 mt-4 mb-6">
  
   <button
-    className="flex items-center gap-2 font-bold px-4 py-2 rounded-lg text-white transition duration-200 active:scale-105 hover:bg-[#a00000]"
+    className="flex items-center gap-2 font-bold px-4 py-2 rounded-lg !text-white transition duration-200 active:scale-105 hover:bg-[#a00000]"
     style={{
-      background: 'linear-gradient(44.99deg,#700808 11%,#d23c3c 102.34%)',
+      background: 'linear-gradient(44.99deg,#700808 11%,#d23c3c 102.34%)', ...FONTS.paragraph
     }}
     onClick={() => setShowModal(true)}
   >
@@ -78,8 +79,8 @@ const AnnouncementList = () => {
                 className="w-full h-40 object-cover rounded-t-lg"
               />
               <div className="p-4 flex-1 flex flex-col justify-between">
-                <h3 className="text-base font-semibold">{item.title}</h3>
-                <p className="text-[#9b111e] font-bold mt-2">{item.price}</p>
+                <h3 className="font-semibold !text-gray-900" style={{...FONTS.cardSubHeader}}>{item.title}</h3>
+                <p className="text-[#9b111e] !font-bold mt-2" style={{...FONTS.cardSubHeader}}>{item.price}</p>
               </div>
             </div>
           ))}

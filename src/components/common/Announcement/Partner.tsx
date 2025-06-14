@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { CheckCircle } from 'lucide-react';
+import { FONTS } from '../../../constants/uiConstants';
 
 const Partner = () => {
   const [partners, setPartners] = useState([
@@ -83,8 +84,8 @@ const Partner = () => {
           />
           <div className="p-4 flex-1 flex flex-col justify-between">
             <div>
-              <h3 className="text-base font-semibold">{item.title}</h3>
-              <p className="text-[#9b111e] font-bold mt-2">{item.price}</p>
+              <h3 className="text-base font-semibold !text-gray-900" style={{...FONTS.cardSubHeader}}>{item.title}</h3>
+              <p className="text-[#9b111e] !font-bold mt-2" style={{...FONTS.cardSubHeader}}>{item.price}</p>
             </div>
             <div className="mt-4 text-right">
               <button
@@ -119,7 +120,7 @@ const Partner = () => {
             >
               &times;
             </button>
-            <h2 className="text-xl font-bold mb-4 text-[#9b111e]">Add New Partner</h2>
+            <h2 className="text-xl font-bold mb-4 text-[#9b111e]"> Add New Partner</h2>
             <form onSubmit={handleSubmit} className="space-y-4">
               <input
                 type="text"

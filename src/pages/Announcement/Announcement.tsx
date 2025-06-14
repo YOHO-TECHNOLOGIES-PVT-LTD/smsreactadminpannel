@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Offer from '../../components/common/Announcement/Offer';
 import AnnouncementList from '../../components/common/Announcement/AnnouncementList';
 import Partner from '../../components/common/Announcement/Partner';
+import { FONTS } from '../../constants/uiConstants';
 
 type PartnerData = {
   title: string;
@@ -63,7 +64,7 @@ const Announcement = () => {
 
   return (
     <div className="min-h-screen bg-[#FFF4EC] p-6">
-      <div className="flex space-x-4 mb-6">
+      <div className="flex space-x-4 mb-6" style={{...FONTS.cardSubHeader}}>
         {['offer', 'announcement', 'partner'].map((tab) => (
           <button
             key={tab}
@@ -79,14 +80,14 @@ const Announcement = () => {
         ))}
       </div>
 
-      <h1 className="text-2xl font-bold text-[#9b111e] mb-2">
+      <h1 className="text-2xl !font-bold text-[#9b111e] mb-2" style={{...FONTS.cardheader}}>
         {activeTab === 'offer'
           ? 'Special Offers'
           : activeTab === 'announcement'
           ? 'Latest Announcements'
           : 'Our Partners'}
       </h1>
-      <p className="text-gray-600 mb-6">
+      <p className="!text-gray-600 mb-6" style={{...FONTS.paragraph}}>
         {activeTab === 'offer'
           ? 'Experience the Art of Automotive Renewal'
           : activeTab === 'announcement'

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { FONTS } from '../../../constants/uiConstants';
 
 const Offer = () => {
   const [offers, setOffers] = useState([
@@ -49,9 +50,9 @@ const Offer = () => {
 return (
   <div className="relative px-6 mt-4">
     <button
-      className="flex items-center gap-2 font-bold px-4 py-2 rounded-lg text-white transition duration-200 active:scale-105 hover:bg-[#a00000]"
+      className="flex items-center gap-2 font-bold px-4 py-2 rounded-lg !text-white transition duration-200 active:scale-105 hover:bg-[#a00000]"
       style={{
-        background: 'linear-gradient(44.99deg,#700808 11%,#d23c3c 102.34%)',
+        background: 'linear-gradient(44.99deg,#700808 11%,#d23c3c 102.34%)', ...FONTS.paragraph
       }}
       onClick={() => setShowModal(true)}
     >
@@ -73,8 +74,8 @@ return (
               className="w-full h-40 object-cover rounded-t-lg"
             />
             <div className="p-4 flex-1 flex flex-col justify-between">
-              <h3 className="text-base font-semibold">{item.title}</h3>
-              <p className="text-[#9b111e] font-bold mt-2">Start from {item.price}</p>
+              <h3 className="text-base !text-gray-900 font-semibold" style={{...FONTS.paragraph}}>{item.title}</h3>
+              <p className="text-[#9b111e] !font-bold mt-2" style={{...FONTS.cardSubHeader}}>Start from {item.price}</p>
             </div>
           </div>
         ))}
