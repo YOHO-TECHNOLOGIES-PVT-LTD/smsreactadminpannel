@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type React from "react"
 import { useState, useRef, useEffect } from "react"
-import { ArrowLeft, Search, Plus, X, Edit3, Trash2, Settings } from "lucide-react"
+import { ArrowLeft, Search, Plus, X, Edit3, Trash2 } from "lucide-react"
 import Client from "../../api"
 
 
@@ -43,7 +43,7 @@ type ServiceCenterServicesProps = {
   Services: Category[] // Your actual data
 }
 
-const ServicesList: React.FC<ServiceCenterServicesProps> = ({ onSpareParts, handleBack, partnerId }) => {
+const ServicesList: React.FC<ServiceCenterServicesProps> = ({ handleBack, partnerId }) => {
   const [searchTerm, setSearchTerm] = useState("")
   const [showAddForm, setShowAddForm] = useState(false)
   const [showAddCategoryForm, setShowAddCategoryForm] = useState(false)

@@ -91,7 +91,7 @@ const VehicleDetailCard: FC<Props> = ({ vehicle, onViewDetails }) => {
       {/* Title */}
       <h3
         className="text-xl font-extrabold mb-1"
-        style={{ color: "#9b111e", ...FONTS.paragraph, fontWeight: 550 }}
+        style={{ ...FONTS.paragraph, fontWeight: 550 }}
       >
         {registrationNumber} - {title}
       </h3>
@@ -116,7 +116,6 @@ const VehicleDetailCard: FC<Props> = ({ vehicle, onViewDetails }) => {
         <span
           className="flex items-center"
           style={{
-            color: "#9b111e",
             opacity: 0.7,
             ...FONTS.paragraph,
             fontSize: "12px",
