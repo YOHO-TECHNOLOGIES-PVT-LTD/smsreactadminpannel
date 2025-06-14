@@ -23,9 +23,9 @@ console.log('Error fetching data:',error);
 //     }
 // }
 
-export const update = async( data:string,params:string)=>{
+export const update = async( data:string)=>{
     try{
-        const response= await new Client().admin.profile.put(data,params)
+        const response= await new Client().admin.profile.put(data)
         return response;
     }
     catch (error){

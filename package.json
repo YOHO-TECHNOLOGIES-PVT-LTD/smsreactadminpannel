@@ -30,6 +30,7 @@
 		"faker": "^6.6.6",
 		"flowbite": "^3.1.2",
 		"flowbite-react": "^0.11.7",
+		"formik": "^2.4.6",
 		"framer-motion": "^12.12.1",
 		"leaflet": "^1.9.4",
 		"lucide-react": "^0.511.0",
@@ -46,8 +47,10 @@
 		"react-toastify": "^11.0.5",
 		"recharts": "^2.15.3",
 		"rollup": "^3.29.4",
+		"socket.io-client": "^4.8.1",
 		"tailwind-scrollbar-hide": "^2.0.0",
-		"vanilla-calendar-pro": "^3.0.4"
+		"vanilla-calendar-pro": "^3.0.4",
+		"yup": "^1.6.1"
 	},
 	"devDependencies": {
 		"@eslint/js": "^9.25.0",
@@ -61,6 +64,7 @@
 		"@types/react": "^19.1.4",
 		"@types/react-dom": "^19.1.5",
 		"@types/react-router-dom": "^5.3.3",
+		"@types/socket.io": "^3.0.1",
 		"@vitejs/plugin-react": "^4.4.1",
 		"@vitejs/plugin-react-swc": "^3.9.0",
 		"autoprefixer": "^10.4.21",

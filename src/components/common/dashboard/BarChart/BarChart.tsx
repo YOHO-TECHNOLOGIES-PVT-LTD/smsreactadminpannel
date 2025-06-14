@@ -6,26 +6,41 @@ import {
   BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer,
 } from 'recharts';
 import { ChevronDown } from 'lucide-react';
+import { GetCustomerDetailsDashboard } from '../../../../pages/Dashboards/services/index';
 
 //for data
-const data = [
-  { day: 'Mon', newCustomers: 50, returnCustomers: 80 },
-  { day: 'Tue', newCustomers: 35 },
-  { day: 'Wed', newCustomers: 25 },
-  { day: 'Thu', newCustomers: 40 },
-  { day: 'Fri', newCustomers: 12 },
-  { day: 'Sat', newCustomers: 32 },
-  { day: 'Sun', newCustomers: 24 },
-];
+// const data = [
+//   { day: 'Mon', newCustomers: 50, returnCustomers: 80 },
+//   { day: 'Tue', newCustomers: 35 },
+//   { day: 'Wed', newCustomers: 25 },
+//   { day: 'Thu', newCustomers: 40 },
+//   { day: 'Fri', newCustomers: 12 },
+//   { day: 'Sat', newCustomers: 32 },
+//   { day: 'Sun', newCustomers: 24 },
+// ];
 
 //for drop down
-const dateRanges = ['Weekly', 'Monthly', 'Yearly'];
+const dateRanges = ['weekly', 'monthly', 'yearly'];
 
 const BarCharts: React.FC = () => {
-  const [selectedRange, setSelectedRange] = useState('Weekly'); // Set default value and will be used
+  const [selectedRange, setSelectedRange] = useState('weekly'); // Set default value and will be used
   const [isOpen, setIsOpen] = useState(false);
-
+  const [customerData, setCustomerData]= useState<any[]>([]);
   const dropdownRef = useRef<HTMLDivElement>(null)
+
+  useEffect(()=>{
+    const fetchcustomerData = async ()=>{
+      try{
+        const response:any=await GetCustomerDetailsDashboard({ period :selectedRange });
+        setCustomerData(response?.data?.data || []);
+       
+        console.log("📊 Real Customer Data:", response);
+      }catch (error){
+        console.error("Error fetching customer data :",error)
+      }
+    }
+       fetchcustomerData();
+  }, [selectedRange]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -37,23 +52,35 @@ const BarCharts: React.FC = () => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  // Function to get filtered data based on selected range (you can customize this logic)
-  const getFilteredData = () => {
-    // Add your filtering logic here based on selectedRange
-    // For now, returning the same data, but you can modify this based on your needs
-    switch (selectedRange) {
-      case 'Weekly':
-        return data;
-      case 'Monthly':
-        // You can return monthly data here
-        return data;
-      case 'Yearly':
-        // You can return yearly data here
-        return data;
-      default:
-        return data;
+ // Inside BarCharts component
+const getFilteredData = () => {
+  if (!customerData || Object.keys(customerData).length === 0) {
+    return [{ day: "No Data", newCustomers: 0, returnCustomers: 0 }];
+  }
+
+  return Object.entries(customerData).map(([key, value]) => {
+    let day = key;
+
+    // Format the label nicely for display
+    if (selectedRange === 'weekly') {
+      day = key.slice(0, 3).toUpperCase(); // mon -> MON
+    } else if (selectedRange === 'monthly') {
+      day = key.charAt(0).toUpperCase() + key.slice(1); // jan -> Jan
+    } else if (selectedRange === 'yearly') {
+      day = key.replace(/week/i, 'Week '); // week1 -> Week 1
     }
-  };
+
+    return {
+      day,
+      newCustomers: value,
+      //returnCustomers: 0, // Assuming returnCustomers is also in the same object
+
+    };
+  });
+};
+
+
+
 
   return (
     <div className="bg-white w-full  ">
@@ -84,20 +111,20 @@ const BarCharts: React.FC = () => {
           </button>
           {isOpen && (
             <div className="absolute right-0 mt-2 bg-white border rounded-md shadow-lg z-10 min-w-[100px]">
-              {dateRanges.map((range) => (
+              {dateRanges.map((period) => (
                 <button
-                  key={range}
+                  key={period}
                   onClick={() => {
-                    setSelectedRange(range);
+                    setSelectedRange(period);
                     setIsOpen(false);
                   }}
                   className={`block w-full text-left px-4 py-2 text-sm hover:bg-gray-50 ${
-                    selectedRange === range 
-                      ? 'text-[#9b111e] bg-gray-50 font-medium' 
+                    selectedRange === period
+                      ? 'text-[#9b111e] bg-gray-50 font-medium'
                       : 'text-gray-700'
                   }`}
                 >
-                  {range}
+                  {period}
                 </button>
               ))}
             </div>
@@ -113,7 +140,7 @@ const BarCharts: React.FC = () => {
             <YAxis />
             <Tooltip />
             <Bar dataKey="newCustomers" fill="#eca9f0" barSize={10} radius={[0, 0, 0, 0]} />
-            <Bar dataKey="returnCustomers" fill="#aac3c4" barSize={10} radius={[0, 0, 0, 0]} />
+           {/* <Bar dataKey="returnCustomers" fill="#aac3c4" barSize={10} radius={[0, 0, 0, 0]} /> */}
           </BarChart>
         </ResponsiveContainer>
       </div>
