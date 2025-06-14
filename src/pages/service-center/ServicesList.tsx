@@ -3,6 +3,7 @@ import { useState, useRef, useEffect } from "react"
 import { ArrowLeft, Search, Plus, X, Edit3, Trash2, Settings } from "lucide-react"
 import Client from "../../api"
 
+
 interface Service {
   _id: string
   service_name: string
@@ -130,6 +131,29 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({ onSpareParts, hand
 
     return services
   }
+
+  const handleDeleteCategory = async (categoryId: string) => {
+    try {
+      // Confirm deletion
+      if (!confirm("Are you sure you want to delete this category?")) {
+        return;
+      }
+
+      // Make API call to delete the category
+      await new Client().admin.category.delete(categoryId);
+
+      // Update local state
+      setCategories(categories.filter(cat => cat._id !== categoryId));
+      
+      // If the deleted category was selected, reset to "all"
+      if (selectedCategory === categoryId) {
+        setSelectedCategory("all");
+      }
+    } catch (error) {
+      console.error("Error deleting category:", error);
+      alert("Failed to delete category. Please try again.");
+    }
+  };
 
   const handleAddCategory = async() => {
     try {
@@ -453,57 +477,67 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({ onSpareParts, hand
         </div>
 
         {/* Categories */}
-        <div className="flex-1 p-4 space-y-2">
-          <div className="mb-4">
-            <h3 className="text-sm font-semibold text-gray-700 mb-2">CATEGORIES</h3>
-          </div>
+       <div className="flex-1 p-4 space-y-2">
+  <div className="mb-4">
+    <h3 className="text-sm font-semibold text-gray-700 mb-2">CATEGORIES</h3>
+  </div>
 
-          <button
-            onClick={() => setSelectedCategory("all")}
-            className={`w-full flex items-center space-x-3 px-3 py-2 rounded-lg transition-colors ${
-              selectedCategory === "all"
-                ? "bg-[#800000]/10 text-[#800000]"
-                : "text-gray-700 hover:bg-[#800000]/10 hover:text-[#800000]"
-            }`}
-          >
-            <div className="flex-1 text-left">
-              <div className="font-medium">All Services</div>
-              <div className="text-xs text-gray-500">{getAllServices().length} services</div>
+  <button
+    onClick={() => setSelectedCategory("all")}
+    className={`w-full flex items-center space-x-3 px-3 py-2 rounded-lg transition-colors ${
+      selectedCategory === "all"
+        ? "bg-[#800000]/10 text-[#800000]"
+        : "text-gray-700 hover:bg-[#800000]/10 hover:text-[#800000]"
+    }`}
+  >
+    <div className="flex-1 text-left">
+      <div className="font-medium">All Services</div>
+      <div className="text-xs text-gray-500">{getAllServices().length} services</div>
+    </div>
+  </button>
+
+  {categories
+    .filter((cat) => cat.is_active && !cat.is_deleted)
+    .map((category) => (
+      <div key={category._id} className="group">
+        <button
+          onClick={() => setSelectedCategory(category._id)}
+          className={`w-full flex items-center space-x-3 px-3 py-2 rounded-lg transition-colors ${
+            selectedCategory === category._id
+              ? "bg-[#800000]/10 text-[#800000]"
+              : "text-gray-700 hover:bg-[#800000]/10 hover:text-[#800000]"
+          }`}
+        >
+          <div className="flex-1 text-left">
+            <div className="font-medium">{category.category_name}</div>
+            <div className="text-xs text-gray-500">
+              {category.services?.filter((s) => s && !s.is_deleted).length || 0} services
             </div>
-          </button>
-
-          {categories
-            .filter((cat) => cat.is_active && !cat.is_deleted)
-            .map((category) => (
-              <div key={category._id} className="group">
-                <button
-                  onClick={() => setSelectedCategory(category._id)}
-                  className={`w-full flex items-center space-x-3 px-3 py-2 rounded-lg transition-colors ${
-                    selectedCategory === category._id
-                      ? "bg-[#800000]/10 text-[#800000]"
-                      : "text-gray-700 hover:bg-[#800000]/10 hover:text-[#800000]"
-                  }`}
-                >
-                  <div className="flex-1 text-left">
-                    <div className="font-medium">{category.category_name}</div>
-                    <div className="text-xs text-gray-500">
-                      {category.services?.filter((s) => s && !s.is_deleted).length || 0} services
-                    </div>
-                  </div>
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation()
-                      handleEditCategory(category)
-                    }}
-                    className="opacity-0 group-hover:opacity-100 p-1 hover:bg-gray-200 rounded transition-all"
-                  >
-                    <Edit3 className="w-3 h-3" />
-                  </button>
-                </button>
-              </div>
-            ))}
-        </div>
-
+          </div>
+          <div className="flex space-x-1">
+            <button
+              onClick={(e) => {
+                e.stopPropagation()
+                handleEditCategory(category)
+              }}
+              className="opacity-0 group-hover:opacity-100 p-1 hover:bg-gray-200 rounded transition-all"
+            >
+              <Edit3 className="w-3 h-3" />
+            </button>
+            <button
+              onClick={(e) => {
+                e.stopPropagation()
+                handleDeleteCategory(category._id)
+              }}
+              className="opacity-0 group-hover:opacity-100 p-1 hover:bg-gray-200 rounded transition-all text-red-500"
+            >
+              <Trash2 className="w-3 h-3" />
+            </button>
+          </div>
+        </button>
+      </div>
+    ))}
+</div>
         {/* Sidebar Footer */}
         <div className="p-4 border-t border-gray-200">
           <button
