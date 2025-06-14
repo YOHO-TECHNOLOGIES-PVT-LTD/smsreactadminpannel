@@ -52,7 +52,7 @@ const VehicleDetailCard: FC<Props> = ({ vehicle, onViewDetails }) => {
         borderColor: "#E6A895",
         boxShadow:
           "0 8px 20px rgba(155, 17, 30, 0.15), 0 4px 8px rgba(230, 168, 149, 0.2)",
-        ...FONTS.header,
+        // ...FONTS.header,
         transition: "box-shadow 0.3s ease",
         overflow: "hidden",
       }}
@@ -91,13 +91,13 @@ const VehicleDetailCard: FC<Props> = ({ vehicle, onViewDetails }) => {
       {/* Title */}
       <h3
         className="text-xl font-extrabold mb-1"
-        style={{ ...FONTS.paragraph, fontWeight: 550 }}
+        style={{ ...FONTS.cardheader }}
       >
         {registrationNumber} - {title}
       </h3>
 
       {/* Specs */}
-      <p className="text-sm text-[#9b111e] opacity-75 mb-2 tracking-wide">
+      <p className="text-sm text-[#9b111e] opacity-75 mb-2 tracking-wide" style={{...FONTS.cardSubHeader}}>
         {kms} <span className="mx-2">•</span> {fuel}{" "}
         <span className="mx-2">•</span> {transmission}
       </p>
@@ -109,16 +109,15 @@ const VehicleDetailCard: FC<Props> = ({ vehicle, onViewDetails }) => {
       >
         <button
           onClick={() => onViewDetails(vehicle)}
-          className="bg-[#9b111e] text-white text-xs font-semibold py-2 px-3 rounded-full transition-all duration-300 shadow-md flex items-center gap-2 hover:bg-opacity-90"
+          className="!bg-[#9b111e] !text-white  font-semibold py-2 px-3 rounded-full transition-all duration-300 shadow-md flex items-center gap-2 hover:!bg-opacity-90"
+          style={{...FONTS.subParagraph}}
         >
           <FaEye className="text-sm" /> View Details
         </button>
         <span
           className="flex items-center"
           style={{
-            opacity: 0.7,
-            ...FONTS.paragraph,
-            fontSize: "12px",
+            ...FONTS.subParagraph,
           }}
         >
           <FaMapMarkerAlt className="mr-1" /> {location}

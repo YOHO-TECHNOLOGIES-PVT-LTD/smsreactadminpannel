@@ -15,6 +15,13 @@ export const FONTS = {
     fontSize: "32px",
     color: "#9b111e"
   },
+  //Sub-header for model header
+  subHeader: {
+    fontFamily: "'Koh Santepheap', sans-serif", 
+    fontWeight: 400,
+    fontSize: "28px",
+    color: "#9b111e"
+  },
   //Card heading 
   cardheader: {
     fontFamily: "'Koh Santepheap', sans-serif", 

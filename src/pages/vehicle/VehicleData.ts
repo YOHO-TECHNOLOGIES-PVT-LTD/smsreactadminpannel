@@ -19,6 +19,11 @@ export type Vehicle = {
     partnerPhone: string;
     partnerAddress: string;
   };
+  partnerDetails: {
+    partnerName: string;
+    partnerPhone: string;
+    partnerAddress: string;
+  };
   customerDetails: {
     fullName: string;
   };
