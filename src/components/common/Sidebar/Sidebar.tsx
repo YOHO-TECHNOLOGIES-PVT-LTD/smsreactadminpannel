@@ -11,8 +11,9 @@ import {
   FiAlertTriangle,
 } from "react-icons/fi";
 import Logo from "../../../assets/LOGO.jpg";
-import { RiMenu2Line,RiMenu3Line} from "react-icons/ri";
+import { RiCalendarScheduleFill, RiCalendarScheduleLine, RiMenu2Line,RiMenu3Line} from "react-icons/ri";
 import { Megaphone } from "lucide-react";
+import { MdHelpOutline } from 'react-icons/md';
 
 
 const COLOR = {
@@ -23,7 +24,6 @@ const COLOR = {
 
 export const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(true);
-  // const uselocation = useLocation();
 
   const handleLinkClick = () => {
     setIsOpen(false);
@@ -87,6 +87,14 @@ export const Sidebar = () => {
             onClick={handleLinkClick}
           />
           <SidebarLink
+            to="/request-queue/schedule"
+            icon={<RiCalendarScheduleLine />  }
+            label="Schedule Request"
+            isOpen={isOpen}
+            onClick={handleLinkClick}
+            />
+
+          <SidebarLink
             to="/city"
             icon={<FiMapPin />}
             label="City"
@@ -108,6 +116,13 @@ export const Sidebar = () => {
             onClick={handleLinkClick}
           />
           <SidebarLink
+            to="/queries"
+            icon={< MdHelpOutline/>}
+            label="Queries"
+            isOpen={isOpen}
+            onClick={handleLinkClick}
+          />
+          <SidebarLink
             to="/settings"
             icon={<FiSettings />}
             label="Settings"
@@ -120,6 +135,7 @@ export const Sidebar = () => {
             label="SOS"
             isOpen={isOpen}
             onClick={handleLinkClick}
+            
           />
         </nav>
       </div>

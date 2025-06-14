@@ -109,7 +109,7 @@ export const Navbar: React.FC = () => {
   const handleSosClick = () => {
     navigate("/sos");
   };
-
+  
   const toggleDropdown = () => {
     setIsDropdownOpen((prev) => !prev);
   };

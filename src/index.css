@@ -88,6 +88,13 @@ html{
 }
 
 
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none; 
+}
+
 .material-symbols-outlined {
     font-variation-settings:
       'FILL' 0,

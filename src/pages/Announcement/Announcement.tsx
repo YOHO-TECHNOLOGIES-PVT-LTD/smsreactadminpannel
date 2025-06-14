@@ -64,7 +64,7 @@ export const Announcement = () => {
         return (
           <Offer
             showModal={false}
-            closeModal={() => {}}
+            closeModal={() => { }}
           />
         );
       case 'announcement':
@@ -85,11 +85,10 @@ export const Announcement = () => {
             <button
               key={tab}
               onClick={() => setActiveTab(tab as 'offer' | 'announcement' | 'partner')}
-              className={`px-4 py-2 rounded-full font-semibold transition ${
-                activeTab === tab
+              className={`px-4 py-2 rounded-full font-semibold transition ${activeTab === tab
                   ? 'bg-[#9b111e] text-white'
                   : 'bg-white text-[#9b111e] border border-[#9b111e]'
-              }`}
+                }`}
             >
               {tab.charAt(0).toUpperCase() + tab.slice(1)}
             </button>
@@ -109,15 +108,15 @@ export const Announcement = () => {
         {activeTab === 'offer'
           ? 'Special Offers'
           : activeTab === 'announcement'
-          ? 'Latest Announcements'
-          : 'Our Partners'}
+            ? 'Latest Announcements'
+            : 'Our Partners'}
       </h1>
       <p className="text-gray-600 mb-6">
         {activeTab === 'offer'
           ? 'Experience the Art of Automotive Renewal'
           : activeTab === 'announcement'
-          ? 'Stay up to date with our latest news'
-          : 'Meet our trusted collaborators'}
+            ? 'Stay up to date with our latest news'
+            : 'Meet our trusted collaborators'}
       </p>
 
       <div className="grid md:grid-cols-3 gap-4">{renderComponent()}</div>
