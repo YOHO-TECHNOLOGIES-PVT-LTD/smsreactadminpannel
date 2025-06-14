@@ -19,7 +19,6 @@ const CompactServiceCard: React.FC<{ request: any }> = ({ request }) => {
   return (
     <>
       <div className="bg-white rounded-lg shadow-md border border-gray-200 p-4 hover:shadow-lg transition-all duration-200 hover:-translate-y-0.5">
-        
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center space-x-3">
             <div className="w-10 h-10 bg-[#9b111e] rounded-lg flex items-center justify-center text-white font-bold text-base">
@@ -40,7 +39,7 @@ const CompactServiceCard: React.FC<{ request: any }> = ({ request }) => {
           </div>
         </div>
 
-    
+        
         <div className="grid grid-cols-2 gap-3 mb-3">
           <div>
             <div className="flex items-center mb-2">
@@ -75,7 +74,7 @@ const CompactServiceCard: React.FC<{ request: any }> = ({ request }) => {
           </div>
         </div>
 
-        {/* Services */}
+
         <div className="mb-3">
           <div className="flex items-center mb-2">
             <svg className="w-4 h-4 text-[#9b111e] mr-2" fill="currentColor" viewBox="0 0 20 20">
@@ -103,7 +102,7 @@ const CompactServiceCard: React.FC<{ request: any }> = ({ request }) => {
           </div>
         </div>
 
-    
+
         <div className="flex justify-end">
           <button
             onClick={() => setIsModalOpen(true)}
@@ -114,92 +113,81 @@ const CompactServiceCard: React.FC<{ request: any }> = ({ request }) => {
         </div>
       </div>
 
-    
-     {isModalOpen && (
-  <div className="fixed inset-0 z-50 flex">
-    
-    <div
-      className="absolute inset-0 bg-black bg-opacity-40"
-      onClick={() => setIsModalOpen(false)}
-    />
+      {isModalOpen && (
+        <div className="fixed inset-0 z-50 flex">
+          <div className="absolute inset-0 bg-black bg-opacity-40" onClick={() => setIsModalOpen(false)} />
+          <div className="ml-auto w-1/2 h-full bg-[#fef3f2] shadow-xl z-50 p-6 overflow-y-auto animate-slide-in relative rounded-l-xl border-l-4 border-[#9b111e]">
+            <button
+              onClick={() => setIsModalOpen(false)}
+              className="absolute top-4 right-6 text-gray-600 text-xl font-bold hover:text-gray-800"
+            >
+              &times;
+            </button>
 
-    
-    <div className="ml-auto w-1/2 h-full bg-[#fef3f2] shadow-xl z-50 p-6 overflow-y-auto animate-slide-in relative rounded-l-xl border-l-4 border-[#9b111e]">
+            <h2 className="text-2xl font-bold text-[#9b111e] mb-6">Assign Partner</h2>
 
+            <div className="bg-white shadow-md rounded-xl p-5 grid grid-cols-2 gap-4 mb-6 border">
+              <div>
+                <p className="text-sm text-gray-500 font-medium">Customer:</p>
+                <p className="font-semibold text-gray-800">{request.user.name}</p>
+              </div>
+              <div>
+                <p className="text-sm text-gray-500 font-medium">Mobile:</p>
+                <p className="font-semibold text-gray-800">{request.user.phone}</p>
+              </div>
+              <div>
+                <p className="text-sm text-gray-500 font-medium">Car No:</p>
+                <p className="font-semibold text-gray-800">{request.car.number}</p>
+              </div>
+              <div>
+                <p className="text-sm text-gray-500 font-medium">Vehicle:</p>
+                <p className="font-semibold text-gray-800">{request.car.model}</p>
+              </div>
+              <div>
+                <p className="text-sm text-gray-500 font-medium">Issues:</p>
+                <ul className="list-disc list-inside text-sm text-gray-800 space-y-1">
+                  {request.services.map((service: string, index: number) => (
+                    <li key={index} className="font-medium">{service}</li>
+                  ))}
+                </ul>
+              </div>
+              <div>
+                <p className="text-sm text-gray-500 font-medium">Address:</p>
+                <p className="font-semibold text-gray-800">{request.user.address}</p>
+              </div>
+            </div>
 
-      <button
-        onClick={() => setIsModalOpen(false)}
-        className="absolute top-4 right-6 text-gray-600 text-xl font-bold hover:text-gray-800"
-      >
-        &times;
-      </button>
+            <div className="mb-6">
+              <label className="block text-sm font-medium text-gray-700 mb-1">Select Partner:</label>
+              <select
+                value={selectedPartner}
+                onChange={(e) => setSelectedPartner(e.target.value)}
+                className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm"
+              >
+                <option value="">-- Choose a partner --</option>
+                <option value="Furious Services co">Furious Services co</option>
+                <option value="Donald spares & services">Donald spares & services</option>
+                <option value="kar spa services">kar spa services</option>
+              </select>
+            </div>
 
-      
-      <h2 className="text-2xl font-bold text-[#9b111e] mb-6">Assign Partner</h2>
-
-    
-      <div className="bg-white shadow-md rounded-xl p-5 grid grid-cols-2 gap-4 mb-6 border">
-        <div>
-          <p className="text-sm text-gray-500 font-medium">Customer:</p>
-          <p className="font-semibold text-gray-800">{request.user.name}</p>
+            <div className="flex justify-end gap-3">
+              <button
+                onClick={() => setIsModalOpen(false)}
+                className="bg-gray-200 text-gray-700 px-4 py-2 rounded-md font-medium hover:bg-gray-300"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleAssign}
+                disabled={!selectedPartner}
+                className="bg-[#9b111e] text-white px-4 py-2 rounded-md font-medium hover:bg-[#7e0e19] disabled:opacity-50"
+              >
+                Assign Partner
+              </button>
+            </div>
+          </div>
         </div>
-        <div>
-          <p className="text-sm text-gray-500 font-medium">Mobile:</p>
-          <p className="font-semibold text-gray-800">{request.user.phone}</p>
-        </div>
-
-        <div>
-          <p className="text-sm text-gray-500 font-medium">Car No:</p>
-          <p className="font-semibold text-gray-800">{request.car.number}</p>
-        </div>
-        <div>
-          <p className="text-sm text-gray-500 font-medium">Vehicle:</p>
-          <p className="font-semibold text-gray-800">{request.car.model}</p>
-        </div>
-
-        <div>
-          <p className="text-sm text-gray-500 font-medium">Issue:</p>
-          <p className="font-semibold text-gray-800">{request.services[0]}</p>
-        </div>
-        <div>
-          <p className="text-sm text-gray-500 font-medium">Address:</p>
-          <p className="font-semibold text-gray-800">{request.user.address}</p>
-        </div>
-      </div>
-
-         <div className="mb-6">
-        <label className="block text-sm font-medium text-gray-700 mb-1">Select Partner:</label>
-        <select
-          value={selectedPartner}
-          onChange={(e) => setSelectedPartner(e.target.value)}
-          className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm"
-        >
-          <option value="">-- Choose a partner --</option>
-          <option value="Furious Services co">Furious Services co</option>
-          <option value="Donald spares & services">Donald spares & services</option>
-          <option value="kar spa services">kar spa services</option>
-        </select>
-      </div>
-
-
-      <div className="flex justify-end gap-3">
-        <button
-          onClick={() => setIsModalOpen(false)}
-          className="bg-gray-200 text-gray-700 px-4 py-2 rounded-md font-medium hover:bg-gray-300"
-        >
-          Cancel
-        </button>
-        <button
-          onClick={handleAssign}
-          disabled={!selectedPartner}
-          className="bg-[#9b111e] text-white px-4 py-2 rounded-md font-medium hover:bg-[#7e0e19] disabled:opacity-50"
-        >
-          Assign Partner
-        </button>
-      </div>
-    </div>
-  </div>
-
       )}
     </>
   );
