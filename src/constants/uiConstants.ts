@@ -9,7 +9,7 @@ export const COLORS = {
 
 export const FONTS = {
     header: {
-        fontFamily: "Poppins", 
+        fontFamily: "'Koh Santepheap', sans-serif", 
         fontWeight: 400,
         fontSize: '32px'
     },
