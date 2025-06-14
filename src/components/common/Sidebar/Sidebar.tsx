@@ -11,9 +11,10 @@ import {
   FiAlertTriangle,
 } from "react-icons/fi";
 import Logo from "../../../assets/LOGO.jpg";
-import { RiCalendarScheduleFill, RiCalendarScheduleLine, RiMenu2Line,RiMenu3Line} from "react-icons/ri";
+import { RiCalendarScheduleLine, RiCustomerService2Fill, RiMenu2Line, RiMenu3Line } from "react-icons/ri";
 import { Megaphone } from "lucide-react";
 import { MdHelpOutline } from 'react-icons/md';
+import { BsCart4 } from "react-icons/bs";
 
 
 const COLOR = {
@@ -30,30 +31,29 @@ export const Sidebar = () => {
   };
 
   return (
-    <div className="flex h-screen">
-      <div className="bg-white border-r shadow-md p-2 transition-all duration-300 fixed top-0 left-0 h-screen z-40 flex flex-col items-center">
+    <div className="flex h-screen overflow-auto">
+      <div className="bg-white border-r overflow-auto scrollbar-hide shadow-md p-2 transition-all duration-300 fixed top-0 left-0 h-screen z-40 flex flex-col items-center">
         <div className="flex justify-center items-center h-20">
           <img
             src={Logo}
             alt="YES Mechanic Logo"
-            className={`object-contain transition-all duration-300 ${
-              isOpen ? "w-20 h-20" : "w-10 h-10"
-            }`}
+            className={`object-contain transition-all duration-300 ${isOpen ? "w-20 h-20" : "w-10 h-10"
+              }`}
           />
         </div>
         <div className="w-full flex justify-end px-2 mt-2">
-        
-       <button
-         onClick={() => setIsOpen(!isOpen)}
-         className="text-gray-600 hover:text-black p-2 rounded-md transition duration-200 hover:bg-gray-100"
-         title="Toggle Sidebar"
-       >
-        {isOpen ? (
-          <RiMenu3Line size={20} style={{ color: COLOR.primary }} />
+
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            className="text-gray-600 hover:text-black p-2 rounded-md transition duration-200 hover:bg-gray-100"
+            title="Toggle Sidebar"
+          >
+            {isOpen ? (
+              <RiMenu3Line size={20} style={{ color: COLOR.primary }} />
             ) : (
-          <RiMenu2Line size={20} style={{ color: COLOR.primary }} />
+              <RiMenu2Line size={20} style={{ color: COLOR.primary }} />
             )}
-      </button>
+          </button>
 
         </div>
 
@@ -88,12 +88,25 @@ export const Sidebar = () => {
           />
           <SidebarLink
             to="/request-queue/schedule"
-            icon={<RiCalendarScheduleLine />  }
+            icon={<RiCalendarScheduleLine />}
             label="Schedule Request"
             isOpen={isOpen}
             onClick={handleLinkClick}
-            />
-
+          />
+          <SidebarLink
+            to='/order'
+            icon={<BsCart4 />}
+            label='orders'
+            isOpen={isOpen}
+            onClick={handleLinkClick}
+          />
+          <SidebarLink
+            to='/customer'
+            icon={<RiCustomerService2Fill />}
+            label='Customer'
+            isOpen={isOpen}
+            onClick={handleLinkClick}
+          />
           <SidebarLink
             to="/city"
             icon={<FiMapPin />}
@@ -117,7 +130,7 @@ export const Sidebar = () => {
           />
           <SidebarLink
             to="/queries"
-            icon={< MdHelpOutline/>}
+            icon={< MdHelpOutline />}
             label="Queries"
             isOpen={isOpen}
             onClick={handleLinkClick}
@@ -135,13 +148,13 @@ export const Sidebar = () => {
             label="SOS"
             isOpen={isOpen}
             onClick={handleLinkClick}
-            
           />
+
         </nav>
       </div>
-         <div
-  className={`transition-all duration-300 ${isOpen ? "ml-48" : "ml-16"} flex-1`}
-         >
+      <div
+        className={`transition-all duration-300 ${isOpen ? "ml-48" : "ml-16"} flex-1`}
+      >
       </div>
     </div>
   );
@@ -167,8 +180,8 @@ const SidebarLink = ({
   const backgroundColor = isActive
     ? COLOR.primary
     : isHovered
-    ? COLOR.bgColor
-    : "transparent";
+      ? COLOR.bgColor
+      : "transparent";
 
   const textColor = isActive
     ? COLOR.bgColor
@@ -188,7 +201,7 @@ const SidebarLink = ({
     >
       <div className="text-xl" style={{ color: textColor }}>
         {icon}
-       </div>
+      </div>
       {isOpen && <span style={{ color: textColor }}>{label}</span>}
     </Link>
   );

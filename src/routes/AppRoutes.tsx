@@ -19,6 +19,8 @@ import Queries from "../pages/Queries/Queries";
 import ScheduleRequestPage from "../pages/Request-Queue/ScheduleRequestPage";
 import TermsConditionsSettings from "../pages/Settings/TermsConditionsSettings";
 import PrivacyPolicySettings from "../pages/Settings/PrivacyPolicySettings";
+import Order from "../pages/Orders/order";
+import CustomerManagement from "../pages/Customer Management/CustomerManagement";
 
 
 const AppRoutes = () => {
@@ -55,6 +57,9 @@ const AppRoutes = () => {
         <Route path="/request-queue/schedule" element={<ScheduleRequestPage />} />
         <Route path="/terms-conditions" element={<TermsConditionsSettings />} />
         <Route path="/privacy-policy" element={<PrivacyPolicySettings />} />
+        <Route path='order' element={<Order />} />
+        <Route path='customer' element={<CustomerManagement />} />
+
       </Route>
     </Routes>
   );
