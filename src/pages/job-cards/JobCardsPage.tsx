@@ -62,12 +62,13 @@ export const JobCardsPage: React.FC = () => {
   });
 
 	return (
-		<div className='p-1 md:block bg-white rounded-lg shadow-lg p-8'>
+		<div className='min-h-screen p-1 md:block bg-white  rounded-lg shadow-lg p-8'>
 			<div className='rounded-lg'>
 				<div className='border-b-2 border-[#9b111e] pb-2 mb-4'>
 					<h1
 						style={{ ...FONTS.header, fontWeight: 500 }}
 						className='font-bold text-[#9b111e] '
+            
 					>
 						JOB CARDS
 					</h1>
@@ -83,50 +84,60 @@ export const JobCardsPage: React.FC = () => {
             className="pl-10 pr-4 py-2 w-full border rounded-full shadow focus:ring-2 focus:ring-[#9b111e] focus:outline-none focus:border-transparent"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
+            style={{...FONTS.description}}
           />
         </div>
 
-        <div className="overflow-x-auto">
-          <table className="min-w-full border-collapse rounded-lg overflow-hidden mt-8">
+        <div className="overflow-x-auto ">
+          <table className="min-w-full border-collapse rounded-lg overflow-hidden mt-8 "
+          
+          >
             <thead className="bg-[#e2cac0]">
               <tr>
-                <th className="px-4 py-3 text-left text-sm font-semibold text-[#9b111e] border-b">
-                  <div className="flex items-center gap-2">
+                <th className="px-4 py-3 text-left text-sm font-semibold text-[#9b111e] border-b" style={{...FONTS.tableHeader}}
+                >
+                
+                  <div className="flex items-center gap-2"  >
                     <HiMiniIdentification size={20}/>
                     ID
                   </div>
                 </th>
-                <th className="px-4 py-3 text-left text-sm font-semibold text-[#9b111e] border-b">
+                <th className="px-4 py-3 text-left text-sm font-semibold text-[#9b111e] border-b" style={{...FONTS.tableHeader}}>
                  <div className="flex items-center gap-2">
                   <FaFileInvoice size={20}/>
                   Invoice Date</div> 
                 </th>
-                <th className="px-4 py-3 text-left text-sm font-semibold text-[#9b111e] border-b">
+                <th className="px-4 py-3 text-left text-sm font-semibold text-[#9b111e] border-b" style={{...FONTS.tableHeader}}>
                   <div className="flex items-center gap-2">
                     <MdOutlineDriveFileRenameOutline size={20}/>
                     Name</div>
                 </th>
-                <th className="px-4 py-3 text-left text-sm font-semibold text-[#9b111e] border-b lg:table-cell hidden">
+                <th className="px-4 py-3 text-left text-sm font-semibold text-[#9b111e] border-b lg:table-cell hidden"
+               style= {{...FONTS.tableHeader}}
+                >
                   <div className="flex items-center gap-2">
                     <FaCar size={20}/>
                     Vehicle</div>
                 </th>
-                <th className="px-4 py-3 text-left text-sm font-semibold text-[#9b111e] border-b">
+                <th className="px-4 py-3 text-left text-sm font-semibold text-[#9b111e] border-b"
+                style= {{...FONTS.tableHeader}}
+                >
                   <div className="flex items-center gap-2">
                     <PiListNumbersFill size={20}/>
                     Plate</div>
                 </th>
-                <th className="px-4 py-3 text-left text-sm font-semibold text-[#9b111e] border-b lg:table-cell hidden">
+                <th className="px-4 py-3 text-left text-sm font-semibold text-[#9b111e] border-b lg:table-cell hidden"
+                style= {{...FONTS.tableHeader}}>
                   <div className="flex items-center gap-2">
                     <RiMoneyRupeeCircleLine size={20} />
                     Total</div>
                 </th>
-                <th className="px-4 py-3 text-left text-sm font-semibold text-[#9b111e] border-b">
+                <th className="px-4 py-3 text-left text-sm font-semibold text-[#9b111e] border-b"style= {{...FONTS.tableHeader}}>
                   <div className="flex items-center gap-2">
                     <IoMdStats size={20}/>
                     Job Status</div> 
                 </th>
-                <th className="px-4 py-3 text-left text-sm font-semibold text-[#9b111e] border-b">
+                <th className="px-4 py-3 text-left text-sm font-semibold text-[#9b111e] border-b"style= {{...FONTS.tableHeader}}>
                   <div className="flex items-center gap-2">
                     <GrView size={20}/>
                     View</div>
@@ -138,9 +149,10 @@ export const JobCardsPage: React.FC = () => {
                 filteredInvoices.map((invoice, index) => (
                   <tr
                     key={invoice.uuid}
-                    className={`text-sm text-gray-700 hover:bg-[#edeae9] transition font-semibold ${
+                    className={`text-sm !text-gray-700 hover:bg-[#edeae9] transition font-semibold ${
                       index % 2 == 0 ? "bg-white" : "bg-gray-50"
                     }`}
+                    style={{...FONTS.paragraph}}
                   >
                     <td className="px-4 py-3 border-b">{invoice.uuid}</td>
                     <td className="px-4 py-3 border-b">
@@ -161,15 +173,16 @@ export const JobCardsPage: React.FC = () => {
                             ? "bg-green-100 text-green-700"
                             : invoice.status.toLowerCase() === "not started"?"bg-red-100 text-red-800":"bg-yellow-100 text-yellow-800"
                         }`}
-                      >
+                     style={{...FONTS.subParagraph}} >
                         {invoice.status}
                       </span>
                     </td>
                     <td className="px-4 py-3 border-b font-semibold">
                       <button
                         onClick={() => navigate(`/quotation/${invoice.uuid}`)}
-                        className="bg-gradient-to-r from-red-600 to-red-800 text-white px-3 py-1 active:scale-110 rounded hover:bg-[#a00000] transition"
-                      >
+                        className="bg-gradient-to-r from-red-600 to-red-800 !text-white px-3 py-1 active:scale-110 rounded hover:bg-[#a00000] transition"
+                     style={{...FONTS.cardSubHeader}}
+                     >
                         View
                       </button>
                     </td>

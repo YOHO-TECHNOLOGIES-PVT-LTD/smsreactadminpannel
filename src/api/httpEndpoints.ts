@@ -85,14 +85,40 @@ export const API_END_POINTS ={
 
    serviceCenter:{
      getAll: "/api/admin/servicecenter/getall",
+     getCatevery: "/api/admin/category/getAll/",
      getAllCat: "/api/admin/category/getAll/:uuid",
      postPartner: "/api/partner/auth/register",
      updatePatner: "/api/partner/auth/update/:id",
-     delete:"/api/admin/servicecenter/delete/:id"
-    }
+     delete:"/api/admin/servicecenter/delete/:id",
+    },
+    category:{
+        update:"/api/admin/category/update/:uuid",
+        delete:"/api/admin/category/delete/:uuid",
+        create:"/api/admin/category/create",
+    },
+    service:{
+        create:"/api/admin/service/",
+        getall:'/api/admin/service/',
+        put:'/api/admin/service/:uuid',
+        patch:'/api/admin/service/toggle-status/:uuid',
+        delete:'/api/admin/service/remove/:id',
+    },
 
+    order_history: {
+      create: `/api/partner/order-history/create`,
+      getById: `/api/partner/order-history/get/:id`,
+      getAll: `/api/partner/order-history/getall`,
+      update: `/api/partner/order-history/update/:id`,
+      updateStatus: `/api/partner/order-history/updatestatus/:id`,
+      delete: `/api/partner/order-history/delete/:id`,
+    },
 
-
+    customer_management: {
+      getAll :`/api/partner/customermanage`,
+    },
+    customermanagement_history:{
+      getAll: `/api/partner/CustomerManagement/service-history`
+    },
    
 
 }

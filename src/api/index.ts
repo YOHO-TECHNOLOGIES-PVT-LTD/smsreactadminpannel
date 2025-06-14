@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import httpClient from "./httpClient";
 import { API_END_POINTS } from "./httpEndpoints";
 
@@ -37,6 +38,31 @@ admin={
     post:(data:any)=>httpClient.post(API_END_POINTS.announcement.Post,data),
     get:(data:any,)=>httpClient.get(API_END_POINTS.announcement.Get,data,)
 },
+
+order_history: {
+      create: (data: any) =>
+        httpClient.post(API_END_POINTS.order_history.create, data),
+      getById: (params: string) =>
+        httpClient.get(API_END_POINTS.order_history.getById, params),
+      getAll: (params: string) =>
+        httpClient.get(API_END_POINTS.order_history.getAll, params),
+      update: (data: any, params: string) =>
+        httpClient.update(API_END_POINTS.order_history.update, data, params),
+      updateStatus: (data: any, params: string) =>
+        httpClient.update(
+          API_END_POINTS.order_history.updateStatus,
+          data,
+          params
+        ),
+      delete: () => httpClient.delete(API_END_POINTS.order_history.delete),
+    },
+
+    customer_management:{
+      getallCustomer:(data:any)=>httpClient.get(API_END_POINTS.customer_management.getAll,data),
+    },
+    customermanagement_history:{
+      getallHistory:(data:any)=>httpClient.get(API_END_POINTS.customermanagement_history.getAll,data)
+    },
 
 
 spareparts:{
@@ -89,7 +115,21 @@ enquiry:{
   getAllCat:(params:string)=>httpClient.get(API_END_POINTS.serviceCenter.getAllCat.replace(':uuid',params)),
   postPartner:(data:any)=>httpClient.post(API_END_POINTS.serviceCenter.postPartner,data),
   update:(data:any,params:string)=>httpClient.update(API_END_POINTS.serviceCenter.updatePatner.replace(':id',params),data,''),
-  delete:()=>httpClient.delete(API_END_POINTS.serviceCenter.delete)
+  delete:()=>httpClient.delete(API_END_POINTS.serviceCenter.delete),
+  getCatEvery:()=>httpClient.get(API_END_POINTS.serviceCenter.getCatevery)
+ },
+ category:{
+  create:(data:any)=>httpClient.post(API_END_POINTS.category.create,data),
+  update:(data:any,params:string)=>httpClient.update(API_END_POINTS.category.update.replace(':uuid',params),data),
+  delete:(params:string)=>httpClient.delete(API_END_POINTS.category.delete.replace(':uuid',params)),
+ },
+
+ service:{
+  create:(data:any)=>httpClient.post(API_END_POINTS.service.create,data),
+  update:(data:any,params:string)=>httpClient.update(API_END_POINTS.service.put.replace(':uuid',params),data),
+  get:()=>httpClient.get(API_END_POINTS.service.getall),
+  patch:(params:string)=>httpClient.patch(API_END_POINTS.service.patch.replace(':uuid',params)),
+  delete:(params:string)=>httpClient.delete(API_END_POINTS.service.delete.replace(':id',params))
  }
 
 

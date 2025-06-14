@@ -1,6 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import type React from "react"
 import { useState, useRef, useEffect } from "react"
-import { ArrowLeft, Search, Plus, X, Edit3, Trash2, Settings, Grid, List } from "lucide-react"
+import { ArrowLeft, Search, Plus, X, Edit3, Trash2 } from "lucide-react"
+import Client from "../../api"
+
 
 interface Service {
   _id: string
@@ -40,13 +43,13 @@ type ServiceCenterServicesProps = {
   Services: Category[] // Your actual data
 }
 
-const ServicesList: React.FC<ServiceCenterServicesProps> = ({ onSpareParts, handleBack, partnerId, Services = [] }) => {
+const ServicesList: React.FC<ServiceCenterServicesProps> = ({ handleBack, partnerId }) => {
   const [searchTerm, setSearchTerm] = useState("")
   const [showAddForm, setShowAddForm] = useState(false)
   const [showAddCategoryForm, setShowAddCategoryForm] = useState(false)
   const [activeServiceType, setActiveServiceType] = useState<string>("")
   const [selectedCategory, setSelectedCategory] = useState<string>("all")
-  const [viewMode, setViewMode] = useState<"grid" | "table">("grid")
+  const viewMode= "grid" 
   const [editingService, setEditingService] = useState<Service | null>(null)
   const [editingCategory, setEditingCategory] = useState<Category | null>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
@@ -58,9 +61,9 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({ onSpareParts, hand
   useEffect(() => {
     async function fetchdata() {
       try {
-        console.log(`Fetching data for partner: ${partnerId}`)
-        // Initialize with Services prop data
-        setCategories(Services)
+        const  response:any = await new Client().admin.servicecenter.getCatEvery()
+        console.log(response.data.data)
+        setCategories(response.data.data)
       } catch (error) {
         console.error("Error fetching data:", error)
       }
@@ -130,10 +133,38 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({ onSpareParts, hand
     return services
   }
 
-  const handleAddCategory = () => {
-    setEditingCategory(null)
-    setNewCategory({ category_name: "", is_active: true })
-    setShowAddCategoryForm(true)
+  const handleDeleteCategory = async (categoryId: string) => {
+    try {
+      // Confirm deletion
+      if (!confirm("Are you sure you want to delete this category?")) {
+        return;
+      }
+
+      // Make API call to delete the category
+      await new Client().admin.category.delete(categoryId);
+
+      // Update local state
+      setCategories(categories.filter(cat => cat._id !== categoryId));
+      
+      // If the deleted category was selected, reset to "all"
+      if (selectedCategory === categoryId) {
+        setSelectedCategory("all");
+      }
+    } catch (error) {
+      console.error("Error deleting category:", error);
+      alert("Failed to delete category. Please try again.");
+    }
+  };
+
+  const handleAddCategory = async() => {
+    try {
+     
+      setEditingCategory(null)
+      setNewCategory({ category_name: "", is_active: true })
+      setShowAddCategoryForm(true)
+    } catch (error) {
+      console.log("add category:",error)
+    }
   }
 
   const handleEditCategory = (category: Category) => {
@@ -169,27 +200,41 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({ onSpareParts, hand
 
         if (editingCategory) {
           // Update existing category
-          const updatedCategories = categories.map((cat) =>
-            cat._id === editingCategory._id
-              ? { ...cat, category_name: newCategory.category_name, is_active: newCategory.is_active }
-              : cat,
-          )
-          setCategories(updatedCategories)
+          const updatedCategories = await Promise.all(
+            categories.map(async (cat) => {
+              if (cat._id === editingCategory._id) {
+                const response: any = await new Client().admin.category.update(newCategory, cat.uuid);
+                const { data } = response.data;
+
+                return {
+                  ...cat,
+                  data
+                };
+              } else {
+                return cat;
+              }
+            })
+          );
+
+          setCategories(updatedCategories);
+          
         } else {
           // Create new category
-          const newCategoryItem: Category = {
-            _id: `temp-${Date.now()}`,
+          const newCategoryItem: any = {
+            // _id: `temp-${Date.now()}`,
             id: Date.now(),
             category_name: newCategory.category_name,
             slug: newCategory.category_name.toLowerCase().replace(/\s+/g, "-"),
             is_active: newCategory.is_active,
             is_deleted: false,
-            services: [],
-            uuid: `temp-uuid-${Date.now()}`,
-            createdAt: new Date().toISOString(),
-            updatedAt: new Date().toISOString(),
+            // services: [],
+            // uuid: `temp-uuid-${Date.now()}`,
+            // createdAt: new Date().toISOString(),
+            // updatedAt: new Date().toISOString(),
           }
-          setCategories([...categories, newCategoryItem])
+         const response:any =  await new Client().admin.category.create(newCategoryItem)
+         console.log(response.data.data)
+          setCategories([...categories, response.data.data])
         }
 
         setNewCategory({ category_name: "", is_active: true })
@@ -291,6 +336,8 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({ onSpareParts, hand
       // Here you would make an API call to soft delete the service
       console.log("Deleting service:", serviceId)
 
+      await new Client().admin.service.delete(serviceId)
+
       const updatedCategories = categories.map((category) => ({
         ...category,
         services: category.services.map((service) =>
@@ -312,46 +359,73 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({ onSpareParts, hand
 
         if (editingService) {
           // Update existing service
-          const updatedCategories = categories.map((category) => ({
-            ...category,
-            services: category.services.map((service) =>
-              service._id === editingService._id
-                ? {
-                    ...service,
-                    service_name: newService.service_name,
-                    price: Number.parseFloat(newService.price),
-                    description: newService.description,
-                    duration: newService.duration,
-                    image: newService.image as string,
-                    is_active: newService.is_active,
-                    updated_at: new Date().toISOString(),
+          const editservice:any = {
+            service_name: newService.service_name,
+            price: Number.parseFloat(newService.price),
+            description: newService.description,
+            duration: newService.duration,
+            image: newService.image as string,
+            // is_active: newService.is_active,
+            // updated_at: new Date().toISOString(),
+          }
+          
+          const updatedCategories = await Promise.all(
+            categories.map(async (category) => {
+              const updatedServices = await Promise.all(
+                category.services.map(async (service:any) => {
+                  if (service._id === editingService._id) {
+                    await new Client().admin.service.update(editservice, service.uuid);
+                    const data:any = {
+                      service_name: newService.service_name,
+                      price: Number.parseFloat(newService.price),
+                      description: newService.description,
+                      duration: newService.duration,
+                      image: newService.image as string,
+                      is_active: newService.is_active,
+                      updated_at: new Date().toISOString(),
+                    }
+                    return {
+                      ...service,
+                      data
+                    };
+                  } else {
+                    return service;
                   }
-                : service,
-            ),
-          }))
-          setCategories(updatedCategories)
+                })
+              );
+              console.log(updatedServices)
+              console.log(categories)
+              return {
+                ...category,
+                services: updatedServices,
+              };
+            })
+          );
+
+          setCategories(updatedCategories);
+          
         } else {
           // Create new service
-          const newServiceItem: Service = {
-            _id: `temp-${Date.now()}`,
+          const newServiceItem: any = {
+            // _id: `temp-${Date.now()}`,
             service_name: newService.service_name,
-            slug: newService.service_name.toLowerCase().replace(/\s+/g, "-"),
+            // slug: newService.service_name.toLowerCase().replace(/\s+/g, "-"),
             description: newService.description,
             price: Number.parseFloat(newService.price),
             category_id: selectedCat.uuid,
             partner_id: partnerId,
-            is_active: newService.is_active,
-            is_deleted: false,
-            created_at: new Date().toISOString(),
-            updated_at: new Date().toISOString(),
-            uuid: `temp-service-${Date.now()}`,
-            image: newService.image as string,
+            // is_active: newService.is_active,
+            // is_deleted: false,
+            // created_at: new Date().toISOString(),
+            // updated_at: new Date().toISOString(),
+            // uuid: `temp-service-${Date.now()}`,
+            // image: newService.image as string,
             duration: newService.duration,
           }
-
+          const response:any = await new Client().admin.service.create(newServiceItem)
           const updatedCategories = categories.map((category) =>
             category._id === activeServiceType
-              ? { ...category, services: [...category.services, newServiceItem] }
+              ? { ...category, services: [...category.services, response.data.data] }
               : category,
           )
           setCategories(updatedCategories)
@@ -404,59 +478,69 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({ onSpareParts, hand
         </div>
 
         {/* Categories */}
-        <div className="flex-1 p-4 space-y-2">
-          <div className="mb-4">
-            <h3 className="text-sm font-semibold text-gray-700 mb-2">CATEGORIES</h3>
-          </div>
+       <div className="flex-1 p-4 space-y-2">
+  <div className="mb-4">
+    <h3 className="text-sm font-semibold text-gray-700 mb-2">CATEGORIES</h3>
+  </div>
 
-          <button
-            onClick={() => setSelectedCategory("all")}
-            className={`w-full flex items-center space-x-3 px-3 py-2 rounded-lg transition-colors ${
-              selectedCategory === "all"
-                ? "bg-[#800000]/10 text-[#800000]"
-                : "text-gray-700 hover:bg-[#800000]/10 hover:text-[#800000]"
-            }`}
-          >
-            <div className="flex-1 text-left">
-              <div className="font-medium">All Services</div>
-              <div className="text-xs text-gray-500">{getAllServices().length} services</div>
+  <button
+    onClick={() => setSelectedCategory("all")}
+    className={`w-full flex items-center space-x-3 px-3 py-2 rounded-lg transition-colors ${
+      selectedCategory === "all"
+        ? "bg-[#800000]/10 text-[#800000]"
+        : "text-gray-700 hover:bg-[#800000]/10 hover:text-[#800000]"
+    }`}
+  >
+    <div className="flex-1 text-left">
+      <div className="font-medium">All Services</div>
+      <div className="text-xs text-gray-500">{getAllServices().length} services</div>
+    </div>
+  </button>
+
+  {categories
+    .filter((cat) => cat.is_active && !cat.is_deleted)
+    .map((category) => (
+      <div key={category._id} className="group">
+        <button
+          onClick={() => setSelectedCategory(category._id)}
+          className={`w-full flex items-center space-x-3 px-3 py-2 rounded-lg transition-colors ${
+            selectedCategory === category._id
+              ? "bg-[#800000]/10 text-[#800000]"
+              : "text-gray-700 hover:bg-[#800000]/10 hover:text-[#800000]"
+          }`}
+        >
+          <div className="flex-1 text-left">
+            <div className="font-medium">{category.category_name}</div>
+            <div className="text-xs text-gray-500">
+              {category.services?.filter((s) => s && !s.is_deleted).length || 0} services
             </div>
-          </button>
-
-          {categories
-            .filter((cat) => cat.is_active && !cat.is_deleted)
-            .map((category) => (
-              <div key={category._id} className="group">
-                <button
-                  onClick={() => setSelectedCategory(category._id)}
-                  className={`w-full flex items-center space-x-3 px-3 py-2 rounded-lg transition-colors ${
-                    selectedCategory === category._id
-                      ? "bg-[#800000]/10 text-[#800000]"
-                      : "text-gray-700 hover:bg-[#800000]/10 hover:text-[#800000]"
-                  }`}
-                >
-                  <div className="flex-1 text-left">
-                    <div className="font-medium">{category.category_name}</div>
-                    <div className="text-xs text-gray-500">
-                      {category.services?.filter((s) => s && !s.is_deleted).length || 0} services
-                    </div>
-                  </div>
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation()
-                      handleEditCategory(category)
-                    }}
-                    className="opacity-0 group-hover:opacity-100 p-1 hover:bg-gray-200 rounded transition-all"
-                  >
-                    <Edit3 className="w-3 h-3" />
-                  </button>
-                </button>
-              </div>
-            ))}
-        </div>
-
+          </div>
+          <div className="flex space-x-1">
+            <button
+              onClick={(e) => {
+                e.stopPropagation()
+                handleEditCategory(category)
+              }}
+              className="opacity-0 group-hover:opacity-100 p-1 hover:bg-gray-200 rounded transition-all"
+            >
+              <Edit3 className="w-3 h-3" />
+            </button>
+            <button
+              onClick={(e) => {
+                e.stopPropagation()
+                handleDeleteCategory(category._id)
+              }}
+              className="opacity-0 group-hover:opacity-100 p-1 hover:bg-gray-200 rounded transition-all text-red-500"
+            >
+              <Trash2 className="w-3 h-3" />
+            </button>
+          </div>
+        </button>
+      </div>
+    ))}
+</div>
         {/* Sidebar Footer */}
-        <div className="p-4 border-t border-gray-200">
+        {/* <div className="p-4 border-t border-gray-200">
           <button
             onClick={onSpareParts}
             className="w-full flex items-center justify-center space-x-2 px-4 py-2 bg-gray-900 text-white rounded-lg hover:bg-gray-800 transition-colors"
@@ -464,7 +548,7 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({ onSpareParts, hand
             <Settings className="w-4 h-4" />
             <span>Spare Parts</span>
           </button>
-        </div>
+        </div> */}
       </div>
 
       {/* Main Content */}

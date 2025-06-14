@@ -148,7 +148,7 @@ const handleDeleteService = async(index: number,id:string) => {
 };
 
   return (
-    <div className="flex flex-col lg:flex-row gap-4 p-3 lg:p-4 text-gray-800 h-screen">
+    <div className=" min-h-screen flex flex-col md:flex-row gap-6 p-4 md:p-6 text-gray-800 bg-#FAF3EB">
       {/* SOS Requests */}
       <div className="rounded-lg p-3 lg:w-2/3 bg-white border border-gray-200 flex flex-col shadow-sm h-[calc(100vh-2rem)] lg:h-[calc(90vh-2rem)]">
         <div className="flex justify-between items-center mb-4 flex-shrink-0">
@@ -319,7 +319,7 @@ const handleDeleteService = async(index: number,id:string) => {
             aria-label="Service Name"
           />
 
-          <div className="grid grid-cols-6 gap-2 bg-gray-50 p-2.5 rounded max-h-20 overflow-auto">
+          <div className="grid grid-cols-6 gap-3 bg-gray-100 p-3 rounded h-38 overflow-auto">
             {carIcons.map((item, idx) => (
               <button
                 key={idx}

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FONTS } from "../../constants/uiConstants"; //FONT
 import { COLORS } from "../../constants/uiConstants"; //COLOUR
 //this is for ICONS
@@ -14,6 +15,7 @@ import { BiSolidCarCrash } from "react-icons/bi";
 import { RiCalendarScheduleFill } from "react-icons/ri";
 import { GrTransaction } from "react-icons/gr";
 import { MdOutlinePendingActions } from "react-icons/md";
+import { Link } from "react-router-dom";
 
 
 
@@ -68,20 +70,19 @@ const queries = [
 
 export const Dashboard = () => {
   const navigate = useNavigate();
-const [adminData, setAdminData] = useState<any[]>([]);
-const [active,setactive]=useState<any[]>([])
+  const [adminData, setAdminData] = useState<any[]>([]);
+  const [active, setactive] = useState<any[]>([])
 
- 
   useEffect(() => {
     const fetchAdminData = async () => {
       try {
-         const params = '';
-        const response:any = await new Client().admin.profile.get(params);
-        const data:any = await new Client().admin.dashboard.get(params)
-        setactive (data.data.data)
+        const params = '';
+        const response: any = await new Client().admin.profile.get(params);
+        const data: any = await new Client().admin.dashboard.get(params)
+        setactive(data.data.data)
         setAdminData(response.data);
-        localStorage.setItem('adminuuid',response.data.data.uuid)
-        localStorage.setItem('adminobjectid',response.data.data._id)
+        localStorage.setItem('adminuuid', response.data.data.uuid)
+        localStorage.setItem('adminobjectid', response.data.data._id)
       } catch (error) {
         console.error("Error fetching admin data:", error);
       }
@@ -92,29 +93,35 @@ const [active,setactive]=useState<any[]>([])
 
   console.log(adminData)
 
-    
-   
+
+
   return (
     <div className="w-full px-4 py-6 -mt-6 ">
-      {/* Header */}
-      <div className="rounded-xl shadow-md bg-white pb-4 mb-4 ">
-        <p
+      <p
           className="text-xl font-semibold pl-6 pt-3 "
-          style={{ ...FONTS.header, color: COLORS.primary }}
+          style={{ ...FONTS.header }}
         >
-          Overview of Service Center
+          Dashboard
         </p>
-        <p
+      {/* Header */}
+      <div className="rounded-xl shadow-md bg-white pb-4  my-5 ">
+        {/* <p
+          className="text-xl font-semibold pl-6 pt-3 "
+          style={{ ...FONTS.header }}
+        >
+          Center at a Glance
+        </p> */}
+        {/* <p
           className="text-gray-500 text-sm pb-5 pl-7"
           style={{ ...FONTS.paragraph, color: COLORS.secondary }}
         >
           Get your Service Center latest update for the last 7 days
-        </p>
+        </p> */}
 
         {/* Dashboard Cards */}
-        <div className="mx-2 justify-center items-center px-5">
+        <div className="mx-2 justify-center items-center px-5 my-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 px-15  ">
-            
+
             <DashboardCard
               icon={<BiSolidCarCrash />}
               title="Emergency Service"
@@ -125,7 +132,7 @@ const [active,setactive]=useState<any[]>([])
               backgroundColor="#f87171"
               dataPoints={[2, 1, 4, 3, 5, 2, 1]}
             />
-            
+
             <DashboardCard
               icon={<MdEmergencyShare />}
               title="Service Requests"
@@ -142,10 +149,12 @@ const [active,setactive]=useState<any[]>([])
               title="Schedule Request"
               value={20}
               per={10}
+              
               perColor="#facc15"
               borderColor="rgba(234,179,8,0.8)"
               backgroundColor="#facc15"
               dataPoints={[1, 3, 2, 5, 4, 6, 5]}
+              // onClick={() => navigate("/request-queue/schedule")}
             />
 
             <DashboardCard
@@ -183,25 +192,27 @@ const [active,setactive]=useState<any[]>([])
         </div>
 
         {/* Bar Chart */}
-       <div className=" grid grid-row-2 ">
-         <div className="bg-white shadow-md rounded-xl p-4 max-h-44 mb-2 hover:scale-[1.02]">
-          <BarCharts />
+        <div className=" grid grid-row-2 ">
+          <div className="bg-white shadow-md rounded-xl p-4 max-h-44 mb-2 hover:scale-[1.02]">
+            <BarCharts />
+          </div>
+          <div className="bg-white shadow-md rounded-xl p-4 max-h-45 hover:scale-[1.02] ">
+            <TotalRevenue />
+          </div>
         </div>
-        <div className="bg-white shadow-md rounded-xl p-4 max-h-45 hover:scale-[1.02] ">
-          <TotalRevenue/>
-        </div>
-       </div>
 
         {/* SOS Content */}
         <div className="bg-white shadow-md rounded-xl p-4 max-h-96 hover:scale-[1.02] ">
           <div className="flex justify-between mb-2 ">
             <p
               className="text-lg "
-              style={{ color: COLORS.primary }}
+              style={{ ...FONTS.cardheader }}
             >
               SoS Summary
             </p>
-            <button className="text-red-700 text-md item-end hover:text-red-900">
+            <button className="!text-red-800 text-md item-end hover:!text-red-900"
+            style={{...FONTS.paragraph}}
+            >
               View All
             </button>{" "}
           </div>
@@ -216,7 +227,7 @@ const [active,setactive]=useState<any[]>([])
         {/* Transactions */}
         <div className="bg-white shadow-md rounded-xl p-4 max-h-96 overflow-hidden hover:scale-[1.02]">
           <div className="flex justify-between mb-2 ">
-            <p className=" mb-2 text-lg " style={{ color: COLORS.primary }}>
+            <p className=" mb-2  " style={{ ...FONTS.cardheader }}>
               Recent Transactions
             </p>
             <button className="text-red-700 text-md item-end hover:text-red-900">
@@ -243,12 +254,12 @@ const [active,setactive]=useState<any[]>([])
           </div>
         </div>
 
-        
-         {/* Query Section */}
+
+        {/* Query Section */}
         <div className="bg-white shadow-md rounded-xl p-4 max-h-96 overflow-hidden hover:scale-[1.02]">
           <div className="flex justify-between mb-2">
-            <p className="text-lg" style={{ color: COLORS.primary }}>
-              Query
+            <p className="text-lg" style={{ ...FONTS.cardheader }}>
+              Enquiry
             </p>
             <button
               onClick={() => navigate("/queries")}
@@ -273,10 +284,18 @@ const [active,setactive]=useState<any[]>([])
 
       {/* Footer */}
       <footer className="bg-white shadow-md rounded-xl p-4 w-full text-center mt-4 -mb-10">
-        <div>
+        <div className="flex items-center justify-between">
           <div className="flex items-center justify-center space-x-1">
-            <AiOutlineCopyrightCircle style={{color:COLORS.primary}} />
-            <span style={{color:COLORS.primary}}>YESMECHANIC</span>
+            <AiOutlineCopyrightCircle style={{ color: COLORS.primary }} />
+            <span style={{ color: COLORS.primary }}>YESMECHANIC</span>
+          </div>
+          <div>
+            <Link to={'/privacy-policy'} className="text-gray-600 hover:text-gray-800 mx-2 text-sm italic">
+              Privacy Policy
+            </Link>
+            <Link to={'/terms-conditions'} className="text-gray-600 hover:text-gray-800 mx-2 text-sm italic">
+              Terms & Conditions
+            </Link>
           </div>
         </div>
       </footer>

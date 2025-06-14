@@ -10,11 +10,15 @@ import {
   FiSettings,
   FiAlertTriangle,
 } from "react-icons/fi";
-import Logo from "../../../assets/LOGO.jpg";
-import { RiMenu2Line,RiMenu3Line} from "react-icons/ri";
+// import Logo from "../../../assets/LOGO.jpg";
+import { RiCalendarScheduleLine } from "react-icons/ri";
+import Logo from "../../../assets/YES MECHANIC LOGO .png";
+import MiniLogo from "../../../assets/Toggle-Logo.jpg";
+import { RiMenu2Line, RiMenu3Line } from "react-icons/ri";
 import { Megaphone } from "lucide-react";
-import { MdHelpOutline } from 'react-icons/md';
-
+import { MdHelpOutline } from "react-icons/md";
+import { FONTS } from "../../../constants/uiConstants";
+import { AiOutlineCalendar } from "react-icons/ai";
 
 const COLOR = {
   primary: "#9b111e",
@@ -32,29 +36,30 @@ export const Sidebar = () => {
   return (
     <div className="flex h-screen">
       <div className="bg-white border-r shadow-md p-2 transition-all duration-300 fixed top-0 left-0 h-screen z-40 flex flex-col items-center">
-        <div className="flex justify-center items-center h-20">
+        <div
+          className={`flex justify-center items-center h-20 transition-all duration-300 ${
+            isOpen ? "w-40" : "w-12"
+          }`}
+        >
           <img
-            src={Logo}
+            src={isOpen ? Logo : MiniLogo}
             alt="YES Mechanic Logo"
-            className={`object-contain transition-all duration-300 ${
-              isOpen ? "w-20 h-20" : "w-10 h-10"
-            }`}
+            className="object-contain h-[48px] transition-all duration-300"
           />
         </div>
-        <div className="w-full flex justify-end px-2 mt-2">
-        
-       <button
-         onClick={() => setIsOpen(!isOpen)}
-         className="text-gray-600 hover:text-black p-2 rounded-md transition duration-200 hover:bg-gray-100"
-         title="Toggle Sidebar"
-       >
-        {isOpen ? (
-          <RiMenu3Line size={20} style={{ color: COLOR.primary }} />
-            ) : (
-          <RiMenu2Line size={20} style={{ color: COLOR.primary }} />
-            )}
-      </button>
 
+        <div className="w-full flex justify-end px-2 mt-2">
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            className="text-gray-600 hover:text-black p-2 rounded-md transition duration-200 hover:bg-gray-100"
+            title="Toggle Sidebar"
+          >
+            {isOpen ? (
+              <RiMenu3Line size={20} style={{ color: COLOR.primary }} />
+            ) : (
+              <RiMenu2Line size={20} style={{ color: COLOR.primary }} />
+            )}
+          </button>
         </div>
 
         <nav className="flex flex-col gap-4 mt-4 w-full items-center">
@@ -66,12 +71,12 @@ export const Sidebar = () => {
             onClick={handleLinkClick}
           />
           <SidebarLink
-            to="/notifications"
-            icon={<FiBell />}
-            label="Notifications"
+            to="/bookings"
+            icon={<AiOutlineCalendar />}
+            label="Bookings"
             isOpen={isOpen}
             onClick={handleLinkClick}
-          />
+          />       
           <SidebarLink
             to="/service"
             icon={<FiUsers />}
@@ -87,6 +92,14 @@ export const Sidebar = () => {
             onClick={handleLinkClick}
           />
           <SidebarLink
+            to="/request-queue/schedule"
+            icon={<RiCalendarScheduleLine />}
+            label="Request Queue"
+            isOpen={isOpen}
+            onClick={handleLinkClick}
+          />
+
+          <SidebarLink
             to="/city"
             icon={<FiMapPin />}
             label="City"
@@ -101,15 +114,15 @@ export const Sidebar = () => {
             onClick={handleLinkClick}
           />
           <SidebarLink
-            to="/announcement"
-            icon={<Megaphone />}
-            label="Announcement"
+            to="/sos"
+            icon={<FiAlertTriangle />}
+            label="SOS"
             isOpen={isOpen}
             onClick={handleLinkClick}
           />
           <SidebarLink
             to="/queries"
-            icon={< MdHelpOutline/>}
+            icon={<MdHelpOutline />}
             label="Queries"
             isOpen={isOpen}
             onClick={handleLinkClick}
@@ -121,19 +134,29 @@ export const Sidebar = () => {
             isOpen={isOpen}
             onClick={handleLinkClick}
           />
+          
           <SidebarLink
-            to="/sos"
-            icon={<FiAlertTriangle />}
-            label="SOS"
+            to="/announcement"
+            icon={<Megaphone />}
+            label="Announcement"
             isOpen={isOpen}
             onClick={handleLinkClick}
           />
+          <SidebarLink
+            to="/notifications"
+            icon={<FiBell />}
+            label="Notifications"
+            isOpen={isOpen}
+            onClick={handleLinkClick}
+          />
+
         </nav>
       </div>
-         <div
-  className={`transition-all duration-300 ${isOpen ? "ml-48" : "ml-16"} flex-1`}
-         >
-      </div>
+      <div
+        className={`transition-all duration-300 ${
+          isOpen ? "ml-48" : "ml-16"
+        } flex-1`}
+      ></div>
     </div>
   );
 };
@@ -158,12 +181,10 @@ const SidebarLink = ({
   const backgroundColor = isActive
     ? COLOR.primary
     : isHovered
-    ? COLOR.bgColor
-    : "transparent";
+      ? COLOR.bgColor
+      : "transparent";
 
-  const textColor = isActive
-    ? COLOR.bgColor
-    : COLOR.primary;
+  const textColor = isActive ? COLOR.bgColor : COLOR.primary;
 
   return (
     <Link
@@ -173,14 +194,22 @@ const SidebarLink = ({
       onMouseLeave={() => setIsHovered(false)}
       style={{ backgroundColor }}
       className={`flex items-center transition-all px-2 py-1 
-        ${isOpen ? "w-full justify-start gap-5 pl-5 pr-1" : "justify-center w-10 h-8"} 
+        ${
+          isOpen
+            ? "w-full justify-start gap-5 pl-5 pr-1"
+            : "justify-center w-10 h-8"
+        } 
         rounded-full
       `}
     >
       <div className="text-xl" style={{ color: textColor }}>
         {icon}
-       </div>
-      {isOpen && <span style={{ color: textColor }}>{label}</span>}
+      </div>
+      {isOpen && (
+        <span style={{ ...FONTS.cardSubHeader, color: textColor }}>
+          {label}
+        </span>
+      )}
     </Link>
   );
 };

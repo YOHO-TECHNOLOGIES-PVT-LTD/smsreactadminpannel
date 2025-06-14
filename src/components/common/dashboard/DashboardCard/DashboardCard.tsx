@@ -1,3 +1,4 @@
+import { FONTS } from "../../../../constants/uiConstants";
 import { ChartCard } from "../LineChart/LineChart";
 import React from "react";
 
@@ -23,7 +24,7 @@ export const DashboardCard: React.FC<DashboardCardProps> = ({
   dataPoints,
 }) => {
   return (
-    <div className="rounded-xl bg-[#FAF3EB] shadow-md p-4 w-full max-w-[250px] h-[130px]   hover:scale-[1.06] "> 
+    <div className="rounded-xl bg-[#FAF3EB] shadow-md p-4 w-full max-w-[250px] h-[130px]   hover:scale-[1.06]  mt-7"> 
     {/* need to add hover effort of shaking */}
       <div className="flex items-center justify-between">
         {/* Icon box */}
@@ -36,8 +37,8 @@ export const DashboardCard: React.FC<DashboardCardProps> = ({
 
         {/* Title and Value */}
         <div className="flex flex-col justify-center ml-2 grow">
-          <p className="text-xs text-gray-500">{title}</p>
-          <h3 className="text-xl font-semibold">{value}</h3>
+          <p className="text-xs text-gray-500" style={{...FONTS.paragraph}}>{title}</p>
+          <h3 className="text-lg">{value}</h3>
         </div>
 
         {/* Percentage */}

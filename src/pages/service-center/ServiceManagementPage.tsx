@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ServiceCenterListPage } from "./ServiceCenterListPage";
 import 'flowbite';
-import  "@preline/accordion"
+// import  "@preline/accordion"
 import ServicesList from "./ServicesList";
 import ServiceSpareParts from "./ServiceSpareParts";
 import ServiceCenterProfileView from "./ServiceCenterprofileview";
@@ -81,12 +82,12 @@ const handleBack = () => {
           <ServiceCenterListPage partner={Partner} onView={() => setActiveStep(1)} setpartner={()=>setpartner} handleBack={handleBack}/>
         )}
         {activeStep === 1 && (
-          <ServiceCenterProfileView partner={Partner[partner]} setpartnerId={setpartnerId} onServices={() => setActiveStep(2)} handleBack={handleBack} />
+          <ServiceCenterProfileView partner={Partner[partner]} onSpareParts={() => setActiveStep(3)}  setpartnerId={setpartnerId} onServices={() => setActiveStep(2)} handleBack={handleBack} />
         )}
         {activeStep === 2 && (
           <ServicesList partnerId={partnerId} onSpareParts={() => setActiveStep(3)} Services={Services}  handleBack={handleBack}/>
         )}
-        {activeStep === 3 && <ServiceSpareParts Spareparts={Spareparts} handleBack={handleBack}/>}
+        {activeStep === 3 && <ServiceSpareParts Spareparts={Spareparts} partnerId={partnerId} handleBack={handleBack}/>}
       </div>
     </div>
     )
