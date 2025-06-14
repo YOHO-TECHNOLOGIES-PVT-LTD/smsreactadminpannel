@@ -3,6 +3,7 @@ import { IoIosAddCircleOutline } from "react-icons/io";
 import { CiSearch } from "react-icons/ci";
 import CityAddPage from "./CityAddPage";
 import CityListPage from "./CityListPage";
+import { FONTS } from "../../constants/uiConstants";
 
 export const CityManagementPage: React.FC = () => {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
@@ -13,8 +14,8 @@ export const CityManagementPage: React.FC = () => {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-y-2 mb-4 border-b-2 border-orange-700 pb-4">
         <h1
           className="font-bold text-3xl pt-2 pl-0"
-          style={{ color: "#9b111e" }}
-        >
+         // style={{ color: "#9b111e" }}
+style={{...FONTS.header,fontWeight: 500 }}        >
           City Management
         </h1>
 
@@ -25,6 +26,7 @@ export const CityManagementPage: React.FC = () => {
               background:
                 "linear-gradient(44.99deg,#700808 11%,#d23c3c 102.34%)",
             }}
+           // style={{...FONTS.paragraph}}
             onClick={() => setIsAddModalOpen(true)}
           >
             <IoIosAddCircleOutline className="mt-0" />
@@ -60,8 +62,8 @@ export const CityManagementPage: React.FC = () => {
           ></iframe>
         </div>
 
-        <div className="p-2 w-full md:w-1/2">
-          <CityListPage searchTerm={searchTerm} />
+        <div className="p-2 w-full md:w-1/2" >
+          <CityListPage searchTerm={searchTerm}  />
         </div>
       </div>
 

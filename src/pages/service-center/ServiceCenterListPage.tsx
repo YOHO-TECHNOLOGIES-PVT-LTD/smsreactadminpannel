@@ -184,14 +184,14 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
           </div>
 
           <div className="flex justify-between items-center border-b border-gray-300 pb-4 mb-4 flex-wrap gap-4">
-            <h1 className="font-bold text-3xl pt-2 text-[#9b111e]">Service Center Management</h1>
+            <h1 className="font-bold font-koh font-normal text-3xl pt-2 text-[#9b111e]">Service Center</h1>
             <div className="flex items-center gap-3 flex-wrap">
               <button
-                className="bg-[#fce8e8] text-gray-600 hover:text-[#9b111e] p-2 rounded-full transition"
+                className="bg-[#fce8e8] font-koh text-gray-600 hover:text-[#9b111e] p-2 rounded-full transition"
                 title="Search"
                 onClick={() => setShowSearch(!showSearch)}
               >
-                <FiSearch size={22} className="text-[#800000]" />
+                <FiSearch size={22} className="text-[#800000] font-koh" />
               </button>
 
               {showSearch && (
