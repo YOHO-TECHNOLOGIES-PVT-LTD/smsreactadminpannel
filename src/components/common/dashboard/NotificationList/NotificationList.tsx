@@ -2,7 +2,7 @@
 
 
 import React, { useState, useRef, useEffect } from 'react';
-import { COLORS } from "../../../../constants/uiConstants"//COLOUR
+import { COLORS, FONTS } from "../../../../constants/uiConstants"//COLOUR
 import {GetTransactionDashboard} from "../../../../pages/Dashboards/services/index"
 
 import {
@@ -131,7 +131,7 @@ const getFilteredData = () => {
   return (
     <div className="">
       <div className="flex items-center justify-between mb-4">
-        <p className=" text-lg" style={{ color: COLORS.primary }}> Total Transaction </p>
+        <p className=" text-lg" style={{  ...FONTS.cardheader }}> Total Transaction </p>
         <div className="flex items-center space-x-2 ">
           <div className="relative " ref={dropdownRef}>
             <button
