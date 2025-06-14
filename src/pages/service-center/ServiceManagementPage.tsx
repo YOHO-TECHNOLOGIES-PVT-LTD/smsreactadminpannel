@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ServiceCenterListPage } from "./ServiceCenterListPage";
 import 'flowbite';
-import  "@preline/accordion"
+// import  "@preline/accordion"
 import ServicesList from "./ServicesList";
 import ServiceSpareParts from "./ServiceSpareParts";
 import ServiceCenterProfileView from "./ServiceCenterprofileview";

@@ -39,6 +39,31 @@ admin={
     get:(data:any,)=>httpClient.get(API_END_POINTS.announcement.Get,data,)
 },
 
+order_history: {
+      create: (data: any) =>
+        httpClient.post(API_END_POINTS.order_history.create, data),
+      getById: (params: string) =>
+        httpClient.get(API_END_POINTS.order_history.getById, params),
+      getAll: (params: string) =>
+        httpClient.get(API_END_POINTS.order_history.getAll, params),
+      update: (data: any, params: string) =>
+        httpClient.update(API_END_POINTS.order_history.update, data, params),
+      updateStatus: (data: any, params: string) =>
+        httpClient.update(
+          API_END_POINTS.order_history.updateStatus,
+          data,
+          params
+        ),
+      delete: () => httpClient.delete(API_END_POINTS.order_history.delete),
+    },
+
+    customer_management:{
+      getallCustomer:(data:any)=>httpClient.get(API_END_POINTS.customer_management.getAll,data),
+    },
+    customermanagement_history:{
+      getallHistory:(data:any)=>httpClient.get(API_END_POINTS.customermanagement_history.getAll,data)
+    },
+
 
 spareparts:{
     create:(data:any)=>httpClient.post(API_END_POINTS.spareparts.create,data),

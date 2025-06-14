@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import Client from "../../api"
 
 export const getProfile = async (data:any)=>{
@@ -11,9 +12,9 @@ export const getProfile = async (data:any)=>{
     }
 }
 
-export const updateProfile = async (params:string,data:string)=>{
+export const updateProfile = async (data:string)=>{
     try{
-        const profile = await new Client().admin.profile.put(params, data);
+        const profile = await new Client().admin.profile.put(data);
         console.log(profile,"dfghjkl");
         return profile;
     }

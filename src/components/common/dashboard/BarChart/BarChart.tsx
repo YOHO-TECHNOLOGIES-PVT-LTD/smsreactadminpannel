@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState, useRef, useEffect } from 'react';
 // import { FONTS } from "../../../../constants/uiConstants"//FONT
-import { COLORS, FONTS } from "../../../../constants/uiConstants"//COLOUR
+import { FONTS } from "../../../../constants/uiConstants"//COLOUR
 
 import {
   BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer,
