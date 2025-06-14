@@ -148,7 +148,7 @@ const handleDeleteService = async(index: number,id:string) => {
 };
 
   return (
-    <div className="flex flex-col md:flex-row gap-6 p-4 md:p-6 text-gray-800 h-screen bg-gray-50">
+    <div className=" min-h-screen flex flex-col md:flex-row gap-6 p-4 md:p-6 text-gray-800 bg-#FAF3EB">
       {/* SOS Requests */}
       <div className="rounded-xl p-4 md:w-2/3 bg-white border-2 flex flex-col shadow-md">
         <div className="flex justify-between items-center mb-6">

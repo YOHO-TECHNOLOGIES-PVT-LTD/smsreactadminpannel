@@ -1,4 +1,5 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
+import { getProfile } from "../../../features/Auth/service";
 
 interface User {
   name: string;
@@ -24,21 +25,33 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({
   onClose,
 }) => {
   const modalRef = useRef<HTMLDivElement | null>(null);
+  const [profile, setProfile] = useState<any | null>(null);
 
-  // Handle outside clicks for modal
   useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
-        onClose();
+    const fetchProfile = async () => {
+      try {
+        const data:any = await getProfile("");
+        setProfile(data.data.data);
+        console.log("Profile Data:", data);
+      } catch (error) {
+        console.error("Failed to fetch profile:", error);
       }
     };
+
     if (isOpen) {
+      fetchProfile();
+
+      const handleClickOutside = (e: MouseEvent) => {
+        if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
+          onClose();
+        }
+      };
       document.addEventListener("mousedown", handleClickOutside);
+      return () => document.removeEventListener("mousedown", handleClickOutside);
     }
-    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [isOpen, onClose]);
 
-  if (!isOpen) return null;
+  if (!isOpen || !profile) return null;
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999] p-4">
@@ -49,12 +62,12 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({
         <div className="bg-gradient-to-r from-red-600 to-red-800 p-6 flex items-center justify-between text-white">
           <div className="flex items-center space-x-4">
             <img
-              src={user.avatar}
+              src={profile.image}
               alt="User"
               className="w-20 h-20 rounded-full border-4 border-white shadow-md"
             />
             <div>
-              <h2 className="text-2xl font-bold">{user.name}</h2>
+              <h2 className="text-2xl font-bold">{profile.firstName}</h2>
               <p className="text-sm opacity-90">Admin, Production Department</p>
             </div>
           </div>
@@ -80,30 +93,30 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({
           <div className="space-y-3">
             <div>
               <h4 className="text-sm text-gray-500">Phone</h4>
-              <p className="text-lg">{user.phone}</p>
+              <p className="text-lg">{profile.contact_info.phoneNumber}</p>
             </div>
             <div>
               <h4 className="text-sm text-gray-500">Email</h4>
-              <p className="text-lg">{user.email}</p>
+              <p className="text-lg">{profile.email}</p>
             </div>
             <div>
               <h4 className="text-sm text-gray-500">Location</h4>
-              <p className="text-lg">{user.location}</p>
+              <p className="text-lg">{profile.contact_info.city} , {profile.contact_info.state}</p>
             </div>
           </div>
           <div className="space-y-3">
             <div>
               <h4 className="text-sm text-gray-500">Role</h4>
-              <p className="text-lg">{user.role}</p>
+              <p className="text-lg">{profile.role}</p>
             </div>
             <div>
               <h4 className="text-sm text-gray-500">Join Date</h4>
-              <p className="text-lg">{user.joinDate}</p>
+              <p className="text-lg">NA</p>
             </div>
             <div>
               <h4 className="text-sm text-gray-500">Status</h4>
               <span className="inline-block px-3 py-1 text-sm rounded-full bg-green-100 text-green-700">
-                {user.status}
+                {profile.is_active?"Active":"In Active"}
               </span>
             </div>
           </div>

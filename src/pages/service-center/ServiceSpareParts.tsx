@@ -1,13 +1,12 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 import type React from "react"
 import { useState, useEffect } from "react"
-import { Search, ArrowLeft, Star, Plus, Eye } from "lucide-react"
+import { Search, ArrowLeft, Star, Plus, EllipsisVertical } from "lucide-react"
 import Client from "../../api"
 
 // Define colors directly to avoid import issues
-const COLORS = {
-  bgColor: "#f9fafb", // gray-50
-}
+
 
 interface ApiSparePart {
   _id: string
@@ -54,15 +53,17 @@ interface ApiResponse {
 type ReactComponent = {
   handleBack: () => void
   Spareparts?: ApiSparePart[] | ApiResponse
-  partnerId:string
+  partnerId: string
 }
 
-const ServiceSpareParts: React.FC<ReactComponent> = ({ handleBack, Spareparts = [],partnerId }) => {
+const ServiceSpareParts: React.FC<ReactComponent> = ({ handleBack, Spareparts = [], partnerId }) => {
   const [searchTerm, setSearchTerm] = useState("")
   const [showSearch, setShowSearch] = useState(false)
   const [hoveredCard, setHoveredCard] = useState<string | null>(null)
   const [showAddModal, setShowAddModal] = useState(false)
   const [spareParts, setSpareParts] = useState<SparePart[]>([])
+  const [selectedPart, setSelectedPart] = useState<SparePart | null>(null)
+  const [menuOpenId, setMenuOpenId] = useState<string | null>(null);
   const [newPart, setNewPart] = useState<Omit<SparePart, "id" | "inStock" | "reviews" | "rating">>({
     name: "",
     image: "",
@@ -75,6 +76,22 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ handleBack, Spareparts = 
     warrantyPeriod: "",
     slug: "",
   })
+
+  const [editPart, setEditPart] = useState<SparePart | null>(null);
+
+  const handleEdit = (part: any) => {
+    setEditPart(part);
+  };
+
+  const handleDelete = (part: any) => {
+    const confirmDelete = window.confirm(`Are you sure you want to delete "${part.name}"?`);
+    if (confirmDelete) {
+      // Call your API or state update logic here
+      console.log("Deleted:", part);
+      // e.g., deletePartById(part.id)
+    }
+  };
+
 
   // Transform API data to component format
   useEffect(() => {
@@ -141,7 +158,7 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ handleBack, Spareparts = 
     )
   }
 
-  const handleAddPart = async() => {
+  const handleAddPart = async () => {
     const newSparePart: SparePart = {
       ...newPart,
       id: `new-${Date.now()}`,
@@ -149,18 +166,18 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ handleBack, Spareparts = 
       reviews: 0,
       rating: 0,
     }
-    const data:any = {
-      productName:newPart.name,
-      stock:String(newPart.quantity),
-      price:newPart.price,
-      brand:newPart.brand,
-      category:newPart.category,
-      warrantyPeriod:newPart.warrantyPeriod,
-      image:newPart.image,
-      slug:newPart.slug,
+    const data: any = {
+      productName: newPart.name,
+      stock: String(newPart.quantity),
+      price: newPart.price,
+      brand: newPart.brand,
+      category: newPart.category,
+      warrantyPeriod: newPart.warrantyPeriod,
+      image: newPart.image,
+      slug: newPart.slug,
       partnerId
     }
-    const response:any = await new Client().admin.spareparts.create(data)
+    const response: any = await new Client().admin.spareparts.create(data)
     console.log(response)
 
     setSpareParts([...spareParts, newSparePart])
@@ -186,7 +203,7 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ handleBack, Spareparts = 
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <div className="sticky top-0 z-10 bg-[#FAF3EB] border-b">
+      <div className="sticky top-0 z-20 bg-[#FAF3EB] border-b">
         <div className="container mx-auto px-4 py-3 flex items-center">
           <button
             onClick={handleBack}
@@ -258,7 +275,7 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ handleBack, Spareparts = 
             <h3 className="text-xl font-semibold text-gray-900 mb-2">No spare parts data</h3>
             <p className="text-gray-600 mb-6 text-center">
               {Spareparts &&
-              (Array.isArray(Spareparts) ? Spareparts.length === 0 : !(Spareparts as ApiResponse).data?.length)
+                (Array.isArray(Spareparts) ? Spareparts.length === 0 : !(Spareparts as ApiResponse).data?.length)
                 ? "No spare parts available"
                 : "Loading spare parts..."}
             </p>
@@ -268,26 +285,57 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ handleBack, Spareparts = 
             {filteredParts.map((part) => (
               <div
                 key={part.id}
-                className="group relative bg-white rounded-xl shadow-sm border border-gray-100 hover:shadow-lg hover:border-red-200 transition-all duration-300 overflow-hidden"
+                className="group relative bg-white rounded-xl shadow-sm border border-gray-100 hover:shadow-lg hover:border-red-200 transition-all duration-300 overflow-hidden cursor-pointer"
+                onClick={() => setSelectedPart(part)}
                 onMouseEnter={() => setHoveredCard(part.id)}
                 onMouseLeave={() => setHoveredCard(null)}
               >
                 {/* Discount Badge */}
-                {part.discount && part.discount > 0 && (
+                {/* {part.discount && part.discount > 0 && (
                   <div className="absolute top-3 left-3 z-10 bg-red-500 text-white px-2 py-1 rounded-full text-xs font-semibold shadow-sm">
                     -{part.discount}%
                   </div>
-                )}
+                )} */}
 
                 {/* Quick View Button */}
-                <button
-                  className={`absolute top-3 right-3 z-10 p-2 bg-white/90 hover:bg-white rounded-full shadow-md transition-all duration-200 ${
-                    hoveredCard === part.id ? "opacity-100" : "opacity-0"
-                  }`}
-                  aria-label="Quick view"
-                >
-                  <Eye className="w-4 h-4 text-gray-600" />
-                </button>
+                <div className="relative">
+                  <button
+                    className="absolute top-3 right-3 z-10 p-2 bg-white/90 hover:bg-white rounded-full shadow-md transition-all duration-200"
+                    aria-label="Quick view"
+                    onClick={(e) => {
+                      e.stopPropagation(); // Prevent card click
+                      setMenuOpenId(menuOpenId === part.id ? null : part.id);
+                    }}
+                  >
+                    <EllipsisVertical className="w-4 h-4 text-black" />
+                  </button>
+
+                  {menuOpenId === part.id && (
+                    <div className="absolute right-3 top-12 z-20 w-32 bg-white border border-gray-200 rounded-md shadow-lg">
+                      <button
+                        className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleEdit(part);
+                          setMenuOpenId(null);
+                        }}
+                      >
+                        Edit
+                      </button>
+                      <button
+                        className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleDelete(part);
+                          setMenuOpenId(null);
+                        }}
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  )}
+                </div>
+
 
                 {/* Image Container */}
                 <div className="relative h-48 bg-gray-50 overflow-hidden">
@@ -349,9 +397,8 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ handleBack, Spareparts = 
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
                         <div
-                          className={`w-2 h-2 rounded-full ${
-                            part.quantity > 5 ? "bg-green-500" : part.quantity > 0 ? "bg-yellow-500" : "bg-red-500"
-                          }`}
+                          className={`w-2 h-2 rounded-full ${part.quantity > 5 ? "bg-green-500" : part.quantity > 0 ? "bg-yellow-500" : "bg-red-500"
+                            }`}
                         ></div>
                         <span className="text-sm text-gray-600">
                           {part.quantity > 0 ? `${part.quantity} in stock` : "Out of stock"}
@@ -359,6 +406,7 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ handleBack, Spareparts = 
                       </div>
                       <label className="inline-flex items-center cursor-pointer">
                         <input
+                          title="Active Status"
                           type="checkbox"
                           checked={part.active}
                           onChange={() => toggleActiveStatus(part.id)}
@@ -568,6 +616,232 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ handleBack, Spareparts = 
           </div>
         </div>
       )}
+
+      {selectedPart && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
+          <div className="bg-white rounded-md shadow-lg w-full max-w-xl">
+            <div className="p-4">
+              <div className="flex items-center justify-end mb-4">
+                <button
+                  onClick={() => setSelectedPart(null)}
+                  className="px-2 font-bold text-gray-400 text-xl hover:text-gray-600 rounded-full hover:bg-gray-100"
+                >
+                  ×
+                </button>
+              </div>
+
+              <img
+                src={selectedPart.image || "/placeholder.svg"}
+                alt={selectedPart.name}
+                loading="lazy"
+                onError={(e) => {
+                  const target = e.target as HTMLImageElement
+                  target.src =
+                    "https://wallup.net/wp-content/uploads/2016/01/65578-BMW_M3-BMW-car-blue_cars.jpg"
+                }}
+                className="w-full h-64 object-cover mb-4 bg-gray-50 rounded"
+              />
+
+              <div className="text-md text-gray-800 grid grid-cols-2 gap-4">
+                <p><span className="font-bold text-gray-700">Category:</span> <span className="text-gray-900">{selectedPart.category}</span></p>
+                <p><span className="font-bold text-gray-700">Brand:</span> <span className="text-gray-900">{selectedPart.brand}</span></p>
+                <p><span className="font-bold text-gray-700">Slug:</span> <span className="text-gray-800">{selectedPart.slug}</span></p>
+                <p><span className="font-bold text-gray-700">Warranty:</span> <span className="text-blue-700">{selectedPart.warrantyPeriod}</span></p>
+                <p>
+                  <span className="font-bold text-gray-700">Stock:</span>{" "}
+                  <span className={selectedPart.quantity > 5 ? "text-green-600" : selectedPart.quantity > 0 ? "text-yellow-600" : "text-red-600"}>
+                    {selectedPart.quantity > 0 ? `${selectedPart.quantity}` : "Out of stock"}
+                  </span>
+                </p>
+                <p>
+                  <span className="font-bold text-gray-700">Price:</span>{" "}
+                  <span className="text-red-600 font-semibold">₹{selectedPart.price}</span>
+                </p>
+                {selectedPart.discount ? (
+                  <p>
+                    <span className="font-bold text-gray-700">Discounted Price:</span>{" "}
+                    <span className="text-green-700 font-bold">
+                      ₹{calculateDiscountedPrice(selectedPart.price, selectedPart.discount)}
+                    </span>
+                  </p>
+                ) : null}
+                <p>
+                  <span className="font-bold text-gray-700">Active:</span>{" "}
+                  <span className={selectedPart.active ? "text-green-600" : "text-gray-400"}>
+                    {selectedPart.active ? "Yes" : "No"}
+                  </span>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+
+      {editPart && (
+        <div className="fixed inset-0  bg-black/50 flex items-center justify-center z-50 ">
+          <div className="bg-white rounded-md shadow-lg w-full max-w-xl m-12">
+            <div className="p-4">
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="text-xl font-semibold text-gray-800">Edit Part</h2>
+                <button
+                  onClick={() => setEditPart(null)}
+                  className="px-2 font-bold text-gray-400 text-xl hover:text-gray-600 rounded-full hover:bg-gray-100"
+                >
+                  ×
+                </button>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div className="col-span-2">
+                  <label className="block text-sm font-medium text-gray-700">Product Image</label>
+
+                  <input
+                    type="file"
+                    accept="image/*"
+                    title="Upload Image"
+                    onChange={(e) => {
+                      const file = e.target.files?.[0];
+                      if (file) {
+                        const imageUrl = URL.createObjectURL(file);
+                        setEditPart({ ...editPart, image: imageUrl });
+
+                        // Optional: Save the file to FormData if uploading to a backend later
+                        // const formData = new FormData();
+                        // formData.append('file', file);
+                      }
+                    }}
+                    className="mt-1 block w-full text-sm text-gray-700 file:bg-red-50 file:border file:border-red-300 file:rounded file:px-3 file:py-1 file:text-red-600 hover:file:bg-red-100"
+                  />
+                </div>
+
+
+                <div className="col-span-2">
+                  <label className="block text-sm font-medium text-gray-700">Name</label>
+                  <input
+                    title="Part Name"
+                    type="text"
+                    value={editPart.name}
+                    onChange={(e) => setEditPart({ ...editPart, name: e.target.value })}
+                    className="mt-1 block w-full border-gray-300 shadow-sm outline-none focus:border-b-2 focus:border-b-red-500"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">Category</label>
+                  <input
+                    title="Category"
+                    type="text"
+                    value={editPart.category}
+                    onChange={(e) => setEditPart({ ...editPart, category: e.target.value })}
+                    className="mt-1 block w-full border-gray-300 shadow-sm outline-none focus:border-b-2 focus:border-b-red-500"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">Brand</label>
+                  <input
+                    title="Brand"
+                    type="text"
+                    value={editPart.brand}
+                    onChange={(e) => setEditPart({ ...editPart, brand: e.target.value })}
+                    className="mt-1 block w-full border-gray-300 shadow-sm outline-none focus:border-b-2 focus:border-b-red-500"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">Slug</label>
+                  <input
+                    title="Slug"
+                    type="text"
+                    value={editPart.slug}
+                    onChange={(e) => setEditPart({ ...editPart, slug: e.target.value })}
+                    className="mt-1 block w-full border-gray-300 shadow-sm outline-none focus:border-b-2 focus:border-b-red-500"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">Warranty Period</label>
+                  <input
+                    title="Warranty Period"
+                    type="text"
+                    value={editPart.warrantyPeriod}
+                    onChange={(e) => setEditPart({ ...editPart, warrantyPeriod: e.target.value })}
+                    className="mt-1 block w-full border-gray-300 shadow-sm outline-none focus:border-b-2 focus:border-b-red-500"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">Quantity</label>
+                  <input
+                    title="Quantity"
+                    type="number"
+                    value={editPart.quantity}
+                    onChange={(e) => setEditPart({ ...editPart, quantity: parseInt(e.target.value, 10) })}
+                    className="mt-1 block w-full border-gray-300 shadow-sm outline-none focus:border-b-2 focus:border-b-red-500"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">Price</label>
+                  <input
+                    title="Price"
+                    type="number"
+                    value={editPart.price}
+                    onChange={(e) => setEditPart({ ...editPart, price: e.target.value })}
+                    className="mt-1 block w-full border-gray-300 shadow-sm outline-none focus:border-b-2 focus:border-b-red-500"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">Discount (%)</label>
+                  <input
+                    title="Discount"
+                    type="number"
+                    value={editPart.discount || 0}
+                    onChange={(e) => setEditPart({ ...editPart, discount: parseInt(e.target.value, 10) })}
+                    className="mt-1 block w-full border-gray-300 shadow-sm outline-none focus:border-b-2 focus:border-b-red-500"
+                  />
+                </div>
+
+                <div className="col-span-2">
+                  <label className="block text-sm font-medium text-gray-700">Active</label>
+                  <select
+                    title="Active Status"
+                    value={editPart.active ? "true" : "false"}
+                    onChange={(e) => setEditPart({ ...editPart, active: e.target.value === "true" })}
+                    className="mt-1 block w-full border-gray-300 shadow-sm outline-none focus:border-b-2 focus:border-b-red-500"
+                  >
+                    <option value="true">Active</option>
+                    <option value="false">Inactive</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="mt-6 flex justify-end gap-3">
+                <button
+                  className="px-4 py-2 bg-gray-100 text-gray-700 rounded hover:bg-gray-200"
+                  onClick={() => setEditPart(null)}
+                >
+                  Cancel
+                </button>
+                <button
+                  className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
+                  onClick={() => {
+                    console.log("Updated Part:", editPart);
+                    // Here you'd call a function to save the changes (API or state update)
+                    setEditPart(null);
+                  }}
+                >
+                  Save Changes
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+
     </div>
   )
 }
