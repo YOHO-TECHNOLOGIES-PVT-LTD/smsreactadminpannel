@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { FONTS } from "../../constants/uiConstants";
 
 interface Request {
   id: string;
@@ -82,7 +83,8 @@ export default function ScheduleRequestPage() {
 
   return (
     <div className="bg-[#FAF3EB] min-h-screen p-8">
-      <h1 className="text-4xl font-bold  mb-8 text-center text-[#9b111e]">Schedule Requests</h1>
+      <h1 className="text-4xl font-bold    text-[#9b111e]" style={{...FONTS.header}}>Schedule Requests</h1>
+      <hr className="border-1 border-red-700 my-5 " />
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {requests.map((req) => (
@@ -92,7 +94,7 @@ export default function ScheduleRequestPage() {
             onClick={() => openModal(req)}
           >
             {/* Status Ribbon */}
-            <div className="absolute top-0 right-0 bg-[#9b111e] text-white text-xs font-bold px-3 py-1 rounded-bl-xl z-10">
+            <div className="absolute top-0 right-0 bg-[#9b111e] !text-white text-xs font-bold px-3 py-1 rounded-bl-xl z-10" style={{...FONTS.paragraph}}>
               {req.status}
             </div>
 
@@ -104,17 +106,17 @@ export default function ScheduleRequestPage() {
 
               {/* Details */}
               <div className="flex-1 space-y-1">
-                <h3 className="text-lg font-bold text-[#9b111e]">{req.customerName}</h3>
-                <p className="text-sm text-gray-700">
+                <h3 className="text-lg font-bold text-[#9b111e]" style={{...FONTS.cardSubHeader}}>{req.customerName}</h3>
+                <p className="text-sm !text-gray-700" style={{...FONTS.paragraph}}>
                   <span className="font-medium">📞</span> {req.mobile}
                 </p>
-                <p className="text-sm text-gray-600">
+                <p className="text-sm !text-gray-600" style={{...FONTS.paragraph}}>
                   <span className="font-medium">🚘</span> {req.vehicle} • {req.carNumber}
                 </p>
-                <p className="text-sm text-gray-600 truncate">
+                <p className="text-sm !text-gray-600 truncate" style={{...FONTS.paragraph}}>
                   <span className="font-medium">🛠</span> {req.issue}
                 </p>
-                <div className="flex justify-between text-sm text-gray-500 mt-1">
+                <div className="flex justify-between text-sm !text-gray-600 mt-1" style={{...FONTS.paragraph}}>
                   <span>📍 {req.city}</span>
                   <span>🗓 {req.priorityDate}</span>
                 </div>
@@ -129,7 +131,7 @@ export default function ScheduleRequestPage() {
     <div className="w-full sm:w-1/2 h-full bg-[#FAF3EB] border-l-4 border-[#9b111e] shadow-2xl p-8 relative overflow-y-auto rounded-l-xl transition-all duration-300">
       {/* Modal Header */}
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-3xl font-bold text-[#9b111e] tracking-wide">
+        <h2 className="text-3xl font-bold text-[#9b111e] tracking-wide" style={{...FONTS.header}}>
           Assign Partner
         </h2>
         <button
@@ -153,53 +155,54 @@ export default function ScheduleRequestPage() {
         <div className="flex-1 space-y-4 text-gray-700">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4 bg-white p-6 rounded-2xl border border-gray-200 shadow-lg">
 
-            <p>
-              <span className="font-semibold text-[#9b111e]">Customer:</span>{" "}
+            <p className="!text-gray-800 text-[14px]" style={{...FONTS.cardSubHeader}}>
+              <span className="" style={{...FONTS.cardSubHeader}}>Customer:</span>{" "}
               {selectedRequest.customerName}
             </p>
-            <p>
-              <span className="font-semibold text-[#9b111e]">Mobile:</span>{" "}
+            <p className="!text-gray-800 text-lg" style={{...FONTS.cardSubHeader}}>
+              <span className="" style={{...FONTS.cardSubHeader}}>Mobile:</span>{" "}
               {selectedRequest.mobile}
             </p>
-            <p>
-              <span className="font-semibold text-[#9b111e]">Car No:</span>{" "}
+            <p className="!text-gray-800 text-lg" style={{...FONTS.cardSubHeader}}>
+              <span className="" style={{...FONTS.cardSubHeader}}>Car No:</span>{" "}
               {selectedRequest.carNumber}
             </p>
-            <p>
-              <span className="font-semibold text-[#9b111e]">Vehicle:</span>{" "}
+            <p className="!text-gray-800 text-lg" style={{...FONTS.cardSubHeader}}>
+              <span className="" style={{...FONTS.cardSubHeader}}>Vehicle:</span>{" "}
               {selectedRequest.vehicle}
             </p>
-            <p>
-              <span className="font-semibold text-[#9b111e]">Issue:</span>{" "}
+            <p className="!text-gray-800 text-lg" style={{...FONTS.cardSubHeader}}>
+              <span className="" style={{...FONTS.cardSubHeader}}>Issue:</span>{" "}
               {selectedRequest.issue}
             </p>
-            <p>
-              <span className="font-semibold text-[#9b111e]">Address:</span>{" "}
+            <p className="!text-gray-800 text-lg" style={{...FONTS.cardSubHeader}}>
+              <span className="" style={{...FONTS.cardSubHeader}}>Address:</span>{" "}
               {selectedRequest.address}
             </p>
-            <p>
-              <span className="font-semibold text-[#9b111e]">City:</span>{" "}
+            <p className="!text-gray-800 text-lg" style={{...FONTS.cardSubHeader}}>
+              <span className="" style={{...FONTS.cardSubHeader}}>City:</span>{" "}
               {selectedRequest.city}
             </p>
-            <p>
-              <span className="font-semibold text-[#9b111e]">Priority Date:</span>{" "}
+            <p className="!text-gray-800 text-lg" style={{...FONTS.cardSubHeader}}>
+              <span className="" style={{...FONTS.cardSubHeader}}>Priority Date:</span>{" "}
               {selectedRequest.priorityDate}
             </p>
           </div>
 
           {/* Partner Select */}
           <div>
-            <label className="block mb-2 font-semibold text-gray-700 text-sm">
+            <label className="block mb-2 font-semibold text-gray-700 text-sm" style={{...FONTS.cardSubHeader}}>
               Select Partner:
             </label>
             <select
-              className="w-full border border-gray-300 p-3 rounded-lg text-gray-800 focus:ring-[#9b111e] focus:border-[#9b111e]"
+              className="w-full border border-gray-300 p-3 rounded-lg !text-gray-800 focus:ring-[#9b111e] focus:border-[#9b111e]"
               value={selectedPartnerId}
               onChange={(e) => setSelectedPartnerId(e.target.value)}
+              style={{...FONTS.paragraph}}
             >
               <option value="">-- Choose a partner --</option>
               {filteredPartners.map((partner) => (
-                <option key={partner.id} value={partner.id}>
+                <option className="!text-gray-800" key={partner.id} value={partner.id} style={{...FONTS.paragraph}}>
                   {partner.name} ({partner.expertise})
                 </option>
               ))}
@@ -210,13 +213,15 @@ export default function ScheduleRequestPage() {
           <div className="flex justify-end gap-4 mt-6">
             <button
               onClick={closeModal}
-              className="px-5 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300"
+              className="px-5 py-2 bg-gray-200 !text-gray-800 rounded-lg hover:!bg-gray-300"
+              style={{...FONTS.paragraph}}
             >
               Cancel
             </button>
             <button
               onClick={assignPartner}
-              className="px-5 py-2 bg-[#9b111e] text-white rounded-lg hover:bg-[#80101a]"
+              className="px-5 py-2 !bg-[#9b111e] !text-white rounded-lg hover:!bg-[#80101a]"
+              style={{...FONTS.paragraph}}
             >
               Assign Partner
             </button>

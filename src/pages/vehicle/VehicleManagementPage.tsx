@@ -7,6 +7,7 @@ import { FaSearch } from "react-icons/fa";
 import carDefaultlogo from "../../assets/INVALID CAR LOGO.png";
 import { RiResetLeftFill } from "react-icons/ri";
 import { getvechiclemanage } from "../../features/VehicleManagement/service";
+import { FONTS } from "../../constants/uiConstants";
 
 const VehicleManagementPage = () => {
   const [selectedVehicle, setSelectedVehicle] = useState<Vehicle | null>(null);
@@ -73,6 +74,11 @@ const VehicleManagementPage = () => {
         vehicle?.vehicleInventory?.fuelLevel || ""
       ),
     },
+    partnerDetails: {
+      partnerName: vehicle?.partnerDetails?.Name || "",
+      partnerPhone: vehicle?.partnerDetails?.Phone || "",
+      partnerAddress: vehicle?.partnerDetails?.Address || "",
+    },
     customerDetails: {
       fullName: vehicle?.customerDetails?.fullName || "",
     },
@@ -80,6 +86,10 @@ const VehicleManagementPage = () => {
       fuelLevel: vehicle?.vehicleInventory?.fuelLevel || "N/A",
       selectedItems: vehicle?.vehicleInventory?.currentState?.selectedItems || [],
       images: vehicle?.vehicleInventory?.currentState?.imageUploaded || [],
+    },
+    checkInOutDates: {
+      checkInDate: vehicle?.checkInOutDates?.checkInDate || "",
+      checkOutDate: vehicle?.checkInOutDates?.checkOutDate || "",
     },
   };
 };
@@ -90,9 +100,9 @@ const VehicleManagementPage = () => {
   };
 
   return (
-    <div className="min-h-screen">
+    <div>
       <div className="m-1 p-2">
-        <h1 className="text-3xl text-red-700 font-medium">Vehicle Management</h1>
+        <h1 className="text-3xl text-red-700 font-medium" style={{...FONTS.header}}>Vehicle Management</h1>
         <hr className="border-1 border-red-700 my-3" />
         <div className="flex mt-10">
           <FaSearch

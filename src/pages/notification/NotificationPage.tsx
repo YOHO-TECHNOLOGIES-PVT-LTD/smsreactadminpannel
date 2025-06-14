@@ -9,6 +9,7 @@ import CustomNotifications from '../../components/common/Notification/CustomNoti
 
 import { useNavigate } from 'react-router-dom';
 import { FaArrowLeft } from 'react-icons/fa';
+import { FONTS } from '../../constants/uiConstants.ts';
 
 export const NotificationPage = () => {
   const navigate = useNavigate();
@@ -23,7 +24,9 @@ export const NotificationPage = () => {
         <FaArrowLeft className="mt-2 text-xl" />
       </button>
       
-      <h1 className="font-bold lg:text-2xl sm:text-sm text-[#9b111e]">Notification</h1>
+      <h1 className="font-bold lg:text-2xl sm:text-sm text-[#9b111e]" 
+      style={{...FONTS.header}}
+      >Notification</h1>
       </div>
       
       <CustomNotifications />
