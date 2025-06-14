@@ -14,6 +14,7 @@ import Logo from "../../../assets/LOGO.jpg";
 import { RiMenu2Line,RiMenu3Line} from "react-icons/ri";
 import { Megaphone } from "lucide-react";
 import { MdHelpOutline } from 'react-icons/md';
+import { AiOutlineCalendar } from "react-icons/ai";
 
 
 const COLOR = {
@@ -62,6 +63,13 @@ export const Sidebar = () => {
             to="/"
             icon={<FiHome />}
             label="Dashboard"
+            isOpen={isOpen}
+            onClick={handleLinkClick}
+          />
+          <SidebarLink
+            to="/bookings"
+            icon={<AiOutlineCalendar />}
+            label="Bookings"
             isOpen={isOpen}
             onClick={handleLinkClick}
           />
