@@ -1,8 +1,8 @@
 import axios from "axios";
 
 
+const backEndUrl:string= import.meta.env.VITE_PUBLIC_API_URL
 
-const backEndUrl: string = import.meta.env.VITE_PUBLIC_API_URL
 
 const Axios = axios.create({
     baseURL:backEndUrl,

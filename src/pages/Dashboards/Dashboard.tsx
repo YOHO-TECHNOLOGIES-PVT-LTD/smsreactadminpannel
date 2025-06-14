@@ -96,23 +96,29 @@ export const Dashboard = () => {
 
   return (
     <div className="w-full px-4 py-6 -mt-6 ">
-      {/* Header */}
-      <div className="rounded-xl shadow-md bg-white pb-4 mb-4 ">
-        <p
+      <p
           className="text-xl font-semibold pl-6 pt-3 "
-          style={{ ...FONTS.header, color: COLORS.primary }}
+          style={{ ...FONTS.header }}
         >
-          Overview of Service Center
+          Center at a Glance
         </p>
-        <p
+      {/* Header */}
+      <div className="rounded-xl shadow-md bg-white pb-4  my-5 ">
+        {/* <p
+          className="text-xl font-semibold pl-6 pt-3 "
+          style={{ ...FONTS.header }}
+        >
+          Center at a Glance
+        </p> */}
+        {/* <p
           className="text-gray-500 text-sm pb-5 pl-7"
           style={{ ...FONTS.paragraph, color: COLORS.secondary }}
         >
           Get your Service Center latest update for the last 7 days
-        </p>
+        </p> */}
 
         {/* Dashboard Cards */}
-        <div className="mx-2 justify-center items-center px-5">
+        <div className="mx-2 justify-center items-center px-5 my-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 px-15  ">
 
             <DashboardCard
@@ -147,20 +153,19 @@ export const Dashboard = () => {
               borderColor="rgba(234,179,8,0.8)"
               backgroundColor="#facc15"
               dataPoints={[1, 3, 2, 5, 4, 6, 5]}
-              
+              // onClick={() => navigate("/request-queue/schedule")}
             />
 
-              <DashboardCard
-      icon={<RiCalendarScheduleFill />}
-      title="Schedule Request"
-      value={20}
-      per={10}
-      perColor="#facc15"
-      borderColor="rgba(234,179,8,0.8)"
-      backgroundColor="#facc15"
-      dataPoints={[1, 3, 2, 5, 4, 6, 5]}
-      // onClick={() => navigate("/request-queue/schedule")}
-    />
+            <DashboardCard
+              icon={<GrTransaction />}
+              title="Total Transactions"
+              value={22}
+              per={15}
+              perColor="#10b981"
+              borderColor="rgba(16,185,129,0.8)"
+              backgroundColor="#10b981"
+              dataPoints={[1, 5, 2, 4, 3, 5, 6]}
+            />
 
             <DashboardCard
               icon={<MdOutlinePendingActions />}
@@ -200,11 +205,13 @@ export const Dashboard = () => {
           <div className="flex justify-between mb-2 ">
             <p
               className="text-lg "
-              style={{ color: COLORS.primary }}
+              style={{ ...FONTS.cardheader }}
             >
               SoS Summary
             </p>
-            <button className="text-red-700 text-md item-end hover:text-red-900">
+            <button className="!text-red-800 text-md item-end hover:!text-red-900"
+            style={{...FONTS.paragraph}}
+            >
               View All
             </button>{" "}
           </div>
@@ -219,7 +226,7 @@ export const Dashboard = () => {
         {/* Transactions */}
         <div className="bg-white shadow-md rounded-xl p-4 max-h-96 overflow-hidden hover:scale-[1.02]">
           <div className="flex justify-between mb-2 ">
-            <p className=" mb-2 text-lg " style={{ color: COLORS.primary }}>
+            <p className=" mb-2  " style={{ ...FONTS.cardheader }}>
               Recent Transactions
             </p>
             <button className="text-red-700 text-md item-end hover:text-red-900">
@@ -250,8 +257,8 @@ export const Dashboard = () => {
         {/* Query Section */}
         <div className="bg-white shadow-md rounded-xl p-4 max-h-96 overflow-hidden hover:scale-[1.02]">
           <div className="flex justify-between mb-2">
-            <p className="text-lg" style={{ color: COLORS.primary }}>
-              Query
+            <p className="text-lg" style={{ ...FONTS.cardheader }}>
+              Enquiry
             </p>
             <button
               onClick={() => navigate("/queries")}
