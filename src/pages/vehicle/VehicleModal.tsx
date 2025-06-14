@@ -2,6 +2,7 @@ import type { FC } from "react";
 import type { Vehicle } from "./VehicleData";
 import { Link } from "react-router-dom";
 import carDefaultlogo from "../../assets/INVALID CAR LOGO.png";
+import { FONTS } from "../../constants/uiConstants";
 
 type Props = {
   vehicle: Vehicle;
@@ -22,7 +23,7 @@ const VehicleModal: FC<Props> = ({ vehicle, onClose, redirectPath }) => {
       onClick={onClose}
     >
       <div
-        className="bg-white rounded-xl p-6 relative w-full max-w-5xl h-[95vh] overflow-y-auto shadow-2xl scrollbar-hide"
+        className="bg-white rounded-xl p-6 relative w-full max-w-5xl h-[95vh] overflow-y-auto shadow-2xl"
         onClick={handleInnerClick}
         style={{
           background: "linear-gradient(180deg, #fdefe9 0%, #fff 100%)",
@@ -62,16 +63,46 @@ const VehicleModal: FC<Props> = ({ vehicle, onClose, redirectPath }) => {
           </div>
         </div>
 
-        <h5 className="text-3xl font-bold text-[#9b111e] mb-2">
+        <h5 className="text-3xl font-bold text-[#9b111e] mb-2" style={{...FONTS.subHeader}}>
           {baseInfo.registrationNumber} - {baseInfo.title}
         </h5>
 
+        {vehicle.partnerDetails && (
+          <div className="mt-8">
+            <h3 className="text-2xl font-semibold text-[#9b111e] mb-4" style={{...FONTS.cardheader}}>
+              Service Center
+            </h3>
+            <table className="w-full table-auto border-collapse border border-[#d7b9a3] !text-[#3b2f2f]" style={{...FONTS.cardSubHeader}}>
+              <tbody>
+                <tr className="border border-[#d7b9a3]" >
+                  <td className="border px-4 py-2 font-semibold capitalize w-1/2">
+                    Name
+                  </td>
+                  <td className="border px-4 py-2">{vehicle.partnerDetails.partnerName || "N/A"}</td>
+                </tr>
+                <tr className="border border-[#d7b9a3]">
+                  <td className="border px-4 py-2 font-semibold capitalize w-1/2">
+                    Phone
+                  </td>
+                  <td className="border px-4 py-2">{vehicle.partnerDetails.partnerPhone || "N/A"}</td>
+                </tr>
+                <tr className="border border-[#d7b9a3]">
+                  <td className="border px-4 py-2 font-semibold capitalize w-1/2">
+                    Address
+                  </td>
+                  <td className="border px-4 py-2">{vehicle.partnerDetails.partnerAddress || "N/A"}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        )}
+
         {vehicle.customerDetails && (
           <div className="mt-8">
-            <h3 className="text-2xl font-semibold text-[#9b111e] mb-4">
+            <h3 className="text-2xl font-semibold text-[#9b111e] mb-4" style={{...FONTS.cardheader}}>
               Owner Details
             </h3>
-            <table className="w-full table-auto border-collapse border border-[#d7b9a3] text-[#3b2f2f]">
+            <table className="w-full table-auto border-collapse border border-[#d7b9a3] !text-[#3b2f2f]" style={{...FONTS.cardSubHeader}}>
               <tbody>
                 {Object.entries(vehicle.customerDetails).map(([key, value]) => (
                   <tr key={key} className="border border-[#d7b9a3]">
@@ -88,10 +119,10 @@ const VehicleModal: FC<Props> = ({ vehicle, onClose, redirectPath }) => {
 
         {vehicle.vehicleInfo && (
           <div className="mt-8">
-            <h3 className="text-2xl font-semibold text-[#9b111e] mb-4">
+            <h3 className="text-2xl font-semibold text-[#9b111e] mb-4" style={{...FONTS.cardheader}}>
               Vehicle Details
             </h3>
-            <table className="w-full table-auto border-collapse border border-[#d7b9a3] text-[#3b2f2f]">
+            <table className="w-full table-auto border-collapse border border-[#d7b9a3] !text-[#3b2f2f]" style={{...FONTS.cardSubHeader}}>
               <tbody>
                 {Object.entries(vehicle.vehicleInfo).map(([key, value]) => (
                   <tr key={key} className="border border-[#d7b9a3]">
@@ -108,10 +139,10 @@ const VehicleModal: FC<Props> = ({ vehicle, onClose, redirectPath }) => {
 
         {vehicle.carCondition && (
           <div className="mt-8">
-            <h3 className="text-2xl font-semibold text-[#9b111e] mb-4">
+            <h3 className="text-2xl font-semibold text-[#9b111e] mb-4" style={{...FONTS.cardheader}}>
               Car Condition
             </h3>
-            <table className="w-full table-auto border-collapse border border-[#d7b9a3] text-[#3b2f2f]">
+            <table className="w-full table-auto border-collapse border border-[#d7b9a3] !text-[#3b2f2f]" style={{...FONTS.cardSubHeader}}>
               <tbody>
                 <tr className="border border-[#d7b9a3]">
                   <td className="border px-4 py-2 font-semibold capitalize w-1/2">
@@ -149,11 +180,32 @@ const VehicleModal: FC<Props> = ({ vehicle, onClose, redirectPath }) => {
           </div>
         )}
 
+        {vehicle.checkInOutDates && (
+          <div className="mt-8">
+            <h3 className="text-2xl font-semibold text-[#9b111e] mb-4" style={{...FONTS.cardheader}}>
+              Entries
+            </h3>
+            <table className="w-full table-auto border-collapse border border-[#d7b9a3] !text-[#3b2f2f]" style={{...FONTS.cardSubHeader}}>
+              <tbody>
+                {Object.entries(vehicle.checkInOutDates).map(([key, value]) => (
+                  <tr key={key} className="border border-[#d7b9a3]">
+                    <td className="border px-4 py-2 font-semibold capitalize w-1/2">
+                      {key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}
+                    </td>
+                    <td className="border px-4 py-2">{value || "N/A"}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+
         <div className="flex justify-start items-center mt-4">
           <Link
             to={redirectPath}
             onClick={onClose}
-            className="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-6 rounded shadow-md transition"
+            className="bg-red-600 hover:bg-red-700 !text-white font-semibold py-2 px-6 rounded shadow-md transition"
+            style={{...FONTS.paragraph}}
           >
             Job Card
           </Link>

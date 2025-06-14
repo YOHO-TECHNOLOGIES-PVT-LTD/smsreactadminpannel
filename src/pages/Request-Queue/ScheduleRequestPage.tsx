@@ -213,13 +213,15 @@ export default function ScheduleRequestPage() {
           <div className="flex justify-end gap-4 mt-6">
             <button
               onClick={closeModal}
-              className="px-5 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300"
+              className="px-5 py-2 bg-gray-200 !text-gray-800 rounded-lg hover:!bg-gray-300"
+              style={{...FONTS.paragraph}}
             >
               Cancel
             </button>
             <button
               onClick={assignPartner}
-              className="px-5 py-2 bg-[#9b111e] text-white rounded-lg hover:bg-[#80101a]"
+              className="px-5 py-2 !bg-[#9b111e] !text-white rounded-lg hover:!bg-[#80101a]"
+              style={{...FONTS.paragraph}}
             >
               Assign Partner
             </button>

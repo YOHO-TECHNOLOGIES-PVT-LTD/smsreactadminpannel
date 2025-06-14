@@ -14,6 +14,11 @@ export type Vehicle = {
     availability: string;
     currentFuelLevel?: "Empty" | "Quarter" | "Half Tank" | "Full";
   };
+  partnerDetails: {
+    partnerName: string;
+    partnerPhone: string;
+    partnerAddress: string;
+  };
   customerDetails: {
     fullName: string;
   };
@@ -21,5 +26,9 @@ export type Vehicle = {
     fuelLevel: string;
     selectedItems: string[];
     images: string[];
+  };
+  checkInOutDates: {
+    checkInDate: string;
+    checkOutDate: string;
   };
 };
