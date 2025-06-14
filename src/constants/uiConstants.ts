@@ -37,7 +37,7 @@ export const FONTS = {
     color: "#9b111e"
   },
   subParagraph: {
-    fontFamily: "'Figtree-Medium', sans-serif",
+    fontFamily: "'Figtree', sans-serif",
     fontWeight: 300,
     fontSize: "12px",
     color: "#9b111e"

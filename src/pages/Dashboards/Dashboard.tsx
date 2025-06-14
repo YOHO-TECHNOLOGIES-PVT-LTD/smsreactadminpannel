@@ -100,7 +100,7 @@ const [active,setactive]=useState<any[]>([])
           className="text-xl font-semibold pl-6 pt-3 "
           style={{ ...FONTS.header }}
         >
-          Center at a Glance
+          Dashboard
         </p>
       {/* Header */}
       <div className="rounded-xl shadow-md bg-white pb-4  my-5 ">
