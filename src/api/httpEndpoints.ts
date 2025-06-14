@@ -10,15 +10,15 @@ export const API_END_POINTS ={
 
 
     jobcard:{
-            Post:"/api/jobcards",
-            Get:"/api/jobcards/:id",
-            GetAll:"/api/jobcards",
-            Put:"/api/jobcards/:id",
+            Post:"/api/jobcardscreateCard",
+            Get:"/api/jobcards/getOne/:id",
+            GetAll:"/api/jobcards/getAll",
+            Put:"/api/jobcards/updateCard/:id",
     } ,
 
     
    vechiclemanage:{
-            Get:"/api/admin/vehicleManage/",
+            Get:"/api/vehicle/getall/",
    }  ,
 
    
@@ -37,7 +37,11 @@ export const API_END_POINTS ={
     Post:"/api/sos/add",
     GetAll:"/api/sos/getall",
     Get:"/api/sos/get/:id",
-    Put:"/api/sos/update/:id"
+    Put:"/api/sos/update/",
+    put:"/api/sos/addlist",
+    getsoslis:"/api/sos/soslist",
+    updatelist:"/api/sos/updatelist/:id",
+    delete:"/api/sos/delete/"
    },
 
    profile:{
@@ -79,6 +83,26 @@ export const API_END_POINTS ={
     delete:"/api/admin/spareparts/delete/:id",
    },
 
+   serviceCenter:{
+     getAll: "/api/admin/servicecenter/getall",
+     getCatevery: "/api/admin/category/getAll/",
+     getAllCat: "/api/admin/category/getAll/:uuid",
+     postPartner: "/api/partner/auth/register",
+     updatePatner: "/api/partner/auth/update/:id",
+     delete:"/api/admin/servicecenter/delete/:id",
+    },
+    category:{
+        update:"/api/admin/category/update/:uuid",
+        delete:"/api/admin/category/delete/:uuid",
+        create:"/api/admin/category/create",
+    },
+    service:{
+        create:"/api/admin/service/",
+        getall:'/api/admin/service/',
+        put:'/api/admin/service/:uuid',
+        patch:'/api/admin/service/toggle-status/:uuid',
+        delete:'/api/admin/service/remove/:id',
+    }
 
 
    

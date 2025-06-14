@@ -17,13 +17,18 @@ import { BiSolidCertification } from "react-icons/bi";
 import { RiLockPasswordLine } from "react-icons/ri";
 import { LuPhoneCall } from "react-icons/lu";
 import { FONTS } from "../../constants/uiConstants";
+import Client from "../../api";
+import { Settings } from "lucide-react";
 
 type ServiceCenterProfileProps = {
+    onSpareParts: () => void;
     onServices: () => void;
     handleBack: () => void;
+    setpartnerId: (id: string) => void
+    partner: any;
 };
 
-const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({ onServices, handleBack }) => {
+const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({ onSpareParts, onServices, handleBack, partner, setpartnerId }) => {
     const [isActive, setIsActive] = useState(true);
     const [showConfirm, setShowConfirm] = useState(false);
     const [pendingStatus, setPendingStatus] = useState<boolean | null>(null);
@@ -33,14 +38,14 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({ onServi
     const [showDeleteSuccessPopup, setShowDeleteSuccessPopup] = useState(false);
 
     // Contact Info State
-    const [editCompanyName, setEditCompanyName] = useState("Hyundai Accent");
+    const [editCompanyName, setEditCompanyName] = useState(partner?.companyName || "yes mechanic");
     const [editEstablished, setEditEstablished] = useState("2005");
     const [editBranches, setEditBranches] = useState("35");
     const [editEvCertified, setEditEvCertified] = useState("Yes");
-    const [editPhone, setEditPhone] = useState("+91 98765 43210");
-    const [editEmail, setEditEmail] = useState("support@autonova.com");
+    const [editPhone, setEditPhone] = useState(partner?.contact_info?.phoneNumber);
+    const [editEmail, setEditEmail] = useState(partner?.email);
     const [editWebsite, setEditWebsite] = useState("www.autonova.com");
-    const [editAddress, setEditAddress] = useState("123 EV Road, Chennai, Tamil Nadu");
+    const [editAddress, setEditAddress] = useState(partner?.contact_info?.address1 + ' ' + partner?.contact_info?.address2 + ' ' + partner?.contact_info?.city + ' ' + partner?.contact_info?.state);
     const [editDataEncrypted, setEditDataEncrypted] = useState("Yes");
     const [editVerifiedCenter, setEditVerifiedCenter] = useState("✔️");
     const [editLastAudit, setEditLastAudit] = useState("Jan 2025");
@@ -48,7 +53,7 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({ onServi
 
     // Login Info State
     const [editUsername, setEditUsername] = useState("autonova_admin");
-    const [editLoginEmail, setEditLoginEmail] = useState("abc@gmail.com");
+    const [editLoginEmail, setEditLoginEmail] = useState(partner?.email);
     const [editPassword, setEditPassword] = useState("abc@123456");
 
     const handleToggle = () => {
@@ -68,19 +73,26 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({ onServi
         setShowConfirm(false);
     };
 
-    const confirmDelete = () => {
+    const confirmDelete = async () => {
         setShowDeleteConfirm(false);
-        console.log("Service Center Deleted");
-        setShowDeleteSuccessPopup(true);
+        try {
+            await new Client().admin.servicecenter.delete();
+            console.log("Service Center Deleted");
+            setShowDeleteSuccessPopup(true);
+            handleBack();
+        } catch (error) {
+            console.error("Error deleting service center:", error);
+
+        }
     };
 
     const cancelDelete = () => {
         setShowDeleteConfirm(false);
     };
 
-    const handleEditSubmit = (e: React.FormEvent) => {
+    const handleEditSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        console.log("Updated:", {
+        const data: any = {
             editCompanyName,
             editEstablished,
             editBranches,
@@ -96,7 +108,13 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({ onServi
             editUsername,
             editLoginEmail,
             editPassword
-        });
+        }
+        try {
+            const response: any = await new Client().admin.servicecenter.update(data, partner._id)
+            console.log(response)
+        } catch (error) {
+            console.log("profile update", error)
+        }
         setShowEditForm(false);
         setShowSuccessPopup(true);
     };
@@ -115,12 +133,20 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({ onServi
         }
     }, [showDeleteSuccessPopup]);
 
+    function onChangeCat(id: string) {
+        setpartnerId(id)
+        onServices()
+    }
+    function saveChanges() {
+
+    }
+
     return (
         <div className="min-h-screen p-6" style={{ fontFamily: FONTS.paragraph.fontSize }}>
             {/* Header Section */}
             <div className="flex items-center justify-between mb-6">
-                <button 
-                    onClick={handleBack} 
+                <button
+                    onClick={handleBack}
                     className="flex items-center gap-2 text-[#9b111e] hover:text-[#800000] transition-colors"
                 >
                     <MdOutlineKeyboardBackspace className="text-2xl" />
@@ -136,21 +162,32 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({ onServi
                 <div className="flex flex-col md:flex-row items-center justify-between p-6 bg-gradient-to-r from-[#9b111e] to-[#d23c3c]">
                     <div className="flex items-center gap-4 mb-4 md:mb-0">
                         <div className="bg-white p-2 rounded-full">
-                            <img 
-                                src="https://logodix.com/logo/2004138.jpg" 
-                                alt="Logo" 
-                                className="w-16 h-16 object-contain" 
+                            <img
+                                src="https://logodix.com/logo/2004138.jpg"
+                                alt="Logo"
+                                className="w-16 h-16 object-contain"
                             />
                         </div>
-                        <h3 className="text-2xl font-bold text-white">Fast & Furious Auto Mobiles</h3>
+                        <h3 className="text-2xl font-bold text-white">{partner?.firstName + ' ' + partner?.lastName}</h3>
+                    </div>
+                    <div className="flex items-center">
+                    <div className="p-4">
+                        <button
+                            onClick={onSpareParts}
+                            className="flex items-center gap-2 bg-white text-[#9b111e] px-5 py-2 rounded-lg font-medium hover:bg-gray-100 transition-colors shadow-sm"
+                        >
+                            <Settings className="w-4 h-4" />
+                            <span>Spare Parts</span>
+                        </button>
                     </div>
                     <button
-                        onClick={onServices}
+                        onClick={() => onChangeCat(partner._id)}
                         className="flex items-center gap-2 bg-white text-[#9b111e] px-5 py-2 rounded-lg font-medium hover:bg-gray-100 transition-colors shadow-sm"
                     >
                         <span>View Services</span>
                         <FaArrowRight size={16} />
                     </button>
+                    </div>
                 </div>
 
                 <div className="p-6">
@@ -282,41 +319,41 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({ onServi
                                         Contact Information
                                     </h3>
                                     <div className="space-y-4">
-                                        <EnhancedEditField 
+                                        <EnhancedEditField
                                             icon={<BsBuildings className="text-[#9b111e]" />}
-                                            label="Company Name" 
-                                            value={editCompanyName} 
-                                            onChange={setEditCompanyName} 
+                                            label="Company Name"
+                                            value={editCompanyName}
+                                            onChange={setEditCompanyName}
                                         />
-                                        <EnhancedEditField 
+                                        <EnhancedEditField
                                             icon={<SlCalender className="text-[#9b111e]" />}
-                                            label="Established" 
-                                            value={editEstablished} 
-                                            onChange={setEditEstablished} 
+                                            label="Established"
+                                            value={editEstablished}
+                                            onChange={setEditEstablished}
                                         />
-                                        <EnhancedEditField 
+                                        <EnhancedEditField
                                             icon={<FaCodeBranch className="text-[#9b111e]" />}
-                                            label="Branches" 
-                                            value={editBranches} 
-                                            onChange={setEditBranches} 
+                                            label="Branches"
+                                            value={editBranches}
+                                            onChange={setEditBranches}
                                         />
-                                        <EnhancedEditField 
+                                        <EnhancedEditField
                                             icon={<AiFillSafetyCertificate className="text-[#9b111e]" />}
-                                            label="EV Certified" 
-                                            value={editEvCertified} 
-                                            onChange={setEditEvCertified} 
+                                            label="EV Certified"
+                                            value={editEvCertified}
+                                            onChange={setEditEvCertified}
                                         />
-                                        <EnhancedEditField 
+                                        <EnhancedEditField
                                             icon={<LuPhoneCall className="text-[#9b111e]" />}
-                                            label="Phone" 
-                                            value={editPhone} 
-                                            onChange={setEditPhone} 
+                                            label="Phone"
+                                            value={editPhone}
+                                            onChange={setEditPhone}
                                         />
-                                        <EnhancedEditField 
+                                        <EnhancedEditField
                                             icon={<MdEmail className="text-[#9b111e]" />}
-                                            label="Email" 
-                                            value={editEmail} 
-                                            onChange={setEditEmail} 
+                                            label="Email"
+                                            value={editEmail}
+                                            onChange={setEditEmail}
                                         />
                                     </div>
                                 </div>
@@ -330,17 +367,17 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({ onServi
                                         Website & Address
                                     </h3>
                                     <div className="space-y-4">
-                                        <EnhancedEditField 
+                                        <EnhancedEditField
                                             icon={<CgWebsite className="text-[#9b111e]" />}
-                                            label="Website" 
-                                            value={editWebsite} 
-                                            onChange={setEditWebsite} 
+                                            label="Website"
+                                            value={editWebsite}
+                                            onChange={setEditWebsite}
                                         />
-                                        <EnhancedEditField 
+                                        <EnhancedEditField
                                             icon={<FaRegAddressCard className="text-[#9b111e]" />}
-                                            label="Address" 
-                                            value={editAddress} 
-                                            onChange={setEditAddress} 
+                                            label="Address"
+                                            value={editAddress}
+                                            onChange={setEditAddress}
                                             textarea
                                         />
                                     </div>
@@ -352,23 +389,23 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({ onServi
                                         Login Information
                                     </h3>
                                     <div className="space-y-4">
-                                        <EnhancedEditField 
+                                        <EnhancedEditField
                                             icon={<FaUserCircle className="text-[#9b111e]" />}
-                                            label="Username" 
-                                            value={editUsername} 
-                                            onChange={setEditUsername} 
+                                            label="Username"
+                                            value={editUsername}
+                                            onChange={setEditUsername}
                                         />
-                                        <EnhancedEditField 
+                                        <EnhancedEditField
                                             icon={<MdOutlineMailOutline className="text-[#9b111e]" />}
-                                            label="Login Email" 
-                                            value={editLoginEmail} 
-                                            onChange={setEditLoginEmail} 
+                                            label="Login Email"
+                                            value={editLoginEmail}
+                                            onChange={setEditLoginEmail}
                                         />
-                                        <EnhancedEditField 
+                                        <EnhancedEditField
                                             icon={<RiLockPasswordLine className="text-[#9b111e]" />}
-                                            label="Password" 
-                                            value={editPassword} 
-                                            onChange={setEditPassword} 
+                                            label="Password"
+                                            value={editPassword}
+                                            onChange={setEditPassword}
                                             type="password"
                                         />
                                     </div>
@@ -383,29 +420,29 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({ onServi
                                         Additional Information
                                     </h3>
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                        <EnhancedEditField 
+                                        <EnhancedEditField
                                             icon={<FcDataEncryption className="text-[#9b111e]" />}
-                                            label="Data Encrypted" 
-                                            value={editDataEncrypted} 
-                                            onChange={setEditDataEncrypted} 
+                                            label="Data Encrypted"
+                                            value={editDataEncrypted}
+                                            onChange={setEditDataEncrypted}
                                         />
-                                        <EnhancedEditField 
+                                        <EnhancedEditField
                                             icon={<MdVerified className="text-[#9b111e]" />}
-                                            label="Verified Center" 
-                                            value={editVerifiedCenter} 
-                                            onChange={setEditVerifiedCenter} 
+                                            label="Verified Center"
+                                            value={editVerifiedCenter}
+                                            onChange={setEditVerifiedCenter}
                                         />
-                                        <EnhancedEditField 
+                                        <EnhancedEditField
                                             icon={<AiOutlineAudit className="text-[#9b111e]" />}
-                                            label="Last Audit" 
-                                            value={editLastAudit} 
-                                            onChange={setEditLastAudit} 
+                                            label="Last Audit"
+                                            value={editLastAudit}
+                                            onChange={setEditLastAudit}
                                         />
-                                        <EnhancedEditField 
+                                        <EnhancedEditField
                                             icon={<BiSolidCertification className="text-[#9b111e]" />}
-                                            label="Certification" 
-                                            value={editCertification} 
-                                            onChange={setEditCertification} 
+                                            label="Certification"
+                                            value={editCertification}
+                                            onChange={setEditCertification}
                                         />
                                     </div>
                                 </div>
@@ -422,6 +459,7 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({ onServi
                             </button>
                             <button
                                 type="submit"
+                                onClick={saveChanges}
                                 className="px-6 py-2 bg-[#9b111e] text-white rounded-lg hover:bg-[#800000] transition-colors flex items-center gap-2"
                             >
                                 <FaEdit /> Save Changes
@@ -433,8 +471,8 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({ onServi
 
             {/* Success Popups */}
             {showSuccessPopup && (
-                <Popup 
-                    message="Profile updated successfully!" 
+                <Popup
+                    message="Profile updated successfully!"
                     icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>}
@@ -442,8 +480,8 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({ onServi
             )}
 
             {showDeleteSuccessPopup && (
-                <Popup 
-                    message="Service center deleted successfully!" 
+                <Popup
+                    message="Service center deleted successfully!"
                     icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>}

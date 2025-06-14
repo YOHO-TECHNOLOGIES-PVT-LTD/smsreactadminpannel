@@ -1,179 +1,224 @@
-import { useState } from "react";
-import { Search, ArrowLeft, Star, Plus, Eye } from "lucide-react";
-import { COLORS } from "../../constants/uiConstants";
+
+import type React from "react"
+import { useState, useEffect } from "react"
+import { Search, ArrowLeft, Star, Plus, EllipsisVertical } from "lucide-react"
+import Client from "../../api"
+
+// Define colors directly to avoid import issues
+const COLORS = {
+  bgColor: "#f9fafb", // gray-50
+}
+
+interface ApiSparePart {
+  _id: string
+  productName: string
+  price: string
+  slug: string
+  brand: string
+  image: string
+  stock: string
+  inStock: boolean
+  category: string
+  warrantyPeriod: string
+  reStockAuto: boolean
+  reStockDate: string | null
+  isDeleted: boolean
+  createdAt: string
+  updatedAt: string
+  uuid: string
+  __v: number
+}
 
 interface SparePart {
-  id: number;
-  name: string;
-  image: string;
-  price: number;
-  quantity: number;
-  category: string;
-  brand: string;
-  rating: number;
-  reviews: number;
-  inStock: boolean;
-  discount?: number;
-  active?: boolean;
+  id: string
+  name: string
+  image: string
+  price: string
+  quantity: number
+  category: string
+  brand: string
+  rating: number
+  reviews: number
+  inStock: boolean
+  discount?: number
+  active?: boolean
+  warrantyPeriod: string
+  slug: string
 }
 
-const initialSpareParts: SparePart[] = [
-  {
-    id: 1,
-    name: "Car Engine 5000cc - Boost Power - Silver Metals - Petrol Engine",
-    image: "https://images.unsplash.com/photo-1555215695-3004980ad54e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
-    price: 59900,
-    quantity: 5,
-    category: "Engine",
-    brand: "PowerMax",
-    rating: 4.8,
-    reviews: 124,
-    inStock: true,
-    discount: 10,
-    active: true
-  },
-  {
-    id: 2,
-    name: "Premium Brake Disc Set - High Performance - Carbon Fiber Enhanced",
-    image: "https://images.unsplash.com/photo-1601362840469-51e4d8d58785?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
-    price: 15900,
-    quantity: 12,
-    category: "Brakes",
-    brand: "StopTech",
-    rating: 4.6,
-    reviews: 89,
-    inStock: true,
-    discount: 15,
-    active: true
-  },
-  {
-    id: 3,
-    name: "Turbo Charger Assembly - Variable Geometry - All Weather",
-    image: "https://images.unsplash.com/photo-1580273916550-e323be2ae537?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
-    price: 45000,
-    quantity: 2,
-    category: "Engine",
-    brand: "TurboMax",
-    rating: 4.9,
-    reviews: 67,
-    inStock: true,
-    discount: 5,
-    active: true
-  },
-  {
-    id: 4,
-    name: "Heavy Duty Suspension Kit - Adjustable Height - Sport Tuned",
-    image: "https://images.unsplash.com/photo-1597852074816-d933c7d2b988?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
-    price: 32000,
-    quantity: 8,
-    category: "Suspension",
-    brand: "RideTech",
-    rating: 4.7,
-    reviews: 156,
-    inStock: true,
-    discount: 20,
-    active: true
-  }
-];
+interface ApiResponse {
+  success: boolean
+  data: ApiSparePart[]
+}
 
 type ReactComponent = {
-  handleBack: () => void;
+  handleBack: () => void
+  Spareparts?: ApiSparePart[] | ApiResponse
+  partnerId: string
 }
 
-const ServiceSpareParts: React.FC<ReactComponent> = ({ handleBack }) => {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [showSearch, setShowSearch] = useState(false);
-  const [hoveredCard, setHoveredCard] = useState<number | null>(null);
-  const [showAddModal, setShowAddModal] = useState(false);
-  const [spareParts, setSpareParts] = useState<SparePart[]>(initialSpareParts);
-  const [newPart, setNewPart] = useState<Omit<SparePart, 'id' | 'inStock' | 'reviews' | 'rating'>>({
+const ServiceSpareParts: React.FC<ReactComponent> = ({ handleBack, Spareparts = [], partnerId }) => {
+  const [searchTerm, setSearchTerm] = useState("")
+  const [showSearch, setShowSearch] = useState(false)
+  const [hoveredCard, setHoveredCard] = useState<string | null>(null)
+  const [showAddModal, setShowAddModal] = useState(false)
+  const [spareParts, setSpareParts] = useState<SparePart[]>([])
+  const [selectedPart, setSelectedPart] = useState<SparePart | null>(null)
+  const [menuOpenId, setMenuOpenId] = useState<string | null>(null);
+  const [newPart, setNewPart] = useState<Omit<SparePart, "id" | "inStock" | "reviews" | "rating">>({
     name: "",
     image: "",
-    price: 0,
+    price: '0',
     quantity: 0,
     category: "",
     brand: "",
     discount: 0,
-    active: true
-  });
+    active: true,
+    warrantyPeriod: "",
+    slug: "",
+  })
 
-  const filteredParts = spareParts.filter((part) =>
-    part.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    part.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    part.brand.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const [editPart, setEditPart] = useState<SparePart | null>(null);
 
-  const calculateDiscountedPrice = (price: number, discount: number) => {
-    return price - (price * discount / 100);
+  const handleEdit = (part: any) => {
+    setEditPart(part);
   };
 
+  const handleDelete = (part: any) => {
+    const confirmDelete = window.confirm(`Are you sure you want to delete "${part.name}"?`);
+    if (confirmDelete) {
+      // Call your API or state update logic here
+      console.log("Deleted:", part);
+      // e.g., deletePartById(part.id)
+    }
+  };
+
+
+  // Transform API data to component format
+  useEffect(() => {
+    let apiData: ApiSparePart[] = []
+
+    // Handle both direct array and API response object
+    if (Array.isArray(Spareparts)) {
+      apiData = Spareparts
+    } else if (Spareparts && typeof Spareparts === "object" && "data" in Spareparts) {
+      apiData = (Spareparts as ApiResponse).data || []
+    }
+
+    console.log("Raw Spareparts prop:", Spareparts)
+    console.log("Extracted API Data:", apiData)
+
+    if (apiData && apiData.length > 0) {
+      const transformedData: SparePart[] = apiData.map((item) => ({
+        id: item._id,
+        name: item.productName,
+        image: item.image || "/placeholder.svg?height=200&width=200",
+        price: item.price || '0',
+        quantity: Number.parseInt(item.stock) || 0,
+        category: item.category,
+        brand: item.brand,
+        rating: 4.5, // Default rating since not in API
+        reviews: Math.floor(Math.random() * 100) + 10, // Random reviews for demo
+        inStock: item.inStock,
+        discount: Math.floor(Math.random() * 20), // Random discount for demo
+        active: !item.isDeleted,
+        warrantyPeriod: item.warrantyPeriod,
+        slug: item.slug,
+      }))
+
+      console.log("Transformed Data:", transformedData)
+      setSpareParts(transformedData)
+    }
+  }, [Spareparts])
+
+  const filteredParts = spareParts.filter(
+    (part) =>
+      part.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      part.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      part.brand.toLowerCase().includes(searchTerm.toLowerCase()),
+  )
+
+  const calculateDiscountedPrice = (price: string, discount: number) => {
+    return Number.parseInt(price) - (Number.parseInt(price) * discount) / 100
+  }
+
   const renderStars = (rating: number) => {
-    const fullStars = Math.floor(rating);
-    const hasHalfStar = rating % 1 !== 0;
-    
+    const fullStars = Math.floor(rating)
+    const hasHalfStar = rating % 1 !== 0
+
     return (
       <div className="flex items-center gap-1">
         {[...Array(fullStars)].map((_, i) => (
           <Star key={`full-${i}`} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
         ))}
-        {hasHalfStar && (
-          <Star className="w-4 h-4 fill-yellow-400/50 text-yellow-400" />
-        )}
+        {hasHalfStar && <Star className="w-4 h-4 fill-yellow-400/50 text-yellow-400" />}
         {[...Array(5 - Math.ceil(rating))].map((_, i) => (
           <Star key={`empty-${i}`} className="w-4 h-4 text-gray-300" />
         ))}
       </div>
-    );
-  };
+    )
+  }
 
-  const handleAddPart = () => {
+  const handleAddPart = async () => {
     const newSparePart: SparePart = {
       ...newPart,
-      id: spareParts.length + 1,
+      id: `new-${Date.now()}`,
       inStock: newPart.quantity > 0,
       reviews: 0,
-      rating: 0
-    };
-    
-    setSpareParts([...spareParts, newSparePart]);
+      rating: 0,
+    }
+    const data: any = {
+      productName: newPart.name,
+      stock: String(newPart.quantity),
+      price: newPart.price,
+      brand: newPart.brand,
+      category: newPart.category,
+      warrantyPeriod: newPart.warrantyPeriod,
+      image: newPart.image,
+      slug: newPart.slug,
+      partnerId
+    }
+    const response: any = await new Client().admin.spareparts.create(data)
+    console.log(response)
+
+    setSpareParts([...spareParts, newSparePart])
     setNewPart({
       name: "",
       image: "",
-      price: 0,
+      price: '0',
       quantity: 0,
       category: "",
       brand: "",
       discount: 0,
-      active: true
-    });
-    setShowAddModal(false);
-  };
+      active: true,
+      warrantyPeriod: "",
+      slug: "",
+    })
+    // setShowAddModal(false)
+  }
 
-  const toggleActiveStatus = (id: number) => {
-    setSpareParts(spareParts.map(part => 
-      part.id === id ? { ...part, active: !part.active } : part
-    ));
-  };
+  const toggleActiveStatus = (id: string) => {
+    setSpareParts(spareParts.map((part) => (part.id === id ? { ...part, active: !part.active } : part)))
+  }
 
   return (
-    <div className="min-h-screen" style={{ background: COLORS.bgColor }}>
+    <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <div className="sticky top-0 z-10 bg-[#FAF3EB] border-b">
+      <div className="sticky top-0 z-20 bg-[#FAF3EB] border-b">
         <div className="container mx-auto px-4 py-3 flex items-center">
-          <button 
-            onClick={handleBack} 
+          <button
+            onClick={handleBack}
             className="p-2 hover:bg-gray-100 rounded-full transition-colors"
             aria-label="Go back"
           >
             <ArrowLeft className="text-red-800 w-6 h-6" />
           </button>
-          
+
           <div className="flex-1 ml-4">
-            <h1 className="font-bold text-2xl text-red-800">
-              Spare Parts Management
-            </h1>
+            <h1 className="font-bold text-2xl text-red-800">Spare Parts Management</h1>
+            <p className="text-sm text-gray-600 mt-1">{spareParts.length} parts available</p>
           </div>
-          
+
           <div className="flex items-center space-x-3">
             <button
               className="p-2 bg-red-50 hover:bg-red-100 text-red-700 rounded-full transition-colors"
@@ -182,7 +227,7 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ handleBack }) => {
             >
               <Search className="w-5 h-5" />
             </button>
-            
+
             <button
               className="flex items-center space-x-2 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg font-medium transition-colors"
               onClick={() => setShowAddModal(true)}
@@ -193,7 +238,7 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ handleBack }) => {
           </div>
         </div>
 
-        {/* Search Bar - appears below header when activated */}
+        {/* Search Bar */}
         {showSearch && (
           <div className="container mx-auto px-4 pb-3">
             <div className="relative">
@@ -222,40 +267,88 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ handleBack }) => {
 
       {/* Main Content */}
       <div className="container mx-auto px-4 py-6">
-        {/* Parts Grid */}
-        {filteredParts.length > 0 ? (
+        {/* Loading/Empty State */}
+        {spareParts.length === 0 ? (
+          <div className="flex flex-col items-center justify-center py-16">
+            <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mb-6">
+              <Search className="w-8 h-8 text-gray-400" />
+            </div>
+            <h3 className="text-xl font-semibold text-gray-900 mb-2">No spare parts data</h3>
+            <p className="text-gray-600 mb-6 text-center">
+              {Spareparts &&
+                (Array.isArray(Spareparts) ? Spareparts.length === 0 : !(Spareparts as ApiResponse).data?.length)
+                ? "No spare parts available"
+                : "Loading spare parts..."}
+            </p>
+          </div>
+        ) : filteredParts.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {filteredParts.map((part) => (
               <div
                 key={part.id}
-                className="group relative bg-white rounded-xl shadow-sm border border-gray-100 hover:shadow-lg hover:border-red-200 transition-all duration-300 overflow-hidden"
+                className="group relative bg-white rounded-xl shadow-sm border border-gray-100 hover:shadow-lg hover:border-red-200 transition-all duration-300 overflow-hidden cursor-pointer"
+                onClick={() => setSelectedPart(part)}
                 onMouseEnter={() => setHoveredCard(part.id)}
                 onMouseLeave={() => setHoveredCard(null)}
               >
                 {/* Discount Badge */}
-                {part.discount && part.discount > 0 && (
+                {/* {part.discount && part.discount > 0 && (
                   <div className="absolute top-3 left-3 z-10 bg-red-500 text-white px-2 py-1 rounded-full text-xs font-semibold shadow-sm">
                     -{part.discount}%
                   </div>
-                )}
-                
+                )} */}
+
                 {/* Quick View Button */}
-                <button 
-                  className={`absolute top-3 right-3 z-10 p-2 bg-white/90 hover:bg-white rounded-full shadow-md transition-all duration-200 ${
-                    hoveredCard === part.id ? 'opacity-100' : 'opacity-0'
-                  }`}
-                  aria-label="Quick view"
-                >
-                  <Eye className="w-4 h-4 text-gray-600" />
-                </button>
+                <div className="relative">
+                  <button
+                    className="absolute top-3 right-3 z-10 p-2 bg-white/90 hover:bg-white rounded-full shadow-md transition-all duration-200"
+                    aria-label="Quick view"
+                    onClick={(e) => {
+                      e.stopPropagation(); // Prevent card click
+                      setMenuOpenId(menuOpenId === part.id ? null : part.id);
+                    }}
+                  >
+                    <EllipsisVertical className="w-4 h-4 text-black" />
+                  </button>
+
+                  {menuOpenId === part.id && (
+                    <div className="absolute right-3 top-12 z-20 w-32 bg-white border border-gray-200 rounded-md shadow-lg">
+                      <button
+                        className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleEdit(part);
+                          setMenuOpenId(null);
+                        }}
+                      >
+                        Edit
+                      </button>
+                      <button
+                        className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleDelete(part);
+                          setMenuOpenId(null);
+                        }}
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  )}
+                </div>
+
 
                 {/* Image Container */}
                 <div className="relative h-48 bg-gray-50 overflow-hidden">
                   <img
                     className="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-300"
-                    src={part.image}
+                    src={part.image || "/placeholder.svg"}
                     alt={part.name}
                     loading="lazy"
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement
+                      target.src = "https://wallup.net/wp-content/uploads/2016/01/65578-BMW_M3-BMW-car-blue_cars.jpg"
+                    }}
                   />
                 </div>
 
@@ -280,6 +373,13 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ handleBack }) => {
                     <span className="text-sm text-gray-500">({part.reviews})</span>
                   </div>
 
+                  {/* Warranty Period */}
+                  <div className="mb-3">
+                    <span className="inline-block bg-blue-50 text-blue-700 px-2 py-1 rounded-md text-xs font-medium">
+                      Warranty: {part.warrantyPeriod}
+                    </span>
+                  </div>
+
                   {/* Price & Stock */}
                   <div className="space-y-3">
                     <div className="flex items-center gap-2">
@@ -288,36 +388,37 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ handleBack }) => {
                           <span className="text-2xl font-bold text-gray-900">
                             ₹{calculateDiscountedPrice(part.price, part.discount).toLocaleString()}
                           </span>
-                          <span className="text-sm text-gray-500 line-through">
-                            ₹{part.price.toLocaleString()}
-                          </span>
+                          <span className="text-sm text-gray-500 line-through">₹{part.price.toLocaleString()}</span>
                         </>
                       ) : (
-                        <span className="text-2xl font-bold text-gray-900">
-                          ₹{part.price.toLocaleString()}
-                        </span>
+                        <span className="text-2xl font-bold text-gray-900">₹{part.price.toLocaleString()}</span>
                       )}
                     </div>
 
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
-                        <div className={`w-2 h-2 rounded-full ${
-                          part.quantity > 5 ? 'bg-green-500' : 
-                          part.quantity > 0 ? 'bg-yellow-500' : 'bg-red-500'
-                        }`}></div>
+                        <div
+                          className={`w-2 h-2 rounded-full ${part.quantity > 5 ? "bg-green-500" : part.quantity > 0 ? "bg-yellow-500" : "bg-red-500"
+                            }`}
+                        ></div>
                         <span className="text-sm text-gray-600">
-                          {part.quantity > 0 ? `${part.quantity} in stock` : 'Out of stock'}
+                          {part.quantity > 0 ? `${part.quantity} in stock` : "Out of stock"}
                         </span>
                       </div>
                       <label className="inline-flex items-center cursor-pointer">
                         <input
+                          title="Active Status"
                           type="checkbox"
                           checked={part.active}
                           onChange={() => toggleActiveStatus(part.id)}
                           className="sr-only peer"
                         />
-                        <div className={`relative w-9 h-5 rounded-full peer ${part.active ? 'bg-green-500' : 'bg-gray-200'}`}>
-                          <div className={`absolute top-[2px] ${part.active ? 'left-[18px]' : 'left-[2px]'} bg-white rounded-full h-4 w-4 transition-all`}></div>
+                        <div
+                          className={`relative w-9 h-5 rounded-full peer ${part.active ? "bg-green-500" : "bg-gray-200"}`}
+                        >
+                          <div
+                            className={`absolute top-[2px] ${part.active ? "left-[18px]" : "left-[2px]"} bg-white rounded-full h-4 w-4 transition-all`}
+                          ></div>
                         </div>
                       </label>
                     </div>
@@ -331,13 +432,9 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ handleBack }) => {
             <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mb-6">
               <Search className="w-8 h-8 text-gray-400" />
             </div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-2">
-              No spare parts found
-            </h3>
+            <h3 className="text-xl font-semibold text-gray-900 mb-2">No spare parts found</h3>
             <p className="text-gray-600 mb-6 text-center">
-              {searchTerm 
-                ? `No results for "${searchTerm}"`
-                : 'No parts available at the moment'}
+              {searchTerm ? `No results for "${searchTerm}"` : "No parts match your criteria"}
             </p>
             {searchTerm && (
               <button
@@ -373,8 +470,20 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ handleBack }) => {
                     type="text"
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500"
                     value={newPart.name}
-                    onChange={(e) => setNewPart({...newPart, name: e.target.value})}
+                    onChange={(e) => setNewPart({ ...newPart, name: e.target.value })}
                     placeholder="Enter part name"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Slug*</label>
+                  <input
+                    type="text"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500"
+                    value={newPart.slug}
+                    onChange={(e) => setNewPart({ ...newPart, slug: e.target.value })}
+                    placeholder="Enter slug"
                     required
                   />
                 </div>
@@ -385,7 +494,7 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ handleBack }) => {
                     type="text"
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500"
                     value={newPart.image}
-                    onChange={(e) => setNewPart({...newPart, image: e.target.value})}
+                    onChange={(e) => setNewPart({ ...newPart, image: e.target.value })}
                     placeholder="Enter image URL"
                     required
                   />
@@ -396,8 +505,8 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ handleBack }) => {
                   <input
                     type="number"
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500"
-                    value={newPart.price || ''}
-                    onChange={(e) => setNewPart({...newPart, price: Number(e.target.value)})}
+                    value={newPart.price || ""}
+                    onChange={(e) => setNewPart({ ...newPart, price: e.target.value })}
                     placeholder="Enter price"
                     min="0"
                     required
@@ -405,13 +514,13 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ handleBack }) => {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Quantity*</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Stock Quantity*</label>
                   <input
                     type="number"
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500"
-                    value={newPart.quantity || ''}
-                    onChange={(e) => setNewPart({...newPart, quantity: Number(e.target.value)})}
-                    placeholder="Enter quantity"
+                    value={newPart.quantity || ""}
+                    onChange={(e) => setNewPart({ ...newPart, quantity: Number(e.target.value) })}
+                    placeholder="Enter stock quantity"
                     min="0"
                     required
                   />
@@ -423,7 +532,7 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ handleBack }) => {
                     type="text"
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500"
                     value={newPart.category}
-                    onChange={(e) => setNewPart({...newPart, category: e.target.value})}
+                    onChange={(e) => setNewPart({ ...newPart, category: e.target.value })}
                     placeholder="Enter category"
                     required
                   />
@@ -435,8 +544,20 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ handleBack }) => {
                     type="text"
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500"
                     value={newPart.brand}
-                    onChange={(e) => setNewPart({...newPart, brand: e.target.value})}
+                    onChange={(e) => setNewPart({ ...newPart, brand: e.target.value })}
                     placeholder="Enter brand"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Warranty Period*</label>
+                  <input
+                    type="text"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500"
+                    value={newPart.warrantyPeriod}
+                    onChange={(e) => setNewPart({ ...newPart, warrantyPeriod: e.target.value })}
+                    placeholder="e.g., 6 months"
                     required
                   />
                 </div>
@@ -448,8 +569,8 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ handleBack }) => {
                     min="0"
                     max="100"
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500"
-                    value={newPart.discount || ''}
-                    onChange={(e) => setNewPart({...newPart, discount: Number(e.target.value)})}
+                    value={newPart.discount || ""}
+                    onChange={(e) => setNewPart({ ...newPart, discount: Number(e.target.value) })}
                     placeholder="Enter discount percentage"
                   />
                 </div>
@@ -460,7 +581,7 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ handleBack }) => {
                     id="active-status"
                     className="h-4 w-4 text-red-600 focus:ring-red-500 border-gray-300 rounded"
                     checked={newPart.active}
-                    onChange={(e) => setNewPart({...newPart, active: e.target.checked})}
+                    onChange={(e) => setNewPart({ ...newPart, active: e.target.checked })}
                   />
                   <label htmlFor="active-status" className="ml-2 block text-sm text-gray-700">
                     Active Part
@@ -480,7 +601,14 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ handleBack }) => {
                   type="button"
                   onClick={handleAddPart}
                   className="px-6 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg font-medium transition-colors"
-                  disabled={!newPart.name || !newPart.image || !newPart.price || !newPart.quantity || !newPart.category || !newPart.brand}
+                  disabled={
+                    !newPart.name ||
+                    !newPart.price ||
+                    !newPart.quantity ||
+                    !newPart.category ||
+                    !newPart.brand ||
+                    !newPart.warrantyPeriod
+                  }
                 >
                   Add Part
                 </button>
@@ -489,8 +617,234 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ handleBack }) => {
           </div>
         </div>
       )}
-    </div>
-  );
-};
 
-export default ServiceSpareParts;
+      {selectedPart && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
+          <div className="bg-white rounded-md shadow-lg w-full max-w-xl">
+            <div className="p-4">
+              <div className="flex items-center justify-end mb-4">
+                <button
+                  onClick={() => setSelectedPart(null)}
+                  className="px-2 font-bold text-gray-400 text-xl hover:text-gray-600 rounded-full hover:bg-gray-100"
+                >
+                  ×
+                </button>
+              </div>
+
+              <img
+                src={selectedPart.image || "/placeholder.svg"}
+                alt={selectedPart.name}
+                loading="lazy"
+                onError={(e) => {
+                  const target = e.target as HTMLImageElement
+                  target.src =
+                    "https://wallup.net/wp-content/uploads/2016/01/65578-BMW_M3-BMW-car-blue_cars.jpg"
+                }}
+                className="w-full h-64 object-cover mb-4 bg-gray-50 rounded"
+              />
+
+              <div className="text-md text-gray-800 grid grid-cols-2 gap-4">
+                <p><span className="font-bold text-gray-700">Category:</span> <span className="text-gray-900">{selectedPart.category}</span></p>
+                <p><span className="font-bold text-gray-700">Brand:</span> <span className="text-gray-900">{selectedPart.brand}</span></p>
+                <p><span className="font-bold text-gray-700">Slug:</span> <span className="text-gray-800">{selectedPart.slug}</span></p>
+                <p><span className="font-bold text-gray-700">Warranty:</span> <span className="text-blue-700">{selectedPart.warrantyPeriod}</span></p>
+                <p>
+                  <span className="font-bold text-gray-700">Stock:</span>{" "}
+                  <span className={selectedPart.quantity > 5 ? "text-green-600" : selectedPart.quantity > 0 ? "text-yellow-600" : "text-red-600"}>
+                    {selectedPart.quantity > 0 ? `${selectedPart.quantity}` : "Out of stock"}
+                  </span>
+                </p>
+                <p>
+                  <span className="font-bold text-gray-700">Price:</span>{" "}
+                  <span className="text-red-600 font-semibold">₹{selectedPart.price}</span>
+                </p>
+                {selectedPart.discount ? (
+                  <p>
+                    <span className="font-bold text-gray-700">Discounted Price:</span>{" "}
+                    <span className="text-green-700 font-bold">
+                      ₹{calculateDiscountedPrice(selectedPart.price, selectedPart.discount)}
+                    </span>
+                  </p>
+                ) : null}
+                <p>
+                  <span className="font-bold text-gray-700">Active:</span>{" "}
+                  <span className={selectedPart.active ? "text-green-600" : "text-gray-400"}>
+                    {selectedPart.active ? "Yes" : "No"}
+                  </span>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+
+      {editPart && (
+        <div className="fixed inset-0  bg-black/50 flex items-center justify-center z-50 ">
+          <div className="bg-white rounded-md shadow-lg w-full max-w-xl m-12">
+            <div className="p-4">
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="text-xl font-semibold text-gray-800">Edit Part</h2>
+                <button
+                  onClick={() => setEditPart(null)}
+                  className="px-2 font-bold text-gray-400 text-xl hover:text-gray-600 rounded-full hover:bg-gray-100"
+                >
+                  ×
+                </button>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div className="col-span-2">
+                  <label className="block text-sm font-medium text-gray-700">Product Image</label>
+
+                  <input
+                    type="file"
+                    accept="image/*"
+                    title="Upload Image"
+                    onChange={(e) => {
+                      const file = e.target.files?.[0];
+                      if (file) {
+                        const imageUrl = URL.createObjectURL(file);
+                        setEditPart({ ...editPart, image: imageUrl });
+
+                        // Optional: Save the file to FormData if uploading to a backend later
+                        // const formData = new FormData();
+                        // formData.append('file', file);
+                      }
+                    }}
+                    className="mt-1 block w-full text-sm text-gray-700 file:bg-red-50 file:border file:border-red-300 file:rounded file:px-3 file:py-1 file:text-red-600 hover:file:bg-red-100"
+                  />
+                </div>
+
+
+                <div className="col-span-2">
+                  <label className="block text-sm font-medium text-gray-700">Name</label>
+                  <input
+                    title="Part Name"
+                    type="text"
+                    value={editPart.name}
+                    onChange={(e) => setEditPart({ ...editPart, name: e.target.value })}
+                    className="mt-1 block w-full border-gray-300 shadow-sm outline-none focus:border-b-2 focus:border-b-red-500"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">Category</label>
+                  <input
+                    title="Category"
+                    type="text"
+                    value={editPart.category}
+                    onChange={(e) => setEditPart({ ...editPart, category: e.target.value })}
+                    className="mt-1 block w-full border-gray-300 shadow-sm outline-none focus:border-b-2 focus:border-b-red-500"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">Brand</label>
+                  <input
+                    title="Brand"
+                    type="text"
+                    value={editPart.brand}
+                    onChange={(e) => setEditPart({ ...editPart, brand: e.target.value })}
+                    className="mt-1 block w-full border-gray-300 shadow-sm outline-none focus:border-b-2 focus:border-b-red-500"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">Slug</label>
+                  <input
+                    title="Slug"
+                    type="text"
+                    value={editPart.slug}
+                    onChange={(e) => setEditPart({ ...editPart, slug: e.target.value })}
+                    className="mt-1 block w-full border-gray-300 shadow-sm outline-none focus:border-b-2 focus:border-b-red-500"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">Warranty Period</label>
+                  <input
+                    title="Warranty Period"
+                    type="text"
+                    value={editPart.warrantyPeriod}
+                    onChange={(e) => setEditPart({ ...editPart, warrantyPeriod: e.target.value })}
+                    className="mt-1 block w-full border-gray-300 shadow-sm outline-none focus:border-b-2 focus:border-b-red-500"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">Quantity</label>
+                  <input
+                    title="Quantity"
+                    type="number"
+                    value={editPart.quantity}
+                    onChange={(e) => setEditPart({ ...editPart, quantity: parseInt(e.target.value, 10) })}
+                    className="mt-1 block w-full border-gray-300 shadow-sm outline-none focus:border-b-2 focus:border-b-red-500"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">Price</label>
+                  <input
+                    title="Price"
+                    type="number"
+                    value={editPart.price}
+                    onChange={(e) => setEditPart({ ...editPart, price: e.target.value })}
+                    className="mt-1 block w-full border-gray-300 shadow-sm outline-none focus:border-b-2 focus:border-b-red-500"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">Discount (%)</label>
+                  <input
+                    title="Discount"
+                    type="number"
+                    value={editPart.discount || 0}
+                    onChange={(e) => setEditPart({ ...editPart, discount: parseInt(e.target.value, 10) })}
+                    className="mt-1 block w-full border-gray-300 shadow-sm outline-none focus:border-b-2 focus:border-b-red-500"
+                  />
+                </div>
+
+                <div className="col-span-2">
+                  <label className="block text-sm font-medium text-gray-700">Active</label>
+                  <select
+                    title="Active Status"
+                    value={editPart.active ? "true" : "false"}
+                    onChange={(e) => setEditPart({ ...editPart, active: e.target.value === "true" })}
+                    className="mt-1 block w-full border-gray-300 shadow-sm outline-none focus:border-b-2 focus:border-b-red-500"
+                  >
+                    <option value="true">Active</option>
+                    <option value="false">Inactive</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="mt-6 flex justify-end gap-3">
+                <button
+                  className="px-4 py-2 bg-gray-100 text-gray-700 rounded hover:bg-gray-200"
+                  onClick={() => setEditPart(null)}
+                >
+                  Cancel
+                </button>
+                <button
+                  className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
+                  onClick={() => {
+                    console.log("Updated Part:", editPart);
+                    // Here you'd call a function to save the changes (API or state update)
+                    setEditPart(null);
+                  }}
+                >
+                  Save Changes
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+
+    </div>
+  )
+}
+
+export default ServiceSpareParts

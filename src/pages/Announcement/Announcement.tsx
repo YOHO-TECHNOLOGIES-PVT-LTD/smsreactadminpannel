@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Offer from '../../components/common/Announcement/Offer';
 import AnnouncementList from '../../components/common/Announcement/AnnouncementList';
 import Partner from '../../components/common/Announcement/Partner';
-import {  getAnnouncement, postAnnouncement } from './services';
 
 // Define the partner data type
 type PartnerData = {
@@ -21,21 +20,6 @@ export const Announcement = () => {
   const [price, setPrice] = useState('');
   const [image, setImage] = useState<File | null>(null);
 
-  useEffect(() => {
-  if (activeTab === 'announcement') {
-    const fetchAnnouncements = async () => {
-      try {
-        const data:any = await getAnnouncement('')  ; 
-        console.log(data); 
-      } catch (error) {
-        console.error('Error fetching announcements:', error);
-      }
-    };
-
-    fetchAnnouncements();
-  }
-}, [activeTab]);
-
   // Remove unused partnerData state to fix TypeScript warning
   // const [partnerData, setPartnerData] = useState<PartnerData[]>([]);
 
@@ -46,43 +30,33 @@ export const Announcement = () => {
     setImage(null);
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
 
-  const newData: PartnerData = {
-    title: heading,
-    description,
-    price,
-    image: image ? URL.createObjectURL(image) : '',
+    const newData: PartnerData = {
+      title: heading,
+      description,
+      price,
+      image: image ? URL.createObjectURL(image) : '',
+    };
+
+    // Store data based on active tab
+    if (activeTab === 'offer') {
+      // Handle offer data submission
+      console.log('Offer added:', newData);
+    } else if (activeTab === 'announcement') {
+      // Handle announcement data submission
+      console.log('Announcement added:', newData);
+    } else if (activeTab === 'partner') {
+      // Handle partner data submission
+      console.log('Partner added:', newData);
+      // If Partner component has methods to add data, you could call them here
+      // For example: PartnerService.addPartner(newData);
+    }
+
+    resetForm();
+    setShowModal(false);
   };
-
-  if (activeTab === 'offer') {
-    console.log('Offer added:', newData);
-  } else if (activeTab === 'announcement') {
-    console.log('Announcement added:', newData);
-
-   
-    const formData = new FormData();
-    formData.append('title', heading);
-    formData.append('description', description);
-    formData.append('price', price);
-    if (image) {
-      formData.append('image', image);
-    }
-
-    try {
-      const response = await postAnnouncement(formData);
-      console.log('Announcement posted:', response);
-    } catch (error) {
-      console.error('Failed to post announcement:', error);
-    }
-  } else if (activeTab === 'partner') {
-    console.log('Partner added:', newData);
-  }
-
-  resetForm();
-  setShowModal(false);
-};
 
   const renderComponent = () => {
     switch (activeTab) {
@@ -90,7 +64,7 @@ export const Announcement = () => {
         return (
           <Offer
             showModal={false}
-            closeModal={() => {}}
+            closeModal={() => { }}
           />
         );
       case 'announcement':
@@ -111,11 +85,10 @@ export const Announcement = () => {
             <button
               key={tab}
               onClick={() => setActiveTab(tab as 'offer' | 'announcement' | 'partner')}
-              className={`px-4 py-2 rounded-full font-semibold transition ${
-                activeTab === tab
+              className={`px-4 py-2 rounded-full font-semibold transition ${activeTab === tab
                   ? 'bg-[#9b111e] text-white'
                   : 'bg-white text-[#9b111e] border border-[#9b111e]'
-              }`}
+                }`}
             >
               {tab.charAt(0).toUpperCase() + tab.slice(1)}
             </button>
@@ -135,15 +108,15 @@ export const Announcement = () => {
         {activeTab === 'offer'
           ? 'Special Offers'
           : activeTab === 'announcement'
-          ? 'Latest Announcements'
-          : 'Our Partners'}
+            ? 'Latest Announcements'
+            : 'Our Partners'}
       </h1>
       <p className="text-gray-600 mb-6">
         {activeTab === 'offer'
           ? 'Experience the Art of Automotive Renewal'
           : activeTab === 'announcement'
-          ? 'Stay up to date with our latest news'
-          : 'Meet our trusted collaborators'}
+            ? 'Stay up to date with our latest news'
+            : 'Meet our trusted collaborators'}
       </p>
 
       <div className="grid md:grid-cols-3 gap-4">{renderComponent()}</div>
@@ -157,10 +130,10 @@ export const Announcement = () => {
             >
               &times;
             </button>
-            <h2 className="text-xl font-bold mb-5 text-[#9b111e]">
+            <h2 className="text-xl font-bold mb-4 text-[#9b111e]">
               Add New {activeTab === 'offer' ? 'Offer' : activeTab === 'announcement' ? 'Announcement' : 'Partner'}
             </h2>
-            <form onSubmit={handleSubmit } className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-4">
               <input
                 type="text"
                 placeholder="Heading"
