@@ -22,7 +22,9 @@ import PrivacyPolicySettings from "../pages/Settings/PrivacyPolicySettings";
 
 
 const AppRoutes = () => {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, isLoading } = useAuth();
+
+  if (isLoading) return null;
 
   const AuthRoutes = () => (
     <Routes>

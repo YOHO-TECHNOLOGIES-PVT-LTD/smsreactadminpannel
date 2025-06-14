@@ -89,7 +89,7 @@ export const Sidebar = () => {
           <SidebarLink
             to="/request-queue/schedule"
             icon={<RiCalendarScheduleLine />  }
-            label="Schedule Request"
+            label="Request Queue"
             isOpen={isOpen}
             onClick={handleLinkClick}
             />
