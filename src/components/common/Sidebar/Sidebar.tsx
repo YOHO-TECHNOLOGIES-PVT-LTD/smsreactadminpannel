@@ -11,7 +11,7 @@ import {
   FiAlertTriangle,
 } from "react-icons/fi";
 import Logo from "../../../assets/LOGO.jpg";
-import { RiCalendarScheduleFill, RiCalendarScheduleLine, RiMenu2Line,RiMenu3Line} from "react-icons/ri";
+import { RiCalendarScheduleLine, RiMenu2Line,RiMenu3Line} from "react-icons/ri";
 import { Megaphone } from "lucide-react";
 import { MdHelpOutline } from 'react-icons/md';
 
