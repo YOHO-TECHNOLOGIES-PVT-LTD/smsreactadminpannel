@@ -1,6 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useRef, useEffect, useState } from "react";
-import { getProfile } from "../../../features/Auth/service";
+import { useRef, useEffect ,useState} from "react";
 
 interface User {
   name: string;
@@ -20,10 +18,11 @@ interface ProfileModalProps {
   onUserUpdate: (updatedUser: User) => void;
 }
 
-export const ProfileModal: React.FC<ProfileModalProps> = ({
+export const ProfileModal = ({
+  user,
   isOpen,
   onClose,
-}) => {
+}: ProfileModalProps) => {
   const modalRef = useRef<HTMLDivElement | null>(null);
   const [profile, setProfile] = useState<any | null>(null);
 

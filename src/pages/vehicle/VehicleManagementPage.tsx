@@ -73,6 +73,11 @@ const VehicleManagementPage = () => {
         vehicle?.vehicleInventory?.fuelLevel || ""
       ),
     },
+    partnerDetails: {
+      partnerName: vehicle?.partnerDetails?.Name || "",
+      partnerPhone: vehicle?.partnerDetails?.Phone || "",
+      partnerAddress: vehicle?.partnerDetails?.Address || "",
+    },
     customerDetails: {
       fullName: vehicle?.customerDetails?.fullName || "",
     },
@@ -80,6 +85,10 @@ const VehicleManagementPage = () => {
       fuelLevel: vehicle?.vehicleInventory?.fuelLevel || "N/A",
       selectedItems: vehicle?.vehicleInventory?.currentState?.selectedItems || [],
       images: vehicle?.vehicleInventory?.currentState?.imageUploaded || [],
+    },
+    checkInOutDates: {
+      checkInDate: vehicle?.checkInOutDates?.checkInDate || "",
+      checkOutDate: vehicle?.checkInOutDates?.checkOutDate || "",
     },
   };
 };

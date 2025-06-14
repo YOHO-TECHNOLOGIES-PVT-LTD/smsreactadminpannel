@@ -66,6 +66,36 @@ const VehicleModal: FC<Props> = ({ vehicle, onClose, redirectPath }) => {
           {baseInfo.registrationNumber} - {baseInfo.title}
         </h5>
 
+        {vehicle.partnerDetails && (
+          <div className="mt-8">
+            <h3 className="text-2xl font-semibold text-[#9b111e] mb-4">
+              Service Center
+            </h3>
+            <table className="w-full table-auto border-collapse border border-[#d7b9a3] text-[#3b2f2f]">
+              <tbody>
+                <tr className="border border-[#d7b9a3]">
+                  <td className="border px-4 py-2 font-semibold capitalize w-1/2">
+                    Name
+                  </td>
+                  <td className="border px-4 py-2">{vehicle.partnerDetails.partnerName || "N/A"}</td>
+                </tr>
+                <tr className="border border-[#d7b9a3]">
+                  <td className="border px-4 py-2 font-semibold capitalize w-1/2">
+                    Phone
+                  </td>
+                  <td className="border px-4 py-2">{vehicle.partnerDetails.partnerPhone || "N/A"}</td>
+                </tr>
+                <tr className="border border-[#d7b9a3]">
+                  <td className="border px-4 py-2 font-semibold capitalize w-1/2">
+                    Address
+                  </td>
+                  <td className="border px-4 py-2">{vehicle.partnerDetails.partnerAddress || "N/A"}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        )}
+
         {vehicle.customerDetails && (
           <div className="mt-8">
             <h3 className="text-2xl font-semibold text-[#9b111e] mb-4">
@@ -144,6 +174,26 @@ const VehicleModal: FC<Props> = ({ vehicle, onClose, redirectPath }) => {
                     ))}
                   </td>
                 </tr>
+              </tbody>
+            </table>
+          </div>
+        )}
+
+        {vehicle.checkInOutDates && (
+          <div className="mt-8">
+            <h3 className="text-2xl font-semibold text-[#9b111e] mb-4">
+              Entries
+            </h3>
+            <table className="w-full table-auto border-collapse border border-[#d7b9a3] text-[#3b2f2f]">
+              <tbody>
+                {Object.entries(vehicle.checkInOutDates).map(([key, value]) => (
+                  <tr key={key} className="border border-[#d7b9a3]">
+                    <td className="border px-4 py-2 font-semibold capitalize w-1/2">
+                      {key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}
+                    </td>
+                    <td className="border px-4 py-2">{value || "N/A"}</td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>

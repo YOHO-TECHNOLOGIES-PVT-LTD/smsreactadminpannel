@@ -1,11 +1,10 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 // import { FONTS } from "../../../../constants/uiConstants"//FONT
 import { FONTS } from "../../../../constants/uiConstants"//COLOUR
 
 import {
   BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer,
-} from 'recharts';
+} from '../../charts/RechartsWrapper';
 import { ChevronDown } from 'lucide-react';
 import { GetCustomerDetailsDashboard } from '../../../../pages/Dashboards/services/index';
 
@@ -23,8 +22,8 @@ import { GetCustomerDetailsDashboard } from '../../../../pages/Dashboards/servic
 //for drop down
 const dateRanges = ['weekly', 'monthly', 'yearly'];
 
-const BarCharts: React.FC = () => {
-  const [selectedRange, setSelectedRange] = useState('weekly'); // Set default value and will be used
+const BarCharts = () => {
+  const [selectedRange, setSelectedRange] = useState('Weekly'); // Set default value and will be used
   const [isOpen, setIsOpen] = useState(false);
   const [customerData, setCustomerData]= useState<any[]>([]);
   const dropdownRef = useRef<HTMLDivElement>(null)
