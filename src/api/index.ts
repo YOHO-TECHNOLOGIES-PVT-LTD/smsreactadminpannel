@@ -1,4 +1,4 @@
-import { data } from "react-router-dom";
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import httpClient from "./httpClient";
 import { API_END_POINTS } from "./httpEndpoints";
 

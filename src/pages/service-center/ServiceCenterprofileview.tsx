@@ -11,6 +11,7 @@ import { BiSolidCertification } from "react-icons/bi"
 import { RiLockPasswordLine } from "react-icons/ri"
 import { LuPhoneCall } from "react-icons/lu"
 import { CheckCircle, AlertCircle } from "lucide-react"
+import Client from "../../api"
 
 // Mock FONTS constant
 const FONTS = {
@@ -20,26 +21,27 @@ const FONTS = {
 }
 
 // Mock Client class
-class Client {
-  admin = {
-    servicecenter: {
-      delete: async () => {
-        // Mock API call
-        return new Promise((resolve) => setTimeout(resolve, 1000))
-      },
-      update: async (data: any, id: string) => {
-        // Mock API call
-        return new Promise((resolve) => setTimeout(() => resolve({ success: true }), 1000))
-      },
-    },
-  }
-}
+// class Client {
+//   admin = {
+//     servicecenter: {
+//       delete: async () => {
+//         // Mock API call
+//         return new Promise((resolve) => setTimeout(resolve, 1000))
+//       },
+//       update: async () => {
+//         // Mock API call
+//         return new Promise((resolve) => setTimeout(() => resolve({ success: true }), 1000))
+//       },
+//     },
+//   }
+// }
 
 type ServiceCenterProfileProps = {
   onServices: () => void
   handleBack: () => void
   setpartnerId: (id: string) => void
-  partner: any
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  partner:any
 }
 
 const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({
@@ -629,7 +631,7 @@ const EnhancedEditField = ({
   textarea?: boolean
 }) => (
   <div className="space-y-2">
-    <label className="block text-sm font-medium text-gray-700 mb-1 flex items-center gap-2">
+    <label className="block text-sm font-medium text-gray-700 mb-1 items-center gap-2">
       {icon}
       <span>{label}</span>
     </label>

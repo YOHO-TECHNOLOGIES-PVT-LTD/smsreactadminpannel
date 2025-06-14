@@ -43,6 +43,7 @@ class HttpClient{
     return response;
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     async post(url:string,data:any){
         const response:unknown =  await Axios.post(url,data,{
           

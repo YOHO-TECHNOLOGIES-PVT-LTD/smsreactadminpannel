@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 import type React from "react"
 import { useState, useEffect } from "react"
@@ -5,9 +6,7 @@ import { Search, ArrowLeft, Star, Plus, Eye } from "lucide-react"
 import Client from "../../api"
 
 // Define colors directly to avoid import issues
-const COLORS = {
-  bgColor: "#f9fafb", // gray-50
-}
+
 
 interface ApiSparePart {
   _id: string

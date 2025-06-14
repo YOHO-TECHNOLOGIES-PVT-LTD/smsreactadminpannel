@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import type React from "react"
 import { useState, useRef, useEffect } from "react"
 import { ArrowLeft, Search, Plus, X, Edit3, Trash2, Settings } from "lucide-react"
@@ -42,13 +43,13 @@ type ServiceCenterServicesProps = {
   Services: Category[] // Your actual data
 }
 
-const ServicesList: React.FC<ServiceCenterServicesProps> = ({ onSpareParts, handleBack, partnerId, Services = [] }) => {
+const ServicesList: React.FC<ServiceCenterServicesProps> = ({ onSpareParts, handleBack, partnerId }) => {
   const [searchTerm, setSearchTerm] = useState("")
   const [showAddForm, setShowAddForm] = useState(false)
   const [showAddCategoryForm, setShowAddCategoryForm] = useState(false)
   const [activeServiceType, setActiveServiceType] = useState<string>("")
   const [selectedCategory, setSelectedCategory] = useState<string>("all")
-  const [viewMode, setViewMode] = useState<"grid" | "table">("grid")
+  const viewMode= "grid" 
   const [editingService, setEditingService] = useState<Service | null>(null)
   const [editingCategory, setEditingCategory] = useState<Category | null>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
