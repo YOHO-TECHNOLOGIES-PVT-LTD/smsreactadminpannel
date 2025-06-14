@@ -60,7 +60,7 @@ type ReactComponent = {
 const ServiceSpareParts: React.FC<ReactComponent> = ({ handleBack, Spareparts = [], partnerId }) => {
   const [searchTerm, setSearchTerm] = useState("")
   const [showSearch, setShowSearch] = useState(false)
-  const [hoveredCard, setHoveredCard] = useState<string | null>(null)
+  // const [hoveredCard, setHoveredCard] = useState<string | null>(null)
   const [showAddModal, setShowAddModal] = useState(false)
   const [spareParts, setSpareParts] = useState<SparePart[]>([])
   const [selectedPart, setSelectedPart] = useState<SparePart | null>(null)
@@ -289,8 +289,8 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ handleBack, Spareparts = 
                 key={part.id}
                 className="group relative bg-white rounded-xl shadow-sm border border-gray-100 hover:shadow-lg hover:border-red-200 transition-all duration-300 overflow-hidden cursor-pointer"
                 onClick={() => setSelectedPart(part)}
-                onMouseEnter={() => setHoveredCard(part.id)}
-                onMouseLeave={() => setHoveredCard(null)}
+                // onMouseEnter={() => setHoveredCard(part.id)}
+                // onMouseLeave={() => setHoveredCard(null)}
               >
                 {/* Discount Badge */}
                 {/* {part.discount && part.discount > 0 && (

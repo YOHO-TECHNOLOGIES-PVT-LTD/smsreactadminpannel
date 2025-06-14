@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FONTS } from "../../constants/uiConstants"; //FONT
 import { COLORS } from "../../constants/uiConstants"; //COLOUR
 //this is for ICONS

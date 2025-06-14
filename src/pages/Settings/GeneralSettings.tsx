@@ -2,7 +2,6 @@ import { useState } from "react"
 import PasswordSettings from "./PasswordSettings"
 import ProfileEditSettings from "./ProfileEditSettings"
 import { FONTS } from "../../constants/uiConstants"
-
 const GeneralSettings = () => {
 const [tab, setTab] = useState<string>("Account Settings")
 // const [buttonColor,setbuttonColor] = useState<string>("transparent")

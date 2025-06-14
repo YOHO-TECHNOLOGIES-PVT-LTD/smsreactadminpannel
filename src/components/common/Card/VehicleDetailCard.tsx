@@ -91,7 +91,7 @@ const VehicleDetailCard: FC<Props> = ({ vehicle, onViewDetails }) => {
       {/* Title */}
       <h3
         className="text-xl font-extrabold mb-1"
-        style={{ ...FONTS.cardheader }}
+        style={{ ...FONTS.paragraph, fontWeight: 550 }}
       >
         {registrationNumber} - {title}
       </h3>
@@ -117,7 +117,9 @@ const VehicleDetailCard: FC<Props> = ({ vehicle, onViewDetails }) => {
         <span
           className="flex items-center"
           style={{
-            ...FONTS.subParagraph,
+            opacity: 0.7,
+            ...FONTS.paragraph,
+            fontSize: "12px",
           }}
         >
           <FaMapMarkerAlt className="mr-1" /> {location}

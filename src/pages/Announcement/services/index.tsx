@@ -2,6 +2,7 @@ import Client from "../../../api";
 
 export const postAnnouncement = async (data:any)=>{
      try{
+        console.log('add data',data)
         const response = await new Client().admin.Announcement.post(data)
         return response;
     }

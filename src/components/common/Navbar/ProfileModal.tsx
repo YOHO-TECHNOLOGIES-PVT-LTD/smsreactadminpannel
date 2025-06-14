@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useRef, useEffect, useState } from "react";
 import { getProfile } from "../../../features/Auth/service";
 
@@ -20,7 +21,6 @@ interface ProfileModalProps {
 }
 
 export const ProfileModal: React.FC<ProfileModalProps> = ({
-  user,
   isOpen,
   onClose,
 }) => {

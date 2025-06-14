@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 
 
 import React, { useState, useRef, useEffect } from 'react';
-import { COLORS, FONTS } from "../../../../constants/uiConstants"//COLOUR
+import { FONTS } from "../../../../constants/uiConstants"//COLOUR
 import {GetTransactionDashboard} from "../../../../pages/Dashboards/services/index"
 
 import {
