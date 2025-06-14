@@ -1,7 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import type React from "react"
 import { useState, useRef, useEffect } from "react"
 import { ArrowLeft, Search, Plus, X, Edit3, Trash2, Settings } from "lucide-react"
 import Client from "../../api"
+import { FONTS } from "../../constants/uiConstants"
+
 
 interface Service {
   _id: string
@@ -41,13 +44,13 @@ type ServiceCenterServicesProps = {
   Services: Category[] // Your actual data
 }
 
-const ServicesList: React.FC<ServiceCenterServicesProps> = ({ onSpareParts, handleBack, partnerId, Services = [] }) => {
+const ServicesList: React.FC<ServiceCenterServicesProps> = ({ onSpareParts, handleBack, partnerId }) => {
   const [searchTerm, setSearchTerm] = useState("")
   const [showAddForm, setShowAddForm] = useState(false)
   const [showAddCategoryForm, setShowAddCategoryForm] = useState(false)
   const [activeServiceType, setActiveServiceType] = useState<string>("")
   const [selectedCategory, setSelectedCategory] = useState<string>("all")
-  const [viewMode, setViewMode] = useState<"grid" | "table">("grid")
+  const viewMode = "grid"
   const [editingService, setEditingService] = useState<Service | null>(null)
   const [editingCategory, setEditingCategory] = useState<Category | null>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
@@ -59,7 +62,7 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({ onSpareParts, hand
   useEffect(() => {
     async function fetchdata() {
       try {
-        const  response:any = await new Client().admin.servicecenter.getCatEvery()
+        const response: any = await new Client().admin.servicecenter.getCatEvery()
         console.log(response.data.data)
         setCategories(response.data.data)
       } catch (error) {
@@ -131,14 +134,37 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({ onSpareParts, hand
     return services
   }
 
-  const handleAddCategory = async() => {
+  const handleDeleteCategory = async (categoryId: string) => {
     try {
-     
+      // Confirm deletion
+      if (!confirm("Are you sure you want to delete this category?")) {
+        return;
+      }
+
+      // Make API call to delete the category
+      await new Client().admin.category.delete(categoryId);
+
+      // Update local state
+      setCategories(categories.filter(cat => cat._id !== categoryId));
+
+      // If the deleted category was selected, reset to "all"
+      if (selectedCategory === categoryId) {
+        setSelectedCategory("all");
+      }
+    } catch (error) {
+      console.error("Error deleting category:", error);
+      alert("Failed to delete category. Please try again.");
+    }
+  };
+
+  const handleAddCategory = async () => {
+    try {
+
       setEditingCategory(null)
       setNewCategory({ category_name: "", is_active: true })
       setShowAddCategoryForm(true)
     } catch (error) {
-      console.log("add category:",error)
+      console.log("add category:", error)
     }
   }
 
@@ -192,7 +218,7 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({ onSpareParts, hand
           );
 
           setCategories(updatedCategories);
-          
+
         } else {
           // Create new category
           const newCategoryItem: any = {
@@ -207,8 +233,8 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({ onSpareParts, hand
             // createdAt: new Date().toISOString(),
             // updatedAt: new Date().toISOString(),
           }
-         const response:any =  await new Client().admin.category.create(newCategoryItem)
-         console.log(response.data.data)
+          const response: any = await new Client().admin.category.create(newCategoryItem)
+          console.log(response.data.data)
           setCategories([...categories, response.data.data])
         }
 
@@ -334,7 +360,7 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({ onSpareParts, hand
 
         if (editingService) {
           // Update existing service
-          const editservice:any = {
+          const editservice: any = {
             service_name: newService.service_name,
             price: Number.parseFloat(newService.price),
             description: newService.description,
@@ -343,14 +369,14 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({ onSpareParts, hand
             // is_active: newService.is_active,
             // updated_at: new Date().toISOString(),
           }
-          
+
           const updatedCategories = await Promise.all(
             categories.map(async (category) => {
               const updatedServices = await Promise.all(
-                category.services.map(async (service:any) => {
+                category.services.map(async (service: any) => {
                   if (service._id === editingService._id) {
                     await new Client().admin.service.update(editservice, service.uuid);
-                    const data:any = {
+                    const data: any = {
                       service_name: newService.service_name,
                       price: Number.parseFloat(newService.price),
                       description: newService.description,
@@ -378,7 +404,7 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({ onSpareParts, hand
           );
 
           setCategories(updatedCategories);
-          
+
         } else {
           // Create new service
           const newServiceItem: any = {
@@ -397,7 +423,7 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({ onSpareParts, hand
             // image: newService.image as string,
             duration: newService.duration,
           }
-          const response:any = await new Client().admin.service.create(newServiceItem)
+          const response: any = await new Client().admin.service.create(newServiceItem)
           const updatedCategories = categories.map((category) =>
             category._id === activeServiceType
               ? { ...category, services: [...category.services, response.data.data] }
@@ -428,7 +454,7 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({ onSpareParts, hand
   const filteredServices = getFilteredServices()
 
   return (
-    <div className="min-h-screen bg-gray-50 flex">
+    <div className="h-full bg-gray-50 flex">
       {/* Sidebar */}
       <div className="w-80 bg-pink-50 shadow-lg border-r border-gray-200 flex flex-col">
         {/* Sidebar Header */}
@@ -438,37 +464,37 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({ onSpareParts, hand
               <ArrowLeft className="w-5 h-5 text-gray-600" />
             </button>
             <div>
-              <h1 className="text-xl font-bold text-gray-900">Service Catalog</h1>
-              <p className="text-sm text-gray-500">Manage services</p>
+              <h1 className="!font-bold- text-gray-900" style={{ ...FONTS.cardheader }}>Service Catalog</h1>
+              <p className="!text-gray-500" style={{ ...FONTS.paragraph }}>Manage services</p>
             </div>
           </div>
 
           <button
+            style={{ ...FONTS.paragraph }}
             onClick={handleAddCategory}
-            className="w-full flex items-center justify-center space-x-2 px-4 py-2 bg-[#800000] text-white rounded-lg hover:bg-[#600000] transition-colors"
+            className="w-full flex items-center justify-center space-x-2 px-2 py-2 bg-[#800000] !text-white rounded-lg hover:bg-[#600000] transition-colors"
           >
             <Plus className="w-4 h-4" />
-            <span>Add Category</span>
+            <span >Add Category</span>
           </button>
         </div>
 
         {/* Categories */}
         <div className="flex-1 p-4 space-y-2">
           <div className="mb-4">
-            <h3 className="text-sm font-semibold text-gray-700 mb-2">CATEGORIES</h3>
+            <h3 className=" !font-semibold text-gray-700 mb-2" style={{ ...FONTS.cardSubHeader }}>CATEGORIES</h3>
           </div>
 
           <button
             onClick={() => setSelectedCategory("all")}
-            className={`w-full flex items-center space-x-3 px-3 py-2 rounded-lg transition-colors ${
-              selectedCategory === "all"
+            className={`w-full flex items-center space-x-3 px-3 py-2 rounded-lg transition-colors ${selectedCategory === "all"
                 ? "bg-[#800000]/10 text-[#800000]"
                 : "text-gray-700 hover:bg-[#800000]/10 hover:text-[#800000]"
-            }`}
+              }`}
           >
             <div className="flex-1 text-left">
-              <div className="font-medium">All Services</div>
-              <div className="text-xs text-gray-500">{getAllServices().length} services</div>
+              <div className="!text-black" style={{ ...FONTS.paragraph }}>All Services</div>
+              <div className="font-semibold text-gray-500" style={{ ...FONTS.subParagraph }}>{getAllServices().length} services</div>
             </div>
           </button>
 
@@ -478,41 +504,40 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({ onSpareParts, hand
               <div key={category._id} className="group">
                 <button
                   onClick={() => setSelectedCategory(category._id)}
-                  className={`w-full flex items-center space-x-3 px-3 py-2 rounded-lg transition-colors ${
-                    selectedCategory === category._id
+                  className={`w-full flex items-center space-x-3 px-3 py-2 rounded-lg transition-colors ${selectedCategory === category._id
                       ? "bg-[#800000]/10 text-[#800000]"
                       : "text-gray-700 hover:bg-[#800000]/10 hover:text-[#800000]"
-                  }`}
+                    }`}
                 >
                   <div className="flex-1 text-left">
-                    <div className="font-medium">{category.category_name}</div>
-                    <div className="text-xs text-gray-500">
+                    <div className="!text-black" style={{ ...FONTS.paragraph }}>{category.category_name}</div>
+                    <div className="font-semibold text-gray-500" style={{ ...FONTS.subParagraph }}>
                       {category.services?.filter((s) => s && !s.is_deleted).length || 0} services
                     </div>
                   </div>
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation()
-                      handleEditCategory(category)
-                    }}
-                    className="opacity-0 group-hover:opacity-100 p-1 hover:bg-gray-200 rounded transition-all"
-                  >
-                    <Edit3 className="w-3 h-3" />
-                  </button>
+                  <div className="flex space-x-1">
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        handleEditCategory(category)
+                      }}
+                      className="opacity-0 group-hover:opacity-100 p-1 hover:bg-gray-200 rounded transition-all"
+                    >
+                      <Edit3 className="w-3 h-3" />
+                    </button>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        handleDeleteCategory(category._id)
+                      }}
+                      className="opacity-0 group-hover:opacity-100 p-1 hover:bg-gray-200 rounded transition-all text-red-500"
+                    >
+                      <Trash2 className="w-3 h-3" />
+                    </button>
+                  </div>
                 </button>
               </div>
             ))}
-        </div>
-
-        {/* Sidebar Footer */}
-        <div className="p-4 border-t border-gray-200">
-          <button
-            onClick={onSpareParts}
-            className="w-full flex items-center justify-center space-x-2 px-4 py-2 bg-gray-900 text-white rounded-lg hover:bg-gray-800 transition-colors"
-          >
-            <Settings className="w-4 h-4" />
-            <span>Spare Parts</span>
-          </button>
         </div>
       </div>
 
@@ -522,12 +547,12 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({ onSpareParts, hand
         <div className="bg-pink-50 shadow-sm border-b border-gray-200 p-6">
           <div className="flex items-center justify-between">
             <div>
-              <h2 className="text-2xl font-bold text-gray-900">
+              <h2 className="text-2xl font-bold text-gray-900"  style={{...FONTS.cardheader}}>
                 {selectedCategory === "all"
                   ? "All Services"
                   : categories.find((c) => c._id === selectedCategory)?.category_name}
               </h2>
-              <p className="text-gray-500">{filteredServices.length} services found</p>
+              <p className="!text-gray-500 font-semibold" style={{...FONTS.paragraph}}>{filteredServices.length} Services Available</p>
             </div>
 
             <div className="flex items-center space-x-4">
@@ -536,18 +561,19 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({ onSpareParts, hand
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
                 <input
                   type="text"
-                  className="pl-10 pr-4 py-2 w-80 border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500"
+                  className="pl-10 pr-4 py-2 w-45 border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500"
                   placeholder="Search services..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                 />
               </div>
 
-              
+
               {/* Add Service */}
               <button
+                style={{...FONTS.paragraph}}
                 onClick={() => handleAddService()}
-                className="flex items-center space-x-2 px-4 py-2 bg-[#800000] text-white rounded-lg hover:bg-[#600000] transition-colors"
+                className="flex items-center space-x-2 px-4 py-2 bg-[#800000] !text-white rounded-lg hover:bg-[#600000] transition-colors"
               >
                 <Plus className="w-4 h-4" />
                 <span>Add Service</span>
@@ -558,8 +584,6 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({ onSpareParts, hand
 
         {/* Content Area */}
         <div className="flex-1 p-6">
-          {viewMode === "grid" ? (
-            // Grid View
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
               {filteredServices.map((service) => (
                 <div key={service._id} className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
@@ -587,19 +611,19 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({ onSpareParts, hand
                   <div className="p-4">
                     <div className="flex justify-between items-start">
                       <div>
-                        <h3 className="font-bold text-lg text-gray-900">{service.service_name}</h3>
-                        <p className="text-sm text-gray-500">{service.categoryName}</p>
+                        <h3 className="!font-bold text-lg !text-gray-700" style={{...FONTS.cardSubHeader}}>{service.service_name}</h3>
+                        <p className="text-sm text-gray-500" style={{...FONTS.paragraph}}>{service.categoryName}</p>
                       </div>
-                      <span className="font-bold text-gray-900">₹{service.price || 0}</span>
+                      <span className="font-bold !text-gray-900" style={{...FONTS.cardheader}}>₹{service.price || 0}</span>
                     </div>
-                    <p className="mt-2 text-sm text-gray-600 line-clamp-2">{service.description || "No description"}</p>
+                    <p className="mt-2 text-sm !text-gray-600 line-clamp-2" style={{...FONTS.subParagraph}}>{service.description || "No description"}</p>
                     <div className="mt-4 flex justify-between items-center">
-                      <span className="text-sm text-gray-500">{service.duration || "N/A"}</span>
+                      <span className="text-sm !text-gray-500" style={{...FONTS.paragraph}}>{service.duration || "N/A"}</span>
                       <button
+                      style={{...FONTS.paragraph}}
                         onClick={() => handleToggleActive(service._id)}
-                        className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                          service.is_active ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"
-                        }`}
+                        className={`inline-flex items-center px-2.5 py-0.5 rounded-full  ${service.is_active ? "bg-green-100 !text-green-800" : "bg-red-100 !text-red-800"
+                          }`}
                       >
                         {service.is_active ? "Active" : "Inactive"}
                       </button>
@@ -608,75 +632,7 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({ onSpareParts, hand
                 </div>
               ))}
             </div>
-          ) : (
-            // Table View
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-              <table className="w-full">
-                <thead className="bg-gray-50 border-b border-gray-200">
-                  <tr>
-                    <th className="text-left py-4 px-6 font-semibold text-gray-900">Service</th>
-                    <th className="text-left py-4 px-6 font-semibold text-gray-900">Category</th>
-                    <th className="text-left py-4 px-6 font-semibold text-gray-900">Price</th>
-                    <th className="text-left py-4 px-6 font-semibold text-gray-900">Duration</th>
-                    <th className="text-left py-4 px-6 font-semibold text-gray-900">Status</th>
-                    <th className="text-left py-4 px-6 font-semibold text-gray-900">Actions</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-gray-200">
-                  {filteredServices.map((service) => (
-                    <tr key={service._id} className="hover:bg-gray-50">
-                      <td className="py-4 px-6">
-                        <div className="flex items-center space-x-3">
-                          <img
-                            src={service.image || "/placeholder.svg?height=48&width=48"}
-                            alt={service.service_name}
-                            className="w-12 h-12 object-cover rounded-lg"
-                          />
-                          <div>
-                            <div className="font-medium text-gray-900">{service.service_name}</div>
-                            <div className="text-sm text-gray-500">{service.description}</div>
-                          </div>
-                        </div>
-                      </td>
-                      <td className="py-4 px-6">
-                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
-                          {service.categoryName}
-                        </span>
-                      </td>
-                      <td className="py-4 px-6 font-semibold text-gray-900">₹{service.price || 0}</td>
-                      <td className="py-4 px-6 text-gray-500">{service.duration || "N/A"}</td>
-                      <td className="py-4 px-6">
-                        <button
-                          onClick={() => handleToggleActive(service._id)}
-                          className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                            service.is_active ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"
-                          }`}
-                        >
-                          {service.is_active ? "Active" : "Inactive"}
-                        </button>
-                      </td>
-                      <td className="py-4 px-6">
-                        <div className="flex items-center space-x-2">
-                          <button
-                            onClick={() => handleEditService(service)}
-                            className="p-1 text-gray-400 hover:text-indigo-600 transition-colors"
-                          >
-                            <Edit3 className="w-4 h-4" />
-                          </button>
-                          <button
-                            onClick={() => handleDeleteService(service._id)}
-                            className="p-1 text-gray-400 hover:text-red-600 transition-colors"
-                          >
-                            <Trash2 className="w-4 h-4" />
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          )}
+    
 
           {filteredServices.length === 0 && (
             <div className="text-center py-12">

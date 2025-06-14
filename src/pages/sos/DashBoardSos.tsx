@@ -5,6 +5,7 @@ import {  useNavigate } from "react-router-dom";
 import { carIcons } from "../../components/sos/sosicons";
 import { deletesos, getallSos, getServiceList, statusupdatesos, updatelistedsos } from "../../components/sos/services";
 import { MdDelete } from "react-icons/md";
+import { FONTS } from "../../constants/uiConstants";
 
 type SOSRequest = {
   _id:string;
@@ -148,11 +149,11 @@ const handleDeleteService = async(index: number,id:string) => {
 };
 
   return (
-    <div className="flex flex-col md:flex-row gap-6 p-4 md:p-6 text-gray-800 h-screen bg-gray-50">
+    <div className=" min-h-screen flex flex-col md:flex-row gap-6 p-4 md:p-6 text-gray-800 bg-#FAF3EB">
       {/* SOS Requests */}
       <div className="rounded-xl p-4 md:w-2/3 bg-white border-2 flex flex-col shadow-md">
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-3xl md:text-4xl font-bold">Active SOS Requests</h2>
+          <h2 className="text-2xl md:text-4xl !font-bold" style={{...FONTS.header}}>Active SOS Requests</h2>
           <MdClose
             onClick={() => navigate("/")}
             className="text-3xl text-red-700 cursor-pointer hover:text-red-900 transition-colors"
@@ -163,9 +164,10 @@ const handleDeleteService = async(index: number,id:string) => {
         <div className="flex flex-wrap gap-3 mb-6 px-1 md:px-4">
           {["All", "In Progress", "Completed", "Not Started"].map((status) => (
             <button
+              style={{...FONTS.paragraph}}
               key={status}
               onClick={() => setFilterStatus(status)}
-              className={`px-6 py-2 rounded text-white transition-transform hover:scale-105 ${filterStatus === status
+              className={`px-6 py-2 rounded !text-white transition-transform hover:scale-105 ${filterStatus === status
                   ? "bg-gradient-to-r from-red-700 to-red-900"
                   : "bg-gradient-to-r from-red-600 to-red-800"
                 }`}
@@ -177,7 +179,7 @@ const handleDeleteService = async(index: number,id:string) => {
 
         <div className="overflow-auto max-h-[60vh] md:max-h-[65vh] px-1 md:px-4 scrollbar-thin scrollbar-thumb-red-600 scrollbar-track-gray-100">
           <table className="min-w-full text-left text-lg border-collapse border border-gray-200">
-            <thead className="sticky top-0 bg-gray-100 z-10">
+            <thead className="sticky top-0 bg-gray-100 z-10" style={{...FONTS.cardSubHeader}}>
               <tr>
                 <th className="border border-gray-300 px-4 py-2">Vehicle Number</th>
                 <th className="border border-gray-300 px-4 py-2">Location</th>
@@ -199,7 +201,7 @@ const handleDeleteService = async(index: number,id:string) => {
                 </tr>
               ) : (
                   filteredRequests.map((req, index) => (
-                  <tr key={index} className="hover:bg-gray-50">
+                  <tr key={index} className="hover:bg-gray-50 !text-gray-900" style={{...FONTS.paragraph}}>
                     <td className="border border-gray-300 px-4 py-2">{req.vehicleNumber}</td>
                     <td className="border border-gray-300 px-4 py-2">{req.location}</td>
                     <td className="border border-gray-300 px-4 py-2">{req.name}</td>
@@ -220,8 +222,9 @@ const handleDeleteService = async(index: number,id:string) => {
 
                     <td className="border border-gray-300 px-4 py-2">
                       <button
+                      style={{...FONTS.paragraph}}
                        onClick={() => handleViewClick(req._id)}
-                        className="bg-gradient-to-r from-red-600 to-red-800 hover:scale-105 transition-transform text-white px-4 py-1 rounded w-full"
+                        className="bg-gradient-to-r from-red-600 to-red-800 hover:scale-105 transition-transform !text-white px-4 py-1 rounded w-full"
                         title={`View details for ${req._id}`}
                       >
                         {req.view}view
@@ -238,10 +241,10 @@ const handleDeleteService = async(index: number,id:string) => {
       {/* SOS Services */}
       <div className="rounded-xl p-4 md:w-1/3 bg-white border-2 flex flex-col shadow-md">
         <div className="flex justify-between items-center mb-6 px-1 md:px-4">
-          <h2 className="text-3xl md:text-4xl font-bold">SOS Services</h2>
+          <h2 className="text-3xl md:text-4xl !font-bold" style={{...FONTS.header}}>SOS Services</h2>
           <FiPlus
             onClick={() => setShowForm(true)}
-            className="text-4xl text-red-800 cursor-pointer hover:text-red-900 transition-colors"
+            className="text-3xl text-red-800 cursor-pointer hover:text-red-900 transition-colors"
             title="Add Service"
           />
         </div>
@@ -257,9 +260,10 @@ const handleDeleteService = async(index: number,id:string) => {
                   {carIcons.find((item) => item.name === service.icon)?.icon}
                 </div>
                 <div>
-                  <div className="font-semibold text-lg">{service.title}</div>
+                  <div className="!font-semibold text-gray-900 text-lg" style={{...FONTS.cardSubHeader}}>{service.title}</div>
                   <div
-                    className={`mt-1 font-semibold ${service.active ? "text-green-600" : "text-red-600"
+                    style={{...FONTS.paragraph}}
+                    className={`mt-1 font-semibold ${service.active ? "!text-green-600" : "!text-red-600"
                       }`}
                   >
                     {service.active ? "Active" : "Inactive"}
@@ -273,9 +277,9 @@ const handleDeleteService = async(index: number,id:string) => {
        title={service.active ? "Enabled" : "Disabled"}
 >
           {service.active ? (
-       <MdToggleOn className="text-[#800000] text-6xl" />
+       <MdToggleOn className="text-[#800000] text-5xl" />
   ) : (
-         <MdToggleOff className="text-gray-400 text-6xl" />
+         <MdToggleOff className="text-gray-400 text-5xl" />
       )}
 </button>
   <button
@@ -283,7 +287,7 @@ const handleDeleteService = async(index: number,id:string) => {
    className="focus:outline-none"
    title="Delete Service"
  >
-   <MdDelete size={28} className="text-[#9b111e] hover:text-red-800" />
+   <MdDelete size={20} className="text-[#9b111e] hover:text-red-800" />
 </button>
 
             </li>

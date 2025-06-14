@@ -10,10 +10,13 @@ import {
   FiSettings,
   FiAlertTriangle,
 } from "react-icons/fi";
-import Logo from "../../../assets/LOGO.jpg";
+// import Logo from "../../../assets/LOGO.jpg";
+import { RiCalendarScheduleLine} from "react-icons/ri";
+import Logo from "../../../assets/YES MECHANIC LOGO .png";
 import { RiMenu2Line,RiMenu3Line} from "react-icons/ri";
 import { Megaphone } from "lucide-react";
 import { MdHelpOutline } from 'react-icons/md';
+import { FONTS } from "../../../constants/uiConstants";
 
 
 const COLOR = {
@@ -37,7 +40,7 @@ export const Sidebar = () => {
             src={Logo}
             alt="YES Mechanic Logo"
             className={`object-contain transition-all duration-300 ${
-              isOpen ? "w-20 h-20" : "w-10 h-10"
+              isOpen ? "w-38 h-[48px]" : "w-12 h-[42px]"
             }`}
           />
         </div>
@@ -87,6 +90,14 @@ export const Sidebar = () => {
             onClick={handleLinkClick}
           />
           <SidebarLink
+            to="/request-queue/schedule"
+            icon={<RiCalendarScheduleLine />  }
+            label="Request Queue"
+            isOpen={isOpen}
+            onClick={handleLinkClick}
+            />
+
+          <SidebarLink
             to="/city"
             icon={<FiMapPin />}
             label="City"
@@ -127,6 +138,7 @@ export const Sidebar = () => {
             label="SOS"
             isOpen={isOpen}
             onClick={handleLinkClick}
+            
           />
         </nav>
       </div>
@@ -177,10 +189,10 @@ const SidebarLink = ({
         rounded-full
       `}
     >
-      <div className="text-xl" style={{ color: textColor }}>
+      <div className="text-xl" style={{ color: textColor  }}>
         {icon}
        </div>
-      {isOpen && <span style={{ color: textColor }}>{label}</span>}
+      {isOpen && <span style={{  ...FONTS.cardSubHeader, color: textColor }}>{label}</span>}
     </Link>
   );
 };

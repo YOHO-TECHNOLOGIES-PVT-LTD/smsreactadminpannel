@@ -1,5 +1,6 @@
 import React from "react";
 import dummpypic from "../../../../assets/Dashboard/images.jpg";
+import { FONTS } from "../../../../constants/uiConstants";
 
 type Props = {
   icon: React.ReactNode;
@@ -55,9 +56,9 @@ export const QueryCard: React.FC<Props> = ({
           />
         </div>
         <div className="flex-1 text-start">
-          <p className="font-semibold text-[#9b111e]">{title}</p>
-          <p className="font-thin line-clamp-1">{desc}</p>
-          <p className="text-xs text-gray-500 mt-1">
+          <p className=" !text-gray-700" style={{...FONTS.cardheader}}>{title}</p>
+          <p className=" line-clamp-1" style={{...FONTS.paragraph}}>{desc}</p>
+          <p className="text-xs !text-gray-500 mt-1" style={{...FONTS.subParagraph}}>
             {time}
           </p>
         </div>

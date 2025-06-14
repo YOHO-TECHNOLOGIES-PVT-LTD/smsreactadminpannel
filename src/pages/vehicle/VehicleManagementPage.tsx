@@ -90,7 +90,7 @@ const VehicleManagementPage = () => {
   };
 
   return (
-    <div>
+    <div className="min-h-screen">
       <div className="m-1 p-2">
         <h1 className="text-3xl text-red-700 font-medium">Vehicle Management</h1>
         <hr className="border-1 border-red-700 my-3" />

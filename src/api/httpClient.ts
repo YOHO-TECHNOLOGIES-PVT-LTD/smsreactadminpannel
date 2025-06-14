@@ -1,9 +1,8 @@
 import axios from "axios";
 
 
-const backEndUrl:string=import.meta.env.VITE_PUBLIC_API_URL
+const backEndUrl:string= import.meta.env.VITE_PUBLIC_API_URL
 
-// const backEndUrl: string = 'https://sms-node-backend-17xb.onrender.com'
 
 const Axios = axios.create({
     baseURL:backEndUrl,
@@ -44,6 +43,7 @@ class HttpClient{
     return response;
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     async post(url:string,data:any){
         const response:unknown =  await Axios.post(url,data,{
           

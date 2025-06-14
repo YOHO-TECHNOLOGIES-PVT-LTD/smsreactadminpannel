@@ -115,7 +115,7 @@ import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
 } from 'recharts';
 // import { ChevronDown } from 'lucide-react';
-import { COLORS } from "../../../../constants/uiConstants"; // your color constants
+import { COLORS, FONTS } from "../../../../constants/uiConstants"; // your color constants
 
 // Sample data (converted from ApexChart format)
 const chartData = [
@@ -156,8 +156,8 @@ const TotalRevenue: React.FC = () => {
     <div className="bg-white w-full mx-auto relative">
       <div className="flex justify-between items-center">
         <div>
-          <h2 className="text-lg" style={{ color: COLORS.primary }}>
-           Vehicle Management
+          <h2 className="text-lg" style={{ ...FONTS.cardheader }}>
+           Vehicle
           </h2>
           
         </div>

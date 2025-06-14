@@ -3,6 +3,7 @@ import { QueryCard } from "../../components/common/dashboard/QueryCard/QueryCard
 import dummpypic from "../../assets/Dashboard/images.jpg";
 import { AiOutlineArrowLeft } from "react-icons/ai";
 import { getQueries } from "../../features/Queries/service";
+import { FONTS } from "../../constants/uiConstants";
 
 type Query = {
   _id: number;
@@ -134,11 +135,12 @@ const Queries = () => {
         <div className="space-y-2">
           {["All", "Unread", "Read"].map((f) => (
             <button
+              style={{...FONTS.cardSubHeader}}
               key={f}
               onClick={() => setFilter(f as any)}
               className={`block w-full text-left px-4 py-2 rounded-lg font-medium transition ${
                 filter === f
-                  ? "bg-[#de6874] text-white"
+                  ? "bg-[#de6874] !text-white"
                   : "text-[#724e35] hover:bg-[#eaced1]"
               }`}
             >
@@ -155,6 +157,7 @@ const Queries = () => {
         )}
         {filteredQueries.map((q) => (
           <div
+            style={{...FONTS.cardSubHeader}}
             key={q._id}
             onClick={() => handleSelectQuery(q)}
             className={`rounded-lg shadow-sm cursor-pointer border-l-4 border-[#9b111e] transition-all duration-200 ${
@@ -193,18 +196,18 @@ const Queries = () => {
                   alt="profile"
                   className="w-10 h-10 rounded-full object-cover"
                 />
-                <span className="font-semibold text-gray-800 text-lg">User</span>
+                <span className="!font-bold text-gray-800 !text-lg" style={{...FONTS.cardSubHeader}}>User</span>
               </div>
-              <span className="bg-red-100 text-red-700 text-sm px-3 py-1 rounded-full">
+              <span className="bg-red-100 text-red-700 text-sm px-3 py-1 rounded-full" >
                 {selectedQuery.center}
               </span>
             </div>
 
-            <h2 className="text-xl font-bold text-[#9d1623] mb-2">
+            <h2 className=" !font-semibold text-[#9d1623] mb-2" style={{...FONTS.cardSubHeader}}>
               {selectedQuery.subject}
             </h2>
 
-            <p className="text-gray-800">{selectedQuery.description}</p>
+            <p className="!text-gray-800" style={{...FONTS.paragraph}}>{selectedQuery.description}</p>
           </>
         ) : (
           <p className="text-gray-400 text-center mt-10">

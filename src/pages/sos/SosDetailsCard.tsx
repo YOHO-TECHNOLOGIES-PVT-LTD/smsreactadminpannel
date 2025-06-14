@@ -18,6 +18,7 @@ import sos from '../../assets/sos.jpg';
 import { FaArrowLeft } from 'react-icons/fa';
 import { Link, useParams } from 'react-router-dom';
 import { getsos, updatesos } from '../../components/sos/services';
+import { FONTS } from '../../constants/uiConstants';
 
 interface PostedDetail {
 
@@ -157,7 +158,7 @@ const SosDetails: React.FC = () => {
         <Link to="/sos" className="mr-4 text-[#9b111e] hover:text-red-800">
           <FaArrowLeft className="text-3xl" />
         </Link>
-        <h1 className="text-[#9b111e] text-5xl font-bold">SOS Details</h1>
+        <h1 className="text-[#9b111e] text-5xl !font-bold" style={{...FONTS.header}}>SOS Details</h1>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="bg-white rounded-xl shadow-md overflow-hidden flex justify-center items-center">
@@ -198,34 +199,34 @@ const SosDetails: React.FC = () => {
         <div className='flex flex-row w-full gap-5'>
 
           <div className="bg-white rounded-xl xl:pl-10 w-6/12 shadow-md p-5">
-            <h2 className="text-[#9b111e] font-bold text-2xl mb-4">Personal Details</h2>
+            <h2 className="text-[#9b111e] !font-bold text-2xl mb-4" style={{...FONTS.cardheader}}>Personal Details</h2>
             <div className="flex items-center  mt-5">
               <FaUser className="text-[#9b111e] lg:text-md  xl:text-2xl mr-3" />
-              <div className="xl:text-lg lg:text-md font-semibold">{postedDetails.name}</div>
+              <div className="xl:text-lg lg:text-md !text-gray-900 !font-semibold" style={{...FONTS.cardSubHeader}}>{postedDetails.name}</div>
             </div>
             <div className="flex items-center mt-10">
               <FaMapMarkerAlt className="text-[#9b111e] lg:text-md  xl:text-2xl mr-3" />
-              <div className="text-lg lg:text-md  font-semibold">{postedDetails.location}</div>
+              <div className="text-lg lg:text-md !text-gray-900 !font-semibold" style={{...FONTS.cardSubHeader}}>{postedDetails.location}</div>
             </div>
             <div className="flex items-center mt-10">
               <FaEnvelope className="text-[#9b111e] lg:text-md  xl:text-2xl mr-3" />
-              <div className="text-lg lg:text-md  font-semibold">{postedDetails.customerId.email}</div>
+              <div className="text-lg lg:text-md !text-gray-900 !font-semibold" style={{...FONTS.cardSubHeader}}>{postedDetails.customerId.email}</div>
             </div>
             <div className="flex items-center mt-10">
               <FaPhoneAlt className="text-[#9b111e] lg:text-md  xl:text-2xl mr-3" />
-              <div className="text-lg lg:text-md  font-semibold">{postedDetails.phoneNumber}</div>
+              <div className="text-lg lg:text-md !text-gray-900 !font-semibold" style={{...FONTS.cardSubHeader}}>{postedDetails.phoneNumber}</div>
             </div>
           </div>
 
           <div className="bg-white xl:pl-10 w-6/12 rounded-xl shadow-md p-5">
-            <h2 className="text-[#9b111e] font-bold text-2xl  mb-4">Other Details</h2>
+            <h2 className="text-[#9b111e] !font-bold text-2xl  mb-4" style={{...FONTS.cardheader}}>Other Details</h2>
             <div className="flex items-center mt-10">
               <FaPhoneAlt className="text-[#9b111e]  xl:text-2xl lg:text-md mr-3" />
-              <div className="xl:text-lg lg:text-md  font-semibold">{postedDetails.phoneNumber}</div>
+              <div className="xl:text-lg lg:text-md !text-gray-900 !font-semibold" style={{...FONTS.cardSubHeader}}>{postedDetails.phoneNumber}</div>
             </div>
             <div className="flex items-center mt-10">
               <FaMapMarkerAlt className="text-[#9b111e]  xl:text-2xl lg:text-md  mr-3" />
-              <div className="xl:text-lg lg:text-md  font-semibold">{postedDetails.location}</div>
+              <div className="xl:text-lg lg:text-md !text-gray-900 !font-semibold" style={{...FONTS.cardSubHeader}}>{postedDetails.location}</div>
             </div>
 
             <div className="flex gap-4 mt-10">
@@ -258,7 +259,7 @@ const SosDetails: React.FC = () => {
 
 
         <div className="bg-white rounded-xl shadow-md p-5">
-          <h2 className="text-[#9b111e] font-bold text-2xl mb-4 xl:ml-5">SOS Info</h2>
+          <h2 className="text-[#9b111e] !font-bold text-2xl mb-4 xl:ml-5" style={{...FONTS.cardheader}}>SOS Info</h2>
 
           <div className='flex flex-row xl:gap-20 lg:ml-1 xl:ml-10 lg:gap-5 mt-10'>
 
@@ -266,27 +267,26 @@ const SosDetails: React.FC = () => {
               <FaInfoCircle className="text-[#9b111e] mt-1 text-xl sm:text-2xl" />
 
               <div className="ml-3 w-full">
-                <div className="font-semibold text-base sm:text-lg md:text-xl mb-2">
+                <div className="!font-semibold text-base sm:text-lg md:text-xl mb-2" style={{...FONTS.cardSubHeader}}>
                   Status:
                 </div>
 
                 <select
                   value={postedDetails.status}
                   onChange={(e) => updateStatus(e, uuid)}
-                  className=" sm:w-72 bg-gradient-to-r from-red-500 via-red-600 to-red-700
-    text-white
+                  className=" sm:w-52
+    !text-black
     rounded-lg
     px-4 py-3
     text-base sm:text-lg
     font-semibold
     shadow-lg
-    focus:outline-none
-    focus:ring-4 focus:ring-red-400
+    focus:outline-black
+    focus:ring-4 focus:ring-black-100
     transition duration-300 ease-in-out
-    hover:from-red-600 hover:to-red-800
     cursor-pointer
   "
-                  style={{ width: "150px" }}
+                  style={{ width: "150px" , ...FONTS.paragraph}}
                 >
                   <option value="Not Started" className="text-black">Not Started</option>
                   <option value="In Progress" className="text-black">In Progress</option>
@@ -296,7 +296,8 @@ const SosDetails: React.FC = () => {
 
                 <div className="flex flex-row gap-4 mt-4">
                   <div
-                    className={`text-sm sm:text-base md:text-lg font-semibold inline-block px-4 py-2 rounded ${getStatusStyles(
+                    style={{...FONTS.paragraph}}
+                    className={`text-sm sm:text-base md:text-lg !font-semibold inline-block px-4 py-2 rounded ${getStatusStyles(
                       postedDetails.status || "Completed"
                     )}`}
                   >
@@ -313,16 +314,16 @@ const SosDetails: React.FC = () => {
               <div className="flex items-start mb-4">
                 <FaStickyNote className="text-[#9b111e]  text-2xl mr-3" />
                 <div>
-                  <div className="font-semibold text-lg">Note</div>
-                  <div className="text-gray-600">{postedDetails.description}</div>
+                  <div className="!font-semibold text-lg" style={{...FONTS.cardSubHeader}}>Note</div>
+                  <div className="!text-gray-600" style={{...FONTS.paragraph}}>{postedDetails.description}</div>
                 </div>
               </div>
 
               <div className="flex items-start mt-10">
                 <FaMapMarkerAlt className="text-[#9b111e]  text-2xl mr-3" />
                 <div>
-                  <div className="font-semibold text-lg">Location</div>
-                  <div className="text-gray-600 text-2xl">{postedDetails.location}</div>
+                  <div className="!font-semibold text-lg" style={{...FONTS.cardSubHeader}}>Location</div>
+                  <div className="!text-gray-600 text-2xl" style={{...FONTS.paragraph}}>{postedDetails.location}</div>
                 </div>
               </div>
 
