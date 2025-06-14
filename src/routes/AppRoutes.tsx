@@ -11,7 +11,7 @@ import VehicleManagementPage from "../pages/vehicle/VehicleManagementPage";
 import GeneralSettings from "../pages/Settings/GeneralSettings";
 import { MainLayout } from "../Layout/MainLayout/MainLayout";
 import { useAuth } from "../pages/auth/AuthContext";
-import { Announcement } from "../pages/Announcement/Announcement";
+import  Announcement  from "../pages/Announcement/Announcement";
 import SosDetailsCard from "../pages/sos/SosDetailsCard";
 import DashboardSos from "../pages/sos/DashBoardSos";
 import QuotationPage from "../pages/job-cards/steps/Quotationpage";
