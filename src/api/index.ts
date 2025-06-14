@@ -1,3 +1,4 @@
+import { data } from "react-router-dom";
 import httpClient from "./httpClient";
 import { API_END_POINTS } from "./httpEndpoints";
 
@@ -89,7 +90,21 @@ enquiry:{
   getAllCat:(params:string)=>httpClient.get(API_END_POINTS.serviceCenter.getAllCat.replace(':uuid',params)),
   postPartner:(data:any)=>httpClient.post(API_END_POINTS.serviceCenter.postPartner,data),
   update:(data:any,params:string)=>httpClient.update(API_END_POINTS.serviceCenter.updatePatner.replace(':id',params),data,''),
-  delete:()=>httpClient.delete(API_END_POINTS.serviceCenter.delete)
+  delete:()=>httpClient.delete(API_END_POINTS.serviceCenter.delete),
+  getCatEvery:()=>httpClient.get(API_END_POINTS.serviceCenter.getCatevery)
+ },
+ category:{
+  create:(data:any)=>httpClient.post(API_END_POINTS.category.create,data),
+  update:(data:any,params:string)=>httpClient.update(API_END_POINTS.category.update.replace(':uuid',params),data),
+  delete:(params:string)=>httpClient.delete(API_END_POINTS.category.delete.replace(':uuid',params)),
+ },
+
+ service:{
+  create:(data:any)=>httpClient.post(API_END_POINTS.service.create,data),
+  update:(data:any,params:string)=>httpClient.update(API_END_POINTS.service.put.replace(':uuid',params),data),
+  get:()=>httpClient.get(API_END_POINTS.service.getall),
+  patch:(params:string)=>httpClient.patch(API_END_POINTS.service.patch.replace(':uuid',params)),
+  delete:(params:string)=>httpClient.delete(API_END_POINTS.service.delete.replace(':id',params))
  }
 
 

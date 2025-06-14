@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { FaBell } from "react-icons/fa";
 import { getAllNotification } from './services';
+import { useSocket } from '../../../context/adminSocket'; 
 
-// Define the shape of a notification object
 interface Notification {
   _id: string;
   uuid: string;
@@ -39,11 +39,13 @@ interface Notification {
 const NotificationPanel: React.FC = () => {
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [filter, setFilter] = useState<'all' | 'read' | 'unread'>('all');
+  const socket = useSocket();
+  console.log("socket",socket)
 
   useEffect(() => {
     const fetchUserNotifications = async () => {
       try {
-        const res = await getAllNotification('');
+        const res:any = await getAllNotification('');
         const data: Notification[] = Array.isArray(res?.data?.data) ? res.data.data : [];
         setNotifications(data);
       } catch (err) {
@@ -54,23 +56,28 @@ const NotificationPanel: React.FC = () => {
     fetchUserNotifications();
   }, []);
 
-  // const handleDelete = (id: string) => {
-  //   setNotifications((prev) => prev.filter((n) => n._id !== id));
-  // };
+  useEffect(() => {
+    if (!socket) return;
+
+    socket.on("new_notification", (newNotif: Notification) => {
+      setNotifications((prev) => [newNotif, ...prev]);
+    });
+    socket.emit("join_room",)
+    // return () => {
+    //   socket.off("new_notification");
+    // };
+  }, [socket]);
 
   const handleMarkAsRead = (id: string) => {
     setNotifications((prev) =>
-      prev.map((notif) =>
-        notif._id === id ? { ...notif, is_read: true } : notif
-      )
+      prev.map((notif) => notif._id === id ? { ...notif, is_read: true } : notif)
     );
-    // Optionally trigger backend update here
   };
 
   const filteredNotifications = notifications.filter((notif) => {
     if (filter === 'all') return true;
-    if (filter === 'unread') return notif.is_read === false;
-    if (filter === 'read') return notif.is_read === true;
+    if (filter === 'unread') return !notif.is_read;
+    if (filter === 'read') return notif.is_read;
     return true;
   });
 
@@ -93,10 +100,11 @@ const NotificationPanel: React.FC = () => {
             <button
               key={type}
               onClick={() => setFilter(type as 'all' | 'read' | 'unread')}
-              className={`w-24 h-10 rounded font-bold  px-4 py-2 ${filter === type
-                ? 'bg-[#9b111e] text-white'
-                : 'border-2 border-[#9b111e] text-[#9b111e]'
-                }`}
+              className={`w-24 h-10 rounded font-bold px-4 py-2 ${
+                filter === type
+                  ? 'bg-[#9b111e] text-white'
+                  : 'border-2 border-[#9b111e] text-[#9b111e]'
+              }`}
             >
               {type.charAt(0).toUpperCase() + type.slice(1)}
             </button>
@@ -120,12 +128,13 @@ const NotificationPanel: React.FC = () => {
           return (
             <div
               key={notif._id}
-              className={`flex items-start justify-between p-4 rounded-xl border transition ${notif.type === 'error'
-                ? 'bg-red-50 border-red-300'
-                : isUnread
+              className={`flex items-start justify-between p-4 rounded-xl border transition ${
+                notif.type === 'error'
+                  ? 'bg-red-50 border-red-300'
+                  : isUnread
                   ? 'bg-orange-100 border-yellow-300'
                   : 'border-gray-200'
-                }`}
+              }`}
             >
               <div
                 className="flex items-start gap-3 cursor-pointer"
@@ -154,12 +163,6 @@ const NotificationPanel: React.FC = () => {
                   <p className="text-2xs text-gray-900 whitespace-nowrap">
                     {formatDate(notif.created_at)}
                   </p>
-                  {/* <button
-                    onClick={() => handleDelete(notif._id)}
-                    className="bg-red-100 text-red-500 px-2 py-1 rounded text-sm hover:bg-red-200"
-                  >
-                    Delete
-                  </button> */}
                 </div>
               </div>
             </div>
