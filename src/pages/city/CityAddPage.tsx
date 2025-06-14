@@ -29,11 +29,12 @@ const CityAddPage: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         </button>
         <h2
           className="font-bold text-2xl pt-0 pl-2  pb-2  mb-4"
-          style={{ color: "#9b111e" }}
+          
+        style={{ color: "#9b111e" }}
         >
           ADD CITY
         </h2>
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={handleSubmit} className="space-y-6" >
           <input
             type="text"
             placeholder="New City"
@@ -69,7 +70,8 @@ const CityAddPage: React.FC<{ onClose: () => void }> = ({ onClose }) => {
                 background:
                   "linear-gradient(44.99deg,#700808 11%,#d23c3c 102.34%)",
               }}
-            >
+           
+           >
               Save
             </button>
           </div>

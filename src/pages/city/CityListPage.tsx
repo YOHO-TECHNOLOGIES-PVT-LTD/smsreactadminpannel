@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { TbBuildingEstate, TbMapPinCode } from 'react-icons/tb';
 import { MdOutlineMiscellaneousServices } from 'react-icons/md';
+import { FONTS } from '../../constants/uiConstants';
 
 type City = {
 	name: string;
@@ -64,7 +65,7 @@ const CityListPage: React.FC<CityListPageProps> = ({ searchTerm = '' }) => {
 			{(!exactMatchCity || searchTerm.trim() === '') && (
 				<div>
 					<table className='table-auto w-full border-white bg-white rounded-lg shadow-md mx-auto shadow-lg'>
-						<thead className='bg-[#a00000] text-white'>
+						<thead className='bg-[#a00000] text-white' style={{...FONTS.tableHeader}}>
 							<tr>
 								<th className='px-4 py-2 text-left'>
 									<div className='flex items-center gap-2'>
@@ -89,13 +90,14 @@ const CityListPage: React.FC<CityListPageProps> = ({ searchTerm = '' }) => {
 						<tbody>
 							{filteredCities.length > 0 ? (
 								filteredCities.map((city, index) => (
-									<tr key={index} className='border-b hover:bg-[#f8ddd5]'>
+									<tr key={index} className='border-b hover:bg-[#f8ddd5]' style={{...FONTS.cardSubHeader}}>
 										<td className='px-10 py-2'>{city.name}</td>
 										<td className='px-16 py-2'>{city.TotalCenters}</td>
 										<td className='px-14 py-2'>
 											<button
 												onClick={() => navigate('/service')}
-												className='bg-gradient-to-r from-red-600 to-red-800 text-white px-3 py-1 rounded hover:bg-[#a00000] transition active:scale-110'
+												className='bg-gradient-to-r from-red-600 to-red-800 !text-white px-3 py-1 rounded hover:bg-[#a00000] transition active:scale-110'
+											style={{...FONTS.subParagraph}}
 											>
 												View
 											</button>
