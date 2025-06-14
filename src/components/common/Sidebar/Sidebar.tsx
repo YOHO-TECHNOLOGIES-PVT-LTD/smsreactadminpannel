@@ -18,6 +18,7 @@ import { RiMenu2Line, RiMenu3Line } from "react-icons/ri";
 import { Megaphone } from "lucide-react";
 import { MdHelpOutline } from "react-icons/md";
 import { FONTS } from "../../../constants/uiConstants";
+import { AiOutlineCalendar } from "react-icons/ai";
 
 const COLOR = {
   primary: "#9b111e",
