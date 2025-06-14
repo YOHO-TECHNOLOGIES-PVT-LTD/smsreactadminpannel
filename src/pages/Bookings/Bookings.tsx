@@ -74,7 +74,6 @@ const ServiceRequests: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-[#FAF3EB]">
-      {/* Compact Header */}
       <div className="bg-white border-b border-gray-200 shadow-sm">
         <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
@@ -82,15 +81,11 @@ const ServiceRequests: React.FC = () => {
               <h1 className="text-2xl font-bold text-gray-900">Service Requests</h1>
               <p className="text-sm text-gray-600">Manage automotive service requests</p>
             </div>
-            <div className="bg-[#9b111e] text-white px-4 py-2 rounded-lg">
-              <span className="text-lg font-bold">{serviceRequests.length}</span>
-              <span className="text-xs ml-1">Requests</span>
-            </div>
           </div>
         </div>
       </div>
 
-      {/* Service Cards Grid */}
+    
       <div className="max-w-7xl mx-auto px-6 py-6">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-2 gap-4">
           {serviceRequests.map((request) => (
@@ -98,7 +93,7 @@ const ServiceRequests: React.FC = () => {
           ))}
         </div>
 
-        {/* Empty State */}
+
         {serviceRequests.length === 0 && (
           <div className="text-center py-12">
             <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
