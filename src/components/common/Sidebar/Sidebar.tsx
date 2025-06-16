@@ -73,9 +73,9 @@ export const Sidebar = () => {
             onClick={handleLinkClick}
           />
           <SidebarLink
-            to="/notifications"
-            icon={<FiBell />}
-            label="Notifications"
+            to="/bookings"
+            icon={<AiOutlineCalendar />}
+            label="Bookings"
             isOpen={isOpen}
             onClick={handleLinkClick}
           />
@@ -123,9 +123,9 @@ export const Sidebar = () => {
             onClick={handleLinkClick}
           />
           <SidebarLink
-            to="/announcement"
-            icon={<Megaphone />}
-            label="Announcement"
+            to="/sos"
+            icon={<FiAlertTriangle />}
+            label="SOS"
             isOpen={isOpen}
             onClick={handleLinkClick}
           />
@@ -150,13 +150,22 @@ export const Sidebar = () => {
             isOpen={isOpen}
             onClick={handleLinkClick}
           />
+          
           <SidebarLink
-            to="/sos"
-            icon={<FiAlertTriangle />}
-            label="SOS"
+            to="/announcement"
+            icon={<Megaphone />}
+            label="Announcement"
             isOpen={isOpen}
             onClick={handleLinkClick}
           />
+          <SidebarLink
+            to="/notifications"
+            icon={<FiBell />}
+            label="Notifications"
+            isOpen={isOpen}
+            onClick={handleLinkClick}
+          />
+
         </nav>
       </div>
       <div
@@ -188,8 +197,8 @@ const SidebarLink = ({
   const backgroundColor = isActive
     ? COLOR.primary
     : isHovered
-    ? COLOR.bgColor
-    : "transparent";
+      ? COLOR.bgColor
+      : "transparent";
 
   const textColor = isActive ? COLOR.bgColor : COLOR.primary;
 
