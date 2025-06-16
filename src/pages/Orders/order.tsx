@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { CreateOderHistory, getOrdersHistory } from './Services';
+import {FONTS} from '../../constants/uiConstants'
 
 
 const Order = () => {
@@ -55,203 +56,6 @@ const Order = () => {
     fetchOrders()
   },[])
 
-  // Sample data - just 2 orders as requested
-  // const orders = [
-  //   {
-  //     id: '#ORD1001',
-  //     customer: 'John Smith',
-  //     email: 'john.smith@example.com',
-  //     date: '15/05/2024',
-  //     total: '₹12,500',
-  //     status: 'Completed',
-  //     details: {
-  //       items: [
-  //         { 
-  //           name: 'Car Battery', 
-  //           quantity: 1, 
-  //           price: '₹8,500',
-  //           image: 'https://via.placeholder.com/80?text=Battery'
-  //         },
-  //         { 
-  //           name: 'Engine Oil', 
-  //           quantity: 2, 
-  //           price: '₹2,000',
-  //           image: 'https://via.placeholder.com/80?text=Oil'
-  //         },
-  //         { 
-  //           name: 'Air Filter', 
-  //           quantity: 1, 
-  //           price: '₹2,000',
-  //           image: 'https://via.placeholder.com/80?text=Filter'
-  //         }
-  //       ],
-  //       shipping: 'Express Delivery',
-  //       address: '123 Main St, Bangalore, Karnataka'
-  //     }
-  //   },
-  //   {
-  //     id: '#ORD1002',
-  //     customer: 'Sarah Johnson',
-  //     email: 'sarah.j@example.com',
-  //     date: '18/05/2024',
-  //     total: '₹7,800',
-  //     status: 'Processing',
-  //     details: {
-  //       items: [
-  //         { 
-  //           name: 'Brake Pads', 
-  //           quantity: 1, 
-  //           price: '₹4,500',
-  //           image: 'https://via.placeholder.com/80?text=Brake'
-  //         },
-  //         { 
-  //           name: 'Windshield Wipers', 
-  //           quantity: 2, 
-  //           price: '₹1,800',
-  //           image: 'https://via.placeholder.com/80?text=Wipers'
-  //         },
-  //         { 
-  //           name: 'Spark Plugs', 
-  //           quantity: 4, 
-  //           price: '₹1,500',
-  //           image: 'https://via.placeholder.com/80?text=Plugs'
-  //         }
-  //       ],
-  //       shipping: 'Standard Delivery',
-  //       address: '456 Oak Ave, Mumbai, Maharashtra'
-  //     }
-  //   },
-  //   {
-  //     id: '#ORD1002',
-  //     customer: 'Sarah Johnson',
-  //     email: 'sarah.j@example.com',
-  //     date: '18/05/2024',
-  //     total: '₹7,800',
-  //     status: 'Processing',
-  //     details: {
-  //       items: [
-  //         { 
-  //           name: 'Brake Pads', 
-  //           quantity: 1, 
-  //           price: '₹4,500',
-  //           image: 'https://via.placeholder.com/80?text=Brake'
-  //         },
-  //         { 
-  //           name: 'Windshield Wipers', 
-  //           quantity: 2, 
-  //           price: '₹1,800',
-  //           image: 'https://via.placeholder.com/80?text=Wipers'
-  //         },
-  //         { 
-  //           name: 'Spark Plugs', 
-  //           quantity: 4, 
-  //           price: '₹1,500',
-  //           image: 'https://via.placeholder.com/80?text=Plugs'
-  //         }
-  //       ],
-  //       shipping: 'Standard Delivery',
-  //       address: '456 Oak Ave, Mumbai, Maharashtra'
-  //     }
-  //   },
-  //   {
-  //     id: '#ORD1002',
-  //     customer: 'Sarah Johnson',
-  //     email: 'sarah.j@example.com',
-  //     date: '18/05/2024',
-  //     total: '₹7,800',
-  //     status: 'Processing',
-  //     details: {
-  //       items: [
-  //         { 
-  //           name: 'Brake Pads', 
-  //           quantity: 1, 
-  //           price: '₹4,500',
-  //           image: 'https://via.placeholder.com/80?text=Brake'
-  //         },
-  //         { 
-  //           name: 'Windshield Wipers', 
-  //           quantity: 2, 
-  //           price: '₹1,800',
-  //           image: 'https://via.placeholder.com/80?text=Wipers'
-  //         },
-  //         { 
-  //           name: 'Spark Plugs', 
-  //           quantity: 4, 
-  //           price: '₹1,500',
-  //           image: 'https://via.placeholder.com/80?text=Plugs'
-  //         }
-  //       ],
-  //       shipping: 'Standard Delivery',
-  //       address: '456 Oak Ave, Mumbai, Maharashtra'
-  //     }
-  //   },
-  //   {
-  //     id: '#ORD1002',
-  //     customer: 'Sarah Johnson',
-  //     email: 'sarah.j@example.com',
-  //     date: '18/05/2024',
-  //     total: '₹7,800',
-  //     status: 'Processing',
-  //     details: {
-  //       items: [
-  //         { 
-  //           name: 'Brake Pads', 
-  //           quantity: 1, 
-  //           price: '₹4,500',
-  //           image: 'https://www.shutterstock.com/image-vector/tyres-stack-realistic-tires-pile-260nw-2455484439.jpg'
-  //         },
-  //         { 
-  //           name: 'Windshield Wipers', 
-  //           quantity: 2, 
-  //           price: '₹1,800',
-  //           image: 'https://via.placeholder.com/80?text=Wipers'
-  //         },
-  //         { 
-  //           name: 'Spark Plugs', 
-  //           quantity: 4, 
-  //           price: '₹1,500',
-  //           image: 'https://via.placeholder.com/80?text=Plugs'
-  //         }
-  //       ],
-  //       shipping: 'Standard Delivery',
-  //       address: '456 Oak Ave, Mumbai, Maharashtra'
-  //     }
-  //   },
-  //   {
-  //     id: '#ORD1002',
-  //     customer: 'Sarah Johnson',
-  //     email: 'sarah.j@example.com',
-  //     date: '18/05/2024',
-  //     total: '₹7,800',
-  //     status: 'Processing',
-  //     details: {
-  //       items: [
-  //         { 
-  //           name: 'Brake Pads', 
-  //           quantity: 1, 
-  //           price: '₹4,500',
-  //           image: 'https://via.placeholder.com/80?text=Brake'
-  //         },
-  //         { 
-  //           name: 'Windshield Wipers', 
-  //           quantity: 2, 
-  //           price: '₹1,800',
-  //           image: 'https://via.placeholder.com/80?text=Wipers'
-  //         },
-  //         { 
-  //           name: 'Spark Plugs', 
-  //           quantity: 4, 
-  //           price: '₹1,500',
-  //           image: 'https://via.placeholder.com/80?text=Plugs'
-  //         }
-  //       ],
-  //       shipping: 'Standard Delivery',
-  //       address: '456 Oak Ave, Mumbai, Maharashtra'
-  //     }
-  //   }
-  // ];
-
-  // Filter and pagination
   const ordersPerPage = 10;
   const filteredOrders = orders.filter(order => {
   const matchesSearch =
@@ -380,7 +184,7 @@ const Order = () => {
 
 
   return (
-    <div className="p-4 md:p-6">
+    <div className="p-4 md:p-6 h-screen">
       {/* Summary Cards */}
       <motion.div 
         initial="hidden"
@@ -411,7 +215,7 @@ const Order = () => {
         variants={slideUp}
         className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4"
       >
-        <h1 className="text-[#9b111e] text-3xl font-bold">Car Spare Parts Orders</h1>
+        <h1 className="text-[#9b111e] text-3xl font-bold" style={{...FONTS.header}}>Car Spare Parts Orders</h1>
         
         <div className="flex flex-col md:flex-row gap-3 w-full md:w-auto">
           <div className="relative">
