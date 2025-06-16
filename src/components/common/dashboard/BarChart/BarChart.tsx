@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useRef, useEffect } from 'react';
 // import { FONTS } from "../../../../constants/uiConstants"//FONT
 import { FONTS } from "../../../../constants/uiConstants"//COLOUR
@@ -23,7 +24,7 @@ import { GetCustomerDetailsDashboard } from '../../../../pages/Dashboards/servic
 const dateRanges = ['weekly', 'monthly', 'yearly'];
 
 const BarCharts = () => {
-  const [selectedRange, setSelectedRange] = useState('Weekly'); // Set default value and will be used
+  const [selectedRange, setSelectedRange] = useState('weekly'); // Set default value and will be used
   const [isOpen, setIsOpen] = useState(false);
   const [customerData, setCustomerData]= useState<any[]>([]);
   const dropdownRef = useRef<HTMLDivElement>(null)

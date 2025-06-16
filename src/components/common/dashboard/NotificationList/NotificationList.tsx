@@ -39,7 +39,7 @@ const dateRanges = ['weekly', 'monthly', 'yearly'];
 
 
 const CustomerAnalyticsChart = () => {
-  const [selectedRange, setSelectedRange] = useState('Monthly'); // Set default value and will be used
+  const [selectedRange, setSelectedRange] = useState('weekly'); // Set default value and will be used
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const [transactionData, setTransactionData] = useState<any[]>([]);
