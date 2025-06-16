@@ -106,7 +106,7 @@ const CompactServiceCard: React.FC<{ request: any }> = ({ request }) => {
         <div className="flex justify-end">
           <button
             onClick={() => setIsModalOpen(true)}
-            className="bg-[#85323a] text-white px-3 py-2 rounded text-md font-medium"
+            className="bg-[#9b111e] text-white px-3 py-2 rounded text-md font-medium"
           >
             Partner
           </button>
