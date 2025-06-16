@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { CreateOderHistory, getOrdersHistory } from './Services';
-import {FONTS} from '../../constants/uiConstants'
+import { FONTS } from '../../constants/uiConstants';
 
 
 const Order = () => {
@@ -193,17 +193,17 @@ const Order = () => {
         className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6"
       >
         <div className="bg-white p-4 rounded-lg shadow-md border-l-4 border-blue-500">
-          <h3 className="text-gray-500 text-sm font-medium">Total Orders</h3>
+          <h3 className="!text-gray-500 text-sm font-medium"style={{...FONTS.cardSubHeader}}>Total Orders</h3>
           <p className="text-2xl font-bold text-gray-800">{orders.length}</p>
         </div>
         <div className="bg-white p-4 rounded-lg shadow-md border-l-4 border-green-500">
-          <h3 className="text-gray-500 text-sm font-medium">Completed Orders</h3>
+          <h3 className="!text-gray-500 text-sm font-medium"style={{...FONTS.cardSubHeader}}>Completed Orders</h3>
           <p className="text-2xl font-bold text-gray-800">
             {orders.filter(o => o.status === 'Completed').length}
           </p>
         </div>
         <div className="bg-white p-4 rounded-lg shadow-md border-l-4 border-yellow-500">
-          <h3 className="text-gray-500 text-sm font-medium">Processing Orders</h3>
+          <h3 className="!text-gray-500 text-sm font-medium"style={{...FONTS.cardSubHeader}}>Processing Orders</h3>
           <p className="text-2xl font-bold text-gray-800">
             {orders.filter(o => o.status === 'Processing').length}
           </p>
@@ -215,12 +215,12 @@ const Order = () => {
         variants={slideUp}
         className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4"
       >
-        <h1 className="text-[#9b111e] text-3xl font-bold" style={{...FONTS.header}}>Car Spare Parts Orders</h1>
+        <h1 className="text-[#9b111e] text-3xl font-bold"style={{...FONTS.subHeader}}>Car Spare Parts Orders</h1>
         
         <div className="flex flex-col md:flex-row gap-3 w-full md:w-auto">
           <div className="relative">
             <input
-              type="text"
+              type="text"style={{...FONTS.cardSubHeader}}
               placeholder="Search by ID or Name..."
               className="pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#9b111e] w-full"
               value={searchTerm}
@@ -242,8 +242,8 @@ const Order = () => {
           </div>
           
           <input
-            type="date"
-            className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#9b111e]"
+            type="date"style={{...FONTS.paragraph}}
+            className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#9b111e] !text-black"
             value={dateFilter}
             onChange={(e) => setDateFilter(e.target.value)}
           />
@@ -266,22 +266,22 @@ const Order = () => {
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-50">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"style={{...FONTS.tableHeader}}>
                   Order ID
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"style={{...FONTS.tableHeader}}>
                   Customer
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"style={{...FONTS.tableHeader}}>
                   Date
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"style={{...FONTS.tableHeader}}>
                   Status
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"style={{...FONTS.tableHeader}}>
                   Total
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"style={{...FONTS.tableHeader}}>
                   Actions
                 </th>
               </tr>
@@ -296,10 +296,10 @@ const Order = () => {
                     transition={{ delay: index * 0.05 }}
                     className="hover:bg-gray-50 transition-colors"
                   >
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium !text-gray-900"style={{...FONTS.paragraph}}>
                       {order.orderId}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm !text-gray-500"style={{...FONTS.paragraph}}>
                       <div className="flex items-center">
                         <div className="flex-shrink-0 h-10 w-10 bg-gray-200 rounded-full flex items-center justify-center">
                           {order.customer_name?.charAt(0) || "?"}
@@ -310,22 +310,22 @@ const Order = () => {
                         </div>
                       </div>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm !text-gray-500"style={{...FONTS.paragraph}}>
                       <td>{formatDate(order.date)}</td>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
+                    <td className="px-6 py-4 whitespace-nowrap"style={{...FONTS.paragraph}}>
                       <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
-                        ${order.status === 'Completed' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}`}>
+                        ${order.status === 'Completed' ? 'bg-green-100 1text-green-800' : 'bg-yellow-100 !text-yellow-800'}`}>
                         {order.status}
                       </span>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-semibold text-gray-900">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-semibold !text-gray-900"style={{...FONTS.paragraph}}>
                       {order.total}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                       <button
                         onClick={() => handleViewOrder(order)}
-                        className="text-[#9b111e] hover:text-[#7a0d19] mr-3 transition-colors"
+                        className="!text-[#9b111e] hover:text-[#7a0d19] mr-3 transition-colors"style={{...FONTS.paragraph}}
                       >
                         View
                       </button>
@@ -334,7 +334,7 @@ const Order = () => {
                 ))
               ) : (
                 <tr>
-                  <td colSpan={6} className="px-6 py-4 text-center text-sm text-gray-500">
+                  <td colSpan={6} className="px-6 py-4 text-center text-sm !text-gray-500"style={{...FONTS.paragraph}}>
                     No orders found matching your criteria
                   </td>
                 </tr>
@@ -350,12 +350,12 @@ const Order = () => {
           variants={fadeIn}
           className="flex flex-col md:flex-row justify-between items-center mt-4 gap-4"
         >
-          <div className="text-sm text-gray-500">
+          <div className="text-sm !text-gray-500"style={{...FONTS.paragraph}}>
             Showing {(currentPage - 1) * ordersPerPage + 1} to{' '}
             {Math.min(currentPage * ordersPerPage, filteredOrders.length)} of{' '}
             {filteredOrders.length} orders
           </div>
-          <div className="flex space-x-2">
+          <div className="flex space-x-2"style={{...FONTS.paragraph}}>
             <button
               onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
               disabled={currentPage === 1}
@@ -598,7 +598,7 @@ const Order = () => {
               className="bg-white rounded-xl shadow-xl w-full max-w-4xl max-h-[90vh] overflow-y-auto"
             >
               <div className="flex justify-between items-center border-b p-4 sticky top-0 bg-white z-10">
-                <h3 className="text-xl font-semibold text-gray-900">Order Details - {selectedOrder.id}</h3>
+                <h3 className="text-xl font-semibold !text-gray-900"style={{...FONTS.subHeader}}>Order Details - {selectedOrder.id}</h3>
                 <button
                   onClick={closeModal}
                   className="text-gray-400 hover:text-gray-500 transition-colors"
@@ -609,19 +609,19 @@ const Order = () => {
                 </button>
               </div>
 
-              <div className="p-6">
+              <div className="p-6"style={{...FONTS.paragraph}}>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                   <div>
-                    <h4 className="text-lg font-medium text-gray-900 mb-3">Customer Information</h4>
+                    <h4 className="text-lg font-medium !text-gray-900 mb-3"style={{...FONTS.cardheader}}>Customer Information</h4>
                     <div className="space-y-2">
-                      <p className="text-gray-600">
-                        <span className="font-medium">Name:</span> {selectedOrder.customer_name}
+                      <p className="!text-gray-600">
+                        <span className="font-medium !text-gray-600"style={{...FONTS.paragraph}}>Name:</span> {selectedOrder.customer_name}
                       </p>
-                      <p className="text-gray-600">
-                        <span className="font-medium">Email:</span> {selectedOrder.email}
+                      <p className="!text-gray-600">
+                        <span className="font-medium !text-gray-600"style={{...FONTS.paragraph}}>Email:</span> {selectedOrder.email}
                       </p>
-                      <p className="text-gray-600">
-                        <span className="font-medium">Status:</span> 
+                      <p className="!text-gray-600">
+                        <span className="font-medium !text-gray-600"style={{...FONTS.paragraph}}>Status:</span> 
                         <span className={`ml-2 px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
                           ${selectedOrder.status === 'Completed' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}`}>
                           {selectedOrder.status}
@@ -630,36 +630,36 @@ const Order = () => {
                     </div>
                   </div>
                   <div>
-                    <h4 className="text-lg font-medium text-gray-900 mb-3">Order Information</h4>
+                    <h4 className="text-lg font-medium !text-gray-900 mb-3"style={{...FONTS.cardheader}}>Order Information</h4>
                     <div className="space-y-2">
                       <p className="text-gray-600">
-                        <span className="font-medium">Date:</span> {selectedOrder.date}
+                        <span className="font-medium !text-gray-600"style={{...FONTS.paragraph}}>Date:</span> {selectedOrder.date}
                       </p>
                       <p className="text-gray-600">
-                        <span className="font-medium">Shipping:</span> {selectedOrder.details.shipping}
+                        <span className="font-medium !text-gray-600"style={{...FONTS.paragraph}}>Shipping:</span> {selectedOrder.details.shipping}
                       </p>
                       <p className="text-gray-600">
-                        <span className="font-medium">Total:</span> {selectedOrder.total}
+                        <span className="font-medium !text-gray-600"style={{...FONTS.paragraph}}>Total:</span> {selectedOrder.total}
                       </p>
                     </div>
                   </div>
                 </div>
 
-                <h4 className="text-lg font-medium text-gray-900 mb-3">Order Items</h4>
+                <h4 className="text-lg font-medium !text-gray-900 mb-3"style={{...FONTS.cardheader}}>Order Items</h4>
                 <div className="overflow-x-auto mb-6">
                   <table className="min-w-full divide-y divide-gray-200">
                     <thead className="bg-gray-50">
                       <tr>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th className="px-6 py-3 text-left text-xs font-medium !text-gray-500 uppercase tracking-wider"style={{...FONTS.paragraph}}>
                           Item
                         </th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th className="px-6 py-3 text-left text-xs font-medium !text-gray-500 uppercase tracking-wider"style={{...FONTS.paragraph}}>
                           Quantity
                         </th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th className="px-6 py-3 text-left text-xs font-medium !text-gray-500 uppercase tracking-wider"style={{...FONTS.paragraph}}>
                           Price
                         </th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th className="px-6 py-3 text-left text-xs font-medium !text-gray-500 uppercase tracking-wider"style={{...FONTS.paragraph}}>
                           Subtotal
                         </th>
                       </tr>
@@ -669,17 +669,17 @@ const Order = () => {
                         const price = parseInt(item.price);
                         return (
                           <tr key={index}>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium !text-gray-900"style={{...FONTS.paragraph}}>
                               {item.name}
                             </td>
                             
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            <td className="px-6 py-4 whitespace-nowrap text-sm !text-gray-500"style={{...FONTS.paragraph}}>
                               {item.quantity}
                             </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            <td className="px-6 py-4 whitespace-nowrap text-sm !text-gray-500"style={{...FONTS.paragraph}}>
                               {item.price}
                             </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            <td className="px-6 py-4 whitespace-nowrap text-sm !text-gray-500"style={{...FONTS.paragraph}}>
                               ₹{(price * item.quantity).toLocaleString()}
                             </td>
                           </tr>
@@ -691,23 +691,23 @@ const Order = () => {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <h4 className="text-lg font-medium text-gray-900 mb-3">Shipping Address</h4>
-                    <p className="text-gray-600">{selectedOrder.details.address}</p>
+                    <h4 className="text-lg font-medium !text-gray-900 mb-3"style={{...FONTS.cardheader}}>Shipping Address</h4>
+                    <p className="!text-gray-600"style={{...FONTS.cardSubHeader}}>{selectedOrder.details.address}</p>
                   </div>
                   <div>
-                    <h4 className="text-lg font-medium text-gray-900 mb-3">Order Summary</h4>
+                    <h4 className="text-lg font-medium !text-gray-900 mb-3"style={{...FONTS.cardheader}}>Order Summary</h4>
                     <div className="bg-gray-50 p-4 rounded-lg">
                       <div className="flex justify-between mb-2">
-                        <span className="text-gray-600">Subtotal:</span>
-                        <span className="font-medium">{selectedOrder.total}</span>
+                        <span className="!text-gray-600"style={{...FONTS.cardSubHeader}}>Subtotal:</span>
+                        <span className="font-medium !text-gray-600"style={{...FONTS.cardSubHeader}}>{selectedOrder.total}</span>
                       </div>
                       <div className="flex justify-between mb-2">
-                        <span className="text-gray-600">Shipping:</span>
-                        <span className="font-medium">₹0</span>
+                        <span className="!text-gray-600"style={{...FONTS.cardSubHeader}}>Shipping:</span>
+                        <span className="font-medium !text-gray-600"style={{...FONTS.cardSubHeader}}>₹0</span>
                       </div>
                       <div className="flex justify-between border-t pt-2 mt-2">
-                        <span className="text-gray-900 font-medium">Total:</span>
-                        <span className="text-[#9b111e] font-bold">{selectedOrder.total}</span>
+                        <span className="!text-gray-900 font-medium"style={{...FONTS.cardSubHeader}}>Total:</span>
+                        <span className="!text-[#9b111e] font-bold"style={{...FONTS.cardSubHeader}}>{selectedOrder.total}</span>
                       </div>
                     </div>
                   </div>
@@ -717,7 +717,7 @@ const Order = () => {
               <div className="flex justify-end p-4 border-t sticky bottom-0 bg-white">
                 <button
                   onClick={closeModal}
-                  className="px-4 py-2 bg-[#9b111e] text-white rounded-md hover:bg-[#7a0d19] transition-colors"
+                  className="px-4 py-2 bg-[#9b111e] !text-white rounded-md hover:bg-[#7a0d19] transition-colors"style={{...FONTS.paragraph}}
                 >
                   Close
                 </button>

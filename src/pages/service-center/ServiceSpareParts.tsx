@@ -207,7 +207,7 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ handleBack, Spareparts = 
     navigate('/service/profile')
   }
 
-  return (
+  return ( 
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
       <div className="sticky top-0 z-20 bg-[#FAF3EB] border-b ">
@@ -347,6 +347,7 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ handleBack, Spareparts = 
 
                 {/* Image Container */}
                 <div className="relative h-48 bg-gray-50 overflow-hidden">
+                  
                   <img
                     className="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-300"
                     src={part.image || "/placeholder.svg"}
@@ -370,19 +371,21 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ handleBack, Spareparts = 
                   </div>
 
                   {/* Product Name */}
-                  <h3 className="!font-semibold text-gray-900 mb-3 line-clamp-2 group-hover:text-red-700 transition-colors" style={{...FONTS.cardSubHeader}}>
+                  <h3 className="!font-semibold text-gray-900 mb-3 line-clamp-2 group-hover:text-red-700 transition-colors" style={{...FONTS.cardheader}}>
                     {part.name}
                   </h3>
 
                   {/* Rating */}
                   <div className="flex items-center gap-2 mb-3">
                     {renderStars(part.rating)}
-                    <span className="text-sm text-gray-500">({part.reviews})</span>
+                    <span className="text-sm !text-gray-500"
+                    style={{...FONTS.paragraph}}>({part.reviews})</span>
                   </div>
 
                   {/* Warranty Period */}
                   <div className="mb-3">
-                    <span className="inline-block bg-blue-50 text-blue-700 px-2 py-1 rounded-md text-xs font-medium">
+                    <span className="inline-block bg-blue-50 !text-blue-700 px-2 py-1 rounded-md text-xs font-medium"
+                      style={{ ...FONTS.paragraph }}>
                       Warranty: {part.warrantyPeriod}
                     </span>
                   </div>
@@ -392,7 +395,8 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ handleBack, Spareparts = 
                     <div className="flex items-center gap-2">
                       {part.discount && part.discount > 0 ? (
                         <>
-                          <span className="text-2xl font-bold text-gray-900">
+                          <span className="text-2xl font-bold !text-gray-900"
+                            style={{ ...FONTS.paragraph }}>
                             ₹{calculateDiscountedPrice(part.price, part.discount).toLocaleString()}
                           </span>
                           <span className="text-sm text-gray-500 line-through">₹{part.price.toLocaleString()}</span>
@@ -461,7 +465,9 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ handleBack, Spareparts = 
           <div className="bg-white rounded-xl shadow-lg w-full max-w-2xl max-h-[90vh] overflow-y-auto">
             <div className="p-6">
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-2xl font-bold text-gray-900">Add New Spare Part</h2>
+                <h2 className="text-2xl font-bold !text-gray-900"
+                style={{...FONTS.header}}
+                >Add New Spare Part</h2>
                 <button
                   onClick={() => setShowAddModal(false)}
                   className="p-2 text-gray-400 hover:text-gray-600 rounded-full hover:bg-gray-100"
@@ -470,12 +476,13 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ handleBack, Spareparts = 
                 </button>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 !text-gray-900"
+              style={{...FONTS.paragraph}}>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Part Name*</label>
                   <input
                     type="text"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500"
+                    className="w-full px-4 py-2  "
                     value={newPart.name}
                     onChange={(e) => setNewPart({ ...newPart, name: e.target.value })}
                     placeholder="Enter part name"
@@ -487,7 +494,7 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ handleBack, Spareparts = 
                   <label className="block text-sm font-medium text-gray-700 mb-1">Slug*</label>
                   <input
                     type="text"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500"
+                    className="w-full px-4 py-2  "
                     value={newPart.slug}
                     onChange={(e) => setNewPart({ ...newPart, slug: e.target.value })}
                     placeholder="Enter slug"
@@ -499,7 +506,7 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ handleBack, Spareparts = 
                   <label className="block text-sm font-medium text-gray-700 mb-1">Image URL*</label>
                   <input
                     type="text"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500"
+                    className="w-full px-4 py-2  "
                     value={newPart.image}
                     onChange={(e) => setNewPart({ ...newPart, image: e.target.value })}
                     placeholder="Enter image URL"
@@ -511,7 +518,7 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ handleBack, Spareparts = 
                   <label className="block text-sm font-medium text-gray-700 mb-1">Price (₹)*</label>
                   <input
                     type="number"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500"
+                    className="w-full px-4 py-2  "
                     value={newPart.price || ""}
                     onChange={(e) => setNewPart({ ...newPart, price: e.target.value })}
                     placeholder="Enter price"
@@ -524,7 +531,7 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ handleBack, Spareparts = 
                   <label className="block text-sm font-medium text-gray-700 mb-1">Stock Quantity*</label>
                   <input
                     type="number"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500"
+                    className="w-full px-4 py-2"
                     value={newPart.quantity || ""}
                     onChange={(e) => setNewPart({ ...newPart, quantity: Number(e.target.value) })}
                     placeholder="Enter stock quantity"
@@ -537,7 +544,7 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ handleBack, Spareparts = 
                   <label className="block text-sm font-medium text-gray-700 mb-1">Category*</label>
                   <input
                     type="text"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500"
+                    className="w-full px-4 py-2  "
                     value={newPart.category}
                     onChange={(e) => setNewPart({ ...newPart, category: e.target.value })}
                     placeholder="Enter category"
@@ -549,7 +556,7 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ handleBack, Spareparts = 
                   <label className="block text-sm font-medium text-gray-700 mb-1">Brand*</label>
                   <input
                     type="text"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500"
+                    className="w-full px-4 py-2  "
                     value={newPart.brand}
                     onChange={(e) => setNewPart({ ...newPart, brand: e.target.value })}
                     placeholder="Enter brand"
@@ -561,7 +568,7 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ handleBack, Spareparts = 
                   <label className="block text-sm font-medium text-gray-700 mb-1">Warranty Period*</label>
                   <input
                     type="text"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500"
+                    className="w-full px-4 py-2 "
                     value={newPart.warrantyPeriod}
                     onChange={(e) => setNewPart({ ...newPart, warrantyPeriod: e.target.value })}
                     placeholder="e.g., 6 months"
@@ -575,7 +582,7 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ handleBack, Spareparts = 
                     type="number"
                     min="0"
                     max="100"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500"
+                    className="w-full px-4 py-2"
                     value={newPart.discount || ""}
                     onChange={(e) => setNewPart({ ...newPart, discount: Number(e.target.value) })}
                     placeholder="Enter discount percentage"
@@ -650,7 +657,8 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ handleBack, Spareparts = 
                 className="w-full h-64 object-cover mb-4 bg-gray-50 rounded"
               />
 
-              <div className="text-md text-gray-800 grid grid-cols-2 gap-4">
+              <div className="text-md text-gray-800 grid grid-cols-2 gap-4"
+              style={{...FONTS.paragraph}}>
                 <p><span className="font-bold text-gray-700">Category:</span> <span className="text-gray-900">{selectedPart.category}</span></p>
                 <p><span className="font-bold text-gray-700">Brand:</span> <span className="text-gray-900">{selectedPart.brand}</span></p>
                 <p><span className="font-bold text-gray-700">Slug:</span> <span className="text-gray-800">{selectedPart.slug}</span></p>
@@ -691,7 +699,8 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ handleBack, Spareparts = 
           <div className="bg-white rounded-md shadow-lg w-full max-w-xl m-12">
             <div className="p-4">
               <div className="flex items-center justify-between mb-4">
-                <h2 className="text-xl font-semibold text-gray-800">Edit Part</h2>
+                <h2 className="text-xl font-semibold !text-gray-800"
+                style={{...FONTS.header}}>Edit Part</h2>
                 <button
                   onClick={() => setEditPart(null)}
                   className="px-2 font-bold text-gray-400 text-xl hover:text-gray-600 rounded-full hover:bg-gray-100"
@@ -700,7 +709,8 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ handleBack, Spareparts = 
                 </button>
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-2 gap-4 !text-gray-700"
+              style={{...FONTS.paragraph}}>
                 <div className="col-span-2">
                   <label className="block text-sm font-medium text-gray-700">Product Image</label>
 
@@ -719,7 +729,7 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ handleBack, Spareparts = 
                         // formData.append('file', file);
                       }
                     }}
-                    className="mt-1 block w-full text-sm text-gray-700 file:bg-red-50 file:border file:border-red-300 file:rounded file:px-3 file:py-1 file:text-red-600 hover:file:bg-red-100"
+                    className="mt-1 block w-full text-sm  file:bg-red-50 file:border file:border-red-300 file:rounded file:px-3 file:py-1 file:text-black hover:file:bg-red-100"
                   />
                 </div>
 
