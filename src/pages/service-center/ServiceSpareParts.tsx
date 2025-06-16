@@ -5,6 +5,7 @@ import { useState, useEffect } from "react"
 import { Search, ArrowLeft, Star, Plus, EllipsisVertical } from "lucide-react"
 import Client from "../../api"
 import { FONTS } from "../../constants/uiConstants"
+import {  useNavigate } from "react-router-dom";
 
 // Define colors directly to avoid import issues
 
@@ -200,6 +201,11 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ handleBack, Spareparts = 
   const toggleActiveStatus = (id: string) => {
     setSpareParts(spareParts.map((part) => (part.id === id ? { ...part, active: !part.active } : part)))
   }
+  
+  const navigate = useNavigate();
+  const backHandle = ()=>{
+    navigate('/service/profile')
+  }
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -207,7 +213,7 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ handleBack, Spareparts = 
       <div className="sticky top-0 z-20 bg-[#FAF3EB] border-b ">
         <div className="container px-4 py-3 flex ">
           <button
-            onClick={handleBack}
+            onClick={()=> backHandle()}
             className="hover:bg-gray-100 rounded-full transition-colors"
             aria-label="Go back"
           >

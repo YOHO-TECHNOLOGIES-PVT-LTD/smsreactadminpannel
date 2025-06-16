@@ -82,7 +82,7 @@ const handleBack = () => {
           <ServiceCenterListPage partner={Partner} onView={() => setActiveStep(1)} setpartner={()=>setpartner} handleBack={handleBack}/>
         )}
         {activeStep === 1 && (
-          <ServiceCenterProfileView partner={Partner[partner]} onSpareParts={() => setActiveStep(3)}  setpartnerId={setpartnerId} onServices={() => setActiveStep(2)} handleBack={handleBack} />
+          <ServiceCenterProfileView partner={Partner[partner]} onSpareParts={() => setActiveStep(3)}  setpartnerId={setpartnerId} onServices={() => setActiveStep(2)} />
         )}
         {activeStep === 2 && (
           <ServicesList partnerId={partnerId} onSpareParts={() => setActiveStep(3)} Services={Services}  handleBack={handleBack}/>

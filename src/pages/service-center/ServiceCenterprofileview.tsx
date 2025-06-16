@@ -15,35 +15,18 @@ import { CheckCircle, AlertCircle } from "lucide-react"
 import { Settings } from "lucide-react";
 import Client from "../../api"
 import { FONTS } from "../../constants/uiConstants"
+import {  useNavigate } from "react-router-dom";
 
-
-// Mock Client class
-// class Client {
-//   admin = {
-//     servicecenter: {
-//       delete: async () => {
-//         // Mock API call
-//         return new Promise((resolve) => setTimeout(resolve, 1000))
-//       },
-//       update: async (data: any, id: string) => {
-//         // Mock API call
-//         return new Promise((resolve) => setTimeout(() => resolve({ success: true }), 1000))
-//       },
-//     },
-//   }
-// }
 
 type ServiceCenterProfileProps = {
   onSpareParts: () => void;
   onServices: () => void
-  handleBack: () => void
   setpartnerId: (id: string) => void
   partner: any
 }
 
 const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({
   onServices,
-  handleBack,
   partner,
   onSpareParts,
   setpartnerId,
@@ -118,6 +101,10 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({
       (key) => originalValues[key as keyof typeof originalValues] !== currentValues[key as keyof typeof currentValues],
     )
   }
+  const navigate = useNavigate();
+  const handleRoute = ()=>{
+     navigate("/service/profile")
+  }
 
   const handleToggle = () => {
     setPendingStatus(!isActive)
@@ -142,7 +129,6 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({
       await new Client().admin.servicecenter.delete()
       console.log("Service Center Deleted")
       setShowDeleteSuccessPopup(true)
-      handleBack()
     } catch (error) {
       console.error("Error deleting service center:", error)
     }
@@ -225,7 +211,7 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({
       {/* Header Section */}
       <div className="flex items-center justify-between mb-6">
         <button
-          onClick={handleBack}
+          onClick={handleRoute}
           className="flex items-center gap-2 text-[#9b111e] hover:text-[#800000] transition-colors"
         >
           <MdOutlineKeyboardBackspace className="text-2xl" />

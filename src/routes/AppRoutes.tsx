@@ -22,6 +22,7 @@ import ScheduleRequestPage from "../pages/Request-Queue/ScheduleRequestPage";
 import ScheduledRequestsPage from "../pages/Request-Queue/ScheduledRequestsPage";
 import CustomerManagement from "../pages/Customer Management/CustomerManagement";
 import Order from "../pages/Orders/order";
+import ServiceCenterProfileView from "../pages/service-center/ServiceCenterprofileview";
 
 const AppRoutes = () => {
   const { isAuthenticated, isLoading } = useAuth();
@@ -62,6 +63,7 @@ const AppRoutes = () => {
         <Route path="/request-queue/scheduled" element={<ScheduledRequestsPage/>}/>
         <Route path="/customer" element={<CustomerManagement/>}/>
         <Route path="/order" element={<Order/>}/>
+        {/* <Route path="service/profile" element={<ServiceCenterProfileView/>}/> */}
       </Route>
     </Routes>
   );
