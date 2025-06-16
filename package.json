@@ -15,7 +15,6 @@
 	"dependencies": {
 		"@emotion/react": "^11.14.0",
 		"@emotion/styled": "^11.14.0",
-		"@esbuild/win32-x64": "^0.25.5",
 		"@headlessui/react": "^2.2.4",
 		"@heroicons/react": "^2.2.0",
 		"@hookform/resolvers": "^5.0.1",
@@ -29,6 +28,7 @@
 		"d3-scale": "^4.0.2",
 		"d3-shape": "^3.2.0",
 		"dotenv": "^16.5.0",
+		"esbuild": "^0.25.5",
 		"faker": "^6.6.6",
 		"flowbite": "^3.1.2",
 		"flowbite-react": "^0.11.7",
