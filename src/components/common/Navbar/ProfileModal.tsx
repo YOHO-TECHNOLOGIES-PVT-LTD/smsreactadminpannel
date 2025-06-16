@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useRef, useEffect, useState } from "react";
 import { getProfile } from "../../../features/Auth/service";
+import { FONTS } from "../../../constants/uiConstants";
 
 interface User {
   name: string;
@@ -60,16 +61,16 @@ export const ProfileModal = ({
         ref={modalRef}
         className="bg-[#FAF3EB] rounded-2xl shadow-2xl w-full max-w-2xl md:max-w-xl sm:max-w-md overflow-hidden"
       >
-        <div className="bg-gradient-to-r from-red-600 to-red-800 p-6 flex items-center justify-between text-white">
+        <div className="bg-gradient-to-r from-red-600 to-red-800 p-6 flex items-center justify-between !text-white">
           <div className="flex items-center space-x-4">
             <img
               src={profile.image}
               alt="User"
-              className="w-20 h-20 rounded-full border-4 border-white shadow-md"
+              className="w-20 h-20 rounded-full border-4 border-white shadow-md !text-white"style={{...FONTS.paragraph}}
             />
             <div>
-              <h2 className="text-2xl font-bold">{profile.firstName}</h2>
-              <p className="text-sm opacity-90">Admin, Production Department</p>
+              <h2 className="text-2xl font-bold !text-white"style={{...FONTS.cardheader}}>{profile.firstName}</h2>
+              <p className="text-sm opacity-90 !text-white"style={{...FONTS.cardSubHeader}}>Admin, Production Department</p>
             </div>
           </div>
           <button
@@ -93,30 +94,30 @@ export const ProfileModal = ({
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-6 text-gray-700">
           <div className="space-y-3">
             <div>
-              <h4 className="text-sm text-gray-500">Phone</h4>
-              <p className="text-lg">{profile.contact_info.phoneNumber}</p>
+              <h4 className="text-sm !text-gray-500"style={{...FONTS.paragraph}}>Phone</h4>
+              <p className="text-lg !text-gray-500"style={{...FONTS.cardSubHeader}}>{profile.contact_info.phoneNumber}</p>
             </div>
             <div>
-              <h4 className="text-sm text-gray-500">Email</h4>
-              <p className="text-lg">{profile.email}</p>
+              <h4 className="text-sm !text-gray-500"style={{...FONTS.paragraph}}>Email</h4>
+              <p className="text-lg !text-gray-500"style={{...FONTS.cardSubHeader}}>{profile.email}</p>
             </div>
             <div>
-              <h4 className="text-sm text-gray-500">Location</h4>
-              <p className="text-lg">{profile.contact_info.city} , {profile.contact_info.state}</p>
+              <h4 className="text-sm !text-gray-500"style={{...FONTS.paragraph}}>Location</h4>
+              <p className="text-lg !text-gray-500"style={{...FONTS.cardSubHeader}}>{profile.contact_info.city} , {profile.contact_info.state}</p>
             </div>
           </div>
           <div className="space-y-3">
             <div>
-              <h4 className="text-sm text-gray-500">Role</h4>
-              <p className="text-lg">{profile.role}</p>
+              <h4 className="text-sm !text-gray-500"style={{...FONTS.paragraph}}>Role</h4>
+              <p className="text-lg !text-gray-500"style={{...FONTS.cardSubHeader}}>{profile.role}</p>
             </div>
             <div>
-              <h4 className="text-sm text-gray-500">Join Date</h4>
-              <p className="text-lg">NA</p>
+              <h4 className="text-sm !text-gray-500"style={{...FONTS.paragraph}}>Join Date</h4>
+              <p className="text-lg !text-gray-500"style={{...FONTS.cardSubHeader}}>NA</p>
             </div>
             <div>
-              <h4 className="text-sm text-gray-500">Status</h4>
-              <span className="inline-block px-3 py-1 text-sm rounded-full bg-green-100 text-green-700">
+              <h4 className="text-sm !text-gray-500"style={{...FONTS.paragraph}}>Status</h4>
+              <span className="inline-block px-3 py-1 text-sm rounded-full bg-green-100 !text-green-700"style={{...FONTS.cardSubHeader}}>
                 {profile.is_active?"Active":"In Active"}
               </span>
             </div>
