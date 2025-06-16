@@ -3,11 +3,13 @@ import Client from "../../../api"
 
 export const postLogin = async(data:any)=>{
     try{
-const response= await  new Client().admin.profile.postlogin(data)
- return response;
+        const response = await new Client().admin.profile.postlogin(data);
+        return response;
     }
     catch (error){
-console.log('Error fetching data:',error);
+        console.log('Error fetching data:', error);
+        // Re-throw the error so it can be handled in the component
+        throw error;
     }
 }
 
