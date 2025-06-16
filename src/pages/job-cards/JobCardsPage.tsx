@@ -62,7 +62,7 @@ export const JobCardsPage: React.FC = () => {
   });
 
 	return (
-		<div className='min-h-screen p-1 md:block bg-white  rounded-lg shadow-lg p-8'>
+		<div className="min-h-screen p-1 md:block bg-white  rounded-lg shadow-lg p-8">
 			<div className='rounded-lg'>
 				<div className='border-b-2 border-[#9b111e] pb-2 mb-4'>
 					<h1
