@@ -49,4 +49,10 @@ export const FONTS = {
     fontWeight: 200,
     color: " #b91c1c",
   },
+  //Table header
+  tableHeader : {
+    fontFamily: "'Koh Santepheap', sans-serif",
+    fontWeight: 500,
+    fontSize: "16px",
+  },
 };

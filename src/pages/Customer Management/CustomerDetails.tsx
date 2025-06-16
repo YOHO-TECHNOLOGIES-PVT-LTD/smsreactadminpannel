@@ -10,6 +10,7 @@ import CountUp from "react-countup";
 import { motion } from "framer-motion";
 import { FaUsers, FaTools, FaShoppingCart } from "react-icons/fa";
 import { getAllCustomer } from "./Services";
+import { FONTS } from "../../constants/uiConstants";
 
 // const customerData = [
 //   {
@@ -331,7 +332,8 @@ const CustomerDetails: React.FC<ProfileViewComponent> = ({ onProfileView }) => {
         transition={{ duration: 0.5 }}
         className="mb-8"
       >
-        <h1 className="text-3xl font-bold text-[#800000] mb-2">
+        <h1 className="!text-3xl !font-bold text-[#800000] mb-2"
+        style={{...FONTS.header}}>
           Customer Directory
         </h1>
       </motion.div>
@@ -346,7 +348,8 @@ const CustomerDetails: React.FC<ProfileViewComponent> = ({ onProfileView }) => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.1 }}
               whileHover={{ y: -5 }}
-              className="bg-white p-6 rounded-xl shadow-sm border border-gray-200 hover:shadow-md transition-all duration-300 relative h-48"
+              className="!bg-white p-6 rounded-xl !font-bold shadow-sm border border-gray-200 hover:shadow-md transition-all duration-300 relative h-48"
+              style={{...FONTS.cardheader}}
             >
               {/* Percentage in top right corner */}
               <motion.div
@@ -415,7 +418,8 @@ const CustomerDetails: React.FC<ProfileViewComponent> = ({ onProfileView }) => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
           whileHover={{ y: -5 }}
-          className="bg-white p-6 rounded-xl shadow-sm border border-gray-200 hover:shadow-md transition-all duration-300 relative h-48"
+          className="bg-white rounded-xl shadow-sm border border-gray-200 hover:shadow-md transition-all duration-300 relative h-48"
+          style={{...FONTS.cardheader}}
         >
           <SimpleDonutChart data={donutChartData} />
         </motion.div>
@@ -508,7 +512,7 @@ const CustomerDetails: React.FC<ProfileViewComponent> = ({ onProfileView }) => {
         <div className="overflow-x-auto">
           <div className="min-w-full">
             {/* Table Header */}
-            <div className="grid grid-cols-7 gap-4 text-sm font-semibold text-gray-600 p-4 bg-gray-50 border-b border-gray-200">
+            <div className="grid grid-cols-7 gap-4 text-sm !font-semibold text-gray-600 p-4 bg-gray-50 border-b border-gray-200" style={{...FONTS.tableHeader}}>
               <div className="pl-6">Customer</div>
               <div className="pl-2">Email</div>
               <div className="pl-2 text-center">Services</div>
@@ -530,14 +534,14 @@ const CustomerDetails: React.FC<ProfileViewComponent> = ({ onProfileView }) => {
                     whileHover={{ backgroundColor: "#fef2f2" }}
                     className="grid grid-cols-7 gap-4 items-center text-sm p-4 transition-colors duration-200"
                   >
-                    <div className="flex items-center gap-3 pl-2">
+                    <div className="flex items-center gap-3 pl-2" style={{...FONTS.description}}>
                       <motion.img
                         src={customer.image}
                         alt={customer.name}
                         className="w-10 h-10 rounded-full object-cover border border-gray-200"
                         whileHover={{ scale: 1.1 }}
                       />
-                      <span className="font-medium text-gray-800">
+                      <span className="!font-bold !text-gray-600" style={{...FONTS.paragraph}}>
                         {customer.firstName + " " + customer.lastName}
                       </span>
                     </div>

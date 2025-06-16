@@ -7,6 +7,7 @@ import { FaSearch } from "react-icons/fa";
 import carDefaultlogo from "../../assets/INVALID CAR LOGO.png";
 import { RiResetLeftFill } from "react-icons/ri";
 import { getvechiclemanage } from "../../features/VehicleManagement/service";
+import { FONTS } from "../../constants/uiConstants";
 
 const VehicleManagementPage = () => {
   const [selectedVehicle, setSelectedVehicle] = useState<Vehicle | null>(null);
@@ -101,7 +102,7 @@ const VehicleManagementPage = () => {
   return (
     <div className="min-h-screen">
       <div className="m-1 p-2">
-        <h1 className="text-3xl text-red-700 font-medium">Vehicle Management</h1>
+        <h1 className="!text-3xl text-red-700 !font-bold" style={{...FONTS.header}}>Vehicle Management</h1>
         <hr className="border-1 border-red-700 my-3" />
         <div className="flex mt-10">
           <FaSearch

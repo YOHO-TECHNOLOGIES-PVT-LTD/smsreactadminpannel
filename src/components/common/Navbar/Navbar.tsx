@@ -1,10 +1,10 @@
 import { useState, useRef, useEffect } from "react";
 import { COLORS } from "../../../constants/uiConstants";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import FullscreenButton from "./Fullscreen";
 import { ProfileModal } from "./ProfileModal";
 import { useAuth } from "../../../pages/auth/AuthContext";
-import {FONTS} from '../../../constants/constants.ts'
+import { FONTS } from '../../../constants/uiConstants'
 
 interface User {
   name: string;
@@ -172,7 +172,7 @@ export const Navbar = () => {
               <button
                 onClick={handleSosClick}
                 className="relative z-10 inline-flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-r from-red-600 to-red-800 !text-white  !shadow-lg hover:!scale-105 transition-transform"
-                style={{...FONTS.cardSubHeader}}
+                style={{ ...FONTS.cardSubHeader }}
               >
                 SOS
               </button>
@@ -182,33 +182,32 @@ export const Navbar = () => {
 
         <div className="ml-auto flex items-center space-x-4 pr-4">
           <div className="relative" ref={notificationRef}>
-            <button
-              aria-label="Notifications"
-              onClick={handleBellClick}
-              className={`relative p-2.5 rounded-full bg-gradient-to-r from-red-600 to-red-800 focus:outline-none transform transition-transform duration-200 ease-in-out ${
-                isBellActive ? "scale-90" : "scale-100"
-              }`}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.8}
-                stroke="currentColor"
-                className="w-5 h-5 text-white"
+              <button
+                aria-label="Notifications"
+                onClick={handleBellClick}
+                className={`relative p-2.5 rounded-full bg-gradient-to-r from-red-600 to-red-800 focus:outline-none transform transition-transform duration-200 ease-in-out ${isBellActive ? "scale-90" : "scale-100"
+                  }`}
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M12 22c1.1 0 2-.9 2-2h-4a2 2 0 002 2zm6-6V11c0-3.3-2.2-6.1-5.3-6.8V4a.7.7 0 00-1.4 0v.2C8.2 4.9 6 7.7 6 11v5l-1.7 1.7a1 1 0 00.7 1.7h14a1 1 0 00.7-1.7L18 16z"
-                />
-              </svg>
-              {unreadCount > 0 && (
-                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
-                  {unreadCount}
-                </span>
-              )}
-            </button>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.8}
+                  stroke="currentColor"
+                  className="w-5 h-5 text-white"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M12 22c1.1 0 2-.9 2-2h-4a2 2 0 002 2zm6-6V11c0-3.3-2.2-6.1-5.3-6.8V4a.7.7 0 00-1.4 0v.2C8.2 4.9 6 7.7 6 11v5l-1.7 1.7a1 1 0 00.7 1.7h14a1 1 0 00.7-1.7L18 16z"
+                  />
+                </svg>
+                {unreadCount > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
+                    {unreadCount}
+                  </span>
+                )}
+              </button>
 
             {showNotifications && (
               <div className="absolute right-0 mt-2 w-80 rounded-lg shadow-xl bg-white z-50 overflow-hidden">
@@ -225,9 +224,8 @@ export const Navbar = () => {
                     notifications.map((notification) => (
                       <div
                         key={notification.id}
-                        className={`group relative p-3 border-b hover:bg-gray-50 transition-colors duration-150 ${
-                          notification.isRead ? "bg-white" : "bg-red-50"
-                        }`}
+                        className={`group relative p-3 border-b hover:bg-gray-50 transition-colors duration-150 ${notification.isRead ? "bg-white" : "bg-red-50"
+                          }`}
                       >
                         {/* This vertical red line will now appear on hover */}
                         <div className="absolute left-0 top-0 h-full w-1 bg-red-600 opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
@@ -282,12 +280,12 @@ export const Navbar = () => {
               </div>
               <div className="flex flex-col flex-nowrap overflow-hidden">
                 <span className="text-[#9b111e] font-medium truncate whitespace-nowrap"
-                style={{...FONTS.paragraph}}
+                  style={{ ...FONTS.paragraph }}
                 >
                   {user.name}
                 </span>
                 <div className="flex items-center text-sm text-[#c13340] whitespace-nowrap"
-                style={{...FONTS.subParagraph}}
+                  style={{ ...FONTS.subParagraph }}
                 >
                   Admin
                   <svg

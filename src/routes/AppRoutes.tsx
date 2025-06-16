@@ -21,6 +21,8 @@ import Bookings from "../pages/Bookings/Bookings";
 import ScheduleRequestPage from "../pages/Request-Queue/ScheduleRequestPage";
 import CustomerManagement from "../pages/Customer Management/CustomerManagement";
 import Order from "../pages/Orders/order";
+import TermsConditionsSettings from "../pages/Settings/TermsConditionsSettings";
+import PrivacyPolicySettings from "../pages/Settings/PrivacyPolicySettings";
 
 const AppRoutes = () => {
   const { isAuthenticated, isLoading } = useAuth();
@@ -60,6 +62,8 @@ const AppRoutes = () => {
         <Route path="/request-queue/schedule" element={<ScheduleRequestPage/>}/>
         <Route path="/customer" element={<CustomerManagement/>}/>
         <Route path="/order" element={<Order/>}/>
+        <Route path="terms-conditions" element={<TermsConditionsSettings />} />
+        <Route path="privacy-policy" element={<PrivacyPolicySettings />} />
       </Route>
     </Routes>
   );
