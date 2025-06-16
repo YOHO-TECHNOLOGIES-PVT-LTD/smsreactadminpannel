@@ -281,7 +281,9 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
           <div className="bg-white rounded-2xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto">
             <div className="p-6 border-b border-gray-200">
               <div className="flex items-center justify-between">
-                <h3 className="text-2xl font-bold text-gray-900 text-[#800000]">Partner Registration</h3>
+                <h3 className="text-2xl font-bold !text-gray-900"
+                style={{...FONTS.header}}
+                >Partner Registration</h3>
                 <button
                   onClick={handleCancelPartnerForm}
                   className="p-2 hover:bg-gray-100 rounded-full transition-colors"
@@ -292,7 +294,9 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
             </div>
 
             <form onSubmit={handlePartnerFormSubmit} className="p-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6"
+              style={{...FONTS.paragraph}}
+              >
                 {/* Column 1 */}
                 <div className="space-y-4">
                   <div>
