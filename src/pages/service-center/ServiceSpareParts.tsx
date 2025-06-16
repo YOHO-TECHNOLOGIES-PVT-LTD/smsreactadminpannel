@@ -215,7 +215,7 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ handleBack, Spareparts = 
           </button>
 
           <div className="flex-1 ml-4">
-            <h1 className="font-bold text-xl pb-1" style={{...FONTS.header}}>Spare Parts Management</h1>
+            <h1 className="font-bold text-xl pb-1" style={{...FONTS.header}}>Spare Parts</h1>
             <p className="text-sm !text-gray-600 mt-1" style={{...FONTS.paragraph}}>{spareParts.length} parts available</p>
           </div>
 

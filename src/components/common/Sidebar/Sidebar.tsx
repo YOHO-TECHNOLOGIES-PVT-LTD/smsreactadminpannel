@@ -9,6 +9,8 @@ import {
   FiTruck,
   FiSettings,
   FiAlertTriangle,
+  FiShoppingCart,
+  FiUser,
 } from "react-icons/fi";
 // import Logo from "../../../assets/LOGO.jpg";
 import { RiCalendarScheduleLine } from "react-icons/ri";
@@ -18,6 +20,7 @@ import { RiMenu2Line, RiMenu3Line } from "react-icons/ri";
 import { Megaphone } from "lucide-react";
 import { MdHelpOutline } from "react-icons/md";
 import { FONTS } from "../../../constants/uiConstants";
+import { AiOutlineCalendar } from "react-icons/ai";
 
 const COLOR = {
   primary: "#9b111e",
@@ -33,8 +36,8 @@ export const Sidebar = () => {
   };
 
   return (
-    <div className="flex h-screen">
-      <div className="bg-white border-r shadow-md p-2 transition-all duration-300 fixed top-0 left-0 h-screen z-40 flex flex-col items-center">
+    <div className="flex h-screen ">
+      <div className="bg-white border-r shadow-md p-2 transition-all duration-300 fixed top-0 left-0 h-screen z-40 flex flex-col items-center ">
         <div
           className={`flex justify-center items-center h-20 transition-all duration-300 ${
             isOpen ? "w-40" : "w-12"
@@ -61,7 +64,7 @@ export const Sidebar = () => {
           </button>
         </div>
 
-        <nav className="flex flex-col gap-4 mt-4 w-full items-center">
+        <nav className="flex flex-col gap-4 mt-4 w-full items-center overflow-y-auto overflow-x-hidden flex-1 pb-4 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100 hover:scrollbar-thumb-gray-400 overflow-auto scrollbar-hide">
           <SidebarLink
             to="/"
             icon={<FiHome />}
@@ -76,6 +79,13 @@ export const Sidebar = () => {
             isOpen={isOpen}
             onClick={handleLinkClick}
           />
+          <SidebarLink
+            to="/order"
+            icon={<FiShoppingCart />}
+            label="Orders"
+            isOpen={isOpen}
+            onClick={handleLinkClick}
+          />       
           <SidebarLink
             to="/service"
             icon={<FiUsers />}
@@ -123,6 +133,13 @@ export const Sidebar = () => {
             to="/queries"
             icon={<MdHelpOutline />}
             label="Queries"
+            isOpen={isOpen}
+            onClick={handleLinkClick}
+          />
+          <SidebarLink
+            to="/customer"
+            icon={<FiUser />}
+            label="Customers"
             isOpen={isOpen}
             onClick={handleLinkClick}
           />

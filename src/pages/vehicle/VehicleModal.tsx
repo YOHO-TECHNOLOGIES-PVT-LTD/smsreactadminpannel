@@ -69,12 +69,12 @@ const VehicleModal: FC<Props> = ({ vehicle, onClose, redirectPath }) => {
 
         {vehicle.partnerDetails && (
           <div className="mt-8">
-            <h3 className="text-2xl font-semibold text-[#9b111e] mb-4" style={{...FONTS.cardheader}}>
+            <h3 className="text-2xl font-semibold text-[#9b111e] mb-4">
               Service Center
             </h3>
-            <table className="w-full table-auto border-collapse border border-[#d7b9a3] !text-[#3b2f2f]" style={{...FONTS.cardSubHeader}}>
+            <table className="w-full table-auto border-collapse border border-[#d7b9a3] text-[#3b2f2f]">
               <tbody>
-                <tr className="border border-[#d7b9a3]" >
+                <tr className="border border-[#d7b9a3]">
                   <td className="border px-4 py-2 font-semibold capitalize w-1/2">
                     Name
                   </td>
@@ -182,10 +182,10 @@ const VehicleModal: FC<Props> = ({ vehicle, onClose, redirectPath }) => {
 
         {vehicle.checkInOutDates && (
           <div className="mt-8">
-            <h3 className="text-2xl font-semibold text-[#9b111e] mb-4" style={{...FONTS.cardheader}}>
+            <h3 className="text-2xl font-semibold text-[#9b111e] mb-4">
               Entries
             </h3>
-            <table className="w-full table-auto border-collapse border border-[#d7b9a3] !text-[#3b2f2f]" style={{...FONTS.cardSubHeader}}>
+            <table className="w-full table-auto border-collapse border border-[#d7b9a3] text-[#3b2f2f]">
               <tbody>
                 {Object.entries(vehicle.checkInOutDates).map(([key, value]) => (
                   <tr key={key} className="border border-[#d7b9a3]">

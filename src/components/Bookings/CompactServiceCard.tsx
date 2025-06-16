@@ -2,7 +2,12 @@ import React, { useState } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const CompactServiceCard: React.FC<{ request: any }> = ({ request }) => {
+interface CompactServiceCardProps {
+  request: any;
+  onAssign?: (requestId: number, partner: string) => void;
+}
+
+const CompactServiceCard: React.FC<CompactServiceCardProps> = ({ request, onAssign }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedPartner, setSelectedPartner] = useState("");
 
@@ -12,6 +17,12 @@ const CompactServiceCard: React.FC<{ request: any }> = ({ request }) => {
       return;
     }
     toast.success(`Assigned to ${selectedPartner}`);
+    
+    // Call the onAssign callback if provided
+    if (onAssign) {
+      onAssign(request.id, selectedPartner);
+    }
+    
     setIsModalOpen(false);
     setSelectedPartner("");
   };

@@ -15,58 +15,6 @@ type Query = {
   postDate: string
 };
 
-// const initialQueries: Query[] = [
-//   {
-//     _idid: 1,
-//     subject: "Break not fixed",
-//     description: "I gave my bike to the shop some days ago but they didn't repair it in time and didn't fix it.",
-//     profilePicUrl: dummpypic,
-//     isRead: false,
-//     center: "Red Hills Center",
-//     postDate:''
-//   },
-//   {
-//     id: 2,
-//     subject: "Glass work bending",
-//     description: "I gave my car to the shop some days ago but they didn't repair it in time and didn't fix it.",
-//     profilePicUrl:
-//       "https://plus.unsplash.com/premium_photo-1689568126014-06fea9d5d341?fm=jpg&q=60&w=3000",
-//     isRead: false,
-//     center: "OMR Center",
-//     postDate:''
-//   },
-//   {
-//     id: 3,
-//     subject: "Tyre puncture",
-//     description: "I gave my bike to the shop some days ago but they didn't repair it in time and didn't fix it.",
-//     profilePicUrl:
-//       "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?fm=jpg&q=60&w=3000",
-//     isRead: true,
-//     center: "ECR Center",
-//     postDate:''
-//   },
-//   {
-//     id: 4,
-//     subject: "Late pickup service",
-//     description: "Scheduled pickup was delayed by 2 hours without any update or notice.",
-//     profilePicUrl:
-//       "https://t3.ftcdn.net/jpg/08/86/78/68/360_F_886786813_XhL8zD8rhZCW7F5HvJdOPvquFh3n23vd.jpg",
-//     isRead: true,
-//     center: "Anna nagar Center",
-//     postDate:''
-//   },
-//   {
-//     id: 5,
-//     subject: "Billing mismatch",
-//     description: "Was charged extra without prior intimation or explanation on final invoice.",
-//     profilePicUrl:
-//       "https://www.shutterstock.com/image-photo/happy-middle-aged-45-years-260nw-2516789519.jpg",
-//     isRead: false,
-//     center: "Tambaram Center",
-//     postDate:''
-//   },
-// ];
-
 const Queries = () => {
   const [queries, setQueries] = useState<Query[]>([]);
   const [selectedQuery, setSelectedQuery] = useState<Query | null>(null);

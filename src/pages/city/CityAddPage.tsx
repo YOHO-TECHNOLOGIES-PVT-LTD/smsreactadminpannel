@@ -5,16 +5,17 @@ import { toast } from "react-toastify";
 const CityAddPage: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const [newCity, setNewCity] = useState("");
   const [pincode, setPincode] = useState("");
-  const [shortCode, setShortCode] = useState("");
+  // const [shortCode, setShortCode] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const cityData = {
       newCity,
       pincode,
-      shortCode,
+      // shortCode,
     };
     console.log("City Data:", cityData);
+    toast.success("city Added sucessfully");
     onClose();
   };
 
@@ -53,17 +54,16 @@ const CityAddPage: React.FC<{ onClose: () => void }> = ({ onClose }) => {
             required
           />
 
-          <input
+          {/* <input
             type="text"
             placeholder="Enter city-code"
             value={shortCode}
             onChange={(e) => setShortCode(e.target.value)}
             className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#a00000]"
-          />
+          /> */}
 
           <div className="flex justify-center mt-4">
             <button
-            onClick={()=>toast.success("city Added sucessfully")}
               type="submit"
               className="flex items-center justify-center font-bold px-8 py-2 rounded text-white transition duration-200 active:scale-105 hover:bg-[#a00000]"
               style={{

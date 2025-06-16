@@ -156,13 +156,13 @@ const handleDeleteService = async(index: number,id:string) => {
           <h2 className="text-2xl md:text-4xl font-bold" style={{...FONTS.header}}>Active SOS Requests</h2>
           <MdClose
             onClick={() => navigate("/")}
-            className="text-3xl text-red-700 cursor-pointer hover:text-red-900 transition-colors"
+            className="text-2xl text-red-600 cursor-pointer hover:text-red-800 transition-colors"
             title="Close and return to Dashboard"
           />
         </div>
 
-        <div className="flex flex-wrap gap-3 mb-6 px-1 md:px-4">
-          {["All", "In Progress", "Completed", "Not Started"].map((status) => (
+        <div className="flex flex-wrap gap-2 mb-4 flex-shrink-0">
+          {["All", "Not Started", "In Progress", "Completed"].map((status) => (
             <button
               style={{...FONTS.paragraph}}
               key={status}
@@ -181,20 +181,20 @@ const handleDeleteService = async(index: number,id:string) => {
           <table className="min-w-full text-left text-lg border-collapse border border-gray-200">
             <thead className="sticky top-0 bg-gray-100 z-10" style={{...FONTS.cardSubHeader}}>
               <tr>
-                <th className="border border-gray-300 px-4 py-2">Vehicle Number</th>
-                <th className="border border-gray-300 px-4 py-2">Location</th>
-                <th className="border border-gray-300 px-4 py-2">Name</th>
-                <th className="border border-gray-300 px-4 py-2">Phone Number</th>
-                <th className="border border-gray-300 px-4 py-2">Work Status</th>
-                <th className="border border-gray-300 px-4 py-2">View</th>
+                <th className="border border-gray-300 px-3 py-2 font-semibold text-gray-700">Vehicle Number</th>
+                <th className="border border-gray-300 px-3 py-2 font-semibold text-gray-700">Location</th>
+                <th className="border border-gray-300 px-3 py-2 font-semibold text-gray-700">Name</th>
+                <th className="border border-gray-300 px-3 py-2 font-semibold text-gray-700">Phone Number</th>
+                <th className="border border-gray-300 px-3 py-2 font-semibold text-gray-700">Work Status</th>
+                <th className="border border-gray-300 px-3 py-2 font-semibold text-gray-700 text-center">Action</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-300">
+            <tbody className="divide-y divide-gray-200">
               {activeRequest.length === 0 ? (
                 <tr>
                   <td
                     colSpan={6}
-                    className="text-center text-gray-500 py-6 font-medium"
+                    className="text-center text-gray-500 py-8 font-medium"
                   >
                     No requests found
                   </td>
@@ -227,7 +227,7 @@ const handleDeleteService = async(index: number,id:string) => {
                         className="bg-gradient-to-r from-red-600 to-red-800 hover:scale-105 transition-transform !text-white px-4 py-1 rounded w-full"
                         title={`View details for ${req._id}`}
                       >
-                        {req.view}view
+                        View
                       </button>
                     </td>
                   </tr>
@@ -297,20 +297,20 @@ const handleDeleteService = async(index: number,id:string) => {
 
       {/* Slide-in Form */}
       <div
-        className={`fixed top-0 right-0 h-full max-w-sm w-11/12 sm:w-80 bg-white shadow-lg transform transition-transform duration-300 ease-in-out z-50 ${showForm ? "translate-x-0" : "translate-x-full"
+        className={`fixed top-0 right-0 h-full max-w-sm w-11/12 sm:w-80 bg-white shadow-xl transform transition-transform duration-300 ease-in-out z-50 ${showForm ? "translate-x-0" : "translate-x-full"
           }`}
       >
-        <div className="flex justify-between items-center p-6 border-b">
-          <h3 className="text-2xl font-bold">Add New Service</h3>
+        <div className="flex justify-between items-center p-4 border-b border-gray-200">
+          <h3 className="text-lg font-semibold text-gray-900">Add New Service</h3>
           <MdClose
-            className="text-2xl cursor-pointer text-red-800 hover:text-red-900 transition-colors"
+            className="text-xl cursor-pointer text-red-600 hover:text-red-800 transition-colors"
             onClick={() => setShowForm(false)}
             title="Close form"
           />
         </div>
         <form
           onSubmit={handleAddService}
-          className="p-6 flex flex-col gap-6"
+          className="p-4 flex flex-col gap-4"
           autoComplete="off"
         >
           <input
@@ -318,7 +318,7 @@ const handleDeleteService = async(index: number,id:string) => {
             placeholder="Service Name"
             value={newServiceName}
             onChange={(e) => setNewServiceName(e.target.value)}
-            className="bg-white text-black placeholder-gray-500 rounded border border-gray-300 px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#6b1b1b] transition-all w-full"
+            className="bg-white text-gray-900 placeholder-gray-500 rounded border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all w-full"
             required
             aria-label="Service Name"
           />
@@ -329,9 +329,9 @@ const handleDeleteService = async(index: number,id:string) => {
                 key={idx}
                 type="button"
                 onClick={() => setSelectedIconIndex(idx)}
-                className={`p-2 border rounded text-2xl flex justify-center items-center transition-colors ${selectedIconIndex === idx
-                    ? "bg-red-200 border-red-600"
-                    : "hover:bg-red-100"
+                className={`p-1.5 border rounded text-lg flex justify-center items-center transition-colors ${selectedIconIndex === idx
+                    ? "bg-red-100 border-red-500"
+                    : "border-gray-300 hover:bg-red-50"
                   }`}
                 aria-pressed={selectedIconIndex === idx}
                 title={`Select icon for ${item.name}`}
@@ -343,7 +343,7 @@ const handleDeleteService = async(index: number,id:string) => {
 
           <button
             type="submit"
-            className="bg-gradient-to-r from-red-600 to-red-800 text-white py-3 rounded hover:scale-105 transition-transform font-semibold"
+            className="bg-gradient-to-r from-red-600 to-red-800 hover:from-red-700 hover:to-red-900 text-white py-2.5 rounded transition-all font-medium text-sm"
           >
             Add Service
           </button>

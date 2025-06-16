@@ -1,9 +1,10 @@
-import React, { useState, useRef, useEffect } from "react";
-import { COLORS, FONTS } from "../../../constants/uiConstants";
+import { useState, useRef, useEffect } from "react";
+import { COLORS } from "../../../constants/uiConstants";
 import { useNavigate } from "react-router-dom";
 import FullscreenButton from "./Fullscreen";
 import { ProfileModal } from "./ProfileModal";
 import { useAuth } from "../../../pages/auth/AuthContext";
+import { FONTS } from "../../../constants/constants";
 
 interface User {
   name: string;
@@ -23,7 +24,7 @@ interface Notification {
   isRead: boolean;
 }
 
-export const Navbar: React.FC = () => {
+export const Navbar = () => {
   const [isBellActive, setIsBellActive] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [showProfileDetails, setShowProfileDetails] = useState(false);

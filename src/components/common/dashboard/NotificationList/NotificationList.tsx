@@ -2,7 +2,7 @@
 
 
 
-import React, { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { FONTS } from "../../../../constants/uiConstants"//COLOUR
 import {GetTransactionDashboard} from "../../../../pages/Dashboards/services/index"
 
@@ -15,7 +15,7 @@ import {
   Tooltip,
   ResponsiveContainer,
   Legend,
-} from "recharts";
+} from "../../charts/RechartsWrapper";
 
 import { ChevronDown } from "lucide-react";
 
@@ -38,8 +38,8 @@ const dateRanges = ['weekly', 'monthly', 'yearly'];
 
 
 
-const CustomerAnalyticsChart: React.FC = () => {
-  const [selectedRange, setSelectedRange] = useState('monthly'); // Set default value and will be used
+const CustomerAnalyticsChart = () => {
+  const [selectedRange, setSelectedRange] = useState('Monthly'); // Set default value and will be used
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const [transactionData, setTransactionData] = useState<any[]>([]);

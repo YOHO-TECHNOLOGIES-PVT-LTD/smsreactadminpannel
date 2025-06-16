@@ -6,6 +6,8 @@ import { CreateOderHistory, getOrdersHistory } from './Services';
 const Order = () => {
   // State management
   const [orders, setOrders] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [showAddModal, setShowAddModal] = useState(false);
   const [showViewModal, setShowViewModal] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
@@ -27,11 +29,27 @@ const Order = () => {
   useEffect(()=>{
     const fetchOrders = async()=>{
       try{
+        setLoading(true);
+        setError(null);
         const response:any = await getOrdersHistory('')
-        console.log('Fetched orders:',response.data.data)
-        setOrders(response.data.data)
+        console.log('Fetched orders:',response)
+        
+        // Handle different response structures
+        if (response?.data?.data) {
+          setOrders(response.data.data)
+        } else if (response?.data) {
+          setOrders(response.data)
+        } else if (Array.isArray(response)) {
+          setOrders(response)
+        } else {
+          setOrders([])
+        }
       }catch(error){
         console.log('Error fetching orders:',error)
+        setError('Failed to load orders. Please try again.')
+        setOrders([])
+      } finally {
+        setLoading(false);
       }
     };
     fetchOrders()

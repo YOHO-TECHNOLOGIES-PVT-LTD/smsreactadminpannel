@@ -20,10 +20,11 @@ interface ProfileModalProps {
   onUserUpdate: (updatedUser: User) => void;
 }
 
-export const ProfileModal: React.FC<ProfileModalProps> = ({
+export const ProfileModal = ({
+  user,
   isOpen,
   onClose,
-}) => {
+}: ProfileModalProps) => {
   const modalRef = useRef<HTMLDivElement | null>(null);
   const [profile, setProfile] = useState<any | null>(null);
 

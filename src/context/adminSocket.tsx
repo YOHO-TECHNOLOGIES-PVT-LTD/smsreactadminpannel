@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect, type ReactNode } from 'react';
+import { createContext, useContext, useState, useEffect, type ReactNode } from 'react';
 import { io, Socket } from 'socket.io-client';
 
 
@@ -14,7 +14,7 @@ interface AdminSocketProviderProps {
   children: ReactNode;
 }
 
-export const AdminSocketProvider: React.FC<AdminSocketProviderProps> = ({ children }) => {
+export const AdminSocketProvider = ({ children }: AdminSocketProviderProps) => {
   const [socket, setSocket] = useState<SocketType>(null);
 
   useEffect(() => {
