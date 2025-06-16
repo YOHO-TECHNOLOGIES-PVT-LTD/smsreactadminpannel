@@ -4,6 +4,8 @@
 
   [build.environment]
     NODE_VERSION = "20"
+    NPM_FLAGS = "--no-audit --no-fund"
+
 
 [[redirects]]
   from = "/*"
