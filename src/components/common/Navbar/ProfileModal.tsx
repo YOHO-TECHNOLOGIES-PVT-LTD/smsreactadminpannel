@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState } from "react";
 import { getProfile } from "../../../features/Auth/service";
 import { FONTS } from "../../../constants/uiConstants";
 
@@ -22,7 +22,6 @@ interface ProfileModalProps {
 }
 
 export const ProfileModal = ({
-  user,
   isOpen,
   onClose,
 }: ProfileModalProps) => {

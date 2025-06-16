@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { CreateOderHistory, getOrdersHistory } from './Services';
@@ -7,8 +8,8 @@ import { FONTS } from '../../constants/uiConstants';
 const Order = () => {
   // State management
   const [orders, setOrders] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  // const [loading, setLoading] = useState(true);
+  // const [error, setError] = useState<string | null>(null);
   const [showAddModal, setShowAddModal] = useState(false);
   const [showViewModal, setShowViewModal] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
@@ -30,8 +31,8 @@ const Order = () => {
   useEffect(()=>{
     const fetchOrders = async()=>{
       try{
-        setLoading(true);
-        setError(null);
+        // setLoading(true);
+        // setError(null);
         const response:any = await getOrdersHistory('')
         console.log('Fetched orders:',response)
         
@@ -47,10 +48,10 @@ const Order = () => {
         }
       }catch(error){
         console.log('Error fetching orders:',error)
-        setError('Failed to load orders. Please try again.')
+        // setError('Failed to load orders. Please try again.')
         setOrders([])
       } finally {
-        setLoading(false);
+        // setLoading(false);
       }
     };
     fetchOrders()

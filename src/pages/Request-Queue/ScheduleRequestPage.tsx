@@ -39,7 +39,7 @@ export default function ScheduleRequestPage() {
     const vehicles = ["Honda Civic", "Swift", "Innova", "Creta", "Verna"];
     const issues = ["Brake issue", "Battery", "Oil leak", "AC problem", "Suspension"];
     const addresses = ["123 Main Rd", "45A Gandhi St", "88 Patel Nagar", "12 MG Road", "9th Cross Street"];
-    const statuses = ["Pending", "Scheduled"];
+    // const statuses:string[] = ["Pending", "Scheduled"];
 
     const mockRequests: Request[] = Array.from({ length: 20 }, (_, i) => ({
       id: `${i + 1}`,

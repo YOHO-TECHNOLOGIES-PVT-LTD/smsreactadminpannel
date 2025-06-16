@@ -22,7 +22,7 @@ import ScheduleRequestPage from "../pages/Request-Queue/ScheduleRequestPage";
 import ScheduledRequestsPage from "../pages/Request-Queue/ScheduledRequestsPage";
 import CustomerManagement from "../pages/Customer Management/CustomerManagement";
 import Order from "../pages/Orders/order";
-import ServiceCenterProfileView from "../pages/service-center/ServiceCenterprofileview";
+// import ServiceCenterProfileView from "../pages/service-center/ServiceCenterprofileview";
 import TermsConditionsSettings from "../pages/Settings/TermsConditionsSettings";
 import PrivacyPolicySettings from "../pages/Settings/PrivacyPolicySettings";
 

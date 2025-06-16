@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from "react";
 import { MdToggleOn, MdToggleOff, MdClose } from "react-icons/md";
 import { FiPlus } from "react-icons/fi";

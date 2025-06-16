@@ -97,7 +97,6 @@ const Announcement = () => {
 
       <div className="grid gap-4">{renderComponent()}</div>
 
-      {/* Modal Form
       {showModal && (
         <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex justify-center items-center">
           <div className="bg-white p-6 rounded-lg w-full max-w-lg relative">
@@ -161,7 +160,7 @@ const Announcement = () => {
             </form>
           </div>
         </div> 
-      )}*/}
+      )}
     </div>
   );
 };

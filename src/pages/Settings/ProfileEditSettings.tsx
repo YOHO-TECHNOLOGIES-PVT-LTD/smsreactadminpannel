@@ -71,6 +71,7 @@ const ProfileEditSettings: React.FC = () => {
             try {
                 const response = await updateProfile(formData);
                 if (!response) throw new Error("Failed to submit");
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             } catch (err: any) {
                 console.error(err.message);
             }

@@ -58,7 +58,7 @@ type ReactComponent = {
   partnerId: string
 }
 
-const ServiceSpareParts: React.FC<ReactComponent> = ({ handleBack, Spareparts = [], partnerId }) => {
+const ServiceSpareParts: React.FC<ReactComponent> = ({Spareparts = [], partnerId }) => {
   const [searchTerm, setSearchTerm] = useState("")
   const [showSearch, setShowSearch] = useState(false)
   // const [hoveredCard, setHoveredCard] = useState<string | null>(null)
