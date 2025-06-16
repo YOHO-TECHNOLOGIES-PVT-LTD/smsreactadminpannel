@@ -162,7 +162,9 @@ export const JobCardsPage: React.FC = () => {
 
         <div className="overflow-x-auto">
           <table className="min-w-full border-collapse rounded-lg overflow-hidden mt-8">
-            <thead className="bg-[#e2cac0]">
+            <thead className="bg-[#e2cac0]"
+            style={{...FONTS.header}}
+            >
               <tr>
                 <th className="px-4 py-3 text-left text-sm font-semibold text-[#9b111e] border-b">
                   <div className="flex items-center gap-2">
@@ -204,9 +206,13 @@ export const JobCardsPage: React.FC = () => {
                 filteredInvoices.map((invoice, index) => (
                   <tr
                     key={invoice.id}
-                    className={`text-sm text-gray-700 hover:bg-[#edeae9] transition font-semibold ${
-                      index % 2 == 0 ? "bg-white" : "bg-gray-50"
-                    }`}
+                    style={{...FONTS.paragraph}}
+                    // className={`text-sm text-gray-700 hover:bg-[#edeae9] transition font-semibold ${
+                    //   index % 2 == 0 ? "bg-white" : "bg-gray-50"
+                    // }`}
+                    className={`text-sm text-gray-700 hover:bg-red-200 hover:text-black transition font-semibold
+                       ${index % 2 == 0 ? "bg-white" : "bg-gray-50"
+                      }`}
                   >
                     <td className="px-4 py-3 border-b">{invoice.id}</td>
                     <td className="px-4 py-3 border-b">
