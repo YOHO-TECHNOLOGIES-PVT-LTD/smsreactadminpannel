@@ -1,10 +1,10 @@
-import React, { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import { COLORS } from "../../../constants/uiConstants";
 import { useNavigate } from "react-router-dom";
 import FullscreenButton from "./Fullscreen";
-import SosButton from "./Sos";
 import { ProfileModal } from "./ProfileModal";
 import { useAuth } from "../../../pages/auth/AuthContext";
+import { FONTS } from "../../../constants/constants";
 
 interface User {
   name: string;
@@ -24,21 +24,20 @@ interface Notification {
   isRead: boolean;
 }
 
-export const Navbar: React.FC = () => {
+export const Navbar = () => {
   const [isBellActive, setIsBellActive] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [showProfileDetails, setShowProfileDetails] = useState(false);
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
   const [showLogoutSuccess, setShowLogoutSuccess] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
-  const {logout}=useAuth();
+  const { logout } = useAuth();
   const navigate = useNavigate();
-
 
   const dropdownRef = useRef<HTMLDivElement | null>(null);
   const notificationRef = useRef<HTMLDivElement | null>(null);
 
-  const [notifications, setNotifications] = useState<Notification[]>([
+  const [notifications] = useState<Notification[]>([
     {
       id: 1,
       message: "New task assigned to you: Project Review",
@@ -107,6 +106,7 @@ export const Navbar: React.FC = () => {
     setShowNotifications(false);
     navigate("/notifications");
   };
+
   const handleSosClick = () => {
     navigate("/sos");
   };
@@ -124,10 +124,9 @@ export const Navbar: React.FC = () => {
   const unreadCount = notifications.filter((n) => !n.isRead).length;
 
   const handleLogout = () => {
-   logout();
-      navigate("/");
-          console.log("User logged out");
-
+    logout();
+    navigate("/");
+    console.log("User logged out");
   };
 
   return (
@@ -160,8 +159,7 @@ export const Navbar: React.FC = () => {
           </button>
         </div>
 
-       
-{/* Fullscreen */}
+        {/* Fullscreen */}
         <div className="relative w-full">
           <div className="absolute right-4 top-1/2 -translate-y-1/2 z-20 flex items-center gap-4">
             {/* Fullscreen Button */}
@@ -169,11 +167,12 @@ export const Navbar: React.FC = () => {
 
             {/* SOS Emergency Icon */}
             <div className="relative">
-               <span className="absolute inline-flex h-8 w-8 rounded-full bg-red-400 opacity-75 animate-ping"></span> 
-                <div className="absolute -top-1 -right-1 w-3.5 h-3.5 bg-yellow-500 border-2 border-white rounded-full z-20" />
+              <span className="absolute inline-flex h-8 w-8 rounded-full bg-red-400 opacity-75 animate-ping"></span>
+              <div className="absolute -top-1 -right-1 w-3.5 h-3.5 bg-yellow-500 border-2 border-white rounded-full z-20" />
               <button
                 onClick={handleSosClick}
-                className="relative z-10 inline-flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-r from-red-600 to-red-800 text-white font-bold text-sm shadow-lg hover:scale-105 transition-transform"
+                className="relative z-10 inline-flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-r from-red-600 to-red-800 !text-white  !shadow-lg hover:!scale-105 transition-transform"
+                style={{...FONTS.cardSubHeader}}
               >
                 SOS
               </button>
@@ -214,7 +213,12 @@ export const Navbar: React.FC = () => {
             {showNotifications && (
               <div className="absolute right-0 mt-2 w-80 rounded-lg shadow-xl bg-white z-50 overflow-hidden">
                 <div className="bg-gradient-to-r from-red-600 to-red-800 p-3">
-                  <h3 className="text-white font-bold">Notifications</h3>
+                  <h3
+                    className="!text-white "
+                    style={{ ...FONTS.cardSubHeader }}
+                  >
+                    Notifications
+                  </h3>
                 </div>
                 <div className="max-h-80 overflow-y-auto">
                   {notifications.length > 0 ? (
@@ -250,7 +254,12 @@ export const Navbar: React.FC = () => {
                 <div className="p-3 bg-gray-50 text-center border-t">
                   <button
                     onClick={handleViewAllNotifications}
-                    className="text-red-600 hover:text-red-800 font-medium text-sm transition-colors"
+                    className="!text-red-600 hover:!text-red-800  !transition-colors"
+                    style={{
+                      fontFamily: FONTS.cardSubHeader.fontFamily,
+                      fontWeight: FONTS.cardSubHeader.fontWeight,
+                      fontSize: FONTS.cardSubHeader.fontSize,
+                    }}
                   >
                     View All Notifications
                   </button>
@@ -272,10 +281,14 @@ export const Navbar: React.FC = () => {
                 />
               </div>
               <div className="flex flex-col flex-nowrap overflow-hidden">
-                <span className="text-[#9b111e] font-medium truncate whitespace-nowrap">
+                <span className="text-[#9b111e] font-medium truncate whitespace-nowrap"
+                style={{...FONTS.paragraph}}
+                >
                   {user.name}
                 </span>
-                <div className="flex items-center text-sm text-[#c13340] whitespace-nowrap">
+                <div className="flex items-center text-sm text-[#c13340] whitespace-nowrap"
+                style={{...FONTS.subParagraph}}
+                >
                   Admin
                   <svg
                     className="w-4 h-6 ml-1 text-[#c13340]"
@@ -440,4 +453,3 @@ export const Navbar: React.FC = () => {
     </>
   );
 };
-

@@ -1,10 +1,17 @@
-
 import React, { useState } from 'react';
 import Offer from '../../components/common/Announcement/Offer';
 import AnnouncementList from '../../components/common/Announcement/AnnouncementList';
 import Partner from '../../components/common/Announcement/Partner';
+import { FONTS } from '../../constants/uiConstants';
 
-export const Announcement = () => {
+type PartnerData = {
+  title: string;
+  description: string;
+  price: string;
+  image: string;
+};
+
+const Announcement = () => {
   const [activeTab, setActiveTab] = useState<'offer' | 'announcement' | 'partner'>('offer');
   const [showModal, setShowModal] = useState(false);
 
@@ -12,8 +19,6 @@ export const Announcement = () => {
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState('');
   const [image, setImage] = useState<File | null>(null);
-
-  const [partnerData, setPartnerData] = useState([]);
 
   const resetForm = () => {
     setHeading('');
@@ -25,15 +30,19 @@ export const Announcement = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    const newData = {
+    const newData: PartnerData = {
       title: heading,
       description,
       price,
       image: image ? URL.createObjectURL(image) : '',
     };
 
-    if (activeTab === 'partner') {
-      setPartnerData((prev) => [...prev, newData]);
+    if (activeTab === 'offer') {
+      console.log('Offer added:', newData);
+    } else if (activeTab === 'announcement') {
+      console.log('Announcement added:', newData);
+    } else if (activeTab === 'partner') {
+      console.log('Partner added:', newData);
     }
 
     resetForm();
@@ -43,16 +52,11 @@ export const Announcement = () => {
   const renderComponent = () => {
     switch (activeTab) {
       case 'offer':
-        return (
-          <Offer
-            showModal={false}
-            closeModal={() => {}}
-          />
-        );
+        return <Offer />;
       case 'announcement':
         return <AnnouncementList />;
       case 'partner':
-        return <Partner data={partnerData} />;
+        return <Partner />;
       default:
         return null;
     }
@@ -60,40 +64,30 @@ export const Announcement = () => {
 
   return (
     <div className="min-h-screen bg-[#FFF4EC] p-6">
-      <div className="flex justify-between items-center mb-6">
-        <div className="flex space-x-4">
-          {['offer', 'announcement', 'partner'].map((tab) => (
-            <button
-              key={tab}
-              onClick={() => setActiveTab(tab as any)}
-              className={`px-4 py-2 rounded-full font-semibold transition ${
-                activeTab === tab
-                  ? 'bg-[#9b111e] text-white'
-                  : 'bg-white text-[#9b111e] border border-[#9b111e]'
-              }`}
-            >
-              {tab.charAt(0).toUpperCase() + tab.slice(1)}
-            </button>
-          ))}
-        </div>
-        {(activeTab === 'offer' || activeTab === 'announcement' || activeTab === 'partner') && (
+      <div className="flex space-x-4 mb-6" style={{...FONTS.cardSubHeader}}>
+        {['offer', 'announcement', 'partner'].map((tab) => (
           <button
-            onClick={() => setShowModal(true)}
-            className="bg-[#9b111e] text-white px-4 py-2 rounded-full font-semibold hover:bg-red-700 transition"
+            key={tab}
+            onClick={() => setActiveTab(tab as 'offer' | 'announcement' | 'partner')}
+            className={`px-4 py-2 rounded-full font-semibold transition ${
+              activeTab === tab
+                ? 'bg-[#9b111e] text-white'
+                : 'bg-white text-[#9b111e] border border-[#9b111e]'
+            }`}
           >
-            + Add
+            {tab.charAt(0).toUpperCase() + tab.slice(1)}
           </button>
-        )}
+        ))}
       </div>
 
-      <h1 className="text-2xl font-bold text-[#9b111e] mb-2">
+      <h1 className="text-2xl !font-bold text-[#9b111e] mb-2" style={{...FONTS.cardheader}}>
         {activeTab === 'offer'
           ? 'Special Offers'
           : activeTab === 'announcement'
           ? 'Latest Announcements'
           : 'Our Partners'}
       </h1>
-      <p className="text-gray-600 mb-6">
+      <p className="!text-gray-600 mb-6" style={{...FONTS.paragraph}}>
         {activeTab === 'offer'
           ? 'Experience the Art of Automotive Renewal'
           : activeTab === 'announcement'
@@ -101,8 +95,9 @@ export const Announcement = () => {
           : 'Meet our trusted collaborators'}
       </p>
 
-      <div className="grid md:grid-cols-3 gap-4">{renderComponent()}</div>
+      <div className="grid gap-4">{renderComponent()}</div>
 
+      {/* Modal Form
       {showModal && (
         <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex justify-center items-center">
           <div className="bg-white p-6 rounded-lg w-full max-w-lg relative">
@@ -165,8 +160,8 @@ export const Announcement = () => {
               </div>
             </form>
           </div>
-        </div>
-      )}
+        </div> 
+      )}*/}
     </div>
   );
 };

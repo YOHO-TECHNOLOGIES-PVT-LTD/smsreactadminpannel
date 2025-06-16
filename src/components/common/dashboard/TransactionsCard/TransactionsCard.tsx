@@ -1,4 +1,5 @@
 import React from "react";
+import { FONTS } from "../../../../constants/uiConstants";
 
 type Props = {
   icon1: React.ReactNode;
@@ -38,8 +39,8 @@ export const TransactionCard: React.FC<Props> = ({
             {icon1}
           </div>
           <div className="w-full">
-            <p className="font-semibold">{title}</p>
-            <p className="text-xs text-gray-500 mt-1">{getIndiaDateTime()}</p>
+            <p className="" style={{...FONTS.cardSubHeader}}>{title}</p>
+            <p className=" mt-1" style={{...FONTS.description}}>{getIndiaDateTime()}</p>
           </div>
           <div className={`flex items-center justify-center space-x-1 ${color}`}>
             <div className="text-xl">{icon2}</div>

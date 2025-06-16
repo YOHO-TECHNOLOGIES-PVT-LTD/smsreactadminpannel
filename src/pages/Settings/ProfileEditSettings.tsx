@@ -1,4 +1,4 @@
-import { IoIosAddCircleOutline } from "react-icons/io";
+// import { IoIosAddCircleOutline } from "react-icons/io";
 import { FONTS } from "../../constants/uiConstants"
 import { MdUpgrade } from "react-icons/md";
 
@@ -6,33 +6,33 @@ const ProfileEditSettings = () => {
   return (
     <div className="p-5" style={{fontFamily: FONTS.header.fontFamily}}>
       <div >
-        <h1 className="font-bold text-2xl">Profile</h1>
-        <h6>Update your photo and personal details here</h6>
+        <h1 className="!font-bold text-xl" style={{...FONTS.cardheader}}>Profile</h1>
+        <h6 style={{...FONTS.subParagraph}}>Update your photo and personal details here</h6>
       </div>
      <form className="mt-6">
         <div  className="grid grid-cols-2 gap-8">
          <div>
-            <label htmlFor="first_name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">First name</label>
+            <label style={{...FONTS.paragraph}} htmlFor="first_name" className="block mb-2 text-sm font-medium !text-gray-900 dark:text-grey">First name</label>
             <input type="text" id="first_name" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 h-3/4" placeholder="John" required />
         </div>
         <div>
-            <label htmlFor="first_name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Last name</label>
+            <label style={{...FONTS.paragraph}} htmlFor="first_name" className="block mb-2 text-sm font-medium !text-gray-900 dark:text-grey">Last name</label>
             <input type="text" id="first_name" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 h-3/4" placeholder="DuraiRaj" required />
         </div>
         <div>
-            <label htmlFor="first_name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email Address</label>
+            <label style={{...FONTS.paragraph}} htmlFor="first_name" className="block mb-2 text-sm font-medium !text-gray-900 dark:text-grey">Email Address</label>
             <input type="email" id="first_name" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 h-3/4" placeholder="John@gmail.com" required />
         </div>
         <div>
-            <label htmlFor="first_name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Phone Number</label>
+            <label style={{...FONTS.paragraph}} htmlFor="first_name" className="block mb-2 text-sm font-medium !text-gray-900 dark:text-grey">Phone Number</label>
             <input type="number" id="first_name" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 h-3/4" placeholder="0123456789" required />
         </div>
         <div>
-            <label htmlFor="first_name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Address</label>
+            <label style={{...FONTS.paragraph}} htmlFor="first_name" className="block mb-2 text-sm font-medium !text-gray-900 dark:text-grey">Address</label>
             <input type="text" id="first_name" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 h-3/4" placeholder="Door no, Address" required />
         </div>
         <div>
-            <label htmlFor="first_name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Country</label>
+            <label  style={{...FONTS.paragraph}} htmlFor="first_name" className="block mb-2 text-sm font-medium !text-gray-900 dark:text-grey">Country</label>
             <select id="first_name" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 h-3/4">
                 <option>Choose a country</option>
                 <option value="London">London</option>
@@ -47,11 +47,11 @@ const ProfileEditSettings = () => {
             
         </div>
         <div>
-            <label htmlFor="first_name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Date of Birth</label>
+            <label style={{...FONTS.paragraph}} htmlFor="first_name" className="block mb-2 text-sm font-medium !text-gray-900 dark:text-grey">Date of Birth</label>
             <input type="date" id="first_name" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 h-3/4" placeholder="John" required />
         </div>
         <div>
-            <label htmlFor="first_name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Gender</label>
+            <label style={{...FONTS.paragraph}} htmlFor="first_name" className="block mb-2 text-sm font-medium !text-gray-900 dark:text-grey">Gender</label>
             <select id="first_name" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 h-3/4">
                 <option>Choose a Gender</option>
                 <option value="Male">Male</option>
@@ -76,22 +76,22 @@ const ProfileEditSettings = () => {
                 </select>
         </div> */}
          <div>
-            <label htmlFor="first_name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Company Name</label>
+            <label style={{...FONTS.paragraph}} htmlFor="first_name" className="block mb-2 text-sm font-medium !text-gray-900 dark:text-grey">Company Name</label>
             <input type="text" id="first_name" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 h-3/4" placeholder="Company name" required />
         </div>
          <div>
-            <label htmlFor="first_name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Company Website</label>
+            <label style={{...FONTS.paragraph}} htmlFor="first_name" className="block mb-2 text-sm font-medium !text-gray-900 dark:text-grey">Company Website</label>
             <input type="text" id="first_name" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 h-3/4" placeholder="http://companyname.com/" required />
         </div>
         </div>
         <div className="mt-10">
              <div>
-            <label htmlFor="first_name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Add your bio</label>
+            <label htmlFor="first_name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-grey">Add your bio</label>
             <textarea id="first_name" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 mt-6 h-32" placeholder="John" required />
         </div>
         <div className="mt-10">
-            <h1 className="font-bold text-2xl">Your Photo</h1>
-            <h3>THis will be displayed on profile</h3>
+            <h1 className="font-bold text-2xl !text-gray-900" style={{...FONTS.paragraph}}>Your Photo</h1>
+            <h3 className="!text-gray-900" style={{...FONTS.subParagraph}}>THis will be displayed on profile</h3>
             
 <div className="flex items-center justify-center w-full mt-8">
     <label htmlFor="dropzone-file" className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-gray-800 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
@@ -106,30 +106,30 @@ const ProfileEditSettings = () => {
     </label>
 </div> 
         </div>
-        </div>
-        <div className="mt-9">
+        <div>
+        {/* <div className="mt-9">
             <h1 className="font-bold text-2xl">Social Profiles</h1>
             <div  className="grid grid-cols-2 gap-8 mt-3">
                <div>
             <label htmlFor="first_name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Facebook</label>
             <input type="text" id="first_name" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 h-3/4" placeholder="Facebook" required />
-        </div>
-        <div>
+        </div> */}
+        {/* <div>
             <label htmlFor="first_name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">X</label>
             <input type="text" id="first_name" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 h-3/4" placeholder="X" required />
-        </div>
+        </div> */}
         {/* <div>
             <label htmlFor="first_name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Linkedin</label>
             <input type="email" id="first_name" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 h-3/4" placeholder="John" required />
         </div> */}
-        <div>
+        {/* <div>
             <label htmlFor="first_name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Youtube</label>
             <input type="text" id="first_name" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 h-3/4" placeholder="Youtube" required />
-        </div>
+        </div> */}
             </div>
            
         </div>
-         <div className="flex gap-10 mt-10">
+         <div className="flex gap-3 mt-10">
              <button className="w-20 h-10 rounded-lg text-white" style={{ background: "linear-gradient(44.99deg,#700808 11%,#d23c3c 102.34%)" }}>Cancel</button>
              <button className="flex rounded-lg h-10 w-auto pt-2 pr-2 text-white" style={{ background: "linear-gradient(44.99deg,#700808 11%,#d23c3c 102.34%)" }}><MdUpgrade className="text-2xl"/> Update </button>
              </div>
@@ -138,4 +138,4 @@ const ProfileEditSettings = () => {
   )
 }
 
-export default ProfileEditSettings
+export default ProfileEditSettings;

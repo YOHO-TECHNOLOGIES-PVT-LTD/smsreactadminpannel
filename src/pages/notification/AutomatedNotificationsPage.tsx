@@ -1,5 +1,3 @@
-
-
 const AutomatedNotificationsPage = () => {
   return (
     <div>AutomatedNotificationsPage</div>

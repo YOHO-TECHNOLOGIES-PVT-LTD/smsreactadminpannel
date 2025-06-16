@@ -1,31 +1,26 @@
-
 import React, { useState } from 'react';
+import { FONTS } from '../../../constants/uiConstants';
 
-const offers = [
-  {
-    title: 'EXTERIOR WASH AND POLISH',
-    price: '$30.00',
-    image: 'https://londoncarwash.dk/wp-content/uploads/2020/10/blog_5.jpg',
-  },
-  {
-    title: 'INTERIOR DETAILING',
-    price: '$35.00',
-    image: 'https://i.pinimg.com/originals/c2/fe/dc/c2fedcef65f8ceb8cf4937c6407e6792.jpg',
-  },
-  {
-    title: 'CERAMIC COATING',
-    price: '$40.00',
-    image: 'https://th.bing.com/th/id/OIP.oHmubqo3ZmInulyncZmU_AHaE8?cb=iwp2&rs=1&pid=ImgDetMain',
-  },
-];
+const Offer = () => {
+  const [offers, setOffers] = useState([
+    {
+      title: 'EXTERIOR WASH AND POLISH',
+      price: '30.00',
+      image: 'https://londoncarwash.dk/wp-content/uploads/2020/10/blog_5.jpg',
+    },
+    {
+      title: 'INTERIOR DETAILING',
+      price: '35.00',
+      image: 'https://i.pinimg.com/originals/c2/fe/dc/c2fedcef65f8ceb8cf4937c6407e6792.jpg',
+    },
+    {
+      title: 'CERAMIC COATING',
+      price: '40.00',
+      image: 'https://th.bing.com/th/id/OIP.oHmubqo3ZmInulyncZmU_AHaE8?cb=iwp2&rs=1&pid=ImgDetMain',
+    },
+  ]);
 
-const Offer = ({
-  showModal,
-  closeModal,
-}: {
-  showModal: boolean;
-  closeModal: () => void;
-}) => {
+  const [showModal, setShowModal] = useState(false);
   const [heading, setHeading] = useState('');
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState('');
@@ -33,28 +28,65 @@ const Offer = ({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log({ heading, description, price, image });
-    closeModal();
+    const newOffer = {
+      title: heading,
+      price,
+      image: image
+        ? URL.createObjectURL(image)
+        : 'https://via.placeholder.com/300x150?text=No+Image',
+    };
+    setOffers((prev) => [...prev, newOffer]);
+    resetForm();
+    setShowModal(false);
   };
 
-  return (
-    <>
-      {offers.map((item, index) => (
-        <div key={index} className="bg-white rounded-lg shadow-md overflow-hidden">
-          <img src={item.image} alt={item.title} className="w-full h-40 object-cover" />
-          <div className="p-4">
-            <h3 className="text-base font-semibold">{item.title}</h3>
-            <p className="text-[#9b111e] font-bold mt-2">Start from {item.price}</p>
+  const resetForm = () => {
+    setHeading('');
+    setDescription('');
+    setPrice('');
+    setImage(null);
+  };
+
+return (
+  <div className="relative px-6 mt-4">
+    <button
+      className="flex items-center gap-2 font-bold px-4 py-2 rounded-lg !text-white transition duration-200 active:scale-105 hover:bg-[#a00000]"
+      style={{
+        background: 'linear-gradient(44.99deg,#700808 11%,#d23c3c 102.34%)', ...FONTS.paragraph
+      }}
+      onClick={() => setShowModal(true)}
+    >
+      + Add Offer
+    </button>
+
+
+    {/* Cards Grid */}
+    <div className="grid grid-cols-3 gap-6 mt-6">
+
+        {offers.map((item, index) => (
+          <div
+            key={index}
+            className="flex flex-col hover:shadow-xl transform hover:scale-[1.02] p-2 transition-all duration-300 bg-white shadow-md rounded-lg"
+          >
+            <img
+              src={item.image}
+              alt={item.title}
+              className="w-full h-40 object-cover rounded-t-lg"
+            />
+            <div className="p-4 flex-1 flex flex-col justify-between">
+              <h3 className="text-base !text-gray-900 font-semibold" style={{...FONTS.paragraph}}>{item.title}</h3>
+              <p className="text-[#9b111e] !font-bold mt-2" style={{...FONTS.cardSubHeader}}>Start from {item.price}</p>
+            </div>
           </div>
-        </div>
-      ))}
+        ))}
+      </div>
 
       {/* Modal */}
       {showModal && (
         <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex justify-center items-center">
           <div className="bg-white p-6 rounded-lg w-full max-w-lg relative">
             <button
-              onClick={closeModal}
+              onClick={() => setShowModal(false)}
               className="absolute top-2 right-2 text-gray-500 text-2xl font-bold hover:text-black"
             >
               &times;
@@ -93,7 +125,10 @@ const Offer = ({
               <div className="flex justify-end gap-4">
                 <button
                   type="button"
-                  onClick={closeModal}
+                  onClick={() => {
+                    resetForm();
+                    setShowModal(false);
+                  }}
                   className="px-4 py-2 border border-gray-400 rounded hover:bg-gray-100"
                 >
                   Cancel
@@ -109,7 +144,7 @@ const Offer = ({
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 };
 

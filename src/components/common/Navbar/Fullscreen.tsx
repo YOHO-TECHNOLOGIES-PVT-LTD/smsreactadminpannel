@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
-const FullscreenButton: React.FC = () => {
+const FullscreenButton = () => {
   const [isFullscreen, setIsFullscreen] = useState(false);
 
   const handleFullscreen = () => {

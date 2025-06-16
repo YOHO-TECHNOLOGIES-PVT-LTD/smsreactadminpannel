@@ -2,11 +2,11 @@ import { FONTS } from "../../constants/uiConstants"
 
 const PasswordSettings = () => {
   return (
-    <div className="p-5 pb-52" style={{fontFamily: FONTS.header.fontFamily}}>
+    <div className="p-5 pb-52" style={{}}>
     <div className="grid grid-cols-2 gap-4">
      
 <div className="">
-  <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Old Password</label>
+  <label style={{...FONTS.paragraph}} className="block mb-2 text-sm font-medium !text-gray-900 dark:text-white">Old Password</label>
   <div className="relative">
     <input id="hs-toggle-password" type="password" className="bg-gray-50 border border-gray-300 text-gray-900  rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 h-3/4" placeholder="Enter your old password" />
     <button type="button" data-hs-toggle-password='{
@@ -26,7 +26,7 @@ const PasswordSettings = () => {
 
 
 <div className="">
-  <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">New Password</label>
+  <label style={{...FONTS.paragraph}} className="block mb-2 text-sm font-medium !text-gray-900 dark:text-white">New Password</label>
   <div className="relative">
     <input id="hs-toggle-password" type="password" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 h-3/4" placeholder="Enter your new password" />
     <button type="button" data-hs-toggle-password='{
@@ -45,7 +45,7 @@ const PasswordSettings = () => {
 </div>
  </div>
     <div className="mt-8">
-  <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Confirm Password</label>
+  <label style={{...FONTS.paragraph}} className="block mb-2 text-sm font-medium !text-gray-900 dark:text-white">Confirm Password</label>
   <div className="relative">
     <input id="hs-toggle-password" type="password" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 h-3/4" placeholder="Enter your confirm password" />
     <button type="button" data-hs-toggle-password='{
@@ -63,8 +63,8 @@ const PasswordSettings = () => {
   </div>
 </div>
 <div className="mt-10 flex">
-    <button className=" rounded-lg p-3 text-white"style={{ background: "linear-gradient(44.99deg,#700808 11%,#d23c3c 102.34%)" }}>Confirm Password</button>
-    <a href="#" className="text-red-700 ml-auto">Forgot Password ?</a>
+    <button className=" rounded-lg p-3 text-[12px] !text-white"style={{ background: "linear-gradient(44.99deg,#700808 11%,#d23c3c 102.34%)", ...FONTS.subParagraph }}>Confirm Password</button>
+    <a href="#" style={{...FONTS.paragraph}} className="text-red-700 ml-auto">Forgot Password ?</a>
 </div>
 </div>
   )
