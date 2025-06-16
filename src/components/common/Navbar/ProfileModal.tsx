@@ -1,4 +1,6 @@
-import { useRef, useEffect ,useState} from "react";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import React, { useRef, useEffect, useState } from "react";
+import { getProfile } from "../../../features/Auth/service";
 
 interface User {
   name: string;

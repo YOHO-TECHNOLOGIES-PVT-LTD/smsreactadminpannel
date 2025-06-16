@@ -1,10 +1,10 @@
 import { useState, useRef, useEffect } from "react";
 import { COLORS } from "../../../constants/uiConstants";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import FullscreenButton from "./Fullscreen";
 import { ProfileModal } from "./ProfileModal";
 import { useAuth } from "../../../pages/auth/AuthContext";
-import { FONTS } from '../../../constants/uiConstants'
+import { FONTS } from "../../../constants/uiConstants";
 
 interface User {
   name: string;

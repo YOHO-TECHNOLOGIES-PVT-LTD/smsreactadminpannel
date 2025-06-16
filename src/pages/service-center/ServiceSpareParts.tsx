@@ -6,9 +6,7 @@ import { Search, ArrowLeft, Star, Plus, EllipsisVertical } from "lucide-react"
 import Client from "../../api"
 
 // Define colors directly to avoid import issues
-// const COLORS = {
-//   bgColor: "#f9fafb", // gray-50
-// }
+
 
 interface ApiSparePart {
   _id: string

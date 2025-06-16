@@ -1,7 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type React from "react"
 import { useState, useRef, useEffect } from "react"
-import { ArrowLeft, Search, Plus, X, Edit3, Trash2, Settings, Grid, List } from "lucide-react"
+import { ArrowLeft, Search, Plus, X, Edit3, Trash2 } from "lucide-react"
+import Client from "../../api"
+
 
 interface Service {
   _id: string
@@ -59,9 +61,9 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({ handleBack, partne
   useEffect(() => {
     async function fetchdata() {
       try {
-        console.log(`Fetching data for partner: ${partnerId}`)
-        // Initialize with Services prop data
-        setCategories(Services)
+        const  response:any = await new Client().admin.servicecenter.getCatEvery()
+        console.log(response.data.data)
+        setCategories(response.data.data)
       } catch (error) {
         console.error("Error fetching data:", error)
       }

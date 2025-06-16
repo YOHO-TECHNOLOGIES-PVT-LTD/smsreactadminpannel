@@ -6,8 +6,6 @@ import { useState, useRef, useEffect } from 'react';
 import { FONTS } from "../../../../constants/uiConstants"//COLOUR
 import {GetTransactionDashboard} from "../../../../pages/Dashboards/services/index"
 
-
-
 import {
   LineChart,
   Line,
