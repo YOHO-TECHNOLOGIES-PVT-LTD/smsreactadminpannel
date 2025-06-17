@@ -1,87 +1,131 @@
-import React, { useState } from "react";
+ 
+import React, { useEffect, useState } from "react";
 import CompactServiceCard from "../../components/Bookings/CompactServiceCard";
 import AssignedRequests from "../../components/Bookings/AssignedRequests";
+import { GetAssignedRequest, GetPendingRequest } from "./service";
 
+type pendingService = {
+  _id: string;
+  requestId: string;
+  uuid: string;
+  requestType: string;
+  customerId: {
+    contact_info: {
+      state: string;
+      city: string;
+      address1: string;
+      address2: string;
+      phoneNumber: string;
+    }
+    vehicleInfo: {
+      registerNumber: string;
+      model: string;
+    }
+    firstName: string;
+    lastName: string;
+  }
+  service: [
+    {
+      _id: string;
+      service_name: string;
+      uuid: string;
+    }
+  ]
+  createdAt: string;
+  assigned_date: string;
+  partnerId: {
+    contact_info: {
+      state: string;
+      city: string;
+      address1: string;
+      address2: string;
+      phoneNumber: string;
+    }
+    firstName: string;
+    lastName: string;
+    id: string;
+  }
+}
+type AssignedService = {
+  _id: string;
+  requestId: string;
+  uuid: string;
+  requestType: string;
+  customerId: {
+    contact_info: {
+      state: string;
+      city: string;
+      address1: string;
+      address2: string;
+      phoneNumber: string;
+    }
+    vehicleInfo: {
+      registerNumber: string;
+      model: string;
+    }
+    firstName: string;
+    lastName: string;
+  }
+  service: [
+    {
+      _id: string;
+      service_name: string;
+      uuid: string;
+    }
+  ]
+  createdAt: string;
+  assigned_date: string;
+  partnerId: {
+    contact_info: {
+      state: string;
+      city: string;
+      address1: string;
+      address2: string;
+      phoneNumber: string;
+    }
+    firstName: string;
+    lastName: string;
+    id: string;
+  }
+}
 const ServiceRequests: React.FC = () => {
   const [currentView, setCurrentView] = useState<'pending' | 'assigned'>('pending');
-  const [assignedRequests, setAssignedRequests] = useState<any[]>([]);
+  const [assignedRequests, setAssignedRequests] = useState<AssignedService[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
-  const [pendingRequests, setPendingRequests] = useState([
-    {
-      id: 1,
-      user: {
-        name: "Jane Smith",
-        phone: "9876543210",
-        address: "123 Main Street, Chennai",
-      },
-      car: {
-        model: "Honda Civic",
-        year: "2022",
-        number: "TN AB0260",
-      },
-      services: ["Oil Change", "Brake Inspection", "Tire Rotation"],
-      date: "2025-06-12",
-      status: "pending",
-      priority: "high"
-    },
-    {
-      id: 2,
-      user: {
-        name: "Ravi Kumar",
-        phone: "9123456780",
-        address: "45 MG Road, Coimbatore",
-      },
-      car: {
-        model: "Hyundai i20",
-        year: "2020",
-        number: "TN AB0000",
-      },
-      services: ["AC Repair", "Coolant Refill"],
-      date: "2025-06-13",
-      status: "in-progress",
-      priority: "medium"
-    },
-    {
-      id: 3,
-      user: {
-        name: "Priya Sharma",
-        phone: "9234567891",
-        address: "67 Anna Salai, Chennai",
-      },
-      car: {
-        model: "Maruti Swift",
-        year: "2021",
-        number: "TN AB1234",
-      },
-      services: ["Engine Tune-up", "Oil Change", "Brake Service", "Tire Check", "Battery Test"],
-      date: "2025-06-14",
-      status: "completed",
-      priority: "low"
-    },
-    {
-      id: 4,
-      user: {
-        name: "Arun Raj",
-        phone: "9345678902",
-        address: "89 Brigade Road, Bangalore",
-      },
-      car: {
-        model: "Toyota Innova",
-        year: "2019",
-        number: "KA AB5678",
-      },
-      services: ["Full Service", "Alignment"],
-      date: "2025-06-15",
-      status: "pending",
-      priority: "high"
-    }
-  ]);
+  const [pendingRequests, setPendingRequests] = useState<pendingService[]>([]);
 
-  const handleAssignPartner = (requestId: number, partner: string) => {
+  async function fetchpending() {
+    try {
+      const data = await GetPendingRequest()
+      setPendingRequests(data.data)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  async function fetchassigned() {
+    try {
+      const data = await GetAssignedRequest()
+      setAssignedRequests(data.data)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  useEffect(() => {
+    if (currentView === "pending") {
+      fetchpending()
+    }else{
+       fetchassigned()
+    } 
+  }, [currentView]);
+
+  const handleAssignPartner = async(requestId: string, partner: string) => {
     // Find the request to assign
-    const requestToAssign = pendingRequests.find(req => req.id === requestId);
+    const requestToAssign = pendingRequests.find(req => req._id === requestId);
     if (requestToAssign) {
       // Create assigned request with additional fields
+
       const assignedRequest = {
         ...requestToAssign,
         assignedPartner: partner,
@@ -93,7 +137,7 @@ const ServiceRequests: React.FC = () => {
       setAssignedRequests(prev => [...prev, assignedRequest]);
       
       // Remove from pending requests
-      setPendingRequests(prev => prev.filter(req => req.id !== requestId));
+      setPendingRequests(prev => prev.filter(req => req._id !== requestId));
       
       // Switch to assigned view
       setCurrentView('assigned');
@@ -103,15 +147,15 @@ const ServiceRequests: React.FC = () => {
   // Filter functions for search
   const filteredPendingRequests = pendingRequests.filter(request => {
     const searchLower = searchTerm.toLowerCase();
-    const matchesId = request.id.toString().includes(searchLower);
-    const matchesName = request.user.name.toLowerCase().includes(searchLower);
+    const matchesId = request._id.toString().includes(searchLower);
+    const matchesName = request.customerId.firstName.toLowerCase().includes(searchLower) ?? " ";
     return matchesId || matchesName;
   });
 
   const filteredAssignedRequests = assignedRequests.filter(request => {
     const searchLower = searchTerm.toLowerCase();
-    const matchesId = request.id.toString().includes(searchLower);
-    const matchesName = request.user.name.toLowerCase().includes(searchLower);
+    const matchesId = request._id.toString().includes(searchLower);
+    const matchesName = request.customerId.firstName.toLowerCase().includes(searchLower) ?? " ";
     return matchesId || matchesName;
   });
 
@@ -171,7 +215,7 @@ const ServiceRequests: React.FC = () => {
                       : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                   }`}
                 >
-                  Assigned ({filteredAssignedRequests.length})
+                  Assigned
                 </button>
               </div>
             </div>
@@ -195,7 +239,7 @@ const ServiceRequests: React.FC = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-2 gap-4">
               {filteredPendingRequests.map((request) => (
                 <CompactServiceCard 
-                  key={request.id} 
+                  key={request._id} 
                   request={request} 
                   onAssign={handleAssignPartner}
                 />
