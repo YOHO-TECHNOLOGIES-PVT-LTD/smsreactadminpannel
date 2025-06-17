@@ -1,25 +1,48 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from "react";
 
 interface AssignedRequest {
-  id: number;
-  user: {
-    name: string;
-    phone: string;
-    address: string;
-  };
-  car: {
-    model: string;
-    year: string;
-    number: string;
-  };
-  services: string[];
-  date: string;
-  status: string;
-  priority: string;
-  assignedPartner: string;
-  assignedDate: string;
-}
-
+    _id: string;
+    requestId: string;
+    uuid: string;
+    requestType: string;
+    customerId: {
+      contact_info: {
+        state: string;
+        city: string;
+        address1: string;
+        address2: string;
+        phoneNumber: string;
+      }
+      vehicleInfo: {
+        registerNumber: string;
+        model: string;
+      }
+      firstName: string;
+      lastName: string;
+    }
+    service: [
+      {
+        _id: string;
+        service_name: string;
+        uuid: string;
+      }
+    ]
+    createdAt: string;
+    assigned_date:string;
+    partnerId:{
+      contact_info: {
+        state: string;
+        city: string;
+        address1: string;
+        address2: string;
+        phoneNumber: string;
+      }
+      firstName: string;
+      lastName: string;
+      id:string;
+    }
+  }
 interface AssignedRequestsProps {
   assignedRequests: AssignedRequest[];
   searchTerm?: string;
@@ -30,25 +53,25 @@ const AssignedRequests: React.FC<AssignedRequestsProps> = ({ assignedRequests, s
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-2 gap-4">
       {assignedRequests.map((request) => (
         <div
-          key={request.id}
+          key={request._id}
           className="bg-white rounded-lg shadow-md border border-gray-200 p-4 hover:shadow-lg transition-all duration-200 hover:-translate-y-0.5"
         >
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center space-x-3">
               <div className="w-10 h-10 bg-green-600 rounded-lg flex items-center justify-center text-white font-bold text-base">
-                {request.user.name.charAt(0)}
+                {request.customerId.firstName.charAt(0)}
               </div>
               <div>
-                <h3 className="font-bold text-gray-900 text-base">{request.user.name}</h3>
+                <h3 className="font-bold text-gray-900 text-base">{request.customerId.firstName+' '+request.customerId.lastName || "customer name"}</h3>
                 <p className="text-sm text-gray-500 font-medium">
-                  #{request.id.toString().padStart(4, "0")}
+                  #{request.requestId}
                 </p>
               </div>
             </div>
             <div className="text-sm text-gray-600 font-medium text-right leading-tight">
-              <p>{new Date(request.date).toLocaleDateString()}</p>
+              <p>{new Date(request.createdAt).toLocaleDateString()}</p>
               <p className="text-xs text-gray-500">
-                {new Date(request.date).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
+                {new Date(request.createdAt).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
               </p>
             </div>
           </div>
@@ -61,9 +84,9 @@ const AssignedRequests: React.FC<AssignedRequestsProps> = ({ assignedRequests, s
               </svg>
               <p className="text-sm font-semibold text-green-800">Assigned Partner</p>
             </div>
-            <p className="font-semibold text-green-900 text-sm">{request.assignedPartner}</p>
+            <p className="font-semibold text-green-900 text-sm">{"partner Id:"+request.partnerId.id+" name:"+request.partnerId.firstName+" "+request.partnerId.lastName}</p>
             <p className="text-xs text-green-600">
-              Assigned on {new Date(request.assignedDate).toLocaleDateString()}
+              Assigned on {new Date(request.assigned_date).toLocaleDateString()}
             </p>
           </div>
 
@@ -76,9 +99,9 @@ const AssignedRequests: React.FC<AssignedRequestsProps> = ({ assignedRequests, s
                 </svg>
                 <p className="text-sm font-semibold text-gray-700">Vehicle</p>
               </div>
-              <p className="font-semibold text-gray-900 text-sm">{request.car.model}</p>
-              <p className="font-semibold text-gray-900 text-sm">{request.car.year}</p>
-              <p className="font-mono text-black rounded mt-1 text-sm font-medium">{request.car.number}</p>
+              <p className="font-semibold text-gray-900 text-sm">{request.customerId.vehicleInfo.model}</p>
+              <p className="font-semibold text-gray-900 text-sm">{"2025"}</p>
+              <p className="font-mono text-black rounded mt-1 text-sm font-medium">{request.customerId.vehicleInfo.registerNumber}</p>
             </div>
             <div>
               <div className="flex items-center mb-2">
@@ -87,7 +110,7 @@ const AssignedRequests: React.FC<AssignedRequestsProps> = ({ assignedRequests, s
                 </svg>
                 <p className="text-sm font-semibold text-gray-700">Contact</p>
               </div>
-              <p className="font-semibold text-gray-900 text-sm">{request.user.phone}</p>
+              <p className="font-semibold text-gray-900 text-sm">{request.customerId.contact_info.phoneNumber}</p>
               <div className="flex items-center mt-1">
                 <svg className="w-3 h-3 text-gray-500 mr-1" fill="currentColor" viewBox="0 0 20 20">
                   <path
@@ -96,7 +119,10 @@ const AssignedRequests: React.FC<AssignedRequestsProps> = ({ assignedRequests, s
                     clipRule="evenodd"
                   />
                 </svg>
-                <p className="text-gray-600 truncate text-sm">{request.user.address}</p>
+                <p className="text-gray-600 truncate text-sm">{request.customerId.contact_info.address1 + ' ' +
+                  request.customerId.contact_info.address2 + ' ' + request.customerId.contact_info.city + ' ' +
+                  request.customerId.contact_info.state
+                }</p>
               </div>
             </div>
           </div>
@@ -111,18 +137,18 @@ const AssignedRequests: React.FC<AssignedRequestsProps> = ({ assignedRequests, s
                 />
               </svg>
               <p className="text-sm font-semibold text-gray-700">
-                Services ({request.services.length})
+                Services ({request.service.length})
               </p>
             </div>
             <div className="flex flex-wrap gap-1">
-              {request.services.slice(0, 3).map((service: string, index: number) => (
+              {request.service.slice(0, 3).map((service: any, index: number) => (
                 <span key={index} className="bg-green-600 text-white px-2 py-1 rounded text-sm font-medium">
-                  {service}
+                  {service.service_name}
                 </span>
               ))}
-              {request.services.length > 3 && (
+              {request.service.length > 3 && (
                 <span className="bg-gray-200 text-gray-600 px-2 py-1 rounded text-sm font-medium">
-                  +{request.services.length - 3} more
+                  +{request.service.length - 3} more
                 </span>
               )}
             </div>
@@ -132,9 +158,9 @@ const AssignedRequests: React.FC<AssignedRequestsProps> = ({ assignedRequests, s
             <span className="bg-green-100 text-green-800 px-2 py-1 rounded text-sm font-medium">
               Assigned
             </span>
-            <button className="bg-blue-600 text-white px-3 py-2 rounded text-sm font-medium hover:bg-blue-700">
+            {/* <button className="bg-blue-600 text-white px-3 py-2 rounded text-sm font-medium hover:bg-blue-700">
               View Details
-            </button>
+            </button> */}
           </div>
         </div>
       ))}

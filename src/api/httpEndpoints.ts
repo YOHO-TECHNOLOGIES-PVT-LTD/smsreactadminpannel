@@ -119,6 +119,16 @@ export const API_END_POINTS ={
     customermanagement_history:{
       getAll: `/api/partner/CustomerManagement/service-history`
     },
+
+    serviceRequest:{
+      getpending:'/api/admin/service-request/pending-service',
+      getassigned:'/api/admin/service-request/assigned-service',
+      getbyidservice:'/api/admin/service-request/service-request/byid/:uuid',
+      updateservice:'/api/admin/service-request/update-pending-service/:id',
+    },
    
+    subApis:{
+      getpartnerList:'/api/admin/fetch/partner-list/all',
+    }
 
 }

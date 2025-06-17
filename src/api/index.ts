@@ -130,6 +130,17 @@ enquiry:{
   get:()=>httpClient.get(API_END_POINTS.service.getall),
   patch:(params:string)=>httpClient.patch(API_END_POINTS.service.patch.replace(':uuid',params)),
   delete:(params:string)=>httpClient.delete(API_END_POINTS.service.delete.replace(':id',params))
+ },
+
+ servicerequest:{
+   getpending:()=>httpClient.get(API_END_POINTS.serviceRequest.getpending),
+   getassigned:()=>httpClient.get(API_END_POINTS.serviceRequest.getassigned),
+   update:(params:string,data:any)=>httpClient.update(API_END_POINTS.serviceRequest.updateservice.replace(':id',params),data),
+   getbyid:(params:string)=>httpClient.get(API_END_POINTS.serviceRequest.getbyidservice.replace(':uuid',params))
+ },
+
+ subApis:{
+  getpartnerList:()=>httpClient.get(API_END_POINTS.subApis.getpartnerList),
  }
 
 

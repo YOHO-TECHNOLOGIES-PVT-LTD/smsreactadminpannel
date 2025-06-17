@@ -1,31 +1,78 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { GetPartnerList } from "../../features/CommonService";
+import { updatePendingRequest } from "../../pages/Bookings/service";
 
+type pendingService = {
+  _id: string;
+  requestId: string;
+  uuid: string;
+  requestType: string;
+  customerId: {
+    contact_info: {
+      state: string;
+      city: string;
+      address1: string;
+      address2: string;
+      phoneNumber: string;
+    }
+    vehicleInfo: {
+      registerNumber: string;
+      model: string;
+    }
+    firstName: string;
+    lastName: string;
+  }
+  service: [
+    {
+      _id: string;
+      service_name: string;
+      uuid: string;
+    }
+  ]
+  createdAt: string;
+}
 interface CompactServiceCardProps {
-  request: any;
-  onAssign?: (requestId: number, partner: string) => void;
+  request: pendingService;
+  onAssign?: (requestId: string, partner: string) => void;
 }
 
 const CompactServiceCard: React.FC<CompactServiceCardProps> = ({ request, onAssign }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedPartner, setSelectedPartner] = useState("");
+  const [partnerList, setpartnerList] = useState<any[]>([]);
 
-  const handleAssign = () => {
+  const handleAssign = async() => {
+  
     if (!selectedPartner) {
       toast.error("Please select a partner.");
       return;
     }
     toast.success(`Assigned to ${selectedPartner}`);
-    
+    const data = { uuid: request.uuid }
+    await updatePendingRequest(selectedPartner,data)
+
     // Call the onAssign callback if provided
     if (onAssign) {
-      onAssign(request.id, selectedPartner);
+      onAssign(request.uuid, selectedPartner);
     }
     
     setIsModalOpen(false);
     setSelectedPartner("");
   };
+   
+  async function fetchpartner() {
+      const data = await GetPartnerList()
+      console.log(data.data)
+      setpartnerList(data.data)
+    }
+   
+  async function setOpenModel() {
+    fetchpartner()
+    setIsModalOpen(true)
+  }
 
   return (
     <>
@@ -33,19 +80,19 @@ const CompactServiceCard: React.FC<CompactServiceCardProps> = ({ request, onAssi
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center space-x-3">
             <div className="w-10 h-10 bg-[#9b111e] rounded-lg flex items-center justify-center text-white font-bold text-base">
-              {request.user.name.charAt(0)}
+              {request.customerId.firstName.charAt(0)}
             </div>
             <div>
-              <h3 className="font-bold text-gray-900 text-base">{request.user.name}</h3>
+              <h3 className="font-bold text-gray-900 text-base">{ request.customerId.firstName + ' ' + request.customerId.lastName || "cusotmer name" }</h3>
               <p className="text-sm text-gray-500 font-medium">
-                #{request.id.toString().padStart(4, "0")}
+                #{request.requestId}
               </p>
             </div>
           </div>
           <div className="text-sm text-gray-600 font-medium text-right leading-tight">
-            <p>{new Date(request.date).toLocaleDateString()}</p>
+            <p>{request.createdAt.split('T')[0]}</p>
             <p className="text-xs text-gray-500">
-              {new Date(request.date).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
+              {new Date(request.createdAt).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
             </p>
           </div>
         </div>
@@ -60,9 +107,9 @@ const CompactServiceCard: React.FC<CompactServiceCardProps> = ({ request, onAssi
               </svg>
               <p className="text-sm font-semibold text-gray-700">Vehicle</p>
             </div>
-            <p className="font-semibold text-gray-900 text-sm">{request.car.model}</p>
-            <p className="font-semibold text-gray-900 text-sm">{request.car.year}</p>
-            <p className="font-mono text-black rounded mt-1 text-sm font-medium">{request.car.number}</p>
+            <p className="font-semibold text-gray-900 text-sm">{request.customerId.vehicleInfo.model || "vehicle model"}</p>
+            <p className="font-semibold text-gray-900 text-sm">{"2025"}</p>
+            <p className="font-mono text-black rounded mt-1 text-sm font-medium">{request.customerId.vehicleInfo.registerNumber}</p>
           </div>
           <div>
             <div className="flex items-center mb-2">
@@ -71,7 +118,7 @@ const CompactServiceCard: React.FC<CompactServiceCardProps> = ({ request, onAssi
               </svg>
               <p className="text-sm font-semibold text-gray-700">Contact</p>
             </div>
-            <p className="font-semibold text-gray-900 text-sm">{request.user.phone}</p>
+            <p className="font-semibold text-gray-900 text-sm">{request.customerId.contact_info.phoneNumber}</p>
             <div className="flex items-center mt-1">
               <svg className="w-3 h-3 text-gray-500 mr-1" fill="currentColor" viewBox="0 0 20 20">
                 <path
@@ -80,7 +127,10 @@ const CompactServiceCard: React.FC<CompactServiceCardProps> = ({ request, onAssi
                   clipRule="evenodd"
                 />
               </svg>
-              <p className="text-gray-600 truncate text-sm">{request.user.address}</p>
+              <p className="text-gray-600 truncate text-sm">{request.customerId.contact_info.address1+' '+
+                  request.customerId.contact_info.address2+' '+ request.customerId.contact_info.city+' '+
+                  request.customerId.contact_info.state
+                }</p>
             </div>
           </div>
         </div>
@@ -96,18 +146,18 @@ const CompactServiceCard: React.FC<CompactServiceCardProps> = ({ request, onAssi
               />
             </svg>
             <p className="text-sm font-semibold text-gray-700">
-              Services ({request.services.length})
+              Services ({request.service.length})
             </p>
           </div>
           <div className="flex flex-wrap gap-1">
-            {request.services.slice(0, 3).map((service: string, index: number) => (
+            {request.service.slice(0, 3).map((service: any, index: number) => (
               <span key={index} className="bg-[#9b111e] text-white px-2 py-1 rounded text-sm font-medium">
-                {service}
+                {service.service_name}
               </span>
             ))}
-            {request.services.length > 3 && (
+            {request.service.length > 3 && (
               <span className="bg-gray-200 text-gray-600 px-2 py-1 rounded text-sm font-medium">
-                +{request.services.length - 3} more
+                +{request.service.length - 3} more
               </span>
             )}
           </div>
@@ -116,7 +166,7 @@ const CompactServiceCard: React.FC<CompactServiceCardProps> = ({ request, onAssi
 
         <div className="flex justify-end">
           <button
-            onClick={() => setIsModalOpen(true)}
+            onClick={setOpenModel}
             className="bg-[#9b111e] text-white px-3 py-2 rounded text-md font-medium"
           >
             Partner
@@ -140,31 +190,33 @@ const CompactServiceCard: React.FC<CompactServiceCardProps> = ({ request, onAssi
             <div className="bg-white shadow-md rounded-xl p-5 grid grid-cols-2 gap-4 mb-6 border">
               <div>
                 <p className="text-sm text-gray-500 font-medium">Customer:</p>
-                <p className="font-semibold text-gray-800">{request.user.name}</p>
+                <p className="font-semibold text-gray-800">{request.customerId.firstName+' '+request.customerId.lastName}</p>
               </div>
               <div>
                 <p className="text-sm text-gray-500 font-medium">Mobile:</p>
-                <p className="font-semibold text-gray-800">{request.user.phone}</p>
+                <p className="font-semibold text-gray-800">{request.customerId.contact_info.phoneNumber}</p>
               </div>
               <div>
                 <p className="text-sm text-gray-500 font-medium">Car No:</p>
-                <p className="font-semibold text-gray-800">{request.car.number}</p>
+                <p className="font-semibold text-gray-800">{request.customerId.vehicleInfo.registerNumber}</p>
               </div>
               <div>
                 <p className="text-sm text-gray-500 font-medium">Vehicle:</p>
-                <p className="font-semibold text-gray-800">{request.car.model}</p>
+                <p className="font-semibold text-gray-800">{request.customerId.vehicleInfo.model}</p>
               </div>
               <div>
                 <p className="text-sm text-gray-500 font-medium">Issues:</p>
                 <ul className="list-disc list-inside text-sm text-gray-800 space-y-1">
-                  {request.services.map((service: string, index: number) => (
-                    <li key={index} className="font-medium">{service}</li>
+                  {request.service.map((service: any, index: number) => (
+                    <li key={index} className="font-medium">{service.service_name}</li>
                   ))}
                 </ul>
               </div>
               <div>
                 <p className="text-sm text-gray-500 font-medium">Address:</p>
-                <p className="font-semibold text-gray-800">{request.user.address}</p>
+                <p className="font-semibold text-gray-800">{request.customerId.contact_info.address1 + ' ' +
+                  request.customerId.contact_info.address2 + ' ' + request.customerId.contact_info.city + ' ' +
+                  request.customerId.contact_info.state}</p>
               </div>
             </div>
 
@@ -176,9 +228,13 @@ const CompactServiceCard: React.FC<CompactServiceCardProps> = ({ request, onAssi
                 className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm"
               >
                 <option value="">-- Choose a partner --</option>
-                <option value="Furious Services co">Furious Services co</option>
-                <option value="Donald spares & services">Donald spares & services</option>
-                <option value="kar spa services">kar spa services</option>
+                {
+                  partnerList.map((items,index)=>{
+                    return <option key={index} value={items._id}>{items?.id+" "+items.firstName+' '+items.lastName+"-"+items.contact_info.city}</option>
+                  })
+                }
+                {/* <option value="Donald spares & services">Donald spares & services</option>
+                <option value="kar spa services">kar spa services</option> */}
               </select>
             </div>
 
