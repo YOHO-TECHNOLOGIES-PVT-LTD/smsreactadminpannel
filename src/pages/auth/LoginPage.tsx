@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
 import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
@@ -19,7 +20,12 @@ const LoginPage = () => {
 		register,
 		handleSubmit,
 		formState: { errors },
-	} = useForm<LoginData>();
+	} = useForm<LoginData>({
+		defaultValues:{
+			email:"admin@gmail.com",
+			password:"Admin@123"
+		}
+	});
 	const [showPassword, setShowPassword] = useState<boolean>(false);
 	//const navigate = useNavigate();
 	const { login } = useAuth();

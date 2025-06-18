@@ -2,8 +2,8 @@
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { GetPartnerList } from "../../features/CommonService";
 import { updatePendingRequest } from "../../pages/Bookings/service";
+import { FetchPartnerList } from "../../utils/CommonApiFetch";
 
 type pendingService = {
   _id: string;
@@ -63,14 +63,9 @@ const CompactServiceCard: React.FC<CompactServiceCardProps> = ({ request, onAssi
     setSelectedPartner("");
   };
    
-  async function fetchpartner() {
-      const data = await GetPartnerList()
-      console.log(data.data)
-      setpartnerList(data.data)
-    }
-   
   async function setOpenModel() {
-    fetchpartner()
+    const data:any = await FetchPartnerList()
+    setpartnerList(data)
     setIsModalOpen(true)
   }
 
