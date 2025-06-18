@@ -188,7 +188,7 @@ export default function ScheduleRequestPage() {
               <div className="flex-1 space-y-1">
                 <h3 className="text-lg font-bold text-[#9b111e]" style={{...FONTS.cardSubHeader}}>{req.customerId.firstName+' '+ req.customerId.lastName}</h3>
                 <p className="text-sm !text-gray-700" style={{...FONTS.paragraph}}>
-                  <span className="font-medium">📞</span> {req.customerId.contact_info.phoneNuber}
+                  <span className="font-medium">📞</span> {req.customerId.contact_info.phoneNumber}
                 </p>
                 <p className="text-sm !text-gray-600" style={{...FONTS.paragraph}}>
                   <span className="font-medium">🚘</span> {req.customerId.vehicleInfo.model} • {req.customerId.vehicleInfo.registerNumber}
@@ -242,11 +242,11 @@ export default function ScheduleRequestPage() {
             </p>
             <p className="!text-gray-800 text-lg" style={{...FONTS.cardSubHeader}}>
               <span className="" style={{...FONTS.cardSubHeader}}>Mobile:</span>{" "}
-              {selectedRequest.customerId.contact_info.phoneNuber}
+              {selectedRequest.customerId.contact_info.phoneNumber}
             </p>
             <p className="!text-gray-800 text-lg" style={{...FONTS.cardSubHeader}}>
               <span className="" style={{...FONTS.cardSubHeader}}>Car No:</span>{" "}
-              {selectedRequest.customerId.contact_info.phoneNuber}
+              {selectedRequest.customerId.vehicleInfo.registerNumber}
             </p>
             <p className="!text-gray-800 text-lg" style={{...FONTS.cardSubHeader}}>
               <span className="" style={{...FONTS.cardSubHeader}}>Vehicle:</span>{" "}

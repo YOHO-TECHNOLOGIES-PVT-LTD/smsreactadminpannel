@@ -10,7 +10,7 @@ export interface ScheduleRequest{
             city:string;
             address1:string;
             address2:string;
-            phoneNuber:string;
+            phoneNumber:string;
         },
         vehicleInfo:{
             registerNumber:string;
@@ -40,7 +40,7 @@ export interface assignedScheduleRequest {
             city: string;
             address1: string;
             address2: string;
-            phoneNuber: string;
+            phoneNumber: string;
         },
         vehicleInfo: {
             registerNumber: string;
