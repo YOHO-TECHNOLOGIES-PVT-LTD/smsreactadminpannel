@@ -1,72 +1,57 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FONTS } from "../../constants/uiConstants";
+import {GetUnassignedScheduleReq, UpdateScheduleReq } from "./Service";
+import { ScheduleRequest } from "./scheduleType";
+import { FetchPartnerList } from "../../utils/CommonApiFetch";
+// interface Request {
+//   id: string;
+//   customerName: string;
+//   mobile: string;
+//   carNumber: string;
+//   vehicle: string;
+//   issue: string;
+//   address: string;
+//   city: string;
+//   priorityDate: string;
+//   status: string;
+//   assignedPartner?: string;
+//   partnerName?: string;
+// }
 
-interface Request {
-  id: string;
-  customerName: string;
-  mobile: string;
-  carNumber: string;
-  vehicle: string;
-  issue: string;
-  address: string;
-  city: string;
-  priorityDate: string;
-  status: string;
-  assignedPartner?: string;
-  partnerName?: string;
-}
-
-interface Partner {
-  id: string;
-  name: string;
-  city: string;
-  expertise: string;
+interface partner {
+  _id: string;
+  firstName: string;
+  lastName: string;
+  contact_info:{
+    city: string;
+  }
 }
 
 export default function ScheduleRequestPage() {
   const navigate = useNavigate();
-  const [requests, setRequests] = useState<Request[]>([]);
-  const [partners, setPartners] = useState<Partner[]>([]);
-  const [selectedRequest, setSelectedRequest] = useState<Request | null>(null);
+  const [requests, setRequests] = useState<ScheduleRequest[]>([]);
+  const [partners, setPartners] = useState<partner[]>([]);
+  const [selectedRequest, setSelectedRequest] = useState<ScheduleRequest | null>(null);
   const [selectedPartnerId, setSelectedPartnerId] = useState<string>("");
   const [open, setOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState<string>("");
 
+
+  async function fetchassigned() {
+    const data = await GetUnassignedScheduleReq()
+    setRequests(data.data)
+    console.log(data)
+  }
+
   useEffect(() => {
-    const names = ["Arjun", "Priya", "Karthik", "Sneha", "Ravi", "Divya", "Vikram", "Anjali", "Surya", "Meena"];
-    const cities = ["Chennai", "Mumbai", "Delhi", "Bangalore", "Hyderabad"];
-    const vehicles = ["Honda Civic", "Swift", "Innova", "Creta", "Verna"];
-    const issues = ["Brake issue", "Battery", "Oil leak", "AC problem", "Suspension"];
-    const addresses = ["123 Main Rd", "45A Gandhi St", "88 Patel Nagar", "12 MG Road", "9th Cross Street"];
-    // const statuses:string[] = ["Pending", "Scheduled"];
-
-    const mockRequests: Request[] = Array.from({ length: 20 }, (_, i) => ({
-      id: `${i + 1}`,
-      customerName: names[i % names.length],
-      mobile: `98765${10000 + i}`,
-      carNumber: `TN0${i % 5 + 1} AB ${1000 + i}`,
-      vehicle: vehicles[i % vehicles.length],
-      issue: issues[i % issues.length],
-      address: addresses[i % addresses.length],
-      city: cities[i % cities.length],
-      priorityDate: `2025-06-${(i % 30 + 1).toString().padStart(2, '0')}`,
-      status: "Pending", // Only show pending requests here
-    }));
-
-    const mockPartners: Partner[] = Array.from({ length: 10 }, (_, i) => ({
-      id: `${100 + i + 1}`,
-      name: `Garage ${i + 1}`,
-      city: cities[i % cities.length],
-      expertise: ["Brakes", "Electrical", "Engine", "AC", "General"][i % 5],
-    }));
-
-    setRequests(mockRequests);
-    setPartners(mockPartners);
+    fetchassigned()
   }, []);
 
-  const openModal = (request: Request) => {
+  const openModal = async(request: ScheduleRequest) => {
     setSelectedRequest(request);
+    const data = await FetchPartnerList()
+    setPartners(data)
     setOpen(true);
   };
 
@@ -76,39 +61,45 @@ export default function ScheduleRequestPage() {
     setSelectedRequest(null);
   };
 
-  const assignPartner = () => {
+  const assignPartner = async() => {
     if (!selectedRequest || !selectedPartnerId) return;
     
-    const selectedPartner = partners.find(p => p.id === selectedPartnerId);
+    const selectedPartner = partners.find(p => p._id === selectedPartnerId);
     
     // Update the request status to "Scheduled"
     const updatedRequest = {
       ...selectedRequest,
       status: "Scheduled",
       assignedPartner: selectedPartnerId,
-      partnerName: selectedPartner?.name || "Unknown Partner"
+      partnerName: selectedPartner?.firstName || "Unknown Partner"
     };
 
+    const data = {
+      partnerId:selectedPartnerId
+    }
+
+    await UpdateScheduleReq(data,selectedRequest._id)
+
     // Remove from current requests
-    setRequests(prev => prev.filter(req => req.id !== selectedRequest.id));
+    setRequests(prev => prev.filter(req => req._id !== selectedRequest._id));
 
     // Add to scheduled requests in localStorage
     const existingScheduled = JSON.parse(localStorage.getItem('scheduledRequests') || '[]');
     const updatedScheduled = [...existingScheduled, updatedRequest];
     localStorage.setItem('scheduledRequests', JSON.stringify(updatedScheduled));
 
-    alert(`Successfully assigned ${selectedPartner?.name} to ${selectedRequest.customerName}'s request!`);
+    alert(`Successfully assigned ${selectedPartner?.firstName} to ${selectedRequest.customerId.firstName}'s request!`);
     closeModal();
   };
 
-  const filteredPartners = selectedRequest
-    ? partners.filter((p) => p.city === selectedRequest.city)
-    : [];
+  // const filteredPartners = selectedRequest
+  //   ? partners.filter((p) => p.city === selectedRequest.customerId.contact_info.city)
+  //   : [];
 
   // Filter requests based on search term
-  const filteredRequests = requests.filter((req) =>
-    req.customerName.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  // const filteredRequests = requests.filter((req) =>
+  //   req && req.customerId.firstName.toLowerCase().includes(searchTerm.toLowerCase())
+  // );
 
   return (
     <div className="bg-[#FAF3EB] min-h-screen p-8">
@@ -164,7 +155,7 @@ export default function ScheduleRequestPage() {
       
       <hr className="border-1 border-red-700 my-5" />
 
-      {filteredRequests.length === 0 ? (
+      {requests.length == 0 ? (
         <div className="text-center py-12">
           <div className="text-6xl mb-4">🔍</div>
           <h3 className="text-xl font-semibold text-gray-600 mb-2" style={{...FONTS.cardSubHeader}}>
@@ -176,15 +167,15 @@ export default function ScheduleRequestPage() {
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredRequests.map((req) => (
+          {requests.map((req,index) => (
           <div
-            key={req.id}
+            key={index}
             className="relative group bg-white rounded-xl border border-gray-200 shadow-md hover:shadow-2xl hover:border-[#9b111e] transition-all duration-300 cursor-pointer overflow-hidden"
             onClick={() => openModal(req)}
           >
             {/* Status Ribbon */}
             <div className="absolute top-0 right-0 bg-[#9b111e] !text-white text-xs font-bold px-3 py-1 rounded-bl-xl z-10" style={{...FONTS.paragraph}}>
-              {req.status}
+              pending
             </div>
 
             <div className="flex gap-4 p-6">
@@ -195,19 +186,19 @@ export default function ScheduleRequestPage() {
 
               {/* Details */}
               <div className="flex-1 space-y-1">
-                <h3 className="text-lg font-bold text-[#9b111e]" style={{...FONTS.cardSubHeader}}>{req.customerName}</h3>
+                <h3 className="text-lg font-bold text-[#9b111e]" style={{...FONTS.cardSubHeader}}>{req.customerId.firstName+' '+ req.customerId.lastName}</h3>
                 <p className="text-sm !text-gray-700" style={{...FONTS.paragraph}}>
-                  <span className="font-medium">📞</span> {req.mobile}
+                  <span className="font-medium">📞</span> {req.customerId.contact_info.phoneNumber}
                 </p>
                 <p className="text-sm !text-gray-600" style={{...FONTS.paragraph}}>
-                  <span className="font-medium">🚘</span> {req.vehicle} • {req.carNumber}
+                  <span className="font-medium">🚘</span> {req.customerId.vehicleInfo.model} • {req.customerId.vehicleInfo.registerNumber}
                 </p>
                 <p className="text-sm !text-gray-600 truncate" style={{...FONTS.paragraph}}>
-                  <span className="font-medium">🛠</span> {req.issue}
+                  <span className="font-medium">🛠</span> general service
                 </p>
                 <div className="flex justify-between text-sm !text-gray-600 mt-1" style={{...FONTS.paragraph}}>
-                  <span>📍 {req.city}</span>
-                  <span>🗓 {req.priorityDate}</span>
+                  <span>📍 {req.customerId.contact_info.city}</span>
+                  <span>🗓 {req.schedule_date.split('T')[0]}</span>
                 </div>
               </div>
             </div>
@@ -247,35 +238,35 @@ export default function ScheduleRequestPage() {
 
             <p className="!text-gray-800 text-[14px]" style={{...FONTS.cardSubHeader}}>
               <span className="" style={{...FONTS.cardSubHeader}}>Customer:</span>{" "}
-              {selectedRequest.customerName}
+              {selectedRequest.customerId.firstName+' '+selectedRequest.customerId.lastName}
             </p>
             <p className="!text-gray-800 text-lg" style={{...FONTS.cardSubHeader}}>
               <span className="" style={{...FONTS.cardSubHeader}}>Mobile:</span>{" "}
-              {selectedRequest.mobile}
+              {selectedRequest.customerId.contact_info.phoneNumber}
             </p>
             <p className="!text-gray-800 text-lg" style={{...FONTS.cardSubHeader}}>
               <span className="" style={{...FONTS.cardSubHeader}}>Car No:</span>{" "}
-              {selectedRequest.carNumber}
+              {selectedRequest.customerId.vehicleInfo.registerNumber}
             </p>
             <p className="!text-gray-800 text-lg" style={{...FONTS.cardSubHeader}}>
               <span className="" style={{...FONTS.cardSubHeader}}>Vehicle:</span>{" "}
-              {selectedRequest.vehicle}
+              {selectedRequest.customerId.vehicleInfo.model}
             </p>
             <p className="!text-gray-800 text-lg" style={{...FONTS.cardSubHeader}}>
               <span className="" style={{...FONTS.cardSubHeader}}>Issue:</span>{" "}
-              {selectedRequest.issue}
+              general service
             </p>
             <p className="!text-gray-800 text-lg" style={{...FONTS.cardSubHeader}}>
               <span className="" style={{...FONTS.cardSubHeader}}>Address:</span>{" "}
-              {selectedRequest.address}
+              {selectedRequest.customerId.contact_info.address1+' '+selectedRequest.customerId.contact_info.address2}
             </p>
             <p className="!text-gray-800 text-lg" style={{...FONTS.cardSubHeader}}>
               <span className="" style={{...FONTS.cardSubHeader}}>City:</span>{" "}
-              {selectedRequest.city}
+              {selectedRequest.customerId.contact_info.city}
             </p>
             <p className="!text-gray-800 text-lg" style={{...FONTS.cardSubHeader}}>
               <span className="" style={{...FONTS.cardSubHeader}}>Priority Date:</span>{" "}
-              {selectedRequest.priorityDate}
+              {selectedRequest.schedule_date}
             </p>
           </div>
 
@@ -291,9 +282,9 @@ export default function ScheduleRequestPage() {
               style={{...FONTS.paragraph}}
             >
               <option value="">-- Choose a partner --</option>
-              {filteredPartners.map((partner) => (
-                <option className="!text-gray-800" key={partner.id} value={partner.id} style={{...FONTS.paragraph}}>
-                  {partner.name} ({partner.expertise})
+              {partners.map((partner,index) => (
+                <option className="!text-gray-800" key={index} value={partner._id} style={{...FONTS.paragraph}}>
+                  {partner.firstName+' '+partner.lastName} ({partner.contact_info.city})
                 </option>
               ))}
             </select>

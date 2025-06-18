@@ -129,6 +129,12 @@ export const API_END_POINTS ={
    
     subApis:{
       getpartnerList:'/api/admin/fetch/partner-list/all',
-    }
+    },
+
+    scheduleReq:{
+      getAssignedAll:'/api/admin/schedulerequest/assigned',
+      getUnassignedAll:'/api/admin/schedulerequest/unassigned',
+      updateReq:'/api/admin/schedulerequest/assign/:id',
+    },
 
 }

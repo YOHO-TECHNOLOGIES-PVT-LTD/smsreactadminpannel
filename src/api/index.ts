@@ -141,7 +141,13 @@ enquiry:{
 
  subApis:{
   getpartnerList:()=>httpClient.get(API_END_POINTS.subApis.getpartnerList),
- }
+ },
+
+ scheduleReq:{
+  getAssignedAll:()=>httpClient.get(API_END_POINTS.scheduleReq.getAssignedAll),
+  getUnassignedAll:()=>httpClient.get(API_END_POINTS.scheduleReq.getUnassignedAll),
+  updateReq:(data:any,params:string)=>httpClient.update(API_END_POINTS.scheduleReq.updateReq.replace(':id',params),data)
+ },
 
 
 }

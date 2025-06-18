@@ -1,63 +1,41 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FONTS } from "../../constants/uiConstants";
+import { GetAssignedScheduleReq } from "./Service";
+import { assignedScheduleRequest } from "./scheduleType";
 
-interface Request {
-  id: string;
-  customerName: string;
-  mobile: string;
-  carNumber: string;
-  vehicle: string;
-  issue: string;
-  address: string;
-  city: string;
-  priorityDate: string;
-  status: string;
-  assignedPartner?: string;
-  partnerName?: string;
-}
+// interface Request {
+//   id: string;
+//   customerName: string;
+//   mobile: string;
+//   carNumber: string;
+//   vehicle: string;
+//   issue: string;
+//   address: string;
+//   city: string;
+//   priorityDate: string;
+//   status: string;
+//   assignedPartner?: string;
+//   partnerName?: string;
+// }
 
 export default function ScheduledRequestsPage() {
   const navigate = useNavigate();
-  const [scheduledRequests, setScheduledRequests] = useState<Request[]>([]);
+  const [scheduledRequests, setScheduledRequests] = useState<assignedScheduleRequest[]>([]);
   const [searchTerm, setSearchTerm] = useState<string>("");
-  const [selectedRequest, setSelectedRequest] = useState<Request | null>(null);
+  const [selectedRequest, setSelectedRequest] = useState<assignedScheduleRequest| null>(null);
   const [open, setOpen] = useState(false);
 
+  async function fetchedData() {
+    const data = await GetAssignedScheduleReq()
+    setScheduledRequests(data.data)
+  }
+
   useEffect(() => {
-    // Get scheduled requests from localStorage or API
-    const storedRequests = localStorage.getItem('scheduledRequests');
-    if (storedRequests) {
-      setScheduledRequests(JSON.parse(storedRequests));
-    } else {
-      // Mock scheduled requests for demo
-      const names = ["Arjun", "Priya", "Karthik", "Sneha", "Ravi", "Divya", "Vikram", "Anjali", "Surya", "Meena"];
-      const cities = ["Chennai", "Mumbai", "Delhi", "Bangalore", "Hyderabad"];
-      const vehicles = ["Honda Civic", "Swift", "Innova", "Creta", "Verna"];
-      const issues = ["Brake issue", "Battery", "Oil leak", "AC problem", "Suspension"];
-      const addresses = ["123 Main Rd", "45A Gandhi St", "88 Patel Nagar", "12 MG Road", "9th Cross Street"];
-      const partnerNames = ["Garage 1", "Garage 2", "Garage 3", "Garage 4", "Garage 5"];
-
-      const mockScheduledRequests: Request[] = Array.from({ length: 8 }, (_, i) => ({
-        id: `${i + 21}`,
-        customerName: names[i % names.length],
-        mobile: `98765${20000 + i}`,
-        carNumber: `TN0${i % 5 + 1} CD ${2000 + i}`,
-        vehicle: vehicles[i % vehicles.length],
-        issue: issues[i % issues.length],
-        address: addresses[i % addresses.length],
-        city: cities[i % cities.length],
-        priorityDate: `2025-06-${(i % 30 + 1).toString().padStart(2, '0')}`,
-        status: "Scheduled",
-        assignedPartner: `${100 + i + 1}`,
-        partnerName: partnerNames[i % partnerNames.length],
-      }));
-
-      setScheduledRequests(mockScheduledRequests);
-    }
+    fetchedData()
   }, []);
 
-  const openModal = (request: Request) => {
+  const openModal = (request: assignedScheduleRequest) => {
     setSelectedRequest(request);
     setOpen(true);
   };
@@ -67,10 +45,10 @@ export default function ScheduledRequestsPage() {
     setSelectedRequest(null);
   };
 
-  // Filter requests based on search term
-  const filteredRequests = scheduledRequests.filter((req) =>
-    req.customerName.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  // // Filter requests based on search term
+  // const filteredRequests = scheduledRequests.filter((req) =>
+  //   req.customerName.toLowerCase().includes(searchTerm.toLowerCase())
+  // );
 
   return (
     <div className="bg-[#FAF3EB] min-h-screen p-8">
@@ -129,7 +107,7 @@ export default function ScheduledRequestsPage() {
       
       <hr className="border-1 border-green-600 my-5" />
 
-      {filteredRequests.length === 0 ? (
+      {scheduledRequests.length === 0 ? (
         <div className="text-center py-16">
           <div className="text-8xl mb-6">📅</div>
           <h3 className="text-2xl font-bold text-gray-700 mb-4" style={{...FONTS.cardSubHeader}}>
@@ -158,15 +136,15 @@ export default function ScheduledRequestsPage() {
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredRequests.map((req) => (
+          {scheduledRequests.map((req) => (
             <div
-              key={req.id}
+              key={req._id}
               className="relative group bg-white rounded-xl border border-gray-200 shadow-md hover:shadow-2xl hover:border-[#9b111e] transition-all duration-300 cursor-pointer overflow-hidden"
               onClick={() => openModal(req)}
             >
               {/* Status Ribbon */}
               <div className="absolute top-0 right-0 bg-green-600 !text-white text-xs font-bold px-3 py-1 rounded-bl-xl z-10" style={{...FONTS.paragraph}}>
-                {req.status}
+                {"pending"}
               </div>
 
               <div className="flex gap-4 p-6">
@@ -178,23 +156,23 @@ export default function ScheduledRequestsPage() {
                 {/* Details */}
                 <div className="flex-1 space-y-1">
                   <h3 className="text-lg font-bold text-[#9b111e]" style={{...FONTS.cardSubHeader}}>
-                    {req.customerName}
+                    {req.customerId.firstName+' '+req.customerId.lastName}
                   </h3>
                   <p className="text-sm !text-gray-700" style={{...FONTS.paragraph}}>
-                    <span className="font-medium">📞</span> {req.mobile}
+                    <span className="font-medium">📞</span> {req.customerId.contact_info.phoneNumber}
                   </p>
                   <p className="text-sm !text-gray-600" style={{...FONTS.paragraph}}>
-                    <span className="font-medium">🚘</span> {req.vehicle} • {req.carNumber}
+                    <span className="font-medium">🚘</span> {req.customerId.vehicleInfo.model} • {req.customerId.vehicleInfo.registerNumber}
                   </p>
                   <p className="text-sm !text-gray-600 truncate" style={{...FONTS.paragraph}}>
-                    <span className="font-medium">🛠</span> {req.issue}
+                    <span className="font-medium">🛠</span> "genral service"
                   </p>
                   <p className="text-sm !text-green-600 font-medium" style={{...FONTS.paragraph}}>
-                    <span className="font-medium">🏪</span> {req.partnerName}
+                    <span className="font-medium">🏪</span> {req.partnerId.firstName+' '+req.partnerId.lastName}
                   </p>
                   <div className="flex justify-between text-sm !text-gray-600 mt-1" style={{...FONTS.paragraph}}>
-                    <span>📍 {req.city}</span>
-                    <span>🗓 {req.priorityDate}</span>
+                    <span>📍 {req.customerId.contact_info.city}</span>
+                    <span>🗓 {req.schedule_date.split("T")[0]}</span>
                   </div>
                 </div>
               </div>
@@ -234,43 +212,43 @@ export default function ScheduledRequestsPage() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4 bg-white p-6 rounded-2xl border border-gray-200 shadow-lg">
                   <p className="!text-gray-800 text-[14px]" style={{...FONTS.cardSubHeader}}>
                     <span className="" style={{...FONTS.cardSubHeader}}>Customer:</span>{" "}
-                    {selectedRequest.customerName}
+                    {selectedRequest.customerId.firstName+' '+selectedRequest.customerId.lastName}
                   </p>
                   <p className="!text-gray-800 text-lg" style={{...FONTS.cardSubHeader}}>
                     <span className="" style={{...FONTS.cardSubHeader}}>Mobile:</span>{" "}
-                    {selectedRequest.mobile}
+                    {selectedRequest.customerId.contact_info.phoneNumber}
                   </p>
                   <p className="!text-gray-800 text-lg" style={{...FONTS.cardSubHeader}}>
                     <span className="" style={{...FONTS.cardSubHeader}}>Car No:</span>{" "}
-                    {selectedRequest.carNumber}
+                    {selectedRequest.customerId.vehicleInfo.registerNumber}
                   </p>
                   <p className="!text-gray-800 text-lg" style={{...FONTS.cardSubHeader}}>
                     <span className="" style={{...FONTS.cardSubHeader}}>Vehicle:</span>{" "}
-                    {selectedRequest.vehicle}
+                    {selectedRequest.customerId.vehicleInfo.model}
                   </p>
                   <p className="!text-gray-800 text-lg" style={{...FONTS.cardSubHeader}}>
                     <span className="" style={{...FONTS.cardSubHeader}}>Issue:</span>{" "}
-                    {selectedRequest.issue}
+                    "general service"
                   </p>
                   <p className="!text-gray-800 text-lg" style={{...FONTS.cardSubHeader}}>
                     <span className="" style={{...FONTS.cardSubHeader}}>Address:</span>{" "}
-                    {selectedRequest.address}
+                    {selectedRequest.customerId.contact_info.address1+' '+selectedRequest.customerId.contact_info.address2}
                   </p>
                   <p className="!text-gray-800 text-lg" style={{...FONTS.cardSubHeader}}>
                     <span className="" style={{...FONTS.cardSubHeader}}>City:</span>{" "}
-                    {selectedRequest.city}
+                    {selectedRequest.customerId.contact_info.city}
                   </p>
                   <p className="!text-gray-800 text-lg" style={{...FONTS.cardSubHeader}}>
                     <span className="" style={{...FONTS.cardSubHeader}}>Priority Date:</span>{" "}
-                    {selectedRequest.priorityDate}
+                    {selectedRequest.schedule_date.split('T')[0]}
                   </p>
                   <p className="!text-green-600 text-lg font-semibold" style={{...FONTS.cardSubHeader}}>
                     <span className="" style={{...FONTS.cardSubHeader}}>Assigned Partner:</span>{" "}
-                    {selectedRequest.partnerName}
+                    {selectedRequest.partnerId.firstName+' '+selectedRequest.partnerId.lastName}
                   </p>
                   <p className="!text-green-600 text-lg" style={{...FONTS.cardSubHeader}}>
                     <span className="" style={{...FONTS.cardSubHeader}}>Status:</span>{" "}
-                    {selectedRequest.status}
+                    "pending"
                   </p>
                 </div>
 
