@@ -75,10 +75,19 @@ export const Sidebar = () => {
           <SidebarLink
             to="/bookings"
             icon={<AiOutlineCalendar />}
-            label="Bookings"
+            label="Request Queue"
             isOpen={isOpen}
             onClick={handleLinkClick}
           />
+
+          <SidebarLink
+            to="/request-queue/schedule"
+            icon={<RiCalendarScheduleLine />}
+            label="Schedule Queue"
+            isOpen={isOpen}
+            onClick={handleLinkClick}
+          />
+          
           <SidebarLink
             to="/order"
             icon={<FiShoppingCart />}
@@ -100,13 +109,7 @@ export const Sidebar = () => {
             isOpen={isOpen}
             onClick={handleLinkClick}
           />
-          <SidebarLink
-            to="/request-queue/schedule"
-            icon={<RiCalendarScheduleLine />}
-            label="Request Queue"
-            isOpen={isOpen}
-            onClick={handleLinkClick}
-          />
+         
 
           <SidebarLink
             to="/city"
