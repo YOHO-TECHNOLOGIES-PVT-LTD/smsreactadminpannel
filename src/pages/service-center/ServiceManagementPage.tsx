@@ -25,7 +25,7 @@ const handleBack = () => {
 
   const [Partner, setPartner] = useState<any[]>([]);
 
-  console.log(partnerId)
+  console.log(partnerId,"partner",partner)
 
   useEffect(() => {
       const getPartner = async() => {
@@ -70,7 +70,6 @@ const handleBack = () => {
     }
     getSparepart()
   },[]);
-  
     
 
 
@@ -79,10 +78,10 @@ const handleBack = () => {
     <div className=" min-h-screen">
       <div className="">
         {activeStep === 0 && (
-          <ServiceCenterListPage partner={Partner} onView={() => setActiveStep(1)} setpartner={()=>setpartner} handleBack={handleBack}/>
+          <ServiceCenterListPage partner={Partner} onView={() => setActiveStep(1)} setpartner={setpartner} handleBack={handleBack}/>
         )}
         {activeStep === 1 && (
-          <ServiceCenterProfileView partner={Partner[partner]} onSpareParts={() => setActiveStep(3)}  setpartnerId={setpartnerId} onServices={() => setActiveStep(2)} />
+          <ServiceCenterProfileView partner={Partner[partner]} onSpareParts={() => setActiveStep(3)} handleBack={handleBack}  setpartnerId={setpartnerId} onServices={() => setActiveStep(2)} />
         )}
         {activeStep === 2 && (
           <ServicesList partnerId={partnerId} onSpareParts={() => setActiveStep(3)} Services={Services}  handleBack={handleBack}/>

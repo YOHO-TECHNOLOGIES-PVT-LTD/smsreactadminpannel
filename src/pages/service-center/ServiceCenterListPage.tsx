@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import type React from "react"
 
 import { useState, useRef } from "react"
@@ -68,6 +69,7 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
 
   function changeData(index: number) {
     onView(1)
+    console.log(index,"partner")
     setpartner(index)
   }
 
@@ -138,8 +140,8 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
 
       alert("Partner registered successfully!")
       // You might want to refresh the partner list here
-    } catch (error: any) {
-      alert("Registration failed!")
+    } catch (error:any) {
+      console.log("Registration failed!",error.message)
     }
   }
 
@@ -245,7 +247,7 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
                   </div>
 
                   <div className="flex gap-2 mt-2 sm:mt-0">
-                    {selectedCardIndex !== index && (
+                    {/* {selectedCardIndex !== index && ( */}
                       <button
                         onClick={() => changeData(index)}
                         className="!text-white px-4 py-2 rounded-md transition duration-200 flex items-center gap-1.5 text-sm"
@@ -255,7 +257,7 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
                       >
                         <BsEye size={16} /> View
                       </button>
-                    )}
+                    {/* )} */}
                   </div>
                 </div>
 

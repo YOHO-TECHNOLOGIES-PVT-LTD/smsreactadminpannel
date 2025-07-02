@@ -23,6 +23,7 @@ type ServiceCenterProfileProps = {
   onServices: () => void
   setpartnerId: (id: string) => void
   partner: any
+  handleBack:()=>void
 }
 
 const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({
@@ -30,7 +31,12 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({
   partner,
   onSpareParts,
   setpartnerId,
+  handleBack
 }) => {
+
+
+  console.log(partner,"partner")
+
   const [isActive, setIsActive] = useState(true)
   const [showConfirm, setShowConfirm] = useState(false)
   const [pendingStatus, setPendingStatus] = useState<boolean | null>(null)
@@ -42,7 +48,7 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({
 
   // Original values for comparison
   const [originalValues, setOriginalValues] = useState({
-    editCompanyName: partner?.companyName || "yes mechanic",
+    editCompanyName: partner.firstName + " "+ partner.lastName || "yes mechanic",
     editEstablished: "2005",
     editBranches: "35",
     editEvCertified: "Yes",
@@ -103,7 +109,7 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({
   }
   const navigate = useNavigate();
   const handleRoute = ()=>{
-     navigate("/service/profile")
+     navigate(-1)
   }
 
   const handleToggle = () => {
@@ -211,7 +217,7 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({
       {/* Header Section */}
       <div className="flex items-center justify-between mb-6">
         <button
-          onClick={handleRoute}
+          onClick={handleBack}
           className="flex items-center gap-2 text-[#9b111e] hover:text-[#800000] transition-colors"
         >
           <MdOutlineKeyboardBackspace className="text-2xl" />
