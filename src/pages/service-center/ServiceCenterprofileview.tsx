@@ -15,7 +15,7 @@ import { CheckCircle, AlertCircle } from "lucide-react"
 import { Settings } from "lucide-react";
 import Client from "../../api"
 import { FONTS } from "../../constants/uiConstants"
-import {  useNavigate } from "react-router-dom";
+// import {  useNavigate } from "react-router-dom";
 
 
 type ServiceCenterProfileProps = {
@@ -107,10 +107,10 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({
       (key) => originalValues[key as keyof typeof originalValues] !== currentValues[key as keyof typeof currentValues],
     )
   }
-  const navigate = useNavigate();
-  const handleRoute = ()=>{
-     navigate(-1)
-  }
+  // const navigate = useNavigate();
+  // const handleRoute = ()=>{
+  //    navigate(-1)
+  // }
 
   const handleToggle = () => {
     setPendingStatus(!isActive)
