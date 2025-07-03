@@ -109,7 +109,7 @@ const VehicleDetailCard: FC<Props> = ({ vehicle, onViewDetails }) => {
       >
         <button
           onClick={() => onViewDetails(vehicle)}
-          className="!bg-[#9b111e] !text-white  font-semibold py-2 px-3 rounded-full transition-all duration-300 shadow-md flex items-center gap-2 hover:!bg-opacity-90"
+          className="!bg-[#9b111e] !text-white  font-semibold py-2 px-3 rounded-3xl transition-all duration-300 shadow-md flex items-center gap-2 hover:!bg-opacity-90"
           style={{...FONTS.subParagraph}}
         >
           <FaEye className="text-sm" /> View Details

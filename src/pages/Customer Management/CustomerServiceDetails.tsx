@@ -334,7 +334,7 @@ const CustomerServiceDetails = () => {
                 exit={{ opacity: 0 }}
                 type="text"
                 placeholder="Search by vehicle, service, or number..."
-                className="w-full p-2 pl-3 pr-8 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 shadow-sm"
+                className="w-full p-2 pl-3 pr-8 border border-gray-300 rounded-3xl focus:outline-none focus:ring-2 focus:ring-amber-500 shadow-sm"
                 value={searchTerm}
                 onChange={(e) => {
                   setSearchTerm(e.target.value);
@@ -406,7 +406,7 @@ const CustomerServiceDetails = () => {
                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                       <button
                         onClick={() => handleViewClick(product)}
-                        className="text-[#9b111e] hover:text-white bg-[#fdefe9] hover:bg-[#9b111e] px-3 py-1.5 rounded-lg transition-colors duration-200"
+                        className="rounded-3xl text-[#9b111e] hover:text-white bg-[#fdefe9] hover:bg-[#9b111e] px-3 py-1.5 rounded-lg transition-colors duration-200"
                       >
                         Details
                       </button>
@@ -436,14 +436,14 @@ const CustomerServiceDetails = () => {
               <button
                 onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
                 disabled={currentPage === 1}
-                className="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50"
+                className="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-3xl text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50"
               >
                 Previous
               </button>
               <button
                 onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
                 disabled={currentPage === totalPages}
-                className="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50"
+                className="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-3xl text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50"
               >
                 Next
               </button>
@@ -461,7 +461,7 @@ const CustomerServiceDetails = () => {
                   <button
                     onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
                     disabled={currentPage === 1}
-                    className="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:opacity-50"
+                    className="relative inline-flex items-center px-2 py-2 rounded-3xl border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:opacity-50"
                   >
                     <span className="sr-only">Previous</span>
                     <FiChevronLeft className="h-5 w-5" aria-hidden="true" />
@@ -470,7 +470,7 @@ const CustomerServiceDetails = () => {
                     <button
                       key={page}
                       onClick={() => setCurrentPage(page)}
-                      className={`relative inline-flex items-center px-4 py-2 border text-sm font-medium ${
+                      className={`relative inline-flex rounded-3xl items-center px-4 py-2 border text-sm font-medium ${
                         currentPage === page
                           ? 'z-10 bg-[#9b111e] border-[#9b111e] text-[#ffffff]'
                           : '  text-[#9b111e] hover:bg-[#9b111e] hover:text-white'
@@ -482,7 +482,7 @@ const CustomerServiceDetails = () => {
                   <button
                     onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
                     disabled={currentPage === totalPages}
-                    className="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:opacity-50"
+                    className="relative inline-flex items-center px-2 py-2 rounded-3xl border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:opacity-50"
                   >
                     <span className="sr-only">Next</span>
                     <FiChevronRight className="h-5 w-5" aria-hidden="true" />
@@ -505,14 +505,14 @@ const CustomerServiceDetails = () => {
             >
               <div className="p-6">
                 <div className="flex justify-between items-start mb-4">
-                  <img src={selectedService.modalImg} alt="Service" className="w-1/4 rounded-lg"/>
+                  <img src={selectedService.modalImg} alt="Service" className="w-1/4 rounded-3xl"/>
                   <div className="flex-1 pl-4">
                     <h3 className="text-2xl font-bold text-gray-800">{selectedService.name}</h3>
                     <p className="text-sm text-gray-500 mt-1">Order ID: {selectedService.orderID}</p>
                   </div>
                   <button
                     onClick={closeModal}
-                    className="text-gray-500 hover:text-gray-700"
+                    className="text-gray-500 hover:text-gray-700 rounded-3xl"
                   >
                     <FiX size={24} />
                   </button>

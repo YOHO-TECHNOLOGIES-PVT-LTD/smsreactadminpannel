@@ -4,6 +4,11 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { updatePendingRequest } from "../../pages/Bookings/service";
 import { FetchPartnerList } from "../../utils/CommonApiFetch";
+import vehicleimg from "../../assets/Vehicle1.svg"
+import contactimg from "../../assets/Phone Number.svg"
+import location from "../../assets/Location.svg"
+import service from "../../assets/Service (1).svg"
+
 
 type pendingService = {
   _id: string;
@@ -95,11 +100,8 @@ const CompactServiceCard: React.FC<CompactServiceCardProps> = ({ request, onAssi
         
         <div className="grid grid-cols-2 gap-3 mb-3">
           <div>
-            <div className="flex items-center mb-2">
-              <svg className="w-4 h-4 text-[#9b111e] mr-2" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M8 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM15 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z" />
-                <path d="M3 4a1 1 0 00-1 1v10a1 1 0 001 1h1.05a2.5 2.5 0 014.9 0H10a1 1 0 001-1V5a1 1 0 00-1-1H3zM14 7a1 1 0 00-1 1v6.05A2.5 2.5 0 0115.95 16H17a1 1 0 001-1V8a1 1 0 00-1-1h-3z" />
-              </svg>
+            <div className="flex items-center mb-2 gap-2">
+            <img className="w-5 h-5"src={vehicleimg} alt="" />
               <p className="text-sm font-semibold text-gray-700">Vehicle</p>
             </div>
             <p className="font-semibold text-gray-900 text-sm">{request.customerId.vehicleInfo.model || "vehicle model"}</p>
@@ -108,20 +110,12 @@ const CompactServiceCard: React.FC<CompactServiceCardProps> = ({ request, onAssi
           </div>
           <div>
             <div className="flex items-center mb-2">
-              <svg className="w-4 h-4 text-[#9b111e] mr-2" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
-              </svg>
+              <img className="w-5 h-5" src={contactimg} alt="" />
               <p className="text-sm font-semibold text-gray-700">Contact</p>
             </div>
             <p className="font-semibold text-gray-900 text-sm">{request.customerId.contact_info.phoneNumber}</p>
-            <div className="flex items-center mt-1">
-              <svg className="w-3 h-3 text-gray-500 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                <path
-                  fillRule="evenodd"
-                  d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
-                  clipRule="evenodd"
-                />
-              </svg>
+            <div className="flex items-center mt-1 gap-2">
+              <img className="w-5 h-5" src={location} alt="" />
               <p className="text-gray-600 truncate text-sm">{request.customerId.contact_info.address1+' '+
                   request.customerId.contact_info.address2+' '+ request.customerId.contact_info.city+' '+
                   request.customerId.contact_info.state
@@ -132,14 +126,8 @@ const CompactServiceCard: React.FC<CompactServiceCardProps> = ({ request, onAssi
 
 
         <div className="mb-3">
-          <div className="flex items-center mb-2">
-            <svg className="w-4 h-4 text-[#9b111e] mr-2" fill="currentColor" viewBox="0 0 20 20">
-              <path
-                fillRule="evenodd"
-                d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z"
-                clipRule="evenodd"
-              />
-            </svg>
+          <div className="flex items-center mb-2 gap-2`">
+           <img className="w-5 h-5" src={service} alt="" />
             <p className="text-sm font-semibold text-gray-700">
               Services ({request.service.length})
             </p>
@@ -162,7 +150,7 @@ const CompactServiceCard: React.FC<CompactServiceCardProps> = ({ request, onAssi
         <div className="flex justify-end">
           <button
             onClick={setOpenModel}
-            className="bg-[#9b111e] text-white px-3 py-2 rounded text-md font-medium"
+            className="bg-[#9b111e] text-white px-3 py-2 rounded-3xl text-md font-medium"
           >
             Partner
           </button>
@@ -175,7 +163,7 @@ const CompactServiceCard: React.FC<CompactServiceCardProps> = ({ request, onAssi
           <div className="ml-auto w-1/2 h-full bg-[#fef3f2] shadow-xl z-50 p-6 overflow-y-auto animate-slide-in relative rounded-l-xl border-l-4 border-[#9b111e]">
             <button
               onClick={() => setIsModalOpen(false)}
-              className="absolute top-4 right-6 text-gray-600 text-xl font-bold hover:text-gray-800"
+              className="absolute top-4 right-6 text-gray-600 text-xl font-bold hover:text-gray-800 rounded-3xl"
             >
               &times;
             </button>
@@ -236,14 +224,14 @@ const CompactServiceCard: React.FC<CompactServiceCardProps> = ({ request, onAssi
             <div className="flex justify-end gap-3">
               <button
                 onClick={() => setIsModalOpen(false)}
-                className="bg-gray-200 text-gray-700 px-4 py-2 rounded-md font-medium hover:bg-gray-300"
+                className="bg-gray-200 text-gray-700 px-4 py-2  font-medium hover:bg-gray-300 rounded-3xl"
               >
                 Cancel
               </button>
               <button
                 onClick={handleAssign}
                 disabled={!selectedPartner}
-                className="bg-[#9b111e] text-white px-4 py-2 rounded-md font-medium hover:bg-[#7e0e19] disabled:opacity-50"
+                className="bg-[#9b111e] text-white px-4 py-2 rounded-3xl font-medium hover:bg-[#7e0e19] disabled:opacity-50"
               >
                 Assign Partner
               </button>

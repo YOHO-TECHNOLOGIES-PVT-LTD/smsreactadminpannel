@@ -138,7 +138,7 @@ const SosDetails: React.FC = () => {
         <Link to="/sos" className="mr-4 text-[#9b111e] hover:text-red-800">
           <FaArrowLeft className="text-3xl" />
         </Link>
-        <h1 className="text-[#9b111e] text-5xl font-bold" style={{...FONTS.header}}>SOS Details</h1>
+        <h1 className="text-[#9b111e] text-5xl font-bold" style={{...FONTS.cardheader}}>SOS Details</h1>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="bg-white rounded-xl shadow-md overflow-hidden flex justify-center items-center">
@@ -179,7 +179,7 @@ const SosDetails: React.FC = () => {
         <div className='flex flex-row w-full gap-5'>
 
           <div className="bg-white rounded-xl xl:pl-10 w-6/12 shadow-md p-5">
-            <h2 className="text-[#9b111e] !font-bold text-2xl mb-4" style={{...FONTS.cardheader}}>Personal Details</h2>
+            <h2 className="text-[#9b111e] !font-bold text-2xl mb-4" style={{...FONTS.header}}>Personal Details</h2>
             <div className="flex items-center  mt-5">
               <FaUser className="text-[#9b111e] lg:text-md  xl:text-2xl mr-3" />
               <div className="xl:text-lg lg:text-md !text-gray-900 !font-semibold" style={{...FONTS.cardSubHeader}}>{postedDetails.name}</div>
@@ -212,7 +212,7 @@ const SosDetails: React.FC = () => {
             <div className="flex gap-4 mt-10">
               {
                 postedDetails.type === "Own" && <button
-                  className={`px-4 py-2 ml-5 rounded font-semibold border ${"Own" === "Own"
+                  className={`px-4 py-2 ml-5 rounded-3xl font-semibold border ${"Own" === "Own"
                     ? "bg-[#9b111e] text-white"
                     : "bg-white text-[#9b111e] border-[#9b111e]"
                     }`}
@@ -222,7 +222,7 @@ const SosDetails: React.FC = () => {
               }
               {
                 postedDetails.type === "Other" && <button
-                  className={`px-4 py-2 ml-5 rounded font-semibold border ${"Other" === "Other"
+                  className={`px-4 py-2 ml-5 rounded-3xl font-semibold border ${"Other" === "Other"
                     ? "bg-[#9b111e] text-white"
                     : "bg-white text-[#9b111e] border-[#9b111e]"
                     }`}

@@ -53,6 +53,10 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({
     editEstablished: "2005",
     editBranches: "35",
     editEvCertified: "Yes",
+    editAadharNumber: partner.aadhar,
+    editRegNo: partner.RegNo || '',
+    editPanCard: partner.PanCard,
+    editGstNo: partner.GSTNo,
     editPhone: partner?.contact_info?.phoneNumber || "",
     editEmail: partner?.email || "",
     editWebsite: "www.autonova.com",
@@ -219,7 +223,7 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({
       <div className="flex items-center justify-between mb-6">
         <button
           onClick={handleBack}
-          className="flex items-center gap-2 text-[#9b111e] hover:text-[#800000] transition-colors"
+          className="flex items-center gap-2 text-[#9b111e] hover:text-[#800000] transition-colors rounded-3xl"
         >
           <MdOutlineKeyboardBackspace className="text-2xl" />
           <span className="font-medium">Back</span>
@@ -243,7 +247,7 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({
           <button
           style={{...FONTS.paragraph}}
             onClick={onSpareParts}
-            className="flex items-center gap-2 bg-white !text-[#9b111e] px-5 py-2 rounded-lg font-medium hover:bg-gray-100 transition-colors shadow-sm"
+            className="flex items-center gap-2 bg-white !text-[#9b111e] px-5 py-2 rounded-3xl font-medium hover:bg-gray-100 transition-colors shadow-sm"
           >
             <Settings className="w-4 h-4" />
             <span>Spare Parts</span>
@@ -251,7 +255,7 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({
           <button
             style={{...FONTS.paragraph}}
             onClick={() => onChangeCat(partner._id)}
-            className="flex items-center gap-2 bg-white !text-[#9b111e] px-5 py-2 rounded-lg font-medium hover:bg-gray-100 transition-colors shadow-sm"
+            className="flex items-center gap-2 bg-white !text-[#9b111e] px-5 py-2 rounded-3xl font-medium hover:bg-gray-100 transition-colors shadow-sm"
           >
             <span>View Services</span>
             <FaArrowRight size={16} />
@@ -287,30 +291,30 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({
                   label="Company Name"
                   value={editCompanyName}
                 />
-                <InfoItem
+                {/* <InfoItem
                   icon={<SlCalender className="text-[#9b111e]" />}
-                  label="Established"
-                  value={editEstablished}
-                />
-                <InfoItem icon={<FaCodeBranch className="text-[#9b111e]" />} label="Branches" value={editBranches} />
-                <InfoItem
+                  label="AadharCard No"
+                  value={editAadharNumber}
+                /> */}
+                
+                {/* <InfoItem
                   icon={<AiFillSafetyCertificate className="text-[#9b111e]" />}
-                  label="EV Certified"
-                  value={editEvCertified}
-                />
+                  label="GST No"
+                  value={editGstNo}
+                /> */}
               </div>
               <div className="space-y-5">
                 <InfoItem icon={<LuPhoneCall className="text-[#9b111e]" />} label="Phone" value={editPhone} />
                 <InfoItem icon={<MdEmail className="text-[#9b111e]" />} label="Email" value={editEmail} />
-                <InfoItem icon={<CgWebsite className="text-[#9b111e]" />} label="Website" value={editWebsite} />
+                {/* <InfoItem icon={<CgWebsite className="text-[#9b111e]" />} label="Pan No" value={editPanCard} /> */}
                 <InfoItem icon={<FaRegAddressCard className="text-[#9b111e]" />} label="Address" value={editAddress} />
               </div>
               <div className="space-y-5">
-                <InfoItem
+                {/* <InfoItem
                   icon={<FcDataEncryption className="text-[#9b111e]" />}
-                  label="Data Encrypted"
-                  value={editDataEncrypted}
-                />
+                  label="Reg No"
+                  value={} 
+                /> */}
                 <InfoItem
                   icon={<MdVerified className="text-[#9b111e]" />}
                   label="Verified Center"
@@ -352,14 +356,14 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({
             <button
               style={{...FONTS.paragraph}}
               onClick={() => setShowEditForm(true)}
-              className="flex items-center justify-center gap-2 bg-[#9b111e] !text-white px-6 py-2 rounded-lg font-medium hover:bg-[#800000] transition-colors"
+              className="flex items-center justify-center gap-2 bg-[#9b111e] !text-white px-6 py-2 rounded-3xl font-medium hover:bg-[#800000] transition-colors"
             >
               <FaEdit /> Edit Profile
             </button>
             <button
               style={{...FONTS.paragraph}}
               onClick={() => setShowDeleteConfirm(true)}
-              className="flex items-center justify-center gap-2 bg-white text-red-600 border border-red-600 px-6 py-2 rounded-lg font-medium hover:bg-red-50 transition-colors"
+              className="flex items-center justify-center gap-2 bg-white text-red-600 border border-red-600 px-6 py-2 rounded-3xl font-medium hover:bg-red-50 transition-colors"
             >
               <FaTrash /> Delete Center
             </button>
@@ -397,14 +401,14 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
           <form
             onSubmit={handleEditSubmit}
-            className="bg-white rounded-xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto"
+            className="bg-white rounded-3xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto"
           >
             <div className="sticky top-0 bg-white p-6 border-b border-gray-200 flex justify-between items-center">
               <h2 className="text-2xl font-bold text-[#9b111e]">Edit Profile Information</h2>
               <button
                 type="button"
                 onClick={() => setShowEditForm(false)}
-                className="text-gray-500 hover:text-gray-700 transition-colors"
+                className="text-gray-500 hover:text-gray-700 transition-colors rounded-3xl"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -561,13 +565,13 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({
               <button
                 type="button"
                 onClick={() => setShowEditForm(false)}
-                className="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors"
+                className="px-6 py-2 border border-gray-300 rounded-3xl text-gray-700 hover:bg-gray-50 transition-colors"
               >
                 Cancel
               </button>
               <button
                 type="submit"
-                className="px-6 py-2 bg-[#9b111e] text-white rounded-lg hover:bg-[#800000] transition-colors flex items-center gap-2"
+                className="px-6 py-2 bg-[#9b111e] text-white rounded-3xl hover:bg-[#800000] transition-colors flex items-center gap-2"
               >
                 <FaEdit /> Save Changes
               </button>
@@ -681,11 +685,11 @@ const ConfirmationModal = ({
         <div className="flex justify-end gap-3">
           <button
             onClick={onCancel}
-            className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors"
+            className="px-4 py-2 border border-gray-300 rounded-3xl text-gray-700 hover:bg-gray-50 transition-colors"
           >
             Cancel
           </button>
-          <button onClick={onConfirm} className={`px-4 py-2 text-white rounded-lg transition-colors ${confirmColor}`}>
+          <button onClick={onConfirm} className={`px-4 py-2 text-white rounded-3xl transition-colors ${confirmColor}`}>
             {confirmText}
           </button>
         </div>

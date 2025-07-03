@@ -92,7 +92,7 @@ const Partner = () => {
             <div className="mt-4 text-right">
               <button
                 onClick={handleShare}
-                className="text-sm px-3 py-1 bg-[#9b111e] text-white rounded-full hover:bg-red-700 transition"
+                className="text-sm px-3 py-1 bg-[#9b111e] text-white rounded-3xl hover:bg-red-700 transition"
               >
                 Share
               </button>
@@ -118,7 +118,7 @@ const Partner = () => {
           <div className="bg-white p-6 rounded-lg w-full max-w-lg relative">
             <button
               onClick={() => setShowFormModal(false)}
-              className="absolute top-2 right-2 text-gray-500 text-2xl font-bold hover:text-black"
+              className="absolute top-2 right-2 text-gray-500 text-2xl font-bold hover:text-black rounded-3xl"
             >
               &times;
             </button>
@@ -160,13 +160,13 @@ const Partner = () => {
                     resetForm();
                     setShowFormModal(false);
                   }}
-                  className="px-4 py-2 border border-gray-400 rounded hover:bg-gray-100"
+                  className="px-4 py-2 border border-gray-400 rounded-3xl hover:bg-gray-100"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 bg-[#9b111e] text-white rounded hover:bg-[#7c0d18]"
+                  className="px-4 py-2 bg-[#9b111e] text-white rounded-3xl hover:bg-[#7c0d18]"
                 >
                   Submit
                 </button>

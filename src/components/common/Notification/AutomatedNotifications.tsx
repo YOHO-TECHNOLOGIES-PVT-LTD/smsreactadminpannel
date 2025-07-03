@@ -172,7 +172,7 @@ const NotificationTable: React.FC = () => {
             <button
               onClick={goToPrevPage}
               disabled={currentPage === 1}
-              className="px-4 py-2 bg-[#9b111e] text-white rounded hover:bg-blue-500 disabled:opacity-50"
+              className="px-4 py-2 bg-[#9b111e] text-white rounded-3xl hover:bg-blue-500 disabled:opacity-50"
             >
               Previous
             </button>
@@ -182,7 +182,7 @@ const NotificationTable: React.FC = () => {
             <button
               onClick={goToNextPage}
               disabled={currentPage === totalPages}
-              className="px-4 py-2 bg-[#9b111e] text-white rounded hover:bg-blue-500 disabled:opacity-50"
+              className="px-4 py-2 bg-[#9b111e] text-white rounded-3xl hover:bg-blue-500 disabled:opacity-50"
             >
               Next
             </button>

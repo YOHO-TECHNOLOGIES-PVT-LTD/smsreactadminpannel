@@ -15,6 +15,7 @@
 	"dependencies": {
 		"@emotion/react": "^11.14.0",
 		"@emotion/styled": "^11.14.0",
+		"@fontsource/poppins": "^5.2.6",
 		"@headlessui/react": "^2.2.4",
 		"@heroicons/react": "^2.2.0",
 		"@hookform/resolvers": "^5.0.1",
@@ -56,10 +57,9 @@
 		"vanilla-calendar-pro": "^3.0.4",
 		"yup": "^1.6.1"
 	},
-	
-		"optionalDependencies": {
-	"@rollup/rollup-linux-x64-gnu": "^4.13.0",
-	"@swc/core-linux-x64-gnu": "^1.4.0"
+	"optionalDependencies": {
+		"@rollup/rollup-linux-x64-gnu": "^4.13.0",
+		"@swc/core-linux-x64-gnu": "^1.4.0"
 	},
 	"devDependencies": {
 		"@eslint/js": "^9.25.0",

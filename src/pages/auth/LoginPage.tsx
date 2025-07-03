@@ -207,7 +207,7 @@ const LoginPage = () => {
 							<button
 								type='submit'
 								disabled={isLoading}
-								className={`w-full text-white font-semibold py-2 rounded-full transition duration-300 flex items-center justify-center ${
+								className={`w-full text-white font-semibold py-2 rounded-3xl transition duration-300 flex items-center justify-center ${
 									isLoading 
 										? 'opacity-75 cursor-not-allowed' 
 										: 'hover:brightness-110'

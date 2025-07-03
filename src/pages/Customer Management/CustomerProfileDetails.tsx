@@ -30,7 +30,7 @@ const CustomerProfileDetails: React.FC<handle> = ({ handleBack}) => {
     <div className="flex flex-col md:flex-row min-h-screen">
       {/* Profile Section - Left Side */}
       <div className="w-full md:w-2/3 lg:w-1/4 p-2 relative">
-        <div className="bg-white border border-gray-200 rounded-lg shadow-xl overflow-hidden hover:shadow-2xl transition-shadow duration-500 h-full">
+        <div className="bg-white border border-gray-200 rounded-3xl shadow-xl overflow-hidden hover:shadow-2xl transition-shadow duration-500 h-full">
           {/* Back Button - Top Left Corner */}
           <motion.button
             className="absolute top-3 left-3 z-10 p-2 hover:bg-gray-100 transition"

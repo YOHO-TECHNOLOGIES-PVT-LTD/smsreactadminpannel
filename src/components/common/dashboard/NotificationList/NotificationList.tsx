@@ -137,13 +137,13 @@ const getFilteredData = () => {
           <div className="relative " ref={dropdownRef}>
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="flex items-center text-xs text-[#9b111e] border px-3 py-1.5 rounded-md bg-white hover:bg-gray-50"
+              className="flex items-center text-xs text-[#9b111e] border px-3 py-1.5 rounded-3xl bg-white hover:bg-gray-50"
             >
               <span className="mr-2">{selectedRange}</span>
               <ChevronDown className="w-4 h-4 text-[#9b111e]" />
             </button>
             {isOpen && (
-              <div className="absolute right-0 mt-2 bg-white text-[#9b111e] border rounded-md shadow-lg z-10 min-w-[100px]">
+              <div className="absolute right-0 mt-2 bg-white text-[#9b111e] border rounded-3xl shadow-lg z-10 min-w-[100px]">
                 {dateRanges.map((period) => (
                   <button
                     key={period}
@@ -182,7 +182,7 @@ const getFilteredData = () => {
           </defs>
 
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="label" />
+          <XAxis dataKey="label" style={{...FONTS.paragraph}}/>
           <YAxis tickFormatter={(value) => `${(value / 1000).toFixed(0)}k`} />
           <Tooltip formatter={(value) => `${value.toLocaleString()}`} />
           <Legend />

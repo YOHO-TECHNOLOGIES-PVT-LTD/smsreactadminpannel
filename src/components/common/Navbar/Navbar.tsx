@@ -252,9 +252,9 @@ export const Navbar = () => {
                 <div className="p-3 bg-gray-50 text-center border-t">
                   <button
                     onClick={handleViewAllNotifications}
-                    className="!text-red-600 hover:!text-red-800  !transition-colors"
+                    className="!text-red-600 hover:!text-red-800 rounded-3xl  !transition-colors"
                     style={{
-                      fontFamily: FONTS.cardSubHeader.fontFamily,
+                      fontFamily: FONTS.cardSubHeader.fontfamily,
                       fontWeight: FONTS.cardSubHeader.fontWeight,
                       fontSize: FONTS.cardSubHeader.fontSize,
                     }}
@@ -312,7 +312,7 @@ export const Navbar = () => {
             </div>
 
             {isDropdownOpen && (
-              <div className="absolute right-0 mt-2 w-24 rounded-md shadow-lg z-50 bg-gradient-to-br from-yellow-50 to-yellow-100">
+              <div className="absolute right-0 mt-2 w-24 rounded-3xl shadow-lg z-50 bg-gradient-to-br from-yellow-50 to-yellow-100">
                 <ul className="py-1 text-sm text-[#9b111e]">
                   <li>
                     <button
@@ -320,7 +320,7 @@ export const Navbar = () => {
                         setShowProfileDetails(true);
                         setIsDropdownOpen(false);
                       }}
-                      className="block w-full text-center px-4 py-1 transition-colors duration-200 hover:text-white hover:bg-[#d14c4c]"
+                      className="block w-full text-center px-4 py-1 rounded-3xl transition-colors duration-200 hover:text-white hover:bg-[#d14c4c]"
                     >
                       Profile
                     </button>
@@ -331,7 +331,7 @@ export const Navbar = () => {
                         setShowLogoutConfirm(true);
                         setIsDropdownOpen(false);
                       }}
-                      className="block w-full text-center px-4 py-1 transition-colors duration-200 hover:text-white hover:bg-[#d14c4c]"
+                      className="block w-full text-center px-4 py-1 rounded-3xl transition-colors duration-200 hover:text-white hover:bg-[#d14c4c]"
                     >
                       Logout
                     </button>
@@ -361,7 +361,7 @@ export const Navbar = () => {
             <div className="flex justify-center gap-4 mt-4">
               <button
                 onClick={() => setShowLogoutConfirm(false)}
-                className="px-4 py-2 rounded bg-gray-200 hover:bg-gray-300 text-gray-800"
+                className="px-4 py-2 rounded-3xl bg-gray-200 hover:bg-gray-300 text-gray-800"
               >
                 Cancel
               </button>
@@ -375,7 +375,7 @@ export const Navbar = () => {
                     handleLogout();
                   }, 1000);
                 }}
-                className="px-4 py-2 rounded bg-red-600 text-white hover:bg-red-700"
+                className="px-4 py-2 rounded-3xl bg-red-600 text-white hover:bg-red-700"
               >
                 OK
               </button>

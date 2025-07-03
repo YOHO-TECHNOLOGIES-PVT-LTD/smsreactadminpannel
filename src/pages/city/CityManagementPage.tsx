@@ -13,25 +13,21 @@ export const CityManagementPage: React.FC = () => {
     <div className=" min-h-screen p-2">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-y-2 mb-4 border-b-2 border-orange-700 pb-4">
         <h1
-          className="font-bold text-3xl pt-2 pl-0"
+          className="!font-bold text-3xl pt-2 pl-0"
          // style={{ color: "#9b111e" }}
 style={{...FONTS.header,fontWeight: 500 }}        >
           City Management
         </h1>
 
         <div className="flex items-center gap-x-2 ml-auto">
-          <button
-            className="flex items-center gap-2 font-bold px-4 py-2 rounded-lg text-white transition duration-200 active:scale-105 hover:bg-[#a00000]"
-            style={{
-              background:
-                "linear-gradient(44.99deg,#700808 11%,#d23c3c 102.34%)",
-            }}
-           // style={{...FONTS.paragraph}}
-            onClick={() => setIsAddModalOpen(true)}
-          >
-            <IoIosAddCircleOutline className="mt-0" />
-            Add
-          </button>
+         <button
+  className="flex items-center gap-2 font-bold px-4 py-2 rounded-3xl text-white transition duration-200 active:scale-105 bg-[#a00000] hover:bg-[#700808]"
+  onClick={() => setIsAddModalOpen(true)}
+>
+  <IoIosAddCircleOutline className="mt-0" />
+  Add
+</button>
+
         </div>
       </div>
 

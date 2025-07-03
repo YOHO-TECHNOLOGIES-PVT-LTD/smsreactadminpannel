@@ -69,7 +69,7 @@ const Announcement = () => {
           <button
             key={tab}
             onClick={() => setActiveTab(tab as 'offer' | 'announcement' | 'partner')}
-            className={`px-4 py-2 rounded-full font-semibold transition ${
+            className={`px-4 py-2 rounded-3xl font-semibold transition ${
               activeTab === tab
                 ? 'bg-[#9b111e] text-white'
                 : 'bg-white text-[#9b111e] border border-[#9b111e]'
@@ -99,7 +99,7 @@ const Announcement = () => {
 
       {showModal && (
         <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex justify-center items-center">
-          <div className="bg-white p-6 rounded-lg w-full max-w-lg relative">
+          <div className="bg-white p-6 rounded-3xl w-full max-w-lg relative">
             <button
               onClick={() => setShowModal(false)}
               className="absolute top-2 right-2 text-gray-500 text-2xl font-bold hover:text-black"
@@ -146,13 +146,13 @@ const Announcement = () => {
                     resetForm();
                     setShowModal(false);
                   }}
-                  className="px-4 py-2 border border-gray-400 rounded hover:bg-gray-100"
+                  className="px-4 py-2 border border-gray-400 rounded-3xl hover:bg-gray-100"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 bg-[#9b111e] text-white rounded hover:bg-[#7c0d18]"
+                  className="px-4 py-2 bg-[#9b111e] text-white rounded-3xl hover:bg-[#7c0d18]"
                 >
                   Submit
                 </button>

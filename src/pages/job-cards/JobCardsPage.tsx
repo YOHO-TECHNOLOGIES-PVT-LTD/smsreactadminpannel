@@ -67,7 +67,7 @@ export const JobCardsPage: React.FC = () => {
 				<div className='border-b-2 border-[#9b111e] pb-2 mb-4'>
 					<h1
 						style={{ ...FONTS.header, fontWeight: 500 }}
-						className='font-bold text-[#9b111e] '
+						className='!font-bold text-[#9b111e] '
             
 					>
 						JOB CARDS
@@ -178,13 +178,14 @@ export const JobCardsPage: React.FC = () => {
                       </span>
                     </td>
                     <td className="px-4 py-3 border-b font-semibold">
-                      <button
-                        onClick={() => navigate(`/quotation/${invoice.uuid}`)}
-                        className="bg-gradient-to-r from-red-600 to-red-800 !text-white px-3 py-1 active:scale-110 rounded hover:bg-[#a00000] transition"
-                     style={{...FONTS.cardSubHeader}}
-                     >
-                        View
-                      </button>
+                     <button
+  onClick={() => navigate(`/quotation/${invoice.uuid}`)}
+  className="bg-[#a00000] !text-white px-3 py-1 active:scale-110 rounded-3xl hover:bg-[#800000] transition"
+  style={{ ...FONTS.cardSubHeader }}
+>
+  View
+</button>
+
                     </td>
                   </tr>
                 ))
