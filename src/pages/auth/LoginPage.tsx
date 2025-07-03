@@ -213,8 +213,8 @@ const LoginPage = () => {
 										: 'hover:brightness-110'
 								}`}
 								style={{
-									backgroundImage:
-										'linear-gradient(44.99deg, #700808 11%, #d23c3c 102.34%)',
+									backgroundColor:'#9b111e'
+									,
 								}}
 							>
 								{isLoading ? (

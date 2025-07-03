@@ -14,8 +14,8 @@ import {
 } from "react-icons/fi";
 // import Logo from "../../../assets/LOGO.jpg";
 import { RiCalendarScheduleLine } from "react-icons/ri";
-import Logo from "../../../assets/YES MECHANIC LOGO .png";
-import MiniLogo from "../../../assets/Toggle-Logo.jpg";
+import mainLogo from '../../../assets/Admin logo.png'
+import MiniLogo from "../../../assets/Admin Logo (1).png";
 import { RiMenu2Line, RiMenu3Line } from "react-icons/ri";
 import { Megaphone } from "lucide-react";
 import { MdHelpOutline } from "react-icons/md";
@@ -79,7 +79,7 @@ export const Sidebar = () => {
           }`}
         >
           <img
-            src={isOpen ? Logo : MiniLogo}
+            src={isOpen ? mainLogo : MiniLogo}
             alt="YES Mechanic Logo"
             className="object-contain h-[48px] transition-all duration-300"
           />

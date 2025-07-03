@@ -142,7 +142,7 @@ const VehicleManagementPage = () => {
             })
           ) : (
             <div
-              className="flex flex-col items-center justify-center h-[56.7vh] w-full overflow-y-hidden"
+              className="flex flex-col items-center justify-center h-[54.7vh] w-full overflow-y-hidden"
               style={{ position: "relative", left: "350px" }}
             >
               <img
