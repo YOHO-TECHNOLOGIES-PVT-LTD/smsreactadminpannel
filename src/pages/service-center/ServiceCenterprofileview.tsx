@@ -55,9 +55,9 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({
     editBranches: "35",
     editEvCertified: "Yes",
     editAadharNumber: partner.aadhar || 'Nan',
-    editRegNo: partner.RegNo || 'Nan',
-    editPanCard: partner.PanCard || 'Nan',
-    editGstNo: partner.GSTNo || 'Nan',
+    editRegNo: partner.regNo || 'Nan',
+    editPanCard: partner.pan || 'Nan',
+    editGstNo: partner.gstNo || 'Nan',
     editPhone: partner?.contact_info?.phoneNumber || "",
     editEmail: partner?.email || "Nan",
     editWebsite: "www.autonova.com",
@@ -73,6 +73,10 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({
   })
 
   // Current edit values
+  const [editAadharNumber, setEditAadharNumber] = useState(originalValues.editAadharNumber)
+  const [editPanCard, setEditPanCard] = useState(originalValues.editPanCard)
+  const [editGstNo, setEditGstNo] = useState(originalValues.editGstNo)
+  const [editRegNo, setEditRegNo] = useState(originalValues.editRegNo)
   const [editCompanyName, setEditCompanyName] = useState(originalValues.editCompanyName)
   const [editEstablished, setEditEstablished] = useState(originalValues.editEstablished)
   const [editBranches, setEditBranches] = useState(originalValues.editBranches)
@@ -439,11 +443,11 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({
                       value={editCompanyName}
                       onChange={setEditCompanyName}
                     />
-                    <EnhancedEditField
+                    {/* <EnhancedEditField
                       icon={<SlCalender className="text-[#9b111e]" />}
-                      label="Established"
-                      value={editEstablished}
-                      onChange={setEditEstablished}
+                      label="Aadhar No"
+                      value={originalValues.editAadharNumber}
+                      onChange={se}
                     />
                     <EnhancedEditField
                       icon={<FaCodeBranch className="text-[#9b111e]" />}
@@ -456,7 +460,7 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({
                       label="EV Certified"
                       value={editEvCertified}
                       onChange={setEditEvCertified}
-                    />
+                    /> */}
                     <EnhancedEditField
                       icon={<LuPhoneCall className="text-[#9b111e]" />}
                       label="Phone"
@@ -468,6 +472,30 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({
                       label="Email"
                       value={editEmail}
                       onChange={setEditEmail}
+                    />
+                    <EnhancedEditField
+                      icon={<FcDataEncryption className="text-[#9b111e]" />}
+                      label="Aadhar No"
+                      value={editAadharNumber}
+                      onChange={setEditAadharNumber}
+                    />
+                    <EnhancedEditField
+                      icon={<MdVerified className="text-[#9b111e]" />}
+                      label="Pan No"
+                      value={editPanCard}
+                      onChange={setEditPanCard}
+                    />
+                    <EnhancedEditField
+                      icon={<AiOutlineAudit className="text-[#9b111e]" />}
+                      label="GST No"
+                      value={editGstNo}
+                      onChange={setEditGstNo}
+                    />
+                    <EnhancedEditField
+                      icon={<BiSolidCertification className="text-[#9b111e]" />}
+                      label="Reg No"
+                      value={editRegNo}
+                      onChange={setEditRegNo}
                     />
                   </div>
                 </div>
@@ -481,12 +509,12 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({
                     Website & Address
                   </h3>
                   <div className="space-y-4">
-                    <EnhancedEditField
+                    {/* <EnhancedEditField
                       icon={<CgWebsite className="text-[#9b111e]" />}
                       label="Website"
                       value={editWebsite}
                       onChange={setEditWebsite}
-                    />
+                    /> */}
                     <EnhancedEditField
                       icon={<FaRegAddressCard className="text-[#9b111e]" />}
                       label="Address"
@@ -503,12 +531,12 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({
                     Login Information
                   </h3>
                   <div className="space-y-4">
-                    <EnhancedEditField
+                    {/* <EnhancedEditField
                       icon={<FaUserCircle className="text-[#9b111e]" />}
                       label="Username"
                       value={editUsername}
                       onChange={setEditUsername}
-                    />
+                    /> */}
                     <EnhancedEditField
                       icon={<MdOutlineMailOutline className="text-[#9b111e]" />}
                       label="Login Email"
@@ -526,41 +554,7 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({
                 </div>
               </div>
 
-              {/* Third Column */}
-              <div className="md:col-span-2">
-                <div className="bg-[#f9f9f9] p-4 rounded-lg">
-                  <h3 className="text-lg font-semibold text-[#9b111e] mb-4 flex items-center gap-2">
-                    <BiSolidCertification className="text-[#9b111e]" />
-                    Additional Information
-                  </h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <EnhancedEditField
-                      icon={<FcDataEncryption className="text-[#9b111e]" />}
-                      label="Data Encrypted"
-                      value={editDataEncrypted}
-                      onChange={setEditDataEncrypted}
-                    />
-                    <EnhancedEditField
-                      icon={<MdVerified className="text-[#9b111e]" />}
-                      label="Verified Center"
-                      value={editVerifiedCenter}
-                      onChange={setEditVerifiedCenter}
-                    />
-                    <EnhancedEditField
-                      icon={<AiOutlineAudit className="text-[#9b111e]" />}
-                      label="Last Audit"
-                      value={editLastAudit}
-                      onChange={setEditLastAudit}
-                    />
-                    <EnhancedEditField
-                      icon={<BiSolidCertification className="text-[#9b111e]" />}
-                      label="Certification"
-                      value={editCertification}
-                      onChange={setEditCertification}
-                    />
-                  </div>
-                </div>
-              </div>
+              
             </div>
 
             <div className="sticky bottom-0 bg-white p-4 border-t border-gray-200 flex justify-end gap-3">
