@@ -77,7 +77,7 @@ const AnnouncementList = () => {
               <img
                 src={item.image  || dummyImg}
                 alt={item.title}
-                className="w-full h-40 object-cover rounded-t-lg"
+                className="w-60 h-40 object-cover rounded-t-lg"
               />
               <div className="p-4 flex-1 flex flex-col justify-between">
                 <h3 className="font-semibold !text-gray-900" style={{...FONTS.cardSubHeader}}>{item.title}</h3>

@@ -82,7 +82,7 @@ const ProfileEditSettings: React.FC = () => {
         "bg-gray-50 border border-gray-300 text-sm rounded-lg p-2.5 w-full";
 
     return (
-        <div className="p-5" style={{ fontFamily: FONTS.header.fontFamily }}>
+        <div className="p-5" style={{ fontFamily: FONTS.header.fontfamily }}>
             <h1 className="font-bold text-2xl">Profile</h1>
             <h6>Update your photo and personal details here</h6>
 
@@ -253,14 +253,14 @@ const ProfileEditSettings: React.FC = () => {
                     <button
                         type="button"
                         className="w-20 h-10 rounded-3xl text-white"
-                        style={{ background: "linear-gradient(44.99deg,#700808 11%,#d23c3c 102.34%)" }}
+                        style={{ backgroundColor: "#9b111e" }}
                     >
                         Cancel
                     </button>
                     <button
                         type="submit"
                         className="flex items-center gap-2 px-4 py-2 rounded-3xl text-white"
-                        style={{ background: "linear-gradient(44.99deg,#700808 11%,#d23c3c 102.34%)" }}
+                        style={{ backgroundColor: "#9b111e" }}
                     >
                         <MdUpgrade className="text-2xl" />
                         Update
