@@ -41,7 +41,7 @@ export default function ScheduleRequestPage() {
   async function fetchassigned() {
     const data = await GetUnassignedScheduleReq()
     setRequests(data.data)
-    console.log(data)
+    console.log(data,"request data")
   }
 
   useEffect(() => {
@@ -186,9 +186,9 @@ export default function ScheduleRequestPage() {
 
               {/* Details */}
               <div className="flex-1 space-y-1">
-                <h3 className="text-lg font-bold text-[#9b111e]" style={{...FONTS.cardSubHeader}}>{req.customerId.firstName+' '+ req.customerId.lastName}</h3>
+                <h3 className="text-lg font-bold text-[#9b111e]" style={{...FONTS.cardSubHeader}}>{req.customerId?.firstName+' '+ req.customerId?.lastName}</h3>
                 <p className="text-sm !text-gray-700" style={{...FONTS.paragraph}}>
-                  <span className="font-medium">📞</span> {req.customerId.contact_info.phoneNumber}
+                  <span className="font-medium">📞</span> {req.customerId?.contact_info?.phoneNumber}
                 </p>
                 <p className="text-sm !text-gray-600" style={{...FONTS.paragraph}}>
                   <span className="font-medium">🚘</span> {req.customerId.vehicleInfo.model} • {req.customerId.vehicleInfo.registerNumber}

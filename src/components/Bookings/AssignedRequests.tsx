@@ -84,7 +84,7 @@ const AssignedRequests: React.FC<AssignedRequestsProps> = ({ assignedRequests, s
               </svg>
               <p className="text-sm font-semibold text-green-800">Assigned Partner</p>
             </div>
-            <p className="font-semibold text-green-900 text-sm">{"partner Id:"+request.partnerId.id+" name:"+request.partnerId.firstName+" "+request.partnerId.lastName}</p>
+            <p className="font-semibold text-green-900 text-sm">{"partner Id:"+request.partnerId?.id+" name:"+request.partnerId?.firstName+" "+request.partnerId?.lastName}</p>
             <p className="text-xs text-green-600">
               Assigned on {new Date(request.assigned_date).toLocaleDateString()}
             </p>
