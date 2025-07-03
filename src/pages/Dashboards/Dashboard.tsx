@@ -98,8 +98,9 @@ export const Dashboard = () => {
   return (
     <div className="w-full px-4 py-6 -mt-6 ">
       <p
-          className="text-xl !font-semibold pl-6 pt-3 "
+          className="text-[20px] !font-bold pl-6 pt-3 "
           style={{ ...FONTS.header }}
+
         >
           Dashboard
         </p>

@@ -182,7 +182,7 @@ const getFilteredData = () => {
           </defs>
 
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="label" />
+          <XAxis dataKey="label" style={{...FONTS.paragraph}}/>
           <YAxis tickFormatter={(value) => `${(value / 1000).toFixed(0)}k`} />
           <Tooltip formatter={(value) => `${value.toLocaleString()}`} />
           <Legend />

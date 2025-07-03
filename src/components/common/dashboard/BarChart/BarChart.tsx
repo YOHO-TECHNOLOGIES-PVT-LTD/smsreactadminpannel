@@ -137,7 +137,7 @@ const getFilteredData = () => {
       <div className='-ml-10'>
         <ResponsiveContainer width="100%" height={100}>
           <BarChart data={getFilteredData()}>
-            <XAxis dataKey="day" width={1} />
+            <XAxis dataKey="day" width={1} style={{...FONTS.paragraph}}/>
             <YAxis />
             <Tooltip />
             <Bar dataKey="newCustomers" fill="#eca9f0" barSize={10} radius={[0, 0, 0, 0]} />

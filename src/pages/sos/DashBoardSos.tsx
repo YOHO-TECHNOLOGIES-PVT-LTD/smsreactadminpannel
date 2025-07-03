@@ -170,11 +170,11 @@ const DashboardSos = () => {
               <button
                 key={status}
                 onClick={() => setFilterStatus(status)}
-                className={`px-4 py-1.5 rounded text-sm font-medium text-white transition-all hover:shadow-md ${filterStatus === status
+                className={`px-4 py-1.5 rounded text-sm font-medium !text-white transition-all hover:shadow-md ${filterStatus === status
                   ? "bg-gradient-to-r from-red-700 to-red-900 shadow-md"
-                  : "bg-gradient-to-r from-red-600 to-red-800"
+                  : "bg-gradient-to-r from-red-600 to-red-800" 
                   }`}
-              >
+              style={{...FONTS.cardheader}}>
                 {status}
               </button>
             ))}
@@ -182,7 +182,7 @@ const DashboardSos = () => {
 
           <div className="flex-1 overflow-auto scrollbar-thin scrollbar-thumb-red-600 scrollbar-track-gray-100">
             <table className="min-w-full text-left text-sm border-collapse border border-gray-200">
-              <thead className="sticky top-0 bg-gray-50 z-10">
+              <thead className="sticky top-0 bg-gray-50 z-10 !text-gray-700"style={{...FONTS.tableHeader}}>
                 <tr>
                   <th className="border border-gray-300 px-3 py-2 font-semibold text-gray-700">Vehicle Number</th>
                   <th className="border border-gray-300 px-3 py-2 font-semibold text-gray-700">Location</th>
@@ -239,7 +239,8 @@ const DashboardSos = () => {
         {/* SOS Services */}
         <div className="rounded-lg p-3 lg:w-1/3 bg-white border border-gray-200 flex flex-col shadow-sm h-[calc(100vh-2rem)] lg:h-[calc(90vh-2rem)]">
           <div className="flex justify-between items-center mb-4 flex-shrink-0">
-            <h2 className="text-xl lg:text-2xl font-semibold text-gray-900">SOS Services</h2>
+            <h2 className="text-xl lg:text-2xl font-semibold !text-gray-900"
+            style={{...FONTS.cardheader}}>SOS Services</h2>
             <FiPlus
               onClick={() => setShowForm(true)}
               className="text-2xl text-red-600 cursor-pointer hover:text-red-800 transition-colors"
@@ -301,7 +302,7 @@ const DashboardSos = () => {
             }`}
         >
           <div className="flex justify-between items-center p-4 border-b border-gray-200">
-            <h3 className="text-lg font-semibold text-gray-900">Add New Service</h3>
+            <h3 className="text-lg font-semibold text-gray-900"style={{...FONTS.cardheader}}>Add New Service</h3>
             <MdClose
               className="text-xl cursor-pointer text-red-600 hover:text-red-800 transition-colors"
               onClick={() => setShowForm(false)}

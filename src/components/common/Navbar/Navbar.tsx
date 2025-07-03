@@ -254,7 +254,7 @@ export const Navbar = () => {
                     onClick={handleViewAllNotifications}
                     className="!text-red-600 hover:!text-red-800  !transition-colors"
                     style={{
-                      fontFamily: FONTS.cardSubHeader.fontFamily,
+                      fontFamily: FONTS.cardSubHeader.fontfamily,
                       fontWeight: FONTS.cardSubHeader.fontWeight,
                       fontSize: FONTS.cardSubHeader.fontSize,
                     }}
