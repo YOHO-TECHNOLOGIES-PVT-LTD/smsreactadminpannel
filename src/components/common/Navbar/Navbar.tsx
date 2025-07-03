@@ -135,7 +135,7 @@ export const Navbar = () => {
         style={{ backgroundColor: '#9b111e', height: "64px" }}
         className="flex items-center px-4"
       >
-        <div className="flex items-center gap-2">
+        <div className="flex items-center ml-5 gap-2">
           <input
             type="text"
             placeholder="Search..."
