@@ -20,18 +20,14 @@ style={{...FONTS.header,fontWeight: 500 }}        >
         </h1>
 
         <div className="flex items-center gap-x-2 ml-auto">
-          <button
-            className="flex items-center gap-2 font-bold px-4 py-2 rounded-3xl text-white transition duration-200 active:scale-105 hover:bg-[#a00000]"
-            style={{
-              background:
-                "linear-gradient(44.99deg,#700808 11%,#d23c3c 102.34%)",
-            }}
-           // style={{...FONTS.paragraph}}
-            onClick={() => setIsAddModalOpen(true)}
-          >
-            <IoIosAddCircleOutline className="mt-0" />
-            Add
-          </button>
+         <button
+  className="flex items-center gap-2 font-bold px-4 py-2 rounded-3xl text-white transition duration-200 active:scale-105 bg-[#a00000] hover:bg-[#700808]"
+  onClick={() => setIsAddModalOpen(true)}
+>
+  <IoIosAddCircleOutline className="mt-0" />
+  Add
+</button>
+
         </div>
       </div>
 

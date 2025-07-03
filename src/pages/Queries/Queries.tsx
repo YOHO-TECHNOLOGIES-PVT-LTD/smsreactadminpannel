@@ -84,14 +84,14 @@ const Queries = () => {
 
         {/* Sidebar Filters */}
         <div className="w-1/5 bg-[#FAF3EB] p-4 border-r">
-          <h2 className="text-lg font-semibold mb-4 text-[#da4c5a]">Filters</h2>
+          <h2 className="text-lg font-semibold mb-4 text-[#9b111e]">Filters</h2>
           <div className="space-y-2">
             {["All", "Unread", "Read"].map((f) => (
               <button
                 key={f}
                 onClick={() => setFilter(f as any)}
                 className={`block w-full text-left px-4 py-2 rounded-3xl font-medium transition ${filter === f
-                    ? "bg-[#de6874] text-white"
+                    ? "bg-[#9b111e] text-white"
                     : "text-[#724e35] hover:bg-[#eaced1]"
                   }`}
               >

@@ -7,6 +7,7 @@ import { FetchPartnerList } from "../../utils/CommonApiFetch";
 import vehicleimg from "../../assets/Vehicle1.svg"
 import contactimg from "../../assets/Phone Number.svg"
 import location from "../../assets/Location.svg"
+import service from "../../assets/Service (1).svg"
 
 
 type pendingService = {
@@ -100,7 +101,7 @@ const CompactServiceCard: React.FC<CompactServiceCardProps> = ({ request, onAssi
         <div className="grid grid-cols-2 gap-3 mb-3">
           <div>
             <div className="flex items-center mb-2 gap-2">
-            <img src={vehicleimg} alt="" />
+            <img className="w-5 h-5"src={vehicleimg} alt="" />
               <p className="text-sm font-semibold text-gray-700">Vehicle</p>
             </div>
             <p className="font-semibold text-gray-900 text-sm">{request.customerId.vehicleInfo.model || "vehicle model"}</p>
@@ -109,18 +110,12 @@ const CompactServiceCard: React.FC<CompactServiceCardProps> = ({ request, onAssi
           </div>
           <div>
             <div className="flex items-center mb-2">
-              <img src={contactimg} alt="" />
+              <img className="w-5 h-5" src={contactimg} alt="" />
               <p className="text-sm font-semibold text-gray-700">Contact</p>
             </div>
             <p className="font-semibold text-gray-900 text-sm">{request.customerId.contact_info.phoneNumber}</p>
-            <div className="flex items-center mt-1">
-              <svg className="w-3 h-3 text-gray-500 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                <path
-                  fillRule="evenodd"
-                  d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
-                  clipRule="evenodd"
-                />
-              </svg>
+            <div className="flex items-center mt-1 gap-2">
+              <img className="w-5 h-5" src={location} alt="" />
               <p className="text-gray-600 truncate text-sm">{request.customerId.contact_info.address1+' '+
                   request.customerId.contact_info.address2+' '+ request.customerId.contact_info.city+' '+
                   request.customerId.contact_info.state
@@ -131,14 +126,8 @@ const CompactServiceCard: React.FC<CompactServiceCardProps> = ({ request, onAssi
 
 
         <div className="mb-3">
-          <div className="flex items-center mb-2">
-            <svg className="w-4 h-4 text-[#9b111e] mr-2" fill="currentColor" viewBox="0 0 20 20">
-              <path
-                fillRule="evenodd"
-                d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z"
-                clipRule="evenodd"
-              />
-            </svg>
+          <div className="flex items-center mb-2 gap-2`">
+           <img className="w-5 h-5" src={service} alt="" />
             <p className="text-sm font-semibold text-gray-700">
               Services ({request.service.length})
             </p>
