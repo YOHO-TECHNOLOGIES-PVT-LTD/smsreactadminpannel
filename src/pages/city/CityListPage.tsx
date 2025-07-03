@@ -65,26 +65,26 @@ const CityListPage: React.FC<CityListPageProps> = ({ searchTerm = '' }) => {
 			{(!exactMatchCity || searchTerm.trim() === '') && (
 				<div>
 					<table className='table-auto w-full border-white bg-white rounded-lg shadow-md mx-auto shadow-lg'>
-						<thead className='bg-[#a00000] text-white' style={{...FONTS.tableHeader}}>
+						<thead className='bg-[#e9e9e9]' style={{...FONTS.tableHeader}}>
 							<tr>
 								<th className='px-4 py-2 text-left'>
-									<div className='flex items-center gap-2'>
+									<div className='flex items-center font-bold text-[#717171] gap-2'>
 										<TbBuildingEstate className='text-lg' />
 										District
 									</div>
 								</th>
 								<th className='px-4 py-2 text-left'>
-									<div className='flex items-center gap-2'>
+									<div className='flex items-center font-bold text-[#717171] gap-2'>
 										<TbMapPinCode className='text-lg' />
 										Total Centers
 									</div>
 								</th>
 								<th className='px-4 py-2 text-left'>
-									<div className='flex items-center gap-2'>
+									<div className='flex items-center font-bold text-[#717171] gap-2'>
 										<MdOutlineMiscellaneousServices className='text-lg' />
 										Service Centers
 									</div>
-								</th>
+								</th> 
 							</tr>
 						</thead>
 						<tbody>

@@ -92,52 +92,52 @@ export const JobCardsPage: React.FC = () => {
           <table className="min-w-full border-collapse rounded-lg overflow-hidden mt-8 "
           
           >
-            <thead className="bg-[#e2cac0]">
+            <thead className="bg-[#e9e9e9]">
               <tr>
-                <th className="px-4 py-3 text-left text-sm font-semibold text-[#9b111e] border-b" style={{...FONTS.tableHeader}}
+                <th className="px-4 py-3 text-left text-sm font-bold text-[#717171] border-b" style={{...FONTS.tableHeader}}
                 >
                 
                   <div className="flex items-center gap-2"  >
                     <HiMiniIdentification size={20}/>
-                    ID
+                    Id
                   </div>
                 </th>
-                <th className="px-4 py-3 text-left text-sm font-semibold text-[#9b111e] border-b" style={{...FONTS.tableHeader}}>
+                <th className="px-4 py-3 text-left text-sm font-bold text-[#717171] border-b" style={{...FONTS.tableHeader}}>
                  <div className="flex items-center gap-2">
                   <FaFileInvoice size={20}/>
-                  Invoice Date</div> 
+                  Invoice date</div> 
                 </th>
-                <th className="px-4 py-3 text-left text-sm font-semibold text-[#9b111e] border-b" style={{...FONTS.tableHeader}}>
+                <th className="px-4 py-3 text-left text-sm font-bold text-[#717171] border-b" style={{...FONTS.tableHeader}}>
                   <div className="flex items-center gap-2">
                     <MdOutlineDriveFileRenameOutline size={20}/>
                     Name</div>
                 </th>
-                <th className="px-4 py-3 text-left text-sm font-semibold text-[#9b111e] border-b lg:table-cell hidden"
+                <th className="px-4 py-3 text-left text-sm font-bold text-[#717171] border-b lg:table-cell hidden"
                style= {{...FONTS.tableHeader}}
                 >
                   <div className="flex items-center gap-2">
                     <FaCar size={20}/>
                     Vehicle</div>
                 </th>
-                <th className="px-4 py-3 text-left text-sm font-semibold text-[#9b111e] border-b"
+                <th className="px-4 py-3 text-left text-sm font-bold text-[#717171] border-b"
                 style= {{...FONTS.tableHeader}}
                 >
                   <div className="flex items-center gap-2">
                     <PiListNumbersFill size={20}/>
                     Plate</div>
                 </th>
-                <th className="px-4 py-3 text-left text-sm font-semibold text-[#9b111e] border-b lg:table-cell hidden"
+                <th className="px-4 py-3 text-left text-sm font-bold text-[#717171] border-b lg:table-cell hidden"
                 style= {{...FONTS.tableHeader}}>
                   <div className="flex items-center gap-2">
                     <RiMoneyRupeeCircleLine size={20} />
                     Total</div>
                 </th>
-                <th className="px-4 py-3 text-left text-sm font-semibold text-[#9b111e] border-b"style= {{...FONTS.tableHeader}}>
+                <th className="px-4 py-3 text-left text-sm font-bold text-[#717171] border-b"style= {{...FONTS.tableHeader}}>
                   <div className="flex items-center gap-2">
                     <IoMdStats size={20}/>
-                    Job Status</div> 
+                    Job status</div> 
                 </th>
-                <th className="px-4 py-3 text-left text-sm font-semibold text-[#9b111e] border-b"style= {{...FONTS.tableHeader}}>
+                <th className="px-4 py-3 text-left text-sm font-bold text-[#717171] border-b"style= {{...FONTS.tableHeader}}>
                   <div className="flex items-center gap-2">
                     <GrView size={20}/>
                     View</div>
@@ -199,6 +199,7 @@ export const JobCardsPage: React.FC = () => {
           </table>
         </div>
       </div>
+
     </div>
   );
 };
