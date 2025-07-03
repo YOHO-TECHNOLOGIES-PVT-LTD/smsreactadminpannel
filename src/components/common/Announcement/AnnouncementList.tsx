@@ -1,22 +1,23 @@
 import React, { useState } from 'react';
 import { FONTS } from '../../../constants/uiConstants';
+import dummyImg from '../../../assets/dummy/dummyimage.jpg'
 
 const AnnouncementList = () => {
   const [announcements, setAnnouncements] = useState([
     {
       title: 'Holiday Discount',
       price: '20% Off',
-      image: 'https://mensuas.typepad.com/.a/6a0120a6263b19970b017ee615fe72970d-600wi',
+      image: dummyImg,
     },
     {
       title: 'Free Car Wash',
       price: 'On Orders 50+',
-      image: 'https://brooklynads.com/wp-content/uploads/2024/02/Benefits-of-Offering-a-Free-Car-Wash-Vacuum-at-Your-Wash.png',
+      image: dummyImg,
     },
     {
       title: 'Limited Time Offer',
       price: 'Until May 30',
-      image: 'https://png.pngtree.com/png-clipart/20230323/original/pngtree-limited-time-offer-vector-design-png-image_9000472.png',
+      image: dummyImg,
     },
   ]);
 
@@ -33,7 +34,7 @@ const AnnouncementList = () => {
       price: price,
       image: image
         ? URL.createObjectURL(image)
-        : 'https://via.placeholder.com/300x150?text=No+Image',
+        : dummyImg,
     };
     setAnnouncements([...announcements, newAnnouncement]);
     resetForm();
@@ -54,9 +55,9 @@ const AnnouncementList = () => {
       <div className="flex justify-between items-center px-6 mt-4 mb-6">
  
   <button
-    className="flex items-center gap-2 font-bold px-4 py-2 rounded-3xl !text-white transition duration-200 active:scale-105 hover:bg-[#a00000]"
+    className="flex items-center gap-2 bg-[#9b111e] font-bold px-4 py-2 rounded-lg !text-white transition duration-200 active:scale-105 hover:bg-[#a00000]"
     style={{
-      background: 'linear-gradient(44.99deg,#700808 11%,#d23c3c 102.34%)', ...FONTS.paragraph
+      ...FONTS.paragraph
     }}
     onClick={() => setShowModal(true)}
   >
@@ -74,7 +75,7 @@ const AnnouncementList = () => {
               className="flex flex-col hover:shadow-xl transform hover:scale-[1.02] p-2 transition-all duration-300 bg-white shadow-md rounded-lg"
             >
               <img
-                src={item.image}
+                src={item.image  || dummyImg}
                 alt={item.title}
                 className="w-full h-40 object-cover rounded-t-lg"
               />

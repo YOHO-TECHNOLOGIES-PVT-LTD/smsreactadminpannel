@@ -15,6 +15,7 @@ import { CheckCircle, AlertCircle } from "lucide-react"
 import { Settings } from "lucide-react";
 import Client from "../../api"
 import { FONTS } from "../../constants/uiConstants"
+import dummyImg from '../../assets/dummy/dummyimage.jpg'
 // import {  useNavigate } from "react-router-dom";
 
 
@@ -233,7 +234,7 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({
         <div className="flex flex-col md:flex-row items-center justify-between p-6 bg-gradient-to-r from-[#9b111e] to-[#d23c3c]">
           <div className="flex items-center gap-4 mb-4 md:mb-0">
             <div className="bg-white p-2 rounded-full" >
-              <img src="https://logodix.com/logo/2004138.jpg" alt="Logo" className="w-16 h-16 object-contain" />
+              <img src={dummyImg} alt="Logo" className="w-16 h-16 rounded-full object-contain" />
             </div >
             <h3 className="!font-bold !text-white" style={{...FONTS.cardheader}}>{partner?.firstName + " " + partner?.lastName}</h3>
           </div>

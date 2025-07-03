@@ -132,7 +132,7 @@ export const Navbar = () => {
   return (
     <>
       <nav
-        style={{ backgroundColor: COLORS.primary_01, height: "64px" }}
+        style={{ backgroundColor: '#9b111e', height: "64px" }}
         className="flex items-center px-4"
       >
         <div className="flex items-center gap-2">
@@ -143,10 +143,10 @@ export const Navbar = () => {
           />
           <button
             type="submit"
-            className="bg-gradient-to-r from-red-600 to-red-800 rounded-3xl p-3 hover:scale-105 transition-transform"
+            className="bg-white rounded-full p-3 hover:scale-105 transition-transform"
           >
             <svg
-              className="w-4 h-4 text-white"
+              className="w-4 h-4 text-[#9b111e]"
               fill="none"
               stroke="currentColor"
               strokeWidth={3}
@@ -171,7 +171,7 @@ export const Navbar = () => {
               <div className="absolute -top-1 -right-1 w-3.5 h-3.5 bg-yellow-500 border-2 border-white rounded-full z-20" />
               <button
                 onClick={handleSosClick}
-                className="relative z-10 inline-flex items-center justify-center w-10 h-10 rounded-3xl bg-gradient-to-r from-red-600 to-red-800 !text-white  !shadow-lg hover:!scale-105 transition-transform"
+                className="relative z-10 inline-flex items-center justify-center w-10 h-10 rounded-full bg-white !text-[#9b111e]  !shadow-lg hover:!scale-105 transition-transform"
                 style={{ ...FONTS.cardSubHeader }}
               >
                 SOS
@@ -185,7 +185,7 @@ export const Navbar = () => {
               <button
                 aria-label="Notifications"
                 onClick={handleBellClick}
-                className={`relative p-2.5 rounded-3xl bg-gradient-to-r from-red-600 to-red-800 focus:outline-none transform transition-transform duration-200 ease-in-out ${isBellActive ? "scale-90" : "scale-100"
+                className={`relative p-2.5 rounded-full bg-white focus:outline-none transform transition-transform duration-200 ease-in-out ${isBellActive ? "scale-90" : "scale-100"
                   }`}
               >
                 <svg
@@ -194,7 +194,7 @@ export const Navbar = () => {
                   viewBox="0 0 24 24"
                   strokeWidth={1.8}
                   stroke="currentColor"
-                  className="w-5 h-5 text-white"
+                  className="w-5 h-5 text-[#9b111e]"
                 >
                   <path
                     strokeLinecap="round"
@@ -279,13 +279,19 @@ export const Navbar = () => {
                 />
               </div>
               <div className="flex flex-col flex-nowrap overflow-hidden">
-                <span className="text-[#9b111e] font-medium truncate whitespace-nowrap"
-                  style={{ ...FONTS.paragraph }}
+                <span className="text-white font-medium truncate whitespace-nowrap"
+                  style={{ fontFamily: "'Figtree-Medium', sans-serif",
+                  fontWeight: 400,
+                  fontSize: "14px",
+                  color: 'white' }}
                 >
                   {user.name}
                 </span>
-                <div className="flex items-center text-sm text-[#c13340] whitespace-nowrap"
-                  style={{ ...FONTS.subParagraph }}
+                <div className="flex items-center whitespace-nowrap"
+                  style={{  fontFamily: "'Figtree', sans-serif",
+                            fontWeight: 300,
+                            fontSize: "12px",
+                            color: "white"}}
                 >
                   Admin
                   <svg

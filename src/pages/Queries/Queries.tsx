@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import { QueryCard } from "../../components/common/dashboard/QueryCard/QueryCard";
-import dummpypic from "../../assets/Dashboard/images.jpg";
 import { AiOutlineArrowLeft } from "react-icons/ai";
 import { getQueries } from "../../features/Queries/service";
 import { FONTS } from "../../constants/uiConstants";
+import dummyImg from '../../assets/dummy/dummyimage.jpg'
 
 type Query = {
   _id: number;
@@ -141,7 +141,7 @@ const Queries = () => {
               <div className="flex items-center justify-between mb-3">
                 <div className="flex items-center gap-3">
                   <img
-                    src={selectedQuery.profilePicUrl || dummpypic}
+                    src={selectedQuery.profilePicUrl || dummyImg}
                     alt="profile"
                     className="w-10 h-10 rounded-full object-cover"
                   />

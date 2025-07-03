@@ -65,8 +65,11 @@ export const QueryCard: React.FC<Props> = ({
         <div className="w-10 h-10 flex items-center justify-center text-xl text-green-600">
           {icon}
         </div>
+        
       </div>
+      
     </div>
+    
     </div>
   );
 };

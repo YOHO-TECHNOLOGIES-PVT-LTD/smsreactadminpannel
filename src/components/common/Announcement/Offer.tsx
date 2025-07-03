@@ -1,22 +1,23 @@
 import React, { useState } from 'react';
 import { FONTS } from '../../../constants/uiConstants';
+import dummyImg from '../../../assets/dummy/dummyimage.jpg'
 
 const Offer = () => {
   const [offers, setOffers] = useState([
     {
       title: 'EXTERIOR WASH AND POLISH',
       price: '30.00',
-      image: 'https://londoncarwash.dk/wp-content/uploads/2020/10/blog_5.jpg',
+      image: dummyImg,
     },
     {
       title: 'INTERIOR DETAILING',
       price: '35.00',
-      image: 'https://i.pinimg.com/originals/c2/fe/dc/c2fedcef65f8ceb8cf4937c6407e6792.jpg',
+      image: dummyImg,
     },
     {
       title: 'CERAMIC COATING',
       price: '40.00',
-      image: 'https://th.bing.com/th/id/OIP.oHmubqo3ZmInulyncZmU_AHaE8?cb=iwp2&rs=1&pid=ImgDetMain',
+      image: dummyImg,
     },
   ]);
 
@@ -50,9 +51,8 @@ const Offer = () => {
 return (
   <div className="relative px-6 mt-4">
     <button
-      className="flex items-center gap-2 font-bold px-4 py-2 rounded-3xl !text-white transition duration-200 active:scale-105 hover:bg-[#a00000]"
-      style={{
-        background: 'linear-gradient(44.99deg,#700808 11%,#d23c3c 102.34%)', ...FONTS.paragraph
+      className="flex items-center bg-[#9b111e] gap-2 font-bold px-4 py-2 rounded-lg !text-white transition duration-200 active:scale-105 hover:bg-[#a00000]"
+      style={{ ...FONTS.paragraph
       }}
       onClick={() => setShowModal(true)}
     >
@@ -69,7 +69,7 @@ return (
             className="flex flex-col hover:shadow-xl transform hover:scale-[1.02] p-2 transition-all duration-300 bg-white shadow-md rounded-lg"
           >
             <img
-              src={item.image}
+              src={item.image || dummyImg}
               alt={item.title}
               className="w-full h-40 object-cover rounded-t-lg"
             />

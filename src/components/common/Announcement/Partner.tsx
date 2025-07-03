@@ -1,23 +1,26 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { CheckCircle } from 'lucide-react';
 import { FONTS } from '../../../constants/uiConstants';
+import dummyImg from '../../../assets/dummy/dummyimage.jpg'
+import { fetchCountries } from '../../../features/ServiceCenter/externalapi';
+
 
 const Partner = () => {
   const [partners, setPartners] = useState([
     {
       title: 'XYZ Auto Parts',
       price: '10% Discount',
-      image: 'https://www.xyz-racing.com/upload/gallery/m_483d8f9fd4de4c6e1f98d49a3da5ce50-u0bA.JPG',
+      image: dummyImg,
     },
     {
       title: 'Shine & Drive',
       price: 'Free Interior Detailing',
-      image: 'https://lirp.cdn-website.com/8bf226d6/dms3rep/multi/opt/stock-photo-a-man-cleaning-car-interior-car-detailing-or-valeting-concept-selective-focus-743191834-1920w.jpg',
+      image: dummyImg,
     },
     {
       title: 'Lubricants Inc.',
       price: 'Buy 1 Get 1',
-      image: 'https://th.bing.com/th/id/OIP.tyrB8f5W1qgQy4eViuZgcgHaD2?cb=iwp2&w=1200&h=624&rs=1&pid=ImgDetMain',
+      image: dummyImg,
     },
   ]);
 
@@ -33,6 +36,7 @@ const Partner = () => {
     setShowSuccessModal(true);
     setTimeout(() => setShowSuccessModal(false), 2500);
   };
+
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -57,10 +61,7 @@ const Partner = () => {
     <div className="relative mt-4">
       {/* Add New Partner Button */}
       <button
-    className="flex items-center gap-2 font-bold px-2 py-2 ml-12 rounded-3xl text-white transition duration-200 active:scale-105 hover:bg-[#a00000]"
-    style={{
-      background: 'linear-gradient(44.99deg,#700808 11%,#d23c3c 102.34%)',
-    }}
+    className="flex items-center gap-2 bg-[#9b111e] font-bold px-2 py-2 ml-12 rounded-lg text-white transition duration-200 active:scale-105 hover:bg-[#a00000]"
      onClick={() => setShowFormModal(true)} 
   >
     + Add Partner
@@ -71,6 +72,7 @@ const Partner = () => {
 
       {/* onClick={() => setShowFormModal(true)} */}
       {/* Partner Cards */}
+      
       <div className='grid grid-cols-3 sm:grid-cols-2 lg:grid-cols-3 gap-4 px-6 mt-6'>
       {partners.map((item, index) => (
         <div
@@ -78,7 +80,7 @@ const Partner = () => {
           className="flex flex-col hover:shadow-xl transform hover:scale-[1.02] p-2 transition-all duration-300 bg-white shadow-md rounded-lg mb-4 mx-6"
         >
           <img
-            src={item.image}
+            src={item.image || dummyImg}
             alt={item.title}
             className="w-full h-40 object-cover"
           />
