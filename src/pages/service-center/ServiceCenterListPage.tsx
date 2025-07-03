@@ -55,6 +55,7 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
   const [showPassForm, setShowPassForm] = useState(false)
   const [showPartnerForm, setShowPartnerForm] = useState(false)
   const partnerFileInputRef = useRef<HTMLInputElement>(null)
+  const [isLoading, setIsLoading] = useState(false);
 
   // Partner form state
   const [partnerFormData, setPartnerFormData] = useState<PartnerFormData>({
@@ -109,6 +110,7 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
 
   const handlePartnerFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    setIsLoading(true)
 
     const data = new FormData()
     Object.entries(partnerFormData).forEach(([key, value]) => {
@@ -159,7 +161,22 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
     } catch (error:any) {
       console.log("Registration failed!",error.message)
     }
+    finally{
+      setIsLoading(false)
+    }
   }
+
+  const Spinner = ({ className = "" }: { className?: string }) => (
+  <svg 
+    className={`animate-spin h-5 w-5 ${className}`} 
+    xmlns="http://www.w3.org/2000/svg" 
+    fill="none" 
+    viewBox="0 0 24 24"
+  >
+    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+  </svg>
+);
 
   const handleCancelPartnerForm = () => {
     setShowPartnerForm(false)
@@ -591,12 +608,21 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
                     Cancel
                   </button>
                   <button
-                    onClick={() => setShowPassForm(true)}
                     type="submit"
-                    className="px-6 py-2 text-white font-semibold rounded-3xl hover:opacity-90 transition"
-                    style={{ backgroundColor:'#9b111e'}}
+                    disabled={isLoading}
+                    className={`px-6 py-2 text-white font-semibold rounded-3xl hover:opacity-90 transition flex items-center justify-center gap-2 ${
+                      isLoading ? "opacity-75 cursor-not-allowed" : ""
+                    }`}
+                    style={{ backgroundColor: '#9b111e' }}
                   >
-                    Register
+                    {isLoading ? (
+                      <>
+                        <Spinner className="text-white" />
+                        <span>Registering...</span>
+                      </>
+                    ) : (
+                      "Register"
+                    )}
                   </button>
                 </div>
               </div>
