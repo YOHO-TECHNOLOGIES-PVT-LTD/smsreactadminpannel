@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type React from "react"
 import { useState, useEffect } from "react"
-import { FaArrowRight, FaCodeBranch, FaRegAddressCard, FaUserCircle, FaEdit, FaTrash } from "react-icons/fa"
+import { FaArrowRight, FaRegAddressCard, FaEdit, FaTrash } from "react-icons/fa"
 import { BsBuildings } from "react-icons/bs"
 import { SlCalender } from "react-icons/sl"
 import { AiFillSafetyCertificate, AiOutlineAudit } from "react-icons/ai"
@@ -50,26 +50,22 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({
   // Original values for comparison
 
   const [originalValues, setOriginalValues] = useState({
-    editCompanyName: partner.firstName + " "+ partner.lastName || "yes mechanic",
-    editEstablished: "2005",
-    editBranches: "35",
-    editEvCertified: "Yes",
+    editCompanyName: partner.companyName || "",
+    editFirstName:partner.firstName || "",
+    editLastName:partner.lastName || "",
     editAadharNumber: partner.aadhar || 'Nan',
     editRegNo: partner.regNo || 'Nan',
     editPanCard: partner.pan || 'Nan',
     editGstNo: partner.gstNo || 'Nan',
     editPhone: partner?.contact_info?.phoneNumber || "",
     editEmail: partner?.email || "Nan",
-    editWebsite: "www.autonova.com",
-    editAddress:
-      `${partner?.contact_info?.address1 || ""} ${partner?.contact_info?.address2 || ""} ${partner?.contact_info?.city || ""} ${partner?.contact_info?.state || ""}`.trim(),
-    editDataEncrypted: "Yes",
-    editVerifiedCenter: "✔️",
-    editLastAudit: "Jan 2025",
-    editCertification: "ISO 27001",
-    editUsername: "autonova_admin",
     editLoginEmail: partner?.email || "",
-    editPassword: "abc@123456",
+    editPassword: partner?.password,
+    editImage:partner?.image,
+    editState:partner?.contact_info?.state,
+    editCity:partner?.contact_info?.city,
+    editAddress1:partner?.contact_info?.address1,
+    editAddress2:partner?.contact_info?.address2,
   })
 
   // Current edit values
@@ -78,18 +74,18 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({
   const [editGstNo, setEditGstNo] = useState(originalValues.editGstNo)
   const [editRegNo, setEditRegNo] = useState(originalValues.editRegNo)
   const [editCompanyName, setEditCompanyName] = useState(originalValues.editCompanyName)
-  const [editEstablished, setEditEstablished] = useState(originalValues.editEstablished)
-  const [editBranches, setEditBranches] = useState(originalValues.editBranches)
-  const [editEvCertified, setEditEvCertified] = useState(originalValues.editEvCertified)
+  const [editFirstName, setFirstName] = useState(originalValues.editFirstName)
+  const [editLastName, setLastName] = useState(originalValues.editLastName)
+  const [editImage, setImage] = useState(originalValues.editImage)
   const [editPhone, setEditPhone] = useState(originalValues.editPhone)
   const [editEmail, setEditEmail] = useState(originalValues.editEmail)
-  const [editWebsite, setEditWebsite] = useState(originalValues.editWebsite)
-  const [editAddress, setEditAddress] = useState(originalValues.editAddress)
-  const [editDataEncrypted, setEditDataEncrypted] = useState(originalValues.editDataEncrypted)
-  const [editVerifiedCenter, setEditVerifiedCenter] = useState(originalValues.editVerifiedCenter)
-  const [editLastAudit, setEditLastAudit] = useState(originalValues.editLastAudit)
-  const [editCertification, setEditCertification] = useState(originalValues.editCertification)
-  const [editUsername, setEditUsername] = useState(originalValues.editUsername)
+  const [editState, setEditState] = useState(originalValues.editState)
+  const [editCity, setEditCity] = useState(originalValues.editCity)
+  const [editAddress1, setEditAddress1] = useState(originalValues.editAddress1)
+  const [editAddress2, setEditAddress2] = useState(originalValues.editAddress2)
+  // const [editLastAudit, setEditLastAudit] = useState(originalValues.editLastAudit)
+  // const [editCertification, setEditCertification] = useState(originalValues.editCertification)
+  // const [editUsername, setEditUsername] = useState(originalValues.editUsername)
   const [editLoginEmail, setEditLoginEmail] = useState(originalValues.editLoginEmail)
   const [editPassword, setEditPassword] = useState(originalValues.editPassword)
 
@@ -97,20 +93,18 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({
   const hasChanges = () => {
     const currentValues = {
       editCompanyName,
-      editEstablished,
-      editBranches,
-      editEvCertified,
       editPhone,
       editEmail,
-      editWebsite,
-      editAddress,
-      editDataEncrypted,
-      editVerifiedCenter,
-      editLastAudit,
-      editCertification,
-      editUsername,
       editLoginEmail,
       editPassword,
+      editState,
+      editFirstName,
+      editLastName,
+      editImage,
+      editCity,
+      editAadharNumber,
+      editAddress1,
+      editAddress2
     }
 
     return Object.keys(originalValues).some(
@@ -164,26 +158,47 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({
       return
     }
 
-    const data = {
-      editCompanyName,
-      editEstablished,
-      editBranches,
-      editEvCertified,
-      editPhone,
-      editEmail,
-      editWebsite,
-      editAddress,
-      editDataEncrypted,
-      editVerifiedCenter,
-      editLastAudit,
-      editCertification,
-      editUsername,
-      editLoginEmail,
-      editPassword,
-    }
+    
 
     try {
-      const response = await new Client().admin.servicecenter.update(data, partner._id)
+
+      const data = {
+        editCompanyName,
+        editPhone,
+        editEmail,
+        editLoginEmail,
+        editPassword,
+        editState,
+        editFirstName,
+        editLastName,
+        editImage,
+        editCity,
+        editAadharNumber,
+        editAddress1,
+        editAddress2
+      }
+
+      const datas = {
+        contact_info: {
+          state: editState,
+          city: editCity,
+          address1: editAddress1,
+          address2: editAddress2,
+          phoneNumber: editPhone
+        },
+        firstName: editFirstName,
+        companyName: editCompanyName,
+        lastName: editLastName,
+        // password: "$2b$13$43r7K3/WNNQ55LZexr823OR1wcPq7qiku1ubZGqLWHxpp71RNzVT.",
+        email: editEmail,
+        aadhar: editAadharNumber,
+        regNo: editRegNo,
+        pan: editPanCard,
+        gstNo: editGstNo,
+        image: "",
+      }
+
+      const response = await new Client().admin.servicecenter.update(datas, partner._id)
       console.log(response)
 
       // Update original values after successful save
@@ -320,7 +335,7 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({
                   label="Reg No"
                   value={originalValues.editRegNo} 
                 />
-                <InfoItem icon={<FaRegAddressCard className="text-[#9b111e]" />} label="Address" value={editAddress} />
+                {/* <InfoItem icon={<FaRegAddressCard className="text-[#9b111e]" />} label="Address" value={editAddress} /> */}
                 {/* <InfoItem
                   icon={<MdVerified className="text-[#9b111e]" />}
                   label="Verified Center"
@@ -443,24 +458,18 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({
                       value={editCompanyName}
                       onChange={setEditCompanyName}
                     />
-                    {/* <EnhancedEditField
-                      icon={<SlCalender className="text-[#9b111e]" />}
+                    <EnhancedEditField
+                      // icon={<SlCalender className="text-[#9b111e]" />}
                       label="Aadhar No"
-                      value={originalValues.editAadharNumber}
-                      onChange={se}
+                      value={editFirstName}
+                      onChange={setFirstName}
                     />
                     <EnhancedEditField
-                      icon={<FaCodeBranch className="text-[#9b111e]" />}
+                      // icon={<FaCodeBranch className="text-[#9b111e]" />}
                       label="Branches"
-                      value={editBranches}
-                      onChange={setEditBranches}
+                      value={editLastName}
+                      onChange={setLastName}
                     />
-                    <EnhancedEditField
-                      icon={<AiFillSafetyCertificate className="text-[#9b111e]" />}
-                      label="EV Certified"
-                      value={editEvCertified}
-                      onChange={setEditEvCertified}
-                    /> */}
                     <EnhancedEditField
                       icon={<LuPhoneCall className="text-[#9b111e]" />}
                       label="Phone"
@@ -517,10 +526,31 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({
                     /> */}
                     <EnhancedEditField
                       icon={<FaRegAddressCard className="text-[#9b111e]" />}
-                      label="Address"
-                      value={editAddress}
-                      onChange={setEditAddress}
-                      textarea
+                      label="State"
+                      value={editState}
+                      onChange={setEditState}
+                      // textarea
+                    />
+                    <EnhancedEditField
+                      icon={<FaRegAddressCard className="text-[#9b111e]" />}
+                      label="City"
+                      value={editCity}
+                      onChange={setEditCity}
+                      // textarea
+                    />
+                    <EnhancedEditField
+                      icon={<FaRegAddressCard className="text-[#9b111e]" />}
+                      label="Address2"
+                      value={editAddress1}
+                      onChange={setEditAddress1}
+                      // textarea
+                    />
+                    <EnhancedEditField
+                      icon={<FaRegAddressCard className="text-[#9b111e]" />}
+                      label="Address2"
+                      value={editAddress2}
+                      onChange={setEditAddress2}
+                      // textarea
                     />
                   </div>
                 </div>
@@ -543,13 +573,13 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({
                       value={editLoginEmail}
                       onChange={setEditLoginEmail}
                     />
-                    <EnhancedEditField
+                    {/* <EnhancedEditField
                       icon={<RiLockPasswordLine className="text-[#9b111e]" />}
                       label="Password"
                       value={editPassword}
                       onChange={setEditPassword}
                       type="password"
-                    />
+                    /> */}
                   </div>
                 </div>
               </div>
