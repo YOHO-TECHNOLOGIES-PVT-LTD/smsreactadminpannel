@@ -24,7 +24,7 @@ interface PartnerFormData {
   lastName: string
   companyName?: string
   email: string
-  password: string
+  // password: string
   contact_info: ContactInfo
   role: "partner"
   image?: File | null
@@ -46,6 +46,7 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
   const [selectedCardIndex, setSelectedCardIndex] = useState<number | null>(null)
   const [showSearch, setShowSearch] = useState(false)
   const [searchTerm, setSearchTerm] = useState("")
+  const [showPassForm, setShowPassForm] = useState(false)
   const [showPartnerForm, setShowPartnerForm] = useState(false)
   const partnerFileInputRef = useRef<HTMLInputElement>(null)
 
@@ -55,7 +56,7 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
     lastName: "",
     companyName: "",
     email: "",
-    password: "",
+    // password: "",
     contact_info: {
       phoneNumber: "",
       state: "",
@@ -122,7 +123,7 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
         lastName: "",
         companyName: "",
         email: "",
-        password: "",
+        // password: "",
         contact_info: {
           phoneNumber: "",
           state: "",
@@ -138,6 +139,8 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
         partnerFileInputRef.current.value = ""
       }
 
+     
+
       alert("Partner registered successfully!")
       // You might want to refresh the partner list here
     } catch (error:any) {
@@ -152,7 +155,7 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
       lastName: "",
       companyName: "",
       email: "",
-      password: "",
+      // password: "",
       contact_info: {
         phoneNumber: "",
         state: "",
@@ -215,6 +218,7 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
               </button>
             </div>
           </div>
+          
 
           <div className="flex flex-col gap-4 mt-4" >
             {filteredPartners.map((center: any, index: number) => (
@@ -357,7 +361,7 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
                       className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#800000] focus:border-transparent transition"
                     />
                   </div>
-
+{/* 
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
                       Password <span className="text-red-500">*</span>
@@ -371,7 +375,7 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
                       onChange={handlePartnerFormChange}
                       className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#800000] focus:border-transparent transition"
                     />
-                  </div>
+                  </div> */}
                 </div>
 
                 {/* Column 2 */}
@@ -464,6 +468,7 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
                     Cancel
                   </button>
                   <button
+                    onClick={() => setShowPassForm(true)}
                     type="submit"
                     className="px-6 py-2 text-white font-semibold rounded-md hover:opacity-90 transition"
                     style={{ background: "linear-gradient(44.99deg, #700808 11%, #d23c3c 102.34%)" }}
@@ -476,6 +481,17 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
           </div>
         </div>
       )}
+
+    
+    {showPassForm && (
+  <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+    <div className="bg-white p-4 rounded">
+      <h1>Hello world</h1>
+      <button onClick={() => setShowPassForm(false)}>Close</button>
+    </div>
+  </div>
+)}
+
     </div>
   )
 }

@@ -212,11 +212,11 @@ const SidebarLink = ({
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       style={{ backgroundColor }}
-      className={`flex items-center transition-all px-2 py-1 
+      className={`flex items-center transition-all py-1 
         ${
           isOpen
-            ? "w-full justify-start gap-5 pl-5 pr-1"
-            : "justify-center w-10 h-8"
+            ? " justify-start gap-5 w-[200px] py-2.5 px-4"
+            : "justify-center w-10 h-10 py-2 "
         } 
         rounded-full
       `}
