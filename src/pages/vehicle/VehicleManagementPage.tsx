@@ -8,6 +8,7 @@ import carDefaultlogo from "../../assets/INVALID CAR LOGO.png";
 import { RiResetLeftFill } from "react-icons/ri";
 import { getvechiclemanage } from "../../features/VehicleManagement/service";
 import { FONTS } from "../../constants/uiConstants";
+import dummyImg from '../../assets/dummy/dummyimage.jpg'
 
 const VehicleManagementPage = () => {
   const [selectedVehicle, setSelectedVehicle] = useState<Vehicle | null>(null);
@@ -58,7 +59,7 @@ const VehicleManagementPage = () => {
 
   return {
     baseVehicleInfo: {
-      image: vehicle?.vehicleInfo?.image || "",
+      image: vehicle?.vehicleInfo?.image || dummyImg,
       title: vehicle?.vehicleInfo?.model || "Untitled",
       registrationNumber: vehicle?.vehicleInfo?.registrationNo || "N/A",
     },
@@ -145,7 +146,7 @@ const VehicleManagementPage = () => {
               style={{ position: "relative", left: "350px" }}
             >
               <img
-                src={carDefaultlogo}
+                src={dummyImg}
                 alt="No cars"
                 style={{ height: "255px", width: "255px" }}
               />

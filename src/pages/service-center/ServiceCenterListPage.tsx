@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type React from "react"
 
-import { useState, useRef } from "react"
+import { useState, useRef, useEffect } from "react"
 import { FaArrowTrendUp } from "react-icons/fa6"
 import { BsEye } from "react-icons/bs"
 import { IoClose } from "react-icons/io5"
@@ -10,6 +10,8 @@ import { FiSearch } from "react-icons/fi"
 import { COLORS, FONTS } from "../../constants/uiConstants"
 import logo from "../../assets/LOGO.jpg"
 import Client from "../../api"
+import dummyImg from "../../assets/dummy/dummyimage.jpg"
+import { fetchCountries } from "../../features/ServiceCenter/externalapi"
 
 interface ContactInfo {
   phoneNumber: string
@@ -178,6 +180,42 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
       center.companyName?.toLowerCase().includes(searchTerm.toLowerCase()),
   )
 
+  // const [state, setState] = useState<any[]>([]);
+
+  // const getStates = async() => {
+  //   const response = await fetchCountries();
+  //   if (response && response.data) {
+  //     setCity(response.data);
+  //   } else {
+  //     setState([]);
+  //   }
+  // }
+
+  // useEffect (() => {
+  //   getStates();
+  // })
+
+  // }
+  
+  const [city, setCity] = useState<any[]>([]);
+
+  const getCountries = async () => {
+    const response = await fetchCountries();
+    if (response && response.data) {
+      setCity(response.data);
+    } else {
+      setCity([]);
+    }
+  }
+
+  useEffect (() => {
+    getCountries();
+  })
+
+  console.log('Country :', city);
+
+  
+  
   return (
     <div className="flex flex-col bg-gray-100" style={{ background: COLORS.bgColor }}>
       <div className="flex gap-6 flex-wrap">
@@ -210,8 +248,8 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
               )}
 
               <button
-                className="!text-white px-4 py-2 rounded-lg transition duration-200 flex items-center gap-2"
-                style={{ ...FONTS.paragraph, background: "linear-gradient(44.99deg, #700808 11%, #d23c3c 102.34%)"}}
+                className="!text-white px-4 py-2 bg-[#9b111e] rounded-3xl transition duration-200 flex items-center gap-2"
+                style={{ ...FONTS.paragraph,}}
                 onClick={() => setShowPartnerForm(true)}
               >
                 <MdAddCircleOutline size={18} /> Add
@@ -225,7 +263,7 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
               <div key={index}>
                 <div className="bg-white p-6 rounded-lg shadow flex flex-col sm:flex-row gap-20 items-start w-full max-w-[2000px]">
                   <img
-                    src={center.image || logo}
+                    src={center.image || dummyImg}
                     alt={center.firstName}
                     className="w-72 h-40 object-cover rounded-lg"
                   />
@@ -254,9 +292,9 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
                     {/* {selectedCardIndex !== index && ( */}
                       <button
                         onClick={() => changeData(index)}
-                        className="!text-white px-4 py-2 rounded-md transition duration-200 flex items-center gap-1.5 text-sm"
+                        className="!text-white px-4 py-2 rounded-3xl bg-[#9b111e] transition duration-200 flex items-center gap-1.5 text-sm"
                         style={{ ...FONTS.paragraph,
-                          background: "linear-gradient(44.99deg, #700808 11%, #d23c3c 102.34%)",
+                          
                         }}
                       >
                         <BsEye size={16} /> View
@@ -408,16 +446,21 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">City</label>
-                    <input
-                      type="text"
-                      name="contact_info.city"
-                      placeholder="City"
-                      value={partnerFormData.contact_info.city}
-                      onChange={handlePartnerFormChange}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#800000] focus:border-transparent transition"
-                    />
-                  </div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">City</label>
+                      <select
+                        name="contact_info.city"
+                        value={partnerFormData.contact_info.city}
+                        onChange={handlePartnerFormChange}
+                        className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#800000] focus:border-transparent transition"
+                      >
+                        <option value="">Select a city</option>
+                        {city.map(city => (
+                          <option key={city.id} value={city.name}>
+                            {city.name}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
 
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">Address Line 1</label>
@@ -483,14 +526,14 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
       )}
 
     
-    {showPassForm && (
+    {/* {showPassForm && (
   <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
     <div className="bg-white p-4 rounded">
       <h1>Hello world</h1>
       <button onClick={() => setShowPassForm(false)}>Close</button>
     </div>
-  </div>
-)}
+  </div> */}
+{/* )} */}
 
     </div>
   )

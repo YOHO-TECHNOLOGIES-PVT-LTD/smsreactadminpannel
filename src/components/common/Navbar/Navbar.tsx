@@ -143,7 +143,7 @@ export const Navbar = () => {
           />
           <button
             type="submit"
-            className="bg-gradient-to-r from-red-600 to-red-800 rounded-full p-3 hover:scale-105 transition-transform"
+            className="bg-[#9b111e] rounded-full p-3 hover:scale-105 transition-transform"
           >
             <svg
               className="w-4 h-4 text-white"
@@ -171,7 +171,7 @@ export const Navbar = () => {
               <div className="absolute -top-1 -right-1 w-3.5 h-3.5 bg-yellow-500 border-2 border-white rounded-full z-20" />
               <button
                 onClick={handleSosClick}
-                className="relative z-10 inline-flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-r from-red-600 to-red-800 !text-white  !shadow-lg hover:!scale-105 transition-transform"
+                className="relative z-10 inline-flex items-center justify-center w-10 h-10 rounded-full bg-[#9b111e] !text-white  !shadow-lg hover:!scale-105 transition-transform"
                 style={{ ...FONTS.cardSubHeader }}
               >
                 SOS
@@ -185,7 +185,7 @@ export const Navbar = () => {
               <button
                 aria-label="Notifications"
                 onClick={handleBellClick}
-                className={`relative p-2.5 rounded-full bg-gradient-to-r from-red-600 to-red-800 focus:outline-none transform transition-transform duration-200 ease-in-out ${isBellActive ? "scale-90" : "scale-100"
+                className={`relative p-2.5 rounded-full bg-[#9b111e] focus:outline-none transform transition-transform duration-200 ease-in-out ${isBellActive ? "scale-90" : "scale-100"
                   }`}
               >
                 <svg
