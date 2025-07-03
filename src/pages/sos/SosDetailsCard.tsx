@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState, useEffect } from 'react';
 import {
   FaInfoCircle,
@@ -131,27 +132,6 @@ const SosDetails: React.FC = () => {
   }
 
 
-  // const filteredDetails = statusFilter === 'All'
-  //   ? postedDetails
-  //   : postedDetails.filter(detail => detail.status === statusFilter);
-
-  // const selected = filteredDetails[0] || {
-  //   title: 'No Matching Records',
-  //   postedDate: '',
-  //   deadline: '',
-  //   postedBy: '',
-  //   department: '',
-  //   status: '',
-  //   note: '',
-  //   location: '',
-  //   contactName: '',
-  //   contactPhone: '',
-  //   contactEmail: '',
-  //   latitude: 37.773972,
-  //   longitude: -122.431297,
-  //   imageUrl: '',
-  // };
-
   return (
     <div className="w-full mx-auto p-6 bg-gray-100 min-h-screen font-poppins">
       <div className="flex items-center p-4">
@@ -208,10 +188,10 @@ const SosDetails: React.FC = () => {
               <FaMapMarkerAlt className="text-[#9b111e] lg:text-md  xl:text-2xl mr-3" />
               <div className="text-lg lg:text-md !text-gray-900 !font-semibold" style={{...FONTS.cardSubHeader}}>{postedDetails.location}</div>
             </div>
-            <div className="flex items-center mt-10">
+            {/* <div className="flex items-center mt-10">
               <FaEnvelope className="text-[#9b111e] lg:text-md  xl:text-2xl mr-3" />
-              <div className="text-lg lg:text-md !text-gray-900 !font-semibold" style={{...FONTS.cardSubHeader}}>{postedDetails.customerId.email}</div>
-            </div>
+              <div className="text-lg lg:text-md !text-gray-900 !font-semibold" style={{...FONTS.cardSubHeader}}>{postedDetails.customerId?.email}</div>
+            </div> */}
             <div className="flex items-center mt-10">
               <FaPhoneAlt className="text-[#9b111e] lg:text-md  xl:text-2xl mr-3" />
               <div className="text-lg lg:text-md !text-gray-900 !font-semibold" style={{...FONTS.cardSubHeader}}>{postedDetails.phoneNumber}</div>
