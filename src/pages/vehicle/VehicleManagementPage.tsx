@@ -59,7 +59,7 @@ const VehicleManagementPage = () => {
 
   return {
     baseVehicleInfo: {
-      image: vehicle?.vehicleInfo?.image || dummyImg,
+      image: vehicle?.vehicleInfo?.image ,
       title: vehicle?.vehicleInfo?.model || "Untitled",
       registrationNumber: vehicle?.vehicleInfo?.registrationNo || "N/A",
     },
@@ -145,11 +145,11 @@ const VehicleManagementPage = () => {
               className="flex flex-col items-center justify-center h-[54.7vh] w-full overflow-y-hidden"
               style={{ position: "relative", left: "350px" }}
             >
-              <img
-                src={dummyImg}
-                alt="No cars"
+              {/* <img
+                src={vehi.image}
+                alt="car image"
                 style={{ height: "255px", width: "255px" }}
-              />
+              /> */}
               <div className="absolute top-2/3">
                 <p className="text-red-700 font-semibold">
                   No car available for this search

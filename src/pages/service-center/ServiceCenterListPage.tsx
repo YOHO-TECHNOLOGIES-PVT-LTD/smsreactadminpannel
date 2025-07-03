@@ -293,8 +293,8 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
               <div key={index}>
                 <div className="bg-white p-6 rounded-lg shadow flex flex-col sm:flex-row gap-20 items-start w-full max-w-[2000px]">
                   <img
-                    src={center.image || dummyImg}
-                    alt={center.firstName}
+                    src={center.image}
+                    alt={center.companyName+" logo"}
                     className="w-72 h-40 object-cover rounded-lg"
                   />
                   <div className="flex-1">

@@ -589,7 +589,7 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({ handleBack, partne
                 <div key={service._id} className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
                   <div className="relative">
                     <img
-                      src={service.image || "https://images.pexels.com/photos/120049/pexels-photo-120049.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"}
+                      src={service.image}
                       alt={service.service_name}
                       className="w-full h-48 object-cover"
                     />

@@ -351,13 +351,13 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({Spareparts = [], partnerId
                   
                   <img
                     className="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-300"
-                    src={part.image || "/placeholder.svg"}
+                    src={part.image}
                     alt={part.name}
                     loading="lazy"
-                    onError={(e) => {
-                      const target = e.target as HTMLImageElement
-                      target.src = "https://wallup.net/wp-content/uploads/2016/01/65578-BMW_M3-BMW-car-blue_cars.jpg"
-                    }}
+                    // onError={(e) => {
+                    //   const target = e.target as HTMLImageElement
+                    //   target.src = "https://wallup.net/wp-content/uploads/2016/01/65578-BMW_M3-BMW-car-blue_cars.jpg"
+                    // }}
                   />
                 </div>
 
@@ -647,14 +647,14 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({Spareparts = [], partnerId
               </div>
 
               <img
-                src={selectedPart.image || "/placeholder.svg"}
+                src={selectedPart.image}
                 alt={selectedPart.name}
                 loading="lazy"
-                onError={(e) => {
-                  const target = e.target as HTMLImageElement
-                  target.src =
-                    "https://wallup.net/wp-content/uploads/2016/01/65578-BMW_M3-BMW-car-blue_cars.jpg"
-                }}
+                // onError={(e) => {
+                //   const target = e.target as HTMLImageElement
+                //   target.src =
+                //     "https://wallup.net/wp-content/uploads/2016/01/65578-BMW_M3-BMW-car-blue_cars.jpg"
+                // }}
                 className="w-full h-64 object-cover mb-4 bg-gray-50 rounded"
               />
 

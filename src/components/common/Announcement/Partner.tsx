@@ -10,17 +10,17 @@ const Partner = () => {
     {
       title: 'XYZ Auto Parts',
       price: '10% Discount',
-      image: dummyImg,
+      image: null,
     },
     {
       title: 'Shine & Drive',
       price: 'Free Interior Detailing',
-      image: dummyImg,
+      image: null,
     },
     {
       title: 'Lubricants Inc.',
       price: 'Buy 1 Get 1',
-      image: dummyImg,
+      image: null,
     },
   ]);
 
@@ -80,7 +80,7 @@ const Partner = () => {
           className="flex flex-col hover:shadow-xl transform hover:scale-[1.02] p-2 transition-all duration-300 bg-white shadow-md rounded-lg mb-4 mx-6"
         >
           <img
-            src={item.image || dummyImg}
+            src={item.image}
             alt={item.title}
             className="w-full h-40 object-cover"
           />

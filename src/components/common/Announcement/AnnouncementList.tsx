@@ -1,23 +1,19 @@
 import React, { useState } from 'react';
 import { FONTS } from '../../../constants/uiConstants';
-import dummyImg from '../../../assets/dummy/dummyimage.jpg'
 
 const AnnouncementList = () => {
   const [announcements, setAnnouncements] = useState([
     {
       title: 'Holiday Discount',
       price: '20% Off',
-      image: dummyImg,
     },
     {
       title: 'Free Car Wash',
       price: 'On Orders 50+',
-      image: dummyImg,
     },
     {
       title: 'Limited Time Offer',
       price: 'Until May 30',
-      image: dummyImg,
     },
   ]);
 
@@ -32,9 +28,7 @@ const AnnouncementList = () => {
     const newAnnouncement = {
       title: heading,
       price: price,
-      image: image
-        ? URL.createObjectURL(image)
-        : dummyImg,
+      image: URL.createObjectURL(image)
     };
     setAnnouncements([...announcements, newAnnouncement]);
     resetForm();
@@ -75,7 +69,7 @@ const AnnouncementList = () => {
               className="flex flex-col hover:shadow-xl transform hover:scale-[1.02] p-2 transition-all duration-300 bg-white shadow-md rounded-lg"
             >
               <img
-                src={item.image  || dummyImg}
+                src={item.image}
                 alt={item.title}
                 className="w-60 h-40 object-cover rounded-t-lg"
               />

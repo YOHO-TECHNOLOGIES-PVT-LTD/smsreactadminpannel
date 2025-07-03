@@ -7,17 +7,14 @@ const Offer = () => {
     {
       title: 'EXTERIOR WASH AND POLISH',
       price: '30.00',
-      image: dummyImg,
     },
     {
       title: 'INTERIOR DETAILING',
       price: '35.00',
-      image: dummyImg,
     },
     {
       title: 'CERAMIC COATING',
       price: '40.00',
-      image: dummyImg,
     },
   ]);
 
@@ -69,7 +66,7 @@ return (
             className="flex flex-col hover:shadow-xl transform hover:scale-[1.02] p-2 transition-all duration-300 bg-white shadow-md rounded-lg"
           >
             <img
-              src={item.image || dummyImg}
+              src={item.image}
               alt={item.title}
               className="w-full h-40 object-cover rounded-t-lg"
             />
