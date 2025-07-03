@@ -513,13 +513,13 @@ const CustomerDetails: React.FC<ProfileViewComponent> = ({ onProfileView }) => {
           <div className="min-w-full">
             {/* Table Header */}
             <div className="grid grid-cols-7 gap-4 text-sm !font-semibold text-gray-600 p-4 bg-gray-50 border-b border-gray-200" style={{...FONTS.tableHeader}}>
-              <div className="pl-6">Customer</div>
-              <div className="pl-2">Email</div>
-              <div className="pl-2 text-center">Services</div>
-              <div className="pl-2 text-center">Orders</div>
-              <div className="pl-2">Vehicle</div>
-              <div className="pl-2 text-center">Status</div>
-              <div className="pl-2">Action</div>
+              <div className="pl-6 text-gray-500">Customer</div>
+              <div className="pl-2 text-gray-500 ">Email</div>
+              <div className="pl-2 text-gray-500  text-center">Services</div>
+              <div className="pl-2 text-gray-500  text-center">Orders</div>
+              <div className="pl-2 text-gray-500 ">Vehicle</div>
+              <div className="pl-2 text-gray-500  text-center">Status</div>
+              <div className="pl-2 text-gray-500 ">Action</div>
             </div>
 
             {/* Table Body */}

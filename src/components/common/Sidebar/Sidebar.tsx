@@ -14,8 +14,8 @@ import {
 } from "react-icons/fi";
 // import Logo from "../../../assets/LOGO.jpg";
 import { RiCalendarScheduleLine } from "react-icons/ri";
-import Logo from "../../../assets/YES MECHANIC LOGO .png";
-import MiniLogo from "../../../assets/Toggle-Logo.jpg";
+import mainLogo from '../../../assets/Admin logo.png'
+import MiniLogo from "../../../assets/Admin Logo (1).png";
 import { RiMenu2Line, RiMenu3Line } from "react-icons/ri";
 import { Megaphone } from "lucide-react";
 import { MdHelpOutline } from "react-icons/md";
@@ -44,7 +44,7 @@ export const Sidebar = () => {
           }`}
         >
           <img
-            src={isOpen ? Logo : MiniLogo}
+            src={isOpen ? mainLogo : MiniLogo}
             alt="YES Mechanic Logo"
             className="object-contain h-[48px] transition-all duration-300"
           />
@@ -212,11 +212,11 @@ const SidebarLink = ({
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       style={{ backgroundColor }}
-      className={`flex items-center transition-all px-2 py-1 
+      className={`flex items-center transition-all py-1 
         ${
           isOpen
-            ? "w-full justify-start gap-5 pl-5 pr-1"
-            : "justify-center w-10 h-8"
+            ? " justify-start gap-5 w-[200px] py-2.5 px-4"
+            : "justify-center w-10 h-10 py-2 "
         } 
         rounded-full
       `}

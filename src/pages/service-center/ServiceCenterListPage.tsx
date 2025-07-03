@@ -1,15 +1,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type React from "react"
 
-import { useState, useRef } from "react"
+import { useState, useRef, useEffect } from "react"
 import { FaArrowTrendUp } from "react-icons/fa6"
 import { BsEye } from "react-icons/bs"
 import { IoClose } from "react-icons/io5"
 import { MdAddCircleOutline, MdOutlineKeyboardBackspace } from "react-icons/md"
 import { FiSearch } from "react-icons/fi"
 import { COLORS, FONTS } from "../../constants/uiConstants"
-import logo from "../../assets/LOGO.jpg"
 import Client from "../../api"
+import dummyImg from "../../assets/dummy/dummyimage.jpg"
+import { fetchCountries, fetchState } from "../../features/ServiceCenter/externalapi"
+import { toast } from "react-toastify"
 
 interface ContactInfo {
   phoneNumber: string
@@ -46,6 +48,7 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
   const [selectedCardIndex, setSelectedCardIndex] = useState<number | null>(null)
   const [showSearch, setShowSearch] = useState(false)
   const [searchTerm, setSearchTerm] = useState("")
+  const [showPassForm, setShowPassForm] = useState(false)
   const [showPartnerForm, setShowPartnerForm] = useState(false)
   const partnerFileInputRef = useRef<HTMLInputElement>(null)
 
@@ -138,7 +141,9 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
         partnerFileInputRef.current.value = ""
       }
 
-      alert("Partner registered successfully!")
+     
+
+      toast.success("Partner registered successfully!")
       // You might want to refresh the partner list here
     } catch (error:any) {
       console.log("Registration failed!",error.message)
@@ -175,15 +180,48 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
       center.companyName?.toLowerCase().includes(searchTerm.toLowerCase()),
   )
 
+  
+  const [city, setCity] = useState<any[]>([]);
+
+  const getCountries = async () => {
+    const response = await fetchCountries();
+    if (response && response.data) {
+      setCity(response.data);
+    } else {
+      setCity([]);
+    }
+  }
+
+  useEffect (() => {
+    getCountries();
+  },[])
+
+  console.log('Country :', city);
+
+  const [state, setState] = useState<any[]>([]);
+
+  const getStates = async() => {
+    const response = await fetchState();
+    if (response) {
+      setState(response.data);
+    } else {
+      setState([]);
+    }
+  }
+
+  useEffect (() => {
+    getStates();
+  },[])
+
+  console.log('state:',state)
+
+  
+  
   return (
     <div className="flex flex-col bg-gray-100" style={{ background: COLORS.bgColor }}>
       <div className="flex gap-6 flex-wrap">
         <div className="flex-1 min-w-[600px] bg-white p-5" style={{ background: COLORS.bgColor }}>
-          <div className="t-0" style={{ background: COLORS.bgColor }}>
-            <button onClick={handleBack}>
-              <MdOutlineKeyboardBackspace className="text-[#800000] text-3xl" />
-            </button>
-          </div>
+          
 
           <div className="flex justify-between items-center border-b border-gray-300 pb-4 mb-4 flex-wrap gap-4">
             <h1 className="font-bold font-koh font-normal text-3xl pt-2 text-[#9b111e]">Service Center</h1>
@@ -207,21 +245,22 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
               )}
 
               <button
-                className="!text-white px-4 py-2 rounded-lg transition duration-200 flex items-center gap-2"
-                style={{ ...FONTS.paragraph, background: "linear-gradient(44.99deg, #700808 11%, #d23c3c 102.34%)"}}
+                className="!text-white px-4 py-2 bg-[#9b111e] rounded-3xl transition duration-200 flex items-center gap-2"
+                style={{ ...FONTS.paragraph,}}
                 onClick={() => setShowPartnerForm(true)}
               >
                 <MdAddCircleOutline size={18} /> Add
               </button>
             </div>
           </div>
+          
 
           <div className="flex flex-col gap-4 mt-4" >
             {filteredPartners.map((center: any, index: number) => (
               <div key={index}>
                 <div className="bg-white p-6 rounded-lg shadow flex flex-col sm:flex-row gap-20 items-start w-full max-w-[2000px]">
                   <img
-                    src={center.image || logo}
+                    src={center.image || dummyImg}
                     alt={center.firstName}
                     className="w-72 h-40 object-cover rounded-lg"
                   />
@@ -250,9 +289,9 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
                     {/* {selectedCardIndex !== index && ( */}
                       <button
                         onClick={() => changeData(index)}
-                        className="!text-white px-4 py-2 rounded-md transition duration-200 flex items-center gap-1.5 text-sm"
+                        className="!text-white px-4 py-2 rounded-3xl bg-[#9b111e] transition duration-200 flex items-center gap-1.5 text-sm"
                         style={{ ...FONTS.paragraph,
-                          background: "linear-gradient(44.99deg, #700808 11%, #d23c3c 102.34%)",
+                          
                         }}
                       >
                         <BsEye size={16} /> View
@@ -392,28 +431,38 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">State</label>
-                    <input
-                      type="text"
-                      name="contact_info.state"
-                      placeholder="State"
-                      value={partnerFormData.contact_info.state}
-                      onChange={handlePartnerFormChange}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#800000] focus:border-transparent transition"
-                    />
-                  </div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">State</label>
+                      <select
+                        name="contact_info.state"
+                        value={partnerFormData.contact_info.state}
+                        onChange={handlePartnerFormChange}
+                        className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#800000] focus:border-transparent transition"
+                      >
+                        <option value="">Select a state</option>
+                        {state.map(city => (
+                          <option key={city.id} value={city.name}>
+                            {city.name}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">City</label>
-                    <input
-                      type="text"
-                      name="contact_info.city"
-                      placeholder="City"
-                      value={partnerFormData.contact_info.city}
-                      onChange={handlePartnerFormChange}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#800000] focus:border-transparent transition"
-                    />
-                  </div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">City</label>
+                      <select
+                        name="contact_info.city"
+                        value={partnerFormData.contact_info.city}
+                        onChange={handlePartnerFormChange}
+                        className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#800000] focus:border-transparent transition"
+                      >
+                        <option value="">Select a city</option>
+                        {city.map(city => (
+                          <option key={city.id} value={city.name}>
+                            {city.name}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
 
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">Address Line 1</label>
@@ -464,6 +513,7 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
                     Cancel
                   </button>
                   <button
+                    onClick={() => setShowPassForm(true)}
                     type="submit"
                     className="px-6 py-2 text-white font-semibold rounded-md hover:opacity-90 transition"
                     style={{ background: "linear-gradient(44.99deg, #700808 11%, #d23c3c 102.34%)" }}
@@ -476,6 +526,17 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
           </div>
         </div>
       )}
+
+    
+    {/* {showPassForm && (
+  <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+    <div className="bg-white p-4 rounded">
+      <h1>Hello world</h1>
+      <button onClick={() => setShowPassForm(false)}>Close</button>
+    </div>
+  </div> */}
+{/* )} */}
+
     </div>
   )
 }

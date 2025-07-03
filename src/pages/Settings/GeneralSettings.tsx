@@ -19,7 +19,7 @@ const handleRenderComponent = (tabText: string) => {
         <h1 className="text-3xl top-0 text-[#9b111e] font-bold" style={{...FONTS.header}}>Settings</h1>
       </div>
       <div className="mt-10">
-      <button style={{...FONTS.cardSubHeader}} onClick={()=>handleRenderComponent("Account Settings")} className={`bg-transparent focus:bg-orange-800 !focus:text-white focus:border-orange-800 border-orange-800 hover:bg-gradient-to-r hover:from-red-600 hover:to-red-800 font-semibold !hover:text-white py-2 px-4 ml-4 border border-blue-500 hover:border-transparent rounded ${tab === "Account Settings" ? "bg-gradient-to-r from-red-600 to-red-800 !text-white" : "!text-orange-800"}`}>
+      <button style={{...FONTS.cardSubHeader}} onClick={()=>handleRenderComponent("Account Settings")} className={`bg-transparent focus:bg-orange-800 !focus:text-white focus:border-orange-800 border-orange-800 hover:bg-gradient-to-r hover:from-red-600 hover:to-red-800 font-semibold  py-2 px-4 ml-4  rounded ${tab === "Account Settings" ? "bg-gradient-to-r from-red-600 to-red-800 !text-white" : "!text-orange-800"}`}>
       Account Settings
       </button>
       <button  style={{...FONTS.cardSubHeader}} onClick={()=>handleRenderComponent("Change Password")} className={`bg-transparent focus:bg-orange-800 !focus:text-white focus:border-orange-800 border-orange-800 hover:bg-gradient-to-r hover:from-red-600 hover:to-red-800 font-semibold !hover:text-white py-2 px-4 ml-4 border border-blue-500 hover:border-transparent rounded ${tab === "Change Password" ? "!bg-gradient-to-r from-red-600 to-red-800 !text-white" : "!text-orange-800"}`}>

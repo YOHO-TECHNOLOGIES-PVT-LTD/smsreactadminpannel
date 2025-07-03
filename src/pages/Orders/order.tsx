@@ -265,24 +265,24 @@ const Order = () => {
       >
         <div className="overflow-x-auto">
           <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
+            <thead className="bg-[#e9e9e9]">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"style={{...FONTS.tableHeader}}>
-                  Order ID
+                <th className="px-6 py-3 text-left text-xs font-bold text-[#717171] tracking-wider"style={{...FONTS.tableHeader}}>
+                  Order id
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"style={{...FONTS.tableHeader}}>
+                <th className="px-6 py-3 text-left text-xs font-bold text-[#717171] tracking-wider"style={{...FONTS.tableHeader}}>
                   Customer
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"style={{...FONTS.tableHeader}}>
+                <th className="px-6 py-3 text-left text-xs font-bold text-[#717171] tracking-wider"style={{...FONTS.tableHeader}}>
                   Date
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"style={{...FONTS.tableHeader}}>
+                <th className="px-6 py-3 text-left text-xs font-bold text-[#717171] tracking-wider"style={{...FONTS.tableHeader}}>
                   Status
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"style={{...FONTS.tableHeader}}>
+                <th className="px-6 py-3 text-left text-xs font-bold text-[#717171] tracking-wider"style={{...FONTS.tableHeader}}>
                   Total
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"style={{...FONTS.tableHeader}}>
+                <th className="px-6 py-3 text-left text-xs font-bold text-[#717171] tracking-wider"style={{...FONTS.tableHeader}}>
                   Actions
                 </th>
               </tr>
