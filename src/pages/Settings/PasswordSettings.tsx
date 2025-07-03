@@ -63,7 +63,7 @@ const PasswordSettings = () => {
   </div>
 </div>
 <div className="mt-10 flex">
-    <button className=" rounded-3xl p-3 text-[12px] !text-white"style={{ background: "linear-gradient(44.99deg,#700808 11%,#d23c3c 102.34%)", ...FONTS.subParagraph }}>Confirm Password</button>
+    <button className=" rounded-3xl p-3 text-[12px] !text-white"style={{ backgroundColor: "#9b111e", ...FONTS.subParagraph }}>Confirm Password</button>
     <a href="#" style={{...FONTS.paragraph}} className="text-red-700 ml-auto">Forgot Password ?</a>
 </div>
 </div>

@@ -96,7 +96,7 @@ const CityListPage: React.FC<CityListPageProps> = ({ searchTerm = '' }) => {
 										<td className='px-14 py-2'>
 											<button
 												onClick={() => navigate('/service')}
-												className='bg-gradient-to-r from-red-600 to-red-800 !text-white px-3 py-1 rounded-3xl hover:bg-[#a00000] transition active:scale-110'
+												className='bg-[#9b111e] !text-white px-3 py-1 rounded-3xl hover:bg-[#a00000] transition active:scale-110'
 											style={{...FONTS.subParagraph}}
 											>
 												View

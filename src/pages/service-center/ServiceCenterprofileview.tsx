@@ -48,17 +48,18 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({
   const [showDeleteSuccessPopup, setShowDeleteSuccessPopup] = useState(false)
 
   // Original values for comparison
+
   const [originalValues, setOriginalValues] = useState({
     editCompanyName: partner.firstName + " "+ partner.lastName || "yes mechanic",
     editEstablished: "2005",
     editBranches: "35",
     editEvCertified: "Yes",
-    editAadharNumber: partner.aadhar,
-    editRegNo: partner.RegNo || '',
-    editPanCard: partner.PanCard,
-    editGstNo: partner.GSTNo,
+    editAadharNumber: partner.aadhar || 'Nan',
+    editRegNo: partner.RegNo || 'Nan',
+    editPanCard: partner.PanCard || 'Nan',
+    editGstNo: partner.GSTNo || 'Nan',
     editPhone: partner?.contact_info?.phoneNumber || "",
-    editEmail: partner?.email || "",
+    editEmail: partner?.email || "Nan",
     editWebsite: "www.autonova.com",
     editAddress:
       `${partner?.contact_info?.address1 || ""} ${partner?.contact_info?.address2 || ""} ${partner?.contact_info?.city || ""} ${partner?.contact_info?.state || ""}`.trim(),
@@ -290,31 +291,32 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({
                   label="Company Name"
                   value={editCompanyName}
                 />
-                {/* <InfoItem
+                <InfoItem
                   icon={<SlCalender className="text-[#9b111e]" />}
                   label="AadharCard No"
-                  value={editAadharNumber}
-                /> */}
+                  value={originalValues.editAadharNumber}
+                />
                 
-                {/* <InfoItem
+                <InfoItem
                   icon={<AiFillSafetyCertificate className="text-[#9b111e]" />}
                   label="GST No"
-                  value={editGstNo}
-                /> */}
+                  value={originalValues.editGstNo}
+                />
               </div>
               <div className="space-y-5">
                 <InfoItem icon={<LuPhoneCall className="text-[#9b111e]" />} label="Phone" value={editPhone} />
                 <InfoItem icon={<MdEmail className="text-[#9b111e]" />} label="Email" value={editEmail} />
-                {/* <InfoItem icon={<CgWebsite className="text-[#9b111e]" />} label="Pan No" value={editPanCard} /> */}
-                <InfoItem icon={<FaRegAddressCard className="text-[#9b111e]" />} label="Address" value={editAddress} />
+                <InfoItem icon={<CgWebsite className="text-[#9b111e]" />} label="Pan No" value={originalValues.editPanCard} />
+                
               </div>
               <div className="space-y-5">
-                {/* <InfoItem
+                <InfoItem
                   icon={<FcDataEncryption className="text-[#9b111e]" />}
                   label="Reg No"
-                  value={} 
-                /> */}
-                <InfoItem
+                  value={originalValues.editRegNo} 
+                />
+                <InfoItem icon={<FaRegAddressCard className="text-[#9b111e]" />} label="Address" value={editAddress} />
+                {/* <InfoItem
                   icon={<MdVerified className="text-[#9b111e]" />}
                   label="Verified Center"
                   value={editVerifiedCenter}
@@ -328,7 +330,7 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({
                   icon={<BiSolidCertification className="text-[#9b111e]" />}
                   label="Certification"
                   value={editCertification}
-                />
+                /> */}
               </div>
             </div>
           </div>
@@ -340,7 +342,7 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({
           <div className="mb-8">
             <h2 className="text-xl !font-bold text-[#9b111e] mb-4 pb-2 border-b border-gray-200" style={{...FONTS.cardSubHeader}}>Login Information</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <InfoItem icon={<FaUserCircle className="text-[#9b111e]" />} label="Username" value={editUsername} />
+              
               <InfoItem
                 icon={<MdOutlineMailOutline className="text-[#9b111e]" />}
                 label="Email"

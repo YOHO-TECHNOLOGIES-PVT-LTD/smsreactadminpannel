@@ -25,7 +25,7 @@ interface PartnerFormData {
   firstName: string
   lastName: string
   companyName?: string
-  aadharNo: string
+  aadhar: string
   pan: string
   gstNo: string
   regNo: string
@@ -61,7 +61,7 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
     firstName: "",
     lastName: "",
     companyName: "",
-    aadharNo:"",
+    aadhar:"",
     pan: "",
     gstNo: "",
     regNo: "",
@@ -131,7 +131,7 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
         firstName: "",
         lastName: "",
         companyName: "",
-        aadharNo: "",
+        aadhar: "",
         pan: "",
         gstNo: "",
         regNo: "",
@@ -167,7 +167,7 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
       firstName: "",
       lastName: "",
       companyName: "",
-      aadharNo: "",
+      aadhar: "",
       pan: "",
       gstNo: "",
       regNo: "",
@@ -405,10 +405,10 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
                     </label>
                     <input
                       type="text"
-                      name="aadharNo"
+                      name="aadhar"
                       required
                       placeholder="Aadhar no"
-                      value={partnerFormData.aadharNo}
+                      value={partnerFormData.aadhar}
                       onChange={handlePartnerFormChange}
                       className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#800000] focus:border-transparent transition"
                     />
