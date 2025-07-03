@@ -235,7 +235,8 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({
             <div className="bg-white p-2 rounded-full" >
               <img src="https://logodix.com/logo/2004138.jpg" alt="Logo" className="w-16 h-16 object-contain" />
             </div >
-            <h3 className="!font-bold !text-white" style={{...FONTS.cardheader}}>{partner?.firstName + " " + partner?.lastName}</h3>
+            <h3 className="!font-bold !text-white" style={{ ...FONTS.cardheader }}>{partner?.firstName + " " + partner?.lastName}</h3>
+            <h3 className="!font-bold !text-white" style={{...FONTS.cardheader}}>{partner?.companyName}</h3>
           </div>
           <div className="flex gap-4">
           <button
