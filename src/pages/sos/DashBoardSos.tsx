@@ -170,7 +170,7 @@ const DashboardSos = () => {
               <button
                 key={status}
                 onClick={() => setFilterStatus(status)}
-                className={`px-4 py-1.5 rounded text-sm font-medium !text-white transition-all hover:shadow-md ${filterStatus === status
+                className={`px-4 py-1.5 rounded-3xl text-sm font-medium !text-white transition-all hover:shadow-md ${filterStatus === status
                   ? "bg-gradient-to-r from-red-700 to-red-900 shadow-md"
                   : "bg-gradient-to-r from-red-600 to-red-800" 
                   }`}
@@ -222,7 +222,7 @@ const DashboardSos = () => {
                       <td className="border border-gray-300 px-3 py-2 text-center">
                         <button
                           onClick={() => handleViewClick(req._id)}
-                          className="bg-gradient-to-r from-red-600 to-red-800 hover:from-red-700 hover:to-red-900 transition-all text-white px-3 py-1 rounded text-sm font-medium"
+                          className="bg-gradient-to-r from-red-600 to-red-800 hover:from-red-700 hover:to-red-900 transition-all text-white px-3 py-1 rounded-3xl text-sm font-medium"
                           title={`View details for ${req._id}`}
                         >
                           View
@@ -273,7 +273,7 @@ const DashboardSos = () => {
                     <button
                       aria-label={`Toggle ${service.title} ${service.active ? "off" : "on"}`}
                       onClick={() => handleToggleService(service)}
-                      className="focus:outline-none p-1"
+                      className="focus:outline-none p-1 rounded-3xl"
                       title={service.active ? "Enabled" : "Disabled"}
                     >
                       {service.active ? (
@@ -287,7 +287,7 @@ const DashboardSos = () => {
                       className="focus:outline-none p-1"
                       title="Delete Service"
                     >
-                      <MdDelete size={20} className="text-[#9b111e] hover:text-red-800 transition-colors" />
+                      <MdDelete size={20} className="text-[#9b111e] hover:text-red-800 transition-colors rounded-3xl" />
                     </button>
                   </div>
                 </li>
@@ -330,7 +330,7 @@ const DashboardSos = () => {
                   key={idx}
                   type="button"
                   onClick={() => setSelectedIconIndex(idx)}
-                  className={`p-1.5 border rounded text-lg flex justify-center items-center transition-colors ${selectedIconIndex === idx
+                  className={`p-1.5 border rounded-3xl text-lg flex justify-center items-center transition-colors ${selectedIconIndex === idx
                     ? "bg-red-100 border-red-500"
                     : "border-gray-300 hover:bg-red-50"
                     }`}
@@ -344,7 +344,7 @@ const DashboardSos = () => {
 
             <button
               type="submit"
-              className="bg-gradient-to-r from-red-600 to-red-800 hover:from-red-700 hover:to-red-900 text-white py-2.5 rounded transition-all font-medium text-sm"
+              className="bg-gradient-to-r from-red-600 to-red-800 hover:from-red-700 hover:to-red-900 text-white py-2.5 rounded-3xl transition-all font-medium text-sm"
             >
               Add Service
             </button>

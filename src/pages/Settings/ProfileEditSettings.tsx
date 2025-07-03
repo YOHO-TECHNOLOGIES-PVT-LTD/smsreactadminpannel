@@ -252,14 +252,14 @@ const ProfileEditSettings: React.FC = () => {
                 <div className="flex gap-10 mt-10">
                     <button
                         type="button"
-                        className="w-20 h-10 rounded-lg text-white"
+                        className="w-20 h-10 rounded-3xl text-white"
                         style={{ background: "linear-gradient(44.99deg,#700808 11%,#d23c3c 102.34%)" }}
                     >
                         Cancel
                     </button>
                     <button
                         type="submit"
-                        className="flex items-center gap-2 px-4 py-2 rounded-lg text-white"
+                        className="flex items-center gap-2 px-4 py-2 rounded-3xl text-white"
                         style={{ background: "linear-gradient(44.99deg,#700808 11%,#d23c3c 102.34%)" }}
                     >
                         <MdUpgrade className="text-2xl" />

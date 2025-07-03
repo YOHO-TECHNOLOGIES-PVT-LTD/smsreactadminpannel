@@ -90,7 +90,7 @@ const Queries = () => {
               <button
                 key={f}
                 onClick={() => setFilter(f as any)}
-                className={`block w-full text-left px-4 py-2 rounded-lg font-medium transition ${filter === f
+                className={`block w-full text-left px-4 py-2 rounded-3xl font-medium transition ${filter === f
                     ? "bg-[#de6874] text-white"
                     : "text-[#724e35] hover:bg-[#eaced1]"
                   }`}
@@ -132,7 +132,7 @@ const Queries = () => {
             <>
               <button
                 onClick={() => setSelectedQuery(null)}
-                className="text-[#9b111e] flex items-center mb-4"
+                className="text-[#9b111e] flex items-center mb-4 rounded-3xl"
               >
                 <AiOutlineArrowLeft className="mr-2" />
                 Back

@@ -21,6 +21,41 @@ import { Megaphone } from "lucide-react";
 import { MdHelpOutline } from "react-icons/md";
 import { FONTS } from "../../../constants/uiConstants";
 import { AiOutlineCalendar } from "react-icons/ai";
+import Dashboardwhite from "../../../assets/Dashboard1.svg";
+import Dashboardgrey from "../../../assets/Dashboard2.svg";
+import schedulewhite from "../../../assets/Schedule Queue2.svg"
+import schedulegrey from "../../../assets/Schedule Queue1.svg"
+import requestwhite from "../../../assets/Request Queue1.svg"
+import requestgrey from "../../../assets/Request Queue2.svg"
+import orderwhite from "../../../assets/Orders2.svg"
+import ordergrey from "../../../assets/Orders1.svg"
+import partnerwhite from "../../../assets/Partner2.svg"
+import partnergrey from "../../../assets/Partner1.svg"
+import jobcardwhite from "../../../assets/Job Cards2.svg"
+import jobcardgray from "../../../assets/Job Cards1.svg"
+import citywhite from "../../../assets/City2.svg"
+import citygray from "../../../assets/City1.svg"
+import vehiclewhite from "../../../assets/Vehicle2.svg"
+import vehiclegray from "../../../assets/Vehicle1.svg"
+import soswhite from "../../../assets/SOS2.svg"
+import sosgray from "../../../assets/SOS1.svg"
+import querieswhite from "../../../assets/Queries2.svg"
+import queriesgray from "../../../assets/Queries1.svg"
+import customerwhite from "../../../assets/Customers2.svg"
+import customergray from "../../../assets/Customers1.svg"
+import settingswhite from "../../../assets/Settings2.svg"
+import settingsgray from "../../../assets/Settings1.svg"
+import announcementwhite from "../../../assets/Announcement2.svg"
+import announcementgray from "../../../assets/Announcement1.svg"
+import notificationwhite from "../../../assets/Notifications2.svg"
+import notificationgray from "../../../assets/Notifications1.svg"
+
+
+
+
+
+
+
 
 const COLOR = {
   primary: "#9b111e",
@@ -53,7 +88,7 @@ export const Sidebar = () => {
         <div className="w-full flex justify-end px-2 mt-2">
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="text-gray-600 hover:text-black p-2 rounded-md transition duration-200 hover:bg-gray-100"
+            className="text-gray-600 hover:text-black p-2 rounded-3xl transition duration-200 hover:bg-gray-100"
             title="Toggle Sidebar"
           >
             {isOpen ? (
@@ -65,16 +100,18 @@ export const Sidebar = () => {
         </div>
 
         <nav className="flex flex-col gap-4 mt-4 w-full items-center overflow-y-auto overflow-x-hidden flex-1 pb-4 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100 hover:scrollbar-thumb-gray-400 overflow-auto scrollbar-hide">
-          <SidebarLink
+          <SidebarLink 
             to="/"
-            icon={<FiHome />}
+            icon={[<img src={Dashboardwhite} alt="Dashboard Icon" className="w-5 h-5 text-[#9b111e] " />, <img src={Dashboardgrey} alt="Dashboard Icon" className="w-5 h-5 text-[#9b111e] " /> ]}
             label="Dashboard"
+              
             isOpen={isOpen}
             onClick={handleLinkClick}
           />
           <SidebarLink
             to="/bookings"
-            icon={<AiOutlineCalendar />}
+                       icon={[<img src={requestwhite} alt="Dashboard Icon" className="w-5 h-5 text-[#9b111e] " />, <img src={requestgrey} alt="Dashboard Icon" className="w-5 h-5 text-[#9b111e] " /> ]}
+
             label="Request Queue"
             isOpen={isOpen}
             onClick={handleLinkClick}
@@ -82,7 +119,8 @@ export const Sidebar = () => {
 
           <SidebarLink
             to="/request-queue/schedule"
-            icon={<RiCalendarScheduleLine />}
+            icon={[<img src={schedulewhite} alt="Dashboard Icon" className="w-5 h-5 text-[#9b111e] " />, <img src={schedulegrey} alt="Dashboard Icon" className="w-5 h-5 text-[#9b111e] " /> ]}
+
             label="Schedule Queue"
             isOpen={isOpen}
             onClick={handleLinkClick}
@@ -90,21 +128,24 @@ export const Sidebar = () => {
           
           <SidebarLink
             to="/order"
-            icon={<FiShoppingCart />}
+              icon={[<img src={orderwhite} alt="Dashboard Icon" className="w-5 h-5 text-[#9b111e] " />, <img src={ordergrey} alt="Dashboard Icon" className="w-5 h-5 text-[#9b111e] " /> ]}
+
             label="Orders"
             isOpen={isOpen}
             onClick={handleLinkClick}
           />       
           <SidebarLink
             to="/service"
-            icon={<FiUsers />}
+                          icon={[<img src={partnerwhite} alt="Dashboard Icon" className="w-5 h-5 text-[#9b111e] " />, <img src={partnergrey} alt="Dashboard Icon" className="w-5 h-5 text-[#9b111e] " /> ]}
+
             label="Partner"
             isOpen={isOpen}
             onClick={handleLinkClick}
           />
           <SidebarLink
             to="/job-cards"
-            icon={<FiClipboard />}
+                                      icon={[<img src={jobcardwhite} alt="Dashboard Icon" className="w-5 h-5 text-[#9b111e] " />, <img src={jobcardgray} alt="Dashboard Icon" className="w-5 h-5 text-[#9b111e] " /> ]}
+
             label="Job Cards"
             isOpen={isOpen}
             onClick={handleLinkClick}
@@ -113,42 +154,48 @@ export const Sidebar = () => {
 
           <SidebarLink
             to="/city"
-            icon={<FiMapPin />}
+                                      icon={[<img src={citywhite} alt="Dashboard Icon" className="w-5 h-5 text-[#9b111e] " />, <img src={citygray} alt="Dashboard Icon" className="w-5 h-5 text-[#9b111e] " /> ]}
+
             label="City"
             isOpen={isOpen}
             onClick={handleLinkClick}
           />
           <SidebarLink
             to="/vehicle"
-            icon={<FiTruck />}
+                                                  icon={[<img src={vehiclewhite} alt="Dashboard Icon" className="w-5 h-5 text-[#9b111e] " />, <img src={vehiclegray} alt="Dashboard Icon" className="w-5 h-5 text-[#9b111e] " /> ]}
+
             label="Vehicle"
             isOpen={isOpen}
             onClick={handleLinkClick}
           />
           <SidebarLink
             to="/sos"
-            icon={<FiAlertTriangle />}
+                                                              icon={[<img src={soswhite} alt="Dashboard Icon" className="w-5 h-5 text-[#9b111e] " />, <img src={sosgray} alt="Dashboard Icon" className="w-5 h-5 text-[#9b111e] " /> ]}
+
             label="SOS"
             isOpen={isOpen}
             onClick={handleLinkClick}
           />
           <SidebarLink
             to="/queries"
-            icon={<MdHelpOutline />}
+                                                             icon={[<img src={querieswhite} alt="Dashboard Icon" className="w-5 h-5 text-[#9b111e] " />, <img src={queriesgray} alt="Dashboard Icon" className="w-5 h-5 text-[#9b111e] " /> ]}
+
             label="Queries"
             isOpen={isOpen}
             onClick={handleLinkClick}
           />
           <SidebarLink
             to="/customer"
-            icon={<FiUser />}
+                                                              icon={[<img src={customerwhite} alt="Dashboard Icon" className="w-5 h-5 text-[#9b111e] " />, <img src={customergray} alt="Dashboard Icon" className="w-5 h-5 text-[#9b111e] " /> ]}
+
             label="Customers"
             isOpen={isOpen}
             onClick={handleLinkClick}
           />
           <SidebarLink
             to="/settings"
-            icon={<FiSettings />}
+                                                             icon={[<img src={settingswhite} alt="Dashboard Icon" className="w-5 h-5 text-[#9b111e] " />, <img src={settingsgray} alt="Dashboard Icon" className="w-5 h-5 text-[#9b111e] " /> ]}
+
             label="Settings"
             isOpen={isOpen}
             onClick={handleLinkClick}
@@ -156,14 +203,16 @@ export const Sidebar = () => {
           
           <SidebarLink
             to="/announcement"
-            icon={<Megaphone />}
+                                                             icon={[<img src={announcementwhite} alt="Dashboard Icon" className="w-5 h-5 text-[#9b111e] " />, <img src={announcementgray} alt="Dashboard Icon" className="w-5 h-5 text-[#9b111e] " /> ]}
+
             label="Announcement"
             isOpen={isOpen}
             onClick={handleLinkClick}
           />
           <SidebarLink
             to="/notifications"
-            icon={<FiBell />}
+                                                              icon={[<img src={notificationwhite} alt="Dashboard Icon" className="w-5 h-5 text-[#9b111e] " />, <img src={notificationgray} alt="Dashboard Icon" className="w-5 h-5 text-[#9b111e] " /> ]}
+
             label="Notifications"
             isOpen={isOpen}
             onClick={handleLinkClick}
@@ -188,7 +237,7 @@ const SidebarLink = ({
   onClick,
 }: {
   to: string;
-  icon: JSX.Element;
+  icon: any;
   label: string;
   isOpen: boolean;
   onClick: () => void;
@@ -203,7 +252,7 @@ const SidebarLink = ({
       ? COLOR.bgColor
       : "transparent";
 
-  const textColor = isActive ? COLOR.bgColor : COLOR.primary;
+  const textColor = isActive ? COLOR.bgColor : 'gray';
 
   return (
     <Link
@@ -215,17 +264,17 @@ const SidebarLink = ({
       className={`flex items-center transition-all py-1 
         ${
           isOpen
-            ? " justify-start gap-5 w-[200px] py-2.5 px-4"
-            : "justify-center w-10 h-10 py-2 "
+            ? " justify-start gap-5  w-[200px] py-2.5 px-4"
+            : "justify-center w-10 h-10 py-2"
         } 
         rounded-full
       `}
     >
       <div className="text-xl" style={{ color: textColor }}>
-        {icon}
+        {isActive ? icon[0]: icon[1]}
       </div>
       {isOpen && (
-        <span style={{ ...FONTS.cardSubHeader, color: textColor }}>
+        <span style={{ ...FONTS.cardSubHeader, color: textColor, fontWeight: 500 }}>
           {label}
         </span>
       )}

@@ -232,7 +232,7 @@ const SosDetails: React.FC = () => {
             <div className="flex gap-4 mt-10">
               {
                 postedDetails.type === "Own" && <button
-                  className={`px-4 py-2 ml-5 rounded font-semibold border ${"Own" === "Own"
+                  className={`px-4 py-2 ml-5 rounded-3xl font-semibold border ${"Own" === "Own"
                     ? "bg-[#9b111e] text-white"
                     : "bg-white text-[#9b111e] border-[#9b111e]"
                     }`}
@@ -242,7 +242,7 @@ const SosDetails: React.FC = () => {
               }
               {
                 postedDetails.type === "Other" && <button
-                  className={`px-4 py-2 ml-5 rounded font-semibold border ${"Other" === "Other"
+                  className={`px-4 py-2 ml-5 rounded-3xl font-semibold border ${"Other" === "Other"
                     ? "bg-[#9b111e] text-white"
                     : "bg-white text-[#9b111e] border-[#9b111e]"
                     }`}

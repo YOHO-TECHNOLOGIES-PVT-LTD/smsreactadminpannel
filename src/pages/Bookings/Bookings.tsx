@@ -163,10 +163,10 @@ const ServiceRequests: React.FC = () => {
   return (
     <div className="min-h-screen bg-[#FAF3EB]">
       <div className="bg-white border-b border-gray-200 shadow-sm">
-        <div className="max-w-7xl mx-auto px-6 py-4">
+        <div className="px-5 py-4">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-2xl font-bold !text-gray-900"
+              <h1 className="text-2xl font-bold !text-gray-900 mb-3"
               style={{ ...FONTS.header }}>Service Requests</h1>
               <p className="text-sm !text-gray-600"
               style={{ ...FONTS.subHeader }}>Manage automotive service requests</p>
@@ -184,7 +184,7 @@ const ServiceRequests: React.FC = () => {
                   placeholder="Search by ID or Name..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="block w-64 pl-10 pr-3 py-2 border border-gray-300 rounded-lg leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-[#9b111e] focus:border-[#9b111e] text-sm"
+                  className="block w-64 pl-10 pr-3 py-2 border border-gray-300 rounded-3xl leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-[#9b111e] focus:border-[#9b111e] text-sm"
                 />
                 {searchTerm && (
                   <button
@@ -202,7 +202,7 @@ const ServiceRequests: React.FC = () => {
               <div className="flex items-center space-x-2">
                 <button
                   onClick={() => setCurrentView('pending')}
-                  className={`px-4 py-2 rounded-lg font-medium border transition-colors ${
+                  className={`px-4 py-2 rounded-3xl font-medium border transition-colors ${
                     currentView === 'pending'
                       ? 'bg-[#9b111e] text-white'
                       : 'bg-[white] text-[#9b111e] border-[#9b111e] '
@@ -212,7 +212,7 @@ const ServiceRequests: React.FC = () => {
                 </button>
                 <button
   onClick={() => setCurrentView('assigned')}
-  className={`px-4 py-2 rounded-lg font-medium border transition-colors
+  className={`px-4 py-2 rounded-3xl font-medium border transition-colors
     ${
       currentView === 'assigned'
         ? 'bg-[#9b111e] text-white border-[#9b111e]'
@@ -229,7 +229,7 @@ const ServiceRequests: React.FC = () => {
       </div>
 
     
-      <div className="max-w-7xl mx-auto px-6 py-6">
+      <div className="max-w-7xl py-6">
         {currentView === 'pending' ? (
           <>
             {/* Search Results Info */}
@@ -274,7 +274,7 @@ const ServiceRequests: React.FC = () => {
                 <p className="text-gray-600">No pending requests match your search for "{searchTerm}"</p>
                 <button
                   onClick={() => setSearchTerm('')}
-                  className="mt-3 text-[#9b111e] hover:text-[#7a0e17] font-medium text-sm"
+                  className="mt-3 text-[#9b111e] hover:text-[#7a0e17] font-medium text-sm rounded-3xl"
                 >
                   Clear search
                 </button>

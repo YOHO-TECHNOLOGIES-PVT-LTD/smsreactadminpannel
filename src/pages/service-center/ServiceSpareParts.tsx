@@ -214,7 +214,7 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({Spareparts = [], partnerId
         <div className="container px-4 py-3 flex ">
           <button
             onClick={()=> backHandle()}
-            className="hover:bg-gray-100 rounded-full transition-colors"
+            className="hover:bg-gray-100 rounded-3xl transition-colors"
             aria-label="Go back"
           >
             <ArrowLeft className="text-red-800 w-6 h-6" />
@@ -227,7 +227,7 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({Spareparts = [], partnerId
 
           <div className="flex items-center space-x-3">
             <button
-              className="p-2 bg-red-50 hover:bg-red-100 text-red-700 rounded-full transition-colors"
+              className="p-2 bg-red-50 hover:bg-red-100 text-red-700 rounded-3xl transition-colors"
               onClick={() => setShowSearch(!showSearch)}
               aria-label="Search"
             >
@@ -236,7 +236,7 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({Spareparts = [], partnerId
 
             <button
               style={{...FONTS.paragraph}}
-              className="flex items-center space-x-2 px-4 py-2 bg-red-600 hover:bg-red-700 !text-white rounded-lg font-medium transition-colors"
+              className="flex items-center space-x-2 px-4 py-2 bg-red-600 hover:bg-red-700 !text-white rounded-3xl font-medium transition-colors"
               onClick={() => setShowAddModal(true)}
             >
               <Plus className="w-5 h-5" />
@@ -260,7 +260,7 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({Spareparts = [], partnerId
               <Search className="absolute left-3 top-2.5 w-4 h-4 text-gray-400" />
               {searchTerm && (
                 <button
-                  className="absolute right-3 top-2.5 text-gray-400 hover:text-gray-600"
+                  className="absolute right-3 top-2.5 text-gray-400 hover:text-gray-600 rounded-3xl"
                   onClick={() => setSearchTerm("")}
                   aria-label="Clear search"
                 >
@@ -308,7 +308,7 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({Spareparts = [], partnerId
                 {/* Quick View Button */}
                 <div className="relative">
                   <button
-                    className="absolute top-3 right-3 z-10 p-2 bg-white/90 hover:bg-white rounded-full shadow-md transition-all duration-200"
+                    className="absolute top-3 right-3 z-10 p-2 bg-white/90 hover:bg-white rounded-3xl shadow-md transition-all duration-200"
                     aria-label="Quick view"
                     onClick={(e) => {
                       e.stopPropagation(); // Prevent card click
@@ -319,7 +319,7 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({Spareparts = [], partnerId
                   </button>
 
                   {menuOpenId === part.id && (
-                    <div className="absolute right-3 top-12 z-20 w-32 bg-white border border-gray-200 rounded-md shadow-lg">
+                    <div className="absolute right-3 top-12 z-20 w-32 bg-white border border-gray-200 rounded-3xl shadow-lg">
                       <button
                         className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                         onClick={(e) => {
@@ -331,7 +331,7 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({Spareparts = [], partnerId
                         Edit
                       </button>
                       <button
-                        className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50"
+                        className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 rounded-3xl"
                         onClick={(e) => {
                           e.stopPropagation();
                           handleDelete(part);
@@ -449,7 +449,7 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({Spareparts = [], partnerId
             </p>
             {searchTerm && (
               <button
-                className="px-6 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg font-medium transition-colors"
+                className="px-6 py-2 bg-red-600 hover:bg-red-700 text-white rounded-3xl font-medium transition-colors"
                 onClick={() => setSearchTerm("")}
               >
                 Clear Search
@@ -470,7 +470,7 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({Spareparts = [], partnerId
                 >Add New Spare Part</h2>
                 <button
                   onClick={() => setShowAddModal(false)}
-                  className="p-2 text-gray-400 hover:text-gray-600 rounded-full hover:bg-gray-100"
+                  className="p-2 text-gray-400 hover:text-gray-600 rounded-3xl hover:bg-gray-100"
                 >
                   ×
                 </button>
@@ -607,14 +607,14 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({Spareparts = [], partnerId
                 <button
                   type="button"
                   onClick={() => setShowAddModal(false)}
-                  className="px-6 py-2 border border-gray-300 rounded-lg font-medium text-gray-700 hover:bg-gray-50 transition-colors"
+                  className="px-6 py-2 border border-gray-300 rounded-3xl font-medium text-gray-700 hover:bg-gray-50 transition-colors"
                 >
                   Cancel
                 </button>
                 <button
                   type="button"
                   onClick={handleAddPart}
-                  className="px-6 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg font-medium transition-colors"
+                  className="px-6 py-2 bg-red-600 hover:bg-red-700 text-white rounded-3xl font-medium transition-colors"
                   disabled={
                     !newPart.name ||
                     !newPart.price ||
@@ -639,7 +639,7 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({Spareparts = [], partnerId
               <div className="flex items-center justify-end mb-4">
                 <button
                   onClick={() => setSelectedPart(null)}
-                  className="px-2 font-bold text-gray-400 text-xl hover:text-gray-600 rounded-full hover:bg-gray-100"
+                  className="px-2 font-bold text-gray-400 text-xl hover:text-gray-600 rounded-3xl hover:bg-gray-100"
                 >
                   ×
                 </button>
@@ -703,7 +703,7 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({Spareparts = [], partnerId
                 style={{...FONTS.header}}>Edit Part</h2>
                 <button
                   onClick={() => setEditPart(null)}
-                  className="px-2 font-bold text-gray-400 text-xl hover:text-gray-600 rounded-full hover:bg-gray-100"
+                  className="px-2 font-bold text-gray-400 text-xl hover:text-gray-600 rounded-3xl hover:bg-gray-100"
                 >
                   ×
                 </button>
@@ -838,13 +838,13 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({Spareparts = [], partnerId
 
               <div className="mt-6 flex justify-end gap-3">
                 <button
-                  className="px-4 py-2 bg-gray-100 text-gray-700 rounded hover:bg-gray-200"
+                  className="px-4 py-2 bg-gray-100 text-gray-700 rounded-3xl hover:bg-gray-200"
                   onClick={() => setEditPart(null)}
                 >
                   Cancel
                 </button>
                 <button
-                  className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
+                  className="px-4 py-2 bg-red-600 text-white rounded-3xl hover:bg-red-700"
                   onClick={() => {
                     console.log("Updated Part:", editPart);
                     // Here you'd call a function to save the changes (API or state update)

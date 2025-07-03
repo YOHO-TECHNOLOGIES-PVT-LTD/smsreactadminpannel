@@ -23,7 +23,7 @@ const VehicleModal: FC<Props> = ({ vehicle, onClose, redirectPath }) => {
       onClick={onClose}
     >
       <div
-        className="bg-white rounded-xl p-6 relative w-full max-w-5xl h-[95vh] overflow-y-auto shadow-2xl"
+        className="bg-white rounded-3xl p-6 relative w-full max-w-5xl h-[95vh] overflow-y-auto shadow-2xl"
         onClick={handleInnerClick}
         style={{
           background: "linear-gradient(180deg, #fdefe9 0%, #fff 100%)",

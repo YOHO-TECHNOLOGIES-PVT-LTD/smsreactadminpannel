@@ -460,7 +460,7 @@ const CustomerDetails: React.FC<ProfileViewComponent> = ({ onProfileView }) => {
               >
                 <button
                   onClick={() => handleStatusFilter(null)}
-                  className={`px-3 py-1 text-sm rounded-md transition-colors ${
+                  className={`px-3 py-1 text-sm rounded-3xl transition-colors ${
                     statusFilter === null
                       ? "bg-blue-100 text-blue-800"
                       : "hover:bg-gray-50"
@@ -471,7 +471,7 @@ const CustomerDetails: React.FC<ProfileViewComponent> = ({ onProfileView }) => {
 
                 <button
                   onClick={() => handleStatusFilter("Active")}
-                  className={`px-3 py-1 text-sm rounded-md transition-colors ${
+                  className={`px-3 py-1 text-sm rounded-3xl transition-colors ${
                     statusFilter === "Active"
                       ? "bg-green-100 text-green-800"
                       : "hover:bg-gray-50"
@@ -482,7 +482,7 @@ const CustomerDetails: React.FC<ProfileViewComponent> = ({ onProfileView }) => {
 
                 <button
                   onClick={() => handleStatusFilter("Inactive")}
-                  className={`px-3 py-1 text-sm rounded-md transition-colors ${
+                  className={`px-3 py-1 text-sm rounded-3xl transition-colors ${
                     statusFilter === "Inactive"
                       ? "bg-red-100 text-red-800"
                       : "hover:bg-gray-50"
@@ -495,7 +495,7 @@ const CustomerDetails: React.FC<ProfileViewComponent> = ({ onProfileView }) => {
 
             <motion.button
               onClick={handleFilterClick}
-              className={`flex items-center gap-2 px-4 py-2 rounded-lg border transition-colors ${
+              className={`flex items-center gap-2 px-4 py-2 rounded-3xl border transition-colors ${
                 showFilters
                   ? "bg-[#800000] text-white border-[#800000]"
                   : "border-gray-300 hover:bg-gray-100"
@@ -559,7 +559,7 @@ const CustomerDetails: React.FC<ProfileViewComponent> = ({ onProfileView }) => {
                     </div>
                     <div className="flex justify-center">
                       <motion.span
-                        className={`px-3 py-1 rounded-full text-xs font-medium ${
+                        className={`px-3 py-1 rounded-3xl text-xs font-medium ${
                           customer.status === "Active"
                             ? "bg-green-100 text-green-800"
                             : "bg-red-100 text-red-800"
@@ -572,7 +572,7 @@ const CustomerDetails: React.FC<ProfileViewComponent> = ({ onProfileView }) => {
                     <div>
                       <motion.button
                         onClick={onProfileView}
-                        className="text-[#800000] hover:text-[#990000] font-medium text-sm flex items-center gap-1"
+                        className="text-[#800000] hover:text-[#990000] rounded-3xl font-medium text-sm flex items-center gap-1"
                         whileHover={{ x: 3 }}
                       >
                         View <FaChevronRight className="text-xs" />
@@ -606,7 +606,7 @@ const CustomerDetails: React.FC<ProfileViewComponent> = ({ onProfileView }) => {
             <motion.button
               onClick={() => handlePageChange(currentPage - 1)}
               disabled={currentPage === 1}
-              className={`px-4 py-2 rounded-lg border flex items-center gap-2 transition 
+              className={`px-4 py-2 rounded-3xl border flex items-center gap-2 transition 
                 ${
                   currentPage === 1
                     ? "text-gray-400 cursor-not-allowed bg-gray-100 border-gray-200"
@@ -626,7 +626,7 @@ const CustomerDetails: React.FC<ProfileViewComponent> = ({ onProfileView }) => {
             <motion.button
               onClick={() => handlePageChange(currentPage + 1)}
               disabled={currentPage === totalPages}
-              className={`px-4 py-2 rounded-lg border flex items-center gap-2 transition 
+              className={`px-4 py-2 rounded-3xl border flex items-center gap-2 transition 
                 ${
                   currentPage === totalPages
                     ? "text-gray-400 cursor-not-allowed bg-gray-100 border-gray-200"

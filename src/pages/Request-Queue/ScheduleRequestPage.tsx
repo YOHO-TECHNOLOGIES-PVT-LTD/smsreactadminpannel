@@ -127,7 +127,7 @@ export default function ScheduleRequestPage() {
             {searchTerm && (
               <button
                 onClick={() => setSearchTerm("")}
-                className="absolute inset-y-0 right-0 pr-4 flex items-center text-gray-400 hover:text-gray-600"
+                className="absolute inset-y-0 right-0 pr-4 flex items-center text-gray-400 hover:text-gray-600 rounded-3xl"
               >
                 <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -139,7 +139,7 @@ export default function ScheduleRequestPage() {
           {/* Enhanced Scheduled Button */}
           <button
             onClick={() => navigate('/request-queue/scheduled')}
-            className="inline-flex items-center gap-3 px-8 py-3 bg-gradient-to-r from-green-600 to-green-700 text-white rounded-xl hover:from-green-700 hover:to-green-800 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 font-semibold border-2 border-transparent hover:border-green-300"
+            className="inline-flex items-center border border-[#9b111e] gap-3 px-8 py-3 bg-white from-white to-white text-black rounded-3xl  transition-all duration-300 shadow-lg hover:shadow-xl font-semibold "
             style={{...FONTS.paragraph}}
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -209,7 +209,7 @@ export default function ScheduleRequestPage() {
 
       {open && selectedRequest && (
   <div className="fixed inset-0 bg-black bg-opacity-40 z-50 flex justify-end">
-    <div className="w-full sm:w-1/2 h-full bg-[#FAF3EB] border-l-4 border-[#9b111e] shadow-2xl p-8 relative overflow-y-auto rounded-l-xl transition-all duration-300">
+    <div className="w-full sm:w-1/2 h-full bg-[#FAF3EB] border-l-4 border-[#9b111e] shadow-2xl p-8 relative overflow-y-auto rounded-3xl transition-all duration-300">
       {/* Modal Header */}
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-3xl font-bold text-[#9b111e] tracking-wide" style={{...FONTS.header}}>
@@ -217,7 +217,7 @@ export default function ScheduleRequestPage() {
         </h2>
         <button
           onClick={closeModal}
-          className="text-gray-500 hover:text-black text-3xl font-bold"
+          className="text-gray-500 hover:text-black text-3xl font-bold rounded-3xl"
         >
           &times;
         </button>
@@ -294,14 +294,14 @@ export default function ScheduleRequestPage() {
           <div className="flex justify-end gap-4 mt-6">
             <button
               onClick={closeModal}
-              className="px-5 py-2 bg-gray-200 !text-gray-800 rounded-lg hover:!bg-gray-300"
+              className="px-5 py-2 bg-gray-200 !text-gray-800 rounded-3xl hover:!bg-gray-300"
               style={{...FONTS.paragraph}}
             >
               Cancel
             </button>
             <button
               onClick={assignPartner}
-              className="px-5 py-2 !bg-[#9b111e] !text-white rounded-lg hover:!bg-[#80101a]"
+              className="px-5 py-2 !bg-[#9b111e] !text-white rounded-3xl hover:!bg-[#80101a]"
               style={{...FONTS.paragraph}}
             >
               Assign Partner

@@ -21,7 +21,7 @@ style={{...FONTS.header,fontWeight: 500 }}        >
 
         <div className="flex items-center gap-x-2 ml-auto">
           <button
-            className="flex items-center gap-2 font-bold px-4 py-2 rounded-lg text-white transition duration-200 active:scale-105 hover:bg-[#a00000]"
+            className="flex items-center gap-2 font-bold px-4 py-2 rounded-3xl text-white transition duration-200 active:scale-105 hover:bg-[#a00000]"
             style={{
               background:
                 "linear-gradient(44.99deg,#700808 11%,#d23c3c 102.34%)",

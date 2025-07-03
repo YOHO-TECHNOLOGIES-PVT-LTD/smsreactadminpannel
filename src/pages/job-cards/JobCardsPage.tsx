@@ -180,7 +180,7 @@ export const JobCardsPage: React.FC = () => {
                     <td className="px-4 py-3 border-b font-semibold">
                       <button
                         onClick={() => navigate(`/quotation/${invoice.uuid}`)}
-                        className="bg-gradient-to-r from-red-600 to-red-800 !text-white px-3 py-1 active:scale-110 rounded hover:bg-[#a00000] transition"
+                        className="bg-gradient-to-r from-red-600 to-red-800 !text-white px-3 py-1 active:scale-110 rounded-3xl hover:bg-[#a00000] transition"
                      style={{...FONTS.cardSubHeader}}
                      >
                         View

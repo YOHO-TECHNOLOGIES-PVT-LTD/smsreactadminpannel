@@ -17,7 +17,7 @@ type Props = {
 export const QueryDetailModal: React.FC<Props> = ({ query, onClose }) => {
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-      <div className="bg-white rounded-xl shadow-lg p-6 w-11/12 max-w-md">
+      <div className="bg-white rounded-3xl shadow-lg p-6 w-11/12 max-w-md">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-semibold">Query Details</h2>
           <button

@@ -182,7 +182,7 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
     <div className="flex flex-col bg-gray-100" style={{ background: COLORS.bgColor }}>
       <div className="flex gap-6 flex-wrap">
         <div className="flex-1 min-w-[600px] bg-white p-5" style={{ background: COLORS.bgColor }}>
-          <div className="t-0" style={{ background: COLORS.bgColor }}>
+          <div className="t-0 rounded-3xl" style={{ background: COLORS.bgColor }}>
             <button onClick={handleBack}>
               <MdOutlineKeyboardBackspace className="text-[#800000] text-3xl" />
             </button>
@@ -193,7 +193,7 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
             style={{...FONTS.header}}>Service Center</h1>
             <div className="flex items-center gap-3 flex-wrap">
               <button
-                className="bg-[#fce8e8] font-koh text-gray-600 hover:text-[#9b111e] p-2 rounded-full transition"
+                className="bg-[#fce8e8] font-koh text-gray-600 hover:text-[#9b111e] p-2 rounded-3xl transition"
                 title="Search"
                 onClick={() => setShowSearch(!showSearch)}
               >
@@ -210,13 +210,14 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
                 />
               )}
 
-              <button
-                className="!text-white px-4 py-2 rounded-lg transition duration-200 flex items-center gap-2"
-                style={{ ...FONTS.paragraph, background: "linear-gradient(44.99deg, #700808 11%, #d23c3c 102.34%)"}}
-                onClick={() => setShowPartnerForm(true)}
-              >
-                <MdAddCircleOutline size={18} /> Add
-              </button>
+            <button
+  className="!text-white px-4 py-2 rounded-3xl transition duration-200 flex items-center gap-2"
+  style={{ ...FONTS.paragraph, background: "#800000" }} 
+  onClick={() => setShowPartnerForm(true)}
+>
+  <MdAddCircleOutline size={18} /> Add
+</button>
+
             </div>
           </div>
           
@@ -253,21 +254,23 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
 
                   <div className="flex gap-2 mt-2 sm:mt-0">
                     {/* {selectedCardIndex !== index && ( */}
-                      <button
-                        onClick={() => changeData(index)}
-                        className="!text-white px-4 py-2 rounded-md transition duration-200 flex items-center gap-1.5 text-sm"
-                        style={{ ...FONTS.paragraph,
-                          background: "linear-gradient(44.99deg, #700808 11%, #d23c3c 102.34%)",
-                        }}
-                      >
-                        <BsEye size={16} /> View
-                      </button>
+                     <button
+  onClick={() => changeData(index)}
+  className="!text-white px-4 py-2 rounded-3xl transition duration-200 flex items-center gap-1.5 text-sm"
+  style={{
+    ...FONTS.paragraph,
+    background: "#800000", // solid background, no gradient
+  }}
+>
+  <BsEye size={16} /> View
+</button>
+
                     {/* )} */}
                   </div>
                 </div>
 
                 {selectedCardIndex === index && (
-                  <div className="mt-4 relative border rounded-md p-4 bg-gray-50">
+                  <div className="mt-4 relative borderrounded-3xl p-4 bg-gray-50">
                     <button
                       onClick={() => setSelectedCardIndex(null)}
                       className="absolute top-2 right-2 text-gray-600 hover:text-red-600 pt-5 pr-5"
@@ -293,7 +296,7 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
                 >Partner Registration</h3>
                 <button
                   onClick={handleCancelPartnerForm}
-                  className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+                  className="p-2 hover:bg-gray-100 rounded-3xl transition-colors"
                 >
                   <IoClose size={24} className="text-gray-500" />
                 </button>
@@ -464,14 +467,14 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
                   <button
                     type="button"
                     onClick={handleCancelPartnerForm}
-                    className="px-6 py-2 border border-gray-300 rounded-md text-gray-700 bg-white hover:bg-gray-50 transition"
+                    className="px-6 py-2 border border-gray-300 rounded-3xl text-gray-700 bg-white hover:bg-gray-50 transition"
                   >
                     Cancel
                   </button>
                   <button
                     onClick={() => setShowPassForm(true)}
                     type="submit"
-                    className="px-6 py-2 text-white font-semibold rounded-md hover:opacity-90 transition"
+                    className="px-6 py-2 text-white font-semibold rounded-3xl hover:opacity-90 transition"
                     style={{ background: "linear-gradient(44.99deg, #700808 11%, #d23c3c 102.34%)" }}
                   >
                     Register
@@ -486,7 +489,7 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
     
     {showPassForm && (
   <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-    <div className="bg-white p-4 rounded">
+    <div className="bg-white p-4 rounded-3xl">
       <h1>Hello world</h1>
       <button onClick={() => setShowPassForm(false)}>Close</button>
     </div>

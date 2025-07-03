@@ -19,7 +19,7 @@ export const NotificationPage = () => {
       <div className='flex flex-row item-center gap-5'>
         <button
         onClick={() => navigate('/')}
-        className="flex items-center text-[#9b111e] mb-4 hover:underline"
+        className="flex items-center text-[#9b111e] mb-4 hover:underline rounded-3xl"
       >
         <FaArrowLeft className="mt-2 text-xl" />
       </button>

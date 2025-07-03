@@ -54,7 +54,7 @@ const AnnouncementList = () => {
       <div className="flex justify-between items-center px-6 mt-4 mb-6">
  
   <button
-    className="flex items-center gap-2 font-bold px-4 py-2 rounded-lg !text-white transition duration-200 active:scale-105 hover:bg-[#a00000]"
+    className="flex items-center gap-2 font-bold px-4 py-2 rounded-3xl !text-white transition duration-200 active:scale-105 hover:bg-[#a00000]"
     style={{
       background: 'linear-gradient(44.99deg,#700808 11%,#d23c3c 102.34%)', ...FONTS.paragraph
     }}
@@ -90,7 +90,7 @@ const AnnouncementList = () => {
       {/* Modal */}
       {showModal && (
         <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex justify-center items-center">
-          <div className="bg-white p-6 rounded-lg w-full max-w-lg relative">
+          <div className="bg-white p-6 rounded-3xl w-full max-w-lg relative">
             <button
               onClick={() => setShowModal(false)}
               className="absolute top-2 right-2 text-gray-500 text-2xl font-bold hover:text-black"
@@ -137,13 +137,13 @@ const AnnouncementList = () => {
                     resetForm();
                     setShowModal(false);
                   }}
-                  className="px-4 py-2 border border-gray-400 rounded hover:bg-gray-100"
+                  className="px-4 py-2 border rounded-3xl border-gray-400 rounded hover:bg-gray-100"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 bg-[#9b111e] text-white rounded hover:bg-[#7c0d18]"
+                  className="px-4 py-2 bg-[#9b111e] text-white rounded-3xl hover:bg-[#7c0d18]"
                 >
                   Submit
                 </button>

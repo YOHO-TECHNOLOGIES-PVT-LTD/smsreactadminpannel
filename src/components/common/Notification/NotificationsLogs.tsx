@@ -70,7 +70,7 @@ const NotificationsLogs = () => {
             change their recipients and content, or disable them.
           </p>
         </div>
-        <button className="text-[#800000] text-base hover:underline self-center pr-10">
+        <button className="text-[#800000] rounded-3xl text-base hover:underline self-center pr-10">
           Mark all as read
         </button>
       </div>
@@ -110,7 +110,7 @@ const NotificationsLogs = () => {
               <td className="px-3 pt-5 text-base truncate">
                 <button
                   onClick={() => toggleEnabled(item.id)}
-                  className="hover:opacity-80"
+                  className="hover:opacity-80 rounded-3xl"
                 >
                   {item.enabled ? (
                     <MdToggleOn className="text-[#800000] text-5xl" /> // Bigger icon
