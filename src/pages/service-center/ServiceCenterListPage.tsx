@@ -25,6 +25,10 @@ interface PartnerFormData {
   firstName: string
   lastName: string
   companyName?: string
+  aadharNo: string
+  pan: string
+  gstNo: string
+  regNo: string
   email: string
   password: string
   contact_info: ContactInfo
@@ -57,6 +61,10 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
     firstName: "",
     lastName: "",
     companyName: "",
+    aadharNo:"",
+    pan: "",
+    gstNo: "",
+    regNo: "",
     email: "",
     password: "",
     contact_info: {
@@ -117,13 +125,16 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
 
     try {
       const response: any = await new Client().admin.servicecenter.postPartner(data)
-      console.log(response.data)
 
       // Reset form and close modal
       setPartnerFormData({
         firstName: "",
         lastName: "",
         companyName: "",
+        aadharNo: "",
+        pan: "",
+        gstNo: "",
+        regNo: "",
         email: "",
         password: "",
         contact_info: {
@@ -156,6 +167,10 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
       firstName: "",
       lastName: "",
       companyName: "",
+      aadharNo: "",
+      pan: "",
+      gstNo: "",
+      regNo: "",
       email: "",
       password: "",
       contact_info: {
@@ -184,7 +199,8 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
   const [city, setCity] = useState<any[]>([]);
 
   const getCountries = async () => {
-    const response = await fetchCountries();
+    const states:any = state.filter(item=>item.name === partnerFormData.contact_info.state )
+    const response = await fetchCountries(states[0].iso2);
     if (response && response.data) {
       setCity(response.data);
     } else {
@@ -194,9 +210,8 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
 
   useEffect (() => {
     getCountries();
-  },[])
+  },[partnerFormData.contact_info.state])
 
-  console.log('Country :', city);
 
   const [state, setState] = useState<any[]>([]);
 
@@ -213,7 +228,7 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
     getStates();
   },[])
 
-  console.log('state:',state)
+
 
   
   
@@ -224,7 +239,7 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
           
 
           <div className="flex justify-between items-center border-b border-gray-300 pb-4 mb-4 flex-wrap gap-4">
-            <h1 className="font-bold font-koh font-normal text-3xl pt-2 !text-[#9b111e]"
+            <h1 className="font-bold font-koh !font-bold text-3xl pt-2 !text-[#9b111e]"
             style={{...FONTS.header}}>Service Center</h1>
             <div className="flex items-center gap-3 flex-wrap">
               <button
@@ -341,6 +356,7 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
               >
                 {/* Column 1 */}
                 <div className="space-y-4">
+                 
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
                       First Name <span className="text-red-500">*</span>
@@ -385,14 +401,14 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
 
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Email <span className="text-red-500">*</span>
+                      Aadhar No <span className="text-red-500">*</span>
                     </label>
                     <input
-                      type="email"
-                      name="email"
+                      type="text"
+                      name="aadharNo"
                       required
-                      placeholder="Email"
-                      value={partnerFormData.email}
+                      placeholder="Aadhar no"
+                      value={partnerFormData.aadharNo}
                       onChange={handlePartnerFormChange}
                       className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#800000] focus:border-transparent transition"
                     />
@@ -400,18 +416,47 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
 
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Password <span className="text-red-500">*</span>
+                      Reg No 
                     </label>
                     <input
-                      type="password"
-                      name="password"
-                      required
-                      placeholder="Password"
-                      value={partnerFormData.password}
+                      type="text"
+                      name="regNo"
+                      placeholder="regNo"
+                      value={partnerFormData.regNo}
                       onChange={handlePartnerFormChange}
                       className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#800000] focus:border-transparent transition"
                     />
                   </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      PAN No 
+                    </label>
+                    <input
+                      type="text"
+                      name="pan"
+                      placeholder="PAN no"
+                      value={partnerFormData.pan}
+                      onChange={handlePartnerFormChange}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#800000] focus:border-transparent transition"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      GST No 
+                    </label>
+                    <input
+                      type="text"
+                      name="gstNo"
+                      placeholder="GST No"
+                      value={partnerFormData.gstNo}
+                      onChange={handlePartnerFormChange}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#800000] focus:border-transparent transition"
+                    />
+                  </div>
+
+                 
                 </div>
 
                 {/* Column 2 */}
@@ -503,13 +548,45 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
                 </div>
               </div>
 
+                <div className="border border-[#9b111e] p-4 m-6 ">
+                  <h2 className="mb-3">Login Setup</h2>
+                  <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Email <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="email"
+                      name="email"
+                      required
+                      placeholder="Email"
+                      value={partnerFormData.email}
+                      onChange={handlePartnerFormChange}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#800000] focus:border-transparent transition"
+                    />
+                  </div>
+
+               <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Password <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="password"
+                      name="password"
+                      required
+                      placeholder="Password"
+                      value={partnerFormData.password}
+                      onChange={handlePartnerFormChange}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#800000] focus:border-transparent transition"
+                    />
+                  </div>
+                  </div>      
               {/* Full width submit button */}
               <div className="mt-8">
                 <div className="flex justify-end space-x-4">
                   <button
                     type="button"
                     onClick={handleCancelPartnerForm}
-                    className="px-6 py-2 border border-gray-300 rounded-3xl text-gray-700 bg-white hover:bg-gray-50 transition"
+                    className="px-6 py-2 border border-gray-300 rounded-3xl text-[#9b111e] bg-white hover:bg-gray-50 transition"
                   >
                     Cancel
                   </button>
@@ -517,7 +594,7 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
                     onClick={() => setShowPassForm(true)}
                     type="submit"
                     className="px-6 py-2 text-white font-semibold rounded-3xl hover:opacity-90 transition"
-                    style={{ background: "linear-gradient(44.99deg, #700808 11%, #d23c3c 102.34%)" }}
+                    style={{ backgroundColor:'#9b111e'}}
                   >
                     Register
                   </button>

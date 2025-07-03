@@ -104,7 +104,7 @@ export default function ScheduleRequestPage() {
   return (
     <div className="bg-[#FAF3EB] min-h-screen p-8">
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-4xl font-bold text-[#9b111e]" style={{...FONTS.header}}>
+        <h1 className=" !font-bold text-[#9b111e]" style={{...FONTS.header}}>
           Schedule Requests
         </h1>
         

@@ -67,7 +67,7 @@ export const JobCardsPage: React.FC = () => {
 				<div className='border-b-2 border-[#9b111e] pb-2 mb-4'>
 					<h1
 						style={{ ...FONTS.header, fontWeight: 500 }}
-						className='font-bold text-[#9b111e] '
+						className='!font-bold text-[#9b111e] '
             
 					>
 						JOB CARDS

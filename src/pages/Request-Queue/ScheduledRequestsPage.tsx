@@ -70,7 +70,7 @@ export default function ScheduledRequestsPage() {
             </svg>
           </button>
           
-          <h1 className="text-4xl font-bold text-green-600" style={{...FONTS.header}}>
+          <h1 className="!text-[20px] !font-bold " style={{...FONTS.header}}>
             Scheduled Requests
           </h1>
         </div>
@@ -105,7 +105,6 @@ export default function ScheduledRequestsPage() {
         </div>
       </div>
       
-      <hr className="border-1 border-green-600 my-5" />
 
       {scheduledRequests.length === 0 ? (
         <div className="text-center py-16">

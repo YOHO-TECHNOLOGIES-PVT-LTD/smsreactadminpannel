@@ -53,6 +53,10 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({
     editEstablished: "2005",
     editBranches: "35",
     editEvCertified: "Yes",
+    editAadharNumber: partner.aadhar,
+    editRegNo: partner.RegNo || '',
+    editPanCard: partner.PanCard,
+    editGstNo: partner.GSTNo,
     editPhone: partner?.contact_info?.phoneNumber || "",
     editEmail: partner?.email || "",
     editWebsite: "www.autonova.com",
@@ -286,30 +290,30 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({
                   label="Company Name"
                   value={editCompanyName}
                 />
-                <InfoItem
+                {/* <InfoItem
                   icon={<SlCalender className="text-[#9b111e]" />}
-                  label="Established"
-                  value={editEstablished}
-                />
-                <InfoItem icon={<FaCodeBranch className="text-[#9b111e]" />} label="Branches" value={editBranches} />
-                <InfoItem
+                  label="AadharCard No"
+                  value={editAadharNumber}
+                /> */}
+                
+                {/* <InfoItem
                   icon={<AiFillSafetyCertificate className="text-[#9b111e]" />}
-                  label="EV Certified"
-                  value={editEvCertified}
-                />
+                  label="GST No"
+                  value={editGstNo}
+                /> */}
               </div>
               <div className="space-y-5">
                 <InfoItem icon={<LuPhoneCall className="text-[#9b111e]" />} label="Phone" value={editPhone} />
                 <InfoItem icon={<MdEmail className="text-[#9b111e]" />} label="Email" value={editEmail} />
-                <InfoItem icon={<CgWebsite className="text-[#9b111e]" />} label="Website" value={editWebsite} />
+                {/* <InfoItem icon={<CgWebsite className="text-[#9b111e]" />} label="Pan No" value={editPanCard} /> */}
                 <InfoItem icon={<FaRegAddressCard className="text-[#9b111e]" />} label="Address" value={editAddress} />
               </div>
               <div className="space-y-5">
-                <InfoItem
+                {/* <InfoItem
                   icon={<FcDataEncryption className="text-[#9b111e]" />}
-                  label="Data Encrypted"
-                  value={editDataEncrypted}
-                />
+                  label="Reg No"
+                  value={} 
+                /> */}
                 <InfoItem
                   icon={<MdVerified className="text-[#9b111e]" />}
                   label="Verified Center"

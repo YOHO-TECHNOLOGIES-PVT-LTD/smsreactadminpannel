@@ -166,7 +166,7 @@ const ServiceRequests: React.FC = () => {
         <div className="px-5 py-4">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-2xl font-bold !text-gray-900 mb-3"
+              <h1 className="text-2xl !font-bold  mb-3"
               style={{ ...FONTS.header }}>Service Requests</h1>
               <p className="text-sm !text-gray-600"
               style={{ ...FONTS.subHeader }}>Manage automotive service requests</p>

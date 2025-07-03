@@ -13,7 +13,7 @@ export const CityManagementPage: React.FC = () => {
     <div className=" min-h-screen p-2">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-y-2 mb-4 border-b-2 border-orange-700 pb-4">
         <h1
-          className="font-bold text-3xl pt-2 pl-0"
+          className="!font-bold text-3xl pt-2 pl-0"
          // style={{ color: "#9b111e" }}
 style={{...FONTS.header,fontWeight: 500 }}        >
           City Management

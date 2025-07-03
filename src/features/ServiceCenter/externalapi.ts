@@ -1,10 +1,11 @@
 import axios from 'axios';
 
-export const fetchCountries = async () => {
+export const fetchCountries = async (state:string) => {
       try {
+        console.log(state,"states")
         const config = {
           method: 'get',
-          url: 'https://api.countrystatecity.in/v1/countries/IN/states/TN/cities',
+          url: `https://api.countrystatecity.in/v1/countries/IN/states/${state}/cities`,
           headers: {
             'X-CSCAPI-KEY': 'aFdERVQ4SGVUeUcwdXcyUm5lNEpaanhMYXlnZkF0UjJMV3JxMjkxUg==' // Replace with your actual API key
           }

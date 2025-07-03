@@ -171,8 +171,8 @@ const DashboardSos = () => {
                 key={status}
                 onClick={() => setFilterStatus(status)}
                 className={`px-4 py-1.5 rounded-3xl text-sm font-medium !text-white transition-all hover:shadow-md ${filterStatus === status
-                  ? "bg-gradient-to-r from-red-700 to-red-900 shadow-md"
-                  : "bg-gradient-to-r from-red-600 to-red-800" 
+                  ? "bg-[#9b111e] shadow-md"
+                  : "bg-[#9b111e]" 
                   }`}
               style={{...FONTS.cardheader}}>
                 {status}
@@ -222,7 +222,7 @@ const DashboardSos = () => {
                       <td className="border border-gray-300 px-3 py-2 text-center">
                         <button
                           onClick={() => handleViewClick(req._id)}
-                          className="bg-gradient-to-r from-red-600 to-red-800 hover:from-red-700 hover:to-red-900 transition-all text-white px-3 py-1 rounded-3xl text-sm font-medium"
+                          className="bg-[#9b111e] hover:from-red-700 hover:to-red-900 transition-all text-white px-3 py-1 rounded-3xl text-sm font-medium"
                           title={`View details for ${req._id}`}
                         >
                           View

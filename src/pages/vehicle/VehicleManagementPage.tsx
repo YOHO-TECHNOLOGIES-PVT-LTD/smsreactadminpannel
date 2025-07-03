@@ -103,7 +103,7 @@ const VehicleManagementPage = () => {
   return (
     <div>
       <div className="m-1 p-2">
-        <h1 className="text-3xl text-red-700 font-medium" style={{...FONTS.header}}>Vehicle Management</h1>
+        <h1 className="text-3xl text-red-700 !font-bold" style={{...FONTS.header}}>Vehicle Management</h1>
         <hr className="border-1 border-red-700 my-3" />
         <div className="flex mt-10">
           <FaSearch
