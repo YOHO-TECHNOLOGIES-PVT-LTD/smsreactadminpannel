@@ -7,7 +7,7 @@ import ServiceSpareParts from "./ServiceSpareParts";
 import ServiceCenterProfileView from "./ServiceCenterprofileview";
 import { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
-import { getServiceCenter, getServices, getSpareparts } from "../../features/ServiceCenter/Service";
+import { getServiceCenter, getServices} from "../../features/ServiceCenter/Service";
 
 export const ServiceManagementPage = () => {
 const [activeStep, setActiveStep] = useState(0);
@@ -56,20 +56,20 @@ const handleBack = () => {
     getService()
   },[]);
 
-  const [Spareparts, setSpareparts] = useState<any[]>([]);
+  // const [Spareparts, setSpareparts] = useState<any[]>([]);
   
-  useEffect(()=>{
-    const getSparepart = async()=>{
-      try{
-        const data:any = await getSpareparts('')
-        setSpareparts(data.data.data)
-      } catch (error){
-        console.error('failed to get spareparts:',error)
-      }
+  // useEffect(()=>{
+  //   const getSparepart = async()=>{
+  //     try{
+  //       const data:any = await getSpareparts('')
+  //       setSpareparts(data.data.data)
+  //     } catch (error){
+  //       console.error('failed to get spareparts:',error)
+  //     }
 
-    }
-    getSparepart()
-  },[]);
+  //   }
+  //   getSparepart()
+  // },[]);
     
 
 
@@ -86,7 +86,7 @@ const handleBack = () => {
         {activeStep === 2 && (
           <ServicesList partnerId={partnerId} onSpareParts={() => setActiveStep(3)} Services={Services}  handleBack={handleBack}/>
         )}
-        {activeStep === 3 && <ServiceSpareParts Spareparts={Spareparts} partnerId={partnerId} handleBack={handleBack}/>}
+        {activeStep === 3 && <ServiceSpareParts partnerId={partnerId} handleBack={handleBack}/>}
       </div>
     </div>
     )

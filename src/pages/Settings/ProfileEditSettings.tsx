@@ -82,7 +82,7 @@ const ProfileEditSettings: React.FC = () => {
         "bg-gray-50 border border-gray-300 text-sm rounded-lg p-2.5 w-full";
 
     return (
-        <div className="p-5" style={{ fontFamily: FONTS.header.fontfamily }}>
+        <div className="p-5" style={{ fontFamily: FONTS.header.fontFamily }}>
             <h1 className="font-bold text-2xl">Profile</h1>
             <h6>Update your photo and personal details here</h6>
 

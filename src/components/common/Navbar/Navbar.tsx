@@ -1,5 +1,4 @@
 import { useState, useRef, useEffect } from "react";
-import { COLORS } from "../../../constants/uiConstants";
 import { useNavigate } from "react-router-dom";
 import FullscreenButton from "./Fullscreen";
 import { ProfileModal } from "./ProfileModal";

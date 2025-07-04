@@ -1,26 +1,10 @@
-import { useState, type JSX } from "react";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { useState} from "react";
 import { Link, useLocation } from "react-router-dom";
-import {
-  FiHome,
-  FiBell,
-  FiUsers,
-  FiClipboard,
-  FiMapPin,
-  FiTruck,
-  FiSettings,
-  FiAlertTriangle,
-  FiShoppingCart,
-  FiUser,
-} from "react-icons/fi";
-// import Logo from "../../../assets/LOGO.jpg";
-import { RiCalendarScheduleLine } from "react-icons/ri";
 import mainLogo from '../../../assets/Admin logo.png'
 import MiniLogo from "../../../assets/Admin Logo (1).png";
 import { RiMenu2Line, RiMenu3Line } from "react-icons/ri";
-import { Megaphone } from "lucide-react";
-import { MdHelpOutline } from "react-icons/md";
 import { FONTS } from "../../../constants/uiConstants";
-import { AiOutlineCalendar } from "react-icons/ai";
 import Dashboardwhite from "../../../assets/Dashboard1.svg";
 import Dashboardgrey from "../../../assets/Dashboard2.svg";
 import schedulewhite from "../../../assets/Schedule Queue2.svg"

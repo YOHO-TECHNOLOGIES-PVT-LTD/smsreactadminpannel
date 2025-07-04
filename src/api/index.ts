@@ -68,7 +68,7 @@ order_history: {
 spareparts:{
     create:(data:any)=>httpClient.post(API_END_POINTS.spareparts.create,data),
     get:(params:string)=>httpClient.get(API_END_POINTS.spareparts.get,params),
-    getAll:(params:string)=>httpClient.get(API_END_POINTS.spareparts.getall,params),
+    getAll:(params:string)=>httpClient.get(API_END_POINTS.spareparts.getall.replace(":uuid",params),params),
     delete:()=>httpClient.delete(API_END_POINTS.spareparts.delete),
     update:(data:string,params:string)=>httpClient.update(API_END_POINTS.spareparts.update,data,params),
    updatestatus:(data:string,params:string)=>httpClient.update(API_END_POINTS.spareparts.updatestatus,data,params)

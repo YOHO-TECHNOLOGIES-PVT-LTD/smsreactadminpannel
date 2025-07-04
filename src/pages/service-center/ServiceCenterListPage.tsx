@@ -5,11 +5,10 @@ import { useState, useRef, useEffect } from "react"
 import { FaArrowTrendUp } from "react-icons/fa6"
 import { BsEye } from "react-icons/bs"
 import { IoClose } from "react-icons/io5"
-import { MdAddCircleOutline, MdOutlineKeyboardBackspace } from "react-icons/md"
+import { MdAddCircleOutline } from "react-icons/md"
 import { FiSearch } from "react-icons/fi"
 import { COLORS, FONTS } from "../../constants/uiConstants"
 import Client from "../../api"
-import dummyImg from "../../assets/dummy/dummyimage.jpg"
 import { fetchCountries, fetchState } from "../../features/ServiceCenter/externalapi"
 import { toast } from "react-toastify"
 
@@ -45,14 +44,12 @@ type ServiceCenterListProps = {
 
 export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
   onView,
-  handleBack,
   partner,
   setpartner,
 }) => {
   const [selectedCardIndex, setSelectedCardIndex] = useState<number | null>(null)
   const [showSearch, setShowSearch] = useState(false)
   const [searchTerm, setSearchTerm] = useState("")
-  const [showPassForm, setShowPassForm] = useState(false)
   const [showPartnerForm, setShowPartnerForm] = useState(false)
   const partnerFileInputRef = useRef<HTMLInputElement>(null)
   const [isLoading, setIsLoading] = useState(false);
@@ -126,7 +123,7 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
     })
 
     try {
-      const response: any = await new Client().admin.servicecenter.postPartner(data)
+      await new Client().admin.servicecenter.postPartner(data)
 
       // Reset form and close modal
       setPartnerFormData({
@@ -227,6 +224,7 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
 
   useEffect (() => {
     getCountries();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   },[partnerFormData.contact_info.state])
 
 
@@ -257,7 +255,7 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
 
           <div className="flex justify-between items-center border-b border-gray-300 pb-4 mb-4 flex-wrap gap-4">
             <h1 className="font-bold font-koh !font-bold text-3xl pt-2 !text-[#9b111e]"
-            style={{...FONTS.header}}>Service Center</h1>
+            style={{...FONTS.header}}>Partners</h1>
             <div className="flex items-center gap-3 flex-wrap">
               <button
                 className="bg-[#fce8e8] font-koh text-gray-600 hover:text-[#9b111e] p-2 rounded-3xl transition"

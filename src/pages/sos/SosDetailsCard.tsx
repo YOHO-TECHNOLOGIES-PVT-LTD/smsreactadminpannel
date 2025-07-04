@@ -5,7 +5,6 @@ import {
   FaStickyNote,
   FaMapMarkerAlt,
   FaUser,
-  FaEnvelope,
   FaPhoneAlt,
 } from 'react-icons/fa';
 import {
@@ -103,21 +102,21 @@ const SosDetails: React.FC = () => {
   });
  /// const [statusFilter, setStatusFilter] = useState<string>('All');
 
+  const fetchSosRequests = async (id: any) => {
+    try {
+
+      const data: any = await getsos(id)
+      console.log(data)
+      setPostedDetails(data.data)
+      console.log(data)
+    } catch (error) {
+      console.error("Error fetching SOS requests:", error);
+    }
+  };
 
   useEffect(() => {
-
-    const fetchSosRequests = async (id: any) => {
-      try {
-
-        const data: any = await getsos(id)
-        console.log(data)
-        setPostedDetails(data.data)
-        console.log(data)
-      } catch (error) {
-        console.error("Error fetching SOS requests:", error);
-      }
-    };
     fetchSosRequests(uuid);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const updateStatus = async (e: any, params: any) => {
@@ -212,20 +211,14 @@ const SosDetails: React.FC = () => {
             <div className="flex gap-4 mt-10">
               {
                 postedDetails.type === "Own" && <button
-                  className={`px-4 py-2 ml-5 rounded-3xl font-semibold border ${"Own" === "Own"
-                    ? "bg-[#9b111e] text-white"
-                    : "bg-white text-[#9b111e] border-[#9b111e]"
-                    }`}
+                  className={`px-4 py-2 ml-5 rounded-3xl font-semibold border  bg-[#9b111e] text-white`}
                 >
                   Own
                 </button>
               }
               {
                 postedDetails.type === "Other" && <button
-                  className={`px-4 py-2 ml-5 rounded-3xl font-semibold border ${"Other" === "Other"
-                    ? "bg-[#9b111e] text-white"
-                    : "bg-white text-[#9b111e] border-[#9b111e]"
-                    }`}
+                  className={`px-4 py-2 ml-5 rounded-3xl font-semibold border bg-[#9b111e] text-white`}
                 >
                   Others
                 </button>

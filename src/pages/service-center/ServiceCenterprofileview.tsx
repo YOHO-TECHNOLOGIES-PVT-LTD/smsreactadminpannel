@@ -15,7 +15,6 @@ import { CheckCircle, AlertCircle } from "lucide-react"
 import { Settings } from "lucide-react";
 import Client from "../../api"
 import { FONTS } from "../../constants/uiConstants"
-import dummyImg from '../../assets/dummy/dummyimage.jpg'
 // import {  useNavigate } from "react-router-dom";
 
 
@@ -49,7 +48,7 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({
 
   // Original values for comparison
 
-  const [originalValues, setOriginalValues] = useState({
+  const originalValues = {
     editCompanyName: partner.companyName || "",
     editFirstName:partner.firstName || "",
     editLastName:partner.lastName || "",
@@ -66,7 +65,7 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({
     editCity:partner?.contact_info?.city,
     editAddress1:partner?.contact_info?.address1,
     editAddress2:partner?.contact_info?.address2,
-  })
+  }
 
   // Current edit values
   const [editAadharNumber, setEditAadharNumber] = useState(originalValues.editAadharNumber)
@@ -76,7 +75,7 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({
   const [editCompanyName, setEditCompanyName] = useState(originalValues.editCompanyName)
   const [editFirstName, setFirstName] = useState(originalValues.editFirstName)
   const [editLastName, setLastName] = useState(originalValues.editLastName)
-  const [editImage, setImage] = useState(originalValues.editImage)
+  // const [editImage, setImage] = useState(originalValues.editImage)
   const [editPhone, setEditPhone] = useState(originalValues.editPhone)
   const [editEmail, setEditEmail] = useState(originalValues.editEmail)
   const [editState, setEditState] = useState(originalValues.editState)
@@ -87,7 +86,7 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({
   // const [editCertification, setEditCertification] = useState(originalValues.editCertification)
   // const [editUsername, setEditUsername] = useState(originalValues.editUsername)
   const [editLoginEmail, setEditLoginEmail] = useState(originalValues.editLoginEmail)
-  const [editPassword, setEditPassword] = useState(originalValues.editPassword)
+  // const [editPassword, setEditPassword] = useState(originalValues.editPassword)
 
   // Function to check if any values have changed
   const hasChanges = () => {
@@ -96,11 +95,11 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({
       editPhone,
       editEmail,
       editLoginEmail,
-      editPassword,
+      // editPassword,
       editState,
       editFirstName,
       editLastName,
-      editImage,
+      // editImage,
       editCity,
       editAadharNumber,
       editAddress1,
@@ -162,21 +161,21 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({
 
     try {
 
-      const data = {
-        editCompanyName,
-        editPhone,
-        editEmail,
-        editLoginEmail,
-        editPassword,
-        editState,
-        editFirstName,
-        editLastName,
-        editImage,
-        editCity,
-        editAadharNumber,
-        editAddress1,
-        editAddress2
-      }
+      // const data = {
+      //   editCompanyName,
+      //   editPhone,
+      //   editEmail,
+      //   editLoginEmail,
+      //   // editPassword,
+      //   editState,
+      //   editFirstName,
+      //   editLastName,
+      //   // editImage,
+      //   editCity,
+      //   editAadharNumber,
+      //   editAddress1,
+      //   editAddress2
+      // }
 
       const datas = {
         contact_info: {
@@ -198,11 +197,10 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({
         image: "",
       }
 
-      const response = await new Client().admin.servicecenter.update(datas, partner._id)
-      console.log(response)
+      await new Client().admin.servicecenter.update(datas, partner._id)
 
       // Update original values after successful save
-      setOriginalValues(data)
+      // setOriginalValues(data)
 
       setShowEditForm(false)
       setShowSuccessPopup(true)
@@ -260,7 +258,7 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({
             <div className="bg-white p-2 rounded-full" >
               <img src={partner?.image} alt={"logo"} className="w-16 h-16 rounded-full object-contain" />
             </div >
-            <h3 className="!font-bold !text-white" style={{ ...FONTS.cardheader }}>{partner?.firstName + " " + partner?.lastName}</h3>
+            {/* <h3 className="!font-bold !text-white" style={{ ...FONTS.cardheader }}>{partner?.firstName + " " + partner?.lastName}</h3> */}
             <h3 className="!font-bold !text-white" style={{...FONTS.cardheader}}>{partner?.companyName}</h3>
           </div>
           <div className="flex gap-4">

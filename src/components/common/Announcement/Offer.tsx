@@ -1,20 +1,22 @@
 import React, { useState } from 'react';
 import { FONTS } from '../../../constants/uiConstants';
-import dummyImg from '../../../assets/dummy/dummyimage.jpg'
 
 const Offer = () => {
   const [offers, setOffers] = useState([
     {
       title: 'EXTERIOR WASH AND POLISH',
       price: '30.00',
+      image: ''
     },
     {
       title: 'INTERIOR DETAILING',
       price: '35.00',
+      image: ''
     },
     {
       title: 'CERAMIC COATING',
       price: '40.00',
+      image: ''
     },
   ]);
 

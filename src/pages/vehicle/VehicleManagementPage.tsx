@@ -1,14 +1,13 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from "react";
 import type { Vehicle } from "../vehicle/VehicleData";
 
 import VehicleDetailCard from "../../components/common/Card/VehicleDetailCard"; 
 import VehicleModal from "../vehicle/VehicleModal";
 import { FaSearch } from "react-icons/fa";
-import carDefaultlogo from "../../assets/INVALID CAR LOGO.png";
 import { RiResetLeftFill } from "react-icons/ri";
 import { getvechiclemanage } from "../../features/VehicleManagement/service";
 import { FONTS } from "../../constants/uiConstants";
-import dummyImg from '../../assets/dummy/dummyimage.jpg'
 
 const VehicleManagementPage = () => {
   const [selectedVehicle, setSelectedVehicle] = useState<Vehicle | null>(null);

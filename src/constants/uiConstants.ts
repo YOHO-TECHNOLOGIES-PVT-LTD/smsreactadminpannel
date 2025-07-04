@@ -10,7 +10,7 @@ export const COLORS = {
 export const FONTS = {
     //Only for the main heading
   header: {
-fontfamily: "'Montserrat', sans-serif", 
+    fontFamily: "'Montserrat', sans-serif", 
     fontWeight: 500,
     fontSize: "28px",
     color: "#9b111e"

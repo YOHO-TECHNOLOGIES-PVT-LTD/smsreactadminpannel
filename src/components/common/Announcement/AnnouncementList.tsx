@@ -6,14 +6,17 @@ const AnnouncementList = () => {
     {
       title: 'Holiday Discount',
       price: '20% Off',
+      image:''
     },
     {
       title: 'Free Car Wash',
       price: 'On Orders 50+',
+      image: ''
     },
     {
       title: 'Limited Time Offer',
       price: 'Until May 30',
+      image: ''
     },
   ]);
 
@@ -28,7 +31,7 @@ const AnnouncementList = () => {
     const newAnnouncement = {
       title: heading,
       price: price,
-      image: URL.createObjectURL(image)
+      image: image ? URL.createObjectURL(image) : ''
     };
     setAnnouncements([...announcements, newAnnouncement]);
     resetForm();

@@ -6,7 +6,7 @@ import { Search, ArrowLeft, Star, Plus, EllipsisVertical } from "lucide-react"
 import Client from "../../api"
 import { FONTS } from "../../constants/uiConstants"
 import {  useNavigate } from "react-router-dom";
-import dummyImg from '../../assets/dummy/dummyimage.jpg'
+import { getSpareparts } from "../../features/ServiceCenter/Service"
 
 // Define colors directly to avoid import issues
 
@@ -55,14 +55,14 @@ interface ApiResponse {
 
 type ReactComponent = {
   handleBack: () => void
-  Spareparts?: ApiSparePart[] | ApiResponse
+  // Spareparts?: ApiSparePart[] | ApiResponse
   partnerId: string
 }
 
-const ServiceSpareParts: React.FC<ReactComponent> = ({Spareparts = [], partnerId }) => {
+const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId }) => {
   const [searchTerm, setSearchTerm] = useState("")
   const [showSearch, setShowSearch] = useState(false)
-  // const [hoveredCard, setHoveredCard] = useState<string | null>(null)
+  const [Spareparts, setSpareparts] = useState([]);
   const [showAddModal, setShowAddModal] = useState(false)
   const [spareParts, setSpareParts] = useState<SparePart[]>([])
   const [selectedPart, setSelectedPart] = useState<SparePart | null>(null)
@@ -95,26 +95,27 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({Spareparts = [], partnerId
     }
   };
 
+  const fetchspare = async () => {
+     const data:any = await getSpareparts(partnerId)
+     setSpareparts(data.data.data)
+  }
 
   // Transform API data to component format
   useEffect(() => {
     let apiData: ApiSparePart[] = []
-
     // Handle both direct array and API response object
+    fetchspare()
     if (Array.isArray(Spareparts)) {
       apiData = Spareparts
     } else if (Spareparts && typeof Spareparts === "object" && "data" in Spareparts) {
       apiData = (Spareparts as ApiResponse).data || []
     }
 
-    console.log("Raw Spareparts prop:", Spareparts)
-    console.log("Extracted API Data:", apiData)
-
     if (apiData && apiData.length > 0) {
       const transformedData: SparePart[] = apiData.map((item) => ({
         id: item._id,
         name: item.productName,
-        image: item.image || "/placeholder.svg?height=200&width=200",
+        image: item.image,
         price: item.price || '0',
         quantity: Number.parseInt(item.stock) || 0,
         category: item.category,
@@ -127,11 +128,10 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({Spareparts = [], partnerId
         warrantyPeriod: item.warrantyPeriod,
         slug: item.slug,
       }))
-
-      console.log("Transformed Data:", transformedData)
       setSpareParts(transformedData)
     }
-  }, [Spareparts])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [partnerId])
 
   const filteredParts = spareParts.filter(
     (part) =>

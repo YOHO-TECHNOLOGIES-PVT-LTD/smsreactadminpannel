@@ -1,18 +1,18 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useEffect } from "react";
 import { QueryCard } from "../../components/common/dashboard/QueryCard/QueryCard";
 import { AiOutlineArrowLeft } from "react-icons/ai";
 import { getQueries } from "../../features/Queries/service";
 import { FONTS } from "../../constants/uiConstants";
-import dummyImg from '../../assets/dummy/dummyimage.jpg'
 
 type Query = {
   _id: number;
-  subject: string;
-  description: string;
+  fullName: string;
+  yourEnquiry: string;
   profilePicUrl: string;
   isRead: boolean;
   center: string;
-  postDate: string
+  Date: string
 };
 
 const Queries = () => {
@@ -72,6 +72,7 @@ const Queries = () => {
     if (!stillExists || !matchesFilter) {
       setSelectedQuery(null);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filter, queries]);
 
 
@@ -117,9 +118,9 @@ const Queries = () => {
             >
               <QueryCard
                 icon={null}
-                title={q.subject}
-                desc={q.description}
-                time={q.postDate}
+                title={q.fullName}
+                desc={q.yourEnquiry}
+                time={q.Date?.split("T")[1].split(".")[0]}
                 profilePicUrl={q.profilePicUrl}
               />
             </div>
@@ -141,7 +142,7 @@ const Queries = () => {
               <div className="flex items-center justify-between mb-3">
                 <div className="flex items-center gap-3">
                   <img
-                    src={selectedQuery.profilePicUrl || dummyImg}
+                    src={selectedQuery.profilePicUrl}
                     alt="profile"
                     className="w-10 h-10 rounded-full object-cover"
                   />
@@ -153,10 +154,10 @@ const Queries = () => {
               </div>
 
               <h2 className="text-xl font-bold text-[#9d1623] mb-2">
-                {selectedQuery.subject}
+                {selectedQuery.fullName}
               </h2>
 
-              <p className="text-gray-800">{selectedQuery.description}</p>
+              <p className="text-gray-800">{selectedQuery.yourEnquiry}</p>
             </>
           ) : (
             <p className="text-gray-400 text-center mt-10">

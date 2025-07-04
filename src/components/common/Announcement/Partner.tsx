@@ -1,8 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { CheckCircle } from 'lucide-react';
 import { FONTS } from '../../../constants/uiConstants';
-import dummyImg from '../../../assets/dummy/dummyimage.jpg'
-import { fetchCountries } from '../../../features/ServiceCenter/externalapi';
 
 
 const Partner = () => {
@@ -10,17 +8,17 @@ const Partner = () => {
     {
       title: 'XYZ Auto Parts',
       price: '10% Discount',
-      image: null,
+      image: '',
     },
     {
       title: 'Shine & Drive',
       price: 'Free Interior Detailing',
-      image: null,
+      image: '',
     },
     {
       title: 'Lubricants Inc.',
       price: 'Buy 1 Get 1',
-      image: null,
+      image: '',
     },
   ]);
 
