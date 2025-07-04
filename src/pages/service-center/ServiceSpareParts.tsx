@@ -93,6 +93,8 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId }) => {
     }
   };
 
+  console.log(partnerId,"heck arye")
+
   const fetchspare = async () => {
      const data:any = await getSpareparts(partnerId)
      setSpareparts(data.data.data)

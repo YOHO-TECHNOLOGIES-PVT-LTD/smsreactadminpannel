@@ -25,7 +25,6 @@ const handleBack = () => {
 
   const [Partner, setPartner] = useState<any[]>([]);
 
-  console.log(partnerId,"partner",partner)
 
   useEffect(() => {
       const getPartner = async() => {
@@ -54,23 +53,7 @@ const handleBack = () => {
 
     }
     getService()
-  },[]);
-
-  // const [Spareparts, setSpareparts] = useState<any[]>([]);
-  
-  // useEffect(()=>{
-  //   const getSparepart = async()=>{
-  //     try{
-  //       const data:any = await getSpareparts('')
-  //       setSpareparts(data.data.data)
-  //     } catch (error){
-  //       console.error('failed to get spareparts:',error)
-  //     }
-
-  //   }
-  //   getSparepart()
-  // },[]);
-    
+  },[]);    
 
 
   return (

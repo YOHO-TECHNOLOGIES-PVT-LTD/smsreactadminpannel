@@ -147,12 +147,10 @@ const ServiceRequests: React.FC = () => {
 
 
   const filteredPendingRequests = pendingRequests.filter(request => {
-    if (request?.customerId?.firstName) {    
-      const searchLower = searchTerm.toLowerCase();
-      const matchesId = request._id.toString().includes(searchLower);
-      const matchesName = request?.customerId?.firstName.toLowerCase().includes(searchLower);
-      return matchesId || matchesName;
-    }
+    const searchLower = searchTerm.toLowerCase();
+    const matchesId = request._id.toString().includes(searchLower);
+    const matchesName = request.customerId.firstName.toLowerCase().includes(searchLower) ?? " ";
+    return matchesId || matchesName;
   });
 
   const filteredAssignedRequests = assignedRequests.filter(request => {
