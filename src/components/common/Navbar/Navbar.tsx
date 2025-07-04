@@ -316,7 +316,7 @@ export const Navbar = () => {
                   <li>
                     <button
                       onClick={() => {
-                        navigate('/profile');
+                        setShowProfileDetails(true);
                         setIsDropdownOpen(false);
                       }}
                       className="block w-full text-center px-4 py-1 rounded-3xl transition-colors duration-200 hover:text-white hover:bg-[#d14c4c]"
