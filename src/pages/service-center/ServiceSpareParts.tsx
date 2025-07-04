@@ -90,9 +90,7 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId }) => {
   const handleDelete = (part: any) => {
     const confirmDelete = window.confirm(`Are you sure you want to delete "${part.name}"?`);
     if (confirmDelete) {
-      // Call your API or state update logic here
       console.log("Deleted:", part);
-      // e.g., deletePartById(part.id)
     }
   };
 
@@ -101,10 +99,10 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId }) => {
      setSpareparts(data.data.data)
   }
 
-  // Transform API data to component format
+  console.log(Spareparts, "fetching partner")
+
   useEffect(() => {
     let apiData: ApiSparePart[] = []
-    // Handle both direct array and API response object
     fetchspare()
     if (Array.isArray(Spareparts)) {
       apiData = Spareparts
@@ -132,11 +130,13 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId }) => {
       setSpareParts(transformedData)
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [partnerId])
+  }, [])
 
-  const filteredParts = spareParts.filter(
-    (part) =>
-      part.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+
+  const filteredParts = Spareparts
+  .filter(
+    (part:any) =>
+      part.productName.toLowerCase().includes(searchTerm.toLowerCase()) ||
       part.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
       part.brand.toLowerCase().includes(searchTerm.toLowerCase()),
   )
@@ -145,22 +145,22 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId }) => {
     return Number.parseInt(price) - (Number.parseInt(price) * discount) / 100
   }
 
-  const renderStars = (rating: number) => {
-    const fullStars = Math.floor(rating)
-    const hasHalfStar = rating % 1 !== 0
+  // const renderStars = () => {
+    // const fullStars = Math.floor(rating)
+    // const hasHalfStar = rating % 1 !== 0
 
-    return (
-      <div className="flex items-center gap-1">
-        {[...Array(fullStars)].map((_, i) => (
-          <Star key={`full-${i}`} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-        ))}
-        {hasHalfStar && <Star className="w-4 h-4 fill-yellow-400/50 text-yellow-400" />}
-        {[...Array(5 - Math.ceil(rating))].map((_, i) => (
-          <Star key={`empty-${i}`} className="w-4 h-4 text-gray-300" />
-        ))}
-      </div>
-    )
-  }
+    // return (
+    //   <div className="flex items-center gap-1">
+    //     {[...Array(fullStars)].map((_, i) => (
+    //       <Star key={`full-${i}`} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+    //     ))}
+    //     {hasHalfStar && <Star className="w-4 h-4 fill-yellow-400/50 text-yellow-400" />}
+    //     {[...Array(5 - Math.ceil(rating))].map((_, i) => (
+    //       <Star key={`empty-${i}`} className="w-4 h-4 text-gray-300" />
+    //     ))}
+    //   </div>
+    // )
+  // }
 
   const handleAddPart = async () => {
     const newSparePart: SparePart = {
@@ -277,7 +277,7 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId }) => {
       {/* Main Content */}
       <div className="container mx-auto px-4 py-6">
         {/* Loading/Empty State */}
-        {spareParts.length === 0 ? (
+        {filteredParts.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-16">
             <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mb-6">
               <Search className="w-8 h-8 text-gray-400" />
@@ -292,9 +292,9 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId }) => {
           </div>
         ) : filteredParts.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {filteredParts.map((part) => (
+            {filteredParts.map((part:any,index:number) => (
               <div
-                key={part.id}
+                key={index}
                 className="group relative bg-white rounded-xl shadow-sm border border-gray-100 hover:shadow-lg hover:border-red-200 transition-all duration-300 overflow-hidden cursor-pointer"
                 onClick={() => setSelectedPart(part)}
                 // onMouseEnter={() => setHoveredCard(part.id)}
@@ -314,13 +314,13 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId }) => {
                     aria-label="Quick view"
                     onClick={(e) => {
                       e.stopPropagation(); // Prevent card click
-                      setMenuOpenId(menuOpenId === part.id ? null : part.id);
+                      setMenuOpenId(menuOpenId === part._id ? null : part._id);
                     }}
                   >
                     <EllipsisVertical className="w-4 h-4 text-black" />
                   </button>
 
-                  {menuOpenId === part.id && (
+                  {menuOpenId === part._id && (
                     <div className="absolute right-3 top-12 z-20 w-32 bg-white border border-gray-200 rounded-3xl shadow-lg">
                       <button
                         className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
@@ -353,7 +353,7 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId }) => {
                   <img
                     className="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-300"
                     src={part.image}
-                    alt={part.name}
+                    alt={part.productName}
                     loading="lazy"
                     // onError={(e) => {
                     //   const target = e.target as HTMLImageElement
@@ -374,12 +374,12 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId }) => {
 
                   {/* Product Name */}
                   <h3 className="!font-semibold text-gray-900 mb-3 line-clamp-2 group-hover:text-red-700 transition-colors" style={{...FONTS.cardheader}}>
-                    {part.name}
+                    {part.productName}
                   </h3>
 
                   {/* Rating */}
                   <div className="flex items-center gap-2 mb-3">
-                    {renderStars(part.rating)}
+                    {/* {renderStars(part.rating)} */}
                     <span className="text-sm !text-gray-500"
                     style={{...FONTS.paragraph}}>({part.reviews})</span>
                   </div>

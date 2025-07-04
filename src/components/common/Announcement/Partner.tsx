@@ -1,26 +1,12 @@
-import { useState } from 'react';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { useEffect, useState } from 'react';
 import { CheckCircle } from 'lucide-react';
 import { FONTS } from '../../../constants/uiConstants';
+import { getAnnouncement, postAnnouncement } from '../../../pages/Announcement/services';
 
 
 const Partner = () => {
-  const [partners, setPartners] = useState([
-    {
-      title: 'XYZ Auto Parts',
-      price: '10% Discount',
-      image: '',
-    },
-    {
-      title: 'Shine & Drive',
-      price: 'Free Interior Detailing',
-      image: '',
-    },
-    {
-      title: 'Lubricants Inc.',
-      price: 'Buy 1 Get 1',
-      image: '',
-    },
-  ]);
+  const [partners, setPartners] = useState<any>([]);
 
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [showFormModal, setShowFormModal] = useState(false);
@@ -35,15 +21,33 @@ const Partner = () => {
     setTimeout(() => setShowSuccessModal(false), 2500);
   };
 
+  useEffect(() => {
+    (async function() {
+      const data:any = await getAnnouncement('')
+      const datas = data.data.data
+      const filters = datas.filter((item: any) => item.category == 'services')
+      setPartners(filters)
+    })()
+  }, []);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const newPartner = {
       title: heading,
       price,
       image: image ? URL.createObjectURL(image) : '',
     };
-    setPartners((prev) => [...prev, newPartner]);
+
+    const data = {
+      title: heading,
+      category: "services",
+      description,
+      offer: price,
+      image: image ? URL.createObjectURL(image) : ''
+    }
+
+    await postAnnouncement(data)
+    setPartners((prev:any) => [...prev, newPartner]);
     resetForm();
     setShowFormModal(false);
   };
@@ -64,15 +68,9 @@ const Partner = () => {
   >
     + Add Partner
   </button>
-
-
-
-
-      {/* onClick={() => setShowFormModal(true)} */}
-      {/* Partner Cards */}
       
       <div className='grid grid-cols-3 sm:grid-cols-2 lg:grid-cols-3 gap-4 px-6 mt-6'>
-      {partners.map((item, index) => (
+      {partners.map((item:any, index:number) => (
         <div
           key={index}
           className="flex flex-col hover:shadow-xl transform hover:scale-[1.02] p-2 transition-all duration-300 bg-white shadow-md rounded-lg mb-4 mx-6"
@@ -85,7 +83,7 @@ const Partner = () => {
           <div className="p-4 flex-1 flex flex-col justify-between">
             <div>
               <h3 className="text-base font-semibold !text-gray-900" style={{...FONTS.cardSubHeader}}>{item.title}</h3>
-              <p className="text-[#9b111e] !font-bold mt-2" style={{...FONTS.cardSubHeader}}>{item.price}</p>
+              <p className="text-[#9b111e] !font-bold mt-2" style={{...FONTS.cardSubHeader}}>{item.offer}</p>
             </div>
             <div className="mt-4 text-right">
               <button

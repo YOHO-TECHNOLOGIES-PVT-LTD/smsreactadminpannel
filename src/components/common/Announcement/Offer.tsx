@@ -1,24 +1,19 @@
-import React, { useState } from 'react';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import React, { useEffect, useState } from 'react';
 import { FONTS } from '../../../constants/uiConstants';
+import { getAnnouncement, postAnnouncement } from '../../../pages/Announcement/services';
 
 const Offer = () => {
-  const [offers, setOffers] = useState([
-    {
-      title: 'EXTERIOR WASH AND POLISH',
-      price: '30.00',
-      image: ''
-    },
-    {
-      title: 'INTERIOR DETAILING',
-      price: '35.00',
-      image: ''
-    },
-    {
-      title: 'CERAMIC COATING',
-      price: '40.00',
-      image: ''
-    },
-  ]);
+  const [offers, setOffers] = useState<any>([]);
+
+  useEffect(() => {
+    (async function(){
+      const data:any = await getAnnouncement('')
+      const datas = data.data.data
+      const filters = datas.filter((item:any)=>item.category == 'offeres')
+      setOffers(filters)
+    })()
+  }, []);
 
   const [showModal, setShowModal] = useState(false);
   const [heading, setHeading] = useState('');
@@ -26,7 +21,7 @@ const Offer = () => {
   const [price, setPrice] = useState('');
   const [image, setImage] = useState<File | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit =async (e: React.FormEvent) => {
     e.preventDefault();
     const newOffer = {
       title: heading,
@@ -35,7 +30,18 @@ const Offer = () => {
         ? URL.createObjectURL(image)
         : 'https://via.placeholder.com/300x150?text=No+Image',
     };
-    setOffers((prev) => [...prev, newOffer]);
+
+    const data = {
+      title: heading,
+      category: "offeres",
+      description,
+      offer: price,
+      image: image ? URL.createObjectURL(image) : ''
+    }
+
+    await postAnnouncement(data)
+
+    setOffers((prev:any) => [...prev, newOffer]);
     resetForm();
     setShowModal(false);
   };
@@ -62,7 +68,7 @@ return (
     {/* Cards Grid */}
     <div className="grid grid-cols-3 gap-6 mt-6">
 
-        {offers.map((item, index) => (
+        {offers.map((item:any, index:number) => (
           <div
             key={index}
             className="flex flex-col hover:shadow-xl transform hover:scale-[1.02] p-2 transition-all duration-300 bg-white shadow-md rounded-lg"
@@ -74,7 +80,7 @@ return (
             />
             <div className="p-4 flex-1 flex flex-col justify-between">
               <h3 className="text-base !text-gray-900 font-semibold" style={{...FONTS.paragraph}}>{item.title}</h3>
-              <p className="text-[#9b111e] !font-bold mt-2" style={{...FONTS.cardSubHeader}}>Start from {item.price}</p>
+              <p className="text-[#9b111e] !font-bold mt-2" style={{...FONTS.cardSubHeader}}>Start from {item.offer}</p>
             </div>
           </div>
         ))}
