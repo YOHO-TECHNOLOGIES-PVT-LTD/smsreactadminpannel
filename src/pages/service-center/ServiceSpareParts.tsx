@@ -2,7 +2,7 @@
 
 import type React from "react"
 import { useState, useEffect } from "react"
-import { Search, ArrowLeft, Star, Plus, EllipsisVertical } from "lucide-react"
+import { Search, ArrowLeft, Plus, EllipsisVertical } from "lucide-react"
 import Client from "../../api"
 import { FONTS } from "../../constants/uiConstants"
 import {  useNavigate } from "react-router-dom";
