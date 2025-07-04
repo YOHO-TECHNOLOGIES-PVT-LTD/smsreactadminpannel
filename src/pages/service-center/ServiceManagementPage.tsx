@@ -31,8 +31,11 @@ const handleBack = () => {
       const getPartner = async() => {
           
             try {
-              const data:any = await getServiceCenter('')
+              const data:any = await getServiceCenter('');
+              console.log('partner id: ',data)
               setPartner(data.data.data)
+              setpartnerId(data.data.data._id)
+              console.log("Id", data?.data?._id)
             } catch (error) {
               console.error('failed to get servicecenter:', error)
     

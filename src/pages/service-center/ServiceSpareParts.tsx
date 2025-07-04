@@ -60,6 +60,7 @@ type ReactComponent = {
 }
 
 const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId }) => {
+  console.log("PartnerId", partnerId)
   const [searchTerm, setSearchTerm] = useState("")
   const [showSearch, setShowSearch] = useState(false)
   const [Spareparts, setSpareparts] = useState([]);
@@ -196,7 +197,7 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId }) => {
       warrantyPeriod: "",
       slug: "",
     })
-    // setShowAddModal(false)
+    setShowAddModal(false);
   }
 
   const toggleActiveStatus = (id: string) => {

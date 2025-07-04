@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type React from "react"
 import { useState, useEffect } from "react"
-import { FaArrowRight, FaRegAddressCard, FaEdit, FaTrash } from "react-icons/fa"
+import { FaArrowRight, FaRegAddressCard, FaEdit, FaTrash, FaCodeBranch } from "react-icons/fa"
 import { BsBuildings } from "react-icons/bs"
 import { SlCalender } from "react-icons/sl"
 import { AiFillSafetyCertificate, AiOutlineAudit } from "react-icons/ai"
@@ -451,55 +451,41 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({
                   </h3>
                   <div className="space-y-4">
                     <EnhancedEditField
-                      icon={<BsBuildings className="text-[#9b111e]" />}
                       label="Company Name"
                       value={editCompanyName}
                       onChange={setEditCompanyName}
                     />
                     <EnhancedEditField
-                      // icon={<SlCalender className="text-[#9b111e]" />}
-                      label="Aadhar No"
-                      value={editFirstName}
-                      onChange={setFirstName}
-                    />
-                    <EnhancedEditField
-                      // icon={<FaCodeBranch className="text-[#9b111e]" />}
                       label="Branches"
                       value={editLastName}
                       onChange={setLastName}
                     />
                     <EnhancedEditField
-                      icon={<LuPhoneCall className="text-[#9b111e]" />}
                       label="Phone"
                       value={editPhone}
                       onChange={setEditPhone}
                     />
                     <EnhancedEditField
-                      icon={<MdEmail className="text-[#9b111e]" />}
                       label="Email"
                       value={editEmail}
                       onChange={setEditEmail}
                     />
                     <EnhancedEditField
-                      icon={<FcDataEncryption className="text-[#9b111e]" />}
                       label="Aadhar No"
                       value={editAadharNumber}
                       onChange={setEditAadharNumber}
                     />
                     <EnhancedEditField
-                      icon={<MdVerified className="text-[#9b111e]" />}
                       label="Pan No"
                       value={editPanCard}
                       onChange={setEditPanCard}
                     />
                     <EnhancedEditField
-                      icon={<AiOutlineAudit className="text-[#9b111e]" />}
                       label="GST No"
                       value={editGstNo}
                       onChange={setEditGstNo}
                     />
                     <EnhancedEditField
-                      icon={<BiSolidCertification className="text-[#9b111e]" />}
                       label="Reg No"
                       value={editRegNo}
                       onChange={setEditRegNo}
@@ -523,28 +509,24 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({
                       onChange={setEditWebsite}
                     /> */}
                     <EnhancedEditField
-                      icon={<FaRegAddressCard className="text-[#9b111e]" />}
                       label="State"
                       value={editState}
                       onChange={setEditState}
                       // textarea
                     />
                     <EnhancedEditField
-                      icon={<FaRegAddressCard className="text-[#9b111e]" />}
                       label="City"
                       value={editCity}
                       onChange={setEditCity}
                       // textarea
                     />
                     <EnhancedEditField
-                      icon={<FaRegAddressCard className="text-[#9b111e]" />}
                       label="Address2"
                       value={editAddress1}
                       onChange={setEditAddress1}
                       // textarea
                     />
                     <EnhancedEditField
-                      icon={<FaRegAddressCard className="text-[#9b111e]" />}
                       label="Address2"
                       value={editAddress2}
                       onChange={setEditAddress2}
@@ -566,7 +548,6 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({
                       onChange={setEditUsername}
                     /> */}
                     <EnhancedEditField
-                      icon={<MdOutlineMailOutline className="text-[#9b111e]" />}
                       label="Login Email"
                       value={editLoginEmail}
                       onChange={setEditLoginEmail}
