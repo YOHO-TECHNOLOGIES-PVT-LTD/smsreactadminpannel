@@ -18,6 +18,23 @@ export const fetchCountries = async (state:string) => {
       }
     };
 
+export const fetchAllCountries = async () => {
+      try {
+        const config = {
+          method: 'get',
+          url: `https://api.countrystatecity.in/v1/countries`,
+          headers: {
+            'X-CSCAPI-KEY': 'aFdERVQ4SGVUeUcwdXcyUm5lNEpaanhMYXlnZkF0UjJMV3JxMjkxUg==' 
+          }
+        };
+
+        const response = await axios(config);
+        return response;
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
 
  export const fetchState = async () => {
   try {

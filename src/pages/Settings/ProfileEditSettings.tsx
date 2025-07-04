@@ -6,6 +6,7 @@ import { getProfile, updateProfile } from "./services";
 import * as Yup from "yup";
 
 import {
+  fetchAllCountries,
   fetchCountries,
   fetchState,
 } from "../../features/ServiceCenter/externalapi";
@@ -80,15 +81,25 @@ const ProfileEditSettings: React.FC = () => {
   useEffect(() => {
     fetchData();
     getStates();
+    getCountry();
   }, []);
 
   const [state, setState] = useState<any[]>([]);
   const [city, setCity] = useState<any[]>([]);
+  const [country, setCountry] = useState<any[]>([]);
 
   const getStates = async () => {
     const response = await fetchState();
     if (response) {
       setState(response.data);
+    } else {
+      setState([]);
+    }
+  };
+  const getCountry = async () => {
+    const response = await fetchAllCountries();
+    if (response) {
+      setCountry(response.data);
     } else {
       setState([]);
     }
@@ -251,9 +262,15 @@ const ProfileEditSettings: React.FC = () => {
               name="contact_info.country"
               value={formik.values.contact_info.country}
               onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
               className={inputClass}
             >
-              <option value="India">India</option>
+              <option value="">Select Country</option>
+              {country.map((c) => (
+                <option key={c.iso2} value={c.name}>
+                  {c.name}
+                </option>
+              ))}
             </select>
             {formik.touched.contact_info?.country &&
               formik.errors.contact_info?.country && (
