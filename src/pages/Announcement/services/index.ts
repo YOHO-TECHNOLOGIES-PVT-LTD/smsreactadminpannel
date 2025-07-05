@@ -22,4 +22,13 @@ export const getAnnouncement = async (data:any)=>{
     }
 }
 
+export const updateAnnouncement = async (data:any , params : string) => {
+    console.log('enter into service page')
+    try {
+        const response = await new Client().admin.Announcement.update(data , params);
+        return response;
+    } catch (error) {
+        console.log('Error Updating data:',error);
+    }
+}
 
