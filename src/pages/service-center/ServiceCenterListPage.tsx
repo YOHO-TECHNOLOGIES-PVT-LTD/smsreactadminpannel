@@ -297,7 +297,7 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
                   />
                   <div className="flex-1">
                     <h3 className="font-bold text-gray-800" style={{ ...FONTS.cardheader}}>
-                      {center.firstName}&nbsp;{center.lastName}
+                      {center.companyName}
                     </h3>
                     <div className="flex gap-2 text-base mt-2 text-gray-700 flex-wrap">
                       <span className="bg-[#fce8e8] text-[#800000] px-2 py-0.5 rounded">{center.rating} ★</span>

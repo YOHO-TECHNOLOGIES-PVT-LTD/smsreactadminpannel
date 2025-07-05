@@ -456,7 +456,7 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({ handleBack, partne
   return (
     <div className="h-full bg-gray-50 flex">
       {/* Sidebar */}
-      <div className="w-80 bg-pink-50 shadow-lg border-r border-gray-200 flex flex-col">
+      <div className="w-80 h-screen bg-pink-50 shadow-lg border-r border-gray-200 flex flex-col">
         {/* Sidebar Header */}
         <div className="p-6 border-b border-gray-200">
           <div className="flex items-center space-x-3 mb-4">
