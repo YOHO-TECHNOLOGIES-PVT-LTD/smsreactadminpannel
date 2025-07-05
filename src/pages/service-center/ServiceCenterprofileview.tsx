@@ -732,4 +732,4 @@ const SuccessPopup = ({
   )
 }
 
-export default ServiceCenterProfileView
+export default ServiceCenterProfileView;

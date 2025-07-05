@@ -25,6 +25,8 @@ export const API_END_POINTS ={
    announcement:{
     Post:"/api/announcement/create",
     Get:"/api/announcement/all",
+    update:"/api/announcement/update/:uuid",
+    delete:"/api/announcement/delete/:uuid",
 
    },
    enquiry:{
