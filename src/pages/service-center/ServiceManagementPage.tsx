@@ -16,7 +16,9 @@ const [partner, setpartner] = useState<number>(0);
 const [partnerId,setpartnerId] = useState<string>('')
 
 const handleBack = () => {
-    if (activeStep > 0) {
+    if (activeStep === 3) {
+      setActiveStep(1); // Go directly to center profile page
+    } else if (activeStep > 0) {
       setActiveStep(prev => prev - 1);
     } else {
       navigate(-1);

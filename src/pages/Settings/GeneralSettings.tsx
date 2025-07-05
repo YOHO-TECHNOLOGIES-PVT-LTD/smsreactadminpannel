@@ -19,10 +19,10 @@ const handleRenderComponent = (tabText: string) => {
         <h1 className="text-3xl top-0 text-[#9b111e] font-bold">Settings</h1>
       </div>
       <div className="mt-10">
-      <button onClick={()=>handleRenderComponent("Account Settings")} className={`bg-transparent focus:bg-[#9b111e] focus:text-white focus:border-[#9b111e] border-[#9b111e] hover:bg-[#9b111e] font-semibold hover:text-white py-2 px-4 ml-4 border  rounded-full ${tab === "Account Settings" ? "bg-[#9b111e] text-white" : "text-orange-800"}`}>
+      <button onClick={()=>handleRenderComponent("Account Settings")} className={`border-[#9b111e] font-semibold py-2 px-4 ml-4 border rounded-full ${tab === "Account Settings" ? "bg-[#9b111e] text-white" : "bg-transparent text-orange-800"}`}>
       Account Settings
       </button>
-      <button onClick={()=>handleRenderComponent("Change Password")} className={`bg-transparent focus:bg-[#9b111e] focus:text-white focus:border-[#9b111e] border-[#9b111e] hover:bg-[#9b111e] font-semibold hover:text-white py-2 px-4 ml-4 border  rounded-full ${tab === "Change Password" ? "bg-[#9b111e] text-white" : "text-[#9b111e]"}`}>
+      <button onClick={()=>handleRenderComponent("Change Password")} className={`border-[#9b111e] font-semibold py-2 px-4 ml-4 border rounded-full ${tab === "Change Password" ? "bg-[#9b111e] text-white" : "bg-transparent text-[#9b111e]"}`}>
       Change Password
       </button>
       

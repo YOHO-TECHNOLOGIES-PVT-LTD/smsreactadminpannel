@@ -5,7 +5,7 @@ import { useState, useEffect } from "react"
 import { Search, ArrowLeft, Plus, EllipsisVertical } from "lucide-react"
 import Client from "../../api"
 import { FONTS } from "../../constants/uiConstants"
-import {  useNavigate } from "react-router-dom";
+// import {  useNavigate } from "react-router-dom";
 import { getSpareparts } from "../../features/ServiceCenter/Service"
 
 // Define colors directly to avoid import issues
@@ -59,7 +59,7 @@ type ReactComponent = {
   partnerId: string
 }
 
-const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId }) => {
+const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId, handleBack }) => {
   console.log("PartnerId", partnerId)
   const [searchTerm, setSearchTerm] = useState("")
   const [showSearch, setShowSearch] = useState(false)
@@ -206,10 +206,7 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId }) => {
     setSpareParts(spareParts.map((part) => (part.id === id ? { ...part, active: !part.active } : part)))
   }
   
-  const navigate = useNavigate();
-  const backHandle = ()=>{
-    navigate('/service/profile')
-  }
+
 
   return ( 
     <div className="min-h-screen bg-gray-50">
@@ -217,7 +214,7 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId }) => {
       <div className="sticky top-0 z-20 bg-[#FAF3EB] border-b ">
         <div className="container px-4 py-3 flex ">
           <button
-            onClick={()=> backHandle()}
+            onClick={handleBack}
             className="hover:bg-gray-100 rounded-3xl transition-colors"
             aria-label="Go back"
           >
