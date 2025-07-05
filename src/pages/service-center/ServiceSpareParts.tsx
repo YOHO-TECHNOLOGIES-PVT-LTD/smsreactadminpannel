@@ -6,7 +6,7 @@ import { Search, ArrowLeft, Star, Plus, EllipsisVertical } from "lucide-react"
 import Client from "../../api"
 import { FONTS } from "../../constants/uiConstants"
 import {  useNavigate } from "react-router-dom";
-import { getSpareparts } from "../../features/ServiceCenter/Service"
+import { getSpareparts, updateSpare } from "../../features/ServiceCenter/Service"
 
 // Define colors directly to avoid import issues
 
@@ -32,6 +32,9 @@ interface ApiSparePart {
 }
 
 interface SparePart {
+  stock: string | number | readonly string[] | undefined
+  productName: string | number | readonly string[] | undefined
+  _id: string
   id: string
   name: string
   image: string
@@ -67,7 +70,7 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId }) => {
   const [spareParts, setSpareParts] = useState<SparePart[]>([])
   const [selectedPart, setSelectedPart] = useState<SparePart | null>(null)
   const [menuOpenId, setMenuOpenId] = useState<string | null>(null);
-  const [newPart, setNewPart] = useState<Omit<SparePart, "id" | "inStock" | "reviews" | "rating">>({
+  const [newPart, setNewPart] = useState<Omit<SparePart, "id" | "inStock" | "reviews" | "rating" | "_id">>({
     name: "",
     image: "",
     price: '0',
@@ -86,14 +89,25 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId }) => {
     setEditPart(part);
   };
 
-  const handleDelete = (part: any) => {
-    const confirmDelete = window.confirm(`Are you sure you want to delete "${part.name}"?`);
+  const filteredParts = Spareparts
+    .filter(
+      (part: any) =>
+        part.productName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        part.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        part.brand.toLowerCase().includes(searchTerm.toLowerCase()),
+    )
+
+
+  const handleDelete = async(part: any) => {
+    const confirmDelete = window.confirm(`Are you sure you want to delete "${part._id}"?`);
     if (confirmDelete) {
       console.log("Deleted:", part);
+      const  filtered = Spareparts.filter((item:any) => item._id !== part._id)
+      setSpareparts(filtered)
+      await new Client().admin.spareparts.delete(part._id)
+      console.log(filteredParts,"after delet")
     }
   };
-
-  console.log(partnerId,"heck arye")
 
   const fetchspare = async () => {
      const data:any = await getSpareparts(partnerId)
@@ -134,14 +148,7 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId }) => {
   }, [])
 
 
-  const filteredParts = Spareparts
-  .filter(
-    (part:any) =>
-      part.productName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      part.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      part.brand.toLowerCase().includes(searchTerm.toLowerCase()),
-  )
-
+  
   const calculateDiscountedPrice = (price: string, discount: number) => {
     return Number.parseInt(price) - (Number.parseInt(price) * discount) / 100
   }
@@ -170,6 +177,7 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId }) => {
       inStock: newPart.quantity > 0,
       reviews: 0,
       rating: 0,
+      _id: ""
     }
     const data: any = {
       productName: newPart.name,
@@ -301,14 +309,13 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId }) => {
                 // onMouseEnter={() => setHoveredCard(part.id)}
                 // onMouseLeave={() => setHoveredCard(null)}
               >
-                {/* Discount Badge */}
+
                 {/* {part.discount && part.discount > 0 && (
                   <div className="absolute top-3 left-3 z-10 bg-red-500 text-white px-2 py-1 rounded-full text-xs font-semibold shadow-sm">
                     -{part.discount}%
                   </div>
                 )} */}
 
-                {/* Quick View Button */}
                 <div className="relative">
                   <button
                     className="absolute top-3 right-3 z-10 p-2 bg-white/90 hover:bg-white rounded-3xl shadow-md transition-all duration-200"
@@ -348,7 +355,6 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId }) => {
                 </div>
 
 
-                {/* Image Container */}
                 <div className="relative h-48 bg-gray-50 overflow-hidden">
                   
                   <img
@@ -356,10 +362,6 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId }) => {
                     src={part.image}
                     alt={part.productName}
                     loading="lazy"
-                    // onError={(e) => {
-                    //   const target = e.target as HTMLImageElement
-                    //   target.src = "https://wallup.net/wp-content/uploads/2016/01/65578-BMW_M3-BMW-car-blue_cars.jpg"
-                    // }}
                   />
                 </div>
 
@@ -416,22 +418,22 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId }) => {
                             }`}
                         ></div>
                         <span className="!text-gray-600" style={{...FONTS.paragraph}}>
-                          {part.quantity > 0 ? `${part.quantity} in stock` : "Out of stock"}
+                          {part.stock > 0 ? `${part.stock} in stock` : "Out of stock"}
                         </span>
                       </div>
                       <label className="inline-flex items-center cursor-pointer">
                         <input
                           title="Active Status"
                           type="checkbox"
-                          checked={part.active}
-                          onChange={() => toggleActiveStatus(part.id)}
+                          checked={part.inStock}
+                          onChange={() => toggleActiveStatus(part._id)}
                           className="sr-only peer"
                         />
                         <div
-                          className={`relative w-9 h-5 rounded-full peer ${part.active ? "bg-green-500" : "bg-gray-200"}`}
+                          className={`relative w-9 h-5 rounded-full peer ${part.inStock ? "bg-green-500" : "bg-gray-200"}`}
                         >
                           <div
-                            className={`absolute top-[2px] ${part.active ? "left-[18px]" : "left-[2px]"} bg-white rounded-full h-4 w-4 transition-all`}
+                            className={`absolute top-[2px] ${part.inStock ? "left-[18px]" : "left-[2px]"} bg-white rounded-full h-4 w-4 transition-all`}
                           ></div>
                         </div>
                       </label>
@@ -742,7 +744,7 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId }) => {
                   <input
                     title="Part Name"
                     type="text"
-                    value={editPart.name}
+                    value={editPart.productName}
                     onChange={(e) => setEditPart({ ...editPart, name: e.target.value })}
                     className="mt-1 block w-full border-gray-300 shadow-sm outline-none focus:border-b-2 focus:border-b-red-500"
                   />
@@ -797,7 +799,7 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId }) => {
                   <input
                     title="Quantity"
                     type="number"
-                    value={editPart.quantity}
+                    value={editPart.stock}
                     onChange={(e) => setEditPart({ ...editPart, quantity: parseInt(e.target.value, 10) })}
                     className="mt-1 block w-full border-gray-300 shadow-sm outline-none focus:border-b-2 focus:border-b-red-500"
                   />
@@ -829,8 +831,8 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId }) => {
                   <label className="block text-sm font-medium text-gray-700">Active</label>
                   <select
                     title="Active Status"
-                    value={editPart.active ? "true" : "false"}
-                    onChange={(e) => setEditPart({ ...editPart, active: e.target.value === "true" })}
+                    value={editPart.inStock ? "true" : "false"}
+                    onChange={(e) => setEditPart({ ...editPart, inStock: e.target.value === "true" })}
                     className="mt-1 block w-full border-gray-300 shadow-sm outline-none focus:border-b-2 focus:border-b-red-500"
                   >
                     <option value="true">Active</option>
@@ -848,9 +850,19 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId }) => {
                 </button>
                 <button
                   className="px-4 py-2 bg-red-600 text-white rounded-3xl hover:bg-red-700"
-                  onClick={() => {
+                  onClick={async() => {
                     console.log("Updated Part:", editPart);
-                    // Here you'd call a function to save the changes (API or state update)
+                    const data ={
+                      brand:editPart.brand,
+                      category:editPart.category,
+                      image:editPart.image,
+                      inStock:editPart.inStock,
+                      price:editPart.price,
+                      productName:editPart.name,
+                      stock:editPart.quantity,
+                      warrantyPeriod:editPart.warrantyPeriod
+                    }
+                    await updateSpare(data,editPart._id)
                     setEditPart(null);
                   }}
                 >

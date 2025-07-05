@@ -69,8 +69,8 @@ spareparts:{
     create:(data:any)=>httpClient.post(API_END_POINTS.spareparts.create,data),
     get:(params:string)=>httpClient.get(API_END_POINTS.spareparts.get,params),
     getAll:(params:string)=>httpClient.get(API_END_POINTS.spareparts.getall.replace(":uuid",params)),
-    delete:()=>httpClient.delete(API_END_POINTS.spareparts.delete),
-    update:(data:string,params:string)=>httpClient.update(API_END_POINTS.spareparts.update,data,params),
+    delete:(params:string)=>httpClient.delete(API_END_POINTS.spareparts.delete.replace(":id",params)),
+    update:(data:string,params:string)=>httpClient.update(API_END_POINTS.spareparts.update.replace(":id",params),data),
    updatestatus:(data:string,params:string)=>httpClient.update(API_END_POINTS.spareparts.updatestatus,data,params)
 },
 auth:{
