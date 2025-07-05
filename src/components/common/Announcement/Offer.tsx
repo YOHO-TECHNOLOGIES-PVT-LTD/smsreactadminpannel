@@ -4,7 +4,6 @@ import { FONTS } from '../../../constants/uiConstants';
 import {
   getAnnouncement,
   postAnnouncement,
-  // deleteAnnouncement,
   updateAnnouncement,
 } from '../../../pages/Announcement/services';
 import { toast } from 'react-toastify';
@@ -23,7 +22,6 @@ const Offer = () => {
     const datas = data.data.data;
     const filters = datas.filter((item: any) => item.category === 'offeres');
     setOffers(filters);
-    console.log("offers data",filters)
   };
 
   useEffect(() => {
@@ -38,21 +36,22 @@ const Offer = () => {
       description,
       offer: price,
       image: image ? URL.createObjectURL(image) : '',
-
     };
 
-    if (editingId) {
-      console.log("enter to the function");
-      
-      await updateAnnouncement(payload,editingId);
-      toast.success('updated successfully');
-    } else {
-      await postAnnouncement(payload);
+    try {
+      if (editingId) {
+        await updateAnnouncement(payload, editingId);
+        toast.success('Offer updated successfully');
+      } else {
+        await postAnnouncement(payload);
+        toast.success('Offer added successfully');
+      }
+      await fetchOffers();
+      resetForm();
+      setShowModal(false);
+    } catch (error) {
+      toast.error('Operation failed. Please try again.');
     }
-
-    await fetchOffers();
-    resetForm();
-    setShowModal(false);
   };
 
   const resetForm = () => {
@@ -71,12 +70,7 @@ const Offer = () => {
     setShowModal(true);
   };
 
-  // const handleDelete = async (id: string) => {
-  //   const confirmDelete = window.confirm("Are you sure you want to delete this offer?");
-  //   if (!confirmDelete) return;
-  //   await deleteAnnouncement(id);
-  //   await fetchOffers();
-  // };
+
 
   return (
     <div className="relative px-6 mt-4">
@@ -110,15 +104,12 @@ const Offer = () => {
               <div className="flex gap-3 mt-4">
                 <button
                   onClick={() => handleEdit(item)}
-                  className="text-blue-600 hover:underline text-sm"
+                  className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-200 flex items-center gap-2"
                 >
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                  </svg>
                   Edit
-                </button>
-                <button
-                  // onClick={() => handleDelete(item._id)}
-                  className="text-red-600 hover:underline text-sm"
-                >
-                  Delete
                 </button>
               </div>
             </div>

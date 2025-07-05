@@ -38,8 +38,8 @@ admin={
     post:(data:any)=>httpClient.post(API_END_POINTS.announcement.Post,data),
     get:(data:any,)=>httpClient.get(API_END_POINTS.announcement.Get,data,),
     update: (data: any, params: string) =>
-        httpClient.update(API_END_POINTS.announcement.update, data, params),
-    delete: () => httpClient.delete(API_END_POINTS.announcement.delete),
+        httpClient.update(API_END_POINTS.announcement.update.replace(':uuid', params), data),
+    delete: (id: string) => httpClient.delete(API_END_POINTS.announcement.delete.replace(':uuid', id)),
 },
 
 order_history: {

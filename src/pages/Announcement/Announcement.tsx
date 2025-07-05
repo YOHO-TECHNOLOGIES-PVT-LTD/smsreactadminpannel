@@ -65,7 +65,7 @@ const Announcement = () => {
   return (
     <div className="min-h-screen bg-[#FFF4EC] p-6">
       <div className="flex space-x-4 mb-6" style={{...FONTS.cardSubHeader}}>
-        {['offer', 'announcement', 'partner'].map((tab) => (
+        {['offer'].map((tab) => (
           <button
             key={tab}
             onClick={() => setActiveTab(tab as 'offer' | 'announcement' | 'partner')}

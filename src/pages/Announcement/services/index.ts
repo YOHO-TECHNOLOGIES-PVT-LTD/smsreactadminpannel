@@ -32,3 +32,12 @@ export const updateAnnouncement = async (data:any , params : string) => {
     }
 }
 
+export const deleteAnnouncement = async (id: string) => {
+    try {
+        const response = await new Client().admin.Announcement.delete(id);
+        return response;
+    } catch (error) {
+        console.log('Error deleting data:', error);
+    }
+}
+
