@@ -1,5 +1,6 @@
-import { FONTS } from '../../constants/uiConstants'; //FONT
-import { COLORS } from '../../constants/uiConstants'; //COLOUR
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { FONTS } from "../../constants/uiConstants"; //FONT
+import { COLORS } from "../../constants/uiConstants"; //COLOUR
 //this is for ICONS
 import { AiOutlineCheckCircle } from 'react-icons/ai';
 // import { GoDotFill } from "react-icons/go";
@@ -9,11 +10,14 @@ import { IoIosArrowRoundDown } from 'react-icons/io';
 import { AiOutlineCopyrightCircle } from 'react-icons/ai';
 // import { AiOutlineLeft } from "react-icons/ai";
 // import { AiOutlineArrowLeft } from 'react-icons/ai';
-import { MdEmergencyShare } from 'react-icons/md';
-import { BiSolidCarCrash } from 'react-icons/bi';
-import { RiCalendarScheduleFill } from 'react-icons/ri';
-import { GrTransaction } from 'react-icons/gr';
-import { MdOutlinePendingActions } from 'react-icons/md';
+import { MdEmergencyShare } from "react-icons/md";
+import { BiSolidCarCrash } from "react-icons/bi";
+import { RiCalendarScheduleFill } from "react-icons/ri";
+import { GrTransaction } from "react-icons/gr";
+import { MdOutlinePendingActions } from "react-icons/md";
+import { Link } from "react-router-dom";
+
+
 
 //this is FILE
 import CustomerAnalyticsChart from '../../components/common/dashboard/NotificationList/NotificationList';
@@ -64,73 +68,94 @@ const queries = [
 // code Dashboard started
 
 export const Dashboard = () => {
-	const navigate = useNavigate();
-  const [dashboardData, setDashboardData] = useState(null)
+  const navigate = useNavigate();
+  const [adminData, setAdminData] = useState<any[]>([]);
+  const [active, setactive] = useState<any[]>([])
 
-	const fetchDashboardDetails = async () => {
-		const data = {};
-		const response = await getDashboardData(data);
-		setDashboardData(response?.data?.data)
-	};
+  useEffect(() => {
+    const fetchAdminData = async () => {
+      try {
+        const params = '';
+        const response: any = await new Client().admin.profile.get(params);
+        const data: any = await new Client().admin.dashboard.get(params)
+        setactive(data.data.data)
+        setAdminData(response.data);
+        localStorage.setItem('adminuuid', response.data.data.uuid)
+        localStorage.setItem('adminobjectid', response.data.data._id)
+      } catch (error) {
+        console.error("Error fetching admin data:", error);
+      }
+    };
 
-	useEffect(() => {
-		fetchDashboardDetails();
-	}, []);
+    fetchAdminData();
+  }, []);
 
-  console.log('dashboardData', dashboardData)
+  console.log(adminData)
 
-	return (
-		<div className='w-full px-4 py-6 -mt-6 '>
-			{/* Header */}
-			<div className='rounded-xl shadow-md bg-white pb-4 mb-4 '>
-				<p
-					className='text-xl font-semibold pl-6 pt-3 '
-					style={{ ...FONTS.header, color: COLORS.primary }}
-				>
-					Overview of Service Center
-				</p>
-				<p
-					className='text-gray-500 text-sm pb-5 pl-7'
-					style={{ ...FONTS.paragraph, color: COLORS.secondary }}
-				>
-					Get your Service Center latest update for the last 7 days
-				</p>
 
-				{/* Dashboard Cards */}
-				<div className='mx-2 justify-center items-center px-5'>
-					<div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 px-15  '>
-						<DashboardCard
-							icon={<BiSolidCarCrash />}
-							title='Emergency Service'
-							value={10}
-							per={5}
-							perColor='#f87171'
-							borderColor='rgba(248,113,113,0.8)'
-							backgroundColor='#f87171'
-							dataPoints={[2, 1, 4, 3, 5, 2, 1]}
-						/>
 
-						<DashboardCard
-							icon={<MdEmergencyShare />}
-							title='Service Requests'
-							value={2}
-							per={5}
-							perColor='#3b82f6'
-							borderColor='rgba(59,130,246,0.8)'
-							backgroundColor='#3b82f6'
-							dataPoints={[1, 2, 1, 6, 4, 3, 6]}
-						/>
+  return (
+    <div className="w-full px-3 py-6 -mt-6 ">
+      <p
+          className="text-[20px] !font-bold pl-2 pt-3 "
+          style={{ ...FONTS.header }}
 
-						<DashboardCard
-							icon={<RiCalendarScheduleFill />}
-							title='Schedule Request'
-							value={20}
-							per={10}
-							perColor='#facc15'
-							borderColor='rgba(234,179,8,0.8)'
-							backgroundColor='#facc15'
-							dataPoints={[1, 3, 2, 5, 4, 6, 5]}
-						/>
+        >
+          Dashboard
+        </p>
+      {/* Header */}
+      <div className="rounded-xl shadow-md bg-white pb-4  my-5 ">
+        {/* <p
+          className="text-xl font-semibold pl-6 pt-3 "
+          style={{ ...FONTS.header }}
+        >
+          Center at a Glance
+        </p> */}
+        {/* <p
+          className="text-gray-500 text-sm pb-5 pl-7"
+          style={{ ...FONTS.paragraph, color: COLORS.secondary }}
+        >
+          Get your Service Center latest update for the last 7 days
+        </p> */}
+
+        {/* Dashboard Cards */}
+        <div className="mx-2 justify-center items-center px-5 my-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 px-15  ">
+
+            <DashboardCard
+              icon={<BiSolidCarCrash />}
+              title="Emergency Service"
+              value={10}
+              per={5}
+              perColor="#f87171"
+              borderColor="rgba(248,113,113,0.8)"
+              backgroundColor="#f87171"
+              dataPoints={[2, 1, 4, 3, 5, 2, 1]}
+            />
+
+            <DashboardCard
+              icon={<MdEmergencyShare />}
+              title="Service Requests"
+              value={2}
+              per={5}
+              perColor="#3b82f6"
+              borderColor="rgba(59,130,246,0.8)"
+              backgroundColor="#3b82f6"
+              dataPoints={[1, 2, 1, 6, 4, 3, 6]}
+            />
+
+            <DashboardCard
+              icon={<RiCalendarScheduleFill />}
+              title="Schedule Request"
+              value={20}
+              per={10}
+              
+              perColor="#facc15"
+              borderColor="rgba(234,179,8,0.8)"
+              backgroundColor="#facc15"
+              dataPoints={[1, 3, 2, 5, 4, 6, 5]}
+              // onClick={() => navigate("/request-queue/schedule")}
+            />
 
 						<DashboardCard
 							icon={<GrTransaction />}
@@ -166,100 +191,115 @@ export const Dashboard = () => {
 					</div>
 				</div>
 
-				{/* Bar Chart */}
-				<div className=' grid grid-row-2 '>
-					<div className='bg-white shadow-md rounded-xl p-4 max-h-44 mb-2 hover:scale-[1.02]'>
-						<BarCharts />
-					</div>
-					<div className='bg-white shadow-md rounded-xl p-4 max-h-45 hover:scale-[1.02] '>
-						<TotalRevenue />
-					</div>
-				</div>
+        {/* Bar Chart */}
+        <div className=" grid grid-row-2 ">
+          <div className="bg-white shadow-md rounded-xl p-4 max-h-44 mb-2 hover:scale-[1.02]">
+            <BarCharts />
+          </div>
+          <div className="bg-white shadow-md rounded-xl p-4 max-h-45 hover:scale-[1.02] ">
+            <TotalRevenue />
+          </div>
+        </div>
 
-				{/* SOS Content */}
-				<div className='bg-white shadow-md rounded-xl p-4 max-h-96 hover:scale-[1.02] '>
-					<div className='flex justify-between mb-2 '>
-						<p className='text-lg ' style={{ color: COLORS.primary }}>
-							SoS Summary
-						</p>
-						<button className='text-red-700 text-md item-end hover:text-red-900'>
-							View All
-						</button>{' '}
-					</div>
-					<div className=''>
-						<SoSCard />
-					</div>
-				</div>
-			</div>
+        {/* SOS Content */}
+        <div className="bg-white shadow-md rounded-3xl p-4 max-h-96 hover:scale-[1.02] ">
+          <div className="flex justify-between mb-2 ">
+            <p
+              className="text-lg "
+              style={{ ...FONTS.cardheader }}
+            >
+              SoS Summary
+            </p>
+            <button className="!text-red-800 text-md item-end hover:!text-red-900"
+            style={{...FONTS.paragraph}}
+            >
+              View All
+            </button>{" "}
+          </div>
+          <div className="">
+            <SoSCard datas={active} />
+          </div>
+        </div>
+      </div>
 
-			{/* Transactions & Query */}
-			<div className='grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4 '>
-				{/* Transactions */}
-				<div className='bg-white shadow-md rounded-xl p-4 max-h-96 overflow-hidden hover:scale-[1.02]'>
-					<div className='flex justify-between mb-2 '>
-						<p className=' mb-2 text-lg ' style={{ color: COLORS.primary }}>
-							Recent Transactions
-						</p>
-						<button className='text-red-700 text-md item-end hover:text-red-900'>
-							View All
-						</button>
-					</div>
-					<div className='overflow-y-auto  max-h-80 scrollbar-hide'>
-						{[...Array(14)].map((_, index) => (
-							<TransactionCard
-								key={index}
-								icon1={<AiOutlineCheckCircle />}
-								icon2={
-									index % 2 === 0 ? (
-										<IoIosArrowRoundUp />
-									) : (
-										<IoIosArrowRoundDown />
-									)
-								}
-								title={index % 2 === 0 ? 'Master Card' : 'Withdrawal'}
-								value={1234}
-								color={index % 2 === 0 ? 'text-green-600' : 'text-red-600'}
-							/>
-						))}
-					</div>
-				</div>
+      {/* Transactions & Query */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4 ">
+        {/* Transactions */}
+        <div className="bg-white shadow-md rounded-3xl p-4 max-h-96 overflow-hidden hover:scale-[1.02]">
+          <div className="flex justify-between mb-2 ">
+            <p className=" mb-2  " style={{ ...FONTS.cardheader }}>
+              Recent Transactions
+            </p>
+            <button className="text-red-700 text-md item-end hover:text-red-900">
+              View All
+            </button>
+          </div>
+          <div className="overflow-y-auto  max-h-80 scrollbar-hide">
+            {[...Array(14)].map((_, index) => (
+              <TransactionCard
+                key={index}
+                icon1={<AiOutlineCheckCircle />}
+                icon2={
+                  index % 2 === 0 ? (
+                    <IoIosArrowRoundUp />
+                  ) : (
+                    <IoIosArrowRoundDown />
+                  )
+                }
+                title={index % 2 === 0 ? "Master Card" : "Withdrawal"}
+                value={1234}
+                color={index % 2 === 0 ? "text-green-600" : "text-red-600"}
+              />
+            ))}
+          </div>
+        </div>
 
-				{/* Query Section */}
-				<div className='bg-white shadow-md rounded-xl p-4 max-h-96 overflow-hidden hover:scale-[1.02]'>
-					<div className='flex justify-between mb-2'>
-						<p className='text-lg' style={{ color: COLORS.primary }}>
-							Query
-						</p>
-						<button
-							onClick={() => navigate('/queries')}
-							className='text-red-700 hover:text-red-900 text-md'
-						>
-							View All
-						</button>
-					</div>
-					<div className='pr-2 space-y-2'>
-						{queries.slice(0, 3).map((q, idx) => (
-							<QueryCard
-								key={idx}
-								icon={null}
-								title={q.title}
-								desc={q.desc}
-								profilePicUrl={q.profilePicUrl}
-							/>
-						))}
-					</div>
-				</div>
-			</div>
 
-			{/* Footer */}
-			<footer className='bg-white shadow-md rounded-xl p-4 w-full text-center mt-4 -mb-10'>
-				<div>
-					<div className='flex items-center justify-center space-x-1'>
-						<AiOutlineCopyrightCircle style={{ color: COLORS.primary }} />
-						<span style={{ color: COLORS.primary }}>YESMECHANIC</span>
-					</div>
-				</div>
-			</footer>
-		</div>
-	);
+        {/* Query Section */}
+        <div className="bg-white shadow-md rounded-3xl p-4 max-h-96 overflow-hidden hover:scale-[1.02]">
+          <div className="flex justify-between mb-2">
+            <p className="text-lg" style={{ ...FONTS.cardheader }}>
+              Enquiry
+            </p>
+            <button
+              onClick={() => navigate("/queries")}
+              className="text-red-700 hover:text-red-900 text-md"
+            >
+              View All
+            </button>
+          </div>
+          <div className="pr-2 space-y-2">
+            {queries.slice(0, 3).map((q, idx) => (
+              <QueryCard
+                key={idx}
+                icon={null}
+                title={q.title}
+                desc={q.desc}
+                profilePicUrl={q.profilePicUrl}
+              />
+            ))}
+            
+          </div>
+        </div>
+      </div>
+
+      {/* Footer */}
+      <footer className="bg-white shadow-md rounded-xl p-4 w-full text-center mt-4 -mb-10">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center justify-center space-x-1">
+            <AiOutlineCopyrightCircle style={{ color: COLORS.primary }} />
+            <span style={{ color: COLORS.primary }}>YESMECHANIC</span>
+          </div>
+          <div>
+            <Link to={'/privacy-policy'} className="text-gray-600 hover:text-gray-800 mx-2 text-sm italic">
+              Privacy Policy
+            </Link>
+            <Link to={'/terms-conditions'} className="text-gray-600 hover:text-gray-800 mx-2 text-sm italic">
+              Terms & Conditions
+            </Link>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
 };

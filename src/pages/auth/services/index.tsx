@@ -20,11 +20,13 @@ export const postLogin = async (data: any) => {
 //     }
 // }
 
-export const update = async (data: string, params: string) => {
-	try {
-		const response = await new Client().admin.profile.put(data, params);
-		return response;
-	} catch (error) {
-		console.log('Error fetching data:', error);
-	}
-};
+export const update = async( data:string)=>{
+    try{
+        const response= await new Client().admin.profile.put(data)
+        return response;
+    }
+    catch (error){
+        console.log('Error fetching data:',error);
+    }
+}
+

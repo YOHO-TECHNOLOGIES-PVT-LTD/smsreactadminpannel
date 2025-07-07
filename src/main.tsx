@@ -1,15 +1,13 @@
+import './react-shim'
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
-import App from './App.js'
-import 'preline'
-import { HSStaticMethods } from 'preline'
+import App from './App.tsx'
 
-document.addEventListener('DOMContentLoaded', () => {
-  HSStaticMethods.autoInit()
-})
+const rootElement = document.getElementById('root')
+if (!rootElement) throw new Error('Failed to find the root element')
 
-createRoot(document.getElementById('root')!).render(
+createRoot(rootElement).render(
   <StrictMode>
     <App />
   </StrictMode>,

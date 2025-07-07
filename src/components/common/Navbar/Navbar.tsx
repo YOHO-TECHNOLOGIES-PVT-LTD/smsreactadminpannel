@@ -1,9 +1,9 @@
-import React, { useState, useRef, useEffect } from "react";
-import { COLORS } from "../../../constants/uiConstants";
+import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import FullscreenButton from "./Fullscreen";
 import { ProfileModal } from "./ProfileModal";
 import { useAuth } from "../../../pages/auth/AuthContext";
+import { FONTS } from "../../../constants/uiConstants";
 
 interface User {
   name: string;
@@ -23,14 +23,14 @@ interface Notification {
   isRead: boolean;
 }
 
-export const Navbar: React.FC = () => {
+export const Navbar = () => {
   const [isBellActive, setIsBellActive] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [showProfileDetails, setShowProfileDetails] = useState(false);
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
   const [showLogoutSuccess, setShowLogoutSuccess] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
-  const {logout}=useAuth();
+  const { logout } = useAuth();
   const navigate = useNavigate();
 
   const dropdownRef = useRef<HTMLDivElement | null>(null);
@@ -105,7 +105,7 @@ export const Navbar: React.FC = () => {
     setShowNotifications(false);
     navigate("/notifications");
   };
-  
+
   const handleSosClick = () => {
     navigate("/sos");
   };
@@ -123,19 +123,18 @@ export const Navbar: React.FC = () => {
   const unreadCount = notifications.filter((n) => !n.isRead).length;
 
   const handleLogout = () => {
-   logout();
-      navigate("/");
-          console.log("User logged out");
-
+    logout();
+    navigate("/");
+    console.log("User logged out");
   };
 
   return (
     <>
       <nav
-        style={{ backgroundColor: COLORS.primary_01, height: "64px" }}
+        style={{ backgroundColor: '#9b111e', height: "64px" }}
         className="flex items-center px-4"
       >
-        <div className="flex items-center gap-2">
+        <div className="flex items-center ml-5 gap-2">
           <input
             type="text"
             placeholder="Search..."
@@ -143,10 +142,10 @@ export const Navbar: React.FC = () => {
           />
           <button
             type="submit"
-            className="bg-gradient-to-r from-red-600 to-red-800 rounded-full p-3 hover:scale-105 transition-transform"
+            className="bg-white rounded-full p-3 hover:scale-105 transition-transform"
           >
             <svg
-              className="w-4 h-4 text-white"
+              className="w-4 h-4 text-[#9b111e]"
               fill="none"
               stroke="currentColor"
               strokeWidth={3}
@@ -159,8 +158,7 @@ export const Navbar: React.FC = () => {
           </button>
         </div>
 
-       
-{/* Fullscreen */}
+        {/* Fullscreen */}
         <div className="relative w-full">
           <div className="absolute right-4 top-1/2 -translate-y-1/2 z-20 flex items-center gap-4">
             {/* Fullscreen Button */}
@@ -168,11 +166,12 @@ export const Navbar: React.FC = () => {
 
             {/* SOS Emergency Icon */}
             <div className="relative">
-               <span className="absolute inline-flex h-8 w-8 rounded-full bg-red-400 opacity-75 animate-ping"></span> 
-                <div className="absolute -top-1 -right-1 w-3.5 h-3.5 bg-yellow-500 border-2 border-white rounded-full z-20" />
+              <span className="absolute inline-flex h-8 w-8 rounded-full bg-red-400 opacity-75 animate-ping"></span>
+              <div className="absolute -top-1 -right-1 w-3.5 h-3.5 bg-yellow-500 border-2 border-white rounded-full z-20" />
               <button
                 onClick={handleSosClick}
-                className="relative z-10 inline-flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-r from-red-600 to-red-800 text-white font-bold text-sm shadow-lg hover:scale-105 transition-transform"
+                className="relative z-10 inline-flex items-center justify-center w-10 h-10 rounded-full bg-white !text-[#9b111e]  !shadow-lg hover:!scale-105 transition-transform"
+                style={{ ...FONTS.cardSubHeader }}
               >
                 SOS
               </button>
@@ -182,47 +181,50 @@ export const Navbar: React.FC = () => {
 
         <div className="ml-auto flex items-center space-x-4 pr-4">
           <div className="relative" ref={notificationRef}>
-            <button
-              aria-label="Notifications"
-              onClick={handleBellClick}
-              className={`relative p-2.5 rounded-full bg-gradient-to-r from-red-600 to-red-800 focus:outline-none transform transition-transform duration-200 ease-in-out ${
-                isBellActive ? "scale-90" : "scale-100"
-              }`}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.8}
-                stroke="currentColor"
-                className="w-5 h-5 text-white"
+              <button
+                aria-label="Notifications"
+                onClick={handleBellClick}
+                className={`relative p-2.5 rounded-full bg-white focus:outline-none transform transition-transform duration-200 ease-in-out ${isBellActive ? "scale-90" : "scale-100"
+                  }`}
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M12 22c1.1 0 2-.9 2-2h-4a2 2 0 002 2zm6-6V11c0-3.3-2.2-6.1-5.3-6.8V4a.7.7 0 00-1.4 0v.2C8.2 4.9 6 7.7 6 11v5l-1.7 1.7a1 1 0 00.7 1.7h14a1 1 0 00.7-1.7L18 16z"
-                />
-              </svg>
-              {unreadCount > 0 && (
-                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
-                  {unreadCount}
-                </span>
-              )}
-            </button>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.8}
+                  stroke="currentColor"
+                  className="w-5 h-5 text-[#9b111e]"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M12 22c1.1 0 2-.9 2-2h-4a2 2 0 002 2zm6-6V11c0-3.3-2.2-6.1-5.3-6.8V4a.7.7 0 00-1.4 0v.2C8.2 4.9 6 7.7 6 11v5l-1.7 1.7a1 1 0 00.7 1.7h14a1 1 0 00.7-1.7L18 16z"
+                  />
+                </svg>
+                {unreadCount > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
+                    {unreadCount}
+                  </span>
+                )}
+              </button>
 
             {showNotifications && (
               <div className="absolute right-0 mt-2 w-80 rounded-lg shadow-xl bg-white z-50 overflow-hidden">
                 <div className="bg-gradient-to-r from-red-600 to-red-800 p-3">
-                  <h3 className="text-white font-bold">Notifications</h3>
+                  <h3
+                    className="!text-white "
+                    style={{ ...FONTS.cardSubHeader }}
+                  >
+                    Notifications
+                  </h3>
                 </div>
                 <div className="max-h-80 overflow-y-auto">
                   {notifications.length > 0 ? (
                     notifications.map((notification) => (
                       <div
                         key={notification.id}
-                        className={`group relative p-3 border-b hover:bg-gray-50 transition-colors duration-150 ${
-                          notification.isRead ? "bg-white" : "bg-red-50"
-                        }`}
+                        className={`group relative p-3 border-b hover:bg-gray-50 transition-colors duration-150 ${notification.isRead ? "bg-white" : "bg-red-50"
+                          }`}
                       >
                         {/* This vertical red line will now appear on hover */}
                         <div className="absolute left-0 top-0 h-full w-1 bg-red-600 opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
@@ -249,7 +251,12 @@ export const Navbar: React.FC = () => {
                 <div className="p-3 bg-gray-50 text-center border-t">
                   <button
                     onClick={handleViewAllNotifications}
-                    className="text-red-600 hover:text-red-800 font-medium text-sm transition-colors"
+                    className="!text-red-600 hover:!text-red-800 rounded-3xl  !transition-colors"
+                    style={{
+                      fontFamily: FONTS.cardSubHeader.fontfamily,
+                      fontWeight: FONTS.cardSubHeader.fontWeight,
+                      fontSize: FONTS.cardSubHeader.fontSize,
+                    }}
                   >
                     View All Notifications
                   </button>
@@ -271,10 +278,20 @@ export const Navbar: React.FC = () => {
                 />
               </div>
               <div className="flex flex-col flex-nowrap overflow-hidden">
-                <span className="text-[#9b111e] font-medium truncate whitespace-nowrap">
+                <span className="text-white font-medium truncate whitespace-nowrap"
+                  style={{ fontFamily: "'Figtree-Medium', sans-serif",
+                  fontWeight: 400,
+                  fontSize: "14px",
+                  color: 'white' }}
+                >
                   {user.name}
                 </span>
-                <div className="flex items-center text-sm text-[#c13340] whitespace-nowrap">
+                <div className="flex items-center whitespace-nowrap"
+                  style={{  fontFamily: "'Figtree', sans-serif",
+                            fontWeight: 300,
+                            fontSize: "12px",
+                            color: "white"}}
+                >
                   Admin
                   <svg
                     className="w-4 h-6 ml-1 text-[#c13340]"
@@ -294,7 +311,7 @@ export const Navbar: React.FC = () => {
             </div>
 
             {isDropdownOpen && (
-              <div className="absolute right-0 mt-2 w-24 rounded-md shadow-lg z-50 bg-gradient-to-br from-yellow-50 to-yellow-100">
+              <div className="absolute right-0 mt-2 w-24 rounded-3xl shadow-lg z-50 bg-gradient-to-br from-yellow-50 to-yellow-100">
                 <ul className="py-1 text-sm text-[#9b111e]">
                   <li>
                     <button
@@ -302,7 +319,7 @@ export const Navbar: React.FC = () => {
                         setShowProfileDetails(true);
                         setIsDropdownOpen(false);
                       }}
-                      className="block w-full text-center px-4 py-1 transition-colors duration-200 hover:text-white hover:bg-[#d14c4c]"
+                      className="block w-full text-center px-4 py-1 rounded-3xl transition-colors duration-200 hover:text-white hover:bg-[#d14c4c]"
                     >
                       Profile
                     </button>
@@ -313,7 +330,7 @@ export const Navbar: React.FC = () => {
                         setShowLogoutConfirm(true);
                         setIsDropdownOpen(false);
                       }}
-                      className="block w-full text-center px-4 py-1 transition-colors duration-200 hover:text-white hover:bg-[#d14c4c]"
+                      className="block w-full text-center px-4 py-1 rounded-3xl transition-colors duration-200 hover:text-white hover:bg-[#d14c4c]"
                     >
                       Logout
                     </button>
@@ -343,7 +360,7 @@ export const Navbar: React.FC = () => {
             <div className="flex justify-center gap-4 mt-4">
               <button
                 onClick={() => setShowLogoutConfirm(false)}
-                className="px-4 py-2 rounded bg-gray-200 hover:bg-gray-300 text-gray-800"
+                className="px-4 py-2 rounded-3xl bg-gray-200 hover:bg-gray-300 text-gray-800"
               >
                 Cancel
               </button>
@@ -357,7 +374,7 @@ export const Navbar: React.FC = () => {
                     handleLogout();
                   }, 1000);
                 }}
-                className="px-4 py-2 rounded bg-red-600 text-white hover:bg-red-700"
+                className="px-4 py-2 rounded-3xl bg-red-600 text-white hover:bg-red-700"
               >
                 OK
               </button>

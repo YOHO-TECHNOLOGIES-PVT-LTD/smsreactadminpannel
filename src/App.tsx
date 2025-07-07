@@ -5,6 +5,7 @@ import { BrowserRouter } from 'react-router-dom';
 import AppRoutes from './routes/AppRoutes.tsx';
 import { AuthProvider } from './pages/auth/AuthContext.tsx';
 import 'react-toastify/dist/ReactToastify.css';
+import { AdminSocketProvider } from './context/adminSocket.tsx';
 //import dotenv from 'dotenv'
 // dotenv.config()
 
@@ -14,6 +15,7 @@ function App() {
 		<>
 			<BrowserRouter>
 				<AuthProvider>
+					 <AdminSocketProvider>
 					<AppRoutes />
 					<ToastContainer
 						position='top-right'
@@ -27,6 +29,7 @@ function App() {
 						pauseOnHover
 						theme='colored'
 					/>
+                 </AdminSocketProvider>
 				</AuthProvider>
 			</BrowserRouter>
 		</>

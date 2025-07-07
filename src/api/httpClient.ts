@@ -1,6 +1,8 @@
-import axios from 'axios';
+import axios from "axios";
 
-const backEndUrl: string = 'https://sms-node-backend-17xb.onrender.com';
+
+const backEndUrl:string= import.meta.env.VITE_PUBLIC_API_URL
+
 
 const Axios = axios.create({
 	baseURL: backEndUrl,
@@ -20,29 +22,62 @@ Axios.interceptors.request.use((config) => {
 	return config;
 });
 
-class HttpClient {
-	async get(url: string, params?: string) {
-		const response: unknown = await Axios.get(url, {
-			params: params,
-			headers: {},
-		});
-		return response;
-	}
+Axios.interceptors.response.use(
+    (response)=>response,
+    (error)=>{
+        if (error?.response && error?.response?.status === 401 && error?.response?.data?.status === "session_expired") {
+            localStorage.removeItem("authToken")
+            window.location.reload()
+        }
+    }
+)
 
-	async post(url: string, data: any) {
-		const response: unknown = await Axios.post(url, data, {
-			headers: {},
-		});
-		return response;
-	}
+class HttpClient{
+    async get(url:string,params?:string){
+    const response:unknown = await Axios.get(url,{
+        params:params,
+        headers:{
 
-	async update(url: string, params: string, data: string) {
-		const response = await Axios.put(url, data, {
-			params: params,
-			headers: {},
-		});
-		return response?.data;
-	}
+        }
+        
+    })
+    return response;
+    }
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    async post(url:string,data:any){
+        const response:unknown =  await Axios.post(url,data,{
+          
+            headers:{
+
+            }
+        });
+        return response;
+    }
+
+  async update(url:string,data:string,params?:string){
+
+    const response =await Axios.put(url,data,{
+        params:params,
+        headers:{
+
+        }
+         
+    });
+    return response?.data;
+  }
+
+    async patch(url: string, params?: string) {
+
+        const response = await Axios.put(url, {
+            params: params,
+            headers: {
+
+            }
+
+        });
+        return response?.data;
+    }
 
 	async delete(url: string) {
 		const response = await Axios.delete(url);

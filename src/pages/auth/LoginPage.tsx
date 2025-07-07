@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
 import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
@@ -6,6 +7,7 @@ import carImage from '../../assets/loginimg/car-img.png';
 import { FONTS } from '../../constants/uiConstants';
 import { useAuth } from './AuthContext';
 import { postLogin } from './services';
+import { toast } from 'react-toastify';
 
 type LoginData = {
 	email: string;
@@ -19,9 +21,15 @@ const LoginPage = () => {
 		register,
 		handleSubmit,
 		formState: { errors },
-	} = useForm<LoginData>();
+	} = useForm<LoginData>({
+		defaultValues:{
+			email:"admin@gmail.com",
+			password:"Admin@123"
+		}
+	});
 	const [showPassword, setShowPassword] = useState<boolean>(false);
-	const navigate = useNavigate();
+	const [isLoading, setIsLoading] = useState<boolean>(false);
+	//const navigate = useNavigate();
 	const { login } = useAuth();
 
 	const onSubmit = async (data: LoginData) => {
@@ -29,13 +37,36 @@ const LoginPage = () => {
 		// 	login();
 		// 	navigate('/');
 		// }
-		try {
-			const response: any = await postLogin(data);
-			console.log(response, 'user response');
-			login(response.data.data);
-			navigate('/');
-		} catch (error) {
-			console.log('error', error);
+		setIsLoading(true);
+		try{
+			const  User:any = await postLogin(data)
+			login(User.data.data)
+			console.log(User);
+			toast.success('Login successful! Welcome back.', {
+				position: 'top-right',
+				autoClose: 3000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+			});
+		}
+		catch (error: any){
+            console.log('error',error)
+			const errorMessage = error?.response?.data?.message || 
+								error?.message || 
+								'Login failed. Please check your credentials and try again.';
+			toast.error(errorMessage, {
+				position: 'top-right',
+				autoClose: 5000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+			});
+		}
+		finally {
+			setIsLoading(false);
 		}
 	};
 
@@ -175,13 +206,44 @@ const LoginPage = () => {
 							{/* Submit */}
 							<button
 								type='submit'
-								className='w-full text-white font-semibold py-2 rounded-full transition duration-300 hover:brightness-110'
+								disabled={isLoading}
+								className={`w-full text-white font-semibold py-2 rounded-3xl transition duration-300 flex items-center justify-center ${
+									isLoading 
+										? 'opacity-75 cursor-not-allowed' 
+										: 'hover:brightness-110'
+								}`}
 								style={{
-									backgroundImage:
-										'linear-gradient(44.99deg, #700808 11%, #d23c3c 102.34%)',
+									backgroundColor:'#9b111e'
+									,
 								}}
 							>
-								Login
+								{isLoading ? (
+									<>
+										<svg
+											className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+											xmlns="http://www.w3.org/2000/svg"
+											fill="none"
+											viewBox="0 0 24 24"
+										>
+											<circle
+												className="opacity-25"
+												cx="12"
+												cy="12"
+												r="10"
+												stroke="currentColor"
+												strokeWidth="4"
+											></circle>
+											<path
+												className="opacity-75"
+												fill="currentColor"
+												d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+											></path>
+										</svg>
+										Logging in...
+									</>
+								) : (
+									'Login'
+								)}
 							</button>
 
 							<div className='text-right mt-1'>

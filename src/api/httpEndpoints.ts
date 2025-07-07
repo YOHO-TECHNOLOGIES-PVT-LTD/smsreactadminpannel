@@ -5,33 +5,43 @@ export const API_END_POINTS = {
 		GetCustomerDetails: '/api/admin/dashboard/customerDetails/',
 	},
 
-	jobcard: {
-		Post: '/api/jobcards',
-		Get: '/api/jobcards/:id',
-		GetAll: '/api/jobcards',
-		Put: '/api/jobcards/:id',
-	},
 
-	vechiclemanage: {
-		Get: '/api/admin/vehicleManage/',
-	},
+    jobcard:{
+            Post:"/api/jobcardscreateCard",
+            Get:"/api/jobcards/getOne/:id",
+            GetAll:"/api/jobcards/getAll",
+            Put:"/api/jobcards/updateCard/:id",
+    } ,
 
-	announcement: {
-		Post: '/api/announcement/create',
-		Get: '/api/announcement/all',
-	},
-	enquiry: {
-		Post: '/api/enquiry/create',
-		Get: '/api/enquiry/all',
-		Put: '/api/enquiry/update/:uuid',
-	},
+    
+   vechiclemanage:{
+            Get:"/api/vehicle/getall/",
+   }  ,
 
-	sos: {
-		Post: '/api/sos/add',
-		GetAll: '/api/sos/getall',
-		Get: '/api/sos/get/:id',
-		Put: '/api/sos/update/:id',
-	},
+   
+   announcement:{
+    Post:"/api/announcement/create",
+    Get:"/api/announcement/all",
+    update:"/api/announcement/update/:uuid",
+    delete:"/api/announcement/delete/:uuid",
+
+   },
+   enquiry:{
+    Post:"/api/enquiry/create",
+     Get:"/api/serviceEnquiry/getAllEnquiries",
+    Put:"/api/enquiry/update/:uuid",
+   },
+
+   sos:{
+    Post:"/api/sos/add",
+    GetAll:"/api/sos/getall",
+    Get:"/api/sos/get/:id",
+    Put:"/api/sos/update/",
+    put:"/api/sos/addlist",
+    getsoslis:"/api/sos/soslist",
+    updatelist:"/api/sos/updatelist/:id",
+    delete:"/api/sos/delete/"
+   },
 
 	profile: {
 		Get: '/api/admin/auth/me',
@@ -46,29 +56,84 @@ export const API_END_POINTS = {
 		Postreset: '/api/admin/auth/reset-pass/:id',
 	},
 
-	notification: {
-		create: '/api/admin/notification/',
-		createBulk: '/api/admin/notification/bulk',
-		getByUser: '/api/admin/notification/user/:userId',
-		getUnreadCount: '/api/admin/notification/user/:userId/unread-count',
-		markAsRead: '/api/admin/notification/read/:uuid',
-		markAllAsRead: '/api/admin/notification/read-all/:userId',
-		Getstats: '/api/admin/notification/stats/:userId',
-		delete: '/api/admin/notification/:uuid',
-		getall: '/api/admin/notification/',
-		GetById: '/api/admin/notification/:uuid',
-		update: '/api/admin/notification/:uuid',
-		postperferenceCreateOrUpdate: '/api/admin/notification/preferences',
-		putpreferenceCreateOrUpdate: '/api/admin/notification/preference',
-		getPreferenceGet: '/api/admin/preferences/:userId',
-	},
+   notification:{
+    create:"/api/notifications/",
+    createBulk:"/api/notifications/bulk",
+    getByUser:"/api/notifications/user/:userId",
+    getUnreadCount:"/api/notifications/user/:userId/unread-count",
+    markAsRead:"/api/notifications/read/:uuid",
+    markAllAsRead:"/api/notifications/read-all/:userId",
+    Getstats:"/api/notifications/stats/:userId",
+    delete:"/api/notifications/:uuid",
+    getall:"/api/notifications/",
+    GetById:"/api/notifications/:uuid",
+    update:"/api/notifications/:uuid",
+    postperferenceCreateOrUpdate:"/api/notifications/preferences",
+    putpreferenceCreateOrUpdate:"/api/notifications/preference",
+    getPreferenceGet:"/api/preferences/:userId",
+   },
 
-	spareparts: {
-		create: '/api/admin/spareparts/create',
-		get: '/api/admin/spareparts/create',
-		getall: '/api/admin/spareparts/getall',
-		update: '/api/admin/spareparts/update/:id',
-		updatestatus: '/api/admin/spareparts/updatestatus/:id',
-		delete: '/api/admin/spareparts/delete/:id',
-	},
-};
+   spareparts:{
+    create:"/api/admin/spareparts/create",
+    get:"/api/admin/spareparts/create",
+    getall:"/api/admin/spareparts/getall/:uuid",
+    update:"/api/admin/spareparts/update/:id",
+    updatestatus:"/api/admin/spareparts/updatestatus/:id",
+    delete:"/api/admin/spareparts/delete/:id",
+   },
+
+   serviceCenter:{
+     getAll: "/api/admin/servicecenter/getall",
+     getCatevery: "/api/admin/category/getAll/",
+     getAllCat: "/api/admin/category/getAll/:uuid",
+     postPartner: "/api/partner/auth/register",
+     updatePatner: "/api/partner/auth/update/:id",
+     delete:"/api/admin/servicecenter/delete/:id",
+    },
+    category:{
+        update:"/api/admin/category/update/:uuid",
+        delete:"/api/admin/category/delete/:uuid",
+        create:"/api/admin/category/create",
+    },
+    service:{
+        create:"/api/admin/service/",
+        getall:'/api/admin/service/',
+        put:'/api/admin/service/:uuid',
+        patch:'/api/admin/service/toggle-status/:uuid',
+        delete:'/api/admin/service/remove/:id',
+    },
+
+    order_history: {
+      create: `/api/partner/order-history/create`,
+      getById: `/api/partner/order-history/get/:id`,
+      getAll: `/api/partner/order-history/getall`,
+      update: `/api/partner/order-history/update/:id`,
+      updateStatus: `/api/partner/order-history/updatestatus/:id`,
+      delete: `/api/partner/order-history/delete/:id`,
+    },
+
+    customer_management: {
+      getAll :`/api/partner/customermanage`,
+    },
+    customermanagement_history:{
+      getAll: `/api/partner/CustomerManagement/service-history`
+    },
+
+    serviceRequest:{
+      getpending:'/api/admin/service-request/pending-service',
+      getassigned:'/api/admin/service-request/assigned-service',
+      getbyidservice:'/api/admin/service-request/service-request/byid/:uuid',
+      updateservice:'/api/admin/service-request/update-pending-service/:id',
+    },
+   
+    subApis:{
+      getpartnerList:'/api/admin/fetch/partner-list/all',
+    },
+
+    scheduleReq:{
+      getAssignedAll:'/api/admin/schedulerequest/assigned',
+      getUnassignedAll:'/api/admin/schedulerequest/unassigned',
+      updateReq:'/api/admin/schedulerequest/assign/:id',
+    },
+
+}
