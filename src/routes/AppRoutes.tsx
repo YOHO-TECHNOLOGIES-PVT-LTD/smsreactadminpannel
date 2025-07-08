@@ -25,6 +25,7 @@ import Order from "../pages/Orders/order";
 // import ServiceCenterProfileView from "../pages/service-center/ServiceCenterprofileview";
 import TermsConditionsSettings from "../pages/Settings/TermsConditionsSettings";
 import PrivacyPolicySettings from "../pages/Settings/PrivacyPolicySettings";
+import ScheduledRequestsPage from "../pages/Request-Queue/ScheduledRequestsPage";
 
 const AppRoutes = () => {
   const { isAuthenticated, isLoading } = useAuth();
@@ -61,8 +62,8 @@ const AppRoutes = () => {
         <Route path="/queries" element={<Queries />} />
         {/* <Route path="/partnerreg" element={<PartnerRegForm/>}/> */}
         <Route path="/bookings" element={<Bookings />} />
-        <Route path="/request-queue/schedule" element={<ScheduleRequestPage/>}/>
-        {/* <Route path="/request-queue/scheduled" element={<ScheduledRequestsPage/>}/> */}
+        <Route path="/request-queue" element={<ScheduleRequestPage/>}/>
+        <Route path="/request-queue/scheduled" element={<ScheduledRequestsPage/>}/>
         <Route path="/customer" element={<CustomerManagement/>}/>
         <Route path="/order" element={<Order/>}/>
         {/* <Route path="service/profile" element={<ServiceCenterProfileView/>}/> */}
