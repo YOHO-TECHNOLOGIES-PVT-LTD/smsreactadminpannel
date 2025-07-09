@@ -45,6 +45,7 @@ interface CompactServiceCardProps {
 }
 
 const CompactServiceCard: React.FC<CompactServiceCardProps> = ({ request, onAssign }) => {
+  console.log("request", request)
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedPartner, setSelectedPartner] = useState("");
   const [partnerList, setpartnerList] = useState<any[]>([]);
@@ -80,7 +81,7 @@ const CompactServiceCard: React.FC<CompactServiceCardProps> = ({ request, onAssi
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center space-x-3">
             <div className="w-10 h-10 bg-[#9b111e] rounded-lg flex items-center justify-center text-white font-bold text-base">
-              {request.customerId.firstName.charAt(0)}
+              {request?.customerId?.firstName.charAt(0)}
             </div>
             <div>
               <h3 className="font-bold text-gray-900 text-base">{ request.customerId.firstName + ' ' + request.customerId.lastName || "cusotmer name" }</h3>
