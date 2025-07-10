@@ -1,10 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState, useEffect } from 'react';
 import {
   FaInfoCircle,
   FaStickyNote,
   FaMapMarkerAlt,
   FaUser,
-  FaEnvelope,
   FaPhoneAlt,
 } from 'react-icons/fa';
 import {
@@ -102,21 +102,21 @@ const SosDetails: React.FC = () => {
   });
  /// const [statusFilter, setStatusFilter] = useState<string>('All');
 
+  const fetchSosRequests = async (id: any) => {
+    try {
+
+      const data: any = await getsos(id)
+      console.log(data)
+      setPostedDetails(data.data)
+      console.log(data)
+    } catch (error) {
+      console.error("Error fetching SOS requests:", error);
+    }
+  };
 
   useEffect(() => {
-
-    const fetchSosRequests = async (id: any) => {
-      try {
-
-        const data: any = await getsos(id)
-        console.log(data)
-        setPostedDetails(data.data)
-        console.log(data)
-      } catch (error) {
-        console.error("Error fetching SOS requests:", error);
-      }
-    };
     fetchSosRequests(uuid);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const updateStatus = async (e: any, params: any) => {
@@ -131,34 +131,13 @@ const SosDetails: React.FC = () => {
   }
 
 
-  // const filteredDetails = statusFilter === 'All'
-  //   ? postedDetails
-  //   : postedDetails.filter(detail => detail.status === statusFilter);
-
-  // const selected = filteredDetails[0] || {
-  //   title: 'No Matching Records',
-  //   postedDate: '',
-  //   deadline: '',
-  //   postedBy: '',
-  //   department: '',
-  //   status: '',
-  //   note: '',
-  //   location: '',
-  //   contactName: '',
-  //   contactPhone: '',
-  //   contactEmail: '',
-  //   latitude: 37.773972,
-  //   longitude: -122.431297,
-  //   imageUrl: '',
-  // };
-
   return (
     <div className="w-full mx-auto p-6 bg-gray-100 min-h-screen font-poppins">
       <div className="flex items-center p-4">
         <Link to="/sos" className="mr-4 text-[#9b111e] hover:text-red-800">
           <FaArrowLeft className="text-3xl" />
         </Link>
-        <h1 className="text-[#9b111e] text-5xl font-bold" style={{...FONTS.header}}>SOS Details</h1>
+        <h1 className="text-[#9b111e] text-5xl font-bold" style={{...FONTS.cardheader}}>SOS Details</h1>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="bg-white rounded-xl shadow-md overflow-hidden flex justify-center items-center">
@@ -199,7 +178,7 @@ const SosDetails: React.FC = () => {
         <div className='flex flex-row w-full gap-5'>
 
           <div className="bg-white rounded-xl xl:pl-10 w-6/12 shadow-md p-5">
-            <h2 className="text-[#9b111e] !font-bold text-2xl mb-4" style={{...FONTS.cardheader}}>Personal Details</h2>
+            <h2 className="text-[#9b111e] !font-bold text-2xl mb-4" style={{...FONTS.header}}>Personal Details</h2>
             <div className="flex items-center  mt-5">
               <FaUser className="text-[#9b111e] lg:text-md  xl:text-2xl mr-3" />
               <div className="xl:text-lg lg:text-md !text-gray-900 !font-semibold" style={{...FONTS.cardSubHeader}}>{postedDetails.name}</div>
@@ -208,10 +187,10 @@ const SosDetails: React.FC = () => {
               <FaMapMarkerAlt className="text-[#9b111e] lg:text-md  xl:text-2xl mr-3" />
               <div className="text-lg lg:text-md !text-gray-900 !font-semibold" style={{...FONTS.cardSubHeader}}>{postedDetails.location}</div>
             </div>
-            <div className="flex items-center mt-10">
+            {/* <div className="flex items-center mt-10">
               <FaEnvelope className="text-[#9b111e] lg:text-md  xl:text-2xl mr-3" />
-              <div className="text-lg lg:text-md !text-gray-900 !font-semibold" style={{...FONTS.cardSubHeader}}>{postedDetails.customerId.email}</div>
-            </div>
+              <div className="text-lg lg:text-md !text-gray-900 !font-semibold" style={{...FONTS.cardSubHeader}}>{postedDetails.customerId?.email}</div>
+            </div> */}
             <div className="flex items-center mt-10">
               <FaPhoneAlt className="text-[#9b111e] lg:text-md  xl:text-2xl mr-3" />
               <div className="text-lg lg:text-md !text-gray-900 !font-semibold" style={{...FONTS.cardSubHeader}}>{postedDetails.phoneNumber}</div>
@@ -232,20 +211,14 @@ const SosDetails: React.FC = () => {
             <div className="flex gap-4 mt-10">
               {
                 postedDetails.type === "Own" && <button
-                  className={`px-4 py-2 ml-5 rounded font-semibold border ${"Own" === "Own"
-                    ? "bg-[#9b111e] text-white"
-                    : "bg-white text-[#9b111e] border-[#9b111e]"
-                    }`}
+                  className={`px-4 py-2 ml-5 rounded-3xl font-semibold border  bg-[#9b111e] text-white`}
                 >
                   Own
                 </button>
               }
               {
                 postedDetails.type === "Other" && <button
-                  className={`px-4 py-2 ml-5 rounded font-semibold border ${"Other" === "Other"
-                    ? "bg-[#9b111e] text-white"
-                    : "bg-white text-[#9b111e] border-[#9b111e]"
-                    }`}
+                  className={`px-4 py-2 ml-5 rounded-3xl font-semibold border bg-[#9b111e] text-white`}
                 >
                   Others
                 </button>

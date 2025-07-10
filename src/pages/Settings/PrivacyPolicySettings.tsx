@@ -11,7 +11,7 @@ const PrivacyPolicySettings = () => {
       <div className='flex flex-row items-center gap-4 mb-6'>
         <button
           onClick={() => navigate('/')}
-          className="flex items-center text-[#9b111e] hover:underline transition-colors duration-200"
+          className="flex items-center text-[#9b111e] hover:underline transition-colors duration-200 rounded-3xl"
         >
           <FaArrowLeft className="text-xl" />
         </button>

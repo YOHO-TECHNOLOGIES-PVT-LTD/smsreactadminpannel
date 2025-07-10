@@ -74,7 +74,7 @@ export const ProfileModal = ({
           </div>
           <button
             onClick={onClose}
-            className="bg-[#FAF3EB] text-red-600 font-semibold p-2 rounded-lg shadow hover:bg-[#f8e0b0] transition"
+            className="bg-[#FAF3EB] text-red-600 font-semibold p-2 rounded-3xl shadow hover:bg-[#f8e0b0] transition"
             aria-label="Close profile details"
           >
             <svg

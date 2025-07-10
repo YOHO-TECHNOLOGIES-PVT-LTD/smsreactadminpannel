@@ -183,7 +183,7 @@ const QuotationPage: React.FC = () => {
           <div className="flex gap-8 justify-end w-full md:w-2/3">
             <button
               onClick={() => toast.success("Quotation accepted!")}
-              className="flex items-center justify-center font-bold  px-14 py-2 rounded text-white transition duration-200 active:scale-105 hover:bg-[#a00000]"
+              className="flex items-center rounded-3xl justify-center font-bold  px-14 py-2 rounded text-white transition duration-200 active:scale-105 hover:bg-[#a00000]"
               style={{
                 background: "linear-gradient(44.99deg,#700808 11%,#d23c3c 102.34%)",
               }}
@@ -193,7 +193,7 @@ const QuotationPage: React.FC = () => {
 
             <button
               onClick={() => toast.info("Quotation marked as pending.")}
-              className="flex items-center justify-center font-bold px-14 py-2 rounded text-white transition duration-200 active:scale-105 hover:bg-[#a00000]"
+              className="flex items-center justify-center font-bold px-14 py-2 rounded-3xl text-white transition duration-200 active:scale-105 hover:bg-[#a00000]"
               style={{
                 background: "linear-gradient(44.99deg,#700808 11%,#d23c3c 102.34%)",
               }}
@@ -203,7 +203,7 @@ const QuotationPage: React.FC = () => {
 
             <button
               onClick={() => toast.error("Quotation has been revoked.")}
-              className="flex items-center justify-center font-bold  px-14 py-2 rounded text-white transition duration-200 active:scale-105 hover:bg-[#a00000]"
+              className="flex items-center justify-center font-bold  px-14 py-2 rounded-3xl text-white transition duration-200 active:scale-105 hover:bg-[#a00000]"
               style={{
                 background: "linear-gradient(44.99deg,#700808 11%,#d23c3c 102.34%)",
               }}

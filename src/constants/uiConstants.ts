@@ -10,57 +10,57 @@ export const COLORS = {
 export const FONTS = {
     //Only for the main heading
   header: {
-    fontFamily: "'Koh Santepheap', sans-serif", 
-    fontWeight: 400,
-    fontSize: "32px",
+    fontFamily: "'Montserrat', sans-serif", 
+    fontWeight: 500,
+    fontSize: "28px",
     color: "#9b111e"
   },
   //Sub-header for model header
   subHeader: {
-    fontFamily: "'Koh Santepheap', sans-serif", 
+    fontfamily: "'Poppins', sans-serif", 
     fontWeight: 400,
-    fontSize: "28px",
+    fontSize: "18px",
     color: "#9b111e"
   },
   //Card heading 
   cardheader: {
-    fontFamily: "'Koh Santepheap', sans-serif", 
+   fontfamily: "'Poppins', sans-serif", 
     fontWeight: 400,
-    fontSize: "20px",
+    fontSize: "16px",
     color: "#9b111e"
   },
   //Card sub heading
   cardSubHeader: {
-    fontFamily: "'Koh Santepheap', sans-serif", 
+     fontfamily: "'Poppins', sans-serif",  
     fontWeight: 300,
-    fontSize: "16px",
+    fontSize: "14px",
     color: "#9b111e"
   },
   //paragraph
   paragraph: {
-    fontFamily: "'Figtree-Medium', sans-serif",
+   fontfamily: "'Poppins', sans-serif", 
     fontWeight: 400,
-    fontSize: "14px",
+    fontSize: "12px",
     color: "#9b111e"
   },
   subParagraph: {
-    fontFamily: "'Figtree', sans-serif",
+     fontfamily: "'Poppins', sans-serif", 
     fontWeight: 300,
     fontSize: "12px",
     color: "#9b111e"
   },
   //Card description 
   description: {
-    fontFamily: "'Figtree', sans-serif",
+    fontfamily: "'Poppins', sans-serif", 
     fontSize: "12px",
     fontWeight: 200,
     color: " #b91c1c",
   },
   //table header
   tableHeader : {
-    fontFamily: "'Koh Santepheap', sans-serif",
+     fontfamily: "'Poppins', sans-serif", 
     fontWeight: 500,
-    fontSize: "16px",
+    fontSize: "14px",
   },
 
 };

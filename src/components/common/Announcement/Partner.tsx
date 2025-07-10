@@ -1,25 +1,12 @@
-import { useState } from 'react';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { useEffect, useState } from 'react';
 import { CheckCircle } from 'lucide-react';
 import { FONTS } from '../../../constants/uiConstants';
+import { getAnnouncement, postAnnouncement } from '../../../pages/Announcement/services';
+
 
 const Partner = () => {
-  const [partners, setPartners] = useState([
-    {
-      title: 'XYZ Auto Parts',
-      price: '10% Discount',
-      image: 'https://www.xyz-racing.com/upload/gallery/m_483d8f9fd4de4c6e1f98d49a3da5ce50-u0bA.JPG',
-    },
-    {
-      title: 'Shine & Drive',
-      price: 'Free Interior Detailing',
-      image: 'https://lirp.cdn-website.com/8bf226d6/dms3rep/multi/opt/stock-photo-a-man-cleaning-car-interior-car-detailing-or-valeting-concept-selective-focus-743191834-1920w.jpg',
-    },
-    {
-      title: 'Lubricants Inc.',
-      price: 'Buy 1 Get 1',
-      image: 'https://th.bing.com/th/id/OIP.tyrB8f5W1qgQy4eViuZgcgHaD2?cb=iwp2&w=1200&h=624&rs=1&pid=ImgDetMain',
-    },
-  ]);
+  const [partners, setPartners] = useState<any>([]);
 
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [showFormModal, setShowFormModal] = useState(false);
@@ -34,14 +21,33 @@ const Partner = () => {
     setTimeout(() => setShowSuccessModal(false), 2500);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  useEffect(() => {
+    (async function() {
+      const data:any = await getAnnouncement('')
+      const datas = data.data.data
+      const filters = datas.filter((item: any) => item.category == 'services')
+      setPartners(filters)
+    })()
+  }, []);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const newPartner = {
       title: heading,
       price,
       image: image ? URL.createObjectURL(image) : '',
     };
-    setPartners((prev) => [...prev, newPartner]);
+
+    const data = {
+      title: heading,
+      category: "services",
+      description,
+      offer: price,
+      image: image ? URL.createObjectURL(image) : ''
+    }
+
+    await postAnnouncement(data)
+    setPartners((prev:any) => [...prev, newPartner]);
     resetForm();
     setShowFormModal(false);
   };
@@ -57,22 +63,14 @@ const Partner = () => {
     <div className="relative mt-4">
       {/* Add New Partner Button */}
       <button
-    className="flex items-center gap-2 font-bold px-2 py-2 ml-12 rounded-lg text-white transition duration-200 active:scale-105 hover:bg-[#a00000]"
-    style={{
-      background: 'linear-gradient(44.99deg,#700808 11%,#d23c3c 102.34%)',
-    }}
+    className="flex items-center gap-2 bg-[#9b111e] font-bold px-2 py-2 ml-12 rounded-lg text-white transition duration-200 active:scale-105 hover:bg-[#a00000]"
      onClick={() => setShowFormModal(true)} 
   >
     + Add Partner
   </button>
-
-
-
-
-      {/* onClick={() => setShowFormModal(true)} */}
-      {/* Partner Cards */}
+      
       <div className='grid grid-cols-3 sm:grid-cols-2 lg:grid-cols-3 gap-4 px-6 mt-6'>
-      {partners.map((item, index) => (
+      {partners.map((item:any, index:number) => (
         <div
           key={index}
           className="flex flex-col hover:shadow-xl transform hover:scale-[1.02] p-2 transition-all duration-300 bg-white shadow-md rounded-lg mb-4 mx-6"
@@ -85,12 +83,12 @@ const Partner = () => {
           <div className="p-4 flex-1 flex flex-col justify-between">
             <div>
               <h3 className="text-base font-semibold !text-gray-900" style={{...FONTS.cardSubHeader}}>{item.title}</h3>
-              <p className="text-[#9b111e] !font-bold mt-2" style={{...FONTS.cardSubHeader}}>{item.price}</p>
+              <p className="text-[#9b111e] !font-bold mt-2" style={{...FONTS.cardSubHeader}}>{item.offer}</p>
             </div>
             <div className="mt-4 text-right">
               <button
                 onClick={handleShare}
-                className="text-sm px-3 py-1 bg-[#9b111e] text-white rounded-full hover:bg-red-700 transition"
+                className="text-sm px-3 py-1 bg-[#9b111e] text-white rounded-3xl hover:bg-red-700 transition"
               >
                 Share
               </button>
@@ -116,7 +114,7 @@ const Partner = () => {
           <div className="bg-white p-6 rounded-lg w-full max-w-lg relative">
             <button
               onClick={() => setShowFormModal(false)}
-              className="absolute top-2 right-2 text-gray-500 text-2xl font-bold hover:text-black"
+              className="absolute top-2 right-2 text-gray-500 text-2xl font-bold hover:text-black rounded-3xl"
             >
               &times;
             </button>
@@ -158,13 +156,13 @@ const Partner = () => {
                     resetForm();
                     setShowFormModal(false);
                   }}
-                  className="px-4 py-2 border border-gray-400 rounded hover:bg-gray-100"
+                  className="px-4 py-2 border border-gray-400 rounded-3xl hover:bg-gray-100"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 bg-[#9b111e] text-white rounded hover:bg-[#7c0d18]"
+                  className="px-4 py-2 bg-[#9b111e] text-white rounded-3xl hover:bg-[#7c0d18]"
                 >
                   Submit
                 </button>

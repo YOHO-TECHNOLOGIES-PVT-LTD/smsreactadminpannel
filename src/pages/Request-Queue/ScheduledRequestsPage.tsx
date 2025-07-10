@@ -56,8 +56,8 @@ export default function ScheduledRequestsPage() {
         <div className="flex items-center gap-4">
           {/* Back Arrow Button */}
           <button
-            onClick={() => navigate('/request-queue/schedule')}
-            className="flex items-center justify-center w-12 h-12 bg-white border-2 border-[#9b111e] text-[#9b111e] rounded-full hover:bg-[#9b111e] hover:text-white transition-all duration-300 shadow-lg hover:shadow-xl"
+            onClick={() => navigate(-1)}
+            className="flex items-center justify-center w-12 h-12 bg-white border-2 border-[#9b111e] text-[#9b111e] rounded-3xl hover:bg-[#9b111e] hover:text-white transition-all duration-300 shadow-lg hover:shadow-xl"
             title="Back to Schedule Requests"
           >
             <svg 
@@ -70,7 +70,7 @@ export default function ScheduledRequestsPage() {
             </svg>
           </button>
           
-          <h1 className="text-4xl font-bold text-green-600" style={{...FONTS.header}}>
+          <h1 className="!text-[20px] !font-bold " style={{...FONTS.header}}>
             Scheduled Requests
           </h1>
         </div>
@@ -88,13 +88,13 @@ export default function ScheduledRequestsPage() {
               placeholder="Search by customer name..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-12 pr-4 py-3 w-80 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all duration-300 bg-white shadow-sm hover:shadow-md"
+              className="pl-12 pr-4 py-3 w-80 border-2 border-gray-200 rounded-3xl focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all duration-300 bg-white shadow-sm hover:shadow-md"
               style={{...FONTS.paragraph}}
             />
             {searchTerm && (
               <button
                 onClick={() => setSearchTerm("")}
-                className="absolute inset-y-0 right-0 pr-4 flex items-center text-gray-400 hover:text-gray-600"
+                className="absolute inset-y-0 right-0 pr-4 flex items-center text-gray-400 hover:text-gray-600 rounded-3xl"
               >
                 <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -105,7 +105,6 @@ export default function ScheduledRequestsPage() {
         </div>
       </div>
       
-      <hr className="border-1 border-green-600 my-5" />
 
       {scheduledRequests.length === 0 ? (
         <div className="text-center py-16">
@@ -121,7 +120,7 @@ export default function ScheduledRequestsPage() {
           {!searchTerm && (
             <button
               onClick={() => navigate('/request-queue/schedule')}
-              className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-[#9b111e] to-[#c41e3a] text-white rounded-xl hover:from-[#80101a] hover:to-[#a01829] transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 font-semibold text-lg"
+              className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-[#9b111e] to-[#c41e3a] text-white rounded-3xl hover:from-[#80101a] hover:to-[#a01829] transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 font-semibold text-lg"
               style={{...FONTS.paragraph}}
             >
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -184,7 +183,7 @@ export default function ScheduledRequestsPage() {
       {/* Modal for viewing scheduled request details */}
       {open && selectedRequest && (
         <div className="fixed inset-0 bg-black bg-opacity-40 z-50 flex justify-end">
-          <div className="w-full sm:w-1/2 h-full bg-[#FAF3EB] border-l-4 border-green-600 shadow-2xl p-8 relative overflow-y-auto rounded-l-xl transition-all duration-300">
+          <div className="w-full sm:w-1/2 h-full bg-[#FAF3EB] border-l-4 border-green-600 shadow-2xl p-8 relative overflow-y-auto rounded-3xl transition-all duration-300">
             {/* Modal Header */}
             <div className="flex justify-between items-center mb-6">
               <h2 className="text-3xl font-bold text-green-600 tracking-wide" style={{...FONTS.header}}>
@@ -192,7 +191,7 @@ export default function ScheduledRequestsPage() {
               </h2>
               <button
                 onClick={closeModal}
-                className="text-gray-500 hover:text-black text-3xl font-bold"
+                className="text-gray-500 hover:text-black text-3xl font-bold rounded-3xl"
               >
                 &times;
               </button>
@@ -256,7 +255,7 @@ export default function ScheduledRequestsPage() {
                 <div className="flex justify-end gap-4 mt-6">
                   <button
                     onClick={closeModal}
-                    className="px-5 py-2 bg-gray-200 !text-gray-800 rounded-lg hover:!bg-gray-300"
+                    className="px-5 py-2 bg-gray-200 !text-gray-800 rounded-3xl hover:!bg-gray-300"
                     style={{...FONTS.paragraph}}
                   >
                     Close

@@ -1,24 +1,10 @@
-import React, { useState } from 'react';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import React, { useEffect, useState } from 'react';
 import { FONTS } from '../../../constants/uiConstants';
+import { getAnnouncement, postAnnouncement } from '../../../pages/Announcement/services';
 
 const AnnouncementList = () => {
-  const [announcements, setAnnouncements] = useState([
-    {
-      title: 'Holiday Discount',
-      price: '20% Off',
-      image: 'https://mensuas.typepad.com/.a/6a0120a6263b19970b017ee615fe72970d-600wi',
-    },
-    {
-      title: 'Free Car Wash',
-      price: 'On Orders 50+',
-      image: 'https://brooklynads.com/wp-content/uploads/2024/02/Benefits-of-Offering-a-Free-Car-Wash-Vacuum-at-Your-Wash.png',
-    },
-    {
-      title: 'Limited Time Offer',
-      price: 'Until May 30',
-      image: 'https://png.pngtree.com/png-clipart/20230323/original/pngtree-limited-time-offer-vector-design-png-image_9000472.png',
-    },
-  ]);
+  const [announcements, setAnnouncements] = useState<any>([]);
 
   const [showModal, setShowModal] = useState(false);
   const [heading, setHeading] = useState('');
@@ -26,15 +12,33 @@ const AnnouncementList = () => {
   const [price, setPrice] = useState('');
   const [image, setImage] = useState<File | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  useEffect(() => {
+    (async function () {
+      const data:any = await getAnnouncement('')
+      const datas = data.data.data
+      const filters = datas.filter((item: any) => item.category == 'general')
+      setAnnouncements(filters)
+    })()
+  }, []);
+
+  const handleSubmit = async(e: React.FormEvent) => {
     e.preventDefault();
     const newAnnouncement = {
       title: heading,
       price: price,
-      image: image
-        ? URL.createObjectURL(image)
-        : 'https://via.placeholder.com/300x150?text=No+Image',
+      image: image ? URL.createObjectURL(image) : ''
     };
+
+    const data = {
+      title:heading,
+      category:"general",
+      description,
+      offer:price,
+      image: image ? URL.createObjectURL(image) : ''
+    }
+
+    await postAnnouncement(data)
+
     setAnnouncements([...announcements, newAnnouncement]);
     resetForm();
     setShowModal(false);
@@ -54,9 +58,9 @@ const AnnouncementList = () => {
       <div className="flex justify-between items-center px-6 mt-4 mb-6">
  
   <button
-    className="flex items-center gap-2 font-bold px-4 py-2 rounded-lg !text-white transition duration-200 active:scale-105 hover:bg-[#a00000]"
+    className="flex items-center gap-2 bg-[#9b111e] font-bold px-4 py-2 rounded-lg !text-white transition duration-200 active:scale-105 hover:bg-[#a00000]"
     style={{
-      background: 'linear-gradient(44.99deg,#700808 11%,#d23c3c 102.34%)', ...FONTS.paragraph
+      ...FONTS.paragraph
     }}
     onClick={() => setShowModal(true)}
   >
@@ -68,7 +72,7 @@ const AnnouncementList = () => {
       {/* ✅ Card Grid: This was missing */}
       <div className="px-6">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-          {announcements.map((item, index) => (
+          {announcements.map((item:any, index:number) => (
             <div
               key={index}
               className="flex flex-col hover:shadow-xl transform hover:scale-[1.02] p-2 transition-all duration-300 bg-white shadow-md rounded-lg"
@@ -76,11 +80,11 @@ const AnnouncementList = () => {
               <img
                 src={item.image}
                 alt={item.title}
-                className="w-full h-40 object-cover rounded-t-lg"
+                className="w-60 h-40 object-cover rounded-t-lg"
               />
               <div className="p-4 flex-1 flex flex-col justify-between">
                 <h3 className="font-semibold !text-gray-900" style={{...FONTS.cardSubHeader}}>{item.title}</h3>
-                <p className="text-[#9b111e] !font-bold mt-2" style={{...FONTS.cardSubHeader}}>{item.price}</p>
+                <p className="text-[#9b111e] !font-bold mt-2" style={{...FONTS.cardSubHeader}}>{item.offer}</p>
               </div>
             </div>
           ))}
@@ -90,7 +94,7 @@ const AnnouncementList = () => {
       {/* Modal */}
       {showModal && (
         <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex justify-center items-center">
-          <div className="bg-white p-6 rounded-lg w-full max-w-lg relative">
+          <div className="bg-white p-6 rounded-3xl w-full max-w-lg relative">
             <button
               onClick={() => setShowModal(false)}
               className="absolute top-2 right-2 text-gray-500 text-2xl font-bold hover:text-black"
@@ -137,13 +141,13 @@ const AnnouncementList = () => {
                     resetForm();
                     setShowModal(false);
                   }}
-                  className="px-4 py-2 border border-gray-400 rounded hover:bg-gray-100"
+                  className="px-4 py-2 border rounded-3xl border-gray-400 rounded hover:bg-gray-100"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 bg-[#9b111e] text-white rounded hover:bg-[#7c0d18]"
+                  className="px-4 py-2 bg-[#9b111e] text-white rounded-3xl hover:bg-[#7c0d18]"
                 >
                   Submit
                 </button>

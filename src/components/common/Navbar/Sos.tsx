@@ -8,7 +8,7 @@ const SosButton: React.FC = () => {
         <div className="absolute -top-1 -right-1 w-3.5 h-3.5 bg-green-500 border-2 border-white rounded-full z-20" />
 
         <button
-          className="w-full h-full rounded-full bg-gradient-to-r from-red-600 to-red-800 text-white font-bold text-sm shadow-lg hover:scale-105 transition-transform"
+          className="w-full h-full rounded-3xl bg-gradient-to-r from-red-600 to-red-800 text-white font-bold text-sm shadow-lg hover:scale-105 transition-transform"
         >
           SOS
         </button>

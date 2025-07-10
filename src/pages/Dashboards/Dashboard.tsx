@@ -96,10 +96,11 @@ export const Dashboard = () => {
 
 
   return (
-    <div className="w-full px-4 py-6 -mt-6 ">
+    <div className="w-full px-3 py-6 -mt-6 ">
       <p
-          className="text-xl !font-semibold pl-6 pt-3 "
+          className="text-[20px] !font-bold pl-2 pt-3 "
           style={{ ...FONTS.header }}
+
         >
           Dashboard
         </p>
@@ -202,7 +203,7 @@ export const Dashboard = () => {
         </div>
 
         {/* SOS Content */}
-        <div className="bg-white shadow-md rounded-xl p-4 max-h-96 hover:scale-[1.02] ">
+        <div className="bg-white shadow-md rounded-3xl p-4 max-h-96 hover:scale-[1.02] ">
           <div className="flex justify-between mb-2 ">
             <p
               className="text-lg "
@@ -225,7 +226,7 @@ export const Dashboard = () => {
       {/* Transactions & Query */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4 ">
         {/* Transactions */}
-        <div className="bg-white shadow-md rounded-xl p-4 max-h-96 overflow-hidden hover:scale-[1.02]">
+        <div className="bg-white shadow-md rounded-3xl p-4 max-h-96 overflow-hidden hover:scale-[1.02]">
           <div className="flex justify-between mb-2 ">
             <p className=" mb-2  " style={{ ...FONTS.cardheader }}>
               Recent Transactions
@@ -256,7 +257,7 @@ export const Dashboard = () => {
 
 
         {/* Query Section */}
-        <div className="bg-white shadow-md rounded-xl p-4 max-h-96 overflow-hidden hover:scale-[1.02]">
+        <div className="bg-white shadow-md rounded-3xl p-4 max-h-96 overflow-hidden hover:scale-[1.02]">
           <div className="flex justify-between mb-2">
             <p className="text-lg" style={{ ...FONTS.cardheader }}>
               Enquiry
@@ -278,6 +279,7 @@ export const Dashboard = () => {
                 profilePicUrl={q.profilePicUrl}
               />
             ))}
+            
           </div>
         </div>
       </div>

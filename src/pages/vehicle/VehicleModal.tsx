@@ -72,46 +72,38 @@ const VehicleModal: FC<Props> = ({ vehicle, onClose, redirectPath }) => {
 
        {vehicle.partnerDetails && (
   <div className="mt-8">
-    <h3 className="text-2xl font-semibold text-[#9b111e] mb-6">Service Center</h3>
+    <h3 className="text-2xl font-semibold text-[#9b111e] mb-6"style={{ ...FONTS.cardheader }}>Partner</h3>
     
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-4"style={{ ...FONTS.cardSubHeader }}>
+
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Name</label>
-        <div className="w-full border rounded-md px-3 py-2 shadow-sm text-sm  text-gray-800">
-          {vehicle.partnerDetails.partnerName || "N/A"}
-        </div>
+        <label className="block text-sm font-medium text-gray-700 mb-1">Name: {vehicle.partnerDetails.partnerName || "N/A"}</label>
       </div>
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Phone</label>
-        <div className="w-full border rounded-md px-3 py-2 shadow-sm text-sm  text-gray-800">
-          {vehicle.partnerDetails.partnerPhone || "N/A"}
-        </div>
+        <label className="block text-sm font-medium text-gray-700 mb-1">Phone: {vehicle.partnerDetails.partnerPhone || "N/A"}</label>
+       
       </div>
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Address</label>
-        <div className="w-full border rounded-md px-3 py-2 shadow-sm text-sm text-gray-800">
-          {vehicle.partnerDetails.partnerAddress || "N/A"}
-        </div>
+        <label className="block text-sm font-medium text-gray-700 mb-1">Address:{vehicle.partnerDetails.partnerAddress || "N/A"}</label>
+        
       </div>
     </div>
   </div>
 )}
 
-        {vehicle.customerDetails && (
+        {vehicle.customerInfo && (
   <div className="mt-8">
     <h3 className="text-2xl font-semibold text-[#9b111e] mb-6" style={{ ...FONTS.cardheader }}>
       Owner Details
     </h3>
     
     <div className="grid grid-cols-1 md:grid-cols-3 gap-4" style={{ ...FONTS.cardSubHeader }}>
-      {Object.entries(vehicle.customerDetails).map(([key, value]) => (
+      {Object.entries(vehicle?.customerInfo).map(([key, value]) => (
         <div key={key}>
-          <label className="block text-sm font-medium text-gray-700 mb-1 capitalize" >
-            Full Name
+          <label className="block text-sm font-medium text-gray-700 mb-1 capitalize">
+            {key} : {value || "N/A"}
           </label>
-          <div className="w-full border rounded-md px-3 py-2 shadow-sm text-sm  text-gray-800">
-            {value || "N/A"}
-          </div>
+          
         </div>
       ))}
     </div>
@@ -120,89 +112,78 @@ const VehicleModal: FC<Props> = ({ vehicle, onClose, redirectPath }) => {
 
 
         {vehicle.vehicleInfo && (
-  <div className="mt-8">
-    <h3 className="text-2xl font-semibold text-[#9b111e] mb-6" style={{ ...FONTS.cardheader }}>
-      Vehicle Details
-    </h3>
-
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-4" style={{ ...FONTS.cardSubHeader }}>
-      {Object.entries(vehicle.vehicleInfo).map(([key, value]) => (
-        <div key={key}>
-          <label className="block text-sm font-medium text-gray-700 mb-1 capitalize">
-            {key}
+          <div className="mt-8">
+            <h3 className="text-2xl font-semibold text-[#9b111e] mb-4" style={{...FONTS.cardheader}}>
+              Vehicle Details
+            </h3>
+             <div className="grid grid-cols-1 md:grid-cols-3 gap-4" style={{ ...FONTS.cardSubHeader }}>
+                {Object.entries(vehicle.vehicleInfo).map(([key, value]) => (
+                  <div key={key} >
+                     <label className="block text-sm font-medium text-gray-700 mb-1 capitalize">
+            {key} : {value || "N/A"}
           </label>
-          <div className="w-full border rounded-md px-3 py-2 shadow-sm text-sm bg-white text-gray-800">
-            {value || "N/A"}
           </div>
+                ))}
+              
+            </div>
+          </div>
+        )}
+
+       {vehicle.carCondition && (
+  <div className="mt-8">
+    <h3 className="text-2xl font-semibold text-[#9b111e] mb-4" style={{ ...FONTS.cardheader }}>
+      Car Condition
+    </h3>
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-4" style={{ ...FONTS.cardSubHeader }}>
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-1 capitalize">
+          Fuel Level : {vehicle.carCondition.fuelLevel || "N/A"}
+        </label>
+      </div>
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-1 capitalize">
+          Selected Items : {vehicle.carCondition.selectedItems.join(", ")}
+        </label>
+      </div>
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-1 capitalize">
+          Images :
+        </label>
+        <div className="flex flex-wrap gap-2 mt-1">
+          {vehicle.carCondition.images.map((img, i) => (
+            <img
+              key={i}
+              src={img}
+              alt={`condition-img-${i}`}
+              className="w-20 h-16 object-cover rounded"
+            />
+          ))}
         </div>
-      ))}
+      </div>
     </div>
   </div>
 )}
 
 
-        {vehicle.carCondition && (
-          <div className="mt-8">
-            <h3 className="text-2xl font-semibold text-[#9b111e] mb-4" style={{...FONTS.cardheader}}>
-              Car Condition
-            </h3>
-            <table className="w-full table-auto border-collapse border border-[#d7b9a3] !text-[#3b2f2f]" style={{...FONTS.cardSubHeader}}>
-              <tbody>
-                <tr className="border border-[#d7b9a3]">
-                  <td className="border px-4 py-2 font-semibold capitalize w-1/2">
-                    Fuel Level
-                  </td>
-                  <td className="border px-4 py-2">
-                    {vehicle.carCondition.fuelLevel}
-                  </td>
-                </tr>
-                <tr className="border border-[#d7b9a3]">
-                  <td className="border px-4 py-2 font-semibold capitalize w-1/2">
-                    Selected Items
-                  </td>
-                  <td className="border px-4 py-2">
-                    {vehicle.carCondition.selectedItems.join(", ")}
-                  </td>
-                </tr>
-                <tr className="border border-[#d7b9a3]">
-                  <td className="border px-4 py-2 font-semibold capitalize w-1/2">
-                    Images
-                  </td>
-                  <td className="border px-4 py-2 space-x-2">
-                    {vehicle.carCondition.images.map((img, i) => (
-                      <img
-                        key={i}
-                        src={img}
-                        alt={`condition-img-${i}`}
-                        className="inline-block w-20 h-16 object-cover rounded"
-                      />
-                    ))}
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        )}
-
         {vehicle.checkInOutDates && (
-          <div className="mt-8">
-            <h3 className="text-2xl font-semibold text-[#9b111e] mb-4">
-              Entries
-            </h3>
-            <table className="w-full table-auto border-collapse border border-[#d7b9a3] text-[#3b2f2f]">
-              <tbody>
-                {Object.entries(vehicle.checkInOutDates).map(([key, value]) => (
-                  <tr key={key} className="border border-[#d7b9a3]">
-                    <td className="border px-4 py-2 font-semibold capitalize w-1/2">
-                      {key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}
-                    </td>
-                    <td className="border px-4 py-2">{value || "N/A"}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
+  <div className="mt-8">
+    <h3 className="text-2xl font-semibold text-[#9b111e] mb-4" style={{ ...FONTS.cardheader }}>
+      Entries
+    </h3>
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-4" style={{ ...FONTS.cardSubHeader }}>
+      {Object.entries(vehicle.checkInOutDates).map(([key, value]) => (
+        <div key={key}>
+          <label className="block text-sm font-medium text-gray-700 mb-1 capitalize">
+            {key
+              .replace(/([A-Z])/g, ' $1')
+              .replace(/^./, (str) => str.toUpperCase())}{" "}
+            : {value || "N/A"}
+          </label>
+        </div>
+      ))}
+    </div>
+  </div>
+)}
 
         <div className="flex justify-start items-center mt-4">
           <Link

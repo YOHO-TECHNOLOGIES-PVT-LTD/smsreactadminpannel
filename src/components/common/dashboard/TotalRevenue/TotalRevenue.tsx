@@ -192,7 +192,7 @@ const TotalRevenue: React.FC = () => {
         <ResponsiveContainer width="100%" height={100}>
           <BarChart data={chartData} stackOffset="sign">
             <CartesianGrid strokeDasharray="3 3" vertical={false} />
-            <XAxis dataKey="date" />
+            <XAxis dataKey="date" style={{...FONTS.paragraph}}/>
             <YAxis />
             <Tooltip />
             <Bar dataKey="MarutiSuzuki" stackId="stack" fill="#93c5fd" radius={[4, 4, 0, 0]} />

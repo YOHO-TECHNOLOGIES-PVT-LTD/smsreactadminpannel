@@ -6,21 +6,23 @@ export type Vehicle = {
   };
   vehicleInfo: {
     kms: string;
-    fuel: string;
-    transmission: string;
-    location: string;
-    registeredYear: string;
-    insuranceStatus: string;
-    availability: string;
-    currentFuelLevel?: "Empty" | "Quarter" | "Half Tank" | "Full";
+    chassisNo: string;
+    color: string;
+    engineNo: string;
+    insuranceCompany: string;
+    insuranceRenewalDate: string;
+    model: string;
+    registrationNo: string;
   };
   partnerDetails: {
     partnerName: string;
     partnerPhone: string;
     partnerAddress: string;
   };
-  customerDetails: {
-    fullName: string;
+  customerInfo: {
+    name: string;
+    contactNo: string;
+    address:string;
   };
   carCondition: {
     fuelLevel: string;

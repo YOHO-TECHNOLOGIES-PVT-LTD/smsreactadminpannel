@@ -1,14 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type React from "react"
 import { useState, useEffect } from "react"
-import { FaArrowRight, FaCodeBranch, FaRegAddressCard, FaUserCircle, FaEdit, FaTrash } from "react-icons/fa"
+import { FaArrowRight,  FaEdit, FaTrash,  } from "react-icons/fa"
 import { BsBuildings } from "react-icons/bs"
 import { SlCalender } from "react-icons/sl"
-import { AiFillSafetyCertificate, AiOutlineAudit } from "react-icons/ai"
-import { MdEmail, MdVerified, MdOutlineMailOutline, MdOutlineKeyboardBackspace } from "react-icons/md"
+import { AiFillSafetyCertificate } from "react-icons/ai"
+import { MdEmail, MdOutlineMailOutline, MdOutlineKeyboardBackspace } from "react-icons/md"
 import { CgWebsite } from "react-icons/cg"
 import { FcDataEncryption } from "react-icons/fc"
-import { BiSolidCertification } from "react-icons/bi"
 import { RiLockPasswordLine } from "react-icons/ri"
 import { LuPhoneCall } from "react-icons/lu"
 import { CheckCircle, AlertCircle } from "lucide-react"
@@ -47,60 +46,63 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({
   const [showDeleteSuccessPopup, setShowDeleteSuccessPopup] = useState(false)
 
   // Original values for comparison
-  const [originalValues, setOriginalValues] = useState({
-    editCompanyName: partner.firstName + " "+ partner.lastName || "yes mechanic",
-    editEstablished: "2005",
-    editBranches: "35",
-    editEvCertified: "Yes",
+
+  const originalValues = {
+    editCompanyName: partner.companyName || "",
+    editFirstName:partner.firstName || "",
+    editLastName:partner.lastName || "",
+    editAadharNumber: partner.aadhar || 'Nan',
+    editRegNo: partner.regNo || 'Nan',
+    editPanCard: partner.pan || 'Nan',
+    editGstNo: partner.gstNo || 'Nan',
     editPhone: partner?.contact_info?.phoneNumber || "",
-    editEmail: partner?.email || "",
-    editWebsite: "www.autonova.com",
-    editAddress:
-      `${partner?.contact_info?.address1 || ""} ${partner?.contact_info?.address2 || ""} ${partner?.contact_info?.city || ""} ${partner?.contact_info?.state || ""}`.trim(),
-    editDataEncrypted: "Yes",
-    editVerifiedCenter: "✔️",
-    editLastAudit: "Jan 2025",
-    editCertification: "ISO 27001",
-    editUsername: "autonova_admin",
+    editEmail: partner?.email || "Nan",
     editLoginEmail: partner?.email || "",
-    editPassword: "abc@123456",
-  })
+    editPassword: partner?.password,
+    editImage:partner?.image,
+    editState:partner?.contact_info?.state,
+    editCity:partner?.contact_info?.city,
+    editAddress1:partner?.contact_info?.address1,
+    editAddress2:partner?.contact_info?.address2,
+  }
 
   // Current edit values
+  const [editAadharNumber, setEditAadharNumber] = useState(originalValues.editAadharNumber)
+  const [editPanCard, setEditPanCard] = useState(originalValues.editPanCard)
+  const [editGstNo, setEditGstNo] = useState(originalValues.editGstNo)
+  const [editRegNo, setEditRegNo] = useState(originalValues.editRegNo)
   const [editCompanyName, setEditCompanyName] = useState(originalValues.editCompanyName)
-  const [editEstablished, setEditEstablished] = useState(originalValues.editEstablished)
-  const [editBranches, setEditBranches] = useState(originalValues.editBranches)
-  const [editEvCertified, setEditEvCertified] = useState(originalValues.editEvCertified)
+  const [editFirstName] = useState(originalValues.editFirstName)
+  const [editLastName, setLastName] = useState(originalValues.editLastName)
+  // const [editImage, setImage] = useState(originalValues.editImage)
   const [editPhone, setEditPhone] = useState(originalValues.editPhone)
   const [editEmail, setEditEmail] = useState(originalValues.editEmail)
-  const [editWebsite, setEditWebsite] = useState(originalValues.editWebsite)
-  const [editAddress, setEditAddress] = useState(originalValues.editAddress)
-  const [editDataEncrypted, setEditDataEncrypted] = useState(originalValues.editDataEncrypted)
-  const [editVerifiedCenter, setEditVerifiedCenter] = useState(originalValues.editVerifiedCenter)
-  const [editLastAudit, setEditLastAudit] = useState(originalValues.editLastAudit)
-  const [editCertification, setEditCertification] = useState(originalValues.editCertification)
-  const [editUsername, setEditUsername] = useState(originalValues.editUsername)
+  const [editState, setEditState] = useState(originalValues.editState)
+  const [editCity, setEditCity] = useState(originalValues.editCity)
+  const [editAddress1, setEditAddress1] = useState(originalValues.editAddress1)
+  const [editAddress2, setEditAddress2] = useState(originalValues.editAddress2)
+  // const [editLastAudit, setEditLastAudit] = useState(originalValues.editLastAudit)
+  // const [editCertification, setEditCertification] = useState(originalValues.editCertification)
+  // const [editUsername, setEditUsername] = useState(originalValues.editUsername)
   const [editLoginEmail, setEditLoginEmail] = useState(originalValues.editLoginEmail)
-  const [editPassword, setEditPassword] = useState(originalValues.editPassword)
+  // const [editPassword, setEditPassword] = useState(originalValues.editPassword)
 
   // Function to check if any values have changed
   const hasChanges = () => {
     const currentValues = {
       editCompanyName,
-      editEstablished,
-      editBranches,
-      editEvCertified,
       editPhone,
       editEmail,
-      editWebsite,
-      editAddress,
-      editDataEncrypted,
-      editVerifiedCenter,
-      editLastAudit,
-      editCertification,
-      editUsername,
       editLoginEmail,
-      editPassword,
+      // editPassword,
+      editState,
+      editFirstName,
+      editLastName,
+      // editImage,
+      editCity,
+      editAadharNumber,
+      editAddress1,
+      editAddress2
     }
 
     return Object.keys(originalValues).some(
@@ -132,9 +134,12 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({
   const confirmDelete = async () => {
     setShowDeleteConfirm(false)
     try {
-      await new Client().admin.servicecenter.delete()
+      await new Client().admin.servicecenter.delete(partner._id)
       console.log("Service Center Deleted")
       setShowDeleteSuccessPopup(true)
+      setTimeout(() => {
+        handleBack()
+      }, 3000)
     } catch (error) {
       console.error("Error deleting service center:", error)
     }
@@ -154,30 +159,50 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({
       return
     }
 
-    const data = {
-      editCompanyName,
-      editEstablished,
-      editBranches,
-      editEvCertified,
-      editPhone,
-      editEmail,
-      editWebsite,
-      editAddress,
-      editDataEncrypted,
-      editVerifiedCenter,
-      editLastAudit,
-      editCertification,
-      editUsername,
-      editLoginEmail,
-      editPassword,
-    }
+    
 
     try {
-      const response = await new Client().admin.servicecenter.update(data, partner._id)
-      console.log(response)
+
+      // const data = {
+      //   editCompanyName,
+      //   editPhone,
+      //   editEmail,
+      //   editLoginEmail,
+      //   // editPassword,
+      //   editState,
+      //   editFirstName,
+      //   editLastName,
+      //   // editImage,
+      //   editCity,
+      //   editAadharNumber,
+      //   editAddress1,
+      //   editAddress2
+      // }
+
+      const datas = {
+        contact_info: {
+          state: editState,
+          city: editCity,
+          address1: editAddress1,
+          address2: editAddress2,
+          phoneNumber: editPhone
+        },
+        firstName: editFirstName,
+        companyName: editCompanyName,
+        lastName: editLastName,
+        // password: "$2b$13$43r7K3/WNNQ55LZexr823OR1wcPq7qiku1ubZGqLWHxpp71RNzVT.",
+        email: editEmail,
+        aadhar: editAadharNumber,
+        regNo: editRegNo,
+        pan: editPanCard,
+        gstNo: editGstNo,
+        image: "",
+      }
+
+      await new Client().admin.servicecenter.update(datas, partner._id)
 
       // Update original values after successful save
-      setOriginalValues(data)
+      // setOriginalValues(data)
 
       setShowEditForm(false)
       setShowSuccessPopup(true)
@@ -208,8 +233,14 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({
   }, [showDeleteSuccessPopup])
 
   function onChangeCat(id: string) {
+    console.log(id,"added PART")
     setpartnerId(id)
     onServices()
+  }
+
+  function viewspare(id:string){
+    setpartnerId(id)
+    onSpareParts()
   }
 
   return (
@@ -218,12 +249,14 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({
       <div className="flex items-center justify-between mb-6">
         <button
           onClick={handleBack}
-          className="flex items-center gap-2 text-[#9b111e] hover:text-[#800000] transition-colors"
+          className="flex items-center gap-2 text-[#9b111e] hover:text-[#800000] transition-colors rounded-3xl"
         >
           <MdOutlineKeyboardBackspace className="text-2xl" />
-          <span className="font-medium">Back</span>
-        </button>
+          <span className="font-medium">
         <h2 className="text-3xl font-bold text-[#9b111e]" style={{...FONTS.header}} >Profile</h2>
+
+          </span>
+        </button>
         <div className="w-10"></div>
       </div>
 
@@ -233,15 +266,16 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({
         <div className="flex flex-col md:flex-row items-center justify-between p-6 bg-gradient-to-r from-[#9b111e] to-[#d23c3c]">
           <div className="flex items-center gap-4 mb-4 md:mb-0">
             <div className="bg-white p-2 rounded-full" >
-              <img src="https://logodix.com/logo/2004138.jpg" alt="Logo" className="w-16 h-16 object-contain" />
+              <img src={partner?.image} alt={"logo"} className="w-16 h-16 rounded-full object-contain" />
             </div >
-            <h3 className="!font-bold !text-white" style={{...FONTS.cardheader}}>{partner?.firstName + " " + partner?.lastName}</h3>
+            {/* <h3 className="!font-bold !text-white" style={{ ...FONTS.cardheader }}>{partner?.firstName + " " + partner?.lastName}</h3> */}
+            <h3 className="!font-bold !text-white" style={{...FONTS.cardheader}}>{partner?.companyName}</h3>
           </div>
           <div className="flex gap-4">
           <button
           style={{...FONTS.paragraph}}
-            onClick={onSpareParts}
-            className="flex items-center gap-2 bg-white !text-[#9b111e] px-5 py-2 rounded-lg font-medium hover:bg-gray-100 transition-colors shadow-sm"
+            onClick={()=>viewspare(partner._id)}
+            className="flex items-center gap-2 bg-white !text-[#9b111e] px-5 py-2 rounded-3xl font-medium hover:bg-gray-100 transition-colors shadow-sm"
           >
             <Settings className="w-4 h-4" />
             <span>Spare Parts</span>
@@ -249,7 +283,7 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({
           <button
             style={{...FONTS.paragraph}}
             onClick={() => onChangeCat(partner._id)}
-            className="flex items-center gap-2 bg-white !text-[#9b111e] px-5 py-2 rounded-lg font-medium hover:bg-gray-100 transition-colors shadow-sm"
+            className="flex items-center gap-2 bg-white !text-[#9b111e] px-5 py-2 rounded-3xl font-medium hover:bg-gray-100 transition-colors shadow-sm"
           >
             <span>View Services</span>
             <FaArrowRight size={16} />
@@ -279,7 +313,12 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({
           <div className="mb-8">
             <h2 className="text-xl !font-bold text-[#9b111e] mb-4 pb-2 border-b border-gray-200" style={{...FONTS.cardSubHeader}}>Contact Information</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <div className="space-y-5" >
+              <div className="space-y-5">
+                <InfoItem
+                  icon={<BsBuildings className="text-[#9b111e]" />}
+                  label="Username"
+                  value={`${partner?.firstName || ''} ${partner?.lastName || ''}`.trim()}
+                />
                 <InfoItem
                   icon={<BsBuildings className="text-[#9b111e]" />}
                   label="Company Name"
@@ -287,42 +326,25 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({
                 />
                 <InfoItem
                   icon={<SlCalender className="text-[#9b111e]" />}
-                  label="Established"
-                  value={editEstablished}
-                />
-                <InfoItem icon={<FaCodeBranch className="text-[#9b111e]" />} label="Branches" value={editBranches} />
-                <InfoItem
-                  icon={<AiFillSafetyCertificate className="text-[#9b111e]" />}
-                  label="EV Certified"
-                  value={editEvCertified}
+                  label="AadharCard No"
+                  value={originalValues.editAadharNumber}
                 />
               </div>
               <div className="space-y-5">
                 <InfoItem icon={<LuPhoneCall className="text-[#9b111e]" />} label="Phone" value={editPhone} />
                 <InfoItem icon={<MdEmail className="text-[#9b111e]" />} label="Email" value={editEmail} />
-                <InfoItem icon={<CgWebsite className="text-[#9b111e]" />} label="Website" value={editWebsite} />
-                <InfoItem icon={<FaRegAddressCard className="text-[#9b111e]" />} label="Address" value={editAddress} />
+                <InfoItem icon={<CgWebsite className="text-[#9b111e]" />} label="Pan No" value={originalValues.editPanCard} />
               </div>
               <div className="space-y-5">
                 <InfoItem
+                  icon={<AiFillSafetyCertificate className="text-[#9b111e]" />}
+                  label="GST No"
+                  value={originalValues.editGstNo}
+                />
+                <InfoItem
                   icon={<FcDataEncryption className="text-[#9b111e]" />}
-                  label="Data Encrypted"
-                  value={editDataEncrypted}
-                />
-                <InfoItem
-                  icon={<MdVerified className="text-[#9b111e]" />}
-                  label="Verified Center"
-                  value={editVerifiedCenter}
-                />
-                <InfoItem
-                  icon={<AiOutlineAudit className="text-[#9b111e]" />}
-                  label="Last Audit"
-                  value={editLastAudit}
-                />
-                <InfoItem
-                  icon={<BiSolidCertification className="text-[#9b111e]" />}
-                  label="Certification"
-                  value={editCertification}
+                  label="Reg No"
+                  value={originalValues.editRegNo} 
                 />
               </div>
             </div>
@@ -335,7 +357,7 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({
           <div className="mb-8">
             <h2 className="text-xl !font-bold text-[#9b111e] mb-4 pb-2 border-b border-gray-200" style={{...FONTS.cardSubHeader}}>Login Information</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <InfoItem icon={<FaUserCircle className="text-[#9b111e]" />} label="Username" value={editUsername} />
+              
               <InfoItem
                 icon={<MdOutlineMailOutline className="text-[#9b111e]" />}
                 label="Email"
@@ -350,14 +372,14 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({
             <button
               style={{...FONTS.paragraph}}
               onClick={() => setShowEditForm(true)}
-              className="flex items-center justify-center gap-2 bg-[#9b111e] !text-white px-6 py-2 rounded-lg font-medium hover:bg-[#800000] transition-colors"
+              className="flex items-center justify-center gap-2 bg-[#9b111e] !text-white px-6 py-2 rounded-3xl font-medium hover:bg-[#800000] transition-colors"
             >
               <FaEdit /> Edit Profile
             </button>
             <button
               style={{...FONTS.paragraph}}
               onClick={() => setShowDeleteConfirm(true)}
-              className="flex items-center justify-center gap-2 bg-white text-red-600 border border-red-600 px-6 py-2 rounded-lg font-medium hover:bg-red-50 transition-colors"
+              className="flex items-center justify-center gap-2 bg-white text-red-600 border border-red-600 px-6 py-2 rounded-3xl font-medium hover:bg-red-50 transition-colors"
             >
               <FaTrash /> Delete Center
             </button>
@@ -395,14 +417,14 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
           <form
             onSubmit={handleEditSubmit}
-            className="bg-white rounded-xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto"
+            className="bg-white rounded-3xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto"
           >
             <div className="sticky top-0 bg-white p-6 border-b border-gray-200 flex justify-between items-center">
               <h2 className="text-2xl font-bold text-[#9b111e]">Edit Profile Information</h2>
               <button
                 type="button"
                 onClick={() => setShowEditForm(false)}
-                className="text-gray-500 hover:text-gray-700 transition-colors"
+                className="text-gray-500 hover:text-gray-700 transition-colors rounded-3xl"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -426,40 +448,44 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({
                   </h3>
                   <div className="space-y-4">
                     <EnhancedEditField
-                      icon={<BsBuildings className="text-[#9b111e]" />}
                       label="Company Name"
                       value={editCompanyName}
                       onChange={setEditCompanyName}
                     />
                     <EnhancedEditField
-                      icon={<SlCalender className="text-[#9b111e]" />}
-                      label="Established"
-                      value={editEstablished}
-                      onChange={setEditEstablished}
-                    />
-                    <EnhancedEditField
-                      icon={<FaCodeBranch className="text-[#9b111e]" />}
                       label="Branches"
-                      value={editBranches}
-                      onChange={setEditBranches}
+                      value={editLastName}
+                      onChange={setLastName}
                     />
                     <EnhancedEditField
-                      icon={<AiFillSafetyCertificate className="text-[#9b111e]" />}
-                      label="EV Certified"
-                      value={editEvCertified}
-                      onChange={setEditEvCertified}
-                    />
-                    <EnhancedEditField
-                      icon={<LuPhoneCall className="text-[#9b111e]" />}
                       label="Phone"
                       value={editPhone}
                       onChange={setEditPhone}
                     />
                     <EnhancedEditField
-                      icon={<MdEmail className="text-[#9b111e]" />}
                       label="Email"
                       value={editEmail}
                       onChange={setEditEmail}
+                    />
+                    <EnhancedEditField
+                      label="Aadhar No"
+                      value={editAadharNumber}
+                      onChange={setEditAadharNumber}
+                    />
+                    <EnhancedEditField
+                      label="Pan No"
+                      value={editPanCard}
+                      onChange={setEditPanCard}
+                    />
+                    <EnhancedEditField
+                      label="GST No"
+                      value={editGstNo}
+                      onChange={setEditGstNo}
+                    />
+                    <EnhancedEditField
+                      label="Reg No"
+                      value={editRegNo}
+                      onChange={setEditRegNo}
                     />
                   </div>
                 </div>
@@ -473,18 +499,35 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({
                     Website & Address
                   </h3>
                   <div className="space-y-4">
-                    <EnhancedEditField
+                    {/* <EnhancedEditField
                       icon={<CgWebsite className="text-[#9b111e]" />}
                       label="Website"
                       value={editWebsite}
                       onChange={setEditWebsite}
+                    /> */}
+                    <EnhancedEditField
+                      label="State"
+                      value={editState}
+                      onChange={setEditState}
+                      // textarea
                     />
                     <EnhancedEditField
-                      icon={<FaRegAddressCard className="text-[#9b111e]" />}
-                      label="Address"
-                      value={editAddress}
-                      onChange={setEditAddress}
-                      textarea
+                      label="City"
+                      value={editCity}
+                      onChange={setEditCity}
+                      // textarea
+                    />
+                    <EnhancedEditField
+                      label="Address2"
+                      value={editAddress1}
+                      onChange={setEditAddress1}
+                      // textarea
+                    />
+                    <EnhancedEditField
+                      label="Address2"
+                      value={editAddress2}
+                      onChange={setEditAddress2}
+                      // textarea
                     />
                   </div>
                 </div>
@@ -495,77 +538,42 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({
                     Login Information
                   </h3>
                   <div className="space-y-4">
-                    <EnhancedEditField
+                    {/* <EnhancedEditField
                       icon={<FaUserCircle className="text-[#9b111e]" />}
                       label="Username"
                       value={editUsername}
                       onChange={setEditUsername}
-                    />
+                    /> */}
                     <EnhancedEditField
-                      icon={<MdOutlineMailOutline className="text-[#9b111e]" />}
                       label="Login Email"
                       value={editLoginEmail}
                       onChange={setEditLoginEmail}
                     />
-                    <EnhancedEditField
+                    {/* <EnhancedEditField
                       icon={<RiLockPasswordLine className="text-[#9b111e]" />}
                       label="Password"
                       value={editPassword}
                       onChange={setEditPassword}
                       type="password"
-                    />
+                    /> */}
                   </div>
                 </div>
               </div>
 
-              {/* Third Column */}
-              <div className="md:col-span-2">
-                <div className="bg-[#f9f9f9] p-4 rounded-lg">
-                  <h3 className="text-lg font-semibold text-[#9b111e] mb-4 flex items-center gap-2">
-                    <BiSolidCertification className="text-[#9b111e]" />
-                    Additional Information
-                  </h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <EnhancedEditField
-                      icon={<FcDataEncryption className="text-[#9b111e]" />}
-                      label="Data Encrypted"
-                      value={editDataEncrypted}
-                      onChange={setEditDataEncrypted}
-                    />
-                    <EnhancedEditField
-                      icon={<MdVerified className="text-[#9b111e]" />}
-                      label="Verified Center"
-                      value={editVerifiedCenter}
-                      onChange={setEditVerifiedCenter}
-                    />
-                    <EnhancedEditField
-                      icon={<AiOutlineAudit className="text-[#9b111e]" />}
-                      label="Last Audit"
-                      value={editLastAudit}
-                      onChange={setEditLastAudit}
-                    />
-                    <EnhancedEditField
-                      icon={<BiSolidCertification className="text-[#9b111e]" />}
-                      label="Certification"
-                      value={editCertification}
-                      onChange={setEditCertification}
-                    />
-                  </div>
-                </div>
-              </div>
+              
             </div>
 
             <div className="sticky bottom-0 bg-white p-4 border-t border-gray-200 flex justify-end gap-3">
               <button
                 type="button"
                 onClick={() => setShowEditForm(false)}
-                className="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors"
+                className="px-6 py-2 border border-gray-300 rounded-3xl text-gray-700 hover:bg-gray-50 transition-colors"
               >
                 Cancel
               </button>
               <button
                 type="submit"
-                className="px-6 py-2 bg-[#9b111e] text-white rounded-lg hover:bg-[#800000] transition-colors flex items-center gap-2"
+                className="px-6 py-2 bg-[#9b111e] text-white rounded-3xl hover:bg-[#800000] transition-colors flex items-center gap-2"
               >
                 <FaEdit /> Save Changes
               </button>
@@ -679,11 +687,11 @@ const ConfirmationModal = ({
         <div className="flex justify-end gap-3">
           <button
             onClick={onCancel}
-            className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors"
+            className="px-4 py-2 border border-gray-300 rounded-3xl text-gray-700 hover:bg-gray-50 transition-colors"
           >
             Cancel
           </button>
-          <button onClick={onConfirm} className={`px-4 py-2 text-white rounded-lg transition-colors ${confirmColor}`}>
+          <button onClick={onConfirm} className={`px-4 py-2 text-white rounded-3xl transition-colors ${confirmColor}`}>
             {confirmText}
           </button>
         </div>
@@ -724,4 +732,4 @@ const SuccessPopup = ({
   )
 }
 
-export default ServiceCenterProfileView
+export default ServiceCenterProfileView;
