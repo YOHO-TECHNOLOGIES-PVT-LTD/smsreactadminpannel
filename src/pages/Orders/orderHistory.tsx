@@ -1,15 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import {  getOrdersHistory } from './Services';
+import {  getAllOrdersHistory } from './Services';
 import { FONTS } from '../../constants/uiConstants';
-import { useNavigate } from 'react-router-dom';
 
 
-const Order = () => {
+const OrderHistory = () => {
   // State management
   const [orders, setOrders] = useState<any[]>([]);
-  const navigate = useNavigate();
   // const [loading, setLoading] = useState(true);
   // const [error, setError] = useState<string | null>(null);
   const [showViewModal, setShowViewModal] = useState(false);
@@ -23,7 +21,7 @@ const Order = () => {
       try{
         // setLoading(true);
         // setError(null);
-        const response:any = await getOrdersHistory('')
+        const response:any = await getAllOrdersHistory('')
         console.log('Fetched orders:',response);
         
         // Handle different response structures
@@ -94,19 +92,12 @@ const Order = () => {
   return date.toLocaleDateString("en-IN");
 };
 
-const handleChange = () => {
-  navigate('/order/orders-history');
-}
-
-
   return (
     <div className="p-4 md:p-6 h-full min-h-screen">
       <div className='flex justify-between'>
-        <h1 className=" !font-bold text-[#9b111e] mb-3" style={{...FONTS.header}}>Car Spare Parts Orders</h1>
-        <button onClick={handleChange}>Completed orders</button>
+        <h1 className=" !font-bold text-[#9b111e] mb-3" style={{...FONTS.header}}>Orders History</h1>
       </div>
-      {/* Summary Cards */}
-      <motion.div 
+      {/* <motion.div 
         initial="hidden"
         animate="visible"
         variants={fadeIn}
@@ -128,7 +119,7 @@ const handleChange = () => {
             {orders.filter(o => o.status === 'Processing').length}
           </p>
         </div>
-      </motion.div>
+      </motion.div> */}
 
       {/* Header and Filters */}
       <motion.div 
@@ -450,4 +441,4 @@ const handleChange = () => {
   );
 };
 
-export default Order;
+export default OrderHistory;
