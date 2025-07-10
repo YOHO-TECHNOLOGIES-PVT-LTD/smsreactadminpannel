@@ -29,11 +29,16 @@ const QuotationPage: React.FC = () => {
   const [quotation, setquotation] = useState<quotation>();
 
   const {id} = useParams()
+  
+  // const serviceData = quotation?.serviceInfo?.products;
 
+// serviceData.map((item) => item 
+//   console.log(serviceData,"quotation")
   useEffect(() => {
     async function fetchdata(ids:any) {
       const response:any = await new Client().admin.jobcard.get(ids)
       console.log(response.data,"get data")
+
       setquotation(response.data.data)
     }
     fetchdata(id)
