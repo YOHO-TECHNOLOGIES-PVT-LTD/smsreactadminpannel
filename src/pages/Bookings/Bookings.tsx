@@ -98,7 +98,7 @@ const ServiceRequests: React.FC = () => {
   async function fetchpending() {
     try {
       const data = await GetPendingRequest()
-      setPendingRequests(data.data)
+      setPendingRequests(data?.data)
     } catch (error) {
       console.log(error)
     }
@@ -148,15 +148,15 @@ const ServiceRequests: React.FC = () => {
 
   const filteredPendingRequests = pendingRequests.filter(request => {
     const searchLower = searchTerm.toLowerCase();
-    const matchesId = request._id.toString().includes(searchLower);
-    const matchesName = request.customerId.firstName.toLowerCase().includes(searchLower) ?? " ";
+    const matchesId = request?._id.toString().includes(searchLower);
+    const matchesName = request?.customerId?.firstName.toLowerCase().includes(searchLower) ?? " ";
     return matchesId || matchesName;
   });
 
   const filteredAssignedRequests = assignedRequests.filter(request => {
     const searchLower = searchTerm.toLowerCase();
     const matchesId = request._id.toString().includes(searchLower);
-    const matchesName = request.customerId.firstName.toLowerCase().includes(searchLower) ?? " ";
+    const matchesName = request?.customerId?.firstName.toLowerCase().includes(searchLower) ?? " ";
     return matchesId || matchesName;
   });
 
@@ -242,7 +242,8 @@ const ServiceRequests: React.FC = () => {
             )}
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-2 gap-4">
-              {filteredPendingRequests.map((request) => (
+              {
+              filteredPendingRequests.map((request) => (
                 <CompactServiceCard 
                   key={request._id} 
                   request={request} 
