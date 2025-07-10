@@ -114,7 +114,7 @@ const NotificationPanel: React.FC = () => {
             <button
               key={type}
               onClick={() => setFilter(type as "all" | "read" | "unread")}
-              className={`w-24 h-10 rounded font-bold px-4 py-2 ${
+              className={`w-24 h-10 rounded-3xl font-bold px-4 py-2 ${
                 filter === type
                   ? "bg-[#9b111e] !text-white"
                   : "border-2 border-[#9b111e] text-[#9b111e]"
@@ -131,7 +131,7 @@ const NotificationPanel: React.FC = () => {
               prev.map((n) => ({ ...n, is_read: true }))
             )
           }
-          className="text-sm text-[#9b111e] hover:underline"
+          className="text-sm text-[#9b111e] rounded-3xl hover:underline"
           style={{ ...FONTS.paragraph }}
         >
           Mark all as read

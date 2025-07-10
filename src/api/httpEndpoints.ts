@@ -25,11 +25,13 @@ export const API_END_POINTS ={
    announcement:{
     Post:"/api/announcement/create",
     Get:"/api/announcement/all",
+    update:"/api/announcement/update/:uuid",
+    delete:"/api/announcement/delete/:uuid",
 
    },
    enquiry:{
     Post:"/api/enquiry/create",
-    Get:"/api/enquiry/all",
+     Get:"/api/serviceEnquiry/getAllEnquiries",
     Put:"/api/enquiry/update/:uuid",
    },
 
@@ -77,7 +79,7 @@ export const API_END_POINTS ={
    spareparts:{
     create:"/api/admin/spareparts/create",
     get:"/api/admin/spareparts/create",
-    getall:"/api/admin/spareparts/getall",
+    getall:"/api/admin/spareparts/getall/:uuid",
     update:"/api/admin/spareparts/update/:id",
     updatestatus:"/api/admin/spareparts/updatestatus/:id",
     delete:"/api/admin/spareparts/delete/:id",

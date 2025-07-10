@@ -456,11 +456,11 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({ handleBack, partne
   return (
     <div className="h-full bg-gray-50 flex">
       {/* Sidebar */}
-      <div className="w-80 bg-pink-50 shadow-lg border-r border-gray-200 flex flex-col">
+      <div className="w-80 h-screen bg-pink-50 shadow-lg border-r border-gray-200 flex flex-col">
         {/* Sidebar Header */}
         <div className="p-6 border-b border-gray-200">
           <div className="flex items-center space-x-3 mb-4">
-            <button onClick={handleBack} className="p-2 rounded-lg hover:bg-gray-100 transition-colors">
+            <button onClick={handleBack} className="p-2 rounded-3xl hover:bg-gray-100 transition-colors">
               <ArrowLeft className="w-5 h-5 text-gray-600" />
             </button>
             <div>
@@ -472,7 +472,7 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({ handleBack, partne
           <button
             style={{ ...FONTS.paragraph }}
             onClick={handleAddCategory}
-            className="w-full flex items-center justify-center space-x-2 px-2 py-2 bg-[#800000] !text-white rounded-lg hover:bg-[#600000] transition-colors"
+            className="w-full flex items-center justify-center space-x-2 px-2 py-2 bg-[#800000] !text-white rounded-3xl hover:bg-[#600000] transition-colors"
           >
             <Plus className="w-4 h-4" />
             <span >Add Category</span>
@@ -487,7 +487,7 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({ handleBack, partne
 
           <button
             onClick={() => setSelectedCategory("all")}
-            className={`w-full flex items-center space-x-3 px-3 py-2 rounded-lg transition-colors ${selectedCategory === "all"
+            className={`w-full flex items-center space-x-3 px-3 py-2 rounded-3xl transition-colors ${selectedCategory === "all"
                 ? "bg-[#800000]/10 text-[#800000]"
                 : "text-gray-700 hover:bg-[#800000]/10 hover:text-[#800000]"
               }`}
@@ -504,7 +504,7 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({ handleBack, partne
               <div key={category._id} className="group">
                 <button
                   onClick={() => setSelectedCategory(category._id)}
-                  className={`w-full flex items-center space-x-3 px-3 py-2 rounded-lg transition-colors ${selectedCategory === category._id
+                  className={`w-full flex items-center space-x-3 px-3 py-2 rounded-3xl transition-colors ${selectedCategory === category._id
                       ? "bg-[#800000]/10 text-[#800000]"
                       : "text-gray-700 hover:bg-[#800000]/10 hover:text-[#800000]"
                     }`}
@@ -521,7 +521,7 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({ handleBack, partne
                         e.stopPropagation()
                         handleEditCategory(category)
                       }}
-                      className="opacity-0 group-hover:opacity-100 p-1 hover:bg-gray-200 rounded transition-all"
+                      className="opacity-0 group-hover:opacity-100 p-1 hover:bg-gray-200 rounded-3xl transition-all"
                     >
                       <Edit3 className="w-3 h-3" />
                     </button>
@@ -530,7 +530,7 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({ handleBack, partne
                         e.stopPropagation()
                         handleDeleteCategory(category._id)
                       }}
-                      className="opacity-0 group-hover:opacity-100 p-1 hover:bg-gray-200 rounded transition-all text-red-500"
+                      className="opacity-0 group-hover:opacity-100 p-1 hover:bg-gray-200 rounded-3xl transition-all text-red-500"
                     >
                       <Trash2 className="w-3 h-3" />
                     </button>
@@ -573,7 +573,7 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({ handleBack, partne
               <button
                 style={{...FONTS.paragraph}}
                 onClick={() => handleAddService()}
-                className="flex items-center space-x-2 px-4 py-2 bg-[#800000] !text-white rounded-lg hover:bg-[#600000] transition-colors"
+                className="flex items-center space-x-2 px-4 py-2 bg-[#800000] !text-white rounded-3xl hover:bg-[#600000] transition-colors"
               >
                 <Plus className="w-4 h-4" />
                 <span>Add Service</span>
@@ -589,20 +589,20 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({ handleBack, partne
                 <div key={service._id} className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
                   <div className="relative">
                     <img
-                      src={service.image || "https://images.pexels.com/photos/120049/pexels-photo-120049.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"}
+                      src={service.image}
                       alt={service.service_name}
                       className="w-full h-48 object-cover"
                     />
                     <div className="absolute top-2 right-2 flex space-x-1">
                       <button
                         onClick={() => handleEditService(service)}
-                        className="p-2 bg-white/90 rounded-full shadow hover:bg-gray-100 transition-colors"
+                        className="p-2 bg-white/90 rounded-3xl shadow hover:bg-gray-100 transition-colors"
                       >
                         <Edit3 className="w-4 h-4 text-gray-700" />
                       </button>
                       <button
                         onClick={() => handleDeleteService(service._id)}
-                        className="p-2 bg-white/90 rounded-full shadow hover:bg-red-100 transition-colors"
+                        className="p-2 bg-white/90 rounded-3xl shadow hover:bg-red-100 transition-colors"
                       >
                         <Trash2 className="w-4 h-4 text-red-600" />
                       </button>
@@ -622,7 +622,7 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({ handleBack, partne
                       <button
                       style={{...FONTS.paragraph}}
                         onClick={() => handleToggleActive(service._id)}
-                        className={`inline-flex items-center px-2.5 py-0.5 rounded-full  ${service.is_active ? "bg-green-100 !text-green-800" : "bg-red-100 !text-red-800"
+                        className={`inline-flex items-center px-2.5 py-0.5 rounded-3xl  ${service.is_active ? "bg-green-100 !text-green-800" : "bg-red-100 !text-red-800"
                           }`}
                       >
                         {service.is_active ? "Active" : "Inactive"}
@@ -659,7 +659,7 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({ handleBack, partne
                 <h3 className="text-xl font-bold text-gray-900">
                   {editingService ? "Edit Service" : "Add New Service"}
                 </h3>
-                <button onClick={handleCancelAdd} className="p-2 hover:bg-gray-100 rounded-full transition-colors">
+                <button onClick={handleCancelAdd} className="p-2 hover:bg-gray-100 rounded-3xl transition-colors">
                   <X className="w-5 h-5 text-gray-500" />
                 </button>
               </div>
@@ -774,13 +774,13 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({ handleBack, partne
                 <button
                   type="button"
                   onClick={handleCancelAdd}
-                  className="flex-1 px-4 py-3 text-sm font-semibold text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
+                  className="flex-1 px-4 py-3 text-sm font-semibold text-gray-700 bg-gray-100 rounded-3xl hover:bg-gray-200 transition-colors"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="flex-1 px-4 py-3 text-sm font-semibold text-white bg-[#800000] rounded-lg hover:bg-[#600000] transition-colors"
+                  className="flex-1 px-4 py-3 text-sm font-semibold text-white bg-[#800000] rounded-3xl hover:bg-[#600000] transition-colors"
                 >
                   {editingService ? "Update Service" : "Add Service"}
                 </button>
@@ -801,7 +801,7 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({ handleBack, partne
                 </h3>
                 <button
                   onClick={handleCancelAddCategory}
-                  className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+                  className="p-2 hover:bg-gray-100 rounded-3xl transition-colors"
                 >
                   <X className="w-5 h-5 text-gray-500" />
                 </button>
@@ -837,13 +837,13 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({ handleBack, partne
                 <button
                   type="button"
                   onClick={handleCancelAddCategory}
-                  className="flex-1 px-4 py-3 text-sm font-semibold text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
+                  className="flex-1 px-4 py-3 text-sm font-semibold text-gray-700 bg-gray-100 rounded-3xl hover:bg-gray-200 transition-colors"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="flex-1 px-4 py-3 text-sm font-semibold text-white bg-[#800000] rounded-lg hover:bg-[#600000] transition-colors"
+                  className="flex-1 px-4 py-3 text-sm font-semibold text-white bg-[#800000] rounded-3xl hover:bg-[#600000] transition-colors"
                 >
                   {editingCategory ? "Update Category" : "Add Category"}
                 </button>

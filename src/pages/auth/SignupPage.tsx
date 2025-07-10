@@ -149,7 +149,7 @@ const SignupPage = () => {
 
             <button
               type="submit"
-              className="w-full text-white font-semibold py-2 rounded-full transition duration-300 hover:brightness-110"
+              className="w-full text-white font-semibold py-2 rounded-3xl transition duration-300 hover:brightness-110"
               style={{
                 backgroundImage:
                   "linear-gradient(44.99deg, #700808 11%, #d23c3c 102.34%)",

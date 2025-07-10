@@ -16,7 +16,7 @@ const TermsConditionsSettings = () => {
         <div className="flex items-center mb-10">
           <button
             onClick={handleBackToDashboard}
-            className="flex items-center justify-center w-12 h-12 bg-white rounded-full shadow-md text-[#9b111e] hover:text-white hover:bg-[#9b111e] transition-all duration-300 mr-6 group"
+            className="flex items-center justify-center w-12 h-12 bg-white rounded-3xl shadow-md text-[#9b111e] hover:text-white hover:bg-[#9b111e] transition-all duration-300 mr-6 group"
             aria-label="Back to Dashboard"
           >
             <FaArrowLeft className="text-lg group-hover:scale-110 transition-transform duration-200" />

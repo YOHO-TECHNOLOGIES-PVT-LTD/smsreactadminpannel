@@ -1,5 +1,4 @@
 import { useState, useRef, useEffect } from "react";
-import { COLORS } from "../../../constants/uiConstants";
 import { useNavigate } from "react-router-dom";
 import FullscreenButton from "./Fullscreen";
 import { ProfileModal } from "./ProfileModal";
@@ -132,10 +131,10 @@ export const Navbar = () => {
   return (
     <>
       <nav
-        style={{ backgroundColor: COLORS.primary_01, height: "64px" }}
+        style={{ backgroundColor: '#9b111e', height: "64px" }}
         className="flex items-center px-4"
       >
-        <div className="flex items-center gap-2">
+        <div className="flex items-center ml-5 gap-2">
           <input
             type="text"
             placeholder="Search..."
@@ -143,10 +142,10 @@ export const Navbar = () => {
           />
           <button
             type="submit"
-            className="bg-gradient-to-r from-red-600 to-red-800 rounded-full p-3 hover:scale-105 transition-transform"
+            className="bg-white rounded-full p-3 hover:scale-105 transition-transform"
           >
             <svg
-              className="w-4 h-4 text-white"
+              className="w-4 h-4 text-[#9b111e]"
               fill="none"
               stroke="currentColor"
               strokeWidth={3}
@@ -171,7 +170,7 @@ export const Navbar = () => {
               <div className="absolute -top-1 -right-1 w-3.5 h-3.5 bg-yellow-500 border-2 border-white rounded-full z-20" />
               <button
                 onClick={handleSosClick}
-                className="relative z-10 inline-flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-r from-red-600 to-red-800 !text-white  !shadow-lg hover:!scale-105 transition-transform"
+                className="relative z-10 inline-flex items-center justify-center w-10 h-10 rounded-full bg-white !text-[#9b111e]  !shadow-lg hover:!scale-105 transition-transform"
                 style={{ ...FONTS.cardSubHeader }}
               >
                 SOS
@@ -185,7 +184,7 @@ export const Navbar = () => {
               <button
                 aria-label="Notifications"
                 onClick={handleBellClick}
-                className={`relative p-2.5 rounded-full bg-gradient-to-r from-red-600 to-red-800 focus:outline-none transform transition-transform duration-200 ease-in-out ${isBellActive ? "scale-90" : "scale-100"
+                className={`relative p-2.5 rounded-full bg-white focus:outline-none transform transition-transform duration-200 ease-in-out ${isBellActive ? "scale-90" : "scale-100"
                   }`}
               >
                 <svg
@@ -194,7 +193,7 @@ export const Navbar = () => {
                   viewBox="0 0 24 24"
                   strokeWidth={1.8}
                   stroke="currentColor"
-                  className="w-5 h-5 text-white"
+                  className="w-5 h-5 text-[#9b111e]"
                 >
                   <path
                     strokeLinecap="round"
@@ -252,9 +251,9 @@ export const Navbar = () => {
                 <div className="p-3 bg-gray-50 text-center border-t">
                   <button
                     onClick={handleViewAllNotifications}
-                    className="!text-red-600 hover:!text-red-800  !transition-colors"
+                    className="!text-red-600 hover:!text-red-800 rounded-3xl  !transition-colors"
                     style={{
-                      fontFamily: FONTS.cardSubHeader.fontFamily,
+                      fontFamily: FONTS.cardSubHeader.fontfamily,
                       fontWeight: FONTS.cardSubHeader.fontWeight,
                       fontSize: FONTS.cardSubHeader.fontSize,
                     }}
@@ -279,13 +278,19 @@ export const Navbar = () => {
                 />
               </div>
               <div className="flex flex-col flex-nowrap overflow-hidden">
-                <span className="text-[#9b111e] font-medium truncate whitespace-nowrap"
-                  style={{ ...FONTS.paragraph }}
+                <span className="text-white font-medium truncate whitespace-nowrap"
+                  style={{ fontFamily: "'Figtree-Medium', sans-serif",
+                  fontWeight: 400,
+                  fontSize: "14px",
+                  color: 'white' }}
                 >
                   {user.name}
                 </span>
-                <div className="flex items-center text-sm text-[#c13340] whitespace-nowrap"
-                  style={{ ...FONTS.subParagraph }}
+                <div className="flex items-center whitespace-nowrap"
+                  style={{  fontFamily: "'Figtree', sans-serif",
+                            fontWeight: 300,
+                            fontSize: "12px",
+                            color: "white"}}
                 >
                   Admin
                   <svg
@@ -306,7 +311,7 @@ export const Navbar = () => {
             </div>
 
             {isDropdownOpen && (
-              <div className="absolute right-0 mt-2 w-24 rounded-md shadow-lg z-50 bg-gradient-to-br from-yellow-50 to-yellow-100">
+              <div className="absolute right-0 mt-2 w-24 rounded-3xl shadow-lg z-50 bg-gradient-to-br from-yellow-50 to-yellow-100">
                 <ul className="py-1 text-sm text-[#9b111e]">
                   <li>
                     <button
@@ -314,7 +319,7 @@ export const Navbar = () => {
                         setShowProfileDetails(true);
                         setIsDropdownOpen(false);
                       }}
-                      className="block w-full text-center px-4 py-1 transition-colors duration-200 hover:text-white hover:bg-[#d14c4c]"
+                      className="block w-full text-center px-4 py-1 rounded-3xl transition-colors duration-200 hover:text-white hover:bg-[#d14c4c]"
                     >
                       Profile
                     </button>
@@ -325,7 +330,7 @@ export const Navbar = () => {
                         setShowLogoutConfirm(true);
                         setIsDropdownOpen(false);
                       }}
-                      className="block w-full text-center px-4 py-1 transition-colors duration-200 hover:text-white hover:bg-[#d14c4c]"
+                      className="block w-full text-center px-4 py-1 rounded-3xl transition-colors duration-200 hover:text-white hover:bg-[#d14c4c]"
                     >
                       Logout
                     </button>
@@ -355,7 +360,7 @@ export const Navbar = () => {
             <div className="flex justify-center gap-4 mt-4">
               <button
                 onClick={() => setShowLogoutConfirm(false)}
-                className="px-4 py-2 rounded bg-gray-200 hover:bg-gray-300 text-gray-800"
+                className="px-4 py-2 rounded-3xl bg-gray-200 hover:bg-gray-300 text-gray-800"
               >
                 Cancel
               </button>
@@ -369,7 +374,7 @@ export const Navbar = () => {
                     handleLogout();
                   }, 1000);
                 }}
-                className="px-4 py-2 rounded bg-red-600 text-white hover:bg-red-700"
+                className="px-4 py-2 rounded-3xl bg-red-600 text-white hover:bg-red-700"
               >
                 OK
               </button>

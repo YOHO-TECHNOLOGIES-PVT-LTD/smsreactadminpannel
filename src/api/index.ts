@@ -36,7 +36,10 @@ admin={
 
    Announcement:{
     post:(data:any)=>httpClient.post(API_END_POINTS.announcement.Post,data),
-    get:(data:any,)=>httpClient.get(API_END_POINTS.announcement.Get,data,)
+    get:(data:any,)=>httpClient.get(API_END_POINTS.announcement.Get,data,),
+    update: (data: any, params: string) =>
+        httpClient.update(API_END_POINTS.announcement.update.replace(':uuid', params), data),
+    delete: (id: string) => httpClient.delete(API_END_POINTS.announcement.delete.replace(':uuid', id)),
 },
 
 order_history: {
@@ -68,9 +71,9 @@ order_history: {
 spareparts:{
     create:(data:any)=>httpClient.post(API_END_POINTS.spareparts.create,data),
     get:(params:string)=>httpClient.get(API_END_POINTS.spareparts.get,params),
-    getAll:(params:string)=>httpClient.get(API_END_POINTS.spareparts.getall,params),
-    delete:()=>httpClient.delete(API_END_POINTS.spareparts.delete),
-    update:(data:string,params:string)=>httpClient.update(API_END_POINTS.spareparts.update,data,params),
+    getAll:(params:string)=>httpClient.get(API_END_POINTS.spareparts.getall.replace(":uuid",params)),
+    delete:(params:string)=>httpClient.delete(API_END_POINTS.spareparts.delete.replace(":id",params)),
+    update:(data:string,params:string)=>httpClient.update(API_END_POINTS.spareparts.update.replace(":id",params),data),
    updatestatus:(data:string,params:string)=>httpClient.update(API_END_POINTS.spareparts.updatestatus,data,params)
 },
 auth:{
@@ -115,7 +118,7 @@ enquiry:{
   getAllCat:(params:string)=>httpClient.get(API_END_POINTS.serviceCenter.getAllCat.replace(':uuid',params)),
   postPartner:(data:any)=>httpClient.post(API_END_POINTS.serviceCenter.postPartner,data),
   update:(data:any,params:string)=>httpClient.update(API_END_POINTS.serviceCenter.updatePatner.replace(':id',params),data,''),
-  delete:()=>httpClient.delete(API_END_POINTS.serviceCenter.delete),
+  delete:(id:string)=>httpClient.delete(API_END_POINTS.serviceCenter.delete.replace(':id',id)),
   getCatEvery:()=>httpClient.get(API_END_POINTS.serviceCenter.getCatevery)
  },
  category:{

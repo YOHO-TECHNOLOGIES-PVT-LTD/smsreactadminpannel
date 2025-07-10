@@ -1,14 +1,16 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import type React from "react"
 
-import { useState, useRef } from "react"
+import { useState, useRef, useEffect } from "react"
 import { FaArrowTrendUp } from "react-icons/fa6"
 import { BsEye } from "react-icons/bs"
 import { IoClose } from "react-icons/io5"
-import { MdAddCircleOutline, MdOutlineKeyboardBackspace } from "react-icons/md"
+import { MdAddCircleOutline } from "react-icons/md"
 import { FiSearch } from "react-icons/fi"
 import { COLORS, FONTS } from "../../constants/uiConstants"
-import logo from "../../assets/LOGO.jpg"
 import Client from "../../api"
+import { fetchCountries, fetchState } from "../../features/ServiceCenter/externalapi"
+import { toast } from "react-toastify"
 
 interface ContactInfo {
   phoneNumber: string
@@ -22,6 +24,10 @@ interface PartnerFormData {
   firstName: string
   lastName: string
   companyName?: string
+  aadhar: string
+  pan: string
+  gstNo: string
+  regNo: string
   email: string
   password: string
   contact_info: ContactInfo
@@ -38,7 +44,6 @@ type ServiceCenterListProps = {
 
 export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
   onView,
-  handleBack,
   partner,
   setpartner,
 }) => {
@@ -47,12 +52,17 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
   const [searchTerm, setSearchTerm] = useState("")
   const [showPartnerForm, setShowPartnerForm] = useState(false)
   const partnerFileInputRef = useRef<HTMLInputElement>(null)
+  const [isLoading, setIsLoading] = useState(false);
 
   // Partner form state
   const [partnerFormData, setPartnerFormData] = useState<PartnerFormData>({
     firstName: "",
     lastName: "",
     companyName: "",
+    aadhar:"",
+    pan: "",
+    gstNo: "",
+    regNo: "",
     email: "",
     password: "",
     contact_info: {
@@ -68,6 +78,7 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
 
   function changeData(index: number) {
     onView(1)
+    console.log(index,"partner")
     setpartner(index)
   }
 
@@ -96,6 +107,7 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
 
   const handlePartnerFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    setIsLoading(true)
 
     const data = new FormData()
     Object.entries(partnerFormData).forEach(([key, value]) => {
@@ -111,14 +123,17 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
     })
 
     try {
-      const response: any = await new Client().admin.servicecenter.postPartner(data)
-      console.log(response.data)
+      await new Client().admin.servicecenter.postPartner(data)
 
       // Reset form and close modal
       setPartnerFormData({
         firstName: "",
         lastName: "",
         companyName: "",
+        aadhar: "",
+        pan: "",
+        gstNo: "",
+        regNo: "",
         email: "",
         password: "",
         contact_info: {
@@ -136,12 +151,29 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
         partnerFileInputRef.current.value = ""
       }
 
-      alert("Partner registered successfully!")
+     
+
+      toast.success("Partner registered successfully!")
       // You might want to refresh the partner list here
-    } catch (error: any) {
-      alert("Registration failed!")
+    } catch (error:any) {
+      console.log("Registration failed!",error.message)
+    }
+    finally{
+      setIsLoading(false)
     }
   }
+
+  const Spinner = ({ className = "" }: { className?: string }) => (
+  <svg 
+    className={`animate-spin h-5 w-5 ${className}`} 
+    xmlns="http://www.w3.org/2000/svg" 
+    fill="none" 
+    viewBox="0 0 24 24"
+  >
+    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+  </svg>
+);
 
   const handleCancelPartnerForm = () => {
     setShowPartnerForm(false)
@@ -149,6 +181,10 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
       firstName: "",
       lastName: "",
       companyName: "",
+      aadhar: "",
+      pan: "",
+      gstNo: "",
+      regNo: "",
       email: "",
       password: "",
       contact_info: {
@@ -173,21 +209,56 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
       center.companyName?.toLowerCase().includes(searchTerm.toLowerCase()),
   )
 
+  
+  const [city, setCity] = useState<any[]>([]);
+
+  const getCountries = async () => {
+    const states:any = state.filter(item=>item.name === partnerFormData.contact_info.state )
+    const response = await fetchCountries(states[0].iso2);
+    if (response && response.data) {
+      setCity(response.data);
+    } else {
+      setCity([]);
+    }
+  }
+
+  useEffect (() => {
+    getCountries();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[partnerFormData.contact_info.state])
+
+
+  const [state, setState] = useState<any[]>([]);
+
+  const getStates = async() => {
+    const response = await fetchState();
+    if (response) {
+      setState(response.data);
+    } else {
+      setState([]);
+    }
+  }
+
+  useEffect (() => {
+    getStates();
+  },[])
+
+
+
+  
+  
   return (
     <div className="flex flex-col bg-gray-100" style={{ background: COLORS.bgColor }}>
       <div className="flex gap-6 flex-wrap">
         <div className="flex-1 min-w-[600px] bg-white p-5" style={{ background: COLORS.bgColor }}>
-          <div className="t-0" style={{ background: COLORS.bgColor }}>
-            <button onClick={handleBack}>
-              <MdOutlineKeyboardBackspace className="text-[#800000] text-3xl" />
-            </button>
-          </div>
+          
 
           <div className="flex justify-between items-center border-b border-gray-300 pb-4 mb-4 flex-wrap gap-4">
-            <h1 className="font-bold font-koh font-normal text-3xl pt-2 text-[#9b111e]">Service Center</h1>
+            <h1 className="font-bold font-koh !font-bold text-3xl pt-2 !text-[#9b111e]"
+            style={{...FONTS.header}}>Partners</h1>
             <div className="flex items-center gap-3 flex-wrap">
               <button
-                className="bg-[#fce8e8] font-koh text-gray-600 hover:text-[#9b111e] p-2 rounded-full transition"
+                className="bg-[#fce8e8] font-koh text-gray-600 hover:text-[#9b111e] p-2 rounded-3xl transition"
                 title="Search"
                 onClick={() => setShowSearch(!showSearch)}
               >
@@ -205,27 +276,28 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
               )}
 
               <button
-                className="!text-white px-4 py-2 rounded-lg transition duration-200 flex items-center gap-2"
-                style={{ ...FONTS.paragraph, background: "linear-gradient(44.99deg, #700808 11%, #d23c3c 102.34%)"}}
+                className="!text-white px-4 py-2 bg-[#9b111e] rounded-3xl transition duration-200 flex items-center gap-2"
+                style={{ ...FONTS.paragraph,}}
                 onClick={() => setShowPartnerForm(true)}
               >
                 <MdAddCircleOutline size={18} /> Add
               </button>
             </div>
           </div>
+          
 
           <div className="flex flex-col gap-4 mt-4" >
             {filteredPartners.map((center: any, index: number) => (
               <div key={index}>
                 <div className="bg-white p-6 rounded-lg shadow flex flex-col sm:flex-row gap-20 items-start w-full max-w-[2000px]">
                   <img
-                    src={center.image || logo}
-                    alt={center.firstName}
+                    src={center.image}
+                    alt={center.companyName+" logo"}
                     className="w-72 h-40 object-cover rounded-lg"
                   />
                   <div className="flex-1">
                     <h3 className="font-bold text-gray-800" style={{ ...FONTS.cardheader}}>
-                      {center.firstName}&nbsp;{center.lastName}
+                      {center.companyName}
                     </h3>
                     <div className="flex gap-2 text-base mt-2 text-gray-700 flex-wrap">
                       <span className="bg-[#fce8e8] text-[#800000] px-2 py-0.5 rounded">{center.rating} ★</span>
@@ -245,22 +317,22 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
                   </div>
 
                   <div className="flex gap-2 mt-2 sm:mt-0">
-                    {selectedCardIndex !== index && (
+                    {/* {selectedCardIndex !== index && ( */}
                       <button
                         onClick={() => changeData(index)}
-                        className="!text-white px-4 py-2 rounded-md transition duration-200 flex items-center gap-1.5 text-sm"
+                        className="!text-white px-4 py-2 rounded-3xl bg-[#9b111e] transition duration-200 flex items-center gap-1.5 text-sm"
                         style={{ ...FONTS.paragraph,
-                          background: "linear-gradient(44.99deg, #700808 11%, #d23c3c 102.34%)",
+                          
                         }}
                       >
                         <BsEye size={16} /> View
                       </button>
-                    )}
+                    {/* )} */}
                   </div>
                 </div>
 
                 {selectedCardIndex === index && (
-                  <div className="mt-4 relative border rounded-md p-4 bg-gray-50">
+                  <div className="mt-4 relative borderrounded-3xl p-4 bg-gray-50">
                     <button
                       onClick={() => setSelectedCardIndex(null)}
                       className="absolute top-2 right-2 text-gray-600 hover:text-red-600 pt-5 pr-5"
@@ -286,7 +358,7 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
                 >Partner Registration</h3>
                 <button
                   onClick={handleCancelPartnerForm}
-                  className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+                  className="p-2 hover:bg-gray-100 rounded-3xl transition-colors"
                 >
                   <IoClose size={24} className="text-gray-500" />
                 </button>
@@ -299,6 +371,7 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
               >
                 {/* Column 1 */}
                 <div className="space-y-4">
+                 
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
                       First Name <span className="text-red-500">*</span>
@@ -343,14 +416,14 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
 
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Email <span className="text-red-500">*</span>
+                      Aadhar No <span className="text-red-500">*</span>
                     </label>
                     <input
-                      type="email"
-                      name="email"
+                      type="text"
+                      name="aadhar"
                       required
-                      placeholder="Email"
-                      value={partnerFormData.email}
+                      placeholder="Aadhar no"
+                      value={partnerFormData.aadhar}
                       onChange={handlePartnerFormChange}
                       className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#800000] focus:border-transparent transition"
                     />
@@ -358,18 +431,47 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
 
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Password <span className="text-red-500">*</span>
+                      Reg No 
                     </label>
                     <input
-                      type="password"
-                      name="password"
-                      required
-                      placeholder="Password"
-                      value={partnerFormData.password}
+                      type="text"
+                      name="regNo"
+                      placeholder="regNo"
+                      value={partnerFormData.regNo}
                       onChange={handlePartnerFormChange}
                       className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#800000] focus:border-transparent transition"
                     />
                   </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      PAN No 
+                    </label>
+                    <input
+                      type="text"
+                      name="pan"
+                      placeholder="PAN no"
+                      value={partnerFormData.pan}
+                      onChange={handlePartnerFormChange}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#800000] focus:border-transparent transition"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      GST No 
+                    </label>
+                    <input
+                      type="text"
+                      name="gstNo"
+                      placeholder="GST No"
+                      value={partnerFormData.gstNo}
+                      onChange={handlePartnerFormChange}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#800000] focus:border-transparent transition"
+                    />
+                  </div>
+
+                 
                 </div>
 
                 {/* Column 2 */}
@@ -390,28 +492,38 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">State</label>
-                    <input
-                      type="text"
-                      name="contact_info.state"
-                      placeholder="State"
-                      value={partnerFormData.contact_info.state}
-                      onChange={handlePartnerFormChange}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#800000] focus:border-transparent transition"
-                    />
-                  </div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">State</label>
+                      <select
+                        name="contact_info.state"
+                        value={partnerFormData.contact_info.state}
+                        onChange={handlePartnerFormChange}
+                        className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#800000] focus:border-transparent transition"
+                      >
+                        <option value="">Select a state</option>
+                        {state.map(city => (
+                          <option key={city.id} value={city.name}>
+                            {city.name}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">City</label>
-                    <input
-                      type="text"
-                      name="contact_info.city"
-                      placeholder="City"
-                      value={partnerFormData.contact_info.city}
-                      onChange={handlePartnerFormChange}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#800000] focus:border-transparent transition"
-                    />
-                  </div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">City</label>
+                      <select
+                        name="contact_info.city"
+                        value={partnerFormData.contact_info.city}
+                        onChange={handlePartnerFormChange}
+                        className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#800000] focus:border-transparent transition"
+                      >
+                        <option value="">Select a city</option>
+                        {city.map(city => (
+                          <option key={city.id} value={city.name}>
+                            {city.name}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
 
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">Address Line 1</label>
@@ -451,22 +563,64 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
                 </div>
               </div>
 
+                <div className="border border-[#9b111e] p-4 m-6 ">
+                  <h2 className="mb-3">Login Setup</h2>
+                  <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Email <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="email"
+                      name="email"
+                      required
+                      placeholder="Email"
+                      value={partnerFormData.email}
+                      onChange={handlePartnerFormChange}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#800000] focus:border-transparent transition"
+                    />
+                  </div>
+
+               <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Password <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="password"
+                      name="password"
+                      required
+                      placeholder="Password"
+                      value={partnerFormData.password}
+                      onChange={handlePartnerFormChange}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#800000] focus:border-transparent transition"
+                    />
+                  </div>
+                  </div>      
               {/* Full width submit button */}
               <div className="mt-8">
                 <div className="flex justify-end space-x-4">
                   <button
                     type="button"
                     onClick={handleCancelPartnerForm}
-                    className="px-6 py-2 border border-gray-300 rounded-md text-gray-700 bg-white hover:bg-gray-50 transition"
+                    className="px-6 py-2 border border-gray-300 rounded-3xl text-[#9b111e] bg-white hover:bg-gray-50 transition"
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
-                    className="px-6 py-2 text-white font-semibold rounded-md hover:opacity-90 transition"
-                    style={{ background: "linear-gradient(44.99deg, #700808 11%, #d23c3c 102.34%)" }}
+                    disabled={isLoading}
+                    className={`px-6 py-2 text-white font-semibold rounded-3xl hover:opacity-90 transition flex items-center justify-center gap-2 ${
+                      isLoading ? "opacity-75 cursor-not-allowed" : ""
+                    }`}
+                    style={{ backgroundColor: '#9b111e' }}
                   >
-                    Register
+                    {isLoading ? (
+                      <>
+                        <Spinner className="text-white" />
+                        <span>Registering...</span>
+                      </>
+                    ) : (
+                      "Register"
+                    )}
                   </button>
                 </div>
               </div>
@@ -474,6 +628,17 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
           </div>
         </div>
       )}
+
+    
+    {/* {showPassForm && (
+  <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+    <div className="bg-white p-4 rounded-3xl">
+      <h1>Hello world</h1>
+      <button onClick={() => setShowPassForm(false)}>Close</button>
+    </div>
+  </div> */}
+{/* )} */}
+
     </div>
   )
 }

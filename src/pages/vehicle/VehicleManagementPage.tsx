@@ -1,10 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from "react";
 import type { Vehicle } from "../vehicle/VehicleData";
 
 import VehicleDetailCard from "../../components/common/Card/VehicleDetailCard"; 
 import VehicleModal from "../vehicle/VehicleModal";
 import { FaSearch } from "react-icons/fa";
-import carDefaultlogo from "../../assets/INVALID CAR LOGO.png";
 import { RiResetLeftFill } from "react-icons/ri";
 import { getvechiclemanage } from "../../features/VehicleManagement/service";
 import { FONTS } from "../../constants/uiConstants";
@@ -58,7 +58,7 @@ const VehicleManagementPage = () => {
 
   return {
     baseVehicleInfo: {
-      image: vehicle?.vehicleInfo?.image || "",
+      image: vehicle?.vehicleInfo?.image ,
       title: vehicle?.vehicleInfo?.model || "Untitled",
       registrationNumber: vehicle?.vehicleInfo?.registrationNo || "N/A",
     },
@@ -102,7 +102,7 @@ const VehicleManagementPage = () => {
   return (
     <div>
       <div className="m-1 p-2">
-        <h1 className="text-3xl text-red-700 font-medium" style={{...FONTS.header}}>Vehicle Management</h1>
+        <h1 className="text-3xl text-red-700 !font-bold" style={{...FONTS.header}}>Vehicle Management</h1>
         <hr className="border-1 border-red-700 my-3" />
         <div className="flex mt-10">
           <FaSearch
@@ -141,14 +141,14 @@ const VehicleManagementPage = () => {
             })
           ) : (
             <div
-              className="flex flex-col items-center justify-center h-[56.7vh] w-full overflow-y-hidden"
+              className="flex flex-col items-center justify-center h-[54.7vh] w-full overflow-y-hidden"
               style={{ position: "relative", left: "350px" }}
             >
-              <img
-                src={carDefaultlogo}
-                alt="No cars"
+              {/* <img
+                src={vehi.image}
+                alt="car image"
                 style={{ height: "255px", width: "255px" }}
-              />
+              /> */}
               <div className="absolute top-2/3">
                 <p className="text-red-700 font-semibold">
                   No car available for this search

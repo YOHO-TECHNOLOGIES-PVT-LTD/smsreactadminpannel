@@ -265,24 +265,24 @@ const Order = () => {
       >
         <div className="overflow-x-auto">
           <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
+            <thead className="bg-[#e9e9e9]">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"style={{...FONTS.tableHeader}}>
-                  Order ID
+                <th className="px-6 py-3 text-left text-xs font-bold text-[#717171] tracking-wider"style={{...FONTS.tableHeader}}>
+                  Order id
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"style={{...FONTS.tableHeader}}>
+                <th className="px-6 py-3 text-left text-xs font-bold text-[#717171] tracking-wider"style={{...FONTS.tableHeader}}>
                   Customer
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"style={{...FONTS.tableHeader}}>
+                <th className="px-6 py-3 text-left text-xs font-bold text-[#717171] tracking-wider"style={{...FONTS.tableHeader}}>
                   Date
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"style={{...FONTS.tableHeader}}>
+                <th className="px-6 py-3 text-left text-xs font-bold text-[#717171] tracking-wider"style={{...FONTS.tableHeader}}>
                   Status
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"style={{...FONTS.tableHeader}}>
+                <th className="px-6 py-3 text-left text-xs font-bold text-[#717171] tracking-wider"style={{...FONTS.tableHeader}}>
                   Total
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"style={{...FONTS.tableHeader}}>
+                <th className="px-6 py-3 text-left text-xs font-bold text-[#717171] tracking-wider"style={{...FONTS.tableHeader}}>
                   Actions
                 </th>
               </tr>
@@ -315,7 +315,7 @@ const Order = () => {
                       <td>{formatDate(order.date)}</td>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap"style={{...FONTS.paragraph}}>
-                      <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
+                      <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-3xl 
                         ${order.status === 'Completed' ? 'bg-green-100 1text-green-800' : 'bg-yellow-100 !text-yellow-800'}`}>
                         {order.status}
                       </span>
@@ -326,7 +326,7 @@ const Order = () => {
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                       <button
                         onClick={() => handleViewOrder(order)}
-                        className="!text-[#9b111e] hover:text-[#7a0d19] mr-3 transition-colors"style={{...FONTS.paragraph}}
+                        className="!text-[#9b111e] hover:text-[#7a0d19] mr-3 rounded-3xl transition-colors"style={{...FONTS.paragraph}}
                       >
                         View
                       </button>
@@ -360,7 +360,7 @@ const Order = () => {
             <button
               onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
               disabled={currentPage === 1}
-              className={`px-4 py-2 rounded-md ${currentPage === 1 ? 'bg-gray-200 text-gray-500 cursor-not-allowed' : 'bg-[#9b111e] text-white hover:bg-[#7a0d19]'} transition-colors`}
+              className={`px-4 py-2 rounded-3xl ${currentPage === 1 ? 'bg-gray-200 text-gray-500 cursor-not-allowed' : 'bg-[#9b111e] text-white hover:bg-[#7a0d19]'} transition-colors`}
             >
               Previous
             </button>
@@ -369,7 +369,7 @@ const Order = () => {
               <button
                 key={page}
                 onClick={() => setCurrentPage(page)}
-                className={`w-10 h-10 rounded-full ${currentPage === page ? 'bg-[#9b111e] text-white' : 'bg-white text-gray-700 hover:bg-gray-100'} transition-colors`}
+                className={`w-10 h-10 rounded-3xl ${currentPage === page ? 'bg-[#9b111e] text-white' : 'bg-white text-gray-700 hover:bg-gray-100'} transition-colors`}
               >
                 {page}
               </button>
@@ -378,7 +378,7 @@ const Order = () => {
             <button
               onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
               disabled={currentPage === totalPages}
-              className={`px-4 py-2 rounded-md ${currentPage === totalPages ? 'bg-gray-200 text-gray-500 cursor-not-allowed' : 'bg-[#9b111e] text-white hover:bg-[#7a0d19]'} transition-colors`}
+              className={`px-4 py-2 rounded-3xl ${currentPage === totalPages ? 'bg-gray-200 text-gray-500 cursor-not-allowed' : 'bg-[#9b111e] text-white hover:bg-[#7a0d19]'} transition-colors`}
             >
               Next
             </button>
@@ -399,13 +399,13 @@ const Order = () => {
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
-              className="bg-white rounded-xl shadow-xl w-full max-w-3xl max-h-[90vh] overflow-y-auto"
+              className="bg-white rounded-3xl shadow-xl w-full max-w-3xl max-h-[90vh] overflow-y-auto"
             >
               <div className="flex justify-between items-center border-b p-4 sticky top-0 bg-white z-10">
                 <h3 className="text-xl font-semibold text-gray-900">Add New Car Spare Parts Order</h3>
                 <button
                   onClick={closeModal}
-                  className="text-gray-400 hover:text-gray-500 transition-colors"
+                  className="text-gray-400 hover:text-gray-500 transition-colors rounded-3xl"
                 >
                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path>
@@ -475,7 +475,7 @@ const Order = () => {
                     <button
                       type="button"
                       onClick={addNewItem}
-                      className="text-sm bg-[#9b111e] text-white px-3 py-1 rounded hover:bg-[#7a0d19] transition-colors"
+                      className="text-sm bg-[#9b111e] text-white px-3 py-1 rounded-3xl hover:bg-[#7a0d19] transition-colors"
                     >
                       + Add Item
                     </button>
@@ -541,7 +541,7 @@ const Order = () => {
                           <button
                             type="button"
                             onClick={() => removeItem(index)}
-                            className="text-red-500 hover:text-red-700 transition-colors"
+                            className="text-red-500 hover:text-red-700 transition-colors rounded-3xl"
                           >
                             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
@@ -567,12 +567,12 @@ const Order = () => {
               <div className="flex justify-end space-x-3 p-4 border-t sticky bottom-0 bg-white">
                 <button
                   onClick={closeModal}
-                  className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 transition-colors"
+                  className="px-4 py-2 border border-gray-300 rounded-3xl text-gray-700 hover:bg-gray-50 transition-colors"
                 >
                   Cancel
                 </button>
                 <button
-                  className="px-4 py-2 bg-[#9b111e] text-white rounded-md hover:bg-[#7a0d19] transition-colors"
+                  className="px-4 py-2 bg-[#9b111e] text-white rounded-3xl hover:bg-[#7a0d19] transition-colors"
                   onClick={handleNewOrder}
                 >
                   Save Order
@@ -596,13 +596,13 @@ const Order = () => {
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
-              className="bg-white rounded-xl shadow-xl w-full max-w-4xl max-h-[90vh] overflow-y-auto"
+              className="bg-white rounded-3xl shadow-xl w-full max-w-4xl max-h-[90vh] overflow-y-auto"
             >
               <div className="flex justify-between items-center border-b p-4 sticky top-0 bg-white z-10">
                 <h3 className="text-xl font-semibold !text-gray-900"style={{...FONTS.subHeader}}>Order Details - {selectedOrder.id}</h3>
                 <button
                   onClick={closeModal}
-                  className="text-gray-400 hover:text-gray-500 transition-colors"
+                  className="text-gray-400 hover:text-gray-500 transition-colors rounded-3xl"
                 >
                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path>
@@ -718,7 +718,7 @@ const Order = () => {
               <div className="flex justify-end p-4 border-t sticky bottom-0 bg-white">
                 <button
                   onClick={closeModal}
-                  className="px-4 py-2 bg-[#9b111e] !text-white rounded-md hover:bg-[#7a0d19] transition-colors"style={{...FONTS.paragraph}}
+                  className="px-4 py-2 bg-[#9b111e] !text-white rounded-3xl hover:bg-[#7a0d19] transition-colors"style={{...FONTS.paragraph}}
                 >
                   Close
                 </button>

@@ -1,18 +1,18 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useEffect } from "react";
 import { QueryCard } from "../../components/common/dashboard/QueryCard/QueryCard";
-import dummpypic from "../../assets/Dashboard/images.jpg";
 import { AiOutlineArrowLeft } from "react-icons/ai";
 import { getQueries } from "../../features/Queries/service";
 import { FONTS } from "../../constants/uiConstants";
 
 type Query = {
   _id: number;
-  subject: string;
-  description: string;
+  fullName: string;
+  yourEnquiry: string;
   profilePicUrl: string;
   isRead: boolean;
   center: string;
-  postDate: string
+  Date: string
 };
 
 const Queries = () => {
@@ -72,6 +72,7 @@ const Queries = () => {
     if (!stillExists || !matchesFilter) {
       setSelectedQuery(null);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filter, queries]);
 
 
@@ -84,14 +85,14 @@ const Queries = () => {
 
         {/* Sidebar Filters */}
         <div className="w-1/5 bg-[#FAF3EB] p-4 border-r">
-          <h2 className="text-lg font-semibold mb-4 text-[#da4c5a]">Filters</h2>
+          <h2 className="text-lg font-semibold mb-4 text-[#9b111e]">Filters</h2>
           <div className="space-y-2">
             {["All", "Unread", "Read"].map((f) => (
               <button
                 key={f}
                 onClick={() => setFilter(f as any)}
-                className={`block w-full text-left px-4 py-2 rounded-lg font-medium transition ${filter === f
-                    ? "bg-[#de6874] text-white"
+                className={`block w-full text-left px-4 py-2 rounded-3xl font-medium transition ${filter === f
+                    ? "bg-[#9b111e] text-white"
                     : "text-[#724e35] hover:bg-[#eaced1]"
                   }`}
               >
@@ -117,9 +118,9 @@ const Queries = () => {
             >
               <QueryCard
                 icon={null}
-                title={q.subject}
-                desc={q.description}
-                time={q.postDate}
+                title={q.fullName}
+                desc={q.yourEnquiry}
+                time={q.Date?.split("T")[1].split(".")[0]}
                 profilePicUrl={q.profilePicUrl}
               />
             </div>
@@ -132,7 +133,7 @@ const Queries = () => {
             <>
               <button
                 onClick={() => setSelectedQuery(null)}
-                className="text-[#9b111e] flex items-center mb-4"
+                className="text-[#9b111e] flex items-center mb-4 rounded-3xl"
               >
                 <AiOutlineArrowLeft className="mr-2" />
                 Back
@@ -141,7 +142,7 @@ const Queries = () => {
               <div className="flex items-center justify-between mb-3">
                 <div className="flex items-center gap-3">
                   <img
-                    src={selectedQuery.profilePicUrl || dummpypic}
+                    src={selectedQuery.profilePicUrl}
                     alt="profile"
                     className="w-10 h-10 rounded-full object-cover"
                   />
@@ -153,10 +154,10 @@ const Queries = () => {
               </div>
 
               <h2 className="text-xl font-bold text-[#9d1623] mb-2">
-                {selectedQuery.subject}
+                {selectedQuery.fullName}
               </h2>
 
-              <p className="text-gray-800">{selectedQuery.description}</p>
+              <p className="text-gray-800">{selectedQuery.yourEnquiry}</p>
             </>
           ) : (
             <p className="text-gray-400 text-center mt-10">

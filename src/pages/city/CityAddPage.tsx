@@ -26,7 +26,7 @@ const CityAddPage: React.FC<{ onClose: () => void }> = ({ onClose }) => {
           onClick={onClose}
           className="absolute top-3 right-5 text-gray-500 hover:text-red-600 text-lg"
         >
-          <HiOutlineXMark className="opacity-25 w-8 h-8 hover:opacity-100 hover:bg-gradient-to-br hover:from-[#700808] hover:via-[#a61c1c] hover:to-[#d23c3c] hover:text-white p-1 rounded" />
+          <HiOutlineXMark className="opacity-25 w-8 h-8 hover:opacity-100 hover:bg-gradient-to-br hover:from-[#700808] hover:via-[#a61c1c] hover:to-[#d23c3c] hover:text-white p-1 rounded-3xl" />
         </button>
         <h2
           className="font-bold text-2xl pt-0 pl-2  pb-2  mb-4"
@@ -65,7 +65,7 @@ const CityAddPage: React.FC<{ onClose: () => void }> = ({ onClose }) => {
           <div className="flex justify-center mt-4">
             <button
               type="submit"
-              className="flex items-center justify-center font-bold px-8 py-2 rounded text-white transition duration-200 active:scale-105 hover:bg-[#a00000]"
+              className="flex items-center justify-center font-bold px-8 py-2 rounded-3xl text-white transition duration-200 active:scale-105 hover:bg-[#a00000]"
               style={{
                 background:
                   "linear-gradient(44.99deg,#700808 11%,#d23c3c 102.34%)",
