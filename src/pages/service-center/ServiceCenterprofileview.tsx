@@ -11,7 +11,7 @@ import { FcDataEncryption } from "react-icons/fc"
 import { RiLockPasswordLine } from "react-icons/ri"
 import { LuPhoneCall } from "react-icons/lu"
 import { CheckCircle, AlertCircle } from "lucide-react"
-import { Settings } from "lucide-react";
+//import { Settings } from "lucide-react";
 import Client from "../../api"
 import { FONTS } from "../../constants/uiConstants"
 // import {  useNavigate } from "react-router-dom";
@@ -277,8 +277,9 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({
             onClick={()=>viewspare(partner._id)}
             className="flex items-center gap-2 bg-white !text-[#9b111e] px-5 py-2 rounded-3xl font-medium hover:bg-gray-100 transition-colors shadow-sm"
           >
-            <Settings className="w-4 h-4" />
-            <span>Spare Parts</span>
+            {/* <Settings className="w-4 h-4" /> */}
+            <span> View Spareparts</span>
+            <FaArrowRight size={16} />
           </button>
           <button
             style={{...FONTS.paragraph}}
