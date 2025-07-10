@@ -238,7 +238,7 @@ export default function ScheduleRequestPage() {
 
             <p className="!text-gray-800 text-[14px]" style={{...FONTS.cardSubHeader}}>
               <span className="" style={{...FONTS.cardSubHeader}}>Customer:</span>{" "}
-              {selectedRequest.customerId.firstName+' '+selectedRequest.customerId.lastName}
+              {selectedRequest.customerId.firstName+' '+selectedRequest.customerId.lastName }
             </p>
             <p className="!text-gray-800 text-lg" style={{...FONTS.cardSubHeader}}>
               <span className="" style={{...FONTS.cardSubHeader}}>Mobile:</span>{" "}
