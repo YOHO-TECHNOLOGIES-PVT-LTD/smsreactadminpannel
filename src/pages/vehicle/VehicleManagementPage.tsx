@@ -64,14 +64,15 @@ const VehicleManagementPage = () => {
     },
     vehicleInfo: {
       kms: vehicle?.vehicleInfo?.mileage || "0",
-      chassisNo: vehicle?.vehicleInventory?.chassisNo || "N/A",
+      chassisNo: vehicle?.vehicleInfo?.chassisNo || "N/A",
       color: vehicle?.vehicleInfo?.color || "N/A",
       engineNo: vehicle?.vehicleInfo?.engineNo || "N/A",
       insuranceCompany: vehicle?.vehicleInfo?.insuranceCompany || "N/A",
       insuranceRenewalDate: vehicle?.vehicleInfo?.insuranceRenewalDate || "N/A",
       model: vehicle?.vehicleInfo?.model|| "N/A",
-      registrationNo: vehicle?.vehicleInfo?.registrationNo|| "N/A",
-      
+      currentFuelLevel: normalizeFuelLevel(
+        vehicle?.vehicleInventory?.fuelLevel || ""
+      ),
     },
     partnerDetails: {
       partnerName: vehicle?.partnerDetails?.Name || "",

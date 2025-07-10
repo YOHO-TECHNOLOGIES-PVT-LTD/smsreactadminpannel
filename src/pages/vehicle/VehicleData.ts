@@ -12,7 +12,7 @@ export type Vehicle = {
     insuranceCompany: string;
     insuranceRenewalDate: string;
     model: string;
-    registrationNo: string;
+    currentFuelLevel?: "Empty" | "Quarter" | "Half Tank" | "Full";
   };
   partnerDetails: {
     partnerName: string;
