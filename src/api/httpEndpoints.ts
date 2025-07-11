@@ -83,6 +83,13 @@ export const API_END_POINTS ={
     update:"/api/admin/spareparts/update/:id",
     updatestatus:"/api/admin/spareparts/updatestatus/:id",
     delete:"/api/admin/spareparts/delete/:id",
+
+    category:{
+      create:"/api/products/category/",
+      getall:  "/api/products/category/getall",
+      put : "/api/products/category/update/:uuid",
+      delete:  "/api/products/category/delete/:uuid",
+    }
    },
 
    serviceCenter:{
