@@ -9,7 +9,6 @@ import {
 	updateSpare,
 } from '../../features/ServiceCenter/Service';
 
-// Define colors directly to avoid import issues
 
 interface ApiSparePart {
 	_id: string;

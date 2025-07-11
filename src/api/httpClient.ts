@@ -1,7 +1,7 @@
 import axios from "axios";
 
 
-const backEndUrl:string= import.meta.env.VITE_PUBLIC_API_URL
+const backEndUrl:string= 'http://localhost:3001'
 
 
 const Axios = axios.create({
