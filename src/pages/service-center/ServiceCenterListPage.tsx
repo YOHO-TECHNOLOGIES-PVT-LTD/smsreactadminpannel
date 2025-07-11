@@ -287,49 +287,51 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
           </div>
           
 
-          <div className="flex flex-col gap-4 mt-4" >
+          <div className="grid grid-cols-2 gap-4 mt-4 " >
             {filteredPartners.map((center: any, index: number) => (
-              <div key={index}>
-                <div className="bg-white p-6 rounded-lg shadow flex flex-col sm:flex-row gap-20 items-start w-full max-w-[2000px]">
+              <div className="relative" key={index}>
+                <div className="bg-white p-6 rounded-lg shadow flex flex-col items-start h-full w-full ">
+                  <div>
                   <img
                     src={center.image}
                     alt={center.companyName+" logo"}
                     className="w-72 h-40 object-cover rounded-lg"
                   />
-                  <div className="flex-1">
-                    <h3 className="font-bold text-gray-800" style={{ ...FONTS.cardheader}}>
-                      {center.companyName}
-                    </h3>
-                    <div className="flex gap-2 text-base mt-2 text-gray-700 flex-wrap">
-                      <span className="bg-[#fce8e8] text-[#800000] px-2 py-0.5 rounded">{center.rating} ★</span>
-                      <span className="text-yellow-600" style={{ ...FONTS.paragraph}}>1,548 Services</span>
-                    </div>
-                    <div className="flex gap-2 mt-1 text-yellow-600 flex-wrap">
-                      <span className="flex items-center gap-1">
-                        <span className="bg-yellow-400 text-white p-1 rounded-full">
-                          <FaArrowTrendUp size={12} />
-                        </span>
-                        Popular
-                      </span>
-                    </div>
-                    <p className="text-sm text-gray-500 mt-1 border-[1px] border-[#800000] bg-[#F9E6E6] px-2 py-1 rounded inline-block w-fit mt-5" style={{ ...FONTS.subParagraph}}>
-                      {center.contact_info.address1}, {center.contact_info.address2}, {center.contact_info.city}
-                    </p>
                   </div>
-
-                  <div className="flex gap-2 mt-2 sm:mt-0">
+                   <div className="absolute right-8 bottom-20 gap-2 mt-2 sm:mt-0">
                     {/* {selectedCardIndex !== index && ( */}
                       <button
                         onClick={() => changeData(index)}
-                        className="!text-white px-4 py-2 rounded-3xl bg-[#9b111e] transition duration-200 flex items-center gap-1.5 text-sm"
+                        className="!text-white  px-4 py-1 rounded-3xl bg-[#16A34A] transition duration-200 flex items-center gap-1.5 text-sm"
                         style={{ ...FONTS.paragraph,
                           
                         }}
                       >
-                        <BsEye size={16} /> View
+                        View
                       </button>
                     {/* )} */}
                   </div>
+                  <div className="flex-1">
+                    <h3 className="font-bold text-gray-800" style={{color : COLORS.primary}}>
+                      {center.companyName}
+                    </h3>
+
+                    <div className="flex items-center gap-2">
+                    <h3 className="font-bold text-[#717171]">Address : </h3>
+                    <p className="text-sm text-[#717171]" >
+                     {center.contact_info.address1}, {center.contact_info.address2}, {center.contact_info.city}
+                    </p>
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                    <h3 className="font-bold text-[#717171]">Contact : </h3>
+                    <p className="text-sm text-[#717171]">
+                     {center?.contact_info?.phoneNumber}
+                    </p>
+                    </div>
+                  </div>
+
+                 
                 </div>
 
                 {selectedCardIndex === index && (

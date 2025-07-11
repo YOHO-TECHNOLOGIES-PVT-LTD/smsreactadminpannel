@@ -81,7 +81,7 @@ export const JobCardsPage: React.FC = () => {
           <input
             type="search"
             placeholder="Search by name, vehicle or ID"
-            className="pl-10 pr-4 py-2 w-full border rounded-full shadow focus:ring-2 focus:ring-[#9b111e] focus:outline-none focus:border-transparent"
+            className="pl-10 pr-4 py-2 w-full border border-[#717171] placeholder:text-[#717171] rounded-full shadow focus:ring-2 focus:ring-[#9b111e] focus:outline-none focus:border-transparent"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             style={{...FONTS.description}}

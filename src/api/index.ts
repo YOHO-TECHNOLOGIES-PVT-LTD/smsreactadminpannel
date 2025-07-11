@@ -43,14 +43,12 @@ admin={
 },
 
 order_history: {
-      create: (data: any) =>
-        httpClient.post(API_END_POINTS.order_history.create, data),
       getById: (params: string) =>
         httpClient.get(API_END_POINTS.order_history.getById, params),
       getAll: (params: string) =>
         httpClient.get(API_END_POINTS.order_history.getAll, params),
-      update: (data: any, params: string) =>
-        httpClient.update(API_END_POINTS.order_history.update, data, params),
+      getOldHistory: (params: string) =>
+        httpClient.get(API_END_POINTS.order_history.getOldHistory, params),
       updateStatus: (data: any, params: string) =>
         httpClient.update(
           API_END_POINTS.order_history.updateStatus,

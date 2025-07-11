@@ -130,10 +130,10 @@ export const Sidebar = () => {
                 className="w-5 h-5 text-[#9b111e] "
               />,
             ]}
-            label="Request Queue"
+            label="Service Request"
             isOpen={isOpen}
             onClick={handleLinkClick}
-            tooltip="bookings"
+            tooltip="service-request"
           />
 
           <SidebarLink
@@ -153,7 +153,7 @@ export const Sidebar = () => {
             label="Schedule Queue"
             isOpen={isOpen}
             onClick={handleLinkClick}
-            tooltip="request-queue"
+            tooltip="schedule-queue"
           />
 
           <SidebarLink

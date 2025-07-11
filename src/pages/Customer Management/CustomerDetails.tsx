@@ -446,7 +446,7 @@ const CustomerDetails: React.FC<ProfileViewComponent> = ({ onProfileView }) => {
                 setCurrentPage(1);
               }}
               placeholder="Search by name or email..."
-              className="pl-10 pr-4 py-2 w-full border border-gray-300 rounded-lg text-base focus:outline-none focus:ring-2 focus:ring-[#800000] focus:border-transparent"
+              className="pl-10 pr-4 py-2 w-full border border-[#717171] placeholder:text-[#717171] rounded-lg text-base focus:outline-none focus:ring-2 focus:ring-[#800000] focus:border-transparent"
               whileFocus={{ scale: 1.01 }}
             />
           </div>
