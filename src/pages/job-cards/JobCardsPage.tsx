@@ -94,10 +94,10 @@ export const JobCardsPage: React.FC = () => {
           >
             <thead className="bg-[#e9e9e9]">
               <tr>
-                <th className="px-4 py-3 text-left text-sm font-semibold text-[#9b111e] border-b" style={{...FONTS.tableHeader}}>
-                  NO
+                <th className="px-4 py-3 text-left text-sm text-[#717171]  border-b" style= {{...FONTS.tableHeader}}>
+                  No
                 </th>
-                <th className="px-4 py-3 text-left text-sm font-semibold text-[#9b111e] border-b" style={{...FONTS.tableHeader}} >
+                <th className="px-4 py-3 text-left text-sm text-[#717171]  border-b" style= {{...FONTS.tableHeader}} >
                 
                   <div className="flex items-center gap-2"  >
                     <HiMiniIdentification size={20}/>
