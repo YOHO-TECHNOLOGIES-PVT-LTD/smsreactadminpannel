@@ -32,6 +32,11 @@ const validationSchema = Yup.object().shape({
   facebook: Yup.string().url("Invalid Facebook URL").nullable(),
   twitter: Yup.string().url("Invalid Twitter URL").nullable(),
   youtube: Yup.string().url("Invalid YouTube URL").nullable(),
+  billing: Yup.object().shape({
+    gst: Yup.string()
+      .nullable()
+      .matches(/^(\d{2}[A-Z]{5}\d{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1})?$/, "Invalid GST number"),
+  }),
 });
 
 type FormValues = {
@@ -50,6 +55,10 @@ type FormValues = {
   facebook?: string;
   twitter?: string;
   youtube?: string;
+
+  billing?: {
+    gst?: string;
+  };
 };
 
 const ProfileEditSettings: React.FC = () => {
@@ -69,6 +78,9 @@ const ProfileEditSettings: React.FC = () => {
     facebook: "",
     twitter: "",
     youtube: "",
+    billing: {
+    gst: "",
+  },
   });
 
   const fetchData = async () => {
@@ -421,6 +433,21 @@ const ProfileEditSettings: React.FC = () => {
                 </div> */}
 
         {/* Submit */}
+
+        <div className="mt-10">
+  <h3 className="font-bold text-2xl">Billing Software</h3>
+  
+  <div className="mt-6">
+    <label className="block text-sm font-medium text-black">GST</label>
+    <input
+      type="text"
+      name="billing.gst"
+       className={`w-64 ${inputClass}`}
+    />
+   
+  </div>
+</div>
+
         <div className="flex gap-10 mt-10">
           <button
             type="button"
