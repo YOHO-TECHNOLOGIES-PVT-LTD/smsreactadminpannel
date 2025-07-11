@@ -128,13 +128,13 @@ const CompactServiceCard: React.FC<CompactServiceCardProps> = ({ request, onAssi
       <div className="flex items-center mb-2 gap-2">
         <p className="text-sm items-center flex gap-3 font-semibold text-gray-700"><BiSolidEdit className="h-5 w-5" />Register Number</p>
       </div>
-      <p className=" ml-8 text-gray-900 text-sm">{request?.customerId?.vehicleInfo?.registerNumber}</p>
+      <p className=" ml-8 text-gray-900 text-sm">{request?.customerId?.vehicleInfo?.registerNumber || "null"}</p>
     </div>
     <div>
       <div className="flex items-center mb-2 gap-2">
         <p className="text-sm flex gap-3 items-center font-semibold text-gray-700"> <FaCar className="h-5 w-5" />Vehicle Model</p>
       </div>
-      <p className="ml-8 text-gray-900 text-sm">{request?.customerId?.vehicleInfo.model || "vehicle model"}</p>
+      <p className="ml-8 text-gray-900 text-sm">{request?.customerId?.vehicleInfo.model || "null"}</p>
     </div>
   </div>
 

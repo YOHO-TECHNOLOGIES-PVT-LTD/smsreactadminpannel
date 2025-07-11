@@ -149,7 +149,7 @@ const ServiceRequests: React.FC = () => {
   const filteredPendingRequests = pendingRequests.filter(request => {
     const searchLower = searchTerm.toLowerCase();
     const matchesId = request?._id.toString().includes(searchLower);
-    const matchesName = request?.customerId?.firstName.toLowerCase().includes(searchLower) ?? " ";
+    const matchesName = request?.customerId?.firstName?.toLowerCase().includes(searchLower) ?? " ";
     return matchesId || matchesName;
   });
 
@@ -229,7 +229,7 @@ const ServiceRequests: React.FC = () => {
       </div>
 
     
-      <div className="max-w-7xl py-6">
+      <div className="w-full py-6">
         {currentView === 'pending' ? (
           <>
             {/* Search Results Info */}
@@ -293,7 +293,16 @@ const ServiceRequests: React.FC = () => {
               </div>
             )}
             
-            <AssignedRequests assignedRequests={filteredAssignedRequests} searchTerm={searchTerm} />
+            <AssignedRequests
+              assignedRequests={filteredAssignedRequests.map(request => ({
+                ...request,
+                partnerId: {
+                  companyName: (request.partnerId as any).companyName ?? "",
+                  ...request.partnerId
+                }
+              }))}
+              searchTerm={searchTerm}
+            />
           </>
         )}
       </div>

@@ -104,11 +104,11 @@ const AssignedRequests: React.FC<AssignedRequestsProps> = ({ assignedRequests, s
           <span className="font-medium">Partner ID:</span> {request?.partnerId?.id}
         </div>
         <div className="grid grid-cols-2 gap-4">
-          <div>
+          <div className="flex items-center gap-2">
             <p className="text-sm font-medium text-gray-600">Name:</p>
             <p className="text-green-900">{request.partnerId?.firstName} {request.partnerId?.lastName}</p>
           </div>
-          <div>
+          <div className="flex items-center gap-2">
             <p className="text-sm font-medium text-gray-600">Company Name:</p>
             <p className=" text-green-900">{request.partnerId?.companyName }</p>
           </div>
@@ -138,13 +138,13 @@ const AssignedRequests: React.FC<AssignedRequestsProps> = ({ assignedRequests, s
           <div className="flex items-center mb-2">
             <p className="text-sm font-semibold flex items-center gap-3 text-gray-700"><BiSolidEdit className="h-5 w-5"/>Register Number</p>
           </div>
-          <p className="font-semibold ml-8 text-gray-900 text-sm">{request?.customerId?.vehicleInfo?.registerNumber}</p>
+          <p className="font-semibold ml-8 text-gray-900 text-sm">{request?.customerId?.vehicleInfo?.registerNumber || 'null'}</p>
         </div>
         <div>
           <div className="flex items-center mb-2">
            <p className="text-sm font-semibold text-gray-700 flex items-center gap-3"><FaCar className="h-5 w-5" />Vehicle Model</p>
           </div>
-          <p className="font-semibold text-gray-900 ml-8 text-sm">{request?.customerId?.vehicleInfo?.model}</p>
+          <p className="font-semibold text-gray-900 ml-8 text-sm">{request?.customerId?.vehicleInfo?.model || 'null'}</p>
         </div>
       </div>
 
