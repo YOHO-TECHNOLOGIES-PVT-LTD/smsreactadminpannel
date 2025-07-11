@@ -3,10 +3,12 @@ import { useState, useEffect } from "react"
 import { Search, ArrowLeft, Plus, EllipsisVertical } from "lucide-react"
 import Client from "../../api"
 import { FONTS } from "../../constants/uiConstants"
-// import {  useNavigate } from "react-router-dom";
 import { getSpareparts, updateSpare } from "../../features/ServiceCenter/Service"
-
-// Define colors directly to avoid import issues
+import { createsparepartscategory, deletesparepartscategory, getAllsparepartscategory, updatesparepartscategory } from "../../features/ServiceCenter/service/index"
+import { toast } from "react-toastify"
+import { FiMoreVertical } from 'react-icons/fi';
+import { FaRegEdit } from "react-icons/fa";
+import { MdDelete } from "react-icons/md";
 
 interface ApiSparePart {
   _id: string;
@@ -53,9 +55,17 @@ interface ApiResponse {
   data: ApiSparePart[];
 }
 
+interface Category {
+  _id: string;
+  uuid: string;
+  name: string;
+  
+  gstRate: number;
+  __v: number;
+}
+
 type ReactComponent = {
   handleBack: () => void;
-  // Spareparts?: ApiSparePart[] | ApiResponse
   partnerId: string;
 };
 
@@ -84,41 +94,101 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId, handleBack }) 
   });
 
   const [editPart, setEditPart] = useState<SparePart | null>(null);
-  
-  // New states for category management
   const [showAddCategoryModal, setShowAddCategoryModal] = useState(false);
   const [newCategory, setNewCategory] = useState({
     name: '',
-    description: '',
-    gstRate: 0,
+    
+    gstRate: null as number | null,
   });
+  const [sparePartCategory, setSparePartCategory] = useState<Category[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [showEditCategoryModal, setShowEditCategoryModal] = useState(false);
+  const [showDeleteCategoryModal, setShowDeleteCategoryModal] = useState(false);
+  const [currentCategory, setCurrentCategory] = useState<Category | null>(null);
 
   const handleEdit = (part: any) => {
     setEditPart(part);
   };
 
-  const handleDelete = async(part: any) => {
+  const handleDelete = async (part: any) => {
     const confirmDelete = window.confirm(`Are you sure you want to delete "${part._id}"?`);
     if (confirmDelete) {
-      console.log("Deleted:", part);
-      const  filtered = Spareparts.filter((item:any) => item._id !== part._id)
+      const filtered = Spareparts.filter((item: any) => item._id !== part._id)
       setSpareparts(filtered)
       await new Client().admin.spareparts.delete(part._id)
-      console.log(filteredParts,"after delet")
     }
   };
 
   const fetchspare = async () => {
     const data: any = await getSpareparts(partnerId);
     setSpareparts(data.data.data);
-    console.log("spare parts details ");
   };
 
-  console.log(Spareparts, "fetching partner");
+  const fetchAllsparepartscategory = async () => {
+    const response: any = await getAllsparepartscategory()
+    if (response) {
+      setSparePartCategory(response?.data?.data)
+    }
+  }
+
+  const handleEditCategory = (category: Category) => {
+    setCurrentCategory(category);
+    setShowEditCategoryModal(true);
+    setMenuOpenId(null);
+  };
+
+  const handleDeleteCategory = (category: Category) => {
+    setCurrentCategory(category);
+    setShowDeleteCategoryModal(true);
+    setMenuOpenId(null);
+  };
+
+  const confirmDeleteCategory = async () => {
+    if (!currentCategory) return;
+    
+    try {
+      const data: any = {uuid: currentCategory.uuid}
+      const response:any = await deletesparepartscategory(data);
+      if(response){
+        toast.success('Category deleted successfully!');
+        fetchAllsparepartscategory();
+      }
+    } catch (error) {
+      console.error("Failed to delete category:", error);
+      toast.error('Error deleting category');
+    } finally {
+      setShowDeleteCategoryModal(false);
+      setCurrentCategory(null);
+    }
+  };
+
+  const handleUpdateCategory = async () => {
+    if (!currentCategory) return;
+
+    try {
+      const data: any = {uuid: currentCategory.uuid,
+         name: currentCategory.name,
+        
+          gstRate: currentCategory.gstRate
+        }
+      const response: any = await updatesparepartscategory(data);
+      console.log(response, 'update category')
+      
+      if (response) {
+        toast.success('Category updated successfully!');
+        fetchAllsparepartscategory();
+        setShowEditCategoryModal(false);
+      }
+    } catch (error) {
+      console.error("Failed to update category:", error);
+      toast.error('Error updating category');
+    }
+  };
 
   useEffect(() => {
     let apiData: ApiSparePart[] = [];
     fetchspare();
+    fetchAllsparepartscategory()
     if (Array.isArray(Spareparts)) {
       apiData = Spareparts;
     } else if (
@@ -141,19 +211,17 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId, handleBack }) 
         stock: item.stock,
         category: item.category,
         brand: item.brand,
-        rating: 4.5, // Default rating since not in API
-        reviews: Math.floor(Math.random() * 100) + 10, // Random reviews for demo
+        rating: 4.5,
+        reviews: Math.floor(Math.random() * 100) + 10,
         inStock: item.inStock,
-        discount: Math.floor(Math.random() * 20), // Random discount for demo
+        discount: Math.floor(Math.random() * 20),
         active: !item.isDeleted,
         warrantyPeriod: item.warrantyPeriod,
         slug: item.slug,
       }));
       setSpareParts(transformedData);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
 
   const calculateDiscountedPrice = (price: string, discount: number) => {
     return Number.parseInt(price) - (Number.parseInt(price) * discount) / 100;
@@ -162,9 +230,10 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId, handleBack }) 
   const filteredParts = Spareparts
     .filter(
       (part: any) =>
-        part.productName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        part.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        part.brand.toLowerCase().includes(searchTerm.toLowerCase()),
+        (selectedCategory ? part.category === selectedCategory : true) &&
+        (part.productName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          part.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          part.brand.toLowerCase().includes(searchTerm.toLowerCase())),
     )
 
   const handleAddPart = async () => {
@@ -208,29 +277,30 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId, handleBack }) 
     setShowAddModal(false);
   };
 
-  // New function to handle adding category
   const handleAddCategory = async () => {
     try {
-      // API call to add category would go here
-      console.log("Adding category:", newCategory);
-      
-      // Reset form and close modal
-      setNewCategory({ name: '', description: '', gstRate: 0 });
-      setShowAddCategoryModal(false);
-      
-      alert('Category added successfully!');
+      const response = await createsparepartscategory(newCategory)
+      if (response) {
+        setNewCategory({ name: '', gstRate: null });
+        setShowAddCategoryModal(false);
+        fetchAllsparepartscategory();
+        toast.success('Category added successfully!');
+      }
     } catch (error) {
       console.error("Failed to add category:", error);
-      alert('Error adding category');
+      toast.error('Error adding category');
     }
   };
+
+const toggleMenu = (id: string) => {
+  setMenuOpenId(prev => (prev === id ? null : id));
+};
 
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
       <div className="sticky top-0 z-20 bg-[#FAF3EB] border-b ">
-        <div className="container px-4 py-3 flex "
-        >
+        <div className="container px-4 py-3 flex">
           <button
             onClick={handleBack}
             className="hover:bg-gray-100 rounded-3xl transition-colors"
@@ -254,7 +324,6 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId, handleBack }) 
               <Search className="w-5 h-5" />
             </button>
 
-            {/* New Add Category Button */}
             <button
               style={{ ...FONTS.paragraph }}
               className="flex items-center space-x-2 px-4 py-2 bg-red-600 hover:bg-red-700 !text-white rounded-3xl font-medium transition-colors"
@@ -272,6 +341,70 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId, handleBack }) 
               <Plus className="w-5 h-5" />
               <span>Add Spare Part</span>
             </button>
+          </div>
+        </div>
+
+        {/* Category Filter */}
+        <div className="container px-4 py-2 overflow-x-auto">
+          <div className="flex space-x-2 pb-2">
+            <button
+              onClick={() => setSelectedCategory(null)}
+              className={`px-4 py-2 rounded-full whitespace-nowrap ${!selectedCategory ? 'bg-red-600 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}`}
+            >
+              All Categories
+            </button>
+           {sparePartCategory.map((category) => (
+  <div key={category._id} className="relative inline-block">
+    <button
+      onClick={() => setSelectedCategory(category.name)}
+      className={`relative px-4 py-2 rounded-full w-40 text-center whitespace-nowrap flex justify-center items-center ${
+        selectedCategory === category.name
+          ? 'bg-red-600 text-white'
+          : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+      }`}
+    >
+      <span className="truncate">{category.name}</span>
+
+      {/* 3-dot icon only visible when this button is selected */}
+      {selectedCategory === category.name && (
+        <span
+          className="ml-2 cursor-pointer absolute right-3"
+          onClick={(e) => {
+            e.stopPropagation(); // Prevent button click event
+            toggleMenu(category._id);
+          }}
+        >
+          <FiMoreVertical />
+        </span>
+      )}
+    </button>
+
+    {/* Dropdown Menu */}
+    {menuOpenId === category._id && (
+      <div className="absolute top-5 z-50 right-0 mt-1 bg-white border rounded shadow-md flex">
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            handleEditCategory(category);
+          }}
+          className="block w-full py-2 text-left text-sm hover:bg-gray-100 px-1"
+        >
+          <FaRegEdit />
+        </button>
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            handleDeleteCategory(category);
+          }}
+          className="block w-full py-2 text-left text-sm  hover:bg-gray-100 px-1"
+        >
+          <MdDelete />
+        </button>
+      </div>
+    )}
+  </div>
+))}
+
           </div>
         </div>
 
@@ -315,9 +448,9 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId, handleBack }) 
             </h3>
             <p className="text-gray-600 mb-6 text-center">
               {Spareparts &&
-              (Array.isArray(Spareparts)
-                ? Spareparts.length === 0
-                : !(Spareparts as ApiResponse).data?.length)
+                (Array.isArray(Spareparts)
+                  ? Spareparts.length === 0
+                  : !(Spareparts as ApiResponse).data?.length)
                 ? "No spare parts available"
                 : "Loading spare parts..."}
             </p>
@@ -330,7 +463,6 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId, handleBack }) 
                 className="group relative bg-white rounded-xl shadow-sm border border-gray-100 hover:shadow-lg hover:border-red-200 transition-all duration-300 overflow-hidden cursor-pointer"
                 onClick={() => setSelectedPart(part)}
               >
-
                 <div className="relative">
                   <button
                     className="absolute top-3 right-3 z-10 p-2 bg-white/90 hover:bg-white rounded-3xl shadow-md transition-all duration-200"
@@ -378,9 +510,7 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId, handleBack }) 
                   />
                 </div>
 
-                {/* Content */}
                 <div className="p-5">
-                  {/* Category & Brand */}
                   <div className="flex items-center justify-between mb-2">
                     <span
                       className="inline-block bg-gray-100 !text-gray-700 px-2 py-1 rounded-md text-xs font-medium"
@@ -396,7 +526,6 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId, handleBack }) 
                     </span>
                   </div>
 
-                  {/* Product Name */}
                   <h3
                     className="!font-semibold text-gray-900 mb-3 line-clamp-2 group-hover:text-red-700 transition-colors"
                     style={{ ...FONTS.cardheader }}
@@ -404,7 +533,6 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId, handleBack }) 
                     {part.productName}
                   </h3>
 
-                  {/* Rating */}
                   <div className="flex items-center gap-2 mb-3">
                     <span
                       className="!text-lg !text-gray-500"
@@ -414,7 +542,6 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId, handleBack }) 
                     </span>
                   </div>
 
-                  {/* Warranty Period */}
                   <div className="mb-3">
                     <span
                       className="inline-block bg-blue-50 !text-blue-700 px-2 py-1 rounded-md text-xs font-medium"
@@ -424,7 +551,6 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId, handleBack }) 
                     </span>
                   </div>
 
-                  {/* Price & Stock */}
                   <div className="space-y-3">
                     <div className="flex items-center gap-2">
                       {part.discount && part.discount > 0 ? (
@@ -453,13 +579,12 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId, handleBack }) 
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
                         <div
-                          className={`w-2 h-2 rounded-full ${
-                            part.stock > 5
-                              ? "bg-green-500"
-                              : part.stock > 0
+                          className={`w-2 h-2 rounded-full ${part.stock > 5
+                            ? "bg-green-500"
+                            : part.stock > 0
                               ? "bg-yellow-500"
                               : "bg-red-500"
-                          }`}
+                            }`}
                         ></div>
                         <span
                           className="!text-gray-600"
@@ -612,16 +737,21 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId, handleBack }) 
                   <label className="block text-sm font-medium text-gray-700 mb-1">
                     Category*
                   </label>
-                  <input
-                    type="text"
+                  <select
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg"
                     value={newPart.category}
                     onChange={(e) =>
                       setNewPart({ ...newPart, category: e.target.value })
                     }
-                    placeholder="Enter category"
                     required
-                  />
+                  >
+                    <option value="">Select Category</option>
+                    {sparePartCategory.map((category) => (
+                      <option key={category._id} value={category.name}>
+                        {category.name}
+                      </option>
+                    ))}
+                  </select>
                 </div>
 
                 <div>
@@ -723,7 +853,7 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId, handleBack }) 
           </div>
         </div>
       )}
-      
+
       {/* Add Category Modal */}
       {showAddCategoryModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
@@ -764,25 +894,36 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId, handleBack }) 
                   />
                 </div>
 
-               
-
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
                     GST Rate (%)*
                   </label>
-                  <input
-                    type="number"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg"
-                    value={newCategory.gstRate}
-                    onChange={(e) =>
-                      setNewCategory({ ...newCategory, gstRate: parseFloat(e.target.value) || 0 })
-                    }
-                    placeholder="Enter GST rate"
-                    min="0"
-                    max="100"
-                    step="0.1"
-                    required
-                  />
+                  <div className="relative">
+                    <input
+                      type="number"
+                      inputMode="decimal"
+                      className="w-full px-4 py-2 pr-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                      value={
+                        newCategory.gstRate !== null && newCategory.gstRate !== undefined
+                          ? newCategory.gstRate
+                          : ''
+                      }
+                      onChange={(e) =>
+                        setNewCategory({
+                          ...newCategory,
+                          gstRate: e.target.value === '' ? null : parseFloat(e.target.value),
+                        })
+                      }
+                      placeholder="Enter GST rate"
+                      min="0"
+                      max="100"
+                      step="0.1"
+                      required
+                    />
+                    <span className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none text-sm">
+                      %
+                    </span>
+                  </div>
                 </div>
               </div>
 
@@ -798,9 +939,121 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId, handleBack }) 
                   type="button"
                   onClick={handleAddCategory}
                   className="px-6 py-2 bg-red-600 hover:bg-red-700 text-white rounded-3xl font-medium transition-colors"
-                  disabled={!newCategory.name}
+                  disabled={!newCategory.name || newCategory.gstRate === null}
                 >
                   Add Category
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Edit Category Modal */}
+      {showEditCategoryModal && currentCategory && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
+          <div className="bg-white rounded-xl shadow-lg w-full max-w-md">
+            <div className="p-6">
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-2xl font-bold text-gray-900">Edit Category</h2>
+                <button
+                  onClick={() => setShowEditCategoryModal(false)}
+                  className="p-2 text-gray-400 hover:text-gray-600 rounded-3xl hover:bg-gray-100"
+                >
+                  ×
+                </button>
+              </div>
+
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Category Name*
+                  </label>
+                  <input
+                    type="text"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg"
+                    value={currentCategory.name}
+                    onChange={(e) => 
+                      setCurrentCategory({...currentCategory, name: e.target.value})
+                    }
+                    required
+                  />
+                </div>
+
+               
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    GST Rate (%)*
+                  </label>
+                  <input
+                    type="number"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg"
+                    value={currentCategory.gstRate || ''}
+                    onChange={(e) => 
+                      setCurrentCategory({
+                        ...currentCategory, 
+                        gstRate: e.target.value === '' ? null : Number(e.target.value)
+                      })
+                    }
+                    min="0"
+                    max="100"
+                    step="0.1"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div className="mt-8 flex justify-end gap-3">
+                <button
+                  onClick={() => setShowEditCategoryModal(false)}
+                  className="px-6 py-2 border border-gray-300 rounded-3xl font-medium text-gray-700 hover:bg-gray-50"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleUpdateCategory}
+                  className="px-6 py-2 bg-red-600 hover:bg-red-700 text-white rounded-3xl font-medium"
+                >
+                  Save Changes
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Delete Category Confirmation Modal */}
+      {showDeleteCategoryModal && currentCategory && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
+          <div className="bg-white rounded-xl shadow-lg w-full max-w-md">
+            <div className="p-6">
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-xl font-bold text-gray-900">Delete Category</h2>
+                <button
+                  onClick={() => setShowDeleteCategoryModal(false)}
+                  className="p-2 text-gray-400 hover:text-gray-600 rounded-3xl hover:bg-gray-100"
+                >
+                  ×
+                </button>
+              </div>
+
+              <p className="text-gray-700 mb-6">
+                Are you sure you want to delete the category "{currentCategory.name}"? 
+              </p>
+
+              <div className="flex justify-end gap-3">
+                <button
+                  onClick={() => setShowDeleteCategoryModal(false)}
+                  className="px-6 py-2 border border-gray-300 rounded-3xl font-medium text-gray-700 hover:bg-gray-50"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={confirmDeleteCategory}
+                  className="px-6 py-2 bg-red-600 hover:bg-red-700 text-white rounded-3xl font-medium"
+                >
+                  Delete
                 </button>
               </div>
             </div>
@@ -857,8 +1110,8 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId, handleBack }) 
                       selectedPart.quantity > 5
                         ? "text-green-600"
                         : selectedPart.quantity > 0
-                        ? "text-yellow-600"
-                        : "text-red-600"
+                          ? "text-yellow-600"
+                          : "text-red-600"
                     }
                   >
                     {selectedPart.quantity > 0
@@ -962,15 +1215,20 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId, handleBack }) 
                   <label className="block text-sm font-medium text-gray-700">
                     Category
                   </label>
-                  <input
-                    title="Category"
-                    type="text"
+                  <select
+                    className="mt-1 block w-full border-gray-300 shadow-sm outline-none focus:border-b-2 focus:border-b-red-500"
                     value={editPart.category}
                     onChange={(e) =>
                       setEditPart({ ...editPart, category: e.target.value })
                     }
-                    className="mt-1 block w-full border-gray-300 shadow-sm outline-none focus:border-b-2 focus:border-b-red-500"
-                  />
+                  >
+                    <option value="">Select Category</option>
+                    {sparePartCategory.map((category) => (
+                      <option key={category._id} value={category.name}>
+                        {category.name}
+                      </option>
+                    ))}
+                  </select>
                 </div>
 
                 <div>
@@ -1092,19 +1350,19 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId, handleBack }) 
                 </button>
                 <button
                   className="px-4 py-2 bg-red-600 text-white rounded-3xl hover:bg-red-700"
-                  onClick={async() => {
+                  onClick={async () => {
                     console.log("Updated Part:", editPart);
-                    const data ={
-                      brand:editPart.brand,
-                      category:editPart.category,
-                      image:editPart.image,
-                      inStock:editPart.inStock,
-                      price:editPart.price,
-                      productName:editPart.name,
-                      stock:editPart.quantity,
-                      warrantyPeriod:editPart.warrantyPeriod
+                    const data = {
+                      brand: editPart.brand,
+                      category: editPart.category,
+                      image: editPart.image,
+                      inStock: editPart.inStock,
+                      price: editPart.price,
+                      productName: editPart.name,
+                      stock: editPart.quantity,
+                      warrantyPeriod: editPart.warrantyPeriod
                     }
-                    await updateSpare(data,editPart._id)
+                    await updateSpare(data, editPart._id)
                     setEditPart(null);
                   }}
                 >
