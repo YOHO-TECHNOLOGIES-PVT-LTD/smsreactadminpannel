@@ -131,47 +131,56 @@ export default function ScheduledRequestsPage() {
                 <div className="flex-1 grid grid-cols-2 gap-x-4 gap-y-2 text-[15px] text-gray-700">
                   <div className="flex items-center gap-2">
                     <FaUserAlt className="text-lg" />
-                    <span>Customer Name</span>
+                    <span>{req.customerId?.firstName || 'Customer'} {req.customerId?.lastName || ''}</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <IoCall className="text-lg" />
-                    <span>Contact</span>
+                    <span>{req.customerId?.contact_info?.phoneNumber || 'N/A'}</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <FaClipboardList className="text-lg" />
-                    <span>Reg Num</span>
+                    <span>{req.customerId?.vehicleInfo?.registerNumber || 'N/A'}</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <FaCarAlt className="text-lg" />
-                    <span>Car Model</span>
+                    <span>{req.customerId?.vehicleInfo?.model || 'N/A'}</span>
                   </div>
                 </div>
               </div>
 
-              {req.partnerId && (
-                <div className="bg-green-50 border border-green-500 mx-5 rounded-xl px-5 py-4 mb-4 relative">
-                  <div className="flex justify-between items-center mb-3">
-                    <div className="flex items-center gap-2 font-bold text-green-700 text-lg">
-                      <FaUserAlt />
-                      Assigned Partner
-                    </div>
-                    <div className="bg-green-600 text-white text-xs px-4 py-1 rounded-full font-semibold shadow-sm">
-                      Assigned On: {req.assigned_date?.split("T")[0] || 'N/A'}
-                    </div>
-                  </div>
-                  <div className="grid grid-cols-2 text-sm text-gray-700 gap-y-2">
-                    <p><span className="font-semibold">Partner ID:</span> {req.partnerId?._id || "N/A"}</p>
-                    <p><span className="font-semibold">Name:</span> {req.partnerId?.firstName || ""} {req.partnerId?.lastName || ""}</p>
-                    <p className="col-span-2">
-                      <span className="font-semibold">Phone:</span> {req.partnerId?.contact_info?.phoneNumber || "N/A"}
-                    </p>
-                    <p className="col-span-2">
-                      <span className="font-semibold">Location:</span> {req.partnerId?.contact_info?.city || ""}, {req.partnerId?.contact_info?.state || ""}
-                    </p>
-                  </div>
-                </div>
-              )}
+             {req.partnerId && (
+  <div className="bg-green-50 border border-green-500 mx-5 rounded-xl px-5 py-4 mb-4 relative">
+    <div className="flex justify-between items-center mb-3">
+      <div className="flex items-center gap-2 font-bold text-green-700 text-lg">
+        <FaUserAlt />
+        Assigned Partner
+      </div>
+      <div className="bg-green-600 text-white text-xs px-4 py-1 rounded-full font-semibold shadow-sm">
+        Assigned On: {new Date(req.assigned_date).toLocaleDateString()}
+      </div>
+    </div>
+    <div className="grid grid-cols-2 text-sm text-gray-700 gap-y-2">
+      <p><span className="font-semibold">Partner ID:</span> {req.partnerId?.id || "N/A"}</p>
+      <p><span className="font-semibold">Name:</span> {req.partnerId?.firstName || ""} {req.partnerId?.lastName || ""}</p>
+      <p className="col-span-2">
+        <span className="font-semibold">Phone:</span> {req.partnerId?.contact_info?.phoneNumber || "N/A"}
+      </p>
+    {(req.partnerId?.contact_info?.address1 || req.partnerId?.contact_info?.address2) && (
+  <p className="col-span-2">
+    <span className="font-semibold">Address:</span>{" "}
+    {req.partnerId?.contact_info?.address1}
+    {req.partnerId?.contact_info?.address1 && req.partnerId?.contact_info?.address2 && ", "}
+    {req.partnerId?.contact_info?.address2}
+  </p>
+)}
 
+
+      <p className="col-span-2">
+        <span className="font-semibold">Location:</span> {req.partnerId?.contact_info?.city || ""}, {req.partnerId?.contact_info?.state || ""}
+      </p>
+    </div>
+  </div>
+)}
               <div className="flex justify-between items-center px-5 pb-4">
                 <div className="bg-yellow-400 text-white text-sm font-bold px-4 py-1 rounded-full">
                   {req.status || "Pending"}
@@ -180,7 +189,7 @@ export default function ScheduledRequestsPage() {
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                   </svg>
-                  {req.schedule_date?.split("T")[0]}
+                  {new Date(req.schedule_date).toLocaleDateString()}
                 </div>
               </div>
             </div>
@@ -217,6 +226,22 @@ export default function ScheduledRequestsPage() {
                     {selectedRequest.requestId || "N/A"}
                   </p>
                   <p className="!text-gray-800 text-lg" style={{...FONTS.cardSubHeader}}>
+                    <span style={{...FONTS.cardSubHeader}}>Customer:</span>{" "}
+                    {selectedRequest.customerId?.firstName || ""} {selectedRequest.customerId?.lastName || ""}
+                  </p>
+                  <p className="!text-gray-800 text-lg" style={{...FONTS.cardSubHeader}}>
+                    <span style={{...FONTS.cardSubHeader}}>Mobile:</span>{" "}
+                    {selectedRequest.customerId?.contact_info?.phoneNumber || "N/A"}
+                  </p>
+                  <p className="!text-gray-800 text-lg" style={{...FONTS.cardSubHeader}}>
+                    <span style={{...FONTS.cardSubHeader}}>Car No:</span>{" "}
+                    {selectedRequest.customerId?.vehicleInfo?.registerNumber || "N/A"}
+                  </p>
+                  <p className="!text-gray-800 text-lg" style={{...FONTS.cardSubHeader}}>
+                    <span style={{...FONTS.cardSubHeader}}>Vehicle:</span>{" "}
+                    {selectedRequest.customerId?.vehicleInfo?.model || "N/A"}
+                  </p>
+                  <p className="!text-gray-800 text-lg" style={{...FONTS.cardSubHeader}}>
                     <span style={{...FONTS.cardSubHeader}}>Service:</span>{" "}
                     {selectedRequest.service?.[0]?.service_name || "General Service"}
                   </p>
@@ -242,11 +267,11 @@ export default function ScheduledRequestsPage() {
                   </p>
                   <p className="!text-gray-800 text-lg" style={{...FONTS.cardSubHeader}}>
                     <span style={{...FONTS.cardSubHeader}}>Scheduled Date:</span>{" "}
-                    {selectedRequest.schedule_date?.split('T')[0]}
+                    {new Date(selectedRequest.schedule_date).toLocaleDateString()}
                   </p>
                   <p className="!text-gray-800 text-lg" style={{...FONTS.cardSubHeader}}>
                     <span style={{...FONTS.cardSubHeader}}>Assigned Date:</span>{" "}
-                    {selectedRequest.assigned_date?.split('T')[0]}
+                    {new Date(selectedRequest.assigned_date).toLocaleDateString()}
                   </p>
                   <p className="!text-gray-800 text-lg" style={{...FONTS.cardSubHeader}}>
                     <span style={{...FONTS.cardSubHeader}}>Status:</span>{" "}
