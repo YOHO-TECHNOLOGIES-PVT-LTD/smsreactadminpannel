@@ -841,7 +841,7 @@ const ServiceSpareParts: React.FC<ServiceCenterServicesProps> = ({ handleBack, p
                 >
                   Add New Spare Part
                 </h2>
-                <button
+                <button 
                   onClick={() => setShowAddModal(false)}
                   className="p-2 text-gray-400 hover:text-gray-600 rounded-3xl hover:bg-gray-100"
                 >
