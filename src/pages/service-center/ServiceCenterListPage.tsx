@@ -11,6 +11,7 @@ import { COLORS, FONTS } from "../../constants/uiConstants"
 import Client from "../../api"
 import { fetchCountries, fetchState } from "../../features/ServiceCenter/externalapi"
 import { toast } from "react-toastify"
+import { TbCloudUpload } from "react-icons/tb";
 
 interface ContactInfo {
   phoneNumber: string
@@ -366,11 +367,10 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
             </div>
 
             <form onSubmit={handlePartnerFormSubmit} className="p-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6"
+              <div className="grid grid-cols-3 md:grid-cols-3 gap-6"
               style={{...FONTS.paragraph}}
               >
-                {/* Column 1 */}
-                <div className="space-y-4">
+              
                  
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -383,7 +383,7 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
                       placeholder="First Name"
                       value={partnerFormData.firstName}
                       onChange={handlePartnerFormChange}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#800000] focus:border-transparent transition"
+                      className="w-full px-4 py-2 border border-[#717171]  rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#800000] focus:border-transparent transition"
                     />
                   </div>
 
@@ -398,7 +398,7 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
                       placeholder="Last Name"
                       value={partnerFormData.lastName}
                       onChange={handlePartnerFormChange}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#800000] focus:border-transparent transition"
+                      className="w-full px-4 py-2 border border-[#717171] rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#800000] focus:border-transparent transition"
                     />
                   </div>
 
@@ -410,9 +410,58 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
                       placeholder="Company Name"
                       value={partnerFormData.companyName}
                       onChange={handlePartnerFormChange}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#800000] focus:border-transparent transition"
+                      className="w-full px-4 py-2 border border-[#717171]  rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#800000] focus:border-transparent transition"
                     />
                   </div>
+                  
+                   <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Phone Number <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      name="contact_info.phoneNumber"
+                      required
+                      placeholder="Phone Number"
+                      value={partnerFormData.contact_info.phoneNumber}
+                      onChange={handlePartnerFormChange}
+                      className="w-full px-4 py-2 border border-[#717171]  rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#800000] focus:border-transparent transition"
+                    />
+                  </div>
+
+                  <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">State</label>
+                      <select
+                        name="contact_info.state"
+                        value={partnerFormData.contact_info.state}
+                        onChange={handlePartnerFormChange}
+                        className={`w-full px-4 py-2 border border-[#717171] rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#800000] focus:border-transparent transition ${partnerFormData ? 'text-black' : 'text-[#717171]'}`}
+
+                      >
+                        <option className="text-[#717171]" value="" disabled>Select a state</option>
+                        {state.map(city => (
+                          <option className="text-[#717171] " key={city.id} value={city.name}>
+                            {city.name}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+
+                  <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">City</label>
+                      <select
+                        name="contact_info.city"
+                        value={partnerFormData.contact_info.city}
+                        onChange={handlePartnerFormChange}
+                        className={`w-full px-4 py-2 border border-[#717171]  rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#800000] focus:border-transparent transition${partnerFormData ? 'text-black' : 'text-[#717171]'}`}>                      
+                        <option className="text-[#717171]" value=""  disabled >Select a city</option>
+                        {city.map(city => (
+                          <option className="text-[#717171]" key={city.id} value={city.name}>
+                            {city.name}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
 
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -425,9 +474,35 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
                       placeholder="Aadhar no"
                       value={partnerFormData.aadhar}
                       onChange={handlePartnerFormChange}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#800000] focus:border-transparent transition"
+                      className="w-full px-4 py-2 border border-[#717171]  rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#800000] focus:border-transparent transition"
                     />
                   </div>
+
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Address Line 1</label>
+                    <input
+                      type="text"
+                      name="contact_info.address1"
+                      placeholder="Address Line 1"
+                      value={partnerFormData.contact_info.address1}
+                      onChange={handlePartnerFormChange}
+                      className="w-full px-4 py-2 border border-[#717171]  rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#800000] focus:border-transparent transition"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Address Line 2</label>
+                    <input
+                      type="text"
+                      name="contact_info.address2"
+                      placeholder="Address Line 2"
+                      value={partnerFormData.contact_info.address2}
+                      onChange={handlePartnerFormChange}
+                      className="w-full px-4 py-2 border border-[#717171]  rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#800000] focus:border-transparent transition"
+                    />
+                  </div>
+
 
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -439,10 +514,10 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
                       placeholder="regNo"
                       value={partnerFormData.regNo}
                       onChange={handlePartnerFormChange}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#800000] focus:border-transparent transition"
+                      className="w-full px-4 py-2 border border-[#717171]  rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#800000] focus:border-transparent transition"
                     />
                   </div>
-
+ 
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
                       PAN No 
@@ -453,7 +528,7 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
                       placeholder="PAN no"
                       value={partnerFormData.pan}
                       onChange={handlePartnerFormChange}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#800000] focus:border-transparent transition"
+                      className="w-full px-4 py-2 border border-[#717171] rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#800000] focus:border-transparent transition"
                     />
                   </div>
 
@@ -467,104 +542,48 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
                       placeholder="GST No"
                       value={partnerFormData.gstNo}
                       onChange={handlePartnerFormChange}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#800000] focus:border-transparent transition"
+                      className="w-full px-4 py-2 border border-[#717171]  rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#800000] focus:border-transparent transition"
                     />
                   </div>
-
-                 
-                </div>
-
-                {/* Column 2 */}
-                <div className="space-y-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Phone Number <span className="text-red-500">*</span>
-                    </label>
-                    <input
-                      type="text"
-                      name="contact_info.phoneNumber"
-                      required
-                      placeholder="Phone Number"
-                      value={partnerFormData.contact_info.phoneNumber}
-                      onChange={handlePartnerFormChange}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#800000] focus:border-transparent transition"
-                    />
-                  </div>
-
-                  <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">State</label>
-                      <select
-                        name="contact_info.state"
-                        value={partnerFormData.contact_info.state}
-                        onChange={handlePartnerFormChange}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#800000] focus:border-transparent transition"
-                      >
-                        <option value="">Select a state</option>
-                        {state.map(city => (
-                          <option key={city.id} value={city.name}>
-                            {city.name}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-
-                  <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">City</label>
-                      <select
-                        name="contact_info.city"
-                        value={partnerFormData.contact_info.city}
-                        onChange={handlePartnerFormChange}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#800000] focus:border-transparent transition"
-                      >
-                        <option value="">Select a city</option>
-                        {city.map(city => (
-                          <option key={city.id} value={city.name}>
-                            {city.name}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Address Line 1</label>
-                    <input
-                      type="text"
-                      name="contact_info.address1"
-                      placeholder="Address Line 1"
-                      value={partnerFormData.contact_info.address1}
-                      onChange={handlePartnerFormChange}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#800000] focus:border-transparent transition"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Address Line 2</label>
-                    <input
-                      type="text"
-                      name="contact_info.address2"
-                      placeholder="Address Line 2"
-                      value={partnerFormData.contact_info.address2}
-                      onChange={handlePartnerFormChange}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#800000] focus:border-transparent transition"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Upload Profile Image</label>
-                    <input
-                      type="file"
-                      name="image"
-                      accept="image/*"
-                      ref={partnerFileInputRef}
-                      onChange={handlePartnerFormChange}
-                      className="block w-full text-sm text-gray-700 border border-gray-300 rounded-md cursor-pointer bg-white file:bg-gray-200 file:text-gray-700 file:border-none file:rounded file:px-4 file:py-2 hover:file:bg-gray-300 transition"
-                    />
-                  </div>
-                </div>
+                                  
               </div>
 
-                <div className="border border-[#9b111e] p-4 m-6 ">
-                  <h2 className="mb-3">Login Setup</h2>
+              <div className="col-span-full">
+  <label className="block text-sm mt-4 font-medium text-gray-700 mb-2">
+    Upload Profile Image
+  </label>
+  <div className="grid grid-rows-2 justify-center items-center px-6 py-8 border-2  border-gray-300 rounded-md">
+      <div>
+      <TbCloudUpload  className="mx-auto w-10 h-10"/>
+      </div>
+      <div className="mt-4 flex items-center text-sm text-gray-600">
+        <label
+          htmlFor="file-upload"
+          className="relative cursor-pointer rounded-md bg-gray-200 font-medium text-gray-700 px-4 py-2 hover:bg-gray-300 transition"
+        >
+          <span>Choose File</span>
+          <input
+            id="file-upload"
+            name="image"
+            type="file"
+            accept="image/*"
+            ref={partnerFileInputRef}
+            onChange={handlePartnerFormChange}
+            className="sr-only"
+          />
+        </label>
+        <div className="ml-3" id="file-name">
+          No File Chosen
+        </div>
+      </div>
+    
+  </div>
+</div>
+
+
+                <div className="border-2 border-[#9b111e] p-4 mt-4 rounded-xl ">
+                  <h2 className="mb-3 text-[#9b111e] text-lg font-bold">Login Setup</h2>
+                  <div className="grid grid-cols-2 gap-2 justify-between">
                   <div>
                       <label className="block text-sm font-medium text-gray-700 mb-1">
                       Email <span className="text-red-500">*</span>
@@ -593,6 +612,7 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
                       onChange={handlePartnerFormChange}
                       className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#800000] focus:border-transparent transition"
                     />
+                  </div>
                   </div>
                   </div>      
               {/* Full width submit button */}
