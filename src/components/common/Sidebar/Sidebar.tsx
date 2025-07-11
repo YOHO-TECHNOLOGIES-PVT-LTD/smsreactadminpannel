@@ -171,7 +171,7 @@ export const Sidebar = () => {
             ]}
             label="Partner"
             isOpen={isOpen}
-            tooltip="service"
+            tooltip="partner"
             onClick={handleLinkClick}
           />
           <SidebarLink

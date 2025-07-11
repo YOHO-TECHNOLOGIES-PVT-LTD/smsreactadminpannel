@@ -89,23 +89,29 @@ profile:{
     postlogin:(data:any)=>httpClient.post(API_END_POINTS.profile.Postlogin,data)
 },
 
+		enquiry: {
+			post: (data: string) =>
+				httpClient.post(API_END_POINTS.enquiry.Post, data),
+			get: (params: string) =>
+				httpClient.get(API_END_POINTS.enquiry.Get, params),
+			put: (data: string, params: string) =>
+				httpClient.update(API_END_POINTS.enquiry.Put, data, params),
+		},
 
-enquiry:{
-    post:(data:string)=>httpClient.post(API_END_POINTS.enquiry.Post,data,),
-    get:(params:string)=>httpClient.get(API_END_POINTS.enquiry.Get,params),
-    put:(data:string,params:string)=>httpClient.update(API_END_POINTS.enquiry.Put,data,params)
-},
+		vechiclemanage: {
+			get: (params: string) =>
+				httpClient.get(API_END_POINTS.vechiclemanage.Get, params),
+		},
 
- vechiclemanage:{
-    get:(params:string)=>httpClient.get(API_END_POINTS.vechiclemanage.Get,params)
- },
-
-  jobcard:{
-    get:(params:string)=>httpClient.get(API_END_POINTS.jobcard.Get.replace(':id',params)),
-    getAll:()=>httpClient.get(API_END_POINTS.jobcard.GetAll),
-    post:(data:string)=>httpClient.post(API_END_POINTS.jobcard.Post,data),
-    put:(data:any,params:string)=>httpClient.update(API_END_POINTS.jobcard.Put,data,params),
-  },
+		jobcard: {
+			get: (params: string) =>
+				httpClient.get(API_END_POINTS.jobcard.Get.replace(':id', params)),
+			getAll: () => httpClient.get(API_END_POINTS.jobcard.GetAll),
+			post: (data: string) =>
+				httpClient.post(API_END_POINTS.jobcard.Post, data),
+			put: (data: any, params: string) =>
+				httpClient.update(API_END_POINTS.jobcard.Put, data, params),
+		},
 
  dashboard:{
     get:(params:string)=>httpClient.get(API_END_POINTS.dashboard.Get,params),
