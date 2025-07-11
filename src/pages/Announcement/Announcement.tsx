@@ -113,14 +113,14 @@ const Announcement = () => {
               <input
                 type="text"
                 placeholder="Heading"
-                className="w-full p-2 border border-gray-300 rounded"
+                className="w-full p-2 border border-[#717171] placeholder:text-[#717171] rounded"
                 value={heading}
                 onChange={(e) => setHeading(e.target.value)}
                 required
               />
               <textarea
                 placeholder="Description"
-                className="w-full p-2 border border-gray-300 rounded"
+                className="w-full p-2 border border-[#717171] placeholder:text-[#717171] rounded"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 required
@@ -128,7 +128,7 @@ const Announcement = () => {
               <input
                 type="text"
                 placeholder="Offer Price"
-                className="w-full p-2 border border-gray-300 rounded"
+                className="w-full p-2 border border-[#717171] placeholder:text-[#717171] rounded"
                 value={price}
                 onChange={(e) => setPrice(e.target.value)}
                 required

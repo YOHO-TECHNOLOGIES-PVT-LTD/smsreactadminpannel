@@ -34,6 +34,7 @@ import announcementgray from "../../../assets/Announcement1.svg";
 import notificationwhite from "../../../assets/Notifications2.svg";
 import notificationgray from "../../../assets/Notifications1.svg";
 
+
 const COLOR = {
   primary: "#9b111e",
   bgColor: "#faf3eb",
@@ -55,6 +56,25 @@ export const Sidebar = () => {
             isOpen ? "w-40" : "w-12"
           }`}
         >
+         {/* <AnimatePresence mode="wait">
+  <motion.div 
+    key={isOpen ? "mainLogo" : "miniLogo"}
+    initial={{ opacity: 0, x: isOpen ? -20 : 20 }}
+    animate={{ opacity: 1, x: 0 }}
+    exit={{ opacity: 0, x: isOpen ? 20 : -20 }}
+    transition={{ 
+      duration: 0.3,
+      ease: [0.4, 0, 0.2, 1] // This is a smoother easing function
+    }}
+    className={isOpen ? "" : "w-[48px]"}
+  >
+    <img
+      src={isOpen ? mainLogo : MiniLogo}
+      alt="YES Mechanic Logo"
+      className="object-contain w-full"
+    />
+  </motion.div>
+</AnimatePresence> */}
           <img
             src={isOpen ? mainLogo : MiniLogo}
             alt="YES Mechanic Logo"
