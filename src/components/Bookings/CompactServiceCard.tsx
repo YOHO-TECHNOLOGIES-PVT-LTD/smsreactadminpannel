@@ -112,7 +112,7 @@ const CompactServiceCard: React.FC<CompactServiceCardProps> = ({ request, onAssi
       <div className="flex items-center mb-2 gap-2">
         <p className="text-sm flex gap-3 items-center font-semibold text-gray-700"> <FaUser className="w-4 h-4" />Customer Name</p>
       </div>
-      <p className=" ml-8 text-gray-900 text-sm">{request?.customerId?.firstName + ' ' + request?.customerId?.lastName || "customer name"}</p>
+      <p className=" ml-8 text-gray-900 text-sm">{request?.customerId?.firstName + ' ' + request?.customerId?.lastName || "Null"}</p>
     </div>
     <div>
       <div className="flex items-center mb-2 gap-2">
