@@ -229,7 +229,7 @@ const ServiceRequests: React.FC = () => {
       </div>
 
     
-      <div className="max-w-7xl py-6">
+      <div className="w-full py-6">
         {currentView === 'pending' ? (
           <>
             {/* Search Results Info */}

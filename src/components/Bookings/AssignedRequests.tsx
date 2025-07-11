@@ -60,7 +60,7 @@ interface AssignedRequestsProps {
 
 const AssignedRequests: React.FC<AssignedRequestsProps> = ({ assignedRequests, searchTerm }) => {
   return (
-<div className="grid grid-cols-1  md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-2 gap-4">
+<div className="grid grid-cols-2  md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-4">
   {assignedRequests.map((request) => (
     <div
       key={request._id}
@@ -104,12 +104,12 @@ const AssignedRequests: React.FC<AssignedRequestsProps> = ({ assignedRequests, s
           <span className="font-medium">Partner ID:</span> {request?.partnerId?.id}
         </div>
         <div className="grid grid-cols-2 gap-4">
-          <div>
+          <div className="flex items-center gap-2">
             <p className="text-sm font-medium text-gray-600">Name:</p>
             <p className="text-green-900">{request.partnerId?.firstName} {request.partnerId?.lastName}</p>
           </div>
-          <div>
-            <p className="text-sm font-medium text-gray-600">Company Name:</p>
+          <div className="flex items-center gap-2">
+            <p className="text-sm font-medium  text-gray-600">Company Name:</p>
             <p className=" text-green-900">{request.partnerId?.companyName }</p>
           </div>
         </div>
