@@ -117,7 +117,7 @@ export const Sidebar = () => {
           />
 
           <SidebarLink
-            to="/request-queue/schedule"
+            to="/request-queue"
             icon={[
               <img
                 src={schedulewhite}
@@ -171,7 +171,7 @@ export const Sidebar = () => {
             ]}
             label="Partner"
             isOpen={isOpen}
-            tooltip="service"
+            tooltip="partner"
             onClick={handleLinkClick}
           />
           <SidebarLink

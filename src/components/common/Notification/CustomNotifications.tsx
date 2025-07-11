@@ -50,7 +50,6 @@ const NotificationPanel: React.FC = () => {
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [filter, setFilter] = useState<"all" | "read" | "unread">("all");
   const socket = useSocket();
-  console.log("socket", socket);
 
   useEffect(() => {
     const fetchUserNotifications = async () => {
