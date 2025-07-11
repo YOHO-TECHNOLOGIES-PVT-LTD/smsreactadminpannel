@@ -64,6 +64,7 @@ const QuotationPage: React.FC = () => {
     await new Client().admin.jobcard.put(data,quotation?._id ?? '')
     toast.success("Quotation accepted!")
   }
+
     return (
         <><div onClick={handleClick} className="relative top-12 right-6 w-full flex justify-end ">
       <HiOutlineXMark className="opacity-25 w-8 h-8 hover:opacity-100 hover:bg-gradient-to-br hover:from-[#700808] hover:via-[#a61c1c] hover:to-[#d23c3c] hover:text-white p-1 rounded" />
@@ -85,9 +86,9 @@ const QuotationPage: React.FC = () => {
             <p className="text-sm mb-1">
               <span className="font-semibold">DATE:</span> {quotation?.createdAt}
             </p>
-            <p className="text-sm mb-1">
+            {/* <p className="text-sm mb-1">
               <span className="font-semibold">CUSTOMER ID:</span> 21007
-            </p>
+            </p> */}
             <p className="text-sm">
               <span className="font-semibold">REG NO.:</span> {quotation?.partnerId?.regNo}
             </p>
