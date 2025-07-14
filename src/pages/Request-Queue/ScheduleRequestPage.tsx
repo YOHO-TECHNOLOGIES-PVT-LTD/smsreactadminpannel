@@ -107,7 +107,7 @@ export default function ScheduleRequestPage() {
               placeholder="Search by customer name..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-12 pr-4 py-3 w-80 border-2 border-gray-200 rounded-xl focus-visible:ring-0 transition-all duration-300 bg-white shadow-sm hover:shadow-md"
+              className="pl-12 pr-4 py-3 w-80 border-2 border-[#717171] placeholder:text-[#717171] rounded-xl focus-visible:ring-0 transition-all duration-300 bg-white shadow-sm hover:shadow-md"
               style={{ ...FONTS.paragraph }}
             />
             {searchTerm && (
@@ -270,14 +270,14 @@ export default function ScheduleRequestPage() {
                     <span style={{ ...FONTS.cardSubHeader }}>Priority Date:</span>{" "}
                     {new Date(selectedRequest.schedule_date).toLocaleString()}
                   </p>
-                </div>
 
+                </div>
                 <div>
                   <label className="block mb-2 font-semibold text-gray-700 text-sm" style={{ ...FONTS.cardSubHeader }}>
                     Select Partner:
                   </label>
                   <select
-                    className="w-full border border-gray-300 p-3 rounded-lg !text-gray-800 focus:ring-[#9b111e] focus:border-[#9b111e]"
+                    className="w-full border border-[#717171] p-3 rounded-lg !text-gray-800 focus:ring-[#9b111e] focus:border-[#9b111e]"
                     value={selectedPartnerId}
                     onChange={(e) => setSelectedPartnerId(e.target.value)}
                     style={{ ...FONTS.paragraph }}
