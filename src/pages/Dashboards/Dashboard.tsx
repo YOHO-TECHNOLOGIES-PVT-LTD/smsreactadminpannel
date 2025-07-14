@@ -2,12 +2,12 @@
 import { FONTS } from "../../constants/uiConstants"; //FONT
 import { COLORS } from "../../constants/uiConstants"; //COLOUR
 //this is for ICONS
-import { AiOutlineCheckCircle } from "react-icons/ai";
+import { AiOutlineCheckCircle } from 'react-icons/ai';
 // import { GoDotFill } from "react-icons/go";
-import { IoIosArrowRoundUp } from "react-icons/io";
-import { IoIosArrowRoundDown } from "react-icons/io";
+import { IoIosArrowRoundUp } from 'react-icons/io';
+import { IoIosArrowRoundDown } from 'react-icons/io';
 // import { RiUser6Line } from "react-icons/ri";
-import { AiOutlineCopyrightCircle } from "react-icons/ai";
+import { AiOutlineCopyrightCircle } from 'react-icons/ai';
 // import { AiOutlineLeft } from "react-icons/ai";
 // import { AiOutlineArrowLeft } from 'react-icons/ai';
 import { MdEmergencyShare } from "react-icons/md";
@@ -20,50 +20,49 @@ import { Link } from "react-router-dom";
 
 
 //this is FILE
-import CustomerAnalyticsChart from "../../components/common/dashboard/NotificationList/NotificationList";
-import BarCharts from "../../components/common/dashboard/BarChart/BarChart";
-import { TransactionCard } from "../../components/common/dashboard/TransactionsCard/TransactionsCard";
-import { DashboardCard } from "../../components/common/dashboard/DashboardCard/DashboardCard";
-import { QueryCard } from "../../components/common/dashboard/QueryCard/QueryCard";
-import dummpypic from "../../assets/Dashboard/images.jpg";
+import CustomerAnalyticsChart from '../../components/common/dashboard/NotificationList/NotificationList';
+import BarCharts from '../../components/common/dashboard/BarChart/BarChart';
+import { TransactionCard } from '../../components/common/dashboard/TransactionsCard/TransactionsCard';
+import { DashboardCard } from '../../components/common/dashboard/DashboardCard/DashboardCard';
+import { QueryCard } from '../../components/common/dashboard/QueryCard/QueryCard';
+import dummpypic from '../../assets/Dashboard/images.jpg';
 // import StatCard from "../../components/common/dashboard/StatCard/StatCard";
-import { SoSCard } from "../../components/common/dashboard/SoSCard/SoSCard";
-import TotalRevenue from "../../components/common/dashboard/TotalRevenue/TotalRevenue";
-import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
-
-import Client from "../../api";
+import { SoSCard } from '../../components/common/dashboard/SoSCard/SoSCard';
+import TotalRevenue from '../../components/common/dashboard/TotalRevenue/TotalRevenue';
+import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { getDashboardData } from '../../features/Dashboard/services';
 
 const queries = [
-  {
-    title: "Break not fixed",
-    desc: "I gave my bike to the shop some days ago but they didn't repair it in time and didn't fix it.",
-    profilePicUrl: dummpypic,
-  },
-  {
-    title: "Glass work bending",
-    desc: "I gave my car to the shop some days ago but they didn't repair it in time and didn't fix it.",
-    profilePicUrl:
-      "https://plus.unsplash.com/premium_photo-1689568126014-06fea9d5d341?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8cHJvZmlsZXxlbnwwfHwwfHx8MA%3D%3D",
-  },
-  {
-    title: "Tyre puncture",
-    desc: "I gave my bike to the shop some days ago but they didn't repair it in time and didn't fix it.",
-    profilePicUrl:
-      "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8cHJvZmlsZXxlbnwwfHwwfHx8MA%3D%3D",
-  },
-  {
-    title: "Late pickup service",
-    desc: "Scheduled pickup was delayed by 2 hours without any update or notice.",
-    profilePicUrl:
-      "https://t3.ftcdn.net/jpg/08/86/78/68/360_F_886786813_XhL8zD8rhZCW7F5HvJdOPvquFh3n23vd.jpg",
-  },
-  {
-    title: "Billing mismatch",
-    desc: "Was charged extra without prior intimation or explanation on final invoice.",
-    profilePicUrl:
-      "https://www.shutterstock.com/image-photo/happy-middle-aged-45-years-260nw-2516789519.jpg",
-  },
+	{
+		title: 'Break not fixed',
+		desc: "I gave my bike to the shop some days ago but they didn't repair it in time and didn't fix it.",
+		profilePicUrl: dummpypic,
+	},
+	{
+		title: 'Glass work bending',
+		desc: "I gave my car to the shop some days ago but they didn't repair it in time and didn't fix it.",
+		profilePicUrl:
+			'https://plus.unsplash.com/premium_photo-1689568126014-06fea9d5d341?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8cHJvZmlsZXxlbnwwfHwwfHx8MA%3D%3D',
+	},
+	{
+		title: 'Tyre puncture',
+		desc: "I gave my bike to the shop some days ago but they didn't repair it in time and didn't fix it.",
+		profilePicUrl:
+			'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8cHJvZmlsZXxlbnwwfHwwfHx8MA%3D%3D',
+	},
+	{
+		title: 'Late pickup service',
+		desc: 'Scheduled pickup was delayed by 2 hours without any update or notice.',
+		profilePicUrl:
+			'https://t3.ftcdn.net/jpg/08/86/78/68/360_F_886786813_XhL8zD8rhZCW7F5HvJdOPvquFh3n23vd.jpg',
+	},
+	{
+		title: 'Billing mismatch',
+		desc: 'Was charged extra without prior intimation or explanation on final invoice.',
+		profilePicUrl:
+			'https://www.shutterstock.com/image-photo/happy-middle-aged-45-years-260nw-2516789519.jpg',
+	},
 ];
 
 // code Dashboard started
@@ -158,39 +157,39 @@ export const Dashboard = () => {
               // onClick={() => navigate("/request-queue/schedule")}
             />
 
-            <DashboardCard
-              icon={<GrTransaction />}
-              title="Total Transactions"
-              value={22}
-              per={15}
-              perColor="#10b981"
-              borderColor="rgba(16,185,129,0.8)"
-              backgroundColor="#10b981"
-              dataPoints={[1, 5, 2, 4, 3, 5, 6]}
-            />
+						<DashboardCard
+							icon={<GrTransaction />}
+							title='Total Transactions'
+							value={22}
+							per={15}
+							perColor='#10b981'
+							borderColor='rgba(16,185,129,0.8)'
+							backgroundColor='#10b981'
+							dataPoints={[1, 5, 2, 4, 3, 5, 6]}
+						/>
 
-            <DashboardCard
-              icon={<MdOutlinePendingActions />}
-              title="Pending"
-              value={20}
-              per={10}
-              perColor="#D77FA1"
-              borderColor="rgba(215,127,161,0.8)"
-              backgroundColor="#D77FA1"
-              dataPoints={[1, 3, 2, 5, 4, 6, 5]}
-            />
-          </div>
-        </div>
-      </div>
+						<DashboardCard
+							icon={<MdOutlinePendingActions />}
+							title='Pending'
+							value={20}
+							per={10}
+							perColor='#D77FA1'
+							borderColor='rgba(215,127,161,0.8)'
+							backgroundColor='#D77FA1'
+							dataPoints={[1, 3, 2, 5, 4, 6, 5]}
+						/>
+					</div>
+				</div>
+			</div>
 
-      {/* Notifications, Bar Chart, SOS */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-4 ">
-        {/* Notifications */}
-        <div className="bg-white shadow-md rounded-xl p-4 max-h-96 hover:scale-[1.02] ">
-          <div className="">
-            <CustomerAnalyticsChart />
-          </div>
-        </div>
+			{/* Notifications, Bar Chart, SOS */}
+			<div className='grid grid-cols-1 lg:grid-cols-3 gap-4 mb-4 '>
+				{/* Notifications */}
+				<div className='bg-white shadow-md rounded-xl p-4 max-h-96 hover:scale-[1.02] '>
+					<div className=''>
+						<CustomerAnalyticsChart />
+					</div>
+				</div>
 
         {/* Bar Chart */}
         <div className=" grid grid-row-2 ">

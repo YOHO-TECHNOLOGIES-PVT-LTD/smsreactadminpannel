@@ -18,37 +18,37 @@ import { BiSolidEdit } from "react-icons/bi";
 
 
 type pendingService = {
-  _id: string;
-  requestId: string;
-  uuid: string;
-  requestType: string;
-  customerId: {
-    contact_info: {
-      state: string;
-      city: string;
-      address1: string;
-      address2: string;
-      phoneNumber: string;
-    }
-    vehicleInfo: {
-      registerNumber: string;
-      model: string;
-    }
-    firstName: string;
-    lastName: string;
-  }
-  service: [
-    {
-      _id: string;
-      service_name: string;
-      uuid: string;
-    }
-  ]
-  createdAt: string;
-}
+	_id: string;
+	requestId: string;
+	uuid: string;
+	requestType: string;
+	customerId: {
+		contact_info: {
+			state: string;
+			city: string;
+			address1: string;
+			address2: string;
+			phoneNumber: string;
+		};
+		vehicleInfo: {
+			registerNumber: string;
+			model: string;
+		};
+		firstName: string;
+		lastName: string;
+	};
+	service: [
+		{
+			_id: string;
+			service_name: string;
+			uuid: string;
+		}
+	];
+	createdAt: string;
+};
 interface CompactServiceCardProps {
-  request: pendingService;
-  onAssign?: (requestId: string, partner: string) => void;
+	request: pendingService;
+	onAssign?: (requestId: string, partner: string) => void;
 }
 
 const CompactServiceCard: React.FC<CompactServiceCardProps> = ({ request, onAssign }) => {
@@ -58,15 +58,14 @@ const CompactServiceCard: React.FC<CompactServiceCardProps> = ({ request, onAssi
   const [partnerList, setpartnerList] = useState<any[]>([]);
   const socket = useSocket();
 
-  const handleAssign = async() => {
-  
-    if (!selectedPartner) {
-      toast.error("Please select a partner.");
-      return;
-    }
-    toast.success(`Assigned to ${selectedPartner}`);
-    const data = { uuid: request.uuid }
-    await updatePendingRequest(selectedPartner,data)
+	const handleAssign = async () => {
+		if (!selectedPartner) {
+			toast.error('Please select a partner.');
+			return;
+		}
+		toast.success(`Assigned to ${selectedPartner}`);
+		const data = { uuid: request.uuid };
+		await updatePendingRequest(selectedPartner, data);
 
     // Call the onAssign callback if provided
     if (onAssign) {
@@ -202,18 +201,23 @@ const CompactServiceCard: React.FC<CompactServiceCardProps> = ({ request, onAssi
   </div>
 </div>
 
-      {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex">
-          <div className="absolute inset-0 bg-black bg-opacity-40" onClick={() => setIsModalOpen(false)} />
-          <div className="ml-auto w-1/2 h-full bg-[#fef3f2] shadow-xl z-50 p-6 overflow-y-auto animate-slide-in relative rounded-l-xl border-l-4 border-[#9b111e]">
-            <button
-              onClick={() => setIsModalOpen(false)}
-              className="absolute top-4 right-6 text-gray-600 text-xl font-bold hover:text-gray-800 rounded-3xl"
-            >
-              &times;
-            </button>
+			{isModalOpen && (
+				<div className='fixed inset-0 z-50 flex'>
+					<div
+						className='absolute inset-0 bg-black bg-opacity-40'
+						onClick={() => setIsModalOpen(false)}
+					/>
+					<div className='ml-auto w-1/2 h-full bg-[#fef3f2] shadow-xl z-50 p-6 overflow-y-auto animate-slide-in relative rounded-l-xl border-l-4 border-[#9b111e]'>
+						<button
+							onClick={() => setIsModalOpen(false)}
+							className='absolute top-4 right-6 text-gray-600 text-xl font-bold hover:text-gray-800 rounded-3xl'
+						>
+							&times;
+						</button>
 
-            <h2 className="text-2xl font-bold text-[#9b111e] mb-6">Assign Partner</h2>
+						<h2 className='text-2xl font-bold text-[#9b111e] mb-6'>
+							Assign Partner
+						</h2>
 
             <div className="bg-white shadow-md rounded-xl p-5 grid grid-cols-2 gap-4 mb-6 border">
               <div>
@@ -248,44 +252,54 @@ const CompactServiceCard: React.FC<CompactServiceCardProps> = ({ request, onAssi
               </div>
             </div>
 
-            <div className="mb-6">
-              <label className="block text-sm font-medium text-gray-700 mb-1">Select Partner:</label>
-              <select
-                value={selectedPartner}
-                onChange={(e) => setSelectedPartner(e.target.value)}
-                className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm"
-              >
-                <option value="">-- Choose a partner --</option>
-                {
-                  partnerList.map((items,index)=>{
-                    return <option key={index} value={items._id}>{items?.id+" "+items.firstName+' '+items.lastName+"-"+items.contact_info.city}</option>
-                  })
-                }
-                {/* <option value="Donald spares & services">Donald spares & services</option>
+						<div className='mb-6'>
+							<label className='block text-sm font-medium text-gray-700 mb-1'>
+								Select Partner:
+							</label>
+							<select
+								value={selectedPartner}
+								onChange={(e) => setSelectedPartner(e.target.value)}
+								className='w-full border border-gray-300 rounded-md px-3 py-2 text-sm'
+							>
+								<option value=''>-- Choose a partner --</option>
+								{partnerList?.map((items, index) => {
+									return (
+										<option key={index} value={items._id}>
+											{items?.id +
+												' ' +
+												items.firstName +
+												' ' +
+												items.lastName +
+												'-' +
+												items.contact_info.city}
+										</option>
+									);
+								})}
+								{/* <option value="Donald spares & services">Donald spares & services</option>
                 <option value="kar spa services">kar spa services</option> */}
-              </select>
-            </div>
+							</select>
+						</div>
 
-            <div className="flex justify-end gap-3">
-              <button
-                onClick={() => setIsModalOpen(false)}
-                className="bg-gray-200 text-gray-700 px-4 py-2  font-medium hover:bg-gray-300 rounded-3xl"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={handleAssign}
-                disabled={!selectedPartner}
-                className="bg-[#9b111e] text-white px-4 py-2 rounded-3xl font-medium hover:bg-[#7e0e19] disabled:opacity-50"
-              >
-                Assign Partner
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-    </>
-  );
+						<div className='flex justify-end gap-3'>
+							<button
+								onClick={() => setIsModalOpen(false)}
+								className='bg-gray-200 text-gray-700 px-4 py-2  font-medium hover:bg-gray-300 rounded-3xl'
+							>
+								Cancel
+							</button>
+							<button
+								onClick={handleAssign}
+								disabled={!selectedPartner}
+								className='bg-[#9b111e] text-white px-4 py-2 rounded-3xl font-medium hover:bg-[#7e0e19] disabled:opacity-50'
+							>
+								Assign Partner
+							</button>
+						</div>
+					</div>
+				</div>
+			)}
+		</>
+	);
 };
 
 export default CompactServiceCard;

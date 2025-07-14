@@ -33,13 +33,13 @@ const AppRoutes = () => {
 
   if (isLoading) return null;
 
-  const AuthRoutes = () => (
-    <Routes>
-      <Route path="/login" element={<LoginPage />} />
-      <Route path="/signup" element={<SignupPage />} />
-      <Route path="*" element={<Navigate to="/login" />} />
-    </Routes>
-  );
+	const AuthRoutes = () => (
+		<Routes>
+			<Route path='/login' element={<LoginPage />} />
+			<Route path='/signup' element={<SignupPage />} />
+			<Route path='*' element={<Navigate to='/login' />} />
+		</Routes>
+	);
 
   const AdminRoutes = () => (
     <Routes>
@@ -75,7 +75,7 @@ const AppRoutes = () => {
     </Routes>
   );
 
-  return isAuthenticated ? <AdminRoutes /> : <AuthRoutes />;
+	return isAuthenticated ? <AdminRoutes /> : <AuthRoutes />;
 };
 
 export default AppRoutes;

@@ -53,11 +53,11 @@ export default function ScheduleRequestPage() {
     setOpen(true);
   };
 
-  const closeModal = () => {
-    setOpen(false);
-    setSelectedPartnerId("");
-    setSelectedRequest(null);
-  };
+	const closeModal = () => {
+		setOpen(false);
+		setSelectedPartnerId('');
+		setSelectedRequest(null);
+	};
 
   const assignPartner = async () => {
     if (!selectedRequest || !selectedPartnerId) return;
