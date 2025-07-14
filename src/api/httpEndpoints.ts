@@ -119,7 +119,7 @@ export const API_END_POINTS ={
       getAll :`/api/partner/customermanage`,
     },
     customermanagement_history:{
-      getAll: `/api/partner/CustomerManagement/service-history`
+      getAll: `/api/partner/CustomerManagement/service-history/:customerid`
     },
 
     serviceRequest:{
