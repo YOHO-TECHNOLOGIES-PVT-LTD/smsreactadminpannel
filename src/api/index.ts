@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { data } from "react-router-dom";
 import httpClient from "./httpClient";
 import { API_END_POINTS } from "./httpEndpoints";
 
@@ -96,6 +97,7 @@ profile:{
 				httpClient.get(API_END_POINTS.enquiry.Get, params),
 			put: (data: string, params: string) =>
 				httpClient.update(API_END_POINTS.enquiry.Put, data, params),
+      putstatus:(data:any)=>httpClient.update(API_END_POINTS.enquiry.put.replace(':id', data.id),data)
 		},
 
 		vechiclemanage: {

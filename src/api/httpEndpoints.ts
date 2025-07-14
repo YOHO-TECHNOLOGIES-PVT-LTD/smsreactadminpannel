@@ -30,6 +30,7 @@ export const API_END_POINTS = {
     Post:"/api/enquiry/create",
      Get:"/api/serviceEnquiry/getAllEnquiries",
     Put:"/api/enquiry/update/:uuid",
+    put:"/api/serviceEnquiry/replyEnquiry/:id"
    },
 
    sos:{
