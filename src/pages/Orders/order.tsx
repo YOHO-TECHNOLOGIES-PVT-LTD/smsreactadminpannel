@@ -102,8 +102,8 @@ const handleChange = () => {
   return (
     <div className="p-4 md:p-6 h-full min-h-screen">
       <div className='flex justify-between'>
-        <h1 className=" !font-bold text-[#9b111e] mb-3" style={{...FONTS.header}}>Car Spare Parts Orders</h1>
-        <button onClick={handleChange}>Completed orders</button>
+        <h1 className=" !font-bold text-[#9b111e] mb-3 " style={{...FONTS.header}}>Car Spare Parts Orders</h1>
+        <button className='bg-[#9b111e] rounded-3xl !text-white p-2 mb-3' style={{...FONTS.subHeader}} onClick={handleChange}>Completed orders</button>
       </div>
       {/* Summary Cards */}
       <motion.div 
@@ -202,7 +202,7 @@ const handleChange = () => {
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
               {currentOrders.length > 0 ? (
-                [...currentOrders].reverse().map((order, index) => (
+                [...currentOrders].sort((a, b) => b.orderId.localeCompare(a.orderId)).map((order, index) => (
                   <motion.tr
                     key={index}
                     initial={{ opacity: 0 }}
