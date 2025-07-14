@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { data } from "react-router-dom";
 import httpClient from "./httpClient";
 import { API_END_POINTS } from "./httpEndpoints";
 
@@ -9,7 +10,7 @@ admin={
     getById:(params:string)=>httpClient.get(API_END_POINTS.notification.GetById ,params),
     markAllAsread:(params:string,data:string)=>httpClient.update(API_END_POINTS.notification.markAllAsRead,params,data),
     delete:()=>httpClient.delete(API_END_POINTS.notification.delete),
-    getAll:(data:string)=>httpClient.get(API_END_POINTS.notification.getall,data),
+    getAll:()=>httpClient.get(API_END_POINTS.notification.getall),
     getstats:(params:string)=>httpClient.get(API_END_POINTS.notification.Getstats,params),
     create:(data:string)=>httpClient.post(API_END_POINTS.notification.create,data),
     getByUser:(params:string)=>httpClient.get(API_END_POINTS.notification.getByUser,params) ,
@@ -93,16 +94,20 @@ profile:{
     postlogin:(data:any)=>httpClient.post(API_END_POINTS.profile.Postlogin,data)
 },
 
+		enquiry: {
+			post: (data: string) =>
+				httpClient.post(API_END_POINTS.enquiry.Post, data),
+			get: (params: string) =>
+				httpClient.get(API_END_POINTS.enquiry.Get, params),
+			put: (data: string, params: string) =>
+				httpClient.update(API_END_POINTS.enquiry.Put, data, params),
+      putstatus:(data:any)=>httpClient.update(API_END_POINTS.enquiry.put.replace(':id', data.id),data)
+		},
 
-enquiry:{
-    post:(data:string)=>httpClient.post(API_END_POINTS.enquiry.Post,data,),
-    get:(params:string)=>httpClient.get(API_END_POINTS.enquiry.Get,params),
-    put:(data:string,params:string)=>httpClient.update(API_END_POINTS.enquiry.Put,data,params)
-},
-
- vechiclemanage:{
-    get:(params:string)=>httpClient.get(API_END_POINTS.vechiclemanage.Get,params)
- },
+		vechiclemanage: {
+			get: (params: string) =>
+				httpClient.get(API_END_POINTS.vechiclemanage.Get, params),
+		},
 
   jobcard:{
     get:(params:string)=>httpClient.get(API_END_POINTS.jobcard.Get.replace(':id',params)),

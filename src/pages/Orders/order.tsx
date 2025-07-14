@@ -202,7 +202,7 @@ const Order = () => {
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
               {currentOrders.length > 0 ? (
-                [...currentOrders].reverse().map((order, index) => (
+                [...currentOrders].sort((a, b) => b.orderId.localeCompare(a.orderId)).map((order, index) => (
                   <motion.tr
                     key={index}
                     initial={{ opacity: 0 }}

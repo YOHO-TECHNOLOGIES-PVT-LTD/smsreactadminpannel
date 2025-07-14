@@ -1,99 +1,102 @@
- 
-import React, { useEffect, useState } from "react";
-import CompactServiceCard from "../../components/Bookings/CompactServiceCard";
-import AssignedRequests from "../../components/Bookings/AssignedRequests";
-import { GetAssignedRequest, GetPendingRequest } from "./service";
-import { FONTS } from "../../constants/uiConstants";
+import React, { useEffect, useState } from 'react';
+import CompactServiceCard from '../../components/Bookings/CompactServiceCard';
+import AssignedRequests from '../../components/Bookings/AssignedRequests';
+import { GetAssignedRequest, GetPendingRequest } from './service';
+import { FONTS } from '../../constants/uiConstants';
 
 type pendingService = {
-  _id: string;
-  requestId: string;
-  uuid: string;
-  requestType: string;
-  customerId: {
-    contact_info: {
-      state: string;
-      city: string;
-      address1: string;
-      address2: string;
-      phoneNumber: string;
-    }
-    vehicleInfo: {
-      registerNumber: string;
-      model: string;
-    }
-    firstName: string;
-    lastName: string;
-  }
-  service: [
-    {
-      _id: string;
-      service_name: string;
-      uuid: string;
-    }
-  ]
-  createdAt: string;
-  assigned_date: string;
-  partnerId: {
-    contact_info: {
-      state: string;
-      city: string;
-      address1: string;
-      address2: string;
-      phoneNumber: string;
-    }
-    firstName: string;
-    lastName: string;
-    id: string;
-  }
-}
+	_id: string;
+	requestId: string;
+	uuid: string;
+	requestType: string;
+	customerId: {
+		contact_info: {
+			state: string;
+			city: string;
+			address1: string;
+			address2: string;
+			phoneNumber: string;
+		};
+		vehicleInfo: {
+			registerNumber: string;
+			model: string;
+		};
+		firstName: string;
+		lastName: string;
+	};
+	service: [
+		{
+			_id: string;
+			service_name: string;
+			uuid: string;
+		}
+	];
+	createdAt: string;
+	assigned_date: string;
+	partnerId: {
+		contact_info: {
+			state: string;
+			city: string;
+			address1: string;
+			address2: string;
+			phoneNumber: string;
+		};
+		firstName: string;
+		lastName: string;
+		id: string;
+	};
+};
 type AssignedService = {
-  _id: string;
-  requestId: string;
-  uuid: string;
-  requestType: string;
-  customerId: {
-    contact_info: {
-      state: string;
-      city: string;
-      address1: string;
-      address2: string;
-      phoneNumber: string;
-    }
-    vehicleInfo: {
-      registerNumber: string;
-      model: string;
-    }
-    firstName: string;
-    lastName: string;
-  }
-  service: [
-    {
-      _id: string;
-      service_name: string;
-      uuid: string;
-    }
-  ]
-  createdAt: string;
-  assigned_date: string;
-  partnerId: {
-    contact_info: {
-      state: string;
-      city: string;
-      address1: string;
-      address2: string;
-      phoneNumber: string;
-    }
-    firstName: string;
-    lastName: string;
-    id: string;
-  }
-}
+	_id: string;
+	requestId: string;
+	uuid: string;
+	requestType: string;
+	customerId: {
+		contact_info: {
+			state: string;
+			city: string;
+			address1: string;
+			address2: string;
+			phoneNumber: string;
+		};
+		vehicleInfo: {
+			registerNumber: string;
+			model: string;
+		};
+		firstName: string;
+		lastName: string;
+	};
+	service: [
+		{
+			_id: string;
+			service_name: string;
+			uuid: string;
+		}
+	];
+	createdAt: string;
+	assigned_date: string;
+	partnerId: {
+		contact_info: {
+			state: string;
+			city: string;
+			address1: string;
+			address2: string;
+			phoneNumber: string;
+		};
+		firstName: string;
+		lastName: string;
+		id: string;
+	};
+};
 const ServiceRequests: React.FC = () => {
-  const [currentView, setCurrentView] = useState<'pending' | 'assigned'>('pending');
-  const [assignedRequests, setAssignedRequests] = useState<AssignedService[]>([]);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [pendingRequests, setPendingRequests] = useState<pendingService[]>([]);
+	const [currentView, setCurrentView] = useState<'pending' | 'assigned'>(
+		'pending'
+	);
+	const [assignedRequests, setAssignedRequests] = useState<AssignedService[]>(
+		[]
+	);
+	const [searchTerm, setSearchTerm] = useState('');
+	const [pendingRequests, setPendingRequests] = useState<pendingService[]>([]);
 
   async function fetchpending() {
     try {
@@ -104,46 +107,48 @@ const ServiceRequests: React.FC = () => {
     }
   }
 
-  async function fetchassigned() {
-    try {
-      const data = await GetAssignedRequest()
-      setAssignedRequests(data.data)
-    } catch (error) {
-      console.log(error)
-    }
-  }
+	async function fetchassigned() {
+		try {
+			const data = await GetAssignedRequest();
+			setAssignedRequests(data?.data);
+		} catch (error) {
+			console.log(error);
+		}
+	}
 
-  useEffect(() => {
-    if (currentView === "pending") {
-      fetchpending()
-    }else{
-       fetchassigned()
-    } 
-  }, [currentView]);
+	useEffect(() => {
+		if (currentView === 'pending') {
+			fetchpending();
+		} else {
+			fetchassigned();
+		}
+	}, [currentView]);
 
-  const handleAssignPartner = async(requestId: string, partner: string) => {
-    // Find the request to assign
-    const requestToAssign = pendingRequests.find(req => req._id === requestId);
-    if (requestToAssign) {
-      // Create assigned request with additional fields
+	const handleAssignPartner = async (requestId: string, partner: string) => {
+		// Find the request to assign
+		const requestToAssign = pendingRequests.find(
+			(req) => req._id === requestId
+		);
+		if (requestToAssign) {
+			// Create assigned request with additional fields
 
-      const assignedRequest = {
-        ...requestToAssign,
-        assignedPartner: partner,
-        assignedDate: new Date().toISOString(),
-        status: 'assigned'
-      };
-      
-      // Add to assigned requests
-      setAssignedRequests(prev => [...prev, assignedRequest]);
-      
-      // Remove from pending requests
-      setPendingRequests(prev => prev.filter(req => req._id !== requestId));
-      
-      // Switch to assigned view
-      setCurrentView('assigned');
-    }
-  };
+			const assignedRequest = {
+				...requestToAssign,
+				assignedPartner: partner,
+				assignedDate: new Date().toISOString(),
+				status: 'assigned',
+			};
+
+			// Add to assigned requests
+			setAssignedRequests((prev) => [...prev, assignedRequest]);
+
+			// Remove from pending requests
+			setPendingRequests((prev) => prev.filter((req) => req._id !== requestId));
+
+			// Switch to assigned view
+			setCurrentView('assigned');
+		}
+	};
 
 
   const filteredPendingRequests = pendingRequests.filter(request => {
@@ -214,19 +219,18 @@ const ServiceRequests: React.FC = () => {
   onClick={() => setCurrentView('assigned')}
   className={`px-4 py-2 rounded-3xl font-medium border transition-colors
     ${
-      currentView === 'assigned'
-        ? 'bg-[#9b111e] text-white border-[#9b111e]'
-        : 'bg-[white] text-[#9b111e] border-[#9b111e] '
-    }`}
->
-  Assigned
-</button>
-
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+			currentView === 'assigned'
+				? 'bg-[#9b111e] text-white border-[#9b111e]'
+				: 'bg-[white] text-[#9b111e] border-[#9b111e] '
+		}`}
+								>
+									Assigned
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 
     
       <div className="w-full py-6">
@@ -252,17 +256,29 @@ const ServiceRequests: React.FC = () => {
               ))}
             </div>
 
-            {filteredPendingRequests.length === 0 && !searchTerm && (
-              <div className="text-center py-12">
-                <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <svg className="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12h6M9 16h6M9 8h6M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                  </svg>
-                </div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">No pending requests</h3>
-                <p className="text-gray-600">New requests will appear here</p>
-              </div>
-            )}
+						{filteredPendingRequests?.length === 0 && !searchTerm && (
+							<div className='text-center py-12'>
+								<div className='w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4'>
+									<svg
+										className='w-8 h-8 text-gray-400'
+										fill='none'
+										stroke='currentColor'
+										viewBox='0 0 24 24'
+									>
+										<path
+											strokeLinecap='round'
+											strokeLinejoin='round'
+											strokeWidth={1.5}
+											d='M9 12h6M9 16h6M9 8h6M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z'
+										/>
+									</svg>
+								</div>
+								<h3 className='text-lg font-semibold text-gray-900 mb-2'>
+									No pending requests
+								</h3>
+								<p className='text-gray-600'>New requests will appear here</p>
+							</div>
+						)}
 
             {filteredPendingRequests.length === 0 && searchTerm && (
               <div className="text-center py-12">

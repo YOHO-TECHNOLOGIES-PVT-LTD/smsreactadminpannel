@@ -1,25 +1,25 @@
 import axios from "axios";
 
 
-const backEndUrl:string= import.meta.env.VITE_PUBLIC_API_URL
+const backEndUrl:string= 'http://localhost:3000'
 
 
 const Axios = axios.create({
-    baseURL:backEndUrl,
-    timeout:50000000,
-    headers:{
-        "Content-Type":"application/json",
-    }
+	baseURL: backEndUrl,
 
+	timeout: 50000000,
+	headers: {
+		'Content-Type': 'application/json',
+	},
 });
 
-Axios.interceptors.request.use((config)=> {
-    const token =localStorage.getItem("authToken");
-    
-    if(token){
-        config.headers["Authorization"] = `${token ? token :""}`;
-    }
-    return config;
+Axios.interceptors.request.use((config) => {
+	const token = localStorage.getItem('authToken');
+
+	if (token) {
+		config.headers['Authorization'] = `${token ? token : ''}`;
+	}
+	return config;
 });
 
 Axios.interceptors.response.use(
@@ -79,32 +79,28 @@ class HttpClient{
         return response?.data;
     }
 
-  async delete(url:string){
+	async delete(url: string) {
+		const response = await Axios.delete(url);
+		return response?.data;
+	}
 
-    const response = await Axios.delete(url,)
-    return response?.data;
-  }
+	async fileGet(url: string) {
+		const response = await Axios.get(url, {
+			responseType: 'blob',
+			headers: {},
+		});
+		return response;
+	}
 
-  async fileGet(url:string){
-    const response= Axios.get(url,{
-        responseType:"blob",
-        headers:{
-
-        }
-    })
-    return response;
-  }
-
-//   async uploadFile(url:string,data:string)
-//   {
-//     const response = await Axios.post(url,data,{
-//       headers:{
-//         "Content-Type":"multipart/form-data",
-//       }
-//     });
-//     return response?.data;
-//   }
-
+	//   async uploadFile(url:string,data:string)
+	//   {
+	//     const response = await Axios.post(url,data,{
+	//       headers:{
+	//         "Content-Type":"multipart/form-data",
+	//       }
+	//     });
+	//     return response?.data;
+	//   }
 }
 
-export default  new HttpClient();
+export default new HttpClient();

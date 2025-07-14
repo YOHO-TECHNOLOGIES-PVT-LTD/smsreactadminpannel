@@ -4,6 +4,7 @@ import { FONTS } from "../../constants/uiConstants";
 import { GetUnassignedScheduleReq, UpdateScheduleReq } from "./Service";
 import { ScheduleRequest } from "./scheduleType";
 import { FetchPartnerList } from "../../utils/CommonApiFetch";
+import { toast } from "react-toastify";
 import { useSocket } from "../../context/adminSocket";
 // interface Request {
 //   id: string;
@@ -60,12 +61,11 @@ export default function ScheduleRequestPage() {
     setOpen(true);
   };
 
-  const closeModal = () => {
-    setOpen(false);
-    setSelectedPartnerId("");
-    setSelectedRequest(null);
-  };
-
+	const closeModal = () => {
+		setOpen(false);
+		setSelectedPartnerId('');
+		setSelectedRequest(null);
+	};
 
   const assignPartner = async () => {
     if (!selectedRequest || !selectedPartnerId) return;
@@ -116,6 +116,7 @@ export default function ScheduleRequestPage() {
 
 
     alert(`Successfully assigned ${selectedPartner?.firstName} to ${selectedRequest.customerId.firstName}'s request!`);
+    toast.success(`Successfully assigned ${selectedPartner?.firstName} to ${selectedRequest.customerId?.firstName || 'customer'}'s request!`);
     closeModal();
   };
 

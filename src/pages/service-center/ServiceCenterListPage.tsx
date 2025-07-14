@@ -2,8 +2,8 @@
 import type React from "react"
 
 import { useState, useRef, useEffect } from "react"
-import { FaArrowTrendUp } from "react-icons/fa6"
-import { BsEye } from "react-icons/bs"
+// import { FaArrowTrendUp } from "react-icons/fa6"
+// import { BsEye } from "react-icons/bs"
 import { IoClose } from "react-icons/io5"
 import { MdAddCircleOutline } from "react-icons/md"
 import { FiSearch } from "react-icons/fi"

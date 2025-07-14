@@ -6,26 +6,41 @@ import { FONTS } from "../../../constants/uiConstants";
 import { useSocket } from "../../../context/adminSocket";
 // import notificationSound from "../../../assets/notification.mp3";
 
+interface Notification {
+	id: number;
+	message: string;
+	created_at: string;
+	is_read: boolean;
+	priority: string;
+	action_type: string;
+	title: string;
+	is_active: boolean
+}
+
 const NotificationPanel: React.FC = () => {
   const [notifications, setNotifications] = useState([]);
   const [filter, setFilter] = useState("all");
   const socket = useSocket();
-  const audioRef = useRef(null);
 
-  useEffect(() => {
-    if (!socket) return;
-    socket.on("newNotification", (data) => {
-      toast.info(data.title);
-      if (audioRef.current) audioRef.current.play();
-      setNotifications((prev) => [data, ...prev]);
-    });
-    return () => socket.off("newNotification");
-  }, [socket]);
+  useEffect(()=>{
+    if(!socket) return;
+
+    const handleNotification = (data: any) => {
+      console.log("Admin Notification Recieved", data)
+    }
+
+    socket.on("newNotification", handleNotification)
+
+    return ()=>{
+      socket.off('newNotification', handleNotification)
+    }
+  }, [socket])
+
 
   useEffect(() => {
     const fetchNotifications = async () => {
       try {
-        const res = await getAllNotification();
+        const res:any = await getAllNotification();
         setNotifications(res.data?.data || []);
       } catch (err) {
         console.error("Fetch error", err);

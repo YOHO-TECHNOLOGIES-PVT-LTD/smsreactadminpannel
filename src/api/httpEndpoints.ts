@@ -21,7 +21,6 @@ export const API_END_POINTS = {
     Get: "/api/vehicle/getall/",
   },
 
-
   announcement: {
     Post: "/api/announcement/create",
     Get: "/api/announcement/all",
@@ -33,6 +32,7 @@ export const API_END_POINTS = {
     Post: "/api/enquiry/create",
     Get: "/api/serviceEnquiry/getAllEnquiries",
     Put: "/api/enquiry/update/:uuid",
+    put:"/api/serviceEnquiry/replyEnquiry/:id"
   },
 
   sos: {
@@ -68,7 +68,7 @@ export const API_END_POINTS = {
     markAllAsRead: "/api/notifications/read-all/:userId",
     Getstats: "/api/notifications/stats/:userId",
     delete: "/api/notifications/:uuid",
-    getall: "/api/notifications/",
+    getall: "/api/notifications/admin",
     GetById: "/api/notifications/:uuid",
     update: "/api/notifications/:uuid",
     postperferenceCreateOrUpdate: "/api/notifications/preferences",
@@ -76,21 +76,21 @@ export const API_END_POINTS = {
     getPreferenceGet: "/api/preferences/:userId",
   },
 
-  spareparts: {
-    create: "/api/admin/spareparts/create",
-    get: "/api/admin/spareparts/create",
-    getall: "/api/admin/spareparts/getall/:uuid",
-    update: "/api/admin/spareparts/update/:id",
-    updatestatus: "/api/admin/spareparts/updatestatus/:id",
-    delete: "/api/admin/spareparts/delete/:id",
+   spareparts:{
+    create:"/api/admin/spareparts/create",
+    get:"/api/admin/spareparts/create",
+    getall:"/api/admin/spareparts/getall/:uuid",
+    update:"/api/admin/spareparts/update/:id",
+    updatestatus:"/api/admin/spareparts/updatestatus/:id",
+    delete:"/api/admin/spareparts/delete/:id",
 
-    category: {
-      create: "/api/products/category/",
-      getall: "/api/products/category/getall",
-      put: "/api/products/category/update/:uuid",
-      delete: "/api/products/category/delete/:uuid",
+    category:{
+      create:"/api/products/category/",
+      getall:  "/api/products/category/getall",
+      put : "/api/products/category/update/:uuid",
+      delete:  "/api/products/category/delete/:uuid",
     }
-  },
+   },
 
   serviceCenter: {
     getAll: "/api/admin/servicecenter/getall",
