@@ -4,6 +4,8 @@ import FullscreenButton from "./Fullscreen";
 import { ProfileModal } from "./ProfileModal";
 import { useAuth } from "../../../pages/auth/AuthContext";
 import { FONTS } from "../../../constants/uiConstants";
+import { useSocket } from "../../../context/adminSocket";
+import { getAllNotification } from "../Notification/services";
 
 interface User {
   name: string;
@@ -19,8 +21,9 @@ interface User {
 interface Notification {
   id: number;
   message: string;
-  time: string;
-  isRead: boolean;
+  created_at: string;
+  is_read: boolean;
+  title: string;
 }
 
 export const Navbar = () => {
@@ -32,36 +35,12 @@ export const Navbar = () => {
   const [showNotifications, setShowNotifications] = useState(false);
   const { logout } = useAuth();
   const navigate = useNavigate();
+  const socket = useSocket();
 
   const dropdownRef = useRef<HTMLDivElement | null>(null);
   const notificationRef = useRef<HTMLDivElement | null>(null);
 
-  const [notifications] = useState<Notification[]>([
-    {
-      id: 1,
-      message: "New task assigned to you: Project Review",
-      time: "5 minutes ago",
-      isRead: true,
-    },
-    {
-      id: 2,
-      message: "Your report has been approved",
-      time: "1 hour ago",
-      isRead: true,
-    },
-    {
-      id: 3,
-      message: "System maintenance scheduled for tomorrow",
-      time: "3 hours ago",
-      isRead: true,
-    },
-    {
-      id: 4,
-      message: "Welcome to the dashboard! Take a tour",
-      time: "1 day ago",
-      isRead: true,
-    },
-  ]);
+  const [notifications, setNotifications] = useState<Notification[]>([]);
 
   const [user] = useState<User>({
     name: "John Doe",
@@ -120,13 +99,40 @@ export const Navbar = () => {
     console.log("User updated:", updatedUser);
   };
 
-  const unreadCount = notifications.filter((n) => !n.isRead).length;
+  const unreadCount = notifications.filter((n) => !n.is_read).length;
 
   const handleLogout = () => {
     logout();
     navigate("/");
     console.log("User logged out");
   };
+
+   useEffect(() => {
+      const fetchNotifications = async () => {
+        try {
+          const res:any = await getAllNotification();
+          setNotifications(res.data?.data || []);
+        } catch (err) {
+          console.error("Fetch error", err);
+        }
+      };
+      fetchNotifications();
+    }, []);
+
+  useEffect(()=>{
+    if(!socket) return;
+
+    const handleNotify = (data:any) =>{
+    console.log("Notification from Customer ", data)
+    }
+
+    socket.on("newNotification", handleNotify);
+    setNotifications((prev)=> [notifications, ...prev])
+
+    return ()=>{
+      socket.off("newNotification", handleNotify)
+    }
+  },[socket])
 
   return (
     <>
@@ -220,25 +226,25 @@ export const Navbar = () => {
                 </div>
                 <div className="max-h-80 overflow-y-auto">
                   {notifications.length > 0 ? (
-                    notifications.map((notification) => (
+                    notifications.sort((a,b)=> new Date(b.created_at).getTime() - new Date(a.created_at).getTime()).map((notification) => (
                       <div
                         key={notification.id}
-                        className={`group relative p-3 border-b hover:bg-gray-50 transition-colors duration-150 ${notification.isRead ? "bg-white" : "bg-red-50"
+                        className={`group relative p-3 border-b hover:bg-gray-50 transition-colors duration-150 ${notification.is_read ? "bg-white" : "bg-red-50"
                           }`}
                       >
                         {/* This vertical red line will now appear on hover */}
                         <div className="absolute left-0 top-0 h-full w-1 bg-red-600 opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
 
                         <div className="flex justify-between items-start">
-                          <p className="text-sm text-gray-800">
-                            {notification.message}
+                          <p className="text-sm text-black">
+                            {notification.title}
                           </p>
-                          {!notification.isRead && (
+                          {!notification.is_read && (
                             <span className="w-2 h-2 rounded-full bg-red-600 mt-1 ml-2"></span>
                           )}
                         </div>
                         <p className="text-xs text-gray-500 mt-1">
-                          {notification.time}
+                          {notification.created_at}
                         </p>
                       </div>
                     ))
