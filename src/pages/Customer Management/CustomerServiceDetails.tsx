@@ -198,11 +198,11 @@ const totalPages = 1
                       {product?.service_name}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {product?.vehicle}
+                      {customerData?.customerData?.vehicleInfo?.model}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                       <span className="px-2 py-1 bg-gray-100 rounded-md font-mono">
-                        {product?.vehicleNo}
+                          {customerData?.customerData?.vehicleInfo?.registerNumber}
                       </span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-semibold text-gray-900">
