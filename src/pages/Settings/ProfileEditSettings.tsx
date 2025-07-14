@@ -181,7 +181,7 @@ const ProfileEditSettings: React.FC = () => {
       <h6>Update your photo and personal details here</h6>
 
       <form onSubmit={formik.handleSubmit} className="mt-6">
-        <div className="grid grid-cols-2 gap-8">
+        <div className="grid grid-cols-3 gap-8">
           {/* Input fields */}
           <div>
             <label className="block mb-2 text-sm font-medium">First Name</label>
@@ -448,7 +448,7 @@ const ProfileEditSettings: React.FC = () => {
   </div>
 </div>
 
-        <div className="flex gap-10 mt-10">
+        <div className="flex justify-end gap-5 mt-10">
           <button
             type="button"
             className="w-20 h-10 rounded-3xl text-white"

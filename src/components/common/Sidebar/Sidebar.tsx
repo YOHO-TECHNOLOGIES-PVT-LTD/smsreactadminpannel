@@ -34,6 +34,7 @@ import announcementgray from "../../../assets/Announcement1.svg";
 import notificationwhite from "../../../assets/Notifications2.svg";
 import notificationgray from "../../../assets/Notifications1.svg";
 
+
 const COLOR = {
   primary: "#9b111e",
   bgColor: "#faf3eb",
@@ -132,7 +133,7 @@ export const Sidebar = () => {
                 className="w-5 h-5 text-[#9b111e]"
               />,
             ]}
-            label="Request Queue"
+            label="Service Request"
             isOpen={isOpen}
             onClick={handleLinkClick}
             tooltip="Request Queue"

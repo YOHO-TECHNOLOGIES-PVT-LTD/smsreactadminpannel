@@ -11,6 +11,7 @@ type QuotationItem = {
 };
 
 type quotation ={
+  _id:string;
   customerInfo:{
     name:string;
     adsress:string;
@@ -63,8 +64,13 @@ const QuotationPage: React.FC = () => {
     0
   );
 
+  const handleAccept=async()=>{
+    const data = {status:"completed"}
+    await new Client().admin.jobcard.put(data,quotation?._id ?? '')
+    toast.success("Quotation accepted!")
+  }
 
-  return (
+    return (
         <><div onClick={handleClick} className="relative top-12 right-6 w-full flex justify-end ">
       <HiOutlineXMark className="opacity-25 w-8 h-8 hover:opacity-100 hover:bg-gradient-to-br hover:from-[#700808] hover:via-[#a61c1c] hover:to-[#d23c3c] hover:text-white p-1 rounded" />
     </div><div className="sm:p-8 bg-white text-black w-full mx-auto border rounded shadow">
@@ -76,30 +82,30 @@ const QuotationPage: React.FC = () => {
                 alt="YES Mechanic Logo"
                 className="object-contain w-32 h-30" />
             </div>
-            <p>Street Address</p>
-            <p>City, ST ZIP</p>
-            <p>Phone: (000) 000-0000</p>
-            <p>Email: company@email.com</p>
+            <p>{quotation?.partnerId?.contact_info?.address1}</p>
+            <p>{quotation?.partnerId?.contact_info?.city}</p>
+            <p>{quotation?.partnerId?.contact_info?.phoneNumber}</p>
+            <p>{quotation?.partnerId?.customerInfo?.email}</p>
           </div>
           <div className="text-right mt-9 mx-6">
             <p className="text-sm mb-1">
-              <span className="font-semibold">DATE:</span> 2/1/2017
+              <span className="font-semibold">DATE:</span> {quotation?.createdAt}
             </p>
-            <p className="text-sm mb-1">
+            {/* <p className="text-sm mb-1">
               <span className="font-semibold">CUSTOMER ID:</span> 21007
-            </p>
+            </p> */}
             <p className="text-sm">
-              <span className="font-semibold">REG NO.:</span> REG-10293
+              <span className="font-semibold">REG NO.:</span> {quotation?.partnerId?.regNo}
             </p>
           </div>
         </div>
 
         <div className="mb-6 border border-gray-400 p-4">
           <h3 className="font-bold mb-2">CUSTOMER INFO</h3>
-          <p>{quotation?.customerInfo.name}</p>
-          <p>{quotation?.customerInfo.adsress}</p>
-          <p>{quotation?.customerInfo.contactNo}</p>
-          <p>{quotation?.customerInfo.email}</p>
+          <p>{quotation?.customerInfo?.name}</p>
+          <p>{quotation?.customerInfo?.address}</p>
+          <p>{quotation?.partnerId?.contact_info?.city}</p>
+          <p>{quotation?.partnerId?.customerInfo?.phoneNumber},{quotation?.customerInfo?.email} </p>
         </div>
 
         <div className="mb-6">
@@ -115,15 +121,28 @@ const QuotationPage: React.FC = () => {
                 </tr>
               </thead>
               <tbody>
-                {quotationItems.map((item, index) => (
+                {quotation?.serviceInfo?.products.map((item, index) => (
                   <tr key={index}>
-                    <td className="border px-3 py-2">{item.description}</td>
-                    <td className="border px-3 py-2 text-center">{item.qty}</td>
+                    <td className="border px-3 py-2">{item?.description}</td>
+                    <td className="border px-3 py-2 text-center">{item?.quantity}</td>
                     <td className="border px-3 py-2 text-right">
-                      ₹{item.unitPrice.toFixed(2)}
+                      ₹{ item.rate}
                     </td>
                     <td className="border px-3 py-2 text-right">
-                      ₹{(item.qty * item.unitPrice).toFixed(2)}
+                      ₹{(item?.quantity * item?. rate).toFixed(2)}
+                    </td>
+                  </tr>
+                ))}
+                {quotation?.serviceInfo?.services.map((item, index) => (
+                  <tr key={index}>
+                    <td className="border px-3 py-2">{item?.description}</td>
+                    <td className="border px-3 py-2 text-center">{item?.quantity}</td>
+                    <td className="border px-3 py-2 text-right">
+                      ₹{ item.rate}
+                    </td>
+                    <td className="border px-3 py-2 text-right">
+                      {/* ₹{(item?.quantity * item?. rate).toFixed(2)} */}{item.serviceAmount}
+
                     </td>
                   </tr>
                 ))}
@@ -167,7 +186,8 @@ const QuotationPage: React.FC = () => {
                 <tr className="bg-gray-100 font-bold">
                   <td className="border px-3 py-2">TOTAL QUOTE</td>
                   <td className="border px-3 py-2 text-right">
-                    ₹{(subtotal * 1.18).toFixed(2)}
+                    {/* ₹{(subtotal * 1.18).toFixed(2)} */}
+                    {quotation?.serviceInfo?.totalAmount}
                   </td>
                 </tr>
               </tbody>
@@ -182,38 +202,19 @@ const QuotationPage: React.FC = () => {
         <div className="mt-2 p-4 flex justify-center">
           <div className="flex gap-8 justify-end w-full md:w-2/3">
             <button
-              onClick={() => toast.success("Quotation accepted!")}
-              className="flex items-center rounded-3xl justify-center font-bold  px-14 py-2 rounded text-white transition duration-200 active:scale-105 hover:bg-[#a00000]"
+              onClick={handleAccept}
+              className="flex items-center justify-center font-bold  px-14 py-2 rounded text-white transition duration-200 active:scale-105 hover:bg-[#a00000]"
               style={{
                 background: "linear-gradient(44.99deg,#700808 11%,#d23c3c 102.34%)",
               }}
             >
               Accept
             </button>
-
-            <button
-              onClick={() => toast.info("Quotation marked as pending.")}
-              className="flex items-center justify-center font-bold px-14 py-2 rounded-3xl text-white transition duration-200 active:scale-105 hover:bg-[#a00000]"
-              style={{
-                background: "linear-gradient(44.99deg,#700808 11%,#d23c3c 102.34%)",
-              }}
-            >
-              Pending
-            </button>
-
-            <button
-              onClick={() => toast.error("Quotation has been revoked.")}
-              className="flex items-center justify-center font-bold  px-14 py-2 rounded-3xl text-white transition duration-200 active:scale-105 hover:bg-[#a00000]"
-              style={{
-                background: "linear-gradient(44.99deg,#700808 11%,#d23c3c 102.34%)",
-              }}
-            >
-              Revoke
-            </button>
           </div>
         </div>
       </div></>
   );
 };
+
 
 export default QuotationPage;

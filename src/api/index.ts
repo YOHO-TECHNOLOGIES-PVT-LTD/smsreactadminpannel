@@ -43,14 +43,12 @@ admin={
 },
 
 order_history: {
-      create: (data: any) =>
-        httpClient.post(API_END_POINTS.order_history.create, data),
       getById: (params: string) =>
         httpClient.get(API_END_POINTS.order_history.getById, params),
       getAll: (params: string) =>
         httpClient.get(API_END_POINTS.order_history.getAll, params),
-      update: (data: any, params: string) =>
-        httpClient.update(API_END_POINTS.order_history.update, data, params),
+      getOldHistory: (params: string) =>
+        httpClient.get(API_END_POINTS.order_history.getOldHistory, params),
       updateStatus: (data: any, params: string) =>
         httpClient.update(
           API_END_POINTS.order_history.updateStatus,
@@ -64,7 +62,7 @@ order_history: {
       getallCustomer:(data:any)=>httpClient.get(API_END_POINTS.customer_management.getAll,data),
     },
     customermanagement_history:{
-      getallHistory:(data:any)=>httpClient.get(API_END_POINTS.customermanagement_history.getAll,data)
+      getallHistory:(params:string)=>httpClient.get(API_END_POINTS.customermanagement_history.getAll.replace(':customerid',params))
     },
 
 
@@ -74,7 +72,13 @@ spareparts:{
     getAll:(params:string)=>httpClient.get(API_END_POINTS.spareparts.getall.replace(":uuid",params)),
     delete:(params:string)=>httpClient.delete(API_END_POINTS.spareparts.delete.replace(":id",params)),
     update:(data:string,params:string)=>httpClient.update(API_END_POINTS.spareparts.update.replace(":id",params),data),
-   updatestatus:(data:string,params:string)=>httpClient.update(API_END_POINTS.spareparts.updatestatus,data,params)
+   updatestatus:(data:string,params:string)=>httpClient.update(API_END_POINTS.spareparts.updatestatus,data,params),
+   category:{
+    create:(data?:any)=>httpClient.post(API_END_POINTS.spareparts.category.create,data),
+    getAll:(params?:string)=>httpClient.get(API_END_POINTS.spareparts.category.getall),
+    put:(params:any)=>httpClient.update(API_END_POINTS.spareparts.category.put.replace(":uuid",params?.uuid), params),
+    delete:(params:any)=>httpClient.delete(API_END_POINTS.spareparts.category.delete.replace(":uuid",params?.uuid)),
+   }
 },
 auth:{
   post:(data:any)=>httpClient.post(API_END_POINTS.auth.Post,data),
@@ -104,7 +108,7 @@ enquiry:{
     get:(params:string)=>httpClient.get(API_END_POINTS.jobcard.Get.replace(':id',params)),
     getAll:()=>httpClient.get(API_END_POINTS.jobcard.GetAll),
     post:(data:string)=>httpClient.post(API_END_POINTS.jobcard.Post,data),
-    put:(data:any,params:string)=>httpClient.update(API_END_POINTS.jobcard.Put,data,params),
+    put:(data:any,params:string)=>httpClient.update(API_END_POINTS.jobcard.Put.replace(':id',params),data),
   },
 
  dashboard:{
@@ -153,6 +157,9 @@ enquiry:{
   updateReq:(data:any,params:string)=>httpClient.update(API_END_POINTS.scheduleReq.updateReq.replace(':id',params),data)
  },
 
+ Subcription:{
+   post: (data:any)=>httpClient.post(API_END_POINTS.notificationSubcription.post,data),
+ }
 
 }
 

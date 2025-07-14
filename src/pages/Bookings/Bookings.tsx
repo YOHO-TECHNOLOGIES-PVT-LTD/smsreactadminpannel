@@ -98,7 +98,7 @@ const ServiceRequests: React.FC = () => {
   async function fetchpending() {
     try {
       const data = await GetPendingRequest()
-      setPendingRequests(data.data)
+      setPendingRequests(data?.data)
     } catch (error) {
       console.log(error)
     }
@@ -148,15 +148,15 @@ const ServiceRequests: React.FC = () => {
 
   const filteredPendingRequests = pendingRequests.filter(request => {
     const searchLower = searchTerm.toLowerCase();
-    const matchesId = request._id.toString().includes(searchLower);
-    const matchesName = request.customerId.firstName.toLowerCase().includes(searchLower) ?? " ";
+    const matchesId = request?._id.toString().includes(searchLower);
+    const matchesName = request?.customerId?.firstName?.toLowerCase().includes(searchLower) ?? " ";
     return matchesId || matchesName;
   });
 
   const filteredAssignedRequests = assignedRequests.filter(request => {
     const searchLower = searchTerm.toLowerCase();
     const matchesId = request._id.toString().includes(searchLower);
-    const matchesName = request.customerId.firstName.toLowerCase().includes(searchLower) ?? " ";
+    const matchesName = request?.customerId?.firstName?.toLowerCase().includes(searchLower) ?? " ";
     return matchesId || matchesName;
   });
 
@@ -184,7 +184,7 @@ const ServiceRequests: React.FC = () => {
                   placeholder="Search by ID or Name..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="block w-64 pl-10 pr-3 py-2 border border-gray-300 rounded-3xl leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-[#9b111e] focus:border-[#9b111e] text-sm"
+                  className="block w-64 pl-10 pr-3 py-2 border border-[#717171] placeholder:text-[#717171] rounded-3xl leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-[#9b111e] focus:border-[#9b111e] text-sm"
                 />
                 {searchTerm && (
                   <button
@@ -229,7 +229,7 @@ const ServiceRequests: React.FC = () => {
       </div>
 
     
-      <div className="max-w-7xl py-6">
+      <div className="w-full py-6">
         {currentView === 'pending' ? (
           <>
             {/* Search Results Info */}
@@ -242,7 +242,8 @@ const ServiceRequests: React.FC = () => {
             )}
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-2 gap-4">
-              {filteredPendingRequests.map((request) => (
+              {
+              filteredPendingRequests.map((request) => (
                 <CompactServiceCard 
                   key={request._id} 
                   request={request} 
@@ -292,7 +293,16 @@ const ServiceRequests: React.FC = () => {
               </div>
             )}
             
-            <AssignedRequests assignedRequests={filteredAssignedRequests} searchTerm={searchTerm} />
+            <AssignedRequests
+              assignedRequests={filteredAssignedRequests.map(request => ({
+                ...request,
+                partnerId: {
+                  companyName: (request.partnerId as any).companyName ?? "",
+                  ...request.partnerId
+                }
+              }))}
+              searchTerm={searchTerm}
+            />
           </>
         )}
       </div>

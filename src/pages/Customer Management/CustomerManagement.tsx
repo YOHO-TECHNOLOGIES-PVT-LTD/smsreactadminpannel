@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 
 const CustomerManagement = () => {
 	const [activeStep , setActiveStep] = useState (0);
+  const [CustomerId, setCustomerId] = useState('')
   const navigate= useNavigate();
 
 const handleBack = () => {
@@ -17,10 +18,10 @@ const handleBack = () => {
   };
 	return <div>
 		{activeStep === 0 && (
-          <CustomerDetails onProfileView={() => setActiveStep(1)} />
+          <CustomerDetails onProfileView={() => setActiveStep(1)} setCustomerId={setCustomerId}/>
         )}
         {activeStep === 1 && (
-          <CustomerProfileDetails  handleBack={handleBack}/>
+          <CustomerProfileDetails CustomerId={CustomerId}  handleBack={handleBack}/>
         )}
 	</div>;
 };

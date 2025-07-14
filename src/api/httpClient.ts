@@ -55,7 +55,7 @@ class HttpClient{
         return response;
     }
 
-  async update(url:string,data:any,params?:string){
+  async update(url:string,data?:string,params?:string){
 
     const response =await Axios.put(url,data,{
         params:params,

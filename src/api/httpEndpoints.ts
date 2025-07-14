@@ -83,6 +83,13 @@ export const API_END_POINTS ={
     update:"/api/admin/spareparts/update/:id",
     updatestatus:"/api/admin/spareparts/updatestatus/:id",
     delete:"/api/admin/spareparts/delete/:id",
+
+    category:{
+      create:"/api/products/category/",
+      getall:  "/api/products/category/getall",
+      put : "/api/products/category/update/:uuid",
+      delete:  "/api/products/category/delete/:uuid",
+    }
    },
 
    serviceCenter:{
@@ -108,10 +115,9 @@ export const API_END_POINTS ={
     },
 
     order_history: {
-      create: `/api/partner/order-history/create`,
       getById: `/api/partner/order-history/get/:id`,
       getAll: `/api/partner/order-history/getall`,
-      update: `/api/partner/order-history/update/:id`,
+      getOldHistory: `/api/partner/order-history/getall/history`,
       updateStatus: `/api/partner/order-history/updatestatus/:id`,
       delete: `/api/partner/order-history/delete/:id`,
     },
@@ -120,7 +126,7 @@ export const API_END_POINTS ={
       getAll :`/api/partner/customermanage`,
     },
     customermanagement_history:{
-      getAll: `/api/partner/CustomerManagement/service-history`
+      getAll: `/api/partner/CustomerManagement/service-history/:customerid`
     },
 
     serviceRequest:{
@@ -139,5 +145,9 @@ export const API_END_POINTS ={
       getUnassignedAll:'/api/admin/schedulerequest/unassigned',
       updateReq:'/api/admin/schedulerequest/assign/:id',
     },
+
+    notificationSubcription:{
+      post:'/api/subscription/notify'
+    }
 
 }
