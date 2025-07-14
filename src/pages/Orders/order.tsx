@@ -339,14 +339,39 @@ const handleChange = () => {
                       </p>
                       <p className="!text-gray-600">
                         <span className="font-medium !text-gray-600"style={{...FONTS.paragraph}}>Email:</span> {selectedOrder.email}
-                      </p>
-                      <p className="!text-gray-600">
-                        <span className="font-medium !text-gray-600"style={{...FONTS.paragraph}}>Status:</span> 
-                        <span className={`ml-2 px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
-                          ${selectedOrder.status === 'Completed' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}`}>
-                          {selectedOrder.status}
-                        </span>
-                      </p>
+                      </p>     
+                      
+                      <div className="!text-gray-600">
+  <label
+    className="font-medium !text-gray-600 mr-2"
+    style={{ ...FONTS.paragraph }}
+  >
+    Status:
+  </label>
+  <select
+    onChange={(e) => setSelectedOrder({ ...selectedOrder, status: e.target.value })}
+    className={`ml-2 px-4 py-2 rounded-2xl text-sm font-medium
+      shadow-sm border transition-all duration-300 ease-in-out
+      focus:ring-1 focus:ring-offset-1 focus:ring-[#9b111e] focus:outline-none
+      ${
+        selectedOrder.status === 'Completed'
+          ? 'bg-green-100 text-green-800 border-green-200'
+          : selectedOrder.status === 'Delivered'
+          ? 'bg-blue-100 text-blue-800 border-blue-200'
+          : selectedOrder.status === 'Not Delivered'
+          ? 'bg-red-100 text-red-800 border-red-200'
+          : 'bg-yellow-100 text-yellow-800 border-yellow-200'
+      }`}
+    style={{ ...FONTS.paragraph }}
+  >
+    <option value="Pending">Pending</option>
+    <option value="Completed">Completed</option>
+    <option value="Delivered">Delivered</option>
+    <option value="Not Delivered">Not Delivered</option>
+  </select>
+</div>
+
+
                     </div>
                   </div>
                   <div>
