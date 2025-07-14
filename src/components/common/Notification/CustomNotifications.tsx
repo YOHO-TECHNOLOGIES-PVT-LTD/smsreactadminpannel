@@ -62,7 +62,7 @@ const NotificationPanel: React.FC = () => {
   const formatDate = (d) => new Date(d).toLocaleString();
 
   return (
-    <div className="p-4 bg-white rounded shadow w-full max-w-4xl mx-auto mt-5">
+    <div className="p-4 bg-white rounded shadow w-full mx-auto mt-5">
       <div className="flex justify-between mb-4">
         <div className="space-x-2">
           {["all", "read", "unread"].map((f) => (

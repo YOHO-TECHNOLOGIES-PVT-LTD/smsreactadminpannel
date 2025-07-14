@@ -1,23 +1,20 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import type React from 'react';
-import { useState, useEffect } from 'react';
-import { FaArrowRight, FaEdit, FaTrash } from 'react-icons/fa';
-import { BsBuildings } from 'react-icons/bs';
-import { SlCalender } from 'react-icons/sl';
-import { AiFillSafetyCertificate } from 'react-icons/ai';
-import {
-	MdEmail,
-	MdOutlineMailOutline,
-	MdOutlineKeyboardBackspace,
-} from 'react-icons/md';
-import { CgWebsite } from 'react-icons/cg';
-import { FcDataEncryption } from 'react-icons/fc';
-import { RiLockPasswordLine } from 'react-icons/ri';
-import { LuPhoneCall } from 'react-icons/lu';
-import { CheckCircle, AlertCircle } from 'lucide-react';
-import { Settings } from 'lucide-react';
-import Client from '../../api';
-import { FONTS } from '../../constants/uiConstants';
+import type React from "react"
+import { useState, useEffect } from "react"
+import { FaArrowRight,  FaEdit, FaTrash,  } from "react-icons/fa"
+import { BsBuildings } from "react-icons/bs"
+import { SlCalender } from "react-icons/sl"
+import { AiFillSafetyCertificate } from "react-icons/ai"
+import { MdEmail, MdOutlineMailOutline, MdOutlineKeyboardBackspace } from "react-icons/md"
+import { CgWebsite } from "react-icons/cg"
+import { FcDataEncryption } from "react-icons/fc"
+import { RiLockPasswordLine } from "react-icons/ri"
+import { LuPhoneCall } from "react-icons/lu"
+import { CheckCircle, AlertCircle } from "lucide-react"
+import { Settings } from "lucide-react";
+import Client from "../../api"
+import { FONTS } from "../../constants/uiConstants"
+
 // import {  useNavigate } from "react-router-dom";
 
 type ServiceCenterProfileProps = {
@@ -35,14 +32,23 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({
 	setpartnerId,
 	handleBack,
 }) => {
-	const [isActive, setIsActive] = useState(true);
-	const [showConfirm, setShowConfirm] = useState(false);
-	const [pendingStatus, setPendingStatus] = useState<boolean | null>(null);
-	const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
-	const [showEditForm, setShowEditForm] = useState(false);
-	const [showSuccessPopup, setShowSuccessPopup] = useState(false);
-	const [showNoChangesPopup, setShowNoChangesPopup] = useState(false);
-	const [showDeleteSuccessPopup, setShowDeleteSuccessPopup] = useState(false);
+
+
+  console.log(partner,"partner")
+
+  const [isActive, setIsActive] = useState(true)
+  const [showConfirm, setShowConfirm] = useState(false)
+  const [pendingStatus, setPendingStatus] = useState<boolean | null>(null)
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
+  const [showEditForm, setShowEditForm] = useState(false)
+  const [showSuccessPopup, setShowSuccessPopup] = useState(false)
+  const [showNoChangesPopup, setShowNoChangesPopup] = useState(false)
+  const [showDeleteSuccessPopup, setShowDeleteSuccessPopup] = useState(false)
+  const [showPasswordModal, setShowPasswordModal] = useState(false);
+const [newPassword, setNewPassword] = useState("");
+const [confirmPassword, setConfirmPassword] = useState("");
+
+  // Original values for comparison
 
 	const originalValues = {
 		editCompanyName: partner.companyName || '',
@@ -108,16 +114,11 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({
 			editAddress2,
 		};
 
-		return Object.keys(originalValues).some(
-			(key) =>
-				originalValues[key as keyof typeof originalValues] !==
-				currentValues[key as keyof typeof currentValues]
-		);
-	};
-	// const navigate = useNavigate();
-	// const handleRoute = ()=>{
-	//    navigate(-1)
-	// }
+    return Object.keys(originalValues).some(
+      (key) => originalValues[key as keyof typeof originalValues] !== currentValues[key as keyof typeof currentValues],
+    )
+  }
+  
 
 	const handleToggle = () => {
 		setPendingStatus(!isActive);
@@ -163,22 +164,11 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({
 			return;
 		}
 
-		try {
-			// const data = {
-			//   editCompanyName,
-			//   editPhone,
-			//   editEmail,
-			//   editLoginEmail,
-			//   // editPassword,
-			//   editState,
-			//   editFirstName,
-			//   editLastName,
-			//   // editImage,
-			//   editCity,
-			//   editAadharNumber,
-			//   editAddress1,
-			//   editAddress2
-			// }
+    
+
+    try {
+
+    
 
 			const datas = {
 				contact_info: {
@@ -238,10 +228,32 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({
 		onServices();
 	}
 
-	function viewspare(id: string) {
-		setpartnerId(id);
-		onSpareParts();
-	}
+  function viewspare(id:string){
+    setpartnerId(id)
+    onSpareParts()
+  }
+
+
+  const handlePasswordUpdate = async () => {
+  if (newPassword !== confirmPassword) {
+    alert("Passwords do not match");
+    return;
+  }
+
+  try {
+    await new Client().admin.servicecenter.passwordUpdate({password:confirmPassword},partner._id);
+    alert("Password updated successfully");
+    setShowPasswordModal(false);
+    setNewPassword("");
+    setConfirmPassword("");
+  } catch (error) {
+    console.error("Failed to update password", error);
+    alert("Something went wrong while updating the password.");
+  }
+};
+
+   
+
 
 	return (
 		<div className='min-h-screen p-6'>
@@ -391,30 +403,90 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({
 						</div>
 					</div>
 
-					{/* Divider */}
-					<div className='border-t border-gray-200 my-6'></div>
+          
+          <div className="border-t border-gray-200 my-6"></div>
 
-					{/* Login Information Section */}
-					<div className='mb-8'>
-						<h2
-							className='text-xl !font-bold text-[#9b111e] mb-4 pb-2 border-b border-gray-200'
-							style={{ ...FONTS.cardSubHeader }}
-						>
-							Login Information
-						</h2>
-						<div className='grid grid-cols-1 md:grid-cols-3 gap-8'>
-							<InfoItem
-								icon={<MdOutlineMailOutline className='text-[#9b111e]' />}
-								label='Email'
-								value={editLoginEmail}
-							/>
-							<InfoItem
-								icon={<RiLockPasswordLine className='text-[#9b111e]' />}
-								label='Password'
-								value='••••••••'
-							/>
-						</div>
-					</div>
+        
+<div className="mb-8">
+  <h2
+    className="text-xl !font-bold text-[#9b111e] mb-4 pb-2 border-b border-gray-200"
+    style={{ ...FONTS.cardSubHeader }}
+  >
+    Login Information
+  </h2>
+
+  <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+    <InfoItem
+      icon={<MdOutlineMailOutline className="text-[#9b111e]" />}
+      label="Email"
+      value={editLoginEmail}
+    />
+
+  
+   <div className="flex items-start gap-2 relative">
+  <div className="text-[#9b111e] mt-1">
+    <RiLockPasswordLine size={18} />
+  </div>
+
+  <div className="relative">
+    <div className="text-sm font-medium text-gray-600 mb-1">Password</div>
+    <div className="flex items-center gap-4">
+      <span className="text-black">***********</span>
+      <button
+        className="text-[#9b111e]"
+        title="Edit Password"
+        onClick={() => setShowPasswordModal(!showPasswordModal)}
+      >
+        <FaEdit size={16} />
+      </button>
+    </div>
+
+   
+    {showPasswordModal && (
+      <div className="absolute -top-4 left-full ml-4 z-50 w-64 p-4 bg-white border border-gray-300 rounded-lg shadow-lg">
+        <h3 className="text-sm font-semibold mb-3 text-[#9b111e]">Update Password</h3>
+
+        <input
+          type="password"
+          placeholder="New Password"
+          value={newPassword}
+          onChange={(e) => setNewPassword(e.target.value)}
+          className="w-full mb-2 px-3 py-1 border border-gray-300 rounded text-sm"
+        />
+        <input
+          type="password"
+          placeholder="Confirm Password"
+          value={confirmPassword}
+          onChange={(e) => setConfirmPassword(e.target.value)}
+          className="w-full mb-3 px-3 py-1 border border-gray-300 rounded text-sm"
+        />
+
+        <div className="flex justify-end gap-2">
+          <button
+            className="px-3 py-1 bg-gray-300 rounded text-sm hover:bg-gray-400"
+            onClick={() => {
+              setNewPassword("");
+              setConfirmPassword("");
+              setShowPasswordModal(false);
+            }}
+          >
+            Cancel
+          </button>
+          <button
+            className="px-3 py-1 bg-[#9b111e] text-white rounded text-sm hover:bg-[#80101a]"
+            onClick={handlePasswordUpdate}
+          >
+            OK
+          </button>
+        </div>
+      </div>
+    )}
+  </div>
+</div>
+
+  </div>
+</div>
+
 
 					{/* Action Buttons */}
 					<div className='flex flex-col sm:flex-row justify-end gap-4 mt-8 pt-6 border-t border-gray-200'>
@@ -787,14 +859,13 @@ const SuccessPopup = ({
 		}
 	};
 
-	return (
-		<div
-			className={`fixed top-6 left-1/2 transform -translate-x-1/2 z-50 flex items-center gap-3 ${getBackgroundColor()} text-white px-6 py-4 rounded-lg shadow-lg animate-fade-in-out min-w-[300px]`}
-		>
-			<div className='flex-shrink-0'>{icon}</div>
-			<span className='font-medium'>{message}</span>
-		</div>
-	);
-};
-
-export default ServiceCenterProfileView;
+  return (
+    <div
+      className={`fixed top-6 left-1/2 transform -translate-x-1/2 z-50 flex items-center gap-3 ${getBackgroundColor()} text-white px-6 py-4 rounded-lg shadow-lg animate-fade-in-out min-w-[300px]`}
+    >
+      <div className="flex-shrink-0">{icon}</div>
+      <span className="font-medium">{message}</span>
+    </div>
+  )
+}
+export default ServiceCenterProfileView

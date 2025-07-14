@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { MdCall } from "react-icons/md";
 import { FaLocationDot } from "react-icons/fa6";
 import { MdEmail } from "react-icons/md";
@@ -10,25 +11,28 @@ import { getAllHistory } from "./Services";
 
 interface handle {
   handleBack: () => void;
+  CustomerId:string;
+
 }
 
-const CustomerProfileDetails: React.FC<handle> = ({ handleBack}) => {
+const CustomerProfileDetails: React.FC<handle> = ({ handleBack,CustomerId}) => {
   const [customerData, setCustomerData] = useState<any>(null);
 
   useEffect(()=>{
     const fetchCustomerHistory = async()=>{
       try{
-        const response:any = await getAllHistory('');
-        console.log("Customer History Response:", response.data.data);
-        console.log("First Customer Data:", response.data.data[0]);
+        const response:any = await getAllHistory(CustomerId);
+        console.log("Customer History Response:", response);
+        console.log("First Customer Data:", response.data);
         if(response.data.data && response.data.data.length > 0) {
-          setCustomerData(response.data.data[0]);
+          setCustomerData(response.data);
         }
       }catch(error){
         console.error("Error fetching customer history:", error);
       }
     }
     fetchCustomerHistory();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   },[])
 
   return (
@@ -61,7 +65,7 @@ const CustomerProfileDetails: React.FC<handle> = ({ handleBack}) => {
             className="flex flex-col items-center py-8 px-4 bg-gradient-to-b from-amber-50 to-white"
             style={{ fontFamily: FONTS.header.fontFamily }}
           >
-            <motion.img
+            {/* <motion.img
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               transition={{ duration: 0.5 }}
@@ -69,7 +73,7 @@ const CustomerProfileDetails: React.FC<handle> = ({ handleBack}) => {
               src="https://www.svgrepo.com/show/475692/whatsapp-color.svg"
               alt="Customer Profile"
               whileHover={{ scale: 1.05 }}
-            />
+            /> */}
 
             <motion.h5
               initial={{ y: 20, opacity: 0 }}
@@ -77,7 +81,7 @@ const CustomerProfileDetails: React.FC<handle> = ({ handleBack}) => {
               transition={{ delay: 0.1, duration: 0.5 }}
               className="text-2xl font-bold text-gray-800"
             >
-              {customerData?.customerName || customerData?.name || customerData?.customer_name || "Loading..."}
+              {customerData?.customerData?.firstName+' '+customerData?.customerData?.lastName|| "Loading..."}
             </motion.h5>
 
             <motion.span
@@ -86,7 +90,7 @@ const CustomerProfileDetails: React.FC<handle> = ({ handleBack}) => {
               transition={{ delay: 0.2, duration: 0.5 }}
               className="text-sm text-amber-600 font-medium"
             >
-              {customerData?.profession || customerData?.type || "Customer"}
+              {"Customer"}
             </motion.span>
 
 
@@ -100,11 +104,12 @@ const CustomerProfileDetails: React.FC<handle> = ({ handleBack}) => {
             transition={{ delay: 0.5, duration: 0.5 }}
           >
             {[
-              { icon: <MdCall />, label: "Phone", value: customerData?.phoneNumber || customerData?.phone || customerData?.mobile || "N/A" },
-              { icon: <MdEmail />, label: "Email", value: customerData?.emailAddress || customerData?.email || "N/A" },
-              { icon: <FaCar />, label: "Vehicles", value: customerData?.vehicleDetails || customerData?.vehicles || customerData?.vehicle || "N/A" },
-              { icon: <FaLocationDot />, label: "Address", value: customerData?.customerAddress || customerData?.address || customerData?.location || "N/A" }
+              { icon: <MdCall />, label: "Phone", value: customerData?.customerData?.contact_info?.phoneNumber  || "N/A" },
+              { icon: <MdEmail />, label: "Email", value: customerData?. customerData?.email || "N/A" },
+              { icon: <FaCar />, label: "Vehicles", value: customerData?.customerData?.vechicle || "N/A" },
+              { icon: <FaLocationDot />, label: "Address", value: customerData?.customerData?.contact_info?.address1 || "N/A" }
             ].map((item, index) => (
+              
               <motion.div
                 key={index}
                 className="flex items-start mb-3"
@@ -129,7 +134,11 @@ const CustomerProfileDetails: React.FC<handle> = ({ handleBack}) => {
       </div>
 
       {/* Content Section - Right Side */}
-      <CustomerServiceDetails />
+          <CustomerServiceDetails
+  customerData={customerData}
+  // setCustomerData={setCustomerData}
+/>
+
     </div>
   );
 };

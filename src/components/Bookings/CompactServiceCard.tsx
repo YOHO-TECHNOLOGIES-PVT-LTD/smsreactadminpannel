@@ -1,11 +1,8 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { updatePendingRequest } from "../../pages/Bookings/service";
 import { FetchPartnerList } from "../../utils/CommonApiFetch";
-import vehicleimg from "../../assets/Vehicle1.svg"
-import service from "../../assets/Service (1).svg"
 import { useSocket } from "../../context/adminSocket";
 import { FaCalendarAlt } from "react-icons/fa";
 import { BsFillClockFill } from "react-icons/bs";

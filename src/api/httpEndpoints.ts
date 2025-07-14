@@ -25,7 +25,8 @@ export const API_END_POINTS = {
     Post: "/api/announcement/create",
     Get: "/api/announcement/all",
     update: "/api/announcement/update/:uuid",
-    delete: "/api/announcement/delete/:uuid"
+    delete: "/api/announcement/delete/:uuid",
+
   },
   enquiry: {
     Post: "/api/enquiry/create",
@@ -98,6 +99,7 @@ export const API_END_POINTS = {
     postPartner: "/api/partner/auth/register",
     updatePatner: "/api/partner/auth/update/:id",
     delete: "/api/admin/servicecenter/delete/:id",
+    passwordUpdate: "/api/partner/auth/reset-pass/:id"
   },
   category: {
     update: "/api/admin/category/update/:uuid",
@@ -112,19 +114,19 @@ export const API_END_POINTS = {
     delete: '/api/admin/service/remove/:id',
   },
 
-    order_history: {
-      getById: `/api/partner/order-history/get/:id`,
-      getAll: `/api/partner/order-history/getall`,
-      getOldHistory: `/api/partner/order-history/getall/history`,
-      updateStatus: `/api/partner/order-history/updatestatus/:id`,
-      delete: `/api/partner/order-history/delete/:id`,
-    },
+  order_history: {
+    getById: `/api/partner/order-history/get/:id`,
+    getAll: `/api/partner/order-history/getall`,
+    getOldHistory: `/api/partner/order-history/getall/history`,
+    updateStatus: `/api/partner/order-history/updatestatus/:id`,
+    delete: `/api/partner/order-history/delete/:id`,
+  },
 
   customer_management: {
     getAll: `/api/partner/customermanage`,
   },
   customermanagement_history: {
-    getAll: `/api/partner/CustomerManagement/service-history`
+    getAll: `/api/partner/CustomerManagement/service-history/:customerid`
   },
 
   serviceRequest: {
@@ -143,5 +145,9 @@ export const API_END_POINTS = {
     getUnassignedAll: '/api/admin/schedulerequest/unassigned',
     updateReq: '/api/admin/schedulerequest/assign/:id',
   },
+
+  notificationSubcription: {
+    post: '/api/subscription/notify'
+  }
 
 }

@@ -63,7 +63,7 @@ order_history: {
       getallCustomer:(data:any)=>httpClient.get(API_END_POINTS.customer_management.getAll,data),
     },
     customermanagement_history:{
-      getallHistory:(data:any)=>httpClient.get(API_END_POINTS.customermanagement_history.getAll,data)
+      getallHistory:(params:string)=>httpClient.get(API_END_POINTS.customermanagement_history.getAll.replace(':customerid',params))
     },
 
 
@@ -109,15 +109,12 @@ profile:{
 				httpClient.get(API_END_POINTS.vechiclemanage.Get, params),
 		},
 
-		jobcard: {
-			get: (params: string) =>
-				httpClient.get(API_END_POINTS.jobcard.Get.replace(':id', params)),
-			getAll: () => httpClient.get(API_END_POINTS.jobcard.GetAll),
-			post: (data: string) =>
-				httpClient.post(API_END_POINTS.jobcard.Post, data),
-			put: (data: any, params: string) =>
-				httpClient.update(API_END_POINTS.jobcard.Put, data, params),
-		},
+  jobcard:{
+    get:(params:string)=>httpClient.get(API_END_POINTS.jobcard.Get.replace(':id',params)),
+    getAll:()=>httpClient.get(API_END_POINTS.jobcard.GetAll),
+    post:(data:string)=>httpClient.post(API_END_POINTS.jobcard.Post,data),
+    put:(data:any,params:string)=>httpClient.update(API_END_POINTS.jobcard.Put.replace(':id',params),data),
+  },
 
  dashboard:{
     get:(params:string)=>httpClient.get(API_END_POINTS.dashboard.Get,params),
@@ -131,7 +128,8 @@ profile:{
   postPartner:(data:any)=>httpClient.post(API_END_POINTS.serviceCenter.postPartner,data),
   update:(data:any,params:string)=>httpClient.update(API_END_POINTS.serviceCenter.updatePatner.replace(':id',params),data,''),
   delete:(id:string)=>httpClient.delete(API_END_POINTS.serviceCenter.delete.replace(':id',id)),
-  getCatEvery:()=>httpClient.get(API_END_POINTS.serviceCenter.getCatevery)
+  getCatEvery:()=>httpClient.get(API_END_POINTS.serviceCenter.getCatevery),
+  passwordUpdate:(data:any,params:string)=>httpClient.update(API_END_POINTS.serviceCenter.passwordUpdate.replace(":id",params),data)
  },
  category:{
   create:(data:any)=>httpClient.post(API_END_POINTS.category.create,data),
@@ -164,6 +162,9 @@ profile:{
   updateReq:(data:any,params:string)=>httpClient.update(API_END_POINTS.scheduleReq.updateReq.replace(':id',params),data)
  },
 
+ Subcription:{
+   post: (data:any)=>httpClient.post(API_END_POINTS.notificationSubcription.post,data),
+ }
 
 }
 
