@@ -74,14 +74,21 @@ export const API_END_POINTS = {
     getPreferenceGet: "/api/preferences/:userId",
   },
 
-  spareparts: {
-    create: "/api/admin/spareparts/create",
-    get: "/api/admin/spareparts/create",
-    getall: "/api/admin/spareparts/getall/:uuid",
-    update: "/api/admin/spareparts/update/:id",
-    updatestatus: "/api/admin/spareparts/updatestatus/:id",
-    delete: "/api/admin/spareparts/delete/:id",
-  },
+   spareparts:{
+    create:"/api/admin/spareparts/create",
+    get:"/api/admin/spareparts/create",
+    getall:"/api/admin/spareparts/getall/:uuid",
+    update:"/api/admin/spareparts/update/:id",
+    updatestatus:"/api/admin/spareparts/updatestatus/:id",
+    delete:"/api/admin/spareparts/delete/:id",
+
+    category:{
+      create:"/api/products/category/",
+      getall:  "/api/products/category/getall",
+      put : "/api/products/category/update/:uuid",
+      delete:  "/api/products/category/delete/:uuid",
+    }
+   },
 
   serviceCenter: {
     getAll: "/api/admin/servicecenter/getall",
@@ -104,14 +111,13 @@ export const API_END_POINTS = {
     delete: '/api/admin/service/remove/:id',
   },
 
-  order_history: {
-    create: `/api/partner/order-history/create`,
-    getById: `/api/partner/order-history/get/:id`,
-    getAll: `/api/partner/order-history/getall`,
-    update: `/api/partner/order-history/update/:id`,
-    updateStatus: `/api/partner/order-history/updatestatus/:id`,
-    delete: `/api/partner/order-history/delete/:id`,
-  },
+    order_history: {
+      getById: `/api/partner/order-history/get/:id`,
+      getAll: `/api/partner/order-history/getall`,
+      getOldHistory: `/api/partner/order-history/getall/history`,
+      updateStatus: `/api/partner/order-history/updatestatus/:id`,
+      delete: `/api/partner/order-history/delete/:id`,
+    },
 
   customer_management: {
     getAll: `/api/partner/customermanage`,

@@ -26,6 +26,7 @@ import Order from "../pages/Orders/order";
 import TermsConditionsSettings from "../pages/Settings/TermsConditionsSettings";
 import PrivacyPolicySettings from "../pages/Settings/PrivacyPolicySettings";
 import ScheduledRequestsPage from "../pages/Request-Queue/ScheduledRequestsPage";
+import OrderHistory from "../pages/Orders/orderHistory";
 
 const AppRoutes = () => {
   const { isAuthenticated, isLoading } = useAuth();
@@ -66,6 +67,7 @@ const AppRoutes = () => {
         <Route path="/request-queue/scheduled" element={<ScheduledRequestsPage/>}/>
         <Route path="/customer" element={<CustomerManagement/>}/>
         <Route path="/order" element={<Order/>}/>
+        <Route path="/order/orders-history" element={<OrderHistory/>}/>
         {/* <Route path="service/profile" element={<ServiceCenterProfileView/>}/> */}
         <Route path="terms-conditions" element={<TermsConditionsSettings />} />
         <Route path="privacy-policy" element={<PrivacyPolicySettings />} />

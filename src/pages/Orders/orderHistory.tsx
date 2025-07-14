@@ -1,15 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import {  getOrdersHistory } from './Services';
+import {  getAllOrdersHistory } from './Services';
 import { FONTS } from '../../constants/uiConstants';
 import { useNavigate } from 'react-router-dom';
 
 
-const Order = () => {
+const OrderHistory = () => {
   // State management
   const [orders, setOrders] = useState<any[]>([]);
-  const navigate = useNavigate();
   // const [loading, setLoading] = useState(true);
   // const [error, setError] = useState<string | null>(null);
   const [showViewModal, setShowViewModal] = useState(false);
@@ -17,13 +16,14 @@ const Order = () => {
   const [selectedOrder, setSelectedOrder] = useState<any>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [dateFilter, setDateFilter] = useState('');
+  const navigate = useNavigate();
 
   useEffect(()=>{
     const fetchOrders = async()=>{
       try{
         // setLoading(true);
         // setError(null);
-        const response:any = await getOrdersHistory('')
+        const response:any = await getAllOrdersHistory('')
         console.log('Fetched orders:',response);
         
         // Handle different response structures
@@ -94,19 +94,26 @@ const Order = () => {
   return date.toLocaleDateString("en-IN");
 };
 
-const handleChange = () => {
-  navigate('/order/orders-history');
-}
-
-
   return (
     <div className="p-4 md:p-6 h-full min-h-screen">
-      <div className='flex justify-between'>
-        <h1 className=" !font-bold text-[#9b111e] mb-3 " style={{...FONTS.header}}>Car Spare Parts Orders</h1>
-        <button className='bg-[#9b111e] rounded-3xl !text-white p-2 mb-3' style={{...FONTS.subHeader}} onClick={handleChange}>Completed orders</button>
+      <div className='flex gap-3'>
+        <button
+            onClick={() => navigate(-1)}
+            className="flex items-center justify-center w-10 h-10 bg-white border-2 border-[#9b111e] text-[#9b111e] rounded-3xl hover:bg-[#9b111e] hover:text-white transition-all duration-300 shadow-lg hover:shadow-xl"
+            title="Back to Schedule Requests"
+          >
+            <svg 
+              className="w-6 h-6" 
+              fill="none" 
+              stroke="currentColor" 
+              viewBox="0 0 24 24"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+          </button>
+        <h1 className=" !font-bold text-[#9b111e] mb-3" style={{...FONTS.header}}>Orders History</h1>
       </div>
-      {/* Summary Cards */}
-      <motion.div 
+      {/* <motion.div 
         initial="hidden"
         animate="visible"
         variants={fadeIn}
@@ -128,7 +135,7 @@ const handleChange = () => {
             {orders.filter(o => o.status === 'Processing').length}
           </p>
         </div>
-      </motion.div>
+      </motion.div> */}
 
       {/* Header and Filters */}
       <motion.div 
@@ -140,7 +147,7 @@ const handleChange = () => {
             <input
               type="text"style={{...FONTS.cardSubHeader}}
               placeholder="Search by ID or Name..."
-              className="pl-10 pr-4 py-2 border border-[#717171] placeholder:text-[#717171] rounded-md focus:outline-none focus:ring-2 focus:ring-[#9b111e] w-full"
+              className="pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#9b111e] w-full"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
@@ -161,7 +168,7 @@ const handleChange = () => {
           
           <input
             type="date"style={{...FONTS.paragraph}}
-            className="px-4 py-2 border border-[#717171] rounded-md focus:outline-none focus:ring-2 focus:ring-[#9b111e] !text-black"
+            className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#9b111e] !text-black"
             value={dateFilter}
             onChange={(e) => setDateFilter(e.target.value)}
           />
@@ -202,7 +209,7 @@ const handleChange = () => {
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
               {currentOrders.length > 0 ? (
-                [...currentOrders].sort((a, b) => b.orderId.localeCompare(a.orderId)).map((order, index) => (
+                [...currentOrders].reverse().map((order, index) => (
                   <motion.tr
                     key={index}
                     initial={{ opacity: 0 }}
@@ -450,4 +457,4 @@ const handleChange = () => {
   );
 };
 
-export default Order;
+export default OrderHistory;
