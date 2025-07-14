@@ -15,7 +15,7 @@ import { FcDataEncryption } from 'react-icons/fc';
 import { RiLockPasswordLine } from 'react-icons/ri';
 import { LuPhoneCall } from 'react-icons/lu';
 import { CheckCircle, AlertCircle } from 'lucide-react';
-import { Settings } from 'lucide-react';
+// import { Settings } from 'lucide-react';
 import Client from '../../api';
 import { FONTS } from '../../constants/uiConstants';
 // import {  useNavigate } from "react-router-dom";

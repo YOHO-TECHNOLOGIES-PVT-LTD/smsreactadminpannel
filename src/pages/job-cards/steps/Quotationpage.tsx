@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Logo from "../../../assets/LOGO.jpg";
+// import Logo from "../../../assets/LOGO.jpg";
 import { HiOutlineXMark } from "react-icons/hi2";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -78,8 +78,8 @@ const QuotationPage: React.FC = () => {
           <div>
             <div className="flex justify-start items-center h-20">
               <img
-                src={Logo}
-                alt="YES Mechanic Logo"
+                src={quotation?.partnerId?.image}
+                alt={quotation?.partnerId?.companyName}
                 className="object-contain w-32 h-30" />
             </div>
             <p>{quotation?.partnerId?.contact_info?.address1}</p>

@@ -4,8 +4,6 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { updatePendingRequest } from "../../pages/Bookings/service";
 import { FetchPartnerList } from "../../utils/CommonApiFetch";
-import vehicleimg from "../../assets/Vehicle1.svg"
-import service from "../../assets/Service (1).svg"
 import { FaCalendarAlt } from "react-icons/fa";
 import { BsFillClockFill } from "react-icons/bs";
 import { FaUser } from "react-icons/fa";
