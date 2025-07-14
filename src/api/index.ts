@@ -75,7 +75,7 @@ spareparts:{
    updatestatus:(data:string,params:string)=>httpClient.update(API_END_POINTS.spareparts.updatestatus,data,params),
    category:{
     create:(data?:any)=>httpClient.post(API_END_POINTS.spareparts.category.create,data),
-    getAll:(params?:string)=>httpClient.get(API_END_POINTS.spareparts.category.getall),
+    getAll:()=>httpClient.get(API_END_POINTS.spareparts.category.getall),
     put:(params:any)=>httpClient.update(API_END_POINTS.spareparts.category.put.replace(":uuid",params?.uuid), params),
     delete:(params:any)=>httpClient.delete(API_END_POINTS.spareparts.category.delete.replace(":uuid",params?.uuid)),
    }

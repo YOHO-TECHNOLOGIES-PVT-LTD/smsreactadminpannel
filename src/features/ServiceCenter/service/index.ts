@@ -13,7 +13,7 @@ export const getAllsparepartscategory=async()=>{
 
 }
 
-export const createsparepartscategory=async(data:string)=>{
+export const createsparepartscategory=async(data:any)=>{
     try {
         const response = await new Client().admin.spareparts.category.create(data)
         if (response) return response

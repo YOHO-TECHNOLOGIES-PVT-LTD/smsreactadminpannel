@@ -12,14 +12,33 @@ type QuotationItem = {
 
 type quotation ={
   _id:string;
+  createdAt:string;
+  partnerId:{
+    image:string;
+    companyName:string;
+    regNo:string;
+    contact_info:{
+      address1:string;
+      city:string;
+      phoneNumber:string;
+    };
+    customerInfo:{
+      email:string;
+      phoneNumber:string;
+    };
+  };
   customerInfo:{
     name:string;
+    address:string;
     adsress:string;
     contactNo:string;
     email:string;
   },
   serviceInfo:{
     amount:string;
+    totalAmount:string;
+    products:any[];
+    services:any[];
   }
 }
 

@@ -60,7 +60,7 @@ interface Category {
   uuid: string;
   name: string;
   
-  gstRate: number;
+  gstRate: number | null;
   __v: number;
 }
 
@@ -916,7 +916,7 @@ const toggleMenu = (id: string) => {
                       onChange={(e) =>
                         setNewCategory({
                           ...newCategory,
-                          gstRate: e.target.value === '' ? null : parseFloat(e.target.value),
+                          gstRate: e.target.value === '' ? null : Number(e.target.value),
                         })
                       }
                       placeholder="Enter GST rate"

@@ -83,6 +83,12 @@ export const API_END_POINTS ={
     update:"/api/admin/spareparts/update/:id",
     updatestatus:"/api/admin/spareparts/updatestatus/:id",
     delete:"/api/admin/spareparts/delete/:id",
+    category:{
+      create:"/api/admin/spareparts/category/create",
+      getall:"/api/admin/spareparts/category/getall",
+      put:"/api/admin/spareparts/category/update/:uuid",
+      delete:"/api/admin/spareparts/category/delete/:uuid",
+    },
    },
 
    serviceCenter:{
@@ -110,6 +116,7 @@ export const API_END_POINTS ={
       create: `/api/partner/order-history/create`,
       getById: `/api/partner/order-history/get/:id`,
       getAll: `/api/partner/order-history/getall`,
+      getOldHistory: `/api/partner/order-history/old`,
       update: `/api/partner/order-history/update/:id`,
       updateStatus: `/api/partner/order-history/updatestatus/:id`,
       delete: `/api/partner/order-history/delete/:id`,
