@@ -92,6 +92,7 @@ export const API_END_POINTS ={
      postPartner: "/api/partner/auth/register",
      updatePatner: "/api/partner/auth/update/:id",
      delete:"/api/admin/servicecenter/delete/:id",
+     passwordUpdate:"/api/partner/auth/reset-pass/:id"
     },
     category:{
         update:"/api/admin/category/update/:uuid",

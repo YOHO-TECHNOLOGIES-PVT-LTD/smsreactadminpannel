@@ -119,7 +119,8 @@ enquiry:{
   postPartner:(data:any)=>httpClient.post(API_END_POINTS.serviceCenter.postPartner,data),
   update:(data:any,params:string)=>httpClient.update(API_END_POINTS.serviceCenter.updatePatner.replace(':id',params),data,''),
   delete:(id:string)=>httpClient.delete(API_END_POINTS.serviceCenter.delete.replace(':id',id)),
-  getCatEvery:()=>httpClient.get(API_END_POINTS.serviceCenter.getCatevery)
+  getCatEvery:()=>httpClient.get(API_END_POINTS.serviceCenter.getCatevery),
+  passwordUpdate:(data:any,params:string)=>httpClient.update(API_END_POINTS.serviceCenter.passwordUpdate.replace(":id",params),data)
  },
  category:{
   create:(data:any)=>httpClient.post(API_END_POINTS.category.create,data),

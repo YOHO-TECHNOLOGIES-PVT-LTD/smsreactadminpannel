@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import mainLogo from "../../../assets/Admin logo.png";
 import MiniLogo from "../../../assets/Admin Logo (1).png";
@@ -42,30 +42,52 @@ const COLOR = {
 
 export const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(true);
+  const [showMainLogo, setShowMainLogo] = useState(isOpen);
+
+  useEffect(() => {
+    let timer:any;
+
+    if (isOpen) {
+      setShowMainLogo(true);
+    } else {
+      timer = setTimeout(() => {
+        setShowMainLogo(false);
+      }, 500); 
+    }
+
+    return () => clearTimeout(timer); 
+  }, [isOpen]);
+
 
   const handleLinkClick = () => {
     setIsOpen(false);
   };
+  
 
   return (
     <div className="flex h-screen ">
-      <div className="bg-white border-r shadow-md p-2 transition-all duration-300 fixed top-0 left-0 h-screen z-40 flex flex-col items-center ">
-        <div
-          className={`flex justify-center items-center h-20 transition-all duration-300 ${
-            isOpen ? "w-40" : "w-12"
-          }`}
-        >
-          <img
-            src={isOpen ? mainLogo : MiniLogo}
-            alt="YES Mechanic Logo"
-            className="object-contain h-[48px] transition-all duration-300"
-          />
-        </div>
+      <div className="bg-white border-r shadow-md p-2 transition-all duration-500 ease-in-out fixed top-0 left-0 h-screen z-40 flex flex-col items-center " style={{ width: isOpen ? "240px" : "64px" }}>
+       <div
+      className={`flex justify-center items-center h-20 transition-all duration-500 ease-in-out overflow-hidden`}
+      style={{ width: isOpen ? "160px" : "48px" }}
+    >
+      <img
+        src={showMainLogo ? mainLogo : MiniLogo}
+        alt="YES Mechanic Logo"
+        className={`object-contain transition-all duration-500 ease-in-out`}
+        style={{
+          width: showMainLogo ? "150px" : "36px",
+          height: "38px",
+          transition: "width 0.5s ease, opacity 0.5s ease",
+        }}
+      />
+    </div>
+
 
         <div className="w-full flex justify-end px-2 mt-2">
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="text-gray-600 hover:text-black p-2 rounded-3xl transition duration-200 hover:bg-gray-100"
+            className="text-gray-600 hover:text-black p-2 rounded-3xl transition-all duration-200 hover:bg-gray-100"
             title="Toggle Sidebar"
           >
             {isOpen ? (
@@ -83,16 +105,16 @@ export const Sidebar = () => {
               <img
                 src={Dashboardwhite}
                 alt="Dashboard Icon"
-                className="w-5 h-5 text-[#9b111e] "
+                className="w-5 h-5 text-[#9b111e]"
               />,
               <img
                 src={Dashboardgrey}
                 alt="Dashboard Icon"
-                className="w-5 h-5 text-[#9b111e] "
+                className="w-5 h-5 text-[#9b111e]"
               />,
             ]}
             label="Dashboard"
-            tooltip="dashboard"
+            tooltip="Dashboard"
             isOpen={isOpen}
             onClick={handleLinkClick}
           />
@@ -101,58 +123,56 @@ export const Sidebar = () => {
             icon={[
               <img
                 src={requestwhite}
-                alt="Dashboard Icon"
-                className="w-5 h-5 text-[#9b111e] "
+                alt="Request Icon"
+                className="w-5 h-5 text-[#9b111e]"
               />,
               <img
                 src={requestgrey}
-                alt="Dashboard Icon"
-                className="w-5 h-5 text-[#9b111e] "
+                alt="Request Icon"
+                className="w-5 h-5 text-[#9b111e]"
               />,
             ]}
             label="Request Queue"
             isOpen={isOpen}
             onClick={handleLinkClick}
-            tooltip="bookings"
+            tooltip="Request Queue"
           />
-
           <SidebarLink
             to="/request-queue"
             icon={[
               <img
                 src={schedulewhite}
-                alt="Dashboard Icon"
-                className="w-5 h-5 text-[#9b111e] "
+                alt="Schedule Icon"
+                className="w-5 h-5 text-[#9b111e]"
               />,
               <img
                 src={schedulegrey}
-                alt="Dashboard Icon"
-                className="w-5 h-5 text-[#9b111e] "
+                alt="Schedule Icon"
+                className="w-5 h-5 text-[#9b111e]"
               />,
             ]}
             label="Schedule Queue"
             isOpen={isOpen}
             onClick={handleLinkClick}
-            tooltip="request-queue"
+            tooltip="Schedule Queue"
           />
-
           <SidebarLink
             to="/order"
             icon={[
               <img
                 src={orderwhite}
-                alt="Dashboard Icon"
-                className="w-5 h-5 text-[#9b111e] "
+                alt="Order Icon"
+                className="w-5 h-5 text-[#9b111e]"
               />,
               <img
                 src={ordergrey}
-                alt="Dashboard Icon"
-                className="w-5 h-5 text-[#9b111e] "
+                alt="Order Icon"
+                className="w-5 h-5 text-[#9b111e]"
               />,
             ]}
             label="Orders"
             isOpen={isOpen}
-            tooltip="order"
+            tooltip="Orders"
             onClick={handleLinkClick}
           />
           <SidebarLink
@@ -160,18 +180,18 @@ export const Sidebar = () => {
             icon={[
               <img
                 src={partnerwhite}
-                alt="Dashboard Icon"
-                className="w-5 h-5 text-[#9b111e] "
+                alt="Partner Icon"
+                className="w-5 h-5 text-[#9b111e]"
               />,
               <img
                 src={partnergrey}
-                alt="Dashboard Icon"
-                className="w-5 h-5 text-[#9b111e] "
+                alt="Partner Icon"
+                className="w-5 h-5 text-[#9b111e]"
               />,
             ]}
             label="Partner"
             isOpen={isOpen}
-            tooltip="service"
+            tooltip="Partner"
             onClick={handleLinkClick}
           />
           <SidebarLink
@@ -179,38 +199,37 @@ export const Sidebar = () => {
             icon={[
               <img
                 src={jobcardwhite}
-                alt="Dashboard Icon"
-                className="w-5 h-5 text-[#9b111e] "
+                alt="Job Cards Icon"
+                className="w-5 h-5 text-[#9b111e]"
               />,
               <img
                 src={jobcardgray}
-                alt="Dashboard Icon"
-                className="w-5 h-5 text-[#9b111e] "
+                alt="Job Cards Icon"
+                className="w-5 h-5 text-[#9b111e]"
               />,
             ]}
             label="Job Cards"
             isOpen={isOpen}
-            tooltip="job-cards"
+            tooltip="Job Cards"
             onClick={handleLinkClick}
           />
-
           <SidebarLink
             to="/city"
             icon={[
               <img
                 src={citywhite}
-                alt="Dashboard Icon"
-                className="w-5 h-5 text-[#9b111e] "
+                alt="City Icon"
+                className="w-5 h-5 text-[#9b111e]"
               />,
               <img
                 src={citygray}
-                alt="Dashboard Icon"
-                className="w-5 h-5 text-[#9b111e] "
+                alt="City Icon"
+                className="w-5 h-5 text-[#9b111e]"
               />,
             ]}
             label="City"
             isOpen={isOpen}
-            tooltip="city"
+            tooltip="City"
             onClick={handleLinkClick}
           />
           <SidebarLink
@@ -218,18 +237,18 @@ export const Sidebar = () => {
             icon={[
               <img
                 src={vehiclewhite}
-                alt="Dashboard Icon"
-                className="w-5 h-5 text-[#9b111e] "
+                alt="Vehicle Icon"
+                className="w-5 h-5 text-[#9b111e]"
               />,
               <img
                 src={vehiclegray}
-                alt="Dashboard Icon"
-                className="w-5 h-5 text-[#9b111e] "
+                alt="Vehicle Icon"
+                className="w-5 h-5 text-[#9b111e]"
               />,
             ]}
             label="Vehicle"
             isOpen={isOpen}
-            tooltip="vehicle"
+            tooltip="Vehicle"
             onClick={handleLinkClick}
           />
           <SidebarLink
@@ -237,18 +256,18 @@ export const Sidebar = () => {
             icon={[
               <img
                 src={soswhite}
-                alt="Dashboard Icon"
-                className="w-5 h-5 text-[#9b111e] "
+                alt="SOS Icon"
+                className="w-5 h-5 text-[#9b111e]"
               />,
               <img
                 src={sosgray}
-                alt="Dashboard Icon"
-                className="w-5 h-5 text-[#9b111e] "
+                alt="SOS Icon"
+                className="w-5 h-5 text-[#9b111e]"
               />,
             ]}
             label="SOS"
             isOpen={isOpen}
-            tooltip="sos"
+            tooltip="SOS"
             onClick={handleLinkClick}
           />
           <SidebarLink
@@ -256,18 +275,18 @@ export const Sidebar = () => {
             icon={[
               <img
                 src={querieswhite}
-                alt="Dashboard Icon"
-                className="w-5 h-5 text-[#9b111e] "
+                alt="Queries Icon"
+                className="w-5 h-5 text-[#9b111e]"
               />,
               <img
                 src={queriesgray}
-                alt="Dashboard Icon"
-                className="w-5 h-5 text-[#9b111e] "
+                alt="Queries Icon"
+                className="w-5 h-5 text-[#9b111e]"
               />,
             ]}
             label="Queries"
             isOpen={isOpen}
-            tooltip="queries"
+            tooltip="Queries"
             onClick={handleLinkClick}
           />
           <SidebarLink
@@ -275,18 +294,18 @@ export const Sidebar = () => {
             icon={[
               <img
                 src={customerwhite}
-                alt="Dashboard Icon"
-                className="w-5 h-5 text-[#9b111e] "
+                alt="Customers Icon"
+                className="w-5 h-5 text-[#9b111e]"
               />,
               <img
                 src={customergray}
-                alt="Dashboard Icon"
-                className="w-5 h-5 text-[#9b111e] "
+                alt="Customers Icon"
+                className="w-5 h-5 text-[#9b111e]"
               />,
             ]}
             label="Customers"
             isOpen={isOpen}
-            tooltip="customers"
+            tooltip="Customers"
             onClick={handleLinkClick}
           />
           <SidebarLink
@@ -294,38 +313,37 @@ export const Sidebar = () => {
             icon={[
               <img
                 src={settingswhite}
-                alt="Dashboard Icon"
-                className="w-5 h-5 text-[#9b111e] "
+                alt="Settings Icon"
+                className="w-5 h-5 text-[#9b111e]"
               />,
               <img
                 src={settingsgray}
-                alt="Dashboard Icon"
-                className="w-5 h-5 text-[#9b111e] "
+                alt="Settings Icon"
+                className="w-5 h-5 text-[#9b111e]"
               />,
             ]}
             label="Settings"
             isOpen={isOpen}
-            tooltip="settings"
+            tooltip="Settings"
             onClick={handleLinkClick}
           />
-
           <SidebarLink
             to="/announcement"
             icon={[
               <img
                 src={announcementwhite}
-                alt="Dashboard Icon"
-                className="w-5 h-5 text-[#9b111e] "
+                alt="Announcement Icon"
+                className="w-5 h-5 text-[#9b111e]"
               />,
               <img
                 src={announcementgray}
-                alt="Dashboard Icon"
-                className="w-5 h-5 text-[#9b111e] "
+                alt="Announcement Icon"
+                className="w-5 h-5 text-[#9b111e]"
               />,
             ]}
             label="Announcement"
             isOpen={isOpen}
-            tooltip="announcement"
+            tooltip="Announcement"
             onClick={handleLinkClick}
           />
           <SidebarLink
@@ -333,27 +351,30 @@ export const Sidebar = () => {
             icon={[
               <img
                 src={notificationwhite}
-                alt="Dashboard Icon"
-                className="w-5 h-5 text-[#9b111e] "
+                alt="Notifications Icon"
+                className="w-5 h-5 text-[#9b111e]"
               />,
               <img
                 src={notificationgray}
-                alt="Dashboard Icon"
-                className="w-5 h-5 text-[#9b111e] "
+                alt="Notifications Icon"
+                className="w-5 h-5 text-[#9b111e]"
               />,
             ]}
             label="Notifications"
             isOpen={isOpen}
-            tooltip="notifications"
+            tooltip="Notifications"
             onClick={handleLinkClick}
           />
         </nav>
       </div>
+      
       <div
-        className={`transition-all duration-300 ${
-          isOpen ? "ml-48" : "ml-16"
+        className={`transition-all duration-500 ease-in-out ${
+          isOpen ? "ml-60" : "ml-16"
         } flex-1`}
-      ></div>
+      >
+        {/* Your main content goes here */}
+      </div>
     </div>
   );
 };
@@ -399,7 +420,7 @@ const SidebarLink = ({
         onMouseLeave={() => setIsHovered(false)}
         onMouseMove={handleMouseMove}
         style={{ backgroundColor }}
-        className={`flex items-center transition-all py-1 
+        className={`flex items-center transition-all duration-500 ease-in-out py-1 
           ${
             isOpen
               ? "justify-start gap-5 w-[200px] py-2.5 px-4"
@@ -408,6 +429,7 @@ const SidebarLink = ({
           rounded-full
         `}
       >
+        {/* Icon Container */}
         <div className="text-xl" style={{ color: textColor }}>
           {isActive ? icon[0] : icon[1]}
         </div>
@@ -418,6 +440,7 @@ const SidebarLink = ({
               color: textColor,
               fontWeight: 500,
             }}
+            className="transition-all duration-500 ease-in-out"
           >
             {label}
           </span>
@@ -427,7 +450,7 @@ const SidebarLink = ({
       {/* Tooltip on cursor position */}
       {!isOpen && isHovered && (
         <div
-          className="fixed bg-gray-200 text-black text-xs rounded px-2 py-1 z-50 whitespace-nowrap shadow-md pointer-events-none"
+          className="fixed bg-gray-200 text-black text-xs rounded px-2 py-1 z-50 whitespace-nowrap shadow-md pointer-events-none transition-all duration-200 ease-in-out"
           style={{
             top: mousePosition.y + 30,
             left: mousePosition.x - 20,
@@ -439,4 +462,3 @@ const SidebarLink = ({
     </div>
   );
 };
-
