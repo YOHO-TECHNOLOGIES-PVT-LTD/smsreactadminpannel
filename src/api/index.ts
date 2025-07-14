@@ -62,7 +62,7 @@ order_history: {
       getallCustomer:(data:any)=>httpClient.get(API_END_POINTS.customer_management.getAll,data),
     },
     customermanagement_history:{
-      getallHistory:(data:any)=>httpClient.get(API_END_POINTS.customermanagement_history.getAll,data)
+      getallHistory:(params:string)=>httpClient.get(API_END_POINTS.customermanagement_history.getAll.replace(':customerid',params))
     },
 
 

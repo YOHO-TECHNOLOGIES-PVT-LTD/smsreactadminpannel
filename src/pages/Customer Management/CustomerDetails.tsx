@@ -240,9 +240,10 @@ const SimpleDonutChart = ({
 
 type ProfileViewComponent = {
   onProfileView: () => void;
+  setCustomerId:(customerId:stirng)=> void;
 };
 
-const CustomerDetails: React.FC<ProfileViewComponent> = ({ onProfileView }) => {
+const CustomerDetails: React.FC<ProfileViewComponent> = ({ onProfileView,setCustomerId }) => {
   const [customerData, setCustomerData] = useState<any[]>([]);
   const [search, setSearch] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
@@ -571,7 +572,10 @@ const CustomerDetails: React.FC<ProfileViewComponent> = ({ onProfileView }) => {
                     </div>
                     <div>
                       <motion.button
-                        onClick={onProfileView}
+                        onClick={()=>{
+                          onProfileView()
+                          setCustomerId(customer._id)
+                        }}
                         className="text-[#800000] hover:text-[#990000] rounded-3xl font-medium text-sm flex items-center gap-1"
                         whileHover={{ x: 3 }}
                       >
