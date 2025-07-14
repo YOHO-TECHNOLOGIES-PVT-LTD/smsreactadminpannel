@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 
 
-import React, { useState, useRef, useEffect } from 'react';
-import { COLORS } from "../../../../constants/uiConstants"//COLOUR
+import { useState, useRef, useEffect } from 'react';
+import { FONTS } from "../../../../constants/uiConstants"//COLOUR
 import {GetTransactionDashboard} from "../../../../pages/Dashboards/services/index"
 
 import {
@@ -14,7 +15,7 @@ import {
   Tooltip,
   ResponsiveContainer,
   Legend,
-} from "recharts";
+} from "../../charts/RechartsWrapper";
 
 import { ChevronDown } from "lucide-react";
 
@@ -37,8 +38,8 @@ const dateRanges = ['weekly', 'monthly', 'yearly'];
 
 
 
-const CustomerAnalyticsChart: React.FC = () => {
-  const [selectedRange, setSelectedRange] = useState('monthly'); // Set default value and will be used
+const CustomerAnalyticsChart = () => {
+  const [selectedRange, setSelectedRange] = useState('weekly'); // Set default value and will be used
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const [transactionData, setTransactionData] = useState<any[]>([]);
@@ -131,18 +132,18 @@ const getFilteredData = () => {
   return (
     <div className="">
       <div className="flex items-center justify-between mb-4">
-        <p className=" text-lg" style={{ color: COLORS.primary }}> Total Transaction </p>
+        <p className=" text-lg" style={{  ...FONTS.cardheader }}> Total Transaction </p>
         <div className="flex items-center space-x-2 ">
           <div className="relative " ref={dropdownRef}>
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="flex items-center text-xs text-[#9b111e] border px-3 py-1.5 rounded-md bg-white hover:bg-gray-50"
+              className="flex items-center text-xs text-[#9b111e] border px-3 py-1.5 rounded-3xl bg-white hover:bg-gray-50"
             >
               <span className="mr-2">{selectedRange}</span>
               <ChevronDown className="w-4 h-4 text-[#9b111e]" />
             </button>
             {isOpen && (
-              <div className="absolute right-0 mt-2 bg-white text-[#9b111e] border rounded-md shadow-lg z-10 min-w-[100px]">
+              <div className="absolute right-0 mt-2 bg-white text-[#9b111e] border rounded-3xl shadow-lg z-10 min-w-[100px]">
                 {dateRanges.map((period) => (
                   <button
                     key={period}
@@ -181,7 +182,7 @@ const getFilteredData = () => {
           </defs>
 
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="label" />
+          <XAxis dataKey="label" style={{...FONTS.paragraph}}/>
           <YAxis tickFormatter={(value) => `${(value / 1000).toFixed(0)}k`} />
           <Tooltip formatter={(value) => `${value.toLocaleString()}`} />
           <Legend />

@@ -1,157 +1,272 @@
-import {  useState } from "react";
-import { IoFilterSharp } from "react-icons/io5";
-import { FaArrowTrendUp } from "react-icons/fa6";
-import { BsEye } from "react-icons/bs";
-import { IoClose } from "react-icons/io5";
-import { MdAddCircleOutline, MdOutlineKeyboardBackspace } from "react-icons/md";
-import { FiSearch } from "react-icons/fi";
-import { COLORS } from "../../constants/uiConstants";
-//import { getServiceCenter } from "../../features/ServiceCenter/Service";
-import logo from '../../assets/LOGO.jpg'
-import { useNavigate } from "react-router-dom";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import type React from "react"
 
-const ServiceCenterFilter = () => {
-  const [showFilters, setShowFilters] = useState(false);
+import { useState, useRef, useEffect } from "react"
+import { FaArrowTrendUp } from "react-icons/fa6"
+import { BsEye } from "react-icons/bs"
+import { IoClose } from "react-icons/io5"
+import { MdAddCircleOutline } from "react-icons/md"
+import { FiSearch } from "react-icons/fi"
+import { COLORS, FONTS } from "../../constants/uiConstants"
+import Client from "../../api"
+import { fetchCountries, fetchState } from "../../features/ServiceCenter/externalapi"
+import { toast } from "react-toastify"
+import { TbCloudUpload } from "react-icons/tb";
 
-  return (
-    <div>
-      <div className="flex justify-between items-center mb-4">
-        <h3 className="text-lg font-medium text-gray-700">List of Service Centers</h3>
-        <IoFilterSharp
-          className="text-xl text-gray-600 cursor-pointer"
-          onClick={() => setShowFilters(!showFilters)}
-        />
-      </div>
+interface ContactInfo {
+  phoneNumber: string
+  state: string
+  city: string
+  address1: string
+  address2: string
+}
 
-      {showFilters && (
-        <div className="w-full border-b border-gray-300 pb-4 mb-4">
-          <div className="flex flex-wrap gap-12">
-            <div className="relative inline-block">
-              <select className="px-12 pr-10 py-2 border border-[#800000] rounded-md shadow-sm bg-[#fce8e8] text-[#800000] focus:outline-none appearance-none w-full">
-                <option className="bg-[#800000] text-white">Sort By</option>
-                <option className="bg-[#800000] text-white">Price</option>
-                <option className="bg-[#800000] text-white">Popularity</option>
-              </select>
-              <div className="pointer-events-none absolute inset-y-0 right-4 flex items-center text-[#800000]">
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                  <path d="M19 9l-7 7-7-7" />
-                </svg>
-              </div>
-            </div>
-
-            <div className="relative inline-block">
-              <select className="px-12 pr-10 py-2 border border-[#800000] rounded-md shadow-sm bg-[#fce8e8] text-[#800000] focus:outline-none appearance-none w-full">
-                <option className="bg-[#800000] text-white">Services</option>
-                <option className="bg-[#800000] text-white">Oil change</option>
-                <option className="bg-[#800000] text-white">AC Repair</option>
-              </select>
-              <div className="pointer-events-none absolute inset-y-0 right-4 flex items-center text-[#800000]">
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                  <path d="M19 9l-7 7-7-7" />
-                </svg>
-              </div>
-            </div>
-
-            <button className="px-12 py-2 pr-10 border border-[#800000] rounded-md shadow-sm bg-[#fce8e8] text-[#800000] focus:outline-none">
-              ⚡ Quick Response
-            </button>
-
-            <div className="relative inline-block">
-              <select className="px-12 pr-10 py-2 border border-[#800000] rounded-md shadow-sm bg-[#fce8e8] text-[#800000] focus:outline-none appearance-none w-full">
-                <option className="bg-[#800000] text-white">Ratings</option>
-                <option className="bg-[#800000] text-white">4+ Stars</option>
-                <option className="bg-[#800000] text-white">3+ Stars</option>
-              </select>
-              <div className="pointer-events-none absolute inset-y-0 right-4 flex items-center text-[#800000]">
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                  <path d="M19 9l-7 7-7-7" />
-                </svg>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-    </div>
-  );
-};
+interface PartnerFormData {
+  firstName: string
+  lastName: string
+  companyName?: string
+  aadhar: string
+  pan: string
+  gstNo: string
+  regNo: string
+  email: string
+  password: string
+  contact_info: ContactInfo
+  role: "partner"
+  image?: File | null
+}
 
 type ServiceCenterListProps = {
-  onView: (setp:any) => void;  // A function that returns nothing
-  handleBack: () => void;
-  partner:any;
-  setpartner:(id:number)=>void;
-};
+  onView: (step: any) => void
+  handleBack: () => void
+  partner: any
+  setpartner: (id: number) => void
+}
 
-export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({ onView, handleBack,partner,setpartner }) => {
-  const [selectedCardIndex, setSelectedCardIndex] = useState<number | null>(null);
-  const [showSearch, setShowSearch] = useState(false);
-  const [searchTerm, setSearchTerm] = useState("");
-  const navigate = useNavigate()
-  // const [partner, setPartner] = useState<any[]>([])
+export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
+  onView,
+  partner,
+  setpartner,
+}) => {
+  const [selectedCardIndex, setSelectedCardIndex] = useState<number | null>(null)
+  const [showSearch, setShowSearch] = useState(false)
+  const [searchTerm, setSearchTerm] = useState("")
+  const [showPartnerForm, setShowPartnerForm] = useState(false)
+  const partnerFileInputRef = useRef<HTMLInputElement>(null)
+  const [isLoading, setIsLoading] = useState(false);
 
-  // const centers = [
-  //   {
-  //     name: "Fast & Furious Auto Mobiles",
-  //     rating: 4.6,
-  //     location: "South Bypass Road OMR, Chennai",
-  //     image: "https://logodix.com/logo/2004138.jpg",
-  //   },
-  //   {
-  //     name: "Raajes Kumar Auto Mobiles",
-  //     rating: 4.4,
-  //     location: "South Bypass Road Tambaram, Chennai",
-  //     image: "https://logodix.com/logo/2004335.png",
-  //   },
-  //   {
-  //     name: "Praveen Kumar Auto Mobiles",
-  //     rating: 4.4,
-  //     location: "South Bypass Road Tambaram, Chennai",
-  //     image: "https://logodix.com/logo/2004152.png",
-  //   },
-  // ];
+  // Partner form state
+  const [partnerFormData, setPartnerFormData] = useState<PartnerFormData>({
+    firstName: "",
+    lastName: "",
+    companyName: "",
+    aadhar:"",
+    pan: "",
+    gstNo: "",
+    regNo: "",
+    email: "",
+    password: "",
+    contact_info: {
+      phoneNumber: "",
+      state: "",
+      city: "",
+      address1: "",
+      address2: "",
+    },
+    role: "partner",
+    image: null,
+  })
 
-  // useEffect(() => {
-  //   const getPartner = async() => {
-      
-  //       try {
-  //         const data:any = await getServiceCenter('')
-  //         setPartner(data.data.data)
-  //       } catch (error) {
-  //         console.error('failed to get servicecenter:', error)
-
-  //       }
-  //     }
-  //   getPartner()
-  // },[])
-
-  function changeData(index:number){
+  function changeData(index: number) {
     onView(1)
+    console.log(index,"partner")
     setpartner(index)
   }
 
+  // Partner form handlers
+  const handlePartnerFormChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value, files } = e.target as HTMLInputElement
+
+    if (name === "image" && files) {
+      setPartnerFormData((prev) => ({ ...prev, image: files[0] }))
+    } else if (name.startsWith("contact_info.")) {
+      const key = name.split(".")[1] as keyof ContactInfo
+      setPartnerFormData((prevData) => ({
+        ...prevData,
+        contact_info: {
+          ...prevData.contact_info,
+          [key]: value,
+        },
+      }))
+    } else {
+      setPartnerFormData((prevData) => ({
+        ...prevData,
+        [name]: value,
+      }))
+    }
+  }
+
+  const handlePartnerFormSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setIsLoading(true)
+
+    const data = new FormData()
+    Object.entries(partnerFormData).forEach(([key, value]) => {
+      if (key === "contact_info") {
+        Object.entries(value).forEach(([subKey, subValue]) => {
+          data.append(`contact_info.${subKey}`, String(subValue))
+        })
+      } else if (key === "image" && value instanceof File) {
+        data.append("image", value)
+      } else if (value !== undefined && value !== null) {
+        data.append(key, value as string)
+      }
+    })
+
+    try {
+      await new Client().admin.servicecenter.postPartner(data)
+
+      // Reset form and close modal
+      setPartnerFormData({
+        firstName: "",
+        lastName: "",
+        companyName: "",
+        aadhar: "",
+        pan: "",
+        gstNo: "",
+        regNo: "",
+        email: "",
+        password: "",
+        contact_info: {
+          phoneNumber: "",
+          state: "",
+          city: "",
+          address1: "",
+          address2: "",
+        },
+        role: "partner",
+        image: null,
+      })
+      setShowPartnerForm(false)
+      if (partnerFileInputRef.current) {
+        partnerFileInputRef.current.value = ""
+      }
+
+     
+
+      toast.success("Partner registered successfully!")
+      // You might want to refresh the partner list here
+    } catch (error:any) {
+      console.log("Registration failed!",error.message)
+    }
+    finally{
+      setIsLoading(false)
+    }
+  }
+
+  const Spinner = ({ className = "" }: { className?: string }) => (
+  <svg 
+    className={`animate-spin h-5 w-5 ${className}`} 
+    xmlns="http://www.w3.org/2000/svg" 
+    fill="none" 
+    viewBox="0 0 24 24"
+  >
+    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+  </svg>
+);
+
+  const handleCancelPartnerForm = () => {
+    setShowPartnerForm(false)
+    setPartnerFormData({
+      firstName: "",
+      lastName: "",
+      companyName: "",
+      aadhar: "",
+      pan: "",
+      gstNo: "",
+      regNo: "",
+      email: "",
+      password: "",
+      contact_info: {
+        phoneNumber: "",
+        state: "",
+        city: "",
+        address1: "",
+        address2: "",
+      },
+      role: "partner",
+      image: null,
+    })
+    if (partnerFileInputRef.current) {
+      partnerFileInputRef.current.value = ""
+    }
+  }
+
+  // Filter partners based on search term
+  const filteredPartners = partner.filter(
+    (center: any) =>
+      `${center.firstName} ${center.lastName}`.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      center.companyName?.toLowerCase().includes(searchTerm.toLowerCase()),
+  )
+
+  
+  const [city, setCity] = useState<any[]>([]);
+
+  const getCountries = async () => {
+    const states:any = state.filter(item=>item.name === partnerFormData.contact_info.state )
+    const response = await fetchCountries(states[0].iso2);
+    if (response && response.data) {
+      setCity(response.data);
+    } else {
+      setCity([]);
+    }
+  }
+
+  useEffect (() => {
+    getCountries();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[partnerFormData.contact_info.state])
+
+
+  const [state, setState] = useState<any[]>([]);
+
+  const getStates = async() => {
+    const response = await fetchState();
+    if (response) {
+      setState(response.data);
+    } else {
+      setState([]);
+    }
+  }
+
+  useEffect (() => {
+    getStates();
+  },[])
+
+
+
+  
+  
   return (
-    <div className="flex flex-col   bg-gray-100" style={{ background: COLORS.bgColor }}>
+    <div className="flex flex-col bg-gray-100" style={{ background: COLORS.bgColor }}>
       <div className="flex gap-6 flex-wrap">
         <div className="flex-1 min-w-[600px] bg-white p-5" style={{ background: COLORS.bgColor }}>
-          <div className="t-0" style={{ background: COLORS.bgColor }}>
-            <button onClick={handleBack} className=""><MdOutlineKeyboardBackspace className="text-[#800000] text-3xl" /></button>
-          </div>
+          
+
           <div className="flex justify-between items-center border-b border-gray-300 pb-4 mb-4 flex-wrap gap-4">
-            <h1 className="font-bold text-3xl pt-2 text-[#9b111e]">Service Center Management</h1>
+            <h1 className="font-bold font-koh !font-bold text-3xl pt-2 !text-[#9b111e]"
+            style={{...FONTS.header}}>Partners</h1>
             <div className="flex items-center gap-3 flex-wrap">
-
-
               <button
-                className="bg-[#fce8e8] text-gray-600 hover:text-[#9b111e] p-2 rounded-full transition"
+                className="bg-[#fce8e8] font-koh text-gray-600 hover:text-[#9b111e] p-2 rounded-3xl transition"
                 title="Search"
                 onClick={() => setShowSearch(!showSearch)}
               >
-                <FiSearch size={22} className="text-[#800000]" />
+                <FiSearch size={22} className="text-[#800000] font-koh" />
               </button>
 
-
               {showSearch && (
-
                 <input
                   type="text"
                   className="px-4 py-1.5 border border-[#800000] focus:border-[#800000] rounded-md shadow-sm focus:outline-none"
@@ -159,75 +274,74 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({ onView
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                 />
-
               )}
+
               <button
-                className="text-white px-4 py-2 rounded-lg transition duration-200 flex items-center gap-2"
-                style={{ background: "linear-gradient(44.99deg, #700808 11%, #d23c3c 102.34%)" }}
-                onClick={()=>navigate("/partnerreg")}
+                className="!text-white px-4 py-2 bg-[#9b111e] rounded-3xl transition duration-200 flex items-center gap-2"
+                style={{ ...FONTS.paragraph,}}
+                onClick={() => setShowPartnerForm(true)}
               >
                 <MdAddCircleOutline size={18} /> Add
               </button>
             </div>
           </div>
+          
 
-          <ServiceCenterFilter />
-
-          <div className="flex flex-col gap-4 mt-4">
-            {partner.map((center:any, index:number) => (
-              <div key={index}>
-                <div className="bg-white p-6 rounded-lg shadow flex flex-col sm:flex-row gap-20 items-start w-full max-w-[2000px]">
+          <div className="grid grid-cols-2 gap-4 mt-4 " >
+            {filteredPartners.map((center: any, index: number) => (
+              <div className="relative" key={index}>
+                <div className="bg-white p-6 rounded-lg shadow flex flex-col items-start h-full w-full ">
+                  <div>
                   <img
-                    src={center.image || logo}
-                    alt={center.firstName}
+                    src={center.image}
+                    alt={center.companyName+" logo"}
                     className="w-72 h-40 object-cover rounded-lg"
                   />
-                  <div className="flex-1">
-                    <h3 className="text-2xl font-bold text-gray-800">{center.firstName}&nbsp;{center.lastName}</h3>
-                    <div className="flex gap-2 text-base mt-2 text-gray-700 flex-wrap">
-                      <span className="bg-[#fce8e8] text-[#800000] px-2 py-0.5 rounded">
-                        {center.rating} ★
-                      </span>
-                      <span className="text-yellow-600">1,548 Services</span>
-                    </div>
-                    <div className="flex gap-2 mt-1 text-yellow-600 flex-wrap">
-                      <span className="flex items-center gap-1">
-                        <span className="bg-yellow-400 text-white p-1 rounded-full">
-                          <FaArrowTrendUp size={12} />
-                        </span>
-                        Popular
-                      </span>
-                    </div>
-
-                    <p className="text-sm text-gray-500 mt-1 border-[1px] border-[#800000] bg-[#F9E6E6] px-2 py-1 rounded inline-block w-fit mt-5">
-                      {center.location}
-                    </p>
                   </div>
-
-                  <div className="flex gap-2 mt-2 sm:mt-0">
-                    {selectedCardIndex !== index && (
+                   <div className="absolute right-8 bottom-20 gap-2 mt-2 sm:mt-0">
+                    {/* {selectedCardIndex !== index && ( */}
                       <button
-                        onClick={()=>changeData(index)}
-                        className="text-white px-4 py-2 rounded-md transition duration-200 flex items-center gap-1.5 text-sm"
-                        style={{
-                          background: "linear-gradient(44.99deg, #700808 11%, #d23c3c 102.34%)",
+                        onClick={() => changeData(index)}
+                        className="!text-white  px-4 py-1 rounded-3xl bg-[#16A34A] transition duration-200 flex items-center gap-1.5 text-sm"
+                        style={{ ...FONTS.paragraph,
+                          
                         }}
                       >
-                        <BsEye size={16} /> View
+                        View
                       </button>
-                    )}
+                    {/* )} */}
                   </div>
+                  <div className="flex-1">
+                    <h3 className="font-bold text-gray-800" style={{color : COLORS.primary}}>
+                      {center.companyName}
+                    </h3>
+
+                    <div className="flex items-center gap-2">
+                    <h3 className="font-bold text-[#717171]">Address : </h3>
+                    <p className="text-sm text-[#717171]" >
+                     {center.contact_info.address1}, {center.contact_info.address2}, {center.contact_info.city}
+                    </p>
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                    <h3 className="font-bold text-[#717171]">Contact : </h3>
+                    <p className="text-sm text-[#717171]">
+                     {center?.contact_info?.phoneNumber}
+                    </p>
+                    </div>
+                  </div>
+
+                 
                 </div>
 
                 {selectedCardIndex === index && (
-                  <div className="mt-4 relative border rounded-md p-4 bg-gray-50">
+                  <div className="mt-4 relative borderrounded-3xl p-4 bg-gray-50">
                     <button
                       onClick={() => setSelectedCardIndex(null)}
                       className="absolute top-2 right-2 text-gray-600 hover:text-red-600 pt-5 pr-5"
                     >
                       <IoClose size={30} />
                     </button>
-
                   </div>
                 )}
               </div>
@@ -235,6 +349,318 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({ onView
           </div>
         </div>
       </div>
+
+      {/* Partner Registration Modal */}
+      {showPartnerForm && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto scrollbar-hide">
+            <div className="p-6 border-b border-gray-200">
+              <div className="flex items-center justify-between">
+                <h3 className="text-2xl !font-bold !text-[#9b111e]"
+                style={{...FONTS.header}}
+                >Partner Registration</h3>
+                <button
+                  onClick={handleCancelPartnerForm}
+                  className="p-2 hover:bg-gray-100 rounded-3xl transition-colors"
+                >
+                  <IoClose size={24} className="text-gray-500" />
+                </button>
+              </div>
+            </div>
+
+            <form onSubmit={handlePartnerFormSubmit} className="p-6">
+              <div className="grid grid-cols-3 md:grid-cols-3 gap-6"
+              style={{...FONTS.paragraph}}
+              >
+              
+                 
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      First Name <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      name="firstName"
+                      required
+                      placeholder="First Name"
+                      value={partnerFormData.firstName}
+                      onChange={handlePartnerFormChange}
+                      className="w-full px-4 py-2 border border-[#717171] placeholder:text-[#717171] rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#800000] focus:border-transparent transition"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Last Name <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      name="lastName"
+                      required
+                      placeholder="Last Name"
+                      value={partnerFormData.lastName}
+                      onChange={handlePartnerFormChange}
+                      className="w-full px-4 py-2 border placeholder:text-[#717171] border-[#717171] rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#800000] focus:border-transparent transition"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Company Name</label>
+                    <input
+                      type="text"
+                      name="companyName"
+                      placeholder="Company Name"
+                      value={partnerFormData.companyName}
+                      onChange={handlePartnerFormChange}
+                      className="w-full px-4 py-2 border border-[#717171] placeholder:text-[#717171] rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#800000] focus:border-transparent transition"
+                    />
+                  </div>
+                  
+                   <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Phone Number <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      name="contact_info.phoneNumber"
+                      required
+                      placeholder="Phone Number"
+                      value={partnerFormData.contact_info.phoneNumber}
+                      onChange={handlePartnerFormChange}
+                      className="w-full px-4 py-2 border border-[#717171] placeholder:text-[#717171] rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#800000] focus:border-transparent transition"
+                    />
+                  </div>
+
+                  <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">State</label>
+                      <select
+                        name="contact_info.state"
+                        value={partnerFormData.contact_info.state}
+                        onChange={handlePartnerFormChange}
+                        className={`w-full px-4 py-2 border border-[#717171] rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#800000] focus:border-transparent transition ${partnerFormData ? 'text-black' : 'text-[#717171]'}`}
+
+                      >
+                        <option className="text-[#717171]" value="" disabled>Select a state</option>
+                        {state.map(city => (
+                          <option className="text-[#717171] " key={city.id} value={city.name}>
+                            {city.name}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+
+                  <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">City</label>
+                      <select
+                        name="contact_info.city"
+                        value={partnerFormData.contact_info.city}
+                        onChange={handlePartnerFormChange}
+                        className={`w-full px-4 py-2 border border-[#717171]  rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#800000] focus:border-transparent transition ${partnerFormData ? 'text-black' : 'text-[#717171]'}`}>                      
+                        <option className="text-[#717171]" value=""  disabled >Select a city</option>
+                        {city.map(city => (
+                          <option className="text-[#717171]" key={city.id} value={city.name}>
+                            {city.name}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Aadhar No <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      name="aadhar"
+                      required
+                      placeholder="Aadhar no"
+                      value={partnerFormData.aadhar}
+                      onChange={handlePartnerFormChange}
+                      className="w-full px-4 py-2 border border-[#717171] placeholder:text-[#717171] rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#800000] focus:border-transparent transition"
+                    />
+                  </div>
+
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Address Line 1</label>
+                    <input
+                      type="text"
+                      name="contact_info.address1"
+                      placeholder="Address Line 1"
+                      value={partnerFormData.contact_info.address1}
+                      onChange={handlePartnerFormChange}
+                      className="w-full px-4 py-2 border border-[#717171] placeholder:text-[#717171] rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#800000] focus:border-transparent transition"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Address Line 2</label>
+                    <input
+                      type="text"
+                      name="contact_info.address2"
+                      placeholder="Address Line 2"
+                      value={partnerFormData.contact_info.address2}
+                      onChange={handlePartnerFormChange}
+                      className="w-full px-4 py-2 border border-[#717171] placeholder:text-[#717171] rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#800000] focus:border-transparent transition"
+                    />
+                  </div>
+
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Reg No 
+                    </label>
+                    <input
+                      type="text"
+                      name="regNo"
+                      placeholder="regNo"
+                      value={partnerFormData.regNo}
+                      onChange={handlePartnerFormChange}
+                      className="w-full px-4 py-2 border border-[#717171] placeholder:text-[#717171] rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#800000] focus:border-transparent transition"
+                    />
+                  </div>
+ 
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      PAN No 
+                    </label>
+                    <input
+                      type="text"
+                      name="pan"
+                      placeholder="PAN no"
+                      value={partnerFormData.pan}
+                      onChange={handlePartnerFormChange}
+                      className="w-full px-4 py-2 border placeholder:text-[#717171] border-[#717171] rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#800000] focus:border-transparent transition"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      GST No 
+                    </label>
+                    <input
+                      type="text"
+                      name="gstNo"
+                      placeholder="GST No"
+                      value={partnerFormData.gstNo}
+                      onChange={handlePartnerFormChange}
+                      className="placeholder:text-[#717171] w-full px-4 py-2 border border-[#717171]  rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#800000] focus:border-transparent transition"
+                    />
+                  </div>
+                                  
+              </div>
+
+              <div className="col-span-full">
+  <label className="block text-sm mt-4 font-medium text-gray-700 mb-2">
+    Upload Profile Image
+  </label>
+  <div className="grid grid-rows-2 justify-center items-center px-6 py-8 border  border-[#717171] rounded-md">
+      <div>
+      <TbCloudUpload  className="mx-auto w-10 h-10"/>
+      </div>
+      <div className="mt-4 flex items-center text-sm text-gray-600">
+        <label
+          htmlFor="file-upload"
+          className="relative cursor-pointer rounded-md bg-gray-200 font-medium text-gray-700 px-4 py-2 hover:bg-gray-300 transition"
+        >
+          <span>Choose File</span>
+          <input
+            id="file-upload"
+            name="image"
+            type="file"
+            accept="image/*"
+            ref={partnerFileInputRef}
+            onChange={handlePartnerFormChange}
+            className="sr-only"
+          />
+        </label>
+        <div className="ml-3" id="file-name">
+          No File Chosen
+        </div>
+      </div>
+    
+  </div>
+</div>
+
+
+                <div className="border-2 border-[#9b111e] p-4 mt-4 rounded-xl ">
+                  <h2 className="mb-3 text-[#9b111e] text-lg font-bold">Login Setup</h2>
+                  <div className="grid grid-cols-2 gap-2 justify-between">
+                  <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Email <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="email"
+                      name="email"
+                      required
+                      placeholder="Email"
+                      value={partnerFormData.email}
+                      onChange={handlePartnerFormChange}
+                      className="placeholder:text-[#717171] w-full px-4 py-2 border border-[#717171] rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#800000] focus:border-transparent transition"
+                    />
+                  </div>
+
+               <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Password <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="password"
+                      name="password"
+                      required
+                      placeholder="***********"
+                      value={partnerFormData.password}
+                      onChange={handlePartnerFormChange}
+                      className="placeholder:text-[#717171] w-full px-4 py-2 border border-[#717171] rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#800000] focus:border-transparent transition"
+                    />
+                  </div>
+                  </div>
+                  </div>      
+              {/* Full width submit button */}
+              <div className="mt-8">
+                <div className="flex justify-end space-x-4">
+                  <button
+                    type="button"
+                    onClick={handleCancelPartnerForm}
+                    className="px-6 py-2 border border-gray-300 rounded-3xl text-[#9b111e] bg-white hover:bg-gray-50 transition"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    disabled={isLoading}
+                    className={`px-6 py-2 text-white font-semibold rounded-3xl hover:opacity-90 transition flex items-center justify-center gap-2 ${
+                      isLoading ? "opacity-75 cursor-not-allowed" : ""
+                    }`}
+                    style={{ backgroundColor: '#9b111e' }}
+                  >
+                    {isLoading ? (
+                      <>
+                        <Spinner className="text-white" />
+                        <span>Registering...</span>
+                      </>
+                    ) : (
+                      "Register"
+                    )}
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+    
+    {/* {showPassForm && (
+  <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+    <div className="bg-white p-4 rounded-3xl">
+      <h1>Hello world</h1>
+      <button onClick={() => setShowPassForm(false)}>Close</button>
     </div>
-  );
-};
+  </div> */}
+{/* )} */}
+
+    </div>
+  )
+}

@@ -110,12 +110,12 @@
 
 
 // // //this is the stack bar 
-import React from 'react';
+import { } from 'react';
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
-} from 'recharts';
+} from '../../charts/RechartsWrapper';
 // import { ChevronDown } from 'lucide-react';
-import { COLORS } from "../../../../constants/uiConstants"; // your color constants
+import { FONTS } from "../../../../constants/uiConstants"; // your color constants
 
 // Sample data (converted from ApexChart format)
 const chartData = [
@@ -156,8 +156,8 @@ const TotalRevenue: React.FC = () => {
     <div className="bg-white w-full mx-auto relative">
       <div className="flex justify-between items-center">
         <div>
-          <h2 className="text-lg" style={{ color: COLORS.primary }}>
-           Vehicle Management
+          <h2 className="text-lg" style={{ ...FONTS.cardheader }}>
+           Vehicle
           </h2>
           
         </div>
@@ -192,7 +192,7 @@ const TotalRevenue: React.FC = () => {
         <ResponsiveContainer width="100%" height={100}>
           <BarChart data={chartData} stackOffset="sign">
             <CartesianGrid strokeDasharray="3 3" vertical={false} />
-            <XAxis dataKey="date" />
+            <XAxis dataKey="date" style={{...FONTS.paragraph}}/>
             <YAxis />
             <Tooltip />
             <Bar dataKey="MarutiSuzuki" stackId="stack" fill="#93c5fd" radius={[4, 4, 0, 0]} />

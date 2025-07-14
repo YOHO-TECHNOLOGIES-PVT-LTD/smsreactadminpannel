@@ -1,11 +1,9 @@
 import axios from "axios";
 
 
+const backEndUrl:string= import.meta.env.VITE_PUBLIC_API_URL
 
 
-const backEndUrl: string = 'https://sms-node-backend-17xb.onrender.com'
-
-// const backEndUrl: string = 'http://localhost:3000'
 const Axios = axios.create({
     baseURL:backEndUrl,
     timeout:50000000,
@@ -29,6 +27,7 @@ Axios.interceptors.response.use(
     (error)=>{
         if (error?.response && error?.response?.status === 401 && error?.response?.data?.status === "session_expired") {
             localStorage.removeItem("authToken")
+            window.location.reload()
         }
     }
 )
@@ -45,6 +44,7 @@ class HttpClient{
     return response;
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     async post(url:string,data:any){
         const response:unknown =  await Axios.post(url,data,{
           
@@ -55,7 +55,7 @@ class HttpClient{
         return response;
     }
 
-  async update(url:string,data:string,params?:string){
+  async update(url:string,data?:string,params?:string){
 
     const response =await Axios.put(url,data,{
         params:params,
@@ -66,6 +66,18 @@ class HttpClient{
     });
     return response?.data;
   }
+
+    async patch(url: string, params?: string) {
+
+        const response = await Axios.put(url, {
+            params: params,
+            headers: {
+
+            }
+
+        });
+        return response?.data;
+    }
 
   async delete(url:string){
 

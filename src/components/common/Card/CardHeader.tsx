@@ -9,8 +9,8 @@ const CardHeader:React.FC = () => {
         <div className="font-bold text-2xl">JOB CARDS</div>
      </div>
         <div className="flex gap-5 mt-3">
-            <button className="text-white font-bold bg-blue-400 rounded p-2">Grid view</button>
-            <button className="bg-grey-100 p-2 border-2 rounded p-2">Work Flow</button>
+            <button className="text-white font-bold bg-blue-400 rounded-3xl p-2">Grid view</button>
+            <button className="bg-grey-100 p-2 border-2 rounded-3xl p-2">Work Flow</button>
         </div>
     </div>
 </div>

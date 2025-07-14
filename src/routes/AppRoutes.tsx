@@ -11,15 +11,27 @@ import VehicleManagementPage from "../pages/vehicle/VehicleManagementPage";
 import GeneralSettings from "../pages/Settings/GeneralSettings";
 import { MainLayout } from "../Layout/MainLayout/MainLayout";
 import { useAuth } from "../pages/auth/AuthContext";
-import { Announcement } from "../pages/Announcement/Announcement";
+import  Announcement  from "../pages/Announcement/Announcement";
 import SosDetailsCard from "../pages/sos/SosDetailsCard";
 import DashboardSos from "../pages/sos/DashBoardSos";
 import QuotationPage from "../pages/job-cards/steps/Quotationpage";
 import Queries from "../pages/Queries/Queries";
-import PartnerRegForm from "../pages/service-center/PartnerRegForm";
+// import PartnerRegForm from "../pages/service-center/PartnerRegForm";
+import Bookings from "../pages/Bookings/Bookings";
+import ScheduleRequestPage from "../pages/Request-Queue/ScheduleRequestPage";
+// import ScheduledRequestsPage from "../pages/Request-Queue/ScheduledRequestsPage";
+import CustomerManagement from "../pages/Customer Management/CustomerManagement";
+import Order from "../pages/Orders/order";
+// import ServiceCenterProfileView from "../pages/service-center/ServiceCenterprofileview";
+import TermsConditionsSettings from "../pages/Settings/TermsConditionsSettings";
+import PrivacyPolicySettings from "../pages/Settings/PrivacyPolicySettings";
+import ScheduledRequestsPage from "../pages/Request-Queue/ScheduledRequestsPage";
+import OrderHistory from "../pages/Orders/orderHistory";
 
 const AppRoutes = () => {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, isLoading } = useAuth();
+
+  if (isLoading) return null;
 
   const AuthRoutes = () => (
     <Routes>
@@ -49,7 +61,16 @@ const AppRoutes = () => {
         <Route path="quotation/:id" element={<QuotationPage />} />
         <Route path="*" element={<Navigate to="/" />} />
         <Route path="/queries" element={<Queries />} />
-        <Route path="/partnerreg" element={<PartnerRegForm/>}/>
+        {/* <Route path="/partnerreg" element={<PartnerRegForm/>}/> */}
+        <Route path="/bookings" element={<Bookings />} />
+        <Route path="/request-queue" element={<ScheduleRequestPage/>}/>
+        <Route path="/request-queue/scheduled" element={<ScheduledRequestsPage/>}/>
+        <Route path="/customer" element={<CustomerManagement/>}/>
+        <Route path="/order" element={<Order/>}/>
+        <Route path="/order/orders-history" element={<OrderHistory/>}/>
+        {/* <Route path="service/profile" element={<ServiceCenterProfileView/>}/> */}
+        <Route path="terms-conditions" element={<TermsConditionsSettings />} />
+        <Route path="privacy-policy" element={<PrivacyPolicySettings />} />
       </Route>
     </Routes>
   );

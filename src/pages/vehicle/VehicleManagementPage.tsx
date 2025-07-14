@@ -1,12 +1,13 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from "react";
 import type { Vehicle } from "../vehicle/VehicleData";
 
 import VehicleDetailCard from "../../components/common/Card/VehicleDetailCard"; 
 import VehicleModal from "../vehicle/VehicleModal";
 import { FaSearch } from "react-icons/fa";
-import carDefaultlogo from "../../assets/INVALID CAR LOGO.png";
 import { RiResetLeftFill } from "react-icons/ri";
 import { getvechiclemanage } from "../../features/VehicleManagement/service";
+import { FONTS } from "../../constants/uiConstants";
 
 const VehicleManagementPage = () => {
   const [selectedVehicle, setSelectedVehicle] = useState<Vehicle | null>(null);
@@ -57,29 +58,40 @@ const VehicleManagementPage = () => {
 
   return {
     baseVehicleInfo: {
-      image: vehicle?.vehicleInfo?.image || "",
+      image: vehicle?.vehicleInfo?.image ,
       title: vehicle?.vehicleInfo?.model || "Untitled",
       registrationNumber: vehicle?.vehicleInfo?.registrationNo || "N/A",
     },
     vehicleInfo: {
       kms: vehicle?.vehicleInfo?.mileage || "0",
-      fuel: vehicle?.vehicleInventory?.fuelType || "N/A",
-      transmission: vehicle?.vehicleInfo?.transmission || "N/A",
-      location: vehicle?.vehicleInfo?.location || "Unknown",
-      registeredYear: vehicle?.vehicleInfo?.registeredYear || "",
-      insuranceStatus: vehicle?.vehicleInfo?.insuranceStatus || "",
-      availability: vehicle?.vehicleInfo?.availability || "",
+      chassisNo: vehicle?.vehicleInfo?.chassisNo || "N/A",
+      color: vehicle?.vehicleInfo?.color || "N/A",
+      engineNo: vehicle?.vehicleInfo?.engineNo || "N/A",
+      insuranceCompany: vehicle?.vehicleInfo?.insuranceCompany || "N/A",
+      insuranceRenewalDate: vehicle?.vehicleInfo?.insuranceRenewalDate || "N/A",
+      model: vehicle?.vehicleInfo?.model|| "N/A",
       currentFuelLevel: normalizeFuelLevel(
         vehicle?.vehicleInventory?.fuelLevel || ""
       ),
     },
-    customerDetails: {
-      fullName: vehicle?.customerDetails?.fullName || "",
+    partnerDetails: {
+      partnerName: vehicle?.partnerDetails?.Name || "",
+      partnerPhone: vehicle?.partnerDetails?.Phone || "",
+      partnerAddress: vehicle?.partnerDetails?.Address || "",
+    },
+    customerInfo: {
+      name: vehicle?.customerInfo?.name || "",
+      contactNo: vehicle?.customerInfo?.contactNo || "",
+      address: vehicle?.customerInfo?.address || "",
     },
     carCondition: {
       fuelLevel: vehicle?.vehicleInventory?.fuelLevel || "N/A",
       selectedItems: vehicle?.vehicleInventory?.currentState?.selectedItems || [],
       images: vehicle?.vehicleInventory?.currentState?.imageUploaded || [],
+    },
+    checkInOutDates: {
+      checkInDate: vehicle?.checkInOutDates?.checkInDate || "",
+      checkOutDate: vehicle?.checkInOutDates?.checkOutDate || "",
     },
   };
 };
@@ -92,7 +104,7 @@ const VehicleManagementPage = () => {
   return (
     <div>
       <div className="m-1 p-2">
-        <h1 className="text-3xl text-red-700 font-medium">Vehicle Management</h1>
+        <h1 className="text-3xl text-red-700 !font-bold" style={{...FONTS.header}}>Vehicle Management</h1>
         <hr className="border-1 border-red-700 my-3" />
         <div className="flex mt-10">
           <FaSearch
@@ -131,14 +143,14 @@ const VehicleManagementPage = () => {
             })
           ) : (
             <div
-              className="flex flex-col items-center justify-center h-[56.7vh] w-full overflow-y-hidden"
+              className="flex flex-col items-center justify-center h-[54.7vh] w-full overflow-y-hidden"
               style={{ position: "relative", left: "350px" }}
             >
-              <img
-                src={carDefaultlogo}
-                alt="No cars"
+              {/* <img
+                src={vehi.image}
+                alt="car image"
                 style={{ height: "255px", width: "255px" }}
-              />
+              /> */}
               <div className="absolute top-2/3">
                 <p className="text-red-700 font-semibold">
                   No car available for this search

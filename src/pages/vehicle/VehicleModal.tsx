@@ -2,6 +2,7 @@ import type { FC } from "react";
 import type { Vehicle } from "./VehicleData";
 import { Link } from "react-router-dom";
 import carDefaultlogo from "../../assets/INVALID CAR LOGO.png";
+import { FONTS } from "../../constants/uiConstants";
 
 type Props = {
   vehicle: Vehicle;
@@ -62,98 +63,134 @@ const VehicleModal: FC<Props> = ({ vehicle, onClose, redirectPath }) => {
           </div>
         </div>
 
-        <h5 className="text-3xl font-bold text-[#9b111e] mb-2">
+        <h5 className="text-3xl font-bold text-[#9b111e] mb-2" style={{...FONTS.subHeader}}>
           {baseInfo.registrationNumber} - {baseInfo.title}
         </h5>
 
-        {vehicle.customerDetails && (
-          <div className="mt-8">
-            <h3 className="text-2xl font-semibold text-[#9b111e] mb-4">
-              Owner Details
-            </h3>
-            <table className="w-full table-auto border-collapse border border-[#d7b9a3] text-[#3b2f2f]">
-              <tbody>
-                {Object.entries(vehicle.customerDetails).map(([key, value]) => (
-                  <tr key={key} className="border border-[#d7b9a3]">
-                    <td className="border px-4 py-2 font-semibold capitalize w-1/2">
-                      {key}
-                    </td>
-                    <td className="border px-4 py-2">{value || "N/A"}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
+
+        
+
+       {vehicle.partnerDetails && (
+  <div className="mt-8">
+    <h3 className="text-2xl font-semibold text-[#9b111e] mb-6"style={{ ...FONTS.cardheader }}>Partner</h3>
+    
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-4"style={{ ...FONTS.cardSubHeader }}>
+
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-1">Name: {vehicle.partnerDetails.partnerName || "N/A"}</label>
+      </div>
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-1">Phone: {vehicle.partnerDetails.partnerPhone || "N/A"}</label>
+       
+      </div>
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-1">Address:{vehicle.partnerDetails.partnerAddress || "N/A"}</label>
+        
+      </div>
+    </div>
+  </div>
+)}
+
+        {vehicle.customerInfo && (
+  <div className="mt-8">
+    <h3 className="text-2xl font-semibold text-[#9b111e] mb-6" style={{ ...FONTS.cardheader }}>
+      Owner Details
+    </h3>
+    
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-4" style={{ ...FONTS.cardSubHeader }}>
+      {Object.entries(vehicle?.customerInfo).map(([key, value]) => (
+        <div key={key}>
+          <label className="block text-sm font-medium text-gray-700 mb-1 capitalize">
+            {key} : {value || "N/A"}
+          </label>
+          
+        </div>
+      ))}
+    </div>
+  </div>
+)}
+
 
         {vehicle.vehicleInfo && (
           <div className="mt-8">
-            <h3 className="text-2xl font-semibold text-[#9b111e] mb-4">
+            <h3 className="text-2xl font-semibold text-[#9b111e] mb-4" style={{...FONTS.cardheader}}>
               Vehicle Details
             </h3>
-            <table className="w-full table-auto border-collapse border border-[#d7b9a3] text-[#3b2f2f]">
-              <tbody>
+             <div className="grid grid-cols-1 md:grid-cols-3 gap-4" style={{ ...FONTS.cardSubHeader }}>
                 {Object.entries(vehicle.vehicleInfo).map(([key, value]) => (
-                  <tr key={key} className="border border-[#d7b9a3]">
-                    <td className="border px-4 py-2 font-semibold capitalize w-1/2">
-                      {key}
-                    </td>
-                    <td className="border px-4 py-2">{value || "N/A"}</td>
-                  </tr>
+                  <div key={key} >
+                     <label className="block text-sm font-medium text-gray-700 mb-1 capitalize">
+            {key} : {value || "N/A"}
+          </label>
+          </div>
                 ))}
-              </tbody>
-            </table>
+              
+            </div>
           </div>
         )}
 
-        {vehicle.carCondition && (
-          <div className="mt-8">
-            <h3 className="text-2xl font-semibold text-[#9b111e] mb-4">
-              Car Condition
-            </h3>
-            <table className="w-full table-auto border-collapse border border-[#d7b9a3] text-[#3b2f2f]">
-              <tbody>
-                <tr className="border border-[#d7b9a3]">
-                  <td className="border px-4 py-2 font-semibold capitalize w-1/2">
-                    Fuel Level
-                  </td>
-                  <td className="border px-4 py-2">
-                    {vehicle.carCondition.fuelLevel}
-                  </td>
-                </tr>
-                <tr className="border border-[#d7b9a3]">
-                  <td className="border px-4 py-2 font-semibold capitalize w-1/2">
-                    Selected Items
-                  </td>
-                  <td className="border px-4 py-2">
-                    {vehicle.carCondition.selectedItems.join(", ")}
-                  </td>
-                </tr>
-                <tr className="border border-[#d7b9a3]">
-                  <td className="border px-4 py-2 font-semibold capitalize w-1/2">
-                    Images
-                  </td>
-                  <td className="border px-4 py-2 space-x-2">
-                    {vehicle.carCondition.images.map((img, i) => (
-                      <img
-                        key={i}
-                        src={img}
-                        alt={`condition-img-${i}`}
-                        className="inline-block w-20 h-16 object-cover rounded"
-                      />
-                    ))}
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        )}
+       {vehicle.carCondition && (
+  <div className="mt-8">
+    <h3 className="text-2xl font-semibold text-[#9b111e] mb-4" style={{ ...FONTS.cardheader }}>
+      Car Condition
+    </h3>
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-4" style={{ ...FONTS.cardSubHeader }}>
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-1 capitalize">
+          Fuel Level : {vehicle.carCondition.fuelLevel || "N/A"}
+        </label>
+      </div>
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-1 capitalize">
+          Selected Items : {vehicle.carCondition.selectedItems.join(", ")}
+        </label>
+      </div>
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-1 capitalize">
+          Images :
+        </label>
+        <div className="flex flex-wrap gap-2 mt-1">
+          {vehicle.carCondition.images.map((img, i) => (
+            <img
+              key={i}
+              src={img}
+              alt={`condition-img-${i}`}
+              className="w-20 h-16 object-cover rounded"
+            />
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+)}
+
+
+        {vehicle.checkInOutDates && (
+  <div className="mt-8">
+    <h3 className="text-2xl font-semibold text-[#9b111e] mb-4" style={{ ...FONTS.cardheader }}>
+      Entries
+    </h3>
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-4" style={{ ...FONTS.cardSubHeader }}>
+      {Object.entries(vehicle.checkInOutDates).map(([key, value]) => (
+        <div key={key}>
+          <label className="block text-sm font-medium text-gray-700 mb-1 capitalize">
+            {key
+              .replace(/([A-Z])/g, ' $1')
+              .replace(/^./, (str) => str.toUpperCase())}{" "}
+            : {value || "N/A"}
+          </label>
+        </div>
+      ))}
+    </div>
+  </div>
+)}
 
         <div className="flex justify-start items-center mt-4">
           <Link
             to={redirectPath}
             onClick={onClose}
-            className="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-6 rounded shadow-md transition"
+            className="bg-red-600 hover:bg-red-700 !text-white font-semibold py-2 px-6 rounded shadow-md transition"
+            style={{...FONTS.paragraph}}
           >
             Job Card
           </Link>
