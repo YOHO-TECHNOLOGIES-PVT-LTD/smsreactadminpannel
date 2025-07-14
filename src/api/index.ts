@@ -107,15 +107,12 @@ profile:{
 				httpClient.get(API_END_POINTS.vechiclemanage.Get, params),
 		},
 
-		jobcard: {
-			get: (params: string) =>
-				httpClient.get(API_END_POINTS.jobcard.Get.replace(':id', params)),
-			getAll: () => httpClient.get(API_END_POINTS.jobcard.GetAll),
-			post: (data: string) =>
-				httpClient.post(API_END_POINTS.jobcard.Post, data),
-			put: (data: any, params: string) =>
-				httpClient.update(API_END_POINTS.jobcard.Put, data, params),
-		},
+  jobcard:{
+    get:(params:string)=>httpClient.get(API_END_POINTS.jobcard.Get.replace(':id',params)),
+    getAll:()=>httpClient.get(API_END_POINTS.jobcard.GetAll),
+    post:(data:string)=>httpClient.post(API_END_POINTS.jobcard.Post,data),
+    put:(data:any,params:string)=>httpClient.update(API_END_POINTS.jobcard.Put.replace(':id',params),data),
+  },
 
  dashboard:{
     get:(params:string)=>httpClient.get(API_END_POINTS.dashboard.Get,params),
