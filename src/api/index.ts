@@ -156,6 +156,9 @@ enquiry:{
   updateReq:(data:any,params:string)=>httpClient.update(API_END_POINTS.scheduleReq.updateReq.replace(':id',params),data)
  },
 
+ Subcription:{
+   post: (data:any)=>httpClient.post(API_END_POINTS.notificationSubcription.post,data),
+ }
 
 }
 

@@ -145,4 +145,8 @@ export const API_END_POINTS ={
       updateReq:'/api/admin/schedulerequest/assign/:id',
     },
 
+    notificationSubcription:{
+      post:'/api/subscription/notify'
+    }
+
 }
