@@ -9,6 +9,7 @@ export const getOrdersHistory = async(params: string)=>{
         console.log("Error getting orders history:", error)
     }
 }
+
 export const getAllOrdersHistory = async(params: string)=>{
     try{
         const response = await new Client().admin.order_history.getOldHistory(params)
@@ -18,4 +19,27 @@ export const getAllOrdersHistory = async(params: string)=>{
         console.log("Error getting orders history:", error)
     }
 }
+
+
+// export const statusOrderHistory=async(params:string,data:any)=>{
+//     try{
+//         const response=await new Client().admin.order_history.updateStatus(params,data)
+//         console.log(response);
+//         return response
+//     }catch(error){
+//       console.log("error getting status",error)
+//     }
+// }
+
+
+export const statusOrderHistory = async (id: string, data: any) => {
+  try {
+    const response = await new Client().admin.order_history.updateStatus(id, data);
+    console.log(response);
+    return response;
+  } catch (error) {
+    console.log("error getting status", error);
+  }
+};
+
 

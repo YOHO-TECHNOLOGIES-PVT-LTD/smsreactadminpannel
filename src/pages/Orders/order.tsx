@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { getOrdersHistory } from './Services';
 import { FONTS } from '../../constants/uiConstants';
 import { useNavigate } from 'react-router-dom';
-
+import {statusOrderHistory} from './Services/index'
 
 const Order = () => {
   // State management
@@ -17,6 +17,7 @@ const Order = () => {
   const [selectedOrder, setSelectedOrder] = useState<any>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [dateFilter, setDateFilter] = useState('');
+
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -47,7 +48,31 @@ const Order = () => {
     fetchOrders()
   }, [])
 
-  const ordersPerPage = 10;
+
+  
+
+  // const getstatus= async(data?: any, params?: string)=>{
+  //   try{
+  //    const response: any = await statusOrderHistory(data,params);
+  //    console.log("status response",response)
+  //   }
+  //   catch(error){
+  //     console.error("error fetching status",error)
+  //   }
+  // }
+  
+
+  const getstatus = async (data: any, id: string) => {
+  try {
+    const response = await statusOrderHistory(id, data);
+    console.log("status response", response);
+  } catch (error) {
+    console.error("error fetching status", error);
+  }
+};
+
+
+   const ordersPerPage = 10;
   const filteredOrders = orders.filter(order => {
     const matchesSearch =
       (order?.orderId?.toLowerCase() || '').includes(searchTerm.toLowerCase()) ||
@@ -349,7 +374,19 @@ const Order = () => {
                           Status:
                         </label>
                         <select
-                          onChange={(e) => setSelectedOrder({ ...selectedOrder, status: e.target.value })}
+
+
+
+ onChange={(e) => {
+    const newStatus = e.target.value;
+    setSelectedOrder({ ...selectedOrder, status: newStatus });
+    // const data = { orderId: selectedOrder.id };        
+    // const params = `status=${newStatus}`;                
+    // // getstatus(data, params);
+  }}
+
+                          // onChange={(e) => setSelectedOrder({ ...selectedOrder, status: e.target.value })}
+                          
                           className={`ml-2 px-4 py-2 rounded-2xl text-sm font-medium
       shadow-sm border transition-all duration-300 ease-in-out
       focus:ring-1 focus:ring-offset-1 focus:ring-[#9b111e] focus:outline-none
@@ -459,6 +496,25 @@ const Order = () => {
               </div>
 
               <div className="flex justify-end p-4 border-t sticky bottom-0 bg-white">
+{/* 
+                 <button
+                  onClick={getstatus}
+                  className="px-4 py-2 bg-[#9b111e] !text-white rounded-3xl hover:bg-[#7a0d19] transition-colors" style={{ ...FONTS.paragraph }}
+                >
+                  Save
+                </button> */}
+
+
+<button
+  // onClick={() => getstatus({ status: "completed" }, "12345")}
+   onClick={() => getstatus({ status: 'completed' }, "12345")}
+  className="px-4 py-2 bg-[#9b111e] !text-white rounded-3xl hover:bg-[#7a0d19] transition-colors"
+  style={{ ...FONTS.paragraph }}
+>
+  Save
+</button>
+
+
                 <button
                   onClick={closeModal}
                   className="px-4 py-2 bg-[#9b111e] !text-white rounded-3xl hover:bg-[#7a0d19] transition-colors" style={{ ...FONTS.paragraph }}
