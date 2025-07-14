@@ -1,9 +1,12 @@
-export const API_END_POINTS = {
-	dashboard: {
-		Get: 'api/admin/dashboard/',
-		GetTransaction: '/api/admin/dashboard/transaction',
-		GetCustomerDetails: '/api/admin/dashboard/customerDetails/',
-	},
+
+
+export const API_END_POINTS ={
+
+   dashboard:{
+    Get:"api/admin/dashboard/",
+    GetTransaction:"/api/admin/dashboard/transaction",
+    GetCustomerDetails:"/api/admin/dashboard/customerDetails/"
+   },
 
 
     jobcard:{
@@ -43,18 +46,18 @@ export const API_END_POINTS = {
     delete:"/api/sos/delete/"
    },
 
-	profile: {
-		Get: '/api/admin/auth/me',
-		Put: '/api/admin/auth/update',
-		Post: '/api/admin/auth/register',
-		Postlogin: '/api/admin/auth/login',
-	},
+   profile:{
+    Get:"/api/admin/auth/me",
+    Put:"/api/admin/auth/update",
+    Post:"/api/admin/auth/register",
+    Postlogin:"/api/admin/auth/login",
+   },
 
-	auth: {
-		Post: '/api/admin/auth/forget-pass',
-		Postotp: '/api/admin/auth/verfiy-otp',
-		Postreset: '/api/admin/auth/reset-pass/:id',
-	},
+   auth:{
+    Post:"/api/admin/auth/forget-pass",
+    Postotp:"/api/admin/auth/verfiy-otp",
+    Postreset:"/api/admin/auth/reset-pass/:id",
+   },
 
    notification:{
     create:"/api/notifications/",
@@ -80,13 +83,6 @@ export const API_END_POINTS = {
     update:"/api/admin/spareparts/update/:id",
     updatestatus:"/api/admin/spareparts/updatestatus/:id",
     delete:"/api/admin/spareparts/delete/:id",
-
-    category:{
-      create:"/api/products/category/",
-      getall:  "/api/products/category/getall",
-      put : "/api/products/category/update/:uuid",
-      delete:  "/api/products/category/delete/:uuid",
-    }
    },
 
    serviceCenter:{
@@ -111,9 +107,10 @@ export const API_END_POINTS = {
     },
 
     order_history: {
+      create: `/api/partner/order-history/create`,
       getById: `/api/partner/order-history/get/:id`,
       getAll: `/api/partner/order-history/getall`,
-      getOldHistory: `/api/partner/order-history/getall/history`,
+      update: `/api/partner/order-history/update/:id`,
       updateStatus: `/api/partner/order-history/updatestatus/:id`,
       delete: `/api/partner/order-history/delete/:id`,
     },
