@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Offer from '../../components/common/Announcement/Offer';
-import AnnouncementList from '../../components/common/Announcement/AnnouncementList';
-import Partner from '../../components/common/Announcement/Partner';
+// import AnnouncementList from '../../components/common/Announcement/AnnouncementList';
+// import Partner from '../../components/common/Announcement/Partner';
 import { FONTS } from '../../constants/uiConstants';
 
 type PartnerData = {
@@ -53,10 +53,10 @@ const Announcement = () => {
     switch (activeTab) {
       case 'offer':
         return <Offer />;
-      case 'announcement':
-        return <AnnouncementList />;
-      case 'partner':
-        return <Partner />;
+      // case 'announcement':
+      //   return <AnnouncementList />;
+      // case 'partner':
+      //   return <Partner />;
       default:
         return null;
     }
@@ -65,7 +65,7 @@ const Announcement = () => {
   return (
     <div className="min-h-screen bg-[#FFF4EC] p-6">
       <div className="flex space-x-4 mb-6" style={{...FONTS.cardSubHeader}}>
-        {['offer', 'announcement', 'partner'].map((tab) => (
+        {['offer'].map((tab) => (
           <button
             key={tab}
             onClick={() => setActiveTab(tab as 'offer' | 'announcement' | 'partner')}

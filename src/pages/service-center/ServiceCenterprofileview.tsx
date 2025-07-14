@@ -1,14 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type React from "react"
 import { useState, useEffect } from "react"
-import { FaArrowRight, FaRegAddressCard, FaEdit, FaTrash } from "react-icons/fa"
+import { FaArrowRight,  FaEdit, FaTrash,  } from "react-icons/fa"
 import { BsBuildings } from "react-icons/bs"
 import { SlCalender } from "react-icons/sl"
-import { AiFillSafetyCertificate, AiOutlineAudit } from "react-icons/ai"
-import { MdEmail, MdVerified, MdOutlineMailOutline, MdOutlineKeyboardBackspace } from "react-icons/md"
+import { AiFillSafetyCertificate } from "react-icons/ai"
+import { MdEmail, MdOutlineMailOutline, MdOutlineKeyboardBackspace } from "react-icons/md"
 import { CgWebsite } from "react-icons/cg"
 import { FcDataEncryption } from "react-icons/fc"
-import { BiSolidCertification } from "react-icons/bi"
 import { RiLockPasswordLine } from "react-icons/ri"
 import { LuPhoneCall } from "react-icons/lu"
 import { CheckCircle, AlertCircle } from "lucide-react"
@@ -73,7 +72,7 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({
   const [editGstNo, setEditGstNo] = useState(originalValues.editGstNo)
   const [editRegNo, setEditRegNo] = useState(originalValues.editRegNo)
   const [editCompanyName, setEditCompanyName] = useState(originalValues.editCompanyName)
-  const [editFirstName, setFirstName] = useState(originalValues.editFirstName)
+  const [editFirstName] = useState(originalValues.editFirstName)
   const [editLastName, setLastName] = useState(originalValues.editLastName)
   // const [editImage, setImage] = useState(originalValues.editImage)
   const [editPhone, setEditPhone] = useState(originalValues.editPhone)
@@ -135,9 +134,12 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({
   const confirmDelete = async () => {
     setShowDeleteConfirm(false)
     try {
-      await new Client().admin.servicecenter.delete()
+      await new Client().admin.servicecenter.delete(partner._id)
       console.log("Service Center Deleted")
       setShowDeleteSuccessPopup(true)
+      setTimeout(() => {
+        handleBack()
+      }, 3000)
     } catch (error) {
       console.error("Error deleting service center:", error)
     }
@@ -250,9 +252,11 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({
           className="flex items-center gap-2 text-[#9b111e] hover:text-[#800000] transition-colors rounded-3xl"
         >
           <MdOutlineKeyboardBackspace className="text-2xl" />
-          <span className="font-medium">Back</span>
-        </button>
+          <span className="font-medium">
         <h2 className="text-3xl font-bold text-[#9b111e]" style={{...FONTS.header}} >Profile</h2>
+
+          </span>
+        </button>
         <div className="w-10"></div>
       </div>
 
@@ -309,7 +313,12 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({
           <div className="mb-8">
             <h2 className="text-xl !font-bold text-[#9b111e] mb-4 pb-2 border-b border-gray-200" style={{...FONTS.cardSubHeader}}>Contact Information</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <div className="space-y-5" >
+              <div className="space-y-5">
+                <InfoItem
+                  icon={<BsBuildings className="text-[#9b111e]" />}
+                  label="Username"
+                  value={`${partner?.firstName || ''} ${partner?.lastName || ''}`.trim()}
+                />
                 <InfoItem
                   icon={<BsBuildings className="text-[#9b111e]" />}
                   label="Company Name"
@@ -320,41 +329,23 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({
                   label="AadharCard No"
                   value={originalValues.editAadharNumber}
                 />
-                
-                <InfoItem
-                  icon={<AiFillSafetyCertificate className="text-[#9b111e]" />}
-                  label="GST No"
-                  value={originalValues.editGstNo}
-                />
               </div>
               <div className="space-y-5">
                 <InfoItem icon={<LuPhoneCall className="text-[#9b111e]" />} label="Phone" value={editPhone} />
                 <InfoItem icon={<MdEmail className="text-[#9b111e]" />} label="Email" value={editEmail} />
                 <InfoItem icon={<CgWebsite className="text-[#9b111e]" />} label="Pan No" value={originalValues.editPanCard} />
-                
               </div>
               <div className="space-y-5">
+                <InfoItem
+                  icon={<AiFillSafetyCertificate className="text-[#9b111e]" />}
+                  label="GST No"
+                  value={originalValues.editGstNo}
+                />
                 <InfoItem
                   icon={<FcDataEncryption className="text-[#9b111e]" />}
                   label="Reg No"
                   value={originalValues.editRegNo} 
                 />
-                {/* <InfoItem icon={<FaRegAddressCard className="text-[#9b111e]" />} label="Address" value={editAddress} /> */}
-                {/* <InfoItem
-                  icon={<MdVerified className="text-[#9b111e]" />}
-                  label="Verified Center"
-                  value={editVerifiedCenter}
-                />
-                <InfoItem
-                  icon={<AiOutlineAudit className="text-[#9b111e]" />}
-                  label="Last Audit"
-                  value={editLastAudit}
-                />
-                <InfoItem
-                  icon={<BiSolidCertification className="text-[#9b111e]" />}
-                  label="Certification"
-                  value={editCertification}
-                /> */}
               </div>
             </div>
           </div>
@@ -457,55 +448,41 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({
                   </h3>
                   <div className="space-y-4">
                     <EnhancedEditField
-                      icon={<BsBuildings className="text-[#9b111e]" />}
                       label="Company Name"
                       value={editCompanyName}
                       onChange={setEditCompanyName}
                     />
                     <EnhancedEditField
-                      // icon={<SlCalender className="text-[#9b111e]" />}
-                      label="Aadhar No"
-                      value={editFirstName}
-                      onChange={setFirstName}
-                    />
-                    <EnhancedEditField
-                      // icon={<FaCodeBranch className="text-[#9b111e]" />}
                       label="Branches"
                       value={editLastName}
                       onChange={setLastName}
                     />
                     <EnhancedEditField
-                      icon={<LuPhoneCall className="text-[#9b111e]" />}
                       label="Phone"
                       value={editPhone}
                       onChange={setEditPhone}
                     />
                     <EnhancedEditField
-                      icon={<MdEmail className="text-[#9b111e]" />}
                       label="Email"
                       value={editEmail}
                       onChange={setEditEmail}
                     />
                     <EnhancedEditField
-                      icon={<FcDataEncryption className="text-[#9b111e]" />}
                       label="Aadhar No"
                       value={editAadharNumber}
                       onChange={setEditAadharNumber}
                     />
                     <EnhancedEditField
-                      icon={<MdVerified className="text-[#9b111e]" />}
                       label="Pan No"
                       value={editPanCard}
                       onChange={setEditPanCard}
                     />
                     <EnhancedEditField
-                      icon={<AiOutlineAudit className="text-[#9b111e]" />}
                       label="GST No"
                       value={editGstNo}
                       onChange={setEditGstNo}
                     />
                     <EnhancedEditField
-                      icon={<BiSolidCertification className="text-[#9b111e]" />}
                       label="Reg No"
                       value={editRegNo}
                       onChange={setEditRegNo}
@@ -529,28 +506,24 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({
                       onChange={setEditWebsite}
                     /> */}
                     <EnhancedEditField
-                      icon={<FaRegAddressCard className="text-[#9b111e]" />}
                       label="State"
                       value={editState}
                       onChange={setEditState}
                       // textarea
                     />
                     <EnhancedEditField
-                      icon={<FaRegAddressCard className="text-[#9b111e]" />}
                       label="City"
                       value={editCity}
                       onChange={setEditCity}
                       // textarea
                     />
                     <EnhancedEditField
-                      icon={<FaRegAddressCard className="text-[#9b111e]" />}
                       label="Address2"
                       value={editAddress1}
                       onChange={setEditAddress1}
                       // textarea
                     />
                     <EnhancedEditField
-                      icon={<FaRegAddressCard className="text-[#9b111e]" />}
                       label="Address2"
                       value={editAddress2}
                       onChange={setEditAddress2}
@@ -572,7 +545,6 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({
                       onChange={setEditUsername}
                     /> */}
                     <EnhancedEditField
-                      icon={<MdOutlineMailOutline className="text-[#9b111e]" />}
                       label="Login Email"
                       value={editLoginEmail}
                       onChange={setEditLoginEmail}
@@ -760,4 +732,4 @@ const SuccessPopup = ({
   )
 }
 
-export default ServiceCenterProfileView
+export default ServiceCenterProfileView;

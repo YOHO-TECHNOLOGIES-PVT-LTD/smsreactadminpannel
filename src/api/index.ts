@@ -36,7 +36,10 @@ admin={
 
    Announcement:{
     post:(data:any)=>httpClient.post(API_END_POINTS.announcement.Post,data),
-    get:(data:any,)=>httpClient.get(API_END_POINTS.announcement.Get,data,)
+    get:(data:any,)=>httpClient.get(API_END_POINTS.announcement.Get,data,),
+    update: (data: any, params: string) =>
+        httpClient.update(API_END_POINTS.announcement.update.replace(':uuid', params), data),
+    delete: (id: string) => httpClient.delete(API_END_POINTS.announcement.delete.replace(':uuid', id)),
 },
 
 order_history: {
@@ -115,7 +118,7 @@ enquiry:{
   getAllCat:(params:string)=>httpClient.get(API_END_POINTS.serviceCenter.getAllCat.replace(':uuid',params)),
   postPartner:(data:any)=>httpClient.post(API_END_POINTS.serviceCenter.postPartner,data),
   update:(data:any,params:string)=>httpClient.update(API_END_POINTS.serviceCenter.updatePatner.replace(':id',params),data,''),
-  delete:()=>httpClient.delete(API_END_POINTS.serviceCenter.delete),
+  delete:(id:string)=>httpClient.delete(API_END_POINTS.serviceCenter.delete.replace(':id',id)),
   getCatEvery:()=>httpClient.get(API_END_POINTS.serviceCenter.getCatevery)
  },
  category:{

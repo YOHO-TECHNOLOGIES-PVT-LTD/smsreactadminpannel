@@ -3,10 +3,36 @@ import { useFormik } from "formik";
 import { MdUpgrade } from "react-icons/md";
 import { FONTS } from "../../constants/uiConstants";
 import { getProfile, updateProfile } from "./services";
+import * as Yup from "yup";
+
 import {
+  fetchAllCountries,
   fetchCountries,
   fetchState,
 } from "../../features/ServiceCenter/externalapi";
+import { toast } from "react-toastify";
+
+const validationSchema = Yup.object().shape({
+  firstName: Yup.string().required("First name is required"),
+  lastName: Yup.string().required("Last name is required"),
+  email: Yup.string()
+    .email("Invalid email address")
+    .required("Email is required"),
+  gender: Yup.string().required("Gender is required"),
+  image: Yup.mixed().nullable(),
+  contact_info: Yup.object().shape({
+    phoneNumber: Yup.string()
+      .required("Phone number is required")
+      .matches(/^[0-9]{10}$/, "Phone number must be 10 digits"),
+    address1: Yup.string().required("Address is required"),
+    country: Yup.string(),
+    state: Yup.string().required("State is required"),
+    city: Yup.string().required("City is required"),
+  }),
+  facebook: Yup.string().url("Invalid Facebook URL").nullable(),
+  twitter: Yup.string().url("Invalid Twitter URL").nullable(),
+  youtube: Yup.string().url("Invalid YouTube URL").nullable(),
+});
 
 type FormValues = {
   firstName: string;
@@ -55,15 +81,25 @@ const ProfileEditSettings: React.FC = () => {
   useEffect(() => {
     fetchData();
     getStates();
+    getCountry();
   }, []);
 
   const [state, setState] = useState<any[]>([]);
   const [city, setCity] = useState<any[]>([]);
+  const [country, setCountry] = useState<any[]>([]);
 
   const getStates = async () => {
     const response = await fetchState();
     if (response) {
       setState(response.data);
+    } else {
+      setState([]);
+    }
+  };
+  const getCountry = async () => {
+    const response = await fetchAllCountries();
+    if (response) {
+      setCountry(response.data);
     } else {
       setState([]);
     }
@@ -84,6 +120,7 @@ const ProfileEditSettings: React.FC = () => {
   const formik = useFormik<FormValues>({
     enableReinitialize: true,
     initialValues: profile,
+    validationSchema,
     onSubmit: async (values) => {
       const formData = new FormData();
 
@@ -94,7 +131,7 @@ const ProfileEditSettings: React.FC = () => {
 
       // Nested object - serialize to JSON
       formData.append("contact_info", JSON.stringify(values.contact_info));
-      console.log("contactinfoss", values.contact_info);
+      console.log("contactinfoss", JSON.stringify(values.contact_info));
 
       if (values.image) {
         formData.append("image", values.image);
@@ -107,6 +144,7 @@ const ProfileEditSettings: React.FC = () => {
       try {
         console.log("formdata", formData);
         const response = await updateProfile(formData);
+        toast.success("Profile Updated Successfully");
 
         if (!response) throw new Error("Failed to submit");
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -140,8 +178,14 @@ const ProfileEditSettings: React.FC = () => {
               name="firstName"
               value={formik.values.firstName}
               onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
               className={inputClass}
             />
+            {formik.touched.firstName && formik.errors.firstName && (
+              <div className="text-red-500 text-sm">
+                {formik.errors.firstName}
+              </div>
+            )}
           </div>
 
           <div>
@@ -153,6 +197,11 @@ const ProfileEditSettings: React.FC = () => {
               onChange={formik.handleChange}
               className={inputClass}
             />
+            {formik.touched.lastName && formik.errors.lastName && (
+              <div className="text-red-500 text-sm">
+                {formik.errors.lastName}
+              </div>
+            )}
           </div>
 
           <div>
@@ -164,6 +213,9 @@ const ProfileEditSettings: React.FC = () => {
               onChange={formik.handleChange}
               className={inputClass}
             />
+            {formik.touched.email && formik.errors.email && (
+              <div className="text-red-500 text-sm">{formik.errors.email}</div>
+            )}
           </div>
 
           <div>
@@ -177,6 +229,12 @@ const ProfileEditSettings: React.FC = () => {
               onChange={formik.handleChange}
               className={inputClass}
             />
+            {formik.touched.contact_info?.phoneNumber &&
+              formik.errors.contact_info?.phoneNumber && (
+                <div className="text-red-500 text-sm">
+                  {formik.errors.contact_info.phoneNumber}
+                </div>
+              )}
           </div>
 
           <div>
@@ -188,6 +246,12 @@ const ProfileEditSettings: React.FC = () => {
               onChange={formik.handleChange}
               className={inputClass}
             />
+            {formik.touched.contact_info?.address1 &&
+              formik.errors.contact_info?.address1 && (
+                <div className="text-red-500 text-sm">
+                  {formik.errors.contact_info.address1}
+                </div>
+              )}
           </div>
 
           <div>
@@ -198,10 +262,22 @@ const ProfileEditSettings: React.FC = () => {
               name="contact_info.country"
               value={formik.values.contact_info.country}
               onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
               className={inputClass}
             >
-              <option value="India">India</option>
+              <option value="">Select Country</option>
+              {country.map((c) => (
+                <option key={c.iso2} value={c.name}>
+                  {c.name}
+                </option>
+              ))}
             </select>
+            {formik.touched.contact_info?.country &&
+              formik.errors.contact_info?.country && (
+                <p className="text-sm text-red-500">
+                  {formik.errors.contact_info.country}
+                </p>
+              )}
           </div>
 
           <div>
@@ -221,6 +297,12 @@ const ProfileEditSettings: React.FC = () => {
                 </option>
               ))}
             </select>
+            {formik.touched.contact_info?.state &&
+              formik.errors.contact_info?.state && (
+                <p className="text-sm text-red-500">
+                  {formik.errors.contact_info.state}
+                </p>
+              )}
           </div>
 
           <div>
@@ -240,6 +322,12 @@ const ProfileEditSettings: React.FC = () => {
                 </option>
               ))}
             </select>
+            {formik.touched.contact_info?.city &&
+              formik.errors.contact_info?.city && (
+                <p className="text-sm text-red-500">
+                  {formik.errors.contact_info.city}
+                </p>
+              )}
           </div>
 
           <div>
@@ -254,6 +342,9 @@ const ProfileEditSettings: React.FC = () => {
               <option value="Male">Male</option>
               <option value="Female">Female</option>
             </select>
+            {formik.touched.gender && formik.errors.gender && (
+              <p className="text-sm text-red-500">{formik.errors.gender}</p>
+            )}
           </div>
         </div>
 

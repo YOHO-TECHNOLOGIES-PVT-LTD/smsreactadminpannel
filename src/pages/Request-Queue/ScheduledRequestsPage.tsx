@@ -56,7 +56,7 @@ export default function ScheduledRequestsPage() {
         <div className="flex items-center gap-4">
           {/* Back Arrow Button */}
           <button
-            onClick={() => navigate('/request-queue/schedule')}
+            onClick={() => navigate(-1)}
             className="flex items-center justify-center w-12 h-12 bg-white border-2 border-[#9b111e] text-[#9b111e] rounded-3xl hover:bg-[#9b111e] hover:text-white transition-all duration-300 shadow-lg hover:shadow-xl"
             title="Back to Schedule Requests"
           >
