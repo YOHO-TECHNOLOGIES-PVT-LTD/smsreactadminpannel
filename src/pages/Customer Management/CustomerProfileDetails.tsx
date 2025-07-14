@@ -132,7 +132,11 @@ const CustomerProfileDetails: React.FC<handle> = ({ handleBack,CustomerId}) => {
       </div>
 
       {/* Content Section - Right Side */}
-      <CustomerServiceDetails />
+          <CustomerServiceDetails
+  customerData={customerData}
+  // setCustomerData={setCustomerData}
+/>
+
     </div>
   );
 };

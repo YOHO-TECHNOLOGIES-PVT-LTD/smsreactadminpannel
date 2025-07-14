@@ -20,14 +20,18 @@ interface Service {
 type Product = {
   id: number;
   join_date: string;
-firstName: string;
+  service_name: string;
   vehicle: string;
   vehicleNo: string;
   price: string;
   serviceDetails?: Service;
 };
+interface serviceshistory{
+  customerData:any
+}
 
-const CustomerServiceDetails = () => {
+// const CustomerServiceDetails :React.FC<Product>{
+const CustomerServiceDetails: React.FC<serviceshistory> = ( {customerData} ) => {
   const [selectedService, setSelectedService] = useState<Service | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
@@ -37,45 +41,29 @@ const CustomerServiceDetails = () => {
 
 
 
-  const productsData: Product[] = [
-    { 
-      id: 1, 
-      join_date: "Apr 14, 2026", 
-      firstName: "Engine Repair",
-      vehicle: 'BMW', 
-      vehicleNo: 'TN 69 L 8743', 
-      price: '₹2,999',
-      serviceDetails: {
-        id: 1,
-        name: "Engine Repair",
-        description: "Complete engine diagnostics and repair service including oil change, filter replacement, and tune-up.",
-        wash: "Foam Wash",
-        duration: "3-4 hours",
-        status: "Completed",
-        price: "₹2,999",
-        date: "May 15, 2023",
-        orderID: "#123",
-        vehicleNo: "TN 69 L 8743",
-        modalImg: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSF5U1exPRb8nYGzOkh9Vb7FLMoG_ufwMUW0w&s"
-      }
-    },
+
+  // const filteredProducts = customerData
+
+  console.log("check",customerData?.data[0])
+
+//   (customerData?.data || []).filter(product => {
+//   const searchTermLower = searchTerm.toLowerCase();
+//   return (
+//     product.vehicle?.toLowerCase().includes(searchTermLower) ||
+//     product.vehicleNo?.toLowerCase().includes(searchTermLower) ||
+//     product.service_name?.toLowerCase().includes(searchTermLower)
+//   );
+// });
 
 
-  ];
+const indexOfLastItem = currentPage * itemsPerPage;
+const indexOfFirstItem = indexOfLastItem - itemsPerPage;
 
-  const filteredProducts = productsData.filter(product => {
-    const searchTermLower = searchTerm.toLowerCase();
-    return (
-      product.vehicle.toLowerCase().includes(searchTermLower) ||
-      product.vehicleNo.toLowerCase().includes(searchTermLower) ||
-      product.firstName.toLowerCase().includes(searchTermLower)
-    );
-  });
+let currentItems = 1
+//  filteredProducts.slice(indexOfFirstItem, indexOfLastItem);
+const totalPages = 1
+// Math.ceil(filteredProducts.length / itemsPerPage);
 
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = filteredProducts.slice(indexOfFirstItem, indexOfLastItem);
-  const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
 
   const handleViewClick = (product: Product) => {
     if (product.serviceDetails) {
@@ -193,29 +181,31 @@ const CustomerServiceDetails = () => {
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
-              {currentItems.length > 0 ? (
-                currentItems.map((product) => (
+              {currentItems > 0 ? (
+                customerData?.data?.map((product:any,index) => {
+
+                  return(
                   <tr 
-                    key={product.id} 
+                    key={index} 
                     className="hover:bg-gray-50 transition-colors duration-150"
                     style={{ fontFamily: FONTS.paragraph.fontFamily }}
                   >
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                      {product.join_date}
+                      {product?.created_at.split("T")[0]}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-medium">
-                      {product.firstName}
+                      {product?.service_name}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {product.vehicle}
+                      {product?.vehicle}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                       <span className="px-2 py-1 bg-gray-100 rounded-md font-mono">
-                        {product.vehicleNo}
+                        {product?.vehicleNo}
                       </span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-semibold text-gray-900">
-                      {formatPrice(product.price)}
+                      {product?.price}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                       <button
@@ -225,8 +215,8 @@ const CustomerServiceDetails = () => {
                         Details
                       </button>
                     </td>
-                  </tr>
-                ))
+                  </tr>)
+                  })
               ) : (
                 <tr>
                   <td colSpan={6} className="px-6 py-8 text-center">
@@ -244,7 +234,7 @@ const CustomerServiceDetails = () => {
           </table>
         </div>
 
-        {filteredProducts.length > 0 && (
+        {/* {filteredProducts.length > 0 && ( */}
           <div className="px-6 py-4 border-t border-gray-200 flex items-center justify-between">
             <div className="flex-1 flex justify-between sm:hidden">
               <button
@@ -266,8 +256,8 @@ const CustomerServiceDetails = () => {
               <div>
                 <p className="text-sm text-gray-700">
                   Showing <span className="font-medium">{indexOfFirstItem + 1}</span> to{' '}
-                  <span className="font-medium">{Math.min(indexOfLastItem, filteredProducts.length)}</span> of{' '}
-                  <span className="font-medium">{filteredProducts.length}</span> results
+                  {/* <span className="font-medium">{Math.min(indexOfLastItem, filteredProducts.length)}</span> of{' '}
+                  <span className="font-medium">{filteredProducts.length}</span> results */}
                 </p>
               </div>
               <div>
@@ -305,7 +295,7 @@ const CustomerServiceDetails = () => {
               </div>
             </div>
           </div>
-        )}
+        {/* )} */}
       </div>
 
       <AnimatePresence>
@@ -382,3 +372,7 @@ const CustomerServiceDetails = () => {
 };
 
 export default CustomerServiceDetails;
+
+
+
+
