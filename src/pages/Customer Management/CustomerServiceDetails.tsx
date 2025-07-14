@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FiX, FiSearch,  FiClock, FiCheckCircle, FiRotateCw, FiChevronLeft, FiChevronRight } from 'react-icons/fi';
@@ -59,7 +60,7 @@ const CustomerServiceDetails: React.FC<serviceshistory> = ( {customerData} ) => 
 const indexOfLastItem = currentPage * itemsPerPage;
 const indexOfFirstItem = indexOfLastItem - itemsPerPage;
 
-let currentItems = 1
+const currentItems:number = 1
 //  filteredProducts.slice(indexOfFirstItem, indexOfLastItem);
 const totalPages = 1
 // Math.ceil(filteredProducts.length / itemsPerPage);
@@ -182,7 +183,7 @@ const totalPages = 1
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
               {currentItems > 0 ? (
-                customerData?.data?.map((product:any,index) => {
+                customerData?.data?.map((product:any,index:number) => {
 
                   return(
                   <tr 

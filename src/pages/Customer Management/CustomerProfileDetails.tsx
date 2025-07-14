@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { MdCall } from "react-icons/md";
 import { FaLocationDot } from "react-icons/fa6";
 import { MdEmail } from "react-icons/md";
@@ -31,6 +32,7 @@ const CustomerProfileDetails: React.FC<handle> = ({ handleBack,CustomerId}) => {
       }
     }
     fetchCustomerHistory();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   },[])
 
   return (

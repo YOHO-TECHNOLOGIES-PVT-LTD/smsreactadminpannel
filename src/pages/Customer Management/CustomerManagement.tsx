@@ -1,7 +1,6 @@
-import  { useState,useEffect } from 'react';
+import  { useState} from 'react';
 import CustomerProfileDetails from './CustomerProfileDetails';
 import CustomerDetails from './CustomerDetails';
-import { getAllCustomer } from './Services';
 import { useNavigate } from 'react-router-dom';
 
 

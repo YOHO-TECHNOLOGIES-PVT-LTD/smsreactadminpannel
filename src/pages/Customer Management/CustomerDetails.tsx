@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useState } from "react";
 import {
   FaSearch,
@@ -102,7 +103,7 @@ const SimpleDonutChart = ({
 
 type ProfileViewComponent = {
   onProfileView: () => void;
-  setCustomerId:(customerId:stirng)=> void;
+  setCustomerId:(customerId:string)=> void;
 };
 
 const CustomerDetails: React.FC<ProfileViewComponent> = ({ onProfileView,setCustomerId }) => {
