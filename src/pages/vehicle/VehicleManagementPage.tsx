@@ -64,12 +64,12 @@ const VehicleManagementPage = () => {
     },
     vehicleInfo: {
       kms: vehicle?.vehicleInfo?.mileage || "0",
-      fuel: vehicle?.vehicleInventory?.fuelType || "N/A",
-      transmission: vehicle?.vehicleInfo?.transmission || "N/A",
-      location: vehicle?.vehicleInfo?.location || "Unknown",
-      registeredYear: vehicle?.vehicleInfo?.registeredYear || "",
-      insuranceStatus: vehicle?.vehicleInfo?.insuranceStatus || "",
-      availability: vehicle?.vehicleInfo?.availability || "",
+      chassisNo: vehicle?.vehicleInfo?.chassisNo || "N/A",
+      color: vehicle?.vehicleInfo?.color || "N/A",
+      engineNo: vehicle?.vehicleInfo?.engineNo || "N/A",
+      insuranceCompany: vehicle?.vehicleInfo?.insuranceCompany || "N/A",
+      insuranceRenewalDate: vehicle?.vehicleInfo?.insuranceRenewalDate || "N/A",
+      model: vehicle?.vehicleInfo?.model|| "N/A",
       currentFuelLevel: normalizeFuelLevel(
         vehicle?.vehicleInventory?.fuelLevel || ""
       ),
@@ -79,8 +79,10 @@ const VehicleManagementPage = () => {
       partnerPhone: vehicle?.partnerDetails?.Phone || "",
       partnerAddress: vehicle?.partnerDetails?.Address || "",
     },
-    customerDetails: {
-      fullName: vehicle?.customerDetails?.fullName || "",
+    customerInfo: {
+      name: vehicle?.customerInfo?.name || "",
+      contactNo: vehicle?.customerInfo?.contactNo || "",
+      address: vehicle?.customerInfo?.address || "",
     },
     carCondition: {
       fuelLevel: vehicle?.vehicleInventory?.fuelLevel || "N/A",

@@ -13,63 +13,75 @@ import {
 import { toast } from 'react-toastify';
 
 const validationSchema = Yup.object().shape({
-	firstName: Yup.string().required('First name is required'),
-	lastName: Yup.string().required('Last name is required'),
-	email: Yup.string()
-		.email('Invalid email address')
-		.required('Email is required'),
-	gender: Yup.string().required('Gender is required'),
-	image: Yup.mixed().nullable(),
-	contact_info: Yup.object().shape({
-		phoneNumber: Yup.string()
-			.required('Phone number is required')
-			.matches(/^[0-9]{10}$/, 'Phone number must be 10 digits'),
-		address1: Yup.string().required('Address is required'),
-		country: Yup.string(),
-		state: Yup.string().required('State is required'),
-		city: Yup.string().required('City is required'),
-	}),
-	facebook: Yup.string().url('Invalid Facebook URL').nullable(),
-	twitter: Yup.string().url('Invalid Twitter URL').nullable(),
-	youtube: Yup.string().url('Invalid YouTube URL').nullable(),
+  firstName: Yup.string().required("First name is required"),
+  lastName: Yup.string().required("Last name is required"),
+  email: Yup.string()
+    .email("Invalid email address")
+    .required("Email is required"),
+  gender: Yup.string().required("Gender is required"),
+  image: Yup.mixed().nullable(),
+  contact_info: Yup.object().shape({
+    phoneNumber: Yup.string()
+      .required("Phone number is required")
+      .matches(/^[0-9]{10}$/, "Phone number must be 10 digits"),
+    address1: Yup.string().required("Address is required"),
+    country: Yup.string(),
+    state: Yup.string().required("State is required"),
+    city: Yup.string().required("City is required"),
+  }),
+  facebook: Yup.string().url("Invalid Facebook URL").nullable(),
+  twitter: Yup.string().url("Invalid Twitter URL").nullable(),
+  youtube: Yup.string().url("Invalid YouTube URL").nullable(),
+  billing: Yup.object().shape({
+    gst: Yup.string()
+      .nullable()
+      .matches(/^(\d{2}[A-Z]{5}\d{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1})?$/, "Invalid GST number"),
+  }),
 });
 
 type FormValues = {
-	firstName: string;
-	lastName: string;
-	email: string;
-	contact_info: {
-		phoneNumber: string;
-		address1: string;
-		country: string;
-		state: string;
-		city: string;
-	};
-	gender: string;
-	image: string;
-	facebook?: string;
-	twitter?: string;
-	youtube?: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  contact_info: {
+    phoneNumber: string;
+    address1: string;
+    country: string;
+    state: string;
+    city: string;
+  };
+  gender: string;
+  image: string;
+  facebook?: string;
+  twitter?: string;
+  youtube?: string;
+
+  billing?: {
+    gst?: string;
+  };
 };
 
 const ProfileEditSettings: React.FC = () => {
-	const [profile, setProfile] = useState<FormValues>({
-		firstName: '',
-		lastName: '',
-		email: '',
-		contact_info: {
-			phoneNumber: '',
-			address1: '',
-			country: '',
-			state: '',
-			city: '',
-		},
-		gender: '',
-		image: '',
-		facebook: '',
-		twitter: '',
-		youtube: '',
-	});
+  const [profile, setProfile] = useState<FormValues>({
+    firstName: "",
+    lastName: "",
+    email: "",
+    contact_info: {
+      phoneNumber: "",
+      address1: "",
+      country: "",
+      state: "",
+      city: "",
+    },
+    gender: "",
+    image: "",
+    facebook: "",
+    twitter: "",
+    youtube: "",
+    billing: {
+    gst: "",
+  },
+  });
 
 	const fetchData = async () => {
 		const response = await getProfile();
@@ -166,25 +178,25 @@ const ProfileEditSettings: React.FC = () => {
 			<h1 className='font-bold text-2xl'>Profile</h1>
 			<h6>Update your photo and personal details here</h6>
 
-			<form onSubmit={formik.handleSubmit} className='mt-6'>
-				<div className='grid grid-cols-2 gap-8'>
-					{/* Input fields */}
-					<div>
-						<label className='block mb-2 text-sm font-medium'>First Name</label>
-						<input
-							type='text'
-							name='firstName'
-							value={formik.values.firstName}
-							onChange={formik.handleChange}
-							onBlur={formik.handleBlur}
-							className={inputClass}
-						/>
-						{formik.touched.firstName && formik.errors.firstName && (
-							<div className='text-red-500 text-sm'>
-								{formik.errors.firstName}
-							</div>
-						)}
-					</div>
+      <form onSubmit={formik.handleSubmit} className="mt-6">
+        <div className="grid grid-cols-3 gap-8">
+          {/* Input fields */}
+          <div>
+            <label className="block mb-2 text-sm font-medium">First Name</label>
+            <input
+              type="text"
+              name="firstName"
+              value={formik.values.firstName}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              className={inputClass}
+            />
+            {formik.touched.firstName && formik.errors.firstName && (
+              <div className="text-red-500 text-sm">
+                {formik.errors.firstName}
+              </div>
+            )}
+          </div>
 
 					<div>
 						<label className='block mb-2 text-sm font-medium'>Last Name</label>
@@ -418,27 +430,42 @@ const ProfileEditSettings: React.FC = () => {
                     </div>
                 </div> */}
 
-				{/* Submit */}
-				<div className='flex gap-10 mt-10'>
-					<button
-						type='button'
-						className='w-20 h-10 rounded-3xl text-white'
-						style={{ backgroundColor: '#9b111e' }}
-					>
-						Cancel
-					</button>
-					<button
-						type='submit'
-						className='flex items-center gap-2 px-4 py-2 rounded-3xl text-white'
-						style={{ backgroundColor: '#9b111e' }}
-					>
-						<MdUpgrade className='text-2xl' />
-						Update
-					</button>
-				</div>
-			</form>
-		</div>
-	);
+        {/* Submit */}
+
+        <div className="mt-10">
+  <h3 className="font-bold text-2xl">Billing Software</h3>
+  
+  <div className="mt-6">
+    <label className="block text-sm font-medium text-black">GST</label>
+    <input
+      type="text"
+      name="billing.gst"
+       className={`w-64 ${inputClass}`}
+    />
+   
+  </div>
+</div>
+
+        <div className="flex justify-end gap-5 mt-10">
+          <button
+            type="button"
+            className="w-20 h-10 rounded-3xl text-white"
+            style={{ backgroundColor: "#9b111e" }}
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            className="flex items-center gap-2 px-4 py-2 rounded-3xl text-white"
+            style={{ backgroundColor: "#9b111e" }}
+          >
+            <MdUpgrade className="text-2xl" />
+            Update
+          </button>
+        </div>
+      </form>
+    </div>
+  );
 };
 
 export default ProfileEditSettings;
