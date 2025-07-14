@@ -28,4 +28,13 @@ export const getSpareparts=async(data:string)=>{
     }
 }
 
+export const updateSpare = async(data:any,params:string)=>{
+    try {
+        console.log("call function")
+        const response = await new Client().admin.spareparts.update(data,params)
+        return response
+    } catch (error) {
+        console.log("error in update spare",error)
+    }
+}
 

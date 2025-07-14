@@ -8,6 +8,7 @@ import vehicleimg from "../../assets/Vehicle1.svg"
 import contactimg from "../../assets/Phone Number.svg"
 import location from "../../assets/Location.svg"
 import service from "../../assets/Service (1).svg"
+import { useSocket } from "../../context/adminSocket";
 
 
 type pendingService = {
@@ -49,6 +50,7 @@ const CompactServiceCard: React.FC<CompactServiceCardProps> = ({ request, onAssi
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedPartner, setSelectedPartner] = useState("");
   const [partnerList, setpartnerList] = useState<any[]>([]);
+  const socket = useSocket();
 
   const handleAssign = async() => {
   
@@ -67,6 +69,23 @@ const CompactServiceCard: React.FC<CompactServiceCardProps> = ({ request, onAssi
     
     setIsModalOpen(false);
     setSelectedPartner("");
+
+    const partnerNotification = {
+      title: "New Service Assigned",
+      message: `You have been assigned a service...`,
+      type: "info",
+      priority: "medium",
+      recipient_type: "partner",
+      recipient_id: selectedPartner,
+      is_read: false,
+      is_active: true,
+      is_sent: false, 
+      created_at: new Date().toISOString(),
+    };
+
+    if (!socket) return null;
+    socket.emit("newNotification", partnerNotification);
+    console.log("Notification emitted:", partnerNotification);
   };
    
   async function setOpenModel() {
@@ -81,10 +100,10 @@ const CompactServiceCard: React.FC<CompactServiceCardProps> = ({ request, onAssi
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center space-x-3">
             <div className="w-10 h-10 bg-[#9b111e] rounded-lg flex items-center justify-center text-white font-bold text-base">
-              {request?.customerId?.firstName.charAt(0)}
+              {request?.customerId?.firstName?.charAt(0)}
             </div>
             <div>
-              <h3 className="font-bold text-gray-900 text-base">{ request.customerId.firstName + ' ' + request.customerId.lastName || "cusotmer name" }</h3>
+              <h3 className="font-bold text-gray-900 text-base">{ request?.customerId?.firstName + ' ' + request?.customerId?.lastName || "cusotmer name" }</h3>
               <p className="text-sm text-gray-500 font-medium">
                 #{request.requestId}
               </p>
@@ -105,21 +124,21 @@ const CompactServiceCard: React.FC<CompactServiceCardProps> = ({ request, onAssi
             <img className="w-5 h-5"src={vehicleimg} alt="vehicle image" />
               <p className="text-sm font-semibold text-gray-700">Vehicle</p>
             </div>
-            <p className="font-semibold text-gray-900 text-sm">{request.customerId.vehicleInfo.model || "vehicle model"}</p>
+            <p className="font-semibold text-gray-900 text-sm">{request?.customerId?.vehicleInfo.model || "vehicle model"}</p>
             <p className="font-semibold text-gray-900 text-sm">{"2025"}</p>
-            <p className="font-mono text-black rounded mt-1 text-sm font-medium">{request.customerId.vehicleInfo.registerNumber}</p>
+            <p className="font-mono text-black rounded mt-1 text-sm font-medium">{request?.customerId?.vehicleInfo?.registerNumber}</p>
           </div>
           <div>
             <div className="flex items-center mb-2">
               <img className="w-5 h-5" src={contactimg} alt="" />
               <p className="text-sm font-semibold text-gray-700">Contact</p>
             </div>
-            <p className="font-semibold text-gray-900 text-sm">{request.customerId.contact_info.phoneNumber}</p>
+            <p className="font-semibold text-gray-900 text-sm">{request?.customerId?.contact_info?.phoneNumber}</p>
             <div className="flex items-center mt-1 gap-2">
               <img className="w-5 h-5" src={location} alt="" />
-              <p className="text-gray-600 truncate text-sm">{request.customerId.contact_info.address1+' '+
-                  request.customerId.contact_info.address2+' '+ request.customerId.contact_info.city+' '+
-                  request.customerId.contact_info.state
+              <p className="text-gray-600 truncate text-sm">{request?.customerId?.contact_info?.address1+' '+
+                  request.customerId?.contact_info?.address2+' '+ request?.customerId?.contact_info?.city+' '+
+                  request.customerId?.contact_info?.state
                 }</p>
             </div>
           </div>
@@ -174,33 +193,33 @@ const CompactServiceCard: React.FC<CompactServiceCardProps> = ({ request, onAssi
             <div className="bg-white shadow-md rounded-xl p-5 grid grid-cols-2 gap-4 mb-6 border">
               <div>
                 <p className="text-sm text-gray-500 font-medium">Customer:</p>
-                <p className="font-semibold text-gray-800">{request.customerId.firstName+' '+request.customerId.lastName}</p>
+                <p className="font-semibold text-gray-800">{request?.customerId?.firstName+' '+request?.customerId?.lastName}</p>
               </div>
               <div>
                 <p className="text-sm text-gray-500 font-medium">Mobile:</p>
-                <p className="font-semibold text-gray-800">{request.customerId.contact_info.phoneNumber}</p>
+                <p className="font-semibold text-gray-800">{request?.customerId.contact_info.phoneNumber}</p>
               </div>
               <div>
                 <p className="text-sm text-gray-500 font-medium">Car No:</p>
-                <p className="font-semibold text-gray-800">{request.customerId.vehicleInfo.registerNumber}</p>
+                <p className="font-semibold text-gray-800">{request?.customerId.vehicleInfo.registerNumber}</p>
               </div>
               <div>
                 <p className="text-sm text-gray-500 font-medium">Vehicle:</p>
-                <p className="font-semibold text-gray-800">{request.customerId.vehicleInfo.model}</p>
+                <p className="font-semibold text-gray-800">{request?.customerId.vehicleInfo.model}</p>
               </div>
               <div>
                 <p className="text-sm text-gray-500 font-medium">Issues:</p>
                 <ul className="list-disc list-inside text-sm text-gray-800 space-y-1">
                   {request.service.map((service: any, index: number) => (
-                    <li key={index} className="font-medium">{service.service_name}</li>
+                    <li key={index} className="font-medium">{service?.service_name}</li>
                   ))}
                 </ul>
               </div>
               <div>
                 <p className="text-sm text-gray-500 font-medium">Address:</p>
-                <p className="font-semibold text-gray-800">{request.customerId.contact_info.address1 + ' ' +
-                  request.customerId.contact_info.address2 + ' ' + request.customerId.contact_info.city + ' ' +
-                  request.customerId.contact_info.state}</p>
+                <p className="font-semibold text-gray-800">{request?.customerId.contact_info.address1 + ' ' +
+                  request?.customerId.contact_info.address2 + ' ' + request?.customerId.contact_info.city + ' ' +
+                  request?.customerId.contact_info.state}</p>
               </div>
             </div>
 

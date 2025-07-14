@@ -231,8 +231,14 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({
   }, [showDeleteSuccessPopup])
 
   function onChangeCat(id: string) {
+    console.log(id,"added PART")
     setpartnerId(id)
     onServices()
+  }
+
+  function viewspare(id:string){
+    setpartnerId(id)
+    onSpareParts()
   }
 
   return (
@@ -264,7 +270,7 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({
           <div className="flex gap-4">
           <button
           style={{...FONTS.paragraph}}
-            onClick={onSpareParts}
+            onClick={()=>viewspare(partner._id)}
             className="flex items-center gap-2 bg-white !text-[#9b111e] px-5 py-2 rounded-3xl font-medium hover:bg-gray-100 transition-colors shadow-sm"
           >
             <Settings className="w-4 h-4" />

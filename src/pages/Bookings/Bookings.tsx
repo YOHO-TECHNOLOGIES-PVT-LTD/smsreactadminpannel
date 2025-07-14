@@ -145,7 +145,7 @@ const ServiceRequests: React.FC = () => {
     }
   };
 
-  // Filter functions for search
+
   const filteredPendingRequests = pendingRequests.filter(request => {
     const searchLower = searchTerm.toLowerCase();
     const matchesId = request._id.toString().includes(searchLower);

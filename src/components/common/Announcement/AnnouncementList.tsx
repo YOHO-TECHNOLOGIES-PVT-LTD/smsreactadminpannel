@@ -1,24 +1,10 @@
-import React, { useState } from 'react';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import React, { useEffect, useState } from 'react';
 import { FONTS } from '../../../constants/uiConstants';
+import { getAnnouncement, postAnnouncement } from '../../../pages/Announcement/services';
 
 const AnnouncementList = () => {
-  const [announcements, setAnnouncements] = useState([
-    {
-      title: 'Holiday Discount',
-      price: '20% Off',
-      image:''
-    },
-    {
-      title: 'Free Car Wash',
-      price: 'On Orders 50+',
-      image: ''
-    },
-    {
-      title: 'Limited Time Offer',
-      price: 'Until May 30',
-      image: ''
-    },
-  ]);
+  const [announcements, setAnnouncements] = useState<any>([]);
 
   const [showModal, setShowModal] = useState(false);
   const [heading, setHeading] = useState('');
@@ -26,13 +12,33 @@ const AnnouncementList = () => {
   const [price, setPrice] = useState('');
   const [image, setImage] = useState<File | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  useEffect(() => {
+    (async function () {
+      const data:any = await getAnnouncement('')
+      const datas = data.data.data
+      const filters = datas.filter((item: any) => item.category == 'general')
+      setAnnouncements(filters)
+    })()
+  }, []);
+
+  const handleSubmit = async(e: React.FormEvent) => {
     e.preventDefault();
     const newAnnouncement = {
       title: heading,
       price: price,
       image: image ? URL.createObjectURL(image) : ''
     };
+
+    const data = {
+      title:heading,
+      category:"general",
+      description,
+      offer:price,
+      image: image ? URL.createObjectURL(image) : ''
+    }
+
+    await postAnnouncement(data)
+
     setAnnouncements([...announcements, newAnnouncement]);
     resetForm();
     setShowModal(false);
@@ -66,7 +72,7 @@ const AnnouncementList = () => {
       {/* ✅ Card Grid: This was missing */}
       <div className="px-6">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-          {announcements.map((item, index) => (
+          {announcements.map((item:any, index:number) => (
             <div
               key={index}
               className="flex flex-col hover:shadow-xl transform hover:scale-[1.02] p-2 transition-all duration-300 bg-white shadow-md rounded-lg"
@@ -78,7 +84,7 @@ const AnnouncementList = () => {
               />
               <div className="p-4 flex-1 flex flex-col justify-between">
                 <h3 className="font-semibold !text-gray-900" style={{...FONTS.cardSubHeader}}>{item.title}</h3>
-                <p className="text-[#9b111e] !font-bold mt-2" style={{...FONTS.cardSubHeader}}>{item.price}</p>
+                <p className="text-[#9b111e] !font-bold mt-2" style={{...FONTS.cardSubHeader}}>{item.offer}</p>
               </div>
             </div>
           ))}
