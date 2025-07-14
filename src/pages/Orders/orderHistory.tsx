@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {  getAllOrdersHistory } from './Services';
 import { FONTS } from '../../constants/uiConstants';
+import { useNavigate } from 'react-router-dom';
 
 
 const OrderHistory = () => {
@@ -15,6 +16,7 @@ const OrderHistory = () => {
   const [selectedOrder, setSelectedOrder] = useState<any>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [dateFilter, setDateFilter] = useState('');
+  const navigate = useNavigate();
 
   useEffect(()=>{
     const fetchOrders = async()=>{
@@ -94,7 +96,21 @@ const OrderHistory = () => {
 
   return (
     <div className="p-4 md:p-6 h-full min-h-screen">
-      <div className='flex justify-between'>
+      <div className='flex gap-3'>
+        <button
+            onClick={() => navigate(-1)}
+            className="flex items-center justify-center w-10 h-10 bg-white border-2 border-[#9b111e] text-[#9b111e] rounded-3xl hover:bg-[#9b111e] hover:text-white transition-all duration-300 shadow-lg hover:shadow-xl"
+            title="Back to Schedule Requests"
+          >
+            <svg 
+              className="w-6 h-6" 
+              fill="none" 
+              stroke="currentColor" 
+              viewBox="0 0 24 24"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+          </button>
         <h1 className=" !font-bold text-[#9b111e] mb-3" style={{...FONTS.header}}>Orders History</h1>
       </div>
       {/* <motion.div 

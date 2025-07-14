@@ -30,13 +30,13 @@ export interface ScheduleRequest{
 }
 
 export interface assignedScheduleRequest {
+    status: string;
+    priority: string;
     assigned_date: string;
     amount: number;
     _id: string;
     uuid: string;
     requestId: string;
-    status: string;
-    priority: string;
     customerId: {
         contact_info: {
             state: string;

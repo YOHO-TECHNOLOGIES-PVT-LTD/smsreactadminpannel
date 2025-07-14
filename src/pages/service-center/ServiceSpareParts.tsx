@@ -10,6 +10,7 @@ import { FiMoreVertical } from 'react-icons/fi';
 import { FaRegEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 
+
 interface ApiSparePart {
 	_id: string;
 	productName: string;
@@ -69,34 +70,30 @@ type ReactComponent = {
   partnerId: string;
 };
 
-const ServiceSpareParts: React.FC<ReactComponent> = ({
-	partnerId,
-	handleBack,
-}) => {
-	console.log('PartnerId', partnerId);
-	const [searchTerm, setSearchTerm] = useState('');
-	const [showSearch, setShowSearch] = useState(false);
-	const [Spareparts, setSpareparts] = useState([]);
-	const [showAddModal, setShowAddModal] = useState(false);
-	const [spareParts, setSpareParts] = useState<SparePart[]>([]);
-	const [selectedPart, setSelectedPart] = useState<SparePart | null>(null);
-	const [menuOpenId, setMenuOpenId] = useState<string | null>(null);
-	const [newPart, setNewPart] = useState<
-		Omit<SparePart, 'id' | 'inStock' | 'reviews' | 'rating' | '_id'>
-	>({
-		stock: '',
-		productName: '',
-		name: '',
-		image: '',
-		price: '0',
-		quantity: 0,
-		category: '',
-		brand: '',
-		discount: 0,
-		active: true,
-		warrantyPeriod: '',
-		slug: '',
-	});
+const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId, handleBack }) => {
+  console.log("PartnerId", partnerId)
+  const [searchTerm, setSearchTerm] = useState("")
+  const [showSearch, setShowSearch] = useState(false)
+  const [Spareparts, setSpareparts] = useState([]);
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [spareParts, setSpareParts] = useState<SparePart[]>([]);
+  const [selectedPart, setSelectedPart] = useState<SparePart | null>(null);
+  const [menuOpenId, setMenuOpenId] = useState<string | null>(null);
+  const [newPart, setNewPart] = useState<Omit<SparePart, "id" | "inStock" | "reviews" | "rating" | "_id">>({
+    stock: "",
+    productName: "",
+    name: "",
+    image: "",
+    price: "0",
+    quantity: 0,
+    category: "",
+    brand: "",
+    discount: 0,
+    active: true,
+    warrantyPeriod: "",
+    slug: "",
+    
+  });
 
   const [editPart, setEditPart] = useState<SparePart | null>(null);
   const [showAddCategoryModal, setShowAddCategoryModal] = useState(false);
@@ -349,69 +346,80 @@ const toggleMenu = (id: string) => {
           </div>
         </div>
 
-        {/* Category Filter */}
-        <div className="container px-4 py-2 overflow-x-auto">
-          <div className="flex space-x-2 pb-2">
-            <button
-              onClick={() => setSelectedCategory(null)}
-              className={`px-4 py-2 rounded-full whitespace-nowrap ${!selectedCategory ? 'bg-red-600 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}`}
-            >
-              All Categories
-            </button>
-           {sparePartCategory.map((category) => (
-  <div key={category._id} className="relative inline-block">
-    <button
-      onClick={() => setSelectedCategory(category.name)}
-      className={`relative px-4 py-2 rounded-full w-40 text-center whitespace-nowrap flex justify-center items-center ${
-        selectedCategory === category.name
-          ? 'bg-red-600 text-white'
-          : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-      }`}
-    >
-      <span className="truncate">{category.name}</span>
+       {/* Category Filter */}
+<div className="container px-4 py-2">
+  <div className="flex pb-2 space-x-2">
 
-      {/* 3-dot icon only visible when this button is selected */}
-      {selectedCategory === category.name && (
-        <span
-          className="ml-2 cursor-pointer absolute right-3"
-          onClick={(e) => {
-            e.stopPropagation(); // Prevent button click event
-            toggleMenu(category._id);
-          }}
-        >
-          <FiMoreVertical />
-        </span>
-      )}
-    </button>
+    {/* Fixed 'All Categories' Button */}
+    <div className="flex-none">
+      <button
+        onClick={() => setSelectedCategory(null)}
+        className={`px-4 py-2 rounded-full whitespace-nowrap ${
+          !selectedCategory
+            ? 'bg-red-600 text-white'
+            : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+        }`}
+      >
+        All Categories
+      </button>
+    </div>
 
-    {/* Dropdown Menu */}
-    {menuOpenId === category._id && (
-      <div className="absolute top-5 z-50 right-0 mt-1 bg-white border rounded shadow-md flex">
-        <button
-          onClick={(e) => {
-            e.stopPropagation();
-            handleEditCategory(category);
-          }}
-          className="block w-full py-2 text-left text-sm hover:bg-gray-100 px-1"
-        >
-          <FaRegEdit />
-        </button>
-        <button
-          onClick={(e) => {
-            e.stopPropagation();
-            handleDeleteCategory(category);
-          }}
-          className="block w-full py-2 text-left text-sm  hover:bg-gray-100 px-1"
-        >
-          <MdDelete />
-        </button>
-      </div>
-    )}
-  </div>
-))}
+    {/* Scrollable Category Buttons */}
+    <div className="flex overflow-x-auto space-x-2 scrollbar-thin scrollbar-hide">
+      {sparePartCategory.map((category) => (
+        <div key={category._id} className="flex-none relative">
+          <button
+            onClick={() => setSelectedCategory(category.name)}
+            className={`relative px-4 py-2 rounded-full w-40 text-center whitespace-nowrap flex justify-center items-center ${
+              selectedCategory === category.name
+                ? 'bg-red-600 text-white'
+                : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+            }`}
+          >
+            <span className="truncate">{category.name}</span>
 
-          </div>
+            {/* 3-dot icon only visible when selected */}
+            {selectedCategory === category.name && (
+              <span
+                className="ml-2 cursor-pointer absolute right-3"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  toggleMenu(category._id);
+                }}
+              >
+                <FiMoreVertical />
+              </span>
+            )}
+          </button>
+
+          {/* Dropdown Menu */}
+          {menuOpenId === category._id && (
+            <div className="absolute top-10 right-0 z-50 mt-1 bg-white border rounded shadow-md flex">
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleEditCategory(category);
+                }}
+                className="block w-full py-2 px-2 text-sm hover:bg-gray-100"
+              >
+                <FaRegEdit />
+              </button>
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleDeleteCategory(category);
+                }}
+                className="block w-full py-2 px-2 text-sm hover:bg-gray-100"
+              >
+                <MdDelete />
+              </button>
+            </div>
+          )}
         </div>
+      ))}
+    </div>
+  </div>
+</div>
 
 				{/* Search Bar */}
 				{showSearch && (

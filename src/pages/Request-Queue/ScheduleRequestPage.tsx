@@ -185,7 +185,7 @@ export default function ScheduleRequestPage() {
 
                   <div className="flex items-center gap-2">
                     <span><MdOutlineMiscellaneousServices /></span>
-                    <span>{req?.requestType || 'General Service'}</span>
+                    <span>{req?.requestType}</span>
                   </div>
 
                   <div className="flex items-center gap-2">
@@ -203,9 +203,7 @@ export default function ScheduleRequestPage() {
               <hr className="border-t border-gray-200 my-2" />
 
               <div className="flex items-center justify-between">
-                <div className="bg-yellow-400 text-white text-sm font-semibold px-4 py-2 rounded-full shadow-inner">
-                  Pending
-                </div>
+               
                 <div className="flex items-center gap-2 text-gray-600 font-medium text-sm">
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
