@@ -32,6 +32,11 @@ const validationSchema = Yup.object().shape({
   facebook: Yup.string().url("Invalid Facebook URL").nullable(),
   twitter: Yup.string().url("Invalid Twitter URL").nullable(),
   youtube: Yup.string().url("Invalid YouTube URL").nullable(),
+  billing: Yup.object().shape({
+    gst: Yup.string()
+      .nullable()
+      .matches(/^(\d{2}[A-Z]{5}\d{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1})?$/, "Invalid GST number"),
+  }),
 });
 
 type FormValues = {
@@ -50,6 +55,10 @@ type FormValues = {
   facebook?: string;
   twitter?: string;
   youtube?: string;
+
+  billing?: {
+    gst?: string;
+  };
 };
 
 const ProfileEditSettings: React.FC = () => {
@@ -69,6 +78,9 @@ const ProfileEditSettings: React.FC = () => {
     facebook: "",
     twitter: "",
     youtube: "",
+    billing: {
+    gst: "",
+  },
   });
 
   const fetchData = async () => {
@@ -169,7 +181,7 @@ const ProfileEditSettings: React.FC = () => {
       <h6>Update your photo and personal details here</h6>
 
       <form onSubmit={formik.handleSubmit} className="mt-6">
-        <div className="grid grid-cols-2 gap-8">
+        <div className="grid grid-cols-3 gap-8">
           {/* Input fields */}
           <div>
             <label className="block mb-2 text-sm font-medium">First Name</label>
@@ -421,7 +433,22 @@ const ProfileEditSettings: React.FC = () => {
                 </div> */}
 
         {/* Submit */}
-        <div className="flex gap-10 mt-10">
+
+        <div className="mt-10">
+  <h3 className="font-bold text-2xl">Billing Software</h3>
+  
+  <div className="mt-6">
+    <label className="block text-sm font-medium text-black">GST</label>
+    <input
+      type="text"
+      name="billing.gst"
+       className={`w-44 ${inputClass}`}
+    />
+   
+  </div>
+</div>
+
+        <div className="flex justify-end gap-5 mt-10">
           <button
             type="button"
             className="w-20 h-10 rounded-3xl text-white"

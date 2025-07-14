@@ -29,7 +29,7 @@ type Invoice = {
   status: string;
   createdAt:string;
   serviceInfo:{
-    amount:string;
+    totalAmount:string;
   }
 };
 
@@ -106,8 +106,10 @@ export const JobCardsPage: React.FC = () => {
           >
             <thead className="bg-[#e9e9e9]">
               <tr>
-                <th className="px-4 py-3 text-left text-sm font-bold text-[#717171] border-b" style={{...FONTS.tableHeader}}
-                >
+                <th className="px-4 py-3 text-left text-sm text-[#717171]  border-b" style= {{...FONTS.tableHeader}}>
+                  No
+                </th>
+                <th className="px-4 py-3 text-left text-sm text-[#717171]  border-b" style= {{...FONTS.tableHeader}} >
                 
                   <div className="flex items-center gap-2"  >
                     <HiMiniIdentification size={20}/>
@@ -159,6 +161,7 @@ export const JobCardsPage: React.FC = () => {
             <tbody>
               {filteredInvoices.length > 0 ? (
                 filteredInvoices.map((invoice, index) => (
+                  
                   <tr
                     key={invoice.uuid}
                     className={`text-sm !text-gray-700 hover:bg-[#edeae9] transition font-semibold ${
@@ -166,6 +169,7 @@ export const JobCardsPage: React.FC = () => {
                     }`}
                     style={{...FONTS.paragraph}}
                   >
+                     <td className="px-4 py-3 border-b">{index + 1}</td>
                     <td className="px-4 py-3 border-b">{invoice.uuid}</td>
                     <td className="px-4 py-3 border-b">
                       {invoice.createdAt.split('T')[0]}
@@ -176,7 +180,7 @@ export const JobCardsPage: React.FC = () => {
                     </td>
                     <td className="px-4 py-3 border-b">{invoice.vehicleInfo.registrationNo}</td>
                     <td className="px-4 py-3 border-b hidden lg:table-cell">
-                      {invoice.serviceInfo.amount}
+                      {invoice.serviceInfo.totalAmount}
                     </td>
                     <td className="px-4 py-3 border-b">
                       <span

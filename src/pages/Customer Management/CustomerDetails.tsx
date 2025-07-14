@@ -309,7 +309,7 @@ const CustomerDetails: React.FC<ProfileViewComponent> = ({ onProfileView,setCust
                 setCurrentPage(1);
               }}
               placeholder="Search by name or email..."
-              className="pl-10 pr-4 py-2 w-full border border-gray-300 rounded-lg text-base focus:outline-none focus:ring-2 focus:ring-[#800000] focus:border-transparent"
+              className="pl-10 pr-4 py-2 w-full border border-[#717171] placeholder:text-[#717171] rounded-lg text-base focus:outline-none focus:ring-2 focus:ring-[#800000] focus:border-transparent"
               whileFocus={{ scale: 1.01 }}
             />
           </div>
@@ -476,7 +476,7 @@ const CustomerDetails: React.FC<ProfileViewComponent> = ({ onProfileView,setCust
                 ${
                   currentPage === 1
                     ? "text-gray-400 cursor-not-allowed bg-gray-100 border-gray-200"
-                    : "text-white bg-gradient-to-r from-red-800 to-red-600 hover:from-red-900 hover:to-red-700 border-transparent"
+                    : "text-white bg-[#9b111e] hover:from-red-900 hover:to-red-700 border-transparent"
                 }`}
               whileHover={currentPage !== 1 ? { scale: 1.03 } : {}}
               whileTap={currentPage !== 1 ? { scale: 0.97 } : {}}
@@ -496,7 +496,7 @@ const CustomerDetails: React.FC<ProfileViewComponent> = ({ onProfileView,setCust
                 ${
                   currentPage === totalPages
                     ? "text-gray-400 cursor-not-allowed bg-gray-100 border-gray-200"
-                    : "text-white bg-gradient-to-r from-red-800 to-red-600 hover:from-red-900 hover:to-red-700 border-transparent"
+                    : "text-white bg-[#9b111e] hover:from-red-900 hover:to-red-700 border-transparent"
                 }`}
               whileHover={currentPage !== totalPages ? { scale: 1.03 } : {}}
               whileTap={currentPage !== totalPages ? { scale: 0.97 } : {}}
