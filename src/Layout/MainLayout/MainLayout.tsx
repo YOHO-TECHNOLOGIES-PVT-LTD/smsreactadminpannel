@@ -8,7 +8,7 @@ export const MainLayout = () => {
     return (
             <div className="flex h-screen bg-gray-100 scrollbar-hide">
                 {/* Sidebar takes up 1/9 of the width */}
-                <div className="w-1/9">
+                <div className="w-1/7">
                     <Sidebar />
                 </div>
 
@@ -16,7 +16,7 @@ export const MainLayout = () => {
                 <div className="flex-1 flex flex-col overflow-hidden">
                     <Navbar />
                     <main className="flex-1 overflow-auto scrollbar-hide">
-                        <div className="p-4 rounded shadow" style={{backgroundColor: COLORS.bgColor}}>
+                        <div className="p-4 rounded shadow px-8" style={{backgroundColor: COLORS.bgColor}}>
                             <Outlet />
                         </div>
                     </main>
