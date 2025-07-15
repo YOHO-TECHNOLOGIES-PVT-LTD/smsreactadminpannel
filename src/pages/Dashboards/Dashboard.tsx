@@ -31,7 +31,8 @@ import { SoSCard } from '../../components/common/dashboard/SoSCard/SoSCard';
 import TotalRevenue from '../../components/common/dashboard/TotalRevenue/TotalRevenue';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { getDashboardData } from '../../features/Dashboard/services';
+// import { getDashboardData } from '../../features/Dashboard/services';
+import Client from "../../api";
 
 const queries = [
 	{

@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from 'react';
 import { ArrowLeft, Search, Plus, X, Edit3, Trash2 } from 'lucide-react';
 import Client from '../../api';
 import { FONTS } from '../../constants/uiConstants';
+import { toast } from 'react-toastify';
 
 interface Service {
 	_id: string;
@@ -163,7 +164,7 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({
 			}
 		} catch (error) {
 			console.error('Error deleting category:', error);
-			alert('Failed to delete category. Please try again.');
+			toast.error('Failed to delete category. Please try again.');
 		}
 	};
 
