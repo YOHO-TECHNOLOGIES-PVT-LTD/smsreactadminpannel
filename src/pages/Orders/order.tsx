@@ -486,10 +486,10 @@ const Order = () => {
                         <span className="!text-gray-600" style={{ ...FONTS.cardSubHeader }}>Subtotal:</span>
                         <span className="font-medium !text-gray-600" style={{ ...FONTS.cardSubHeader }}>{selectedOrder.total}</span>
                       </div>
-                      <div className="flex justify-between mb-2">
+                      {/* <div className="flex justify-between mb-2">
                         <span className="!text-gray-600" style={{ ...FONTS.cardSubHeader }}>Shipping:</span>
                         <span className="font-medium !text-gray-600" style={{ ...FONTS.cardSubHeader }}>₹0</span>
-                      </div>
+                      </div> */}
                       <div className="flex justify-between border-t pt-2 mt-2">
                         <span className="!text-gray-900 font-medium" style={{ ...FONTS.cardSubHeader }}>Total:</span>
                         <span className="!text-[#9b111e] font-bold" style={{ ...FONTS.cardSubHeader }}>{selectedOrder.total}</span>
