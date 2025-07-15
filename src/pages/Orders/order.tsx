@@ -421,8 +421,10 @@ const Order = () => {
                         <span className="font-medium !text-gray-600" style={{ ...FONTS.paragraph }}>Date:</span> {selectedOrder.date.split('T')[0]}
                       </p>
                       {/* <p className="text-gray-600">
+                      {/* <p className="text-gray-600">
                         <span className="font-medium !text-gray-600" style={{ ...FONTS.paragraph }}>Shipping:</span> {selectedOrder.details.shipping}
                       </p> */}
+                      {/* </p> */}
                       <p className="text-gray-600">
                         <span className="font-medium !text-gray-600" style={{ ...FONTS.paragraph }}>Total:</span> {selectedOrder.total}
                       </p>
