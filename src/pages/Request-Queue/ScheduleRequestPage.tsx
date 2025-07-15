@@ -159,7 +159,7 @@ export default function ScheduleRequestPage() {
               onClick={() => openModal(req)}
             >
               <div className="flex items-center gap-6">
-                <div className="w-20 h-20 rounded-full border-4 border-[#9b111e] p-1 shadow-md">
+                <div className="w-10 h-10 bg-[#9b111e] rounded-full flex items-center justify-center text-white font-bold text-base">
                   SR
                 </div>
 
