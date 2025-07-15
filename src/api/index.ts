@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { data } from "react-router-dom";
 import httpClient from "./httpClient";
 import { API_END_POINTS } from "./httpEndpoints";
 
@@ -76,7 +75,7 @@ spareparts:{
    updatestatus:(data:string,params:string)=>httpClient.update(API_END_POINTS.spareparts.updatestatus,data,params),
    category:{
     create:(data?:any)=>httpClient.post(API_END_POINTS.spareparts.category.create,data),
-    getAll:(params?:string)=>httpClient.get(API_END_POINTS.spareparts.category.getall),
+    getAll:()=>httpClient.get(API_END_POINTS.spareparts.category.getall),
     put:(params:any)=>httpClient.update(API_END_POINTS.spareparts.category.put.replace(":uuid",params?.uuid), params),
     delete:(params:any)=>httpClient.delete(API_END_POINTS.spareparts.category.delete.replace(":uuid",params?.uuid)),
    }
