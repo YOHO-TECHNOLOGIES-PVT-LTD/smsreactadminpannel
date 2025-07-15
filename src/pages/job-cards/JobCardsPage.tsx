@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useState } from "react";
 import { CiSearch } from "react-icons/ci";
 import { FONTS } from "../../constants/uiConstants";
@@ -29,7 +30,7 @@ type Invoice = {
   status: string;
   createdAt:string;
   serviceInfo:{
-    amount:string;
+    totalAmount:string;
   }
 };
 
@@ -74,28 +75,42 @@ export const JobCardsPage: React.FC = () => {
 					</h1>
 				</div>
 
-        <div className="relative max-w-md mt-10">
-          <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">
-            <CiSearch size={20} />
-          </span>
-          <input
-            type="search"
-            placeholder="Search by name, vehicle or ID"
-            className="pl-10 pr-4 py-2 w-full border rounded-full shadow focus:ring-2 focus:ring-[#9b111e] focus:outline-none focus:border-transparent"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            style={{...FONTS.description}}
-          />
-        </div>
+ <div className="flex flex-row items-center justify-between mt-10 w-full gap-2">
+  <div className="relative flex-1">
+    <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">
+      <CiSearch size={20} />
+    </span>
+    <input
+      type="search"
+      placeholder="Search by name, vehicle or ID"
+      className="pl-10 pr-4 py-2 w-full border rounded-full shadow focus:ring-2 focus:ring-[#9b111e] focus:outline-none focus:border-transparent"
+      value={searchQuery}
+      onChange={(e) => setSearchQuery(e.target.value)}
+      style={{ ...FONTS.description }}
+    />
+  </div>
+<div>
+  <button
+    className="bg-[#a00000] !text-white  px-4 py-2 rounded-3xl   active:scale-110 transition whitespace-nowrap"
+    style={{ ...FONTS.cardSubHeader }} onClick={() => navigate(`/job-history`)}
+  >
+    History
+  </button>
+  </div>
+</div>
 
+
+          
         <div className="overflow-x-auto ">
           <table className="min-w-full border-collapse rounded-lg overflow-hidden mt-8 "
           
           >
             <thead className="bg-[#e9e9e9]">
               <tr>
-                <th className="px-4 py-3 text-left text-sm font-bold text-[#717171] border-b" style={{...FONTS.tableHeader}}
-                >
+                <th className="px-4 py-3 text-left text-sm text-[#717171]  border-b" style= {{...FONTS.tableHeader}}>
+                  No
+                </th>
+                <th className="px-4 py-3 text-left text-sm text-[#717171]  border-b" style= {{...FONTS.tableHeader}} >
                 
                   <div className="flex items-center gap-2"  >
                     <HiMiniIdentification size={20}/>
@@ -147,6 +162,7 @@ export const JobCardsPage: React.FC = () => {
             <tbody>
               {filteredInvoices.length > 0 ? (
                 filteredInvoices.map((invoice, index) => (
+                  
                   <tr
                     key={invoice.uuid}
                     className={`text-sm !text-gray-700 hover:bg-[#edeae9] transition font-semibold ${
@@ -154,6 +170,7 @@ export const JobCardsPage: React.FC = () => {
                     }`}
                     style={{...FONTS.paragraph}}
                   >
+                     <td className="px-4 py-3 border-b">{index + 1}</td>
                     <td className="px-4 py-3 border-b">{invoice.uuid}</td>
                     <td className="px-4 py-3 border-b">
                       {invoice.createdAt.split('T')[0]}
@@ -164,7 +181,7 @@ export const JobCardsPage: React.FC = () => {
                     </td>
                     <td className="px-4 py-3 border-b">{invoice.vehicleInfo.registrationNo}</td>
                     <td className="px-4 py-3 border-b hidden lg:table-cell">
-                      {invoice.serviceInfo.amount}
+                      {invoice.serviceInfo.totalAmount}
                     </td>
                     <td className="px-4 py-3 border-b">
                       <span

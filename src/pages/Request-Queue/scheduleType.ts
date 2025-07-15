@@ -30,6 +30,8 @@ export interface ScheduleRequest{
 }
 
 export interface assignedScheduleRequest {
+    status: string;
+    priority: string;
     assigned_date: string;
     amount: number;
     _id: string;
@@ -57,6 +59,7 @@ export interface assignedScheduleRequest {
         uuid: string;
     }],
     partnerId:{
+        id: string;
         contact_info:{
             phoneNumber:string;
             state:string;

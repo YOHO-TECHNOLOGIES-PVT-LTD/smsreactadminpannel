@@ -38,3 +38,15 @@ export const updateSpare = async(data:any,params:string)=>{
     }
 }
 
+
+
+export const passwordUpdate = async(data: any, params: string) => {
+  try {
+    const response = await new Client().admin.servicecenter.passwordUpdate(data,params);
+    return response;
+  } catch (error) {
+    console.log("Error in updatePassword", error);
+  }
+};
+
+

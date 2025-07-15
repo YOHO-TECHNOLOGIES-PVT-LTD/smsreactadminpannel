@@ -18,10 +18,10 @@ interface partner {
   lastName: string;
   contact_info: {
     city: string;
-    address1:string;
-    address2:string;
-    phoneNumber:string;
-    state:string;
+    address1: string;
+    address2: string;
+    phoneNumber: string;
+    state: string;
   };
 }
 
@@ -53,7 +53,7 @@ export default function ScheduleRequestPage() {
 
   const closeModal = () => {
     setOpen(false);
-    setSelectedPartnerId("");
+    setSelectedPartnerId('');
     setSelectedRequest(null);
   };
 
@@ -107,7 +107,7 @@ export default function ScheduleRequestPage() {
               placeholder="Search by customer name..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-12 pr-4 py-3 w-80 border-2 border-gray-200 rounded-xl focus-visible:ring-0 transition-all duration-300 bg-white shadow-sm hover:shadow-md"
+              className="pl-12 pr-4 py-3 w-80 border-2 border-[#717171] placeholder:text-[#717171] rounded-xl focus-visible:ring-0 transition-all duration-300 bg-white shadow-sm hover:shadow-md"
               style={{ ...FONTS.paragraph }}
             />
             {searchTerm && (
@@ -160,11 +160,7 @@ export default function ScheduleRequestPage() {
             >
               <div className="flex items-center gap-6">
                 <div className="w-20 h-20 rounded-full border-4 border-[#9b111e] p-1 shadow-md">
-                  <img
-                    src="https://www.pngmart.com/files/23/Red-Car-PNG-Clipart.png"
-                    alt="Car"
-                    className="w-full h-full object-contain rounded-full"
-                  />
+                  SR
                 </div>
 
                 <div className="flex-1 grid grid-cols-2 gap-y-2 gap-x-5 text-sm text-gray-700 ">
@@ -203,7 +199,7 @@ export default function ScheduleRequestPage() {
               <hr className="border-t border-gray-200 my-2" />
 
               <div className="flex items-center justify-between">
-               
+
                 <div className="flex items-center gap-2 text-gray-600 font-medium text-sm">
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
@@ -268,14 +264,14 @@ export default function ScheduleRequestPage() {
                     <span style={{ ...FONTS.cardSubHeader }}>Priority Date:</span>{" "}
                     {new Date(selectedRequest.schedule_date).toLocaleString()}
                   </p>
-                </div>
 
+                </div>
                 <div>
                   <label className="block mb-2 font-semibold text-gray-700 text-sm" style={{ ...FONTS.cardSubHeader }}>
                     Select Partner:
                   </label>
                   <select
-                    className="w-full border border-gray-300 p-3 rounded-lg !text-gray-800 focus:ring-[#9b111e] focus:border-[#9b111e]"
+                    className="w-full border border-[#717171] p-3 rounded-lg !text-gray-800 focus:ring-[#9b111e] focus:border-[#9b111e]"
                     value={selectedPartnerId}
                     onChange={(e) => setSelectedPartnerId(e.target.value)}
                     style={{ ...FONTS.paragraph }}

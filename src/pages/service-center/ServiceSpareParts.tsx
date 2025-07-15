@@ -16,6 +16,7 @@ import { FaRegEdit } from "react-icons/fa"
 import { MdDelete } from "react-icons/md"
 
 interface ApiSparePart {
+<<<<<<< HEAD
   _id: string
   productName: string
   price: string
@@ -33,31 +34,55 @@ interface ApiSparePart {
   updatedAt: string
   uuid: string
   __v: number
+=======
+	_id: string;
+	productName: string;
+	price: string;
+	slug: string;
+	brand: string;
+	image: string;
+	stock: string;
+	inStock: boolean;
+	category: string;
+	warrantyPeriod: string;
+	reStockAuto: boolean;
+	reStockDate: string | null;
+	isDeleted: boolean;
+	createdAt: string;
+	updatedAt: string;
+	uuid: string;
+	__v: number;
+>>>>>>> 813ce3599e95b58dc43486742255756ee67887ff
 }
 
 interface SparePart {
-  stock: string | number | readonly string[] | undefined
-  productName: string | number | readonly string[] | undefined
-  _id: string
-  id: string
-  name: string
-  image: string
-  price: string
-  quantity: number
-  category: string
-  brand: string
-  rating: number
-  reviews: number
-  inStock: boolean
-  discount?: number
-  active?: boolean
-  warrantyPeriod: string
-  slug: string
+	stock: string | number | readonly string[] | undefined;
+	productName: string | number | readonly string[] | undefined;
+	_id: string;
+	id: string;
+	name: string;
+	image: string;
+	price: string;
+	quantity: number;
+	category: string;
+	brand: string;
+	rating: number;
+	reviews: number;
+	inStock: boolean;
+	discount?: number;
+	active?: boolean;
+	warrantyPeriod: string;
+	slug: string;
 }
 
 interface ApiResponse {
+<<<<<<< HEAD
   success: boolean
   data: ApiSparePart[]
+=======
+	success: boolean;
+	data: ApiSparePart[];
+>>>>>>> 813ce3599e95b58dc43486742255756ee67887ff
 }
 
 interface Category {
@@ -108,9 +133,15 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId, handleBack }) 
   const [showDeleteCategoryModal, setShowDeleteCategoryModal] = useState(false)
   const [currentCategory, setCurrentCategory] = useState<Category | null>(null)
 
+<<<<<<< HEAD
   const handleEdit = (part: any) => {
     setEditPart(part)
   }
+=======
+	const handleEdit = (part: any) => {
+		setEditPart(part);
+	};
+>>>>>>> 813ce3599e95b58dc43486742255756ee67887ff
 
   const handleDelete = async (part: any) => {
     const confirmDelete = window.confirm(`Are you sure you want to delete "${part._id}"?`)
@@ -216,9 +247,15 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId, handleBack }) 
     }
   }, [])
 
+<<<<<<< HEAD
   const calculateDiscountedPrice = (price: string, discount: number) => {
     return Number.parseInt(price) - (Number.parseInt(price) * discount) / 100
   }
+=======
+	const calculateDiscountedPrice = (price: string, discount: number) => {
+		return Number.parseInt(price) - (Number.parseInt(price) * discount) / 100;
+	};
+>>>>>>> 813ce3599e95b58dc43486742255756ee67887ff
 
   const filteredParts = Spareparts.filter(
     (part: any) =>
@@ -228,6 +265,7 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId, handleBack }) 
         part.brand.toLowerCase().includes(searchTerm.toLowerCase())),
   )
 
+<<<<<<< HEAD
   const handleAddPart = async () => {
     const newSparePart: SparePart = {
       ...newPart,
@@ -267,6 +305,48 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId, handleBack }) 
     })
     setShowAddModal(false)
   }
+=======
+	const handleAddPart = async () => {
+		const newSparePart: SparePart = {
+			...newPart,
+			id: `new-${Date.now()}`,
+			inStock: newPart.quantity > 0,
+			reviews: 0,
+			rating: 0,
+			_id: '',
+		};
+		const data: any = {
+			productName: newPart.name,
+			stock: String(newPart.quantity),
+			price: newPart.price,
+			brand: newPart.brand,
+			category: newPart.category,
+			warrantyPeriod: newPart.warrantyPeriod,
+			image: newPart.image,
+			slug: newPart.slug,
+			partnerId,
+		};
+		const response: any = await new Client().admin.spareparts.create(data);
+		console.log(response);
+
+		setSpareParts([...spareParts, newSparePart]);
+		setNewPart({
+			stock: '',
+			productName: '',
+			name: '',
+			image: '',
+			price: '0',
+			quantity: 0,
+			category: '',
+			brand: '',
+			discount: 0,
+			active: true,
+			warrantyPeriod: '',
+			slug: '',
+		});
+		setShowAddModal(false);
+	};
+>>>>>>> 813ce3599e95b58dc43486742255756ee67887ff
 
   const handleAddCategory = async () => {
     try {
@@ -394,6 +474,7 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId, handleBack }) 
             </div>
           </div>
         </div>
+<<<<<<< HEAD
         {/* Search Bar */}
         {showSearch && (
           <div className="container mx-auto px-4 pb-3">
@@ -420,6 +501,39 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId, handleBack }) 
           </div>
         )}
       </div>
+=======
+      ))}
+    </div>
+  </div>
+</div>
+
+				{/* Search Bar */}
+				{showSearch && (
+					<div className='container mx-auto px-4 pb-3'>
+						<div className='relative'>
+							<input
+								type='text'
+								className='w-full px-4 py-2 pl-10 border border-red-200 focus:border-red-500 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-red-100 transition-all'
+								placeholder='Search parts, brands, categories...'
+								value={searchTerm}
+								onChange={(e) => setSearchTerm(e.target.value)}
+								autoFocus
+							/>
+							<Search className='absolute left-3 top-2.5 w-4 h-4 text-gray-400' />
+							{searchTerm && (
+								<button
+									className='absolute right-3 top-2.5 text-gray-400 hover:text-gray-600 rounded-3xl'
+									onClick={() => setSearchTerm('')}
+									aria-label='Clear search'
+								>
+									×
+								</button>
+							)}
+						</div>
+					</div>
+				)}
+			</div>
+>>>>>>> 813ce3599e95b58dc43486742255756ee67887ff
 
       {/* Main Content */}
       <div className="container mx-auto px-4 py-6">
@@ -456,6 +570,7 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId, handleBack }) 
                   >
                     <EllipsisVertical className="w-4 h-4 text-black" />
                   </button>
+<<<<<<< HEAD
                   {menuOpenId === part._id && (
                     <div className="absolute right-3 top-12 z-20 w-32 bg-white border border-gray-200 rounded-3xl shadow-lg">
                       <button
@@ -489,6 +604,44 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId, handleBack }) 
                     loading="lazy"
                   />
                 </div>
+=======
+
+									{menuOpenId === part._id && (
+										<div className='absolute right-3 top-12 z-20 w-32 bg-white border border-gray-200 rounded-3xl shadow-lg'>
+											<button
+												className='w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'
+												onClick={(e) => {
+													e.stopPropagation();
+													handleEdit(part);
+													setMenuOpenId(null);
+												}}
+											>
+												Edit
+											</button>
+											<button
+												className='w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 rounded-3xl'
+												onClick={(e) => {
+													e.stopPropagation();
+													handleDelete(part);
+													setMenuOpenId(null);
+												}}
+											>
+												Delete
+											</button>
+										</div>
+									)}
+								</div>
+
+								<div className='relative h-48 bg-gray-50 overflow-hidden'>
+									<img
+										className='w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-300'
+										src={part.image}
+										alt={part.productName}
+										loading='lazy'
+									/>
+								</div>
+
+>>>>>>> 813ce3599e95b58dc43486742255756ee67887ff
                 <div className="p-5">
                   <div className="flex items-center justify-between mb-2">
                     <span
@@ -567,6 +720,7 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId, handleBack }) 
         )}
       </div>
 
+<<<<<<< HEAD
       {/* Add Spare Part Modal */}
       {showAddModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
@@ -584,6 +738,32 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId, handleBack }) 
                 </button>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 !text-gray-900" style={{ ...FONTS.paragraph }}>
+=======
+			{/* Add Spare Part Modal */}
+			{showAddModal && (
+				<div className='fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50'>
+					<div className='bg-white rounded-xl shadow-lg w-full max-w-2xl max-h-[90vh] overflow-y-auto'>
+						<div className='p-6'>
+							<div className='flex items-center justify-between mb-6'>
+								<h2
+									className='text-2xl font-bold !text-gray-900'
+									style={{ ...FONTS.header }}
+								>
+									Add New Spare Part
+								</h2>
+								<button
+									onClick={() => setShowAddModal(false)}
+									className='p-2 text-gray-400 hover:text-gray-600 rounded-3xl hover:bg-gray-100'
+								>
+									×
+								</button>
+							</div>
+
+              <div
+                className="grid grid-cols-1 md:grid-cols-2 gap-6 !text-gray-900"
+                style={{ ...FONTS.paragraph }}
+              >
+>>>>>>> 813ce3599e95b58dc43486742255756ee67887ff
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Part Name*</label>
                   <input
@@ -701,6 +881,7 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId, handleBack }) 
                     placeholder="Enter discount percentage"
                   />
                 </div>
+<<<<<<< HEAD
                 <div className="flex items-center">
                   <input
                     type="checkbox"
@@ -714,6 +895,28 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId, handleBack }) 
                   </label>
                 </div>
               </div>
+=======
+
+								<div className='flex items-center'>
+									<input
+										type='checkbox'
+										id='active-status'
+										className='h-4 w-4 text-red-600 focus:ring-red-500 border-gray-300 rounded'
+										checked={newPart.active}
+										onChange={(e) =>
+											setNewPart({ ...newPart, active: e.target.checked })
+										}
+									/>
+									<label
+										htmlFor='active-status'
+										className='ml-2 block text-sm text-gray-700'
+									>
+										Active Part
+									</label>
+								</div>
+							</div>
+
+>>>>>>> 813ce3599e95b58dc43486742255756ee67887ff
               <div className="mt-8 flex justify-end gap-3">
                 <button
                   type="button"
@@ -921,6 +1124,7 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId, handleBack }) 
         </div>
       )}
 
+<<<<<<< HEAD
       {selectedPart && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
           <div className="bg-white rounded-md shadow-lg w-full max-w-xl">
@@ -933,6 +1137,21 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId, handleBack }) 
                   ×
                 </button>
               </div>
+=======
+			{selectedPart && (
+				<div className='fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50'>
+					<div className='bg-white rounded-md shadow-lg w-full max-w-xl'>
+						<div className='p-4'>
+							<div className='flex items-center justify-end mb-4'>
+								<button
+									onClick={() => setSelectedPart(null)}
+									className='px-2 font-bold text-gray-400 text-xl hover:text-gray-600 rounded-3xl hover:bg-gray-100'
+								>
+									×
+								</button>
+							</div>
+
+>>>>>>> 813ce3599e95b58dc43486742255756ee67887ff
               <img
                 src={selectedPart.image || "/placeholder.svg"}
                 alt={selectedPart.name}
@@ -994,6 +1213,7 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId, handleBack }) 
         </div>
       )}
 
+<<<<<<< HEAD
       {editPart && (
         <div className="fixed inset-0  bg-black/50 flex items-center justify-center z-50 ">
           <div className="bg-white rounded-md shadow-lg w-full max-w-xl m-12">
@@ -1012,6 +1232,36 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId, handleBack }) 
               <div className="grid grid-cols-2 gap-4 !text-gray-700" style={{ ...FONTS.paragraph }}>
                 <div className="col-span-2">
                   <label className="block text-sm font-medium text-gray-700">Product Image</label>
+=======
+			{editPart && (
+				<div className='fixed inset-0  bg-black/50 flex items-center justify-center z-50 '>
+					<div className='bg-white rounded-md shadow-lg w-full max-w-xl m-12'>
+						<div className='p-4'>
+							<div className='flex items-center justify-between mb-4'>
+								<h2
+									className='text-xl font-semibold !text-gray-800'
+									style={{ ...FONTS.header }}
+								>
+									Edit Part
+								</h2>
+								<button
+									onClick={() => setEditPart(null)}
+									className='px-2 font-bold text-gray-400 text-xl hover:text-gray-600 rounded-3xl hover:bg-gray-100'
+								>
+									×
+								</button>
+							</div>
+
+							<div
+								className='grid grid-cols-2 gap-4 !text-gray-700'
+								style={{ ...FONTS.paragraph }}
+							>
+								<div className='col-span-2'>
+									<label className='block text-sm font-medium text-gray-700'>
+										Product Image
+									</label>
+
+>>>>>>> 813ce3599e95b58dc43486742255756ee67887ff
                   <input
                     type="file"
                     accept="image/*"
@@ -1026,6 +1276,7 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId, handleBack }) 
                     className="mt-1 block w-full text-sm file:bg-red-50 file:border file:border-red-300 file:rounded file:px-3 file:py-1 file:text-black hover:file:bg-red-100"
                   />
                 </div>
+<<<<<<< HEAD
                 <div className="col-span-2">
                   <label className="block text-sm font-medium text-gray-700">Name</label>
                   <input
@@ -1036,6 +1287,24 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId, handleBack }) 
                     className="mt-1 block w-full border-gray-300 shadow-sm outline-none focus:border-b-2 focus:border-b-red-500"
                   />
                 </div>
+=======
+
+								<div className='col-span-2'>
+									<label className='block text-sm font-medium text-gray-700'>
+										Name
+									</label>
+									<input
+										title='Part Name'
+										type='text'
+										value={editPart.productName}
+										onChange={(e) =>
+											setEditPart({ ...editPart, name: e.target.value })
+										}
+										className='mt-1 block w-full border-gray-300 shadow-sm outline-none focus:border-b-2 focus:border-b-red-500'
+									/>
+								</div>
+
+>>>>>>> 813ce3599e95b58dc43486742255756ee67887ff
                 <div>
                   <label className="block text-sm font-medium text-gray-700">Category</label>
                   <select
@@ -1051,6 +1320,7 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId, handleBack }) 
                     ))}
                   </select>
                 </div>
+<<<<<<< HEAD
                 <div>
                   <label className="block text-sm font-medium text-gray-700">Brand</label>
                   <input
@@ -1140,6 +1410,129 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId, handleBack }) 
                   </select>
                 </div>
               </div>
+=======
+
+								<div>
+									<label className='block text-sm font-medium text-gray-700'>
+										Brand
+									</label>
+									<input
+										title='Brand'
+										type='text'
+										value={editPart.brand}
+										onChange={(e) =>
+											setEditPart({ ...editPart, brand: e.target.value })
+										}
+										className='mt-1 block w-full border-gray-300 shadow-sm outline-none focus:border-b-2 focus:border-b-red-500'
+									/>
+								</div>
+
+								<div>
+									<label className='block text-sm font-medium text-gray-700'>
+										Slug
+									</label>
+									<input
+										title='Slug'
+										type='text'
+										value={editPart.slug}
+										onChange={(e) =>
+											setEditPart({ ...editPart, slug: e.target.value })
+										}
+										className='mt-1 block w-full border-gray-300 shadow-sm outline-none focus:border-b-2 focus:border-b-red-500'
+									/>
+								</div>
+
+								<div>
+									<label className='block text-sm font-medium text-gray-700'>
+										Warranty Period
+									</label>
+									<input
+										title='Warranty Period'
+										type='text'
+										value={editPart.warrantyPeriod}
+										onChange={(e) =>
+											setEditPart({
+												...editPart,
+												warrantyPeriod: e.target.value,
+											})
+										}
+										className='mt-1 block w-full border-gray-300 shadow-sm outline-none focus:border-b-2 focus:border-b-red-500'
+									/>
+								</div>
+
+								<div>
+									<label className='block text-sm font-medium text-gray-700'>
+										Quantity
+									</label>
+									<input
+										title='Quantity'
+										type='number'
+										value={editPart.stock}
+										onChange={(e) =>
+											setEditPart({
+												...editPart,
+												quantity: parseInt(e.target.value, 10),
+											})
+										}
+										className='mt-1 block w-full border-gray-300 shadow-sm outline-none focus:border-b-2 focus:border-b-red-500'
+									/>
+								</div>
+
+								<div>
+									<label className='block text-sm font-medium text-gray-700'>
+										Price
+									</label>
+									<input
+										title='Price'
+										type='number'
+										value={editPart.price}
+										onChange={(e) =>
+											setEditPart({ ...editPart, price: e.target.value })
+										}
+										className='mt-1 block w-full border-gray-300 shadow-sm outline-none focus:border-b-2 focus:border-b-red-500'
+									/>
+								</div>
+
+								<div>
+									<label className='block text-sm font-medium text-gray-700'>
+										Discount (%)
+									</label>
+									<input
+										title='Discount'
+										type='number'
+										value={editPart.discount || 0}
+										onChange={(e) =>
+											setEditPart({
+												...editPart,
+												discount: parseInt(e.target.value, 10),
+											})
+										}
+										className='mt-1 block w-full border-gray-300 shadow-sm outline-none focus:border-b-2 focus:border-b-red-500'
+									/>
+								</div>
+
+								<div className='col-span-2'>
+									<label className='block text-sm font-medium text-gray-700'>
+										Active
+									</label>
+									<select
+										title='Active Status'
+										value={editPart.inStock ? 'true' : 'false'}
+										onChange={(e) =>
+											setEditPart({
+												...editPart,
+												inStock: e.target.value === 'true',
+											})
+										}
+										className='mt-1 block w-full border-gray-300 shadow-sm outline-none focus:border-b-2 focus:border-b-red-500'
+									>
+										<option value='true'>Active</option>
+										<option value='false'>Inactive</option>
+									</select>
+								</div>
+							</div>
+
+>>>>>>> 813ce3599e95b58dc43486742255756ee67887ff
               <div className="mt-6 flex justify-end gap-3">
                 <button
                   className="px-4 py-2 bg-gray-100 text-gray-700 rounded-3xl hover:bg-gray-200"

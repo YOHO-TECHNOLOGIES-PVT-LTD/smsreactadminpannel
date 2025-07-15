@@ -26,19 +26,21 @@ import Order from "../pages/Orders/order";
 import TermsConditionsSettings from "../pages/Settings/TermsConditionsSettings";
 import PrivacyPolicySettings from "../pages/Settings/PrivacyPolicySettings";
 import ScheduledRequestsPage from "../pages/Request-Queue/ScheduledRequestsPage";
+import OrderHistory from "../pages/Orders/orderHistory";
+import JobCardHistory from "../pages/job-cards/JobCardHistory";
 
 const AppRoutes = () => {
   const { isAuthenticated, isLoading } = useAuth();
 
   if (isLoading) return null;
 
-  const AuthRoutes = () => (
-    <Routes>
-      <Route path="/login" element={<LoginPage />} />
-      <Route path="/signup" element={<SignupPage />} />
-      <Route path="*" element={<Navigate to="/login" />} />
-    </Routes>
-  );
+	const AuthRoutes = () => (
+		<Routes>
+			<Route path='/login' element={<LoginPage />} />
+			<Route path='/signup' element={<SignupPage />} />
+			<Route path='*' element={<Navigate to='/login' />} />
+		</Routes>
+	);
 
   const AdminRoutes = () => (
     <Routes>
@@ -51,6 +53,7 @@ const AppRoutes = () => {
         />
         <Route path="service" element={<ServiceManagementPage />} />
         <Route path="job-cards" element={<JobCardsPage />} />
+        <Route path="job-history" element={<JobCardHistory />} />
         <Route path="city" element={<CityManagementPage />} />
         <Route path="vehicle" element={<VehicleManagementPage />} />
         <Route path="announcement" element={<Announcement />} />
@@ -66,6 +69,7 @@ const AppRoutes = () => {
         <Route path="/request-queue/scheduled" element={<ScheduledRequestsPage/>}/>
         <Route path="/customer" element={<CustomerManagement/>}/>
         <Route path="/order" element={<Order/>}/>
+        <Route path="/order/orders-history" element={<OrderHistory/>}/>
         {/* <Route path="service/profile" element={<ServiceCenterProfileView/>}/> */}
         <Route path="terms-conditions" element={<TermsConditionsSettings />} />
         <Route path="privacy-policy" element={<PrivacyPolicySettings />} />
@@ -73,7 +77,7 @@ const AppRoutes = () => {
     </Routes>
   );
 
-  return isAuthenticated ? <AdminRoutes /> : <AuthRoutes />;
+	return isAuthenticated ? <AdminRoutes /> : <AuthRoutes />;
 };
 
 export default AppRoutes;
