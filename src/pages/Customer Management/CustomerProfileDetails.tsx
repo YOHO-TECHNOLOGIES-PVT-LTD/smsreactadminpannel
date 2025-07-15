@@ -105,8 +105,8 @@ const CustomerProfileDetails: React.FC<handle> = ({ handleBack,CustomerId}) => {
           >
             {[
               { icon: <MdCall />, label: "Phone", value: customerData?.customerData?.contact_info?.phoneNumber  || "N/A" },
-              { icon: <MdEmail />, label: "Email", value: customerData?. customerData?.email || "N/A" },
-              { icon: <FaCar />, label: "Vehicles", value: customerData?.customerData?.vechicle || "N/A" },
+              { icon: <MdEmail />, label: "Email", value: customerData?.customerData?.email || "N/A" },
+              { icon: <FaCar />, label: "Vehicles", value: customerData?.customerData?.vehicleInfo?.registerNumber || "N/A" },
               { icon: <FaLocationDot />, label: "Address", value: customerData?.customerData?.contact_info?.address1 || "N/A" }
             ].map((item, index) => (
               
