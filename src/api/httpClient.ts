@@ -55,17 +55,28 @@ class HttpClient{
         return response;
     }
 
-  async update(url:string,data?:string,params?:string){
+//   async update(url:string,data?:string,params?:string){
 
-    const response =await Axios.put(url,data,{
-        params:params,
-        headers:{
+//     const response =await Axios.put(url,data,{
+//         params:params,
+//         headers:{
 
-        }
+//         }
          
-    });
-    return response?.data;
-  }
+//     });
+//     return response?.data;
+//   }
+
+async update(url: string, data?: any, params?: any) {
+  const response = await Axios.put(url, data, {
+    params: params,
+    headers: {
+      // Optional headers (Auth etc.)
+    }
+  });
+  return response?.data;
+}
+
 
     async patch(url: string, params?: string) {
 

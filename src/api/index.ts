@@ -50,12 +50,18 @@ order_history: {
         httpClient.get(API_END_POINTS.order_history.getAll, params),
       getOldHistory: (params: string) =>
         httpClient.get(API_END_POINTS.order_history.getOldHistory, params),
-      updateStatus: (data: any, params: string) =>
-        httpClient.update(
-          API_END_POINTS.order_history.updateStatus,
-          data,
-          params
-        ),
+      // updateStatus: (id:string, data:any) =>
+      //   httpClient.update(
+      //     API_END_POINTS.order_history.updateStatus,
+      //     id,
+      //     data,
+      //   ),
+        updateStatus: (id: string, data: any) =>
+  httpClient.update(
+    API_END_POINTS.order_history.updateStatus.replace(':id', id), 
+    data 
+  ),
+
       delete: () => httpClient.delete(API_END_POINTS.order_history.delete),
     },
 
