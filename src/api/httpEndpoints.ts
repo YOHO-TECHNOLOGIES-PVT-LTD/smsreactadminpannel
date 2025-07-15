@@ -84,12 +84,13 @@ export const API_END_POINTS = {
     update:"/api/admin/spareparts/update/:id",
     updatestatus:"/api/admin/spareparts/updatestatus/:id",
     delete:"/api/admin/spareparts/delete/:id",
+
     category:{
-      create:"/api/admin/spareparts/category/create",
-      getall:"/api/admin/spareparts/category/getall",
-      put:"/api/admin/spareparts/category/update/:uuid",
-      delete:"/api/admin/spareparts/category/delete/:uuid",
-    },
+      create:"/api/products/category/",
+      getall:  "/api/products/category/getall",
+      put : "/api/products/category/update/:uuid",
+      delete:  "/api/products/category/delete/:uuid",
+    }
    },
 
   serviceCenter: {
