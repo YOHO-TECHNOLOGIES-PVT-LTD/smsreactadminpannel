@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import FullscreenButton from "./Fullscreen";
@@ -6,6 +7,7 @@ import { useAuth } from "../../../pages/auth/AuthContext";
 import { FONTS } from "../../../constants/uiConstants";
 import { useSocket } from "../../../context/adminSocket";
 import { getAllNotification } from "../Notification/services";
+import { getProfile } from "../../../features/Auth/service";
 
 interface User {
   name: string;
@@ -42,17 +44,20 @@ export const Navbar = () => {
 
   const [notifications, setNotifications] = useState<Notification[]>([]);
 
-  const [user] = useState<User>({
-    name: "John Doe",
-    phone: "+1 856-589-998-1236",
-    email: "johndoe3108@gmail.com",
-    avatar:
-      "https://img.freepik.com/free-photo/cute-smiling-young-man-with-bristle-looking-satisfied_176420-18989.jpg?semt=ais_hybrid&w=740",
-    role: "System Administrator",
-    location: "San Francisco, CA",
-    joinDate: "August 17, 2018",
-    status: "Active",
+  const [user,setuser] = useState<any>({
+    firstName:"",
+    image:""
   });
+  
+
+  const fetchProfile = async () => {
+        try {
+          const data: any = await getProfile('');
+          setuser(data.data.data);
+        } catch (error) {
+          console.error('Failed to fetch profile:', error);
+        }
+  };
 
   // Handle outside clicks for dropdown & notifications
   useEffect(() => {
@@ -70,6 +75,7 @@ export const Navbar = () => {
         setShowNotifications(false);
       }
     };
+    fetchProfile()
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
@@ -127,12 +133,12 @@ export const Navbar = () => {
     }
 
     socket.on("newNotification", handleNotify);
-    setNotifications((prev)=> [...notifications, ...prev])
+    setNotifications((prev:any)=> [notifications, ...prev])
 
     return ()=>{
       socket.off("newNotification", handleNotify)
     }
-  },[socket])
+  },[])
 
   return (
     <>
@@ -278,7 +284,7 @@ export const Navbar = () => {
             >
               <div className="w-10 h-10 rounded-full overflow-hidden flex-shrink-0">
                 <img
-                  src={user.avatar}
+                  src={user.image}
                   alt="User Avatar"
                   className="w-full h-full object-cover"
                 />
@@ -290,7 +296,7 @@ export const Navbar = () => {
                   fontSize: "14px",
                   color: 'white' }}
                 >
-                  {user.name}
+                  {user.firstName}
                 </span>
                 <div className="flex items-center whitespace-nowrap"
                   style={{  fontFamily: "'Figtree', sans-serif",
@@ -352,8 +358,7 @@ export const Navbar = () => {
       <ProfileModal
         isOpen={showProfileDetails}
         onClose={() => setShowProfileDetails(false)}
-        onUserUpdate={handleUserUpdate}
-      />
+        onUserUpdate={handleUserUpdate} user={undefined}      />
 
       {/* Logout Confirmation Modal */}
       {showLogoutConfirm && (

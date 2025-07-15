@@ -14,6 +14,7 @@ import { CheckCircle, AlertCircle } from "lucide-react"
 // import { Settings } from "lucide-react";
 import Client from "../../api"
 import { FONTS } from "../../constants/uiConstants"
+import { toast } from "react-toastify"
 
 // import {  useNavigate } from "react-router-dom";
 
@@ -236,19 +237,19 @@ const [confirmPassword, setConfirmPassword] = useState("");
 
   const handlePasswordUpdate = async () => {
   if (newPassword !== confirmPassword) {
-    alert("Passwords do not match");
+    toast.error("Passwords do not match");
     return;
   }
 
   try {
     await new Client().admin.servicecenter.passwordUpdate({password:confirmPassword},partner._id);
-    alert("Password updated successfully");
+    toast.success("Password updated successfully");
     setShowPasswordModal(false);
     setNewPassword("");
     setConfirmPassword("");
   } catch (error) {
     console.error("Failed to update password", error);
-    alert("Something went wrong while updating the password.");
+    toast.error("Something went wrong while updating the password.");
   }
 };
 

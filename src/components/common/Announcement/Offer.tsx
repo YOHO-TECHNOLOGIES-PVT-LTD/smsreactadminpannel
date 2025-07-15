@@ -124,6 +124,9 @@ const Offer = () => {
               <p className="text-[#9b111e] font-bold mt-2" style={{ ...FONTS.cardSubHeader }}>
                 Start from {item.offer}
               </p>
+              <p className="text-[#9b111e] font-bold mt-2" style={{ ...FONTS.cardSubHeader }}>
+                {item.description}
+              </p>
 
              <div className="flex gap-3 mt-4">
              
