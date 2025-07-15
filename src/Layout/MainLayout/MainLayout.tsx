@@ -43,7 +43,7 @@ export const MainLayout = () => {
                 <div className="flex-1 flex flex-col overflow-hidden">
                     <Navbar />
                     <main className="flex-1 overflow-auto scrollbar-hide">
-                        <div className="p-4 rounded shadow" style={{ backgroundColor: COLORS.bgColor }}>
+                        <div className="p-4 rounded shadow px-8" style={{backgroundColor: COLORS.bgColor}}>
                             <Outlet />
                         </div>
                     </main>

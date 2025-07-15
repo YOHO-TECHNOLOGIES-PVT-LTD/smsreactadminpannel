@@ -27,6 +27,7 @@ import TermsConditionsSettings from "../pages/Settings/TermsConditionsSettings";
 import PrivacyPolicySettings from "../pages/Settings/PrivacyPolicySettings";
 import ScheduledRequestsPage from "../pages/Request-Queue/ScheduledRequestsPage";
 import OrderHistory from "../pages/Orders/orderHistory";
+import JobCardHistory from "../pages/job-cards/JobCardHistory";
 
 const AppRoutes = () => {
   const { isAuthenticated, isLoading } = useAuth();
@@ -52,6 +53,7 @@ const AppRoutes = () => {
         />
         <Route path="service" element={<ServiceManagementPage />} />
         <Route path="job-cards" element={<JobCardsPage />} />
+        <Route path="job-history" element={<JobCardHistory />} />
         <Route path="city" element={<CityManagementPage />} />
         <Route path="vehicle" element={<VehicleManagementPage />} />
         <Route path="announcement" element={<Announcement />} />
