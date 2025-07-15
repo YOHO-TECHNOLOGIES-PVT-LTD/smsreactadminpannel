@@ -92,7 +92,7 @@ export const JobCardsPage: React.FC = () => {
 <div>
   <button
     className="bg-[#a00000] !text-white  px-4 py-2 rounded-3xl   active:scale-110 transition whitespace-nowrap"
-    style={{ ...FONTS.cardSubHeader }}
+    style={{ ...FONTS.cardSubHeader }} onClick={() => navigate(`/job-history`)}
   >
     History
   </button>

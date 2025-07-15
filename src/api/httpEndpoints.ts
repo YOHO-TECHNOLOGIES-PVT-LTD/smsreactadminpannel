@@ -13,6 +13,7 @@ export const API_END_POINTS = {
     Post: "/api/jobcardscreateCard",
     Get: "/api/jobcards/getOne/:id",
     GetAll: "/api/jobcards/getAll",
+    GetJobHistory: "/api/jobcards/getAll/history",
     Put: "/api/jobcards/updateCard/:id",
   },
 
