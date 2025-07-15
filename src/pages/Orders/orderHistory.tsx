@@ -352,6 +352,9 @@ const OrderHistory = () => {
                         <span className="font-medium !text-gray-600"style={{...FONTS.paragraph}}>Email:</span> {selectedOrder.email}
                       </p>
                       <p className="!text-gray-600">
+                        <span className="font-medium !text-gray-600" style={{ ...FONTS.paragraph }}>Phone Number:</span> {selectedOrder?.customerId?.contact_info?.phoneNumber}
+                      </p>
+                      <p className="!text-gray-600">
                         <span className="font-medium !text-gray-600"style={{...FONTS.paragraph}}>Status:</span> 
                         <span className={`ml-2 px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
                           ${selectedOrder.status === 'Completed' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}`}>
