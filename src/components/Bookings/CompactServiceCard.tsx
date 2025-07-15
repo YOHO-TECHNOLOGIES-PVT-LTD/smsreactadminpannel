@@ -1,9 +1,9 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { updatePendingRequest } from "../../pages/Bookings/service";
 import { FetchPartnerList } from "../../utils/CommonApiFetch";
+import { useSocket } from "../../context/adminSocket";
 import { FaCalendarAlt } from "react-icons/fa";
 import { BsFillClockFill } from "react-icons/bs";
 import { FaUser } from "react-icons/fa";
@@ -48,13 +48,12 @@ interface CompactServiceCardProps {
 	onAssign?: (requestId: string, partner: string) => void;
 }
 
-const CompactServiceCard: React.FC<CompactServiceCardProps> = ({
-	request,
-	onAssign,
-}) => {
-	const [isModalOpen, setIsModalOpen] = useState(false);
-	const [selectedPartner, setSelectedPartner] = useState('');
-	const [partnerList, setpartnerList] = useState<any[]>([]);
+const CompactServiceCard: React.FC<CompactServiceCardProps> = ({ request, onAssign }) => {
+  console.log("request", request)
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedPartner, setSelectedPartner] = useState("");
+  const [partnerList, setpartnerList] = useState<any[]>([]);
+  const socket = useSocket();
 
 	const handleAssign = async () => {
 		if (!selectedPartner) {
@@ -65,19 +64,37 @@ const CompactServiceCard: React.FC<CompactServiceCardProps> = ({
 		const data = { uuid: request.uuid };
 		await updatePendingRequest(selectedPartner, data);
 
-		if (onAssign) {
-			onAssign(request.uuid, selectedPartner);
-		}
+    // Call the onAssign callback if provided
+    if (onAssign) {
+      onAssign(request.uuid, selectedPartner);
+    }
+    
+    setIsModalOpen(false);
+    setSelectedPartner("");
 
-		setIsModalOpen(false);
-		setSelectedPartner('');
-	};
+    const partnerNotification = {
+      title: "New Service Assigned",
+      message: `You have been assigned a service...`,
+      type: "info",
+      priority: "medium",
+      recipient_type: "partner",
+      recipient_id: selectedPartner,
+      is_read: false,
+      is_active: true,
+      is_sent: false, 
+      created_at: new Date().toISOString(),
+    };
 
-	async function setOpenModel() {
-		const data: any = await FetchPartnerList();
-		setpartnerList(data);
-		setIsModalOpen(true);
-	}
+    if (!socket) return null;
+    socket.emit("newNotification", partnerNotification);
+    console.log("Notification emitted:", partnerNotification);
+  };
+   
+  async function setOpenModel() {
+    const data:any = await FetchPartnerList()
+    setpartnerList(data)
+    setIsModalOpen(true)
+  }
 
   return (
     <>

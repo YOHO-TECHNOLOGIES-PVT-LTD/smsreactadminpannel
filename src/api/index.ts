@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+// import { data } from "react-router-dom";
 import httpClient from "./httpClient";
 import { API_END_POINTS } from "./httpEndpoints";
 
@@ -9,7 +10,7 @@ admin={
     getById:(params:string)=>httpClient.get(API_END_POINTS.notification.GetById ,params),
     markAllAsread:(params:string,data:string)=>httpClient.update(API_END_POINTS.notification.markAllAsRead,params,data),
     delete:()=>httpClient.delete(API_END_POINTS.notification.delete),
-    getAll:(data:string)=>httpClient.get(API_END_POINTS.notification.getall,data),
+    getAll:()=>httpClient.get(API_END_POINTS.notification.getall),
     getstats:(params:string)=>httpClient.get(API_END_POINTS.notification.Getstats,params),
     create:(data:string)=>httpClient.post(API_END_POINTS.notification.create,data),
     getByUser:(params:string)=>httpClient.get(API_END_POINTS.notification.getByUser,params) ,
@@ -62,7 +63,7 @@ order_history: {
       getallCustomer:(data:any)=>httpClient.get(API_END_POINTS.customer_management.getAll,data),
     },
     customermanagement_history:{
-      getallHistory:(data:any)=>httpClient.get(API_END_POINTS.customermanagement_history.getAll,data)
+      getallHistory:(params:string)=>httpClient.get(API_END_POINTS.customermanagement_history.getAll.replace(':customerid',params))
     },
 
 
@@ -100,6 +101,7 @@ profile:{
 				httpClient.get(API_END_POINTS.enquiry.Get, params),
 			put: (data: string, params: string) =>
 				httpClient.update(API_END_POINTS.enquiry.Put, data, params),
+      putstatus:(data:any)=>httpClient.update(API_END_POINTS.enquiry.put.replace(':id', data.id),data)
 		},
 
 		vechiclemanage: {
@@ -126,7 +128,8 @@ profile:{
   postPartner:(data:any)=>httpClient.post(API_END_POINTS.serviceCenter.postPartner,data),
   update:(data:any,params:string)=>httpClient.update(API_END_POINTS.serviceCenter.updatePatner.replace(':id',params),data,''),
   delete:(id:string)=>httpClient.delete(API_END_POINTS.serviceCenter.delete.replace(':id',id)),
-  getCatEvery:()=>httpClient.get(API_END_POINTS.serviceCenter.getCatevery)
+  getCatEvery:()=>httpClient.get(API_END_POINTS.serviceCenter.getCatevery),
+  passwordUpdate:(data:any,params:string)=>httpClient.update(API_END_POINTS.serviceCenter.passwordUpdate.replace(":id",params),data)
  },
  category:{
   create:(data:any)=>httpClient.post(API_END_POINTS.category.create,data),
@@ -159,6 +162,9 @@ profile:{
   updateReq:(data:any,params:string)=>httpClient.update(API_END_POINTS.scheduleReq.updateReq.replace(':id',params),data)
  },
 
+ Subcription:{
+   post: (data:any)=>httpClient.post(API_END_POINTS.notificationSubcription.post,data),
+ }
 
 }
 

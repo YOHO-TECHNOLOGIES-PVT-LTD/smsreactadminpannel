@@ -1,5 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useState } from "react";
-// import Logo from "../../../assets/LOGO.jpg";
 import { HiOutlineXMark } from "react-icons/hi2";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -10,43 +10,24 @@ type QuotationItem = {
   unitPrice: number;
 };
 
-type quotation ={
-  _id:string;
-  createdAt:string;
-  partnerId:{
-    image:string;
-    companyName:string;
-    regNo:string;
-    contact_info:{
-      address1:string;
-      city:string;
-      phoneNumber:string;
-    };
-    customerInfo:{
-      email:string;
-      phoneNumber:string;
-    };
-  };
-  customerInfo:{
-    name:string;
-    address:string;
-    adsress:string;
-    contactNo:string;
-    email:string;
-  },
-  serviceInfo:{
-    amount:string;
-    totalAmount:string;
-    products:any[];
-    services:any[];
-  }
-}
+// type quotation ={
+//   _id:string;
+//   customerInfo:{
+//     name:string;
+//     adsress:string;
+//     contactNo:string;
+//     email:string;
+//   },
+//   serviceInfo:{
+//     amount:string;
+//   }
+// }
 
 const QuotationPage: React.FC = () => {
 
   const navigate = useNavigate();
 
-  const [quotation, setquotation] = useState<quotation>();
+  const [quotation, setquotation] = useState<any>();
 
   const {id} = useParams()
   
@@ -65,6 +46,7 @@ const QuotationPage: React.FC = () => {
     return () => {
       
     };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleClick = () => {
@@ -140,7 +122,7 @@ const QuotationPage: React.FC = () => {
                 </tr>
               </thead>
               <tbody>
-                {quotation?.serviceInfo?.products.map((item, index) => (
+                {quotation?.serviceInfo?.products.map((item:any, index:number) => (
                   <tr key={index}>
                     <td className="border px-3 py-2">{item?.description}</td>
                     <td className="border px-3 py-2 text-center">{item?.quantity}</td>
@@ -152,7 +134,7 @@ const QuotationPage: React.FC = () => {
                     </td>
                   </tr>
                 ))}
-                {quotation?.serviceInfo?.services.map((item, index) => (
+                {quotation?.serviceInfo?.services.map((item:any, index:number) => (
                   <tr key={index}>
                     <td className="border px-3 py-2">{item?.description}</td>
                     <td className="border px-3 py-2 text-center">{item?.quantity}</td>

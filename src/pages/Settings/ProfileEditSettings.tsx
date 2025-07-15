@@ -440,7 +440,7 @@ const ProfileEditSettings: React.FC = () => {
     <input
       type="text"
       name="billing.gst"
-       className={`w-64 ${inputClass}`}
+       className={`w-44 ${inputClass}`}
     />
    
   </div>

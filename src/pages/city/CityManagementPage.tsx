@@ -31,18 +31,18 @@ export const CityManagementPage: React.FC = () => {
 				</div>
 			</div>
 
-			<div className='relative max-w-md mb-4 mt-4'>
-				<span className='absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500'>
-					<CiSearch className='text-red-900' size={20} />
-				</span>
-				<input
-					type='search'
-					placeholder='Search by city name'
-					className='pl-10 pr-4 py-2 w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#9b111e]'
-					value={searchTerm}
-					onChange={(e) => setSearchTerm(e.target.value)}
-				/>
-			</div>
+      <div className="relative max-w-md mb-4 mt-4">
+        <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">
+          <CiSearch className="text-red-900" size={20} />
+        </span>
+        <input
+          type="search"
+          placeholder="Search by city name"
+          className="pl-10 pr-4 py-2 w-full border border-[#717171] placeholder:text-[#717171] rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#9b111e]"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+      </div>
 
 			<div className='flex flex-col md:flex-row gap-4 mt-6 rounded-lg overflow-hidden border border-gray-100 mt-8 bg-white'>
 				<div className='w-full md:w-1/2 h-[500px] border-8 border-white rounded-lg shadow-lg'>

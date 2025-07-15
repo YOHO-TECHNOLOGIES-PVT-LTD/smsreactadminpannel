@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FiX, FiSearch,  FiClock, FiCheckCircle, FiRotateCw, FiChevronLeft, FiChevronRight } from 'react-icons/fi';
@@ -19,15 +20,19 @@ interface Service {
 
 type Product = {
   id: number;
-  date: string;
-  name: string;
+  join_date: string;
+  service_name: string;
   vehicle: string;
   vehicleNo: string;
   price: string;
   serviceDetails?: Service;
 };
+interface serviceshistory{
+  customerData:any
+}
 
-const CustomerServiceDetails = () => {
+// const CustomerServiceDetails :React.FC<Product>{
+const CustomerServiceDetails: React.FC<serviceshistory> = ( {customerData} ) => {
   const [selectedService, setSelectedService] = useState<Service | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
@@ -36,232 +41,30 @@ const CustomerServiceDetails = () => {
   const [itemsPerPage] = useState(7);
 
 
-  const productsData: Product[] = [
-    { 
-      id: 1, 
-      date: "Apr 14, 2026", 
-      name: "Engine Repair",
-      vehicle: 'BMW', 
-      vehicleNo: 'TN 69 L 8743', 
-      price: '₹2,999',
-      serviceDetails: {
-        id: 1,
-        name: "Engine Repair",
-        description: "Complete engine diagnostics and repair service including oil change, filter replacement, and tune-up.",
-        wash: "Foam Wash",
-        duration: "3-4 hours",
-        status: "Completed",
-        price: "₹2,999",
-        date: "May 15, 2023",
-        orderID: "#123",
-        vehicleNo: "TN 69 L 8743",
-        modalImg: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSF5U1exPRb8nYGzOkh9Vb7FLMoG_ufwMUW0w&s"
-      }
-    },
-    { 
-      id: 2, 
-      date: "Mar 07, 2026",
-      name: 'Oil Service', 
-      vehicle: 'Benz', 
-      vehicleNo: 'TN 69 L 2343', 
-      price: '₹1,999',
-      serviceDetails: {
-        id: 2,
-        name: "Oil Service",
-        description: "Complete oil change with premium synthetic oil and filter replacement.",
-        wash: "Basic Wash",
-        duration: "1 hour",
-        status: "Completed",
-        price: "₹1,999",
-        date: "June 2, 2023",
-        orderID: "#124",
-        vehicleNo: "TN 69 L 9123",
-        modalImg: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRn0m-bnN72wqG0IKyt_EpEzubRR0HbLRDrJQ&s"
-      }
-    },
-    { 
-      id: 3, 
-      date: "Jun 19, 2026",
-      name: 'Seat Change', 
-      vehicle: 'Rolls Royce', 
-      vehicleNo: 'TN 69 L 9123', 
-      price: '₹9,999',
-      serviceDetails: {
-        id: 3,
-        name: "Seat Change",
-        description: "Replacement of driver and passenger seats with new premium leather seats.",
-        wash: "None",
-        duration: "2 hours",
-        status: "Completed",
-        price: "₹9,999",
-        date: "June 10, 2023",
-        orderID: "#124",
-        vehicleNo: "TN 69 L 9123",
-        modalImg: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQPbWFlVL5ha1bX46zgwq76giio-GpX3HWatQ&s"
-      }
-    },
-    { 
-      id: 4, 
-      date: "Apr 07, 2026",
-      name: 'Engine Service', 
-      vehicle: 'BMW', 
-      vehicleNo: 'TN 69 L 9099', 
-      price: '₹3,499',
-      serviceDetails: {
-        id: 4,
-        name: "Engine Repair",
-        description: "Complete engine diagnostics and repair service including oil change, filter replacement, and tune-up.",
-        wash: "Foam Wash",
-        duration: "3-4 hours",
-        status: "Completed",
-        price: "₹3,499",
-        date: "May 15, 2023",
-        orderID: "#125",
-        vehicleNo: 'TN 69 L 9099',
-        modalImg: "https://img.etimg.com/thumb/width-420,height-315,imgsize-416137,resizemode-75,msid-115343296/industry/auto/tyres/no-brakes-on-tyre-price-hikes-likely-for-now/tyres-bccl.jpg"
-      }
-    },
-    { 
-      id: 5, 
-      date: "Jan 01, 2026",
-      name: 'Engine Service', 
-      vehicle: 'BMW', 
-      vehicleNo: 'TN 69 L 8345', 
-      price: '₹3,299',
-      serviceDetails: {
-        id: 5,
-        name: "Engine Repair",
-        description: "Complete engine diagnostics and repair service including oil change, filter replacement, and tune-up.",
-        wash: "Foam Wash",
-        duration: "3-4 hours",
-        status: "Completed",
-        price: "₹3,299",
-        date: "May 15, 2023",
-        orderID: "#126",
-        vehicleNo: 'TN 69 L 8345', 
-        modalImg: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR2gVe2BnWWyTjcBDuV58IRxv0JFBAm5IA4TQ&s"
-      }
-    },
-    { 
-      id: 6, 
-      date: "May 28, 2026",
-      name: 'Engine Service', 
-      vehicle: 'BMW', 
-      vehicleNo: 'TN 69 L 9837', 
-      price: '₹3,799',
-      serviceDetails: {
-        id: 6,
-        name: "Engine Repair",
-        description: "Complete engine diagnostics and repair service including oil change, filter replacement, and tune-up.",
-        wash: "Foam Wash",
-        duration: "3-4 hours",
-        status: "Completed",
-        price: "₹3,799",
-        date: "May 15, 2023",
-        orderID: "#127",
-        vehicleNo: 'TN 69 L 9837',
-        modalImg: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSF5U1exPRb8nYGzOkh9Vb7FLMoG_ufwMUW0w&s"
-      }
-    },
-    { 
-      id: 7, 
-      date: "Jun 01, 2026",
-      name: 'Engine Service', 
-      vehicle: 'BMW', 
-      vehicleNo: 'TN 69 L 9873', 
-      price: '₹4,199',
-      serviceDetails: {
-        id: 7,
-        name: "Engine Repair",
-        description: "Complete engine diagnostics and repair service including oil change, filter replacement, and tune-up.",
-        wash: "Foam Wash",
-        duration: "3-4 hours",
-        status: "Completed",
-        price: "₹4,199",
-        date: "May 15, 2023",
-        orderID: "#128",
-        vehicleNo: 'TN 69 L 9873',
-        modalImg: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQPbWFlVL5ha1bX46zgwq76giio-GpX3HWatQ&s"
-      }
-    },
-    { 
-      id: 8, 
-      date: "May 01, 2026",
-      name: 'Engine Service', 
-      vehicle: 'BMW', 
-      vehicleNo: 'TN 69 L 1029', 
-      price: '₹3,899',
-      serviceDetails: {
-        id: 8,
-        name: "Engine Repair",
-        description: "Complete engine diagnostics and repair service including oil change, filter replacement, and tune-up.",
-        wash: "Foam Wash",
-        duration: "3-4 hours",
-        status: "Completed",
-        price: "₹3,899",
-        date: "May 15, 2023",
-        orderID: "#129",
-        vehicleNo: 'TN 69 L 1029',
-        modalImg: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSF5U1exPRb8nYGzOkh9Vb7FLMoG_ufwMUW0w&s"
-      }
-    },
-    { 
-      id: 9, 
-      date: "May 17, 2026",
-      name: 'Engine Service', 
-      vehicle: 'BMW', 
-      vehicleNo: 'TN 69 L 8744', 
-      price: '₹3,599',
-      serviceDetails: {
-        id: 9,
-        name: "Engine Repair",
-        description: "Complete engine diagnostics and repair service including oil change, filter replacement, and tune-up.",
-        wash: "Foam Wash",
-        duration: "3-4 hours",
-        status: "Completed",
-        price: "₹3,599",
-        date: "May 15, 2023",
-        orderID: "#130",
-        vehicleNo: 'TN 69 L 8744',
-        modalImg: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR2gVe2BnWWyTjcBDuV58IRxv0JFBAm5IA4TQ&s"
-      }
-    },
-    { 
-      id: 10, 
-      date: "May 19, 2026",
-      name: 'Engine Service', 
-      vehicle: 'BMW', 
-      vehicleNo: 'TN 69 L 7243', 
-      price: '₹4,499',
-      serviceDetails: {
-        id: 10,
-        name: "Engine Repair",
-        description: "Complete engine diagnostics and repair service including oil change, filter replacement, and tune-up.",
-        wash: "Foam Wash",
-        duration: "3-4 hours",
-        status: "Completed",
-        price: "₹4,499",
-        date: "May 15, 2023",
-        orderID: "#131",
-        vehicleNo: 'TN 69 L 7243',
-        modalImg: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSF5U1exPRb8nYGzOkh9Vb7FLMoG_ufwMUW0w&s"
-      }
-    },
-  ];
 
-  const filteredProducts = productsData.filter(product => {
-    const searchTermLower = searchTerm.toLowerCase();
-    return (
-      product.vehicle.toLowerCase().includes(searchTermLower) ||
-      product.vehicleNo.toLowerCase().includes(searchTermLower) ||
-      product.name.toLowerCase().includes(searchTermLower)
-    );
-  });
 
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = filteredProducts.slice(indexOfFirstItem, indexOfLastItem);
-  const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
+  // const filteredProducts = customerData
+
+  console.log("check",customerData?.data[0])
+
+//   (customerData?.data || []).filter(product => {
+//   const searchTermLower = searchTerm.toLowerCase();
+//   return (
+//     product.vehicle?.toLowerCase().includes(searchTermLower) ||
+//     product.vehicleNo?.toLowerCase().includes(searchTermLower) ||
+//     product.service_name?.toLowerCase().includes(searchTermLower)
+//   );
+// });
+
+
+const indexOfLastItem = currentPage * itemsPerPage;
+const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+
+const currentItems:number = 1
+//  filteredProducts.slice(indexOfFirstItem, indexOfLastItem);
+const totalPages = 1
+// Math.ceil(filteredProducts.length / itemsPerPage);
+
 
   const handleViewClick = (product: Product) => {
     if (product.serviceDetails) {
@@ -379,29 +182,31 @@ const CustomerServiceDetails = () => {
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
-              {currentItems.length > 0 ? (
-                currentItems.map((product) => (
+              {currentItems > 0 ? (
+                customerData?.data?.map((product:any,index:number) => {
+
+                  return(
                   <tr 
-                    key={product.id} 
+                    key={index} 
                     className="hover:bg-gray-50 transition-colors duration-150"
                     style={{ fontFamily: FONTS.paragraph.fontFamily }}
                   >
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                      {product.date}
+                      {product?.created_at.split("T")[0]}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-medium">
-                      {product.name}
+                      {product?.service_name}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {product.vehicle}
+                      {customerData?.customerData?.vehicleInfo?.model}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                       <span className="px-2 py-1 bg-gray-100 rounded-md font-mono">
-                        {product.vehicleNo}
+                          {customerData?.customerData?.vehicleInfo?.registerNumber}
                       </span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-semibold text-gray-900">
-                      {formatPrice(product.price)}
+                      {product?.price}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                       <button
@@ -411,8 +216,8 @@ const CustomerServiceDetails = () => {
                         Details
                       </button>
                     </td>
-                  </tr>
-                ))
+                  </tr>)
+                  })
               ) : (
                 <tr>
                   <td colSpan={6} className="px-6 py-8 text-center">
@@ -430,7 +235,7 @@ const CustomerServiceDetails = () => {
           </table>
         </div>
 
-        {filteredProducts.length > 0 && (
+        {/* {filteredProducts.length > 0 && ( */}
           <div className="px-6 py-4 border-t border-gray-200 flex items-center justify-between">
             <div className="flex-1 flex justify-between sm:hidden">
               <button
@@ -452,8 +257,8 @@ const CustomerServiceDetails = () => {
               <div>
                 <p className="text-sm text-gray-700">
                   Showing <span className="font-medium">{indexOfFirstItem + 1}</span> to{' '}
-                  <span className="font-medium">{Math.min(indexOfLastItem, filteredProducts.length)}</span> of{' '}
-                  <span className="font-medium">{filteredProducts.length}</span> results
+                  {/* <span className="font-medium">{Math.min(indexOfLastItem, filteredProducts.length)}</span> of{' '}
+                  <span className="font-medium">{filteredProducts.length}</span> results */}
                 </p>
               </div>
               <div>
@@ -491,7 +296,7 @@ const CustomerServiceDetails = () => {
               </div>
             </div>
           </div>
-        )}
+        {/* )} */}
       </div>
 
       <AnimatePresence>
@@ -568,3 +373,7 @@ const CustomerServiceDetails = () => {
 };
 
 export default CustomerServiceDetails;
+
+
+
+

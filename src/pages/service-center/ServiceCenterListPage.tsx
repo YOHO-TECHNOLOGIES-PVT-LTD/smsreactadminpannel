@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import type React from 'react';
+import type React from "react"
 
 import { useState, useRef, useEffect } from "react"
 // import { FaArrowTrendUp } from "react-icons/fa6"
@@ -14,283 +14,267 @@ import { toast } from "react-toastify"
 import { TbCloudUpload } from "react-icons/tb";
 
 interface ContactInfo {
-	phoneNumber: string;
-	state: string;
-	city: string;
-	address1: string;
-	address2: string;
+  phoneNumber: string
+  state: string
+  city: string
+  address1: string
+  address2: string
 }
 
 interface PartnerFormData {
-	firstName: string;
-	lastName: string;
-	companyName?: string;
-	aadhar: string;
-	pan: string;
-	gstNo: string;
-	regNo: string;
-	email: string;
-	password: string;
-	contact_info: ContactInfo;
-	role: 'partner';
-	image?: File | null;
+  firstName: string
+  lastName: string
+  companyName?: string
+  aadhar: string
+  pan: string
+  gstNo: string
+  regNo: string
+  email: string
+  password: string
+  contact_info: ContactInfo
+  role: "partner"
+  image?: File | null
 }
 
 type ServiceCenterListProps = {
-	onView: (step: any) => void;
-	handleBack: () => void;
-	partner: any;
-	setpartner: (id: number) => void;
-};
+  onView: (step: any) => void
+  handleBack: () => void
+  partner: any
+  setpartner: (id: number) => void
+}
 
 export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
-	onView,
-	partner,
-	setpartner,
+  onView,
+  partner,
+  setpartner,
 }) => {
-	const [selectedCardIndex, setSelectedCardIndex] = useState<number | null>(
-		null
-	);
-	const [showSearch, setShowSearch] = useState(false);
-	const [searchTerm, setSearchTerm] = useState('');
-	const [showPartnerForm, setShowPartnerForm] = useState(false);
-	const partnerFileInputRef = useRef<HTMLInputElement>(null);
-	const [isLoading, setIsLoading] = useState(false);
+  const [selectedCardIndex, setSelectedCardIndex] = useState<number | null>(null)
+  const [showSearch, setShowSearch] = useState(false)
+  const [searchTerm, setSearchTerm] = useState("")
+  const [showPartnerForm, setShowPartnerForm] = useState(false)
+  const partnerFileInputRef = useRef<HTMLInputElement>(null)
+  const [isLoading, setIsLoading] = useState(false);
 
-	// Partner form state
-	const [partnerFormData, setPartnerFormData] = useState<PartnerFormData>({
-		firstName: '',
-		lastName: '',
-		companyName: '',
-		aadhar: '',
-		pan: '',
-		gstNo: '',
-		regNo: '',
-		email: '',
-		password: '',
-		contact_info: {
-			phoneNumber: '',
-			state: '',
-			city: '',
-			address1: '',
-			address2: '',
-		},
-		role: 'partner',
-		image: null,
-	});
+  // Partner form state
+  const [partnerFormData, setPartnerFormData] = useState<PartnerFormData>({
+    firstName: "",
+    lastName: "",
+    companyName: "",
+    aadhar:"",
+    pan: "",
+    gstNo: "",
+    regNo: "",
+    email: "",
+    password: "",
+    contact_info: {
+      phoneNumber: "",
+      state: "",
+      city: "",
+      address1: "",
+      address2: "",
+    },
+    role: "partner",
+    image: null,
+  })
 
-	function changeData(index: number) {
-		onView(1);
-		console.log(index, 'partner');
-		setpartner(index);
-	}
+  function changeData(index: number) {
+    onView(1)
+    console.log(index,"partner")
+    setpartner(index)
+  }
 
-	// Partner form handlers
-	const handlePartnerFormChange = (
-		e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-	) => {
-		const { name, value, files } = e.target as HTMLInputElement;
+  // Partner form handlers
+  const handlePartnerFormChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value, files } = e.target as HTMLInputElement
 
-		if (name === 'image' && files) {
-			setPartnerFormData((prev) => ({ ...prev, image: files[0] }));
-		} else if (name.startsWith('contact_info.')) {
-			const key = name.split('.')[1] as keyof ContactInfo;
-			setPartnerFormData((prevData) => ({
-				...prevData,
-				contact_info: {
-					...prevData.contact_info,
-					[key]: value,
-				},
-			}));
-		} else {
-			setPartnerFormData((prevData) => ({
-				...prevData,
-				[name]: value,
-			}));
-		}
-	};
+    if (name === "image" && files) {
+      setPartnerFormData((prev) => ({ ...prev, image: files[0] }))
+    } else if (name.startsWith("contact_info.")) {
+      const key = name.split(".")[1] as keyof ContactInfo
+      setPartnerFormData((prevData) => ({
+        ...prevData,
+        contact_info: {
+          ...prevData.contact_info,
+          [key]: value,
+        },
+      }))
+    } else {
+      setPartnerFormData((prevData) => ({
+        ...prevData,
+        [name]: value,
+      }))
+    }
+  }
 
-	const handlePartnerFormSubmit = async (e: React.FormEvent) => {
-		e.preventDefault();
-		setIsLoading(true);
+  const handlePartnerFormSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setIsLoading(true)
 
-		const data = new FormData();
-		Object.entries(partnerFormData).forEach(([key, value]) => {
-			if (key === 'contact_info') {
-				Object.entries(value).forEach(([subKey, subValue]) => {
-					data.append(`contact_info.${subKey}`, String(subValue));
-				});
-			} else if (key === 'image' && value instanceof File) {
-				data.append('image', value);
-			} else if (value !== undefined && value !== null) {
-				data.append(key, value as string);
-			}
-		});
+    const data = new FormData()
+    Object.entries(partnerFormData).forEach(([key, value]) => {
+      if (key === "contact_info") {
+        Object.entries(value).forEach(([subKey, subValue]) => {
+          data.append(`contact_info.${subKey}`, String(subValue))
+        })
+      } else if (key === "image" && value instanceof File) {
+        data.append("image", value)
+      } else if (value !== undefined && value !== null) {
+        data.append(key, value as string)
+      }
+    })
 
-		try {
-			await new Client().admin.servicecenter.postPartner(data);
+    try {
+      await new Client().admin.servicecenter.postPartner(data)
 
-			// Reset form and close modal
-			setPartnerFormData({
-				firstName: '',
-				lastName: '',
-				companyName: '',
-				aadhar: '',
-				pan: '',
-				gstNo: '',
-				regNo: '',
-				email: '',
-				password: '',
-				contact_info: {
-					phoneNumber: '',
-					state: '',
-					city: '',
-					address1: '',
-					address2: '',
-				},
-				role: 'partner',
-				image: null,
-			});
-			setShowPartnerForm(false);
-			if (partnerFileInputRef.current) {
-				partnerFileInputRef.current.value = '';
-			}
-			toast.success('Partner registered successfully!');
-		} catch (error: any) {
-			console.log('Registration failed!', error.message);
-		} finally {
-			setIsLoading(false);
-		}
-	};
+      // Reset form and close modal
+      setPartnerFormData({
+        firstName: "",
+        lastName: "",
+        companyName: "",
+        aadhar: "",
+        pan: "",
+        gstNo: "",
+        regNo: "",
+        email: "",
+        password: "",
+        contact_info: {
+          phoneNumber: "",
+          state: "",
+          city: "",
+          address1: "",
+          address2: "",
+        },
+        role: "partner",
+        image: null,
+      })
+      setShowPartnerForm(false)
+      if (partnerFileInputRef.current) {
+        partnerFileInputRef.current.value = ""
+      }
 
-	const Spinner = ({ className = '' }: { className?: string }) => (
-		<svg
-			className={`animate-spin h-5 w-5 ${className}`}
-			xmlns='http://www.w3.org/2000/svg'
-			fill='none'
-			viewBox='0 0 24 24'
-		>
-			<circle
-				className='opacity-25'
-				cx='12'
-				cy='12'
-				r='10'
-				stroke='currentColor'
-				strokeWidth='4'
-			></circle>
-			<path
-				className='opacity-75'
-				fill='currentColor'
-				d='M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z'
-			></path>
-		</svg>
-	);
+     
 
-	const handleCancelPartnerForm = () => {
-		setShowPartnerForm(false);
-		setPartnerFormData({
-			firstName: '',
-			lastName: '',
-			companyName: '',
-			aadhar: '',
-			pan: '',
-			gstNo: '',
-			regNo: '',
-			email: '',
-			password: '',
-			contact_info: {
-				phoneNumber: '',
-				state: '',
-				city: '',
-				address1: '',
-				address2: '',
-			},
-			role: 'partner',
-			image: null,
-		});
-		if (partnerFileInputRef.current) {
-			partnerFileInputRef.current.value = '';
-		}
-	};
+      toast.success("Partner registered successfully!")
+      // You might want to refresh the partner list here
+    } catch (error:any) {
+      console.log("Registration failed!",error.message)
+    }
+    finally{
+      setIsLoading(false)
+    }
+  }
 
-	// Filter partners based on search term
-	const filteredPartners = partner.filter(
-		(center: any) =>
-			`${center.firstName} ${center.lastName}`
-				.toLowerCase()
-				.includes(searchTerm.toLowerCase()) ||
-			center.companyName?.toLowerCase().includes(searchTerm.toLowerCase())
-	);
+  const Spinner = ({ className = "" }: { className?: string }) => (
+  <svg 
+    className={`animate-spin h-5 w-5 ${className}`} 
+    xmlns="http://www.w3.org/2000/svg" 
+    fill="none" 
+    viewBox="0 0 24 24"
+  >
+    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+  </svg>
+);
 
-	const [city, setCity] = useState<any[]>([]);
+  const handleCancelPartnerForm = () => {
+    setShowPartnerForm(false)
+    setPartnerFormData({
+      firstName: "",
+      lastName: "",
+      companyName: "",
+      aadhar: "",
+      pan: "",
+      gstNo: "",
+      regNo: "",
+      email: "",
+      password: "",
+      contact_info: {
+        phoneNumber: "",
+        state: "",
+        city: "",
+        address1: "",
+        address2: "",
+      },
+      role: "partner",
+      image: null,
+    })
+    if (partnerFileInputRef.current) {
+      partnerFileInputRef.current.value = ""
+    }
+  }
 
-	const getCountries = async () => {
-		const states: any = state.filter(
-			(item) => item.name === partnerFormData.contact_info.state
-		);
-		const response = await fetchCountries(states[0].iso2);
-		if (response && response.data) {
-			setCity(response.data);
-		} else {
-			setCity([]);
-		}
-	};
+  // Filter partners based on search term
+  const filteredPartners = partner.filter(
+    (center: any) =>
+      `${center.firstName} ${center.lastName}`.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      center.companyName?.toLowerCase().includes(searchTerm.toLowerCase()),
+  )
 
-	useEffect(() => {
-		getCountries();
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [partnerFormData.contact_info.state]);
+  
+  const [city, setCity] = useState<any[]>([]);
 
-	const [state, setState] = useState<any[]>([]);
+  const getCountries = async () => {
+    const states:any = state.filter(item=>item.name === partnerFormData.contact_info.state )
+    const response = await fetchCountries(states[0].iso2);
+    if (response && response.data) {
+      setCity(response.data);
+    } else {
+      setCity([]);
+    }
+  }
 
-	const getStates = async () => {
-		const response = await fetchState();
-		if (response) {
-			setState(response.data);
-		} else {
-			setState([]);
-		}
-	};
+  useEffect (() => {
+    getCountries();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[partnerFormData.contact_info.state])
 
-	useEffect(() => {
-		getStates();
-	}, []);
 
-	return (
-		<div
-			className='flex flex-col bg-gray-100'
-			style={{ background: COLORS.bgColor }}
-		>
-			<div className='flex gap-6 flex-wrap'>
-				<div
-					className='flex-1 min-w-[600px] bg-white p-5'
-					style={{ background: COLORS.bgColor }}
-				>
-					<div className='flex justify-between items-center border-b border-gray-300 pb-4 mb-4 flex-wrap gap-4'>
-						<h1
-							className='font-bold font-koh !font-bold text-3xl pt-2 !text-[#9b111e]'
-							style={{ ...FONTS.header }}
-						>
-							Partners
-						</h1>
-						<div className='flex items-center gap-3 flex-wrap'>
-							<button
-								className='bg-[#fce8e8] font-koh text-gray-600 hover:text-[#9b111e] p-2 rounded-3xl transition'
-								title='Search'
-								onClick={() => setShowSearch(!showSearch)}
-							>
-								<FiSearch size={22} className='text-[#800000] font-koh' />
-							</button>
+  const [state, setState] = useState<any[]>([]);
 
-							{showSearch && (
-								<input
-									type='text'
-									className='px-4 py-1.5 border border-[#800000] focus:border-[#800000] rounded-md shadow-sm focus:outline-none'
-									placeholder='Search service centers...'
-									value={searchTerm}
-									onChange={(e) => setSearchTerm(e.target.value)}
-								/>
-							)}
+  const getStates = async() => {
+    const response = await fetchState();
+    if (response) {
+      setState(response.data);
+    } else {
+      setState([]);
+    }
+  }
+
+  useEffect (() => {
+    getStates();
+  },[])
+
+
+
+  
+  
+  return (
+    <div className="flex flex-col bg-gray-100" style={{ background: COLORS.bgColor }}>
+      <div className="flex gap-6 flex-wrap">
+        <div className="flex-1 min-w-[600px] bg-white p-5" style={{ background: COLORS.bgColor }}>
+          
+
+          <div className="flex justify-between items-center border-b border-gray-300 pb-4 mb-4 flex-wrap gap-4">
+            <h1 className="font-bold font-koh !font-bold text-3xl pt-2 !text-[#9b111e]"
+            style={{...FONTS.header}}>Partners</h1>
+            <div className="flex items-center gap-3 flex-wrap">
+              <button
+                className="bg-[#fce8e8] font-koh text-gray-600 hover:text-[#9b111e] p-2 rounded-3xl transition"
+                title="Search"
+                onClick={() => setShowSearch(!showSearch)}
+              >
+                <FiSearch size={22} className="text-[#800000] font-koh" />
+              </button>
+
+              {showSearch && (
+                <input
+                  type="text"
+                  className="px-4 py-1.5 border border-[#800000] focus:border-[#800000] rounded-md shadow-sm focus:outline-none"
+                  placeholder="Search service centers..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                />
+              )}
 
               <button
                 className="!text-white px-4 py-2 bg-[#9b111e] rounded-3xl transition duration-200 flex items-center gap-2"
@@ -350,21 +334,21 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
                  
                 </div>
 
-								{selectedCardIndex === index && (
-									<div className='mt-4 relative borderrounded-3xl p-4 bg-gray-50'>
-										<button
-											onClick={() => setSelectedCardIndex(null)}
-											className='absolute top-2 right-2 text-gray-600 hover:text-red-600 pt-5 pr-5'
-										>
-											<IoClose size={30} />
-										</button>
-									</div>
-								)}
-							</div>
-						))}
-					</div>
-				</div>
-			</div>
+                {selectedCardIndex === index && (
+                  <div className="mt-4 relative borderrounded-3xl p-4 bg-gray-50">
+                    <button
+                      onClick={() => setSelectedCardIndex(null)}
+                      className="absolute top-2 right-2 text-gray-600 hover:text-red-600 pt-5 pr-5"
+                    >
+                      <IoClose size={30} />
+                    </button>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
 
       {/* Partner Registration Modal */}
       {showPartnerForm && (
@@ -675,7 +659,8 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
       <button onClick={() => setShowPassForm(false)}>Close</button>
     </div>
   </div> */}
-			{/* )} */}
-		</div>
-	);
-};
+{/* )} */}
+
+    </div>
+  )
+}
