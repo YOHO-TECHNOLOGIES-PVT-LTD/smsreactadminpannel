@@ -66,6 +66,7 @@ const Order = () => {
   try {
     const response = await statusOrderHistory(id, data);
     console.log("status response", response);
+    setShowViewModal(false)
   } catch (error) {
     console.error("error fetching status", error);
   }
@@ -507,7 +508,7 @@ const Order = () => {
 
 <button
   // onClick={() => getstatus({ status: "completed" }, "12345")}
-   onClick={() => getstatus({ status: 'completed' }, "12345")}
+   onClick={() => getstatus({ status: 'completed' }, selectedOrder._id)}
   className="px-4 py-2 bg-[#9b111e] !text-white rounded-3xl hover:bg-[#7a0d19] transition-colors"
   style={{ ...FONTS.paragraph }}
 >
