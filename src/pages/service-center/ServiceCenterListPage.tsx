@@ -405,7 +405,8 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">Company Name</label>
                     <input
-                      type="text"
+                      type="text" 
+                      
                       name="companyName"
                       placeholder="Company Name"
                       value={partnerFormData.companyName}
