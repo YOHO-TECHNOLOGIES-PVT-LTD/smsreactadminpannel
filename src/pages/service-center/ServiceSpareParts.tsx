@@ -131,7 +131,7 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId, handleBack }) 
   }
 
   const handleDelete = async (part: any) => {
-    const confirmDelete = window.confirm(`Are you sure you want to delete "${part._id}"?`)
+    const confirmDelete = toast.success(`Deleted succesfully`)
     if (confirmDelete) {
       const filtered = Spareparts.filter((item: any) => item._id !== part._id)
       setSpareparts(filtered)
@@ -1012,7 +1012,7 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId, handleBack }) 
                       selectedPart.stock > 5
 
                         ? "text-green-600"
-                        : selectedPart.stock > 0 && selectedPart.stock < 5
+                        : selectedPart.stock > 0 && selectedPart.stock > 5
                           ? "text-orange-500"
                           : "text-red-600"
                     }
@@ -1028,7 +1028,8 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId, handleBack }) 
                   <p>
                     <span className="font-bold text-gray-700">Discounted Price:</span>{" "}
                     <span className="text-green-700 font-bold">
-                      ₹{calculateDiscountedPrice(selectedPart.price, selectedPart.discount)}
+                      {/* ₹{calculateDiscountedPrice(selectedPart.price, selectedPart.discount)} */}
+                      ₹{selectedPart.price}
                     </span>
                   </p>
                 ) : null}
