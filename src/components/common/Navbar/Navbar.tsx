@@ -215,8 +215,8 @@ export const Navbar: React.FC<ProfileModalProps> = () => {
 
             {/* SOS Emergency Icon */}
             <div className="relative">
-              <span className="absolute inline-flex h-8 w-8 rounded-full bg-red-400 opacity-75 animate-ping"></span>
-              <div className="absolute -top-1 -right-1 w-3.5 h-3.5 bg-yellow-500 border-2 border-white rounded-full z-20" />
+              {/* <span className="absolute inline-flex h-8 w-8 rounded-full bg-red-400 opacity-75 animate-ping"></span> */}
+              {/* <div className="absolute -top-1 -right-1 w-3.5 h-3.5 bg-yellow-500 border-2 border-white rounded-full z-20" /> */}
               <button
                 onClick={handleSosClick}
                 className="relative z-10 inline-flex items-center justify-center w-10 h-10 rounded-full bg-white !text-[#9b111e]  !shadow-lg hover:!scale-105 transition-transform"
