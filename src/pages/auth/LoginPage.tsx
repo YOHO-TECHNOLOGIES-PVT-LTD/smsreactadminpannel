@@ -2,7 +2,7 @@
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
 import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import carImage from '../../assets/loginimg/car-img.png';
 import { FONTS } from '../../constants/uiConstants';
 import { useAuth } from './AuthContext';

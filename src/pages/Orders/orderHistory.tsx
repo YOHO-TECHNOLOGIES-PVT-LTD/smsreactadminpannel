@@ -47,6 +47,10 @@ const OrderHistory = () => {
     fetchOrders()
   },[])
 
+
+
+
+  
   const ordersPerPage = 10;
   const filteredOrders = orders.filter(order => {
   const matchesSearch =
@@ -348,6 +352,9 @@ const OrderHistory = () => {
                         <span className="font-medium !text-gray-600"style={{...FONTS.paragraph}}>Email:</span> {selectedOrder.email}
                       </p>
                       <p className="!text-gray-600">
+                        <span className="font-medium !text-gray-600" style={{ ...FONTS.paragraph }}>Phone Number:</span> {selectedOrder?.customerId?.contact_info?.phoneNumber}
+                      </p>
+                      <p className="!text-gray-600">
                         <span className="font-medium !text-gray-600"style={{...FONTS.paragraph}}>Status:</span> 
                         <span className={`ml-2 px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
                           ${selectedOrder.status === 'Completed' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}`}>
@@ -360,11 +367,11 @@ const OrderHistory = () => {
                     <h4 className="text-lg font-medium !text-gray-900 mb-3"style={{...FONTS.cardheader}}>Order Information</h4>
                     <div className="space-y-2">
                       <p className="text-gray-600">
-                        <span className="font-medium !text-gray-600"style={{...FONTS.paragraph}}>Date:</span> {selectedOrder.date}
+                        <span className="font-medium !text-gray-600"style={{...FONTS.paragraph}}>Date:</span> {formatDate(selectedOrder.date)}
                       </p>
-                      <p className="text-gray-600">
+                      {/* <p className="text-gray-600">
                         <span className="font-medium !text-gray-600"style={{...FONTS.paragraph}}>Shipping:</span> {selectedOrder.details.shipping}
-                      </p>
+                      </p> */}
                       <p className="text-gray-600">
                         <span className="font-medium !text-gray-600"style={{...FONTS.paragraph}}>Total:</span> {selectedOrder.total}
                       </p>
@@ -428,10 +435,10 @@ const OrderHistory = () => {
                         <span className="!text-gray-600"style={{...FONTS.cardSubHeader}}>Subtotal:</span>
                         <span className="font-medium !text-gray-600"style={{...FONTS.cardSubHeader}}>{selectedOrder.total}</span>
                       </div>
-                      <div className="flex justify-between mb-2">
+                      {/* <div className="flex justify-between mb-2">
                         <span className="!text-gray-600"style={{...FONTS.cardSubHeader}}>Shipping:</span>
                         <span className="font-medium !text-gray-600"style={{...FONTS.cardSubHeader}}>₹0</span>
-                      </div>
+                      </div> */}
                       <div className="flex justify-between border-t pt-2 mt-2">
                         <span className="!text-gray-900 font-medium"style={{...FONTS.cardSubHeader}}>Total:</span>
                         <span className="!text-[#9b111e] font-bold"style={{...FONTS.cardSubHeader}}>{selectedOrder.total}</span>

@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { getOrdersHistory } from './Services';
 import { FONTS } from '../../constants/uiConstants';
 import { useNavigate } from 'react-router-dom';
-
+import {statusOrderHistory} from './Services/index'
 
 const Order = () => {
   // State management
@@ -17,6 +17,7 @@ const Order = () => {
   const [selectedOrder, setSelectedOrder] = useState<any>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [dateFilter, setDateFilter] = useState('');
+
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -47,7 +48,32 @@ const Order = () => {
     fetchOrders()
   }, [])
 
-  const ordersPerPage = 10;
+
+  
+
+  // const getstatus= async(data?: any, params?: string)=>{
+  //   try{
+  //    const response: any = await statusOrderHistory(data,params);
+  //    console.log("status response",response)
+  //   }
+  //   catch(error){
+  //     console.error("error fetching status",error)
+  //   }
+  // }
+  
+
+  const getstatus = async (data: any, id: string) => {
+  try {
+    const response = await statusOrderHistory(id, data);
+    console.log("status response", response);
+    setShowViewModal(false)
+  } catch (error) {
+    console.error("error fetching status", error);
+  }
+};
+
+
+   const ordersPerPage = 10;
   const filteredOrders = orders.filter(order => {
     const matchesSearch =
       (order?.orderId?.toLowerCase() || '').includes(searchTerm.toLowerCase()) ||
@@ -103,7 +129,7 @@ const Order = () => {
     <div className="p-4 md:p-6 h-full min-h-screen">
       <div className='flex justify-between'>
         <h1 className=" !font-bold text-[#9b111e] mb-3" style={{ ...FONTS.header }}>Car Spare Parts Orders</h1>
-        <button onClick={handleChange}>Completed orders</button>
+        <button onClick={handleChange} style={{ backgroundColor:'#9b111e', color: 'white', padding: '8px 12px', borderRadius: '26px', marginBottom: '18px' }}>Completed orders</button>
       </div>
       {/* Summary Cards */}
       <motion.div
@@ -340,6 +366,9 @@ const Order = () => {
                       <p className="!text-gray-600">
                         <span className="font-medium !text-gray-600" style={{ ...FONTS.paragraph }}>Email:</span> {selectedOrder.email}
                       </p>
+                      <p className="!text-gray-600">
+                        <span className="font-medium !text-gray-600" style={{ ...FONTS.paragraph }}>Phone Number:</span> {selectedOrder?.customerId?.contact_info?.phoneNumber}
+                      </p>
 
                       <div className="!text-gray-600">
                         <label
@@ -349,7 +378,19 @@ const Order = () => {
                           Status:
                         </label>
                         <select
-                          onChange={(e) => setSelectedOrder({ ...selectedOrder, status: e.target.value })}
+
+
+
+ onChange={(e) => {
+    const newStatus = e.target.value;
+    setSelectedOrder({ ...selectedOrder, status: newStatus });
+    // const data = { orderId: selectedOrder.id };        
+    // const params = `status=${newStatus}`;                
+    // // getstatus(data, params);
+  }}
+
+                          // onChange={(e) => setSelectedOrder({ ...selectedOrder, status: e.target.value })}
+                          
                           className={`ml-2 px-4 py-2 rounded-2xl text-sm font-medium
       shadow-sm border transition-all duration-300 ease-in-out
       focus:ring-1 focus:ring-offset-1 focus:ring-[#9b111e] focus:outline-none
@@ -377,11 +418,13 @@ const Order = () => {
                     <h4 className="text-lg font-medium !text-gray-900 mb-3" style={{ ...FONTS.cardheader }}>Order Information</h4>
                     <div className="space-y-2">
                       <p className="text-gray-600">
-                        <span className="font-medium !text-gray-600" style={{ ...FONTS.paragraph }}>Date:</span> {selectedOrder.date}
+                        <span className="font-medium !text-gray-600" style={{ ...FONTS.paragraph }}>Date:</span> {selectedOrder.date.split('T')[0]}
                       </p>
-                      <p className="text-gray-600">
+                      {/* <p className="text-gray-600">
+                      {/* <p className="text-gray-600">
                         <span className="font-medium !text-gray-600" style={{ ...FONTS.paragraph }}>Shipping:</span> {selectedOrder.details.shipping}
-                      </p>
+                      </p> */}
+                      {/* </p> */}
                       <p className="text-gray-600">
                         <span className="font-medium !text-gray-600" style={{ ...FONTS.paragraph }}>Total:</span> {selectedOrder.total}
                       </p>
@@ -445,10 +488,10 @@ const Order = () => {
                         <span className="!text-gray-600" style={{ ...FONTS.cardSubHeader }}>Subtotal:</span>
                         <span className="font-medium !text-gray-600" style={{ ...FONTS.cardSubHeader }}>{selectedOrder.total}</span>
                       </div>
-                      <div className="flex justify-between mb-2">
+                      {/* <div className="flex justify-between mb-2">
                         <span className="!text-gray-600" style={{ ...FONTS.cardSubHeader }}>Shipping:</span>
                         <span className="font-medium !text-gray-600" style={{ ...FONTS.cardSubHeader }}>₹0</span>
-                      </div>
+                      </div> */}
                       <div className="flex justify-between border-t pt-2 mt-2">
                         <span className="!text-gray-900 font-medium" style={{ ...FONTS.cardSubHeader }}>Total:</span>
                         <span className="!text-[#9b111e] font-bold" style={{ ...FONTS.cardSubHeader }}>{selectedOrder.total}</span>
@@ -459,6 +502,25 @@ const Order = () => {
               </div>
 
               <div className="flex justify-end p-4 border-t sticky bottom-0 bg-white">
+{/* 
+                 <button
+                  onClick={getstatus}
+                  className="px-4 py-2 bg-[#9b111e] !text-white rounded-3xl hover:bg-[#7a0d19] transition-colors" style={{ ...FONTS.paragraph }}
+                >
+                  Save
+                </button> */}
+
+
+<button
+  // onClick={() => getstatus({ status: "completed" }, "12345")}
+   onClick={() => getstatus({ status: 'completed' }, selectedOrder._id)}
+  className="px-4 py-2 bg-[#9b111e] !text-white rounded-3xl hover:bg-[#7a0d19] transition-colors"
+  style={{ ...FONTS.paragraph }}
+>
+  Save
+</button>
+
+
                 <button
                   onClick={closeModal}
                   className="px-4 py-2 bg-[#9b111e] !text-white rounded-3xl hover:bg-[#7a0d19] transition-colors" style={{ ...FONTS.paragraph }}

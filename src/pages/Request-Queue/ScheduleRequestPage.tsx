@@ -159,12 +159,8 @@ export default function ScheduleRequestPage() {
               onClick={() => openModal(req)}
             >
               <div className="flex items-center gap-6">
-                <div className="w-20 h-20 rounded-full border-4 border-[#9b111e] p-1 shadow-md">
-                  <img
-                    src="https://www.pngmart.com/files/23/Red-Car-PNG-Clipart.png"
-                    alt="Car"
-                    className="w-full h-full object-contain rounded-full"
-                  />
+                <div className="w-10 h-10 bg-[#9b111e] rounded-full flex items-center justify-center text-white font-bold text-base">
+                  SR
                 </div>
 
                 <div className="flex-1 grid grid-cols-2 gap-y-2 gap-x-5 text-sm text-gray-700 ">

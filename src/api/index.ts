@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { data } from "react-router-dom";
 import httpClient from "./httpClient";
 import { API_END_POINTS } from "./httpEndpoints";
 
@@ -50,12 +49,18 @@ order_history: {
         httpClient.get(API_END_POINTS.order_history.getAll, params),
       getOldHistory: (params: string) =>
         httpClient.get(API_END_POINTS.order_history.getOldHistory, params),
-      updateStatus: (data: any, params: string) =>
-        httpClient.update(
-          API_END_POINTS.order_history.updateStatus,
-          data,
-          params
-        ),
+      // updateStatus: (id:string, data:any) =>
+      //   httpClient.update(
+      //     API_END_POINTS.order_history.updateStatus,
+      //     id,
+      //     data,
+      //   ),
+        updateStatus: (id: string, data: any) =>
+  httpClient.update(
+    API_END_POINTS.order_history.updateStatus.replace(':id', id), 
+    data 
+  ),
+
       delete: () => httpClient.delete(API_END_POINTS.order_history.delete),
     },
 
@@ -76,7 +81,7 @@ spareparts:{
    updatestatus:(data:string,params:string)=>httpClient.update(API_END_POINTS.spareparts.updatestatus,data,params),
    category:{
     create:(data?:any)=>httpClient.post(API_END_POINTS.spareparts.category.create,data),
-    getAll:(params?:string)=>httpClient.get(API_END_POINTS.spareparts.category.getall),
+    getAll:()=>httpClient.get(API_END_POINTS.spareparts.category.getall),
     put:(params:any)=>httpClient.update(API_END_POINTS.spareparts.category.put.replace(":uuid",params?.uuid), params),
     delete:(params:any)=>httpClient.delete(API_END_POINTS.spareparts.category.delete.replace(":uuid",params?.uuid)),
    }
@@ -112,6 +117,7 @@ profile:{
   jobcard:{
     get:(params:string)=>httpClient.get(API_END_POINTS.jobcard.Get.replace(':id',params)),
     getAll:()=>httpClient.get(API_END_POINTS.jobcard.GetAll),
+    getJobHistory:()=>httpClient.get(API_END_POINTS.jobcard.GetJobHistory),
     post:(data:string)=>httpClient.post(API_END_POINTS.jobcard.Post,data),
     put:(data:any,params:string)=>httpClient.update(API_END_POINTS.jobcard.Put.replace(':id',params),data),
   },

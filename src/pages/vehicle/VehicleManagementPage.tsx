@@ -70,6 +70,7 @@ const VehicleManagementPage = () => {
       insuranceCompany: vehicle?.vehicleInfo?.insuranceCompany || "N/A",
       insuranceRenewalDate: vehicle?.vehicleInfo?.insuranceRenewalDate || "N/A",
       model: vehicle?.vehicleInfo?.model|| "N/A",
+      location: vehicle?.vehicleInventory?.currentState?.location || "N/A",
       currentFuelLevel: normalizeFuelLevel(
         vehicle?.vehicleInventory?.fuelLevel || ""
       ),

@@ -52,11 +52,21 @@ const NotificationPanel: React.FC = () => {
     fetchNotifications();
   }, []);
 
-  const handleMarkAsRead = (id: string) => {
+const handleMarkAllAsRead = async () => {
+  const unread = notifications.filter((n) => !n.is_read);
+  if (unread.length === 0) return;
+
+  try {
+    for (const notify of unread) {
+      await markAsReadNotification(notify.uuid);
+    }
     setNotifications((prev) =>
-      prev.map((n) => (n._id === id ? { ...n, is_read: true } : n))
+      prev.map((n) => ({ ...n, is_read: true }))
     );
-  };
+  } catch (error) {
+    console.error("Failed to mark all as read", error);
+  }
+};
 
   const filtered = notifications.filter((n) =>
     filter === "all" ? true : filter === "read" ? n.is_read : !n.is_read
@@ -82,7 +92,7 @@ const NotificationPanel: React.FC = () => {
             </button>
           ))}
         </div>
-        <button onClick={() => setNotifications((prev) => prev.map((n) => ({ ...n, is_read: true })))}>
+        <button onClick={handleMarkAllAsRead}>
           Mark all as read
         </button>
       </div>

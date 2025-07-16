@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useRef, useEffect, useState } from 'react';
-import { getProfile } from '../../../features/Auth/service';
 import { FONTS } from '../../../constants/uiConstants';
 
 interface User {
@@ -18,20 +17,22 @@ interface ProfileModalProps {
 	isOpen: boolean;
 	onClose: () => void;
 	onUserUpdate: (updatedUser: User) => void;
+	user:any;
 }
 
-export const ProfileModal = ({ isOpen, onClose }: ProfileModalProps) => {
+export const ProfileModal = ({ isOpen, onClose ,user}: ProfileModalProps) => {
 	const modalRef = useRef<HTMLDivElement | null>(null);
 	const [profile, setProfile] = useState<any | null>(null);
 
 	useEffect(() => {
 		const fetchProfile = async () => {
-			try {
-				const data: any = await getProfile('');
-				setProfile(data.data.data);
-			} catch (error) {
-				console.error('Failed to fetch profile:', error);
-			}
+			// try {
+			// 	const data: any = await getProfile('');
+			// 	setProfile(data.data.data);
+			// } catch (error) {
+			// 	console.error('Failed to fetch profile:', error);
+			// }
+			setProfile(user)
 		};
 
 		if (isOpen) {
@@ -46,7 +47,7 @@ export const ProfileModal = ({ isOpen, onClose }: ProfileModalProps) => {
 			return () =>
 				document.removeEventListener('mousedown', handleClickOutside);
 		}
-	}, [isOpen, onClose]);
+	}, [isOpen, onClose, user]);
 
 	if (!isOpen || !profile) return null;
 

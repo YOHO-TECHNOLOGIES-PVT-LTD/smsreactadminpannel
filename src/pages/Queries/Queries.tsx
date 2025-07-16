@@ -4,7 +4,7 @@ import { QueryCard } from "../../components/common/dashboard/QueryCard/QueryCard
 import { AiOutlineArrowLeft } from "react-icons/ai";
 import { getQueries, replyMessage } from "../../features/Queries/service";
 import { FONTS } from "../../constants/uiConstants";
-import { toast } from "react-hot-toast";
+import { toast } from "react-toastify";
 
 type Query = {
   _id: string;
