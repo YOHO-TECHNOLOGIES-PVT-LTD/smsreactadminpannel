@@ -126,28 +126,28 @@ const ServiceRequests: React.FC = () => {
 
 	const handleAssignPartner = async (requestId: string, partner: string) => {
 		// Find the request to assign
-		const requestToAssign = pendingRequests.find(
-			(req) => req._id === requestId
-		);
-		if (requestToAssign) {
-			// Create assigned request with additional fields
+		  const requestToAssign = pendingRequests.find(
+    (req) => req.uuid === requestId
+  );
+  
+  if (requestToAssign) {
+    // Create assigned request with additional fields
+    const assignedRequest = {
+      ...requestToAssign,
+      assignedPartner: partner,
+      assignedDate: new Date().toISOString(),
+      status: 'assigned',
+    };
 
-			const assignedRequest = {
-				...requestToAssign,
-				assignedPartner: partner,
-				assignedDate: new Date().toISOString(),
-				status: 'assigned',
-			};
+    // Add to assigned requests
+    setAssignedRequests((prev) => [...prev, assignedRequest]);
 
-			// Add to assigned requests
-			setAssignedRequests((prev) => [...prev, assignedRequest]);
+    // Remove from pending requests - using uuid here too
+    setPendingRequests((prev) => prev.filter((req) => req.uuid !== requestId));
 
-			// Remove from pending requests
-			setPendingRequests((prev) => prev.filter((req) => req._id !== requestId));
-
-			// Switch to assigned view
-			setCurrentView('assigned');
-		}
+    // Optional: Switch to assigned view
+    // setCurrentView('assigned');
+  }
 	};
 
 
