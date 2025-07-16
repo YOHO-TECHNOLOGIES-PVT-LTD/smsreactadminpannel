@@ -64,7 +64,7 @@ interface Category {
   _id: string
   uuid: string
   name: string
-  gstRate: number
+  gstRate: number | null
   __v: number
 }
 
@@ -912,7 +912,7 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId, handleBack }) 
                     onChange={(e) =>
                       setCurrentCategory({
                         ...currentCategory,
-                        gstRate: e.target.value === "" ? null : Number(e.target.value),
+                        gstRate: e.target.value === "" ? 0 : Number(e.target.value),
                       })
                     }
                     min="0"
@@ -1151,7 +1151,7 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId, handleBack }) 
                     onChange={(e) =>
                       setEditPart({
                         ...editPart,
-                        quantity: e.target.value === "" ? "" : Number.parseInt(e.target.value, 10),
+                        quantity: e.target.value === "" ? 0 : Number.parseInt(e.target.value, 10),
                         stock: e.target.value === "" ? "" : e.target.value,
                       })
                     }
@@ -1242,7 +1242,7 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId, handleBack }) 
                       )
 
                       // Update both state arrays
-                      setSpareparts(updatedSpareparts)
+                      setSpareparts(updatedSpareparts as any)
 
                       // Also update the spareParts array for consistency
                       const updatedSpareParts = spareParts.map((part: SparePart) =>
@@ -1263,7 +1263,7 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId, handleBack }) 
                             }
                           : part,
                       )
-                      setSpareParts(updatedSpareParts)
+                      setSpareParts(updatedSpareParts as SparePart[])
 
                       // Show success message
                       toast.success("Spare part updated successfully!")
