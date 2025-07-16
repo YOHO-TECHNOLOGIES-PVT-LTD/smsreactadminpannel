@@ -39,7 +39,7 @@ export const Navbar: React.FC<ProfileModalProps> = () => {
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
   const [showLogoutSuccess, setShowLogoutSuccess] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
-  const [selectedNotify, setSelectedNotify] = useState<Notification | null>(null);
+
   const { logout } = useAuth();
   const navigate = useNavigate();
   const socket = useSocket();
@@ -122,7 +122,7 @@ export const Navbar: React.FC<ProfileModalProps> = () => {
     const fetchNotifications = async () => {
       const userId = localStorage.getItem('adminobjectid')
       try {
-        const res: any = await getByUserNotification(userId);
+        const res: any = await getByUserNotification(userId!);
         setNotifications(res.data?.data?.notifications || []);
       } catch (err) {
         console.error("Fetch error", err);

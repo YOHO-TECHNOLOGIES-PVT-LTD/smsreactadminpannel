@@ -1,5 +1,5 @@
-import { useEffect, useState, useRef } from "react";
-import { getAllNotification, getByUserNotification, markAsReadNotification } from "./services";
+import { useEffect, useState } from "react";
+import { getByUserNotification, markAsReadNotification } from "./services";
 import { useSocket } from "../../../context/adminSocket";
 
 interface Notification {
@@ -18,7 +18,7 @@ interface Notification {
 const NotificationPanel: React.FC = () => {
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [filter, setFilter] = useState("all");
-  const [selectedNotify, setSelectedNotify] = useState<Notification | null>()
+
   const socket = useSocket();
 
   useEffect(() => {
@@ -42,7 +42,7 @@ const NotificationPanel: React.FC = () => {
       const userId = localStorage.getItem('adminobjectid')
       console.log('userId', userId)
       try {
-        const res: any = await getByUserNotification(userId)
+        const res: any = await getByUserNotification(userId!)
         console.log("response : ", res)
         setNotifications(res?.data?.data?.notifications || []);
       } catch (err) {
@@ -77,6 +77,10 @@ const handleMarkAllAsRead = async () => {
     timeStyle: 'short',
     timeZone: 'Asia/Kolkata'
   });
+
+  function setSelectedNotify(_n: Notification) {
+    throw new Error("Function not implemented.");
+  }
 
   return (
     <div className="p-4 bg-white rounded shadow w-full mx-auto mt-5">
