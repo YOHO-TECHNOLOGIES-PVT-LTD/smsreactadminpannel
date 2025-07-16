@@ -32,17 +32,17 @@ export default function ScheduleRequestPage() {
   const [selectedPartnerId, setSelectedPartnerId] = useState<string>("");
   const [open, setOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState<string>("");
-  const [isLoading, setIsLoading] = useState(false);
+  // const [isLoading, setIsLoading] = useState(false);
 
   async function fetchUnassignedRequests() {
     try {
-      setIsLoading(true);
+      // setIsLoading(true);
       const data = await GetUnassignedScheduleReq();
       setRequests(data.data);
     } catch (error) {
       toast.error("Failed to fetch schedule requests");
     } finally {
-      setIsLoading(false);
+      // setIsLoading(false);
     }
   }
 
@@ -52,7 +52,7 @@ export default function ScheduleRequestPage() {
 
   const openModal = async (request: ScheduleRequest) => {
     try {
-      setIsLoading(true);
+      // setIsLoading(true);
       setSelectedRequest(request);
       const data = await FetchPartnerList();
       setPartners(data);
@@ -60,7 +60,7 @@ export default function ScheduleRequestPage() {
     } catch (error) {
       toast.error("Failed to fetch partners");
     } finally {
-      setIsLoading(false);
+      // setIsLoading(false);
     }
   };
 
@@ -74,7 +74,7 @@ export default function ScheduleRequestPage() {
     if (!selectedRequest || !selectedPartnerId) return;
 
     try {
-      setIsLoading(true);
+      // setIsLoading(true);
       const selectedPartner = partners.find(p => p._id === selectedPartnerId);
 
       const updatedRequest = {
@@ -97,7 +97,7 @@ export default function ScheduleRequestPage() {
     } catch (error) {
       toast.error("Failed to assign partner");
     } finally {
-      setIsLoading(false);
+      // setIsLoading(false);
     }
   };
 
@@ -163,7 +163,7 @@ export default function ScheduleRequestPage() {
 
       <hr className="border-1 border-red-700 my-5" />
 
-      {isLoading ? (
+      {filteredRequests.length === 0 ? (
         <div className="flex justify-center items-center h-64">
           <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#9b111e]"></div>
         </div>
