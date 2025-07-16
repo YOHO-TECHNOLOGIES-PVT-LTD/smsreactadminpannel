@@ -377,11 +377,11 @@ const Order = () => {
                     <h4 className="text-lg font-medium !text-gray-900 mb-3" style={{ ...FONTS.cardheader }}>Order Information</h4>
                     <div className="space-y-2">
                       <p className="text-gray-600">
-                        <span className="font-medium !text-gray-600" style={{ ...FONTS.paragraph }}>Date:</span> {selectedOrder.date}
+                        <span className="font-medium !text-gray-600" style={{ ...FONTS.paragraph }}>Date:</span> {formatDate(selectedOrder.date)}
                       </p>
-                      <p className="text-gray-600">
+                      {/* <p className="text-gray-600">
                         <span className="font-medium !text-gray-600" style={{ ...FONTS.paragraph }}>Shipping:</span> {selectedOrder.details.shipping}
-                      </p>
+                      </p> */}
                       <p className="text-gray-600">
                         <span className="font-medium !text-gray-600" style={{ ...FONTS.paragraph }}>Total:</span> {selectedOrder.total}
                       </p>

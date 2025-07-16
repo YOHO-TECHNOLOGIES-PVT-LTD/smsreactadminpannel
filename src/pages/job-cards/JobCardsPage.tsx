@@ -34,6 +34,7 @@ type Invoice = {
   }
 };
 
+
 export const JobCardsPage: React.FC = () => {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");

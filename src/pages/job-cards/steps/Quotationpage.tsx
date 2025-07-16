@@ -200,19 +200,7 @@ const QuotationPage: React.FC = () => {
           This quotation is only for admin use.
         </p>
 
-        <div className="mt-2 p-4 flex justify-center">
-          <div className="flex gap-8 justify-end w-full md:w-2/3">
-            <button
-              onClick={handleAccept}
-              className="flex items-center justify-center font-bold  px-14 py-2 rounded text-white transition duration-200 active:scale-105 hover:bg-[#a00000]"
-              style={{
-                background: "linear-gradient(44.99deg,#700808 11%,#d23c3c 102.34%)",
-              }}
-            >
-              Accept
-            </button>
-          </div>
-        </div>
+        
       </div></>
   );
 };
