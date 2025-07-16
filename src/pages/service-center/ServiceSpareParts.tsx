@@ -1,3 +1,5 @@
+"use client"
+
 import type React from "react"
 import { useState, useEffect, useRef } from "react"
 import { Search, ArrowLeft, Plus, EllipsisVertical } from "lucide-react"
@@ -116,11 +118,9 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId, handleBack }) 
         setMenuOpenId(null)
       }
     }
-
     if (menuOpenId) {
       document.addEventListener("mousedown", handleClickOutside)
     }
-
     return () => {
       document.removeEventListener("mousedown", handleClickOutside)
     }
@@ -166,7 +166,6 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId, handleBack }) 
 
   const confirmDeleteCategory = async () => {
     if (!currentCategory) return
-
     try {
       const data: any = { uuid: currentCategory.uuid }
       const response: any = await deletesparepartscategory(data)
@@ -189,7 +188,6 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId, handleBack }) 
       const data: any = { uuid: currentCategory.uuid, name: currentCategory.name, gstRate: currentCategory.gstRate }
       const response: any = await updatesparepartscategory(data)
       console.log(response, "update category")
-
       if (response) {
         toast.success("Category updated successfully!")
         fetchAllsparepartscategory()
@@ -304,6 +302,8 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId, handleBack }) 
   const toggleMenu = (id: string) => {
     setMenuOpenId((prev) => (prev === id ? null : id))
   }
+
+  console.log(selectedPart, 'selected part')
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -470,7 +470,6 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId, handleBack }) 
           </div>
         )}
       </div>
-
       {/* Main Content */}
       <div className="container mx-auto px-4 py-6" onClick={() => setMenuOpenId(null)}>
         {/* Loading/Empty State */}
@@ -622,7 +621,6 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId, handleBack }) 
           </div>
         )}
       </div>
-
       {/* Add Spare Part Modal */}
       {showAddModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
@@ -798,7 +796,6 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId, handleBack }) 
           </div>
         </div>
       )}
-
       {/* Add Category Modal */}
       {showAddCategoryModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
@@ -876,7 +873,6 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId, handleBack }) 
           </div>
         </div>
       )}
-
       {/* Edit Category Modal */}
       {showEditCategoryModal && currentCategory && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
@@ -902,7 +898,6 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId, handleBack }) 
                     required
                   />
                 </div>
-
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">GST Rate (%)*</label>
                   <input
@@ -940,7 +935,6 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId, handleBack }) 
           </div>
         </div>
       )}
-
       {/* Delete Category Confirmation Modal */}
       {showDeleteCategoryModal && currentCategory && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
@@ -976,7 +970,6 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId, handleBack }) 
           </div>
         </div>
       )}
-
       {selectedPart && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
           <div className="bg-white rounded-md shadow-lg w-full max-w-xl">
@@ -1016,14 +1009,15 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId, handleBack }) 
                   <span className="font-bold text-gray-700">Stock:</span>{" "}
                   <span
                     className={
-                      selectedPart.quantity > 5
+                      selectedPart.stock > 5
+
                         ? "text-green-600"
-                        : selectedPart.quantity > 0
-                          ? "text-yellow-600"
+                        : selectedPart.stock > 0 && selectedPart.stock < 5
+                          ? "text-orange-500"
                           : "text-red-600"
                     }
                   >
-                    {selectedPart.quantity > 0 ? `${selectedPart.quantity}` : "Out of stock"}
+                    {selectedPart.stock >= 1 && selectedPart.inStock ? `In Stock` : "out of stock"}
                   </span>
                 </p>
                 <p>
@@ -1038,20 +1032,13 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId, handleBack }) 
                     </span>
                   </p>
                 ) : null}
-                <p>
-                  <span className="font-bold text-gray-700">Active:</span>{" "}
-                  <span className={selectedPart.active ? "text-green-600" : "text-gray-400"}>
-                    {selectedPart.active ? "Yes" : "No"}
-                  </span>
-                </p>
               </div>
             </div>
           </div>
         </div>
       )}
-
       {editPart && (
-        <div className="fixed inset-0  bg-black/50 flex items-center justify-center z-50 ">
+        <div className="fixed inset-0  bg-black/50 flex items-center justify-center z-50 ">
           <div className="bg-white rounded-md shadow-lg w-full max-w-xl m-12">
             <div className="p-4">
               <div className="flex items-center justify-between mb-4">
@@ -1147,15 +1134,20 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId, handleBack }) 
                   <input
                     title="Quantity"
                     type="number"
-                    value={editPart.quantity ?? ""}
+                    value={editPart.quantity}
                     onChange={(e) =>
-                      setEditPart({
-                        ...editPart,
-                        quantity: e.target.value === "" ? "" : Number.parseInt(e.target.value, 10),
-                        stock: e.target.value === "" ? "" : e.target.value,
+                      setEditPart((prevEditPart) => {
+                        if (!prevEditPart) return null
+                        const newQuantity = Number.parseInt(e.target.value, 10)
+                        return {
+                          ...prevEditPart,
+                          quantity: isNaN(newQuantity) ? 0 : newQuantity,
+                          stock: isNaN(newQuantity) ? "0" : String(newQuantity),
+                        }
                       })
                     }
                     className="mt-1 block w-full rounded-md shadow-sm outline-none focus:border-b-2 focus:border-b-red-500 px-2 py-1"
+                    disabled={!editPart.inStock}
                   />
                 </div>
                 <div>
@@ -1188,7 +1180,18 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId, handleBack }) 
                   <select
                     title="Active Status"
                     value={editPart.inStock ? "true" : "false"}
-                    onChange={(e) => setEditPart({ ...editPart, inStock: e.target.value === "true" })}
+                    onChange={(e) =>
+                      setEditPart((prevEditPart) => {
+                        if (!prevEditPart) return null
+                        const newInStock = e.target.value === "true"
+                        return {
+                          ...prevEditPart,
+                          inStock: newInStock,
+                          quantity: newInStock ? prevEditPart.quantity : 0, // Set quantity to 0 if out of stock
+                          stock: newInStock ? String(prevEditPart.quantity) : "0", // Also update stock string
+                        }
+                      })
+                    }
                     className="mt-1 block w-full border-gray-300 shadow-sm outline-none focus:border-b-2 focus:border-b-red-500"
                   >
                     <option value="true">In stock</option>
@@ -1219,10 +1222,8 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId, handleBack }) 
                         slug: editPart.slug,
                       }
                       console.log("Sending data to updateSpare:", data)
-
                       // Call the API to update the spare part
                       await updateSpare(data, editPart._id)
-
                       // Update the local state to reflect the changes
                       const updatedSpareparts = Spareparts.map((part: any) =>
                         part._id === editPart._id
@@ -1240,10 +1241,8 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId, handleBack }) 
                             }
                           : part,
                       )
-
                       // Update both state arrays
                       setSpareparts(updatedSpareparts)
-
                       // Also update the spareParts array for consistency
                       const updatedSpareParts = spareParts.map((part: SparePart) =>
                         part._id === editPart._id
@@ -1264,10 +1263,8 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId, handleBack }) 
                           : part,
                       )
                       setSpareParts(updatedSpareParts)
-
                       // Show success message
                       toast.success("Spare part updated successfully!")
-
                       // Close the modal
                       setEditPart(null)
                     } catch (error) {
