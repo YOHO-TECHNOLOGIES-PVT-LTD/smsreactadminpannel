@@ -16,7 +16,7 @@ export const SocketProvider = ({ children, role }: SocketProviderProps) => {
 
   useEffect(() => {
     const token = localStorage.getItem('authToken') || '';
-    const userId = localStorage.getItem('adminobjectid'); // 🔍 make sure this is the correct key
+    const userId = localStorage.getItem('adminobjectid');
 
     if (!token || !userId) {
       console.warn("Missing authToken or adminobjectid");

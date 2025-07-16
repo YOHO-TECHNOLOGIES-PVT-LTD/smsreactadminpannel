@@ -2,8 +2,6 @@ import axios from "axios";
 
 
 const backEndUrl:string= import.meta.env.VITE_PUBLIC_API_URL
-// const backEndUrl:string= 'http://localhost:3000'
-// const backEndUrl:string= 'https://sms-node-backend-17xb.onrender.com'
 
 
 const Axios = axios.create({
@@ -82,7 +80,7 @@ async update(url: string, data?: any, params?: any) {
 
     async patch(url: string, params?: string) {
 
-        const response = await Axios.put(url, {
+        const response = await Axios.patch(url, {
             params: params,
             headers: {
 
