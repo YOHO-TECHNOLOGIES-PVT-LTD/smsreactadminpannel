@@ -193,7 +193,7 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
     if (Object.keys(errors).length > 0) {
       setFormErrors(errors)
       setIsLoading(false)
-      toast.error("Please fix the errors in the form")
+      
       return
     }
 
