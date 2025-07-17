@@ -12,8 +12,8 @@ admin={
     getAll:()=>httpClient.get(API_END_POINTS.notification.getall),
     getstats:(params:string)=>httpClient.get(API_END_POINTS.notification.Getstats,params),
     create:(data:string)=>httpClient.post(API_END_POINTS.notification.create,data),
-    getByUser:(params:string)=>httpClient.get(API_END_POINTS.notification.getByUser,params) ,
-    markAsRead:(params:string,data:string)=>httpClient.update(API_END_POINTS.notification.markAsRead,data,params),
+    getByUser:(params:string)=>httpClient.get(API_END_POINTS.notification.getByUser.replace(':userId', params)) ,
+    markAsRead:(params:string)=>httpClient.patch(API_END_POINTS.notification.markAsRead.replace(':uuid',params)),
     getUnreadCount:(params:string)=>httpClient.get(API_END_POINTS.notification.getUnreadCount,params),
     createBulk:(data:string)=>httpClient.post(API_END_POINTS.notification.createBulk,data),
     postpreferenceCreateOrUpdate:(data:string)=>httpClient.post(API_END_POINTS.notification.postperferenceCreateOrUpdate,data),
@@ -49,12 +49,18 @@ order_history: {
         httpClient.get(API_END_POINTS.order_history.getAll, params),
       getOldHistory: (params: string) =>
         httpClient.get(API_END_POINTS.order_history.getOldHistory, params),
-      updateStatus: (data: any, params: string) =>
-        httpClient.update(
-          API_END_POINTS.order_history.updateStatus,
-          data,
-          params
-        ),
+      // updateStatus: (id:string, data:any) =>
+      //   httpClient.update(
+      //     API_END_POINTS.order_history.updateStatus,
+      //     id,
+      //     data,
+      //   ),
+        updateStatus: (id: string, data: any) =>
+  httpClient.update(
+    API_END_POINTS.order_history.updateStatus.replace(':id', id), 
+    data 
+  ),
+
       delete: () => httpClient.delete(API_END_POINTS.order_history.delete),
     },
 

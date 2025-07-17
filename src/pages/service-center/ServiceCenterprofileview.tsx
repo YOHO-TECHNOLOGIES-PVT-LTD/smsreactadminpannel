@@ -282,11 +282,11 @@ const [confirmPassword, setConfirmPassword] = useState("");
 				{/* Profile Header */}
 				<div className='flex flex-col md:flex-row items-center justify-between p-6 bg-gradient-to-r from-[#9b111e] to-[#d23c3c]'>
 					<div className='flex items-center gap-4 mb-4 md:mb-0'>
-						<div className='bg-white p-2 rounded-full'>
+						<div className='bg-white p-2 rounded-lg'>
 							<img
 								src={partner?.image}
-								alt={'logo'}
-								className='w-16 h-16 rounded-full object-contain'
+								alt={partner?.companyName}
+								className='w-100 h-24 rounded-lg object-contain'
 							/>
 						</div>
 						{/* <h3 className="!font-bold !text-white" style={{ ...FONTS.cardheader }}>{partner?.firstName + " " + partner?.lastName}</h3> */}
@@ -352,53 +352,73 @@ const [confirmPassword, setConfirmPassword] = useState("");
 						>
 							Contact Information
 						</h2>
-						<div className='grid grid-cols-1 md:grid-cols-3 gap-8'>
+						<div className='grid grid-cols-1 md:grid-cols-4 gap-6'>
 							<div className='space-y-5'>
 								<InfoItem
 									icon={<BsBuildings className='text-[#9b111e]' />}
 									label='Username'
 									value={`${partner?.firstName || ''} ${
 										partner?.lastName || ''
-									}`.trim()}
+									}`.trim() || 'N/A'}
 								/>
 								<InfoItem
 									icon={<BsBuildings className='text-[#9b111e]' />}
 									label='Company Name'
-									value={editCompanyName}
+									value={partner?.companyName || 'N/A'}
 								/>
 								<InfoItem
 									icon={<SlCalender className='text-[#9b111e]' />}
 									label='AadharCard No'
-									value={originalValues.editAadharNumber}
+									value={partner?.aadhar || 'N/A'}
+								/>
+								<InfoItem
+									icon={<CgWebsite className='text-[#9b111e]' />}
+									label='State'
+									value={partner?.contact_info?.state || 'N/A'}
 								/>
 							</div>
 							<div className='space-y-5'>
 								<InfoItem
 									icon={<LuPhoneCall className='text-[#9b111e]' />}
 									label='Phone'
-									value={editPhone}
+									value={partner?.contact_info?.phoneNumber || 'N/A'}
 								/>
 								<InfoItem
 									icon={<MdEmail className='text-[#9b111e]' />}
 									label='Email'
-									value={editEmail}
+									value={partner?.email || 'N/A'}
 								/>
 								<InfoItem
 									icon={<CgWebsite className='text-[#9b111e]' />}
 									label='Pan No'
-									value={originalValues.editPanCard}
+									value={partner?.pan || 'N/A'}
+								/>
+								<InfoItem
+									icon={<CgWebsite className='text-[#9b111e]' />}
+									label='City'
+									value={partner?.contact_info?.city || 'N/A'}
 								/>
 							</div>
 							<div className='space-y-5'>
 								<InfoItem
 									icon={<AiFillSafetyCertificate className='text-[#9b111e]' />}
 									label='GST No'
-									value={originalValues.editGstNo}
+									value={partner?.gstNo || 'N/A'}
 								/>
 								<InfoItem
 									icon={<FcDataEncryption className='text-[#9b111e]' />}
 									label='Reg No'
-									value={originalValues.editRegNo}
+									value={partner?.regNo || 'N/A'}
+								/>
+								<InfoItem
+									icon={<CgWebsite className='text-[#9b111e]' />}
+									label='Address 1'
+									value={partner?.contact_info?.address1 || 'N/A'}
+								/>
+								<InfoItem
+									icon={<CgWebsite className='text-[#9b111e]' />}
+									label='Address 2'
+									value={partner?.contact_info?.address2 || 'N/A'}
 								/>
 							</div>
 						</div>
@@ -420,7 +440,7 @@ const [confirmPassword, setConfirmPassword] = useState("");
     <InfoItem
       icon={<MdOutlineMailOutline className="text-[#9b111e]" />}
       label="Email"
-      value={editLoginEmail}
+      value={partner?.email || 'N/A'}
     />
 
   
@@ -651,7 +671,7 @@ const [confirmPassword, setConfirmPassword] = useState("");
 											// textarea
 										/>
 										<EnhancedEditField
-											label='Address2'
+											label='Address1'
 											value={editAddress1}
 											onChange={setEditAddress1}
 											// textarea

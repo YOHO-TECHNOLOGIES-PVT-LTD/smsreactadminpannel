@@ -302,7 +302,7 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
                     {/* {selectedCardIndex !== index && ( */}
                       <button
                         onClick={() => changeData(index)}
-                        className="!text-white  px-4 py-1 rounded-3xl bg-[#16A34A] transition duration-200 flex items-center gap-1.5 text-sm"
+                        className="!text-white  px-4 py-1 rounded-3xl bg-[#9b111e] transition duration-200 flex items-center gap-1.5 text-sm"
                         style={{ ...FONTS.paragraph,
                           
                         }}
@@ -407,7 +407,8 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">Company Name</label>
                     <input
-                      type="text"
+                      type="text" 
+                      
                       name="companyName"
                       placeholder="Company Name"
                       value={partnerFormData.companyName}

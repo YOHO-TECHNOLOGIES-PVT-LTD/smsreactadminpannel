@@ -1,37 +1,37 @@
-import { useEffect, useState, useRef } from "react";
-import { FaBell } from "react-icons/fa";
-import { toast } from "react-toastify";
-import { getAllNotification } from "./services";
-import { FONTS } from "../../../constants/uiConstants";
+import { useEffect, useState } from "react";
+import { getByUserNotification, markAsReadNotification } from "./services";
 import { useSocket } from "../../../context/adminSocket";
-// import notificationSound from "../../../assets/notification.mp3";
 
 interface Notification {
-	id: number;
-	message: string;
-	created_at: string;
-	is_read: boolean;
-	priority: string;
-	action_type: string;
-	title: string;
-	is_active: boolean
+  id: number;
+  _id: string;
+  message: string;
+  created_at: string;
+  is_read: boolean;
+  priority: string;
+  action_type: string;
+  title: string;
+  is_active: boolean;
+  uuid: string;
 }
 
 const NotificationPanel: React.FC = () => {
-  const [notifications, setNotifications] = useState([]);
+  const [notifications, setNotifications] = useState<Notification[]>([]);
   const [filter, setFilter] = useState("all");
+
   const socket = useSocket();
 
-  useEffect(()=>{
-    if(!socket) return;
+  useEffect(() => {
+    if (!socket) return;
 
     const handleNotification = (data: any) => {
       console.log("Admin Notification Recieved", data)
+      setNotifications((prev) => [data, ...prev])
     }
 
     socket.on("newNotification", handleNotification)
 
-    return ()=>{
+    return () => {
       socket.off('newNotification', handleNotification)
     }
   }, [socket])
@@ -39,9 +39,12 @@ const NotificationPanel: React.FC = () => {
 
   useEffect(() => {
     const fetchNotifications = async () => {
+      const userId = localStorage.getItem('adminobjectid')
+      console.log('userId', userId)
       try {
-        const res:any = await getAllNotification();
-        setNotifications(res.data?.data || []);
+        const res: any = await getByUserNotification(userId!)
+        console.log("response : ", res)
+        setNotifications(res?.data?.data?.notifications || []);
       } catch (err) {
         console.error("Fetch error", err);
       }
@@ -49,17 +52,35 @@ const NotificationPanel: React.FC = () => {
     fetchNotifications();
   }, []);
 
-  const handleMarkAsRead = (id) => {
+const handleMarkAllAsRead = async () => {
+  const unread = notifications.filter((n) => !n.is_read);
+  if (unread.length === 0) return;
+
+  try {
+    for (const notify of unread) {
+      await markAsReadNotification(notify.uuid);
+    }
     setNotifications((prev) =>
-      prev.map((n) => (n._id === id ? { ...n, is_read: true } : n))
+      prev.map((n) => ({ ...n, is_read: true }))
     );
-  };
+  } catch (error) {
+    console.error("Failed to mark all as read", error);
+  }
+};
 
   const filtered = notifications.filter((n) =>
     filter === "all" ? true : filter === "read" ? n.is_read : !n.is_read
   );
 
-  const formatDate = (d) => new Date(d).toLocaleString();
+  const formatDate = (d: string) => new Date(d).toLocaleString('en-IN',{
+    dateStyle: 'medium',
+    timeStyle: 'short',
+    timeZone: 'Asia/Kolkata'
+  });
+
+  function setSelectedNotify(_n: Notification) {
+    throw new Error("Function not implemented.");
+  }
 
   return (
     <div className="p-4 bg-white rounded shadow w-full mx-auto mt-5">
@@ -75,16 +96,22 @@ const NotificationPanel: React.FC = () => {
             </button>
           ))}
         </div>
-        <button onClick={() => setNotifications((prev) => prev.map((n) => ({ ...n, is_read: true })))}>
+        <button onClick={handleMarkAllAsRead}>
           Mark all as read
         </button>
       </div>
       <div className="space-y-4">
-        {filtered.map((n) => (
+        {filtered.map((n, i) => (
           <div
-            key={n._id}
-            className={`p-4 rounded border ${n.is_read ? "bg-gray-100" : "bg-yellow-100"}`}
-            onClick={() => handleMarkAsRead(n._id)}
+            key={i}
+            className={`p-4 rounded border cursor-pointer ${n.is_read ? "bg-gray-100" : "bg-yellow-100"}`}
+            onClick={async () => {
+              setSelectedNotify(n)
+              if (!n.is_read) {
+                await markAsReadNotification((n.uuid))
+                setNotifications((prev) => prev.map((m) => m._id === n._id ? { ...m, is_read: true } : m))
+              }
+            }}
           >
             <div className="flex justify-between">
               <div>
