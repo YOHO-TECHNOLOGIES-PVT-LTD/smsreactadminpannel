@@ -283,11 +283,11 @@ const [confirmPassword, setConfirmPassword] = useState("");
 				{/* Profile Header */}
 				<div className='flex flex-col md:flex-row items-center justify-between p-6 bg-gradient-to-r from-[#9b111e] to-[#d23c3c]'>
 					<div className='flex items-center gap-4 mb-4 md:mb-0'>
-						<div className='bg-white p-2 rounded-lg'>
+						<div className='bg-white p-2 rounded-lg  '>
 							<img
 								src={partner?.image}
 								alt={partner?.companyName}
-								className='w-100 h-24 rounded-lg object-contain'
+								className='w-100 h-24 rounded-lg object-contain text-sm w-[150px]'
 							/>
 						</div>
 						{/* <h3 className="!font-bold !text-white" style={{ ...FONTS.cardheader }}>{partner?.firstName + " " + partner?.lastName}</h3> */}
