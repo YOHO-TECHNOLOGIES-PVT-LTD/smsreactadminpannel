@@ -399,7 +399,9 @@ export const Navbar: React.FC<ProfileModalProps> = () => {
       <ProfileModal
         isOpen={showProfileDetails}
         onClose={() => setShowProfileDetails(false)}
-        onUserUpdate={handleUserUpdate} user={undefined}      />
+        onUserUpdate={handleUserUpdate}
+        user={user}
+      />
 
       {/* Logout Confirmation Modal */}
       {showLogoutConfirm && (
