@@ -649,7 +649,7 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId, handleBack }) 
                     required
                   />
                 </div>
-                <div>
+                {/* <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Slug*</label>
                   <input
                     type="text"
@@ -659,11 +659,11 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId, handleBack }) 
                     placeholder="Enter slug"
                     required
                   />
-                </div>
+                </div> */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Image URL*</label>
                   <input
-                    type="text"
+                    type="file"
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg"
                     value={newPart.image}
                     onChange={(e) => setNewPart({ ...newPart, image: e.target.value })}
