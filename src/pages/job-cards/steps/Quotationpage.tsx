@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useState } from "react";
 import { HiOutlineXMark } from "react-icons/hi2";
 import { useNavigate, useParams } from "react-router-dom";

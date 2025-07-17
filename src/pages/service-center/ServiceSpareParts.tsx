@@ -511,7 +511,7 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId, handleBack }) 
                   {menuOpenId === part._id && (
                     <div className="absolute right-3 top-12 z-20 w-32 bg-white border border-gray-200 rounded-3xl shadow-lg">
                       <button
-                        className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-3xl"
                         onClick={(e) => {
                           e.stopPropagation()
                           handleEdit(part)
@@ -623,8 +623,12 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId, handleBack }) 
       </div>
       {/* Add Spare Part Modal */}
       {showAddModal && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-xl shadow-lg w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50"
+          onClick={() => setShowAddModal(false)}
+        >
+          <div className="bg-white rounded-xl shadow-lg w-full max-w-2xl max-h-[90vh] overflow-y-auto"
+          onClick={(e) => e.stopPropagation()}
+          >
             <div className="p-6">
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-2xl font-bold !text-gray-900" style={{ ...FONTS.header }}>
@@ -798,8 +802,12 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId, handleBack }) 
       )}
       {/* Add Category Modal */}
       {showAddCategoryModal && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-xl shadow-lg w-full max-w-md max-h-[90vh] overflow-y-auto">
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50"
+            onClick={() => setShowAddCategoryModal(false)}
+        >
+          <div className="bg-white rounded-xl shadow-lg w-full max-w-md max-h-[90vh] overflow-y-auto"
+          onClick={(e) => e.stopPropagation()} 
+          >
             <div className="p-6">
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-2xl font-bold !text-gray-900" style={{ ...FONTS.header }}>
@@ -1038,7 +1046,7 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId, handleBack }) 
         </div>
       )}
       {editPart && (
-        <div className="fixed inset-0  bg-black/50 flex items-center justify-center z-50 ">
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 ">
           <div className="bg-white rounded-md shadow-lg w-full max-w-xl m-12">
             <div className="p-4">
               <div className="flex items-center justify-between mb-4">
@@ -1134,7 +1142,7 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId, handleBack }) 
                   <input
                     title="Quantity"
                     type="number"
-                    value={editPart.quantity}
+                    value={editPart.stock}
                     onChange={(e) =>
                       setEditPart((prevEditPart) => {
                         if (!prevEditPart) return null
