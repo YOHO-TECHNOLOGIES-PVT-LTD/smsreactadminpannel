@@ -16,6 +16,7 @@ interface ContactInfo {
   city: string
   address1: string
   address2: string
+  pincode?: string
 }
 
 interface PartnerFormData {
@@ -46,6 +47,7 @@ interface ValidationErrors {
   email?: string
   password?: string
   phoneNumber?: string
+  pincode?: string
   aadhar?: string
   state?: string
   city?: string
@@ -84,6 +86,7 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
       city: "",
       address1: "",
       address2: "",
+      pincode: "",
     },
     role: "partner",
     image: null,
@@ -99,7 +102,7 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
 
   const validatePartnerForm = (): ValidationErrors => {
     const errors: ValidationErrors = {}
-    const { firstName, lastName, email, password, aadhar, pan, gstNo, contact_info } = partnerFormData
+    const { firstName, lastName, email, password, aadhar, gstNo, contact_info } = partnerFormData
 
     if (!firstName?.trim()) errors.firstName = "First name is required"
     if (!lastName?.trim()) errors.lastName = "Last name is required"
@@ -114,6 +117,11 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
       errors.password = "Password is required"
     } else if (password.length < 6) {
       errors.password = "Password must be at least 6 characters"
+    }
+    if (!contact_info.pincode) {
+      errors.pincode = "Pincode is required"
+    } else if (password.length < 6) {
+      errors.pincode = "Pincode must be 6 characters"
     }
 
     if (!contact_info.phoneNumber?.trim()) {
@@ -132,9 +140,9 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
     if (!contact_info.city) errors.city = "City is required"
     if (!contact_info.address1?.trim()) errors.address1 = "Address line 1 is required"
 
-    if (pan && !/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/.test(pan)) {
-      errors.pan = "Invalid PAN format (e.g., ABCDE1234F)"
-    }
+    // if (pan && !/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/.test(pan)) {
+    //   errors.pan = "Invalid PAN format (e.g., ABCDE1234F)"
+    // }
 
     if (gstNo && !/^\d{2}[A-Z]{5}\d{4}[A-Z]{1}[A-Z\d]{1}[Z]{1}[A-Z\d]{1}$/.test(gstNo)) {
       errors.gstNo = "Invalid GST format (e.g., 22ABCDE1234F1Z5)"
@@ -193,7 +201,7 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
     if (Object.keys(errors).length > 0) {
       setFormErrors(errors)
       setIsLoading(false)
-      toast.error("Please fix the errors in the form")
+      
       return
     }
 
@@ -250,6 +258,7 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
       password: "",
       contact_info: {
         phoneNumber: "",
+         pincode: "",
         state: "",
         city: "",
         address1: "",
@@ -498,6 +507,26 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
                   />
                   {formErrors.phoneNumber && (
                     <p className="mt-1 text-sm text-red-600">{formErrors.phoneNumber}</p>
+                  )}
+                </div>
+
+                  <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    PIN Code <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    name="contact_info.pincode"
+                    placeholder="ex 600001"
+                    value={partnerFormData.contact_info.pincode}
+                    onChange={handlePartnerFormChange}
+                    onBlur={() => handleFieldBlur('pincode')}
+                    className={`w-full px-4 py-2 border ${
+                      formErrors.pincode ? 'border-red-500' : 'border-[#717171]'
+                    } placeholder:text-[#717171] rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#800000] focus:border-transparent transition`}
+                  />
+                  {formErrors.pincode && (
+                    <p className="mt-1 text-sm text-red-600">{formErrors.pincode}</p>
                   )}
                 </div>
 

@@ -18,6 +18,27 @@ import { toast } from "react-toastify"
 
 // import {  useNavigate } from "react-router-dom";
 
+interface FormErrors {
+  companyName?: string;
+  firstName?: string;
+  lastName?: string;
+  phone?: string;
+  email?: string;
+  loginEmail?: string;
+  state?: string;
+  city?: string;
+  pincode?: string;
+  address1?: string;
+  address2?: string;
+  aadharNumber?: string;
+  panCard?: string;
+  gstNo?: string;
+  regNo?: string;
+  newPassword?: string;
+  confirmPassword?: string;
+}
+
+
 type ServiceCenterProfileProps = {
 	onSpareParts: () => void;
 	onServices: () => void;
@@ -48,7 +69,111 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({
   const [showPasswordModal, setShowPasswordModal] = useState(false);
 const [newPassword, setNewPassword] = useState("");
 const [confirmPassword, setConfirmPassword] = useState("");
+const [errors, setErrors] = useState<FormErrors>({});
 
+
+const validateField = (name: string, value: string): string | undefined => {
+  switch (name) {
+    case 'companyName':
+      if (!value.trim()) return 'Company name is required';
+      if (value.length > 100) return 'Company name too long';
+      return undefined;
+      
+    case 'firstName':
+    case 'lastName':
+      if (!value.trim()) return `${name === 'firstName' ? 'First' : 'Last'} name is required`;
+      if (!/^[a-zA-Z\s-]+$/.test(value)) return 'Only letters, spaces and hyphens allowed';
+      if (value.length > 50) return 'Name too long';
+      return undefined;
+      
+    case 'phone':
+      if (!value.trim()) return 'Phone number is required';
+      if (!/^[0-9]{10}$/.test(value)) return 'Invalid phone number (10 digits required)';
+      return undefined;
+      
+    case 'email':
+    case 'loginEmail':
+      if (!value.trim()) return 'Email is required';
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) return 'Invalid email format';
+      return undefined;
+      
+    case 'state':
+    case 'city':
+      if (!value.trim()) return `${name.charAt(0).toUpperCase() + name.slice(1)} is required`;
+      return undefined;
+
+	case 'pincode':
+      if (!value.trim()) return 'Pincode 6 is required';
+      return undefined;
+      
+    case 'address1':
+      if (!value.trim()) return 'Address line 1 is required';
+      return undefined;
+      
+    case 'aadharNumber':
+      if (value && value !== 'Nan' && !/^[0-9]{12}$/.test(value)) 
+        return 'Aadhar must be 12 digits';
+      return undefined;
+      
+    case 'panCard':
+      if (value && value !== 'Nan' && !/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/.test(value))
+        return 'Invalid PAN format (e.g., ABCDE1234F)';
+      return undefined;
+      
+    case 'gstNo':
+      if (value && value !== 'Nan' && !/^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[0-9A-Z]{1}[Z]{1}[0-9A-Z]{1}$/.test(value))
+        return 'Invalid GST format';
+      return undefined;
+      
+    case 'regNo':
+      if (value && value !== 'Nan' && value.length < 5)
+        return 'Registration number too short';
+      return undefined;
+      
+    case 'newPassword':
+      if (value && value.length < 8) return 'Password must be at least 8 characters';
+      if (value && !/[A-Z]/.test(value)) return 'Password must contain at least one uppercase letter';
+      if (value && !/[a-z]/.test(value)) return 'Password must contain at least one lowercase letter';
+      if (value && !/[0-9]/.test(value)) return 'Password must contain at least one number';
+      return undefined;
+      
+    case 'confirmPassword':
+      if (value !== newPassword) return 'Passwords do not match';
+      return undefined;
+      
+    default:
+      return undefined;
+  }
+};
+
+const handleBlur = (fieldName: keyof FormErrors, value: string) => {
+  const error = validateField(fieldName, value);
+  setErrors(prev => ({ ...prev, [fieldName]: error }));
+};
+
+const validateForm = (): boolean => {
+  const newErrors: FormErrors = {};
+  
+  // Validate all fields
+  newErrors.companyName = validateField('companyName', editCompanyName);
+  newErrors.firstName = validateField('firstName', editFirstName);
+  newErrors.lastName = validateField('lastName', editLastName);
+  newErrors.phone = validateField('phone', editPhone);
+  newErrors.email = validateField('email', editEmail);
+  newErrors.loginEmail = validateField('loginEmail', editLoginEmail);
+  newErrors.state = validateField('state', editState);
+  newErrors.city = validateField('city', editCity);
+  newErrors.pincode = validateField('pincode', editPincode);
+  newErrors.address1 = validateField('address1', editAddress1);
+  newErrors.aadharNumber = validateField('aadharNumber', editAadharNumber);
+  newErrors.panCard = validateField('panCard', editPanCard);
+  newErrors.gstNo = validateField('gstNo', editGstNo);
+  newErrors.regNo = validateField('regNo', editRegNo);
+  
+  setErrors(newErrors);
+  
+  return !Object.values(newErrors).some(error => error !== undefined);
+};
   // Original values for comparison
 
 	const originalValues = {
@@ -66,6 +191,7 @@ const [confirmPassword, setConfirmPassword] = useState("");
 		editImage: partner?.image,
 		editState: partner?.contact_info?.state,
 		editCity: partner?.contact_info?.city,
+		editPincode: partner?.contact_info?.pincode,
 		editAddress1: partner?.contact_info?.address1,
 		editAddress2: partner?.contact_info?.address2,
 	};
@@ -80,23 +206,24 @@ const [confirmPassword, setConfirmPassword] = useState("");
 	const [editCompanyName, setEditCompanyName] = useState(
 		originalValues.editCompanyName
 	);
-	const [editFirstName] = useState(originalValues.editFirstName);
+	const [editFirstName, setFirstName] = useState(originalValues.editFirstName);
 	const [editLastName, setLastName] = useState(originalValues.editLastName);
 	// const [editImage, setImage] = useState(originalValues.editImage)
 	const [editPhone, setEditPhone] = useState(originalValues.editPhone);
-	const [editEmail, setEditEmail] = useState(originalValues.editEmail);
+	const [editEmail] = useState(originalValues.editEmail);
 	const [editState, setEditState] = useState(originalValues.editState);
 	const [editCity, setEditCity] = useState(originalValues.editCity);
+	const [editPincode, setEditPincode] = useState(originalValues.editPincode);
 	const [editAddress1, setEditAddress1] = useState(originalValues.editAddress1);
 	const [editAddress2, setEditAddress2] = useState(originalValues.editAddress2);
 	// const [editLastAudit, setEditLastAudit] = useState(originalValues.editLastAudit)
 	// const [editCertification, setEditCertification] = useState(originalValues.editCertification)
 	// const [editUsername, setEditUsername] = useState(originalValues.editUsername)
-	
 	const [editLoginEmail, setEditLoginEmail] = useState(
 		originalValues.editLoginEmail
 	);
 	// const [editPassword, setEditPassword] = useState(originalValues.editPassword)
+	
 
 	// Function to check if any values have changed
 	const hasChanges = () => {
@@ -111,6 +238,7 @@ const [confirmPassword, setConfirmPassword] = useState("");
 			editLastName,
 			// editImage,
 			editCity,
+			editPincode,
 			editAadharNumber,
 			editAddress1,
 			editAddress2,
@@ -159,6 +287,46 @@ const [confirmPassword, setConfirmPassword] = useState("");
 	const handleEditSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
 
+
+		if (!validateForm()) {
+    console.log('fill all the details')
+    return;
+  }
+
+  if (!hasChanges()) {
+    setShowNoChangesPopup(true);
+    return;
+  }
+
+  try {
+    const datas = {
+      contact_info: {
+        state: editState,
+        city: editCity,
+		pincode: editPincode,
+        address1: editAddress1,
+        address2: editAddress2,
+        phoneNumber: editPhone,
+      },
+      firstName: editFirstName,
+      companyName: editCompanyName,
+      lastName: editLastName,
+      email: editEmail,
+      aadhar: editAadharNumber,
+      regNo: editRegNo,
+      pan: editPanCard,
+      gstNo: editGstNo,
+      image: '',
+    };
+
+    await new Client().admin.servicecenter.update(datas, partner._id);
+    setShowEditForm(false);
+    setShowSuccessPopup(true);
+  } catch (error) {
+    toast.error('Failed to update profile');
+    console.error('Profile update error:', error);
+  }
+
 		// Check if there are any changes
 		if (!hasChanges()) {
 			setShowEditForm(false);
@@ -179,6 +347,7 @@ const [confirmPassword, setConfirmPassword] = useState("");
 					address1: editAddress1,
 					address2: editAddress2,
 					phoneNumber: editPhone,
+					pincode: editPincode,
 				},
 				firstName: editFirstName,
 				companyName: editCompanyName,
@@ -363,53 +532,33 @@ const [confirmPassword, setConfirmPassword] = useState("");
 									}`.trim() || 'N/A'}
 								/>
 								<InfoItem
-									icon={<BsBuildings className='text-[#9b111e]' />}
-									label='Company Name'
-									value={partner?.companyName || 'N/A'}
-								/>
-								<InfoItem
-									icon={<SlCalender className='text-[#9b111e]' />}
-									label='AadharCard No'
-									value={partner?.aadhar || 'N/A'}
-								/>
-								<InfoItem
-									icon={<CgWebsite className='text-[#9b111e]' />}
-									label='State'
-									value={partner?.contact_info?.state || 'N/A'}
-								/>
-							</div>
-							<div className='space-y-5'>
-								<InfoItem
-									icon={<LuPhoneCall className='text-[#9b111e]' />}
-									label='Phone'
-									value={partner?.contact_info?.phoneNumber || 'N/A'}
-								/>
-								<InfoItem
 									icon={<MdEmail className='text-[#9b111e]' />}
 									label='Email'
 									value={partner?.email || 'N/A'}
 								/>
 								<InfoItem
 									icon={<CgWebsite className='text-[#9b111e]' />}
-									label='Pan No'
-									value={partner?.pan || 'N/A'}
-								/>
-								<InfoItem
-									icon={<CgWebsite className='text-[#9b111e]' />}
-									label='City'
-									value={partner?.contact_info?.city || 'N/A'}
-								/>
-							</div>
-							<div className='space-y-5'>
-								<InfoItem
-									icon={<AiFillSafetyCertificate className='text-[#9b111e]' />}
-									label='GST No'
-									value={partner?.gstNo || 'N/A'}
+									label='State'
+									value={partner?.contact_info?.state || 'N/A'}
 								/>
 								<InfoItem
 									icon={<FcDataEncryption className='text-[#9b111e]' />}
 									label='Reg No'
 									value={partner?.regNo || 'N/A'}
+								/>
+								
+								
+								<InfoItem
+									icon={<CgWebsite className='text-[#9b111e]' />}
+									label='Pincode'
+									value={partner?.contact_info?.pincode || 'N/A'}
+								/>
+							</div>
+							<div className='space-y-5'>
+								<InfoItem
+									icon={<BsBuildings className='text-[#9b111e]' />}
+									label='Company Name'
+									value={partner?.companyName || 'N/A'}
 								/>
 								<InfoItem
 									icon={<CgWebsite className='text-[#9b111e]' />}
@@ -418,8 +567,38 @@ const [confirmPassword, setConfirmPassword] = useState("");
 								/>
 								<InfoItem
 									icon={<CgWebsite className='text-[#9b111e]' />}
+									label='City'
+									value={partner?.contact_info?.city || 'N/A'}
+								/>
+								<InfoItem
+									icon={<SlCalender className='text-[#9b111e]' />}
+									label='AadharCard No'
+									value={partner?.aadhar || 'N/A'}
+								/>
+								
+								
+								
+							</div>
+							<div className='space-y-5'>
+								<InfoItem
+									icon={<LuPhoneCall className='text-[#9b111e]' />}
+									label='Phone'
+									value={partner?.contact_info?.phoneNumber || 'N/A'}
+								/>
+								<InfoItem
+									icon={<AiFillSafetyCertificate className='text-[#9b111e]' />}
+									label='GST No'
+									value={partner?.gstNo || 'N/A'}
+								/>
+								<InfoItem
+									icon={<CgWebsite className='text-[#9b111e]' />}
 									label='Address 2'
 									value={partner?.contact_info?.address2 || 'N/A'}
+								/>
+								<InfoItem
+									icon={<CgWebsite className='text-[#9b111e]' />}
+									label='Pan No'
+									value={partner?.pan || 'N/A'}
 								/>
 							</div>
 						</div>
@@ -592,100 +771,132 @@ const [confirmPassword, setConfirmPassword] = useState("");
 							</button>
 						</div>
 
-						<div className='p-6 grid grid-cols-1 md:grid-cols-2 gap-8'>
+						
 							{/* Contact Information Section */}
-							<div className='space-y-6'>
-								<div className='bg-[#f9f9f9] p-4 rounded-lg'>
-									<h3 className='text-lg font-semibold text-[#9b111e] mb-4 flex items-center gap-2'>
+							
+								
+									<h3 className='text-lg font-semibold ml-3 text-[#9b111e] mb-4 flex items-center gap-2'>
 										<BsBuildings className='text-[#9b111e]' />
 										Contact Information
 									</h3>
-									<div className='space-y-4'>
+									<div className='grid grid-cols-3 gap-2 p-4'>
+										<EnhancedEditField
+										  label='First Name'
+										  value={editFirstName}
+										  onChange={setFirstName}
+										  onBlur={() => handleBlur('firstName', editFirstName)}
+										  error={errors.firstName}
+										  required
+										/>
+										<EnhancedEditField
+											label='LastName'
+											value={editLastName}
+											onChange={setLastName}
+											onBlur={() => handleBlur('lastName', editLastName)}
+										  error={errors.lastName}
+										  required
+										/>
 										<EnhancedEditField
 											label='Company Name'
 											value={editCompanyName}
 											onChange={setEditCompanyName}
+											onBlur={() => handleBlur('companyName', editCompanyName)}
+										  error={errors.companyName}
+										  required
 										/>
-										<EnhancedEditField
-											label='Branches'
-											value={editLastName}
-											onChange={setLastName}
-										/>
+										
 										<EnhancedEditField
 											label='Phone'
 											value={editPhone}
 											onChange={setEditPhone}
-										/>
-										<EnhancedEditField
-											label='Email'
-											value={editEmail}
-											onChange={setEditEmail}
-										/>
-										<EnhancedEditField
-											label='Aadhar No'
-											value={editAadharNumber}
-											onChange={setEditAadharNumber}
-										/>
-										<EnhancedEditField
-											label='Pan No'
-											value={editPanCard}
-											onChange={setEditPanCard}
-										/>
-										<EnhancedEditField
-											label='GST No'
-											value={editGstNo}
-											onChange={setEditGstNo}
-										/>
-										<EnhancedEditField
-											label='Reg No'
-											value={editRegNo}
-											onChange={setEditRegNo}
-										/>
-									</div>
-								</div>
-							</div>
-
-							{/* Second Column */}
-							<div className='space-y-6'>
-								<div className='bg-[#f9f9f9] p-4 rounded-lg'>
-									<h3 className='text-lg font-semibold text-[#9b111e] mb-4 flex items-center gap-2'>
-										<CgWebsite className='text-[#9b111e]' />
-										Website & Address
-									</h3>
-									<div className='space-y-4'>
-										{/* <EnhancedEditField
-                      icon={<CgWebsite className="text-[#9b111e]" />}
-                      label="Website"
-                      value={editWebsite}
-                      onChange={setEditWebsite}
-                    /> */}
-										<EnhancedEditField
-											label='State'
-											value={editState}
-											onChange={setEditState}
-											// textarea
-										/>
-										<EnhancedEditField
-											label='City'
-											value={editCity}
-											onChange={setEditCity}
-											// textarea
+											onBlur={() => handleBlur('phone', editPhone)}
+										  error={errors.phone}
+										  required
 										/>
 										<EnhancedEditField
 											label='Address1'
 											value={editAddress1}
 											onChange={setEditAddress1}
+											onBlur={() => handleBlur('address1', editAddress1)}
+										  error={errors.address1}
+										  required
 											// textarea
 										/>
 										<EnhancedEditField
 											label='Address2'
 											value={editAddress2}
 											onChange={setEditAddress2}
+											onBlur={() => handleBlur('address2', editAddress2)}
+										  error={errors.address2}
+										  required
 											// textarea
 										/>
+										
+										<EnhancedEditField
+											label='State'
+											value={editState}
+											onChange={setEditState}
+											onBlur={() => handleBlur('state', editState)}
+										  error={errors.state}
+										  required
+											// textarea
+										/>
+										<EnhancedEditField
+											label='City'
+											value={editCity}
+											onChange={setEditCity}
+											onBlur={() => handleBlur('city', editCity)}
+										  error={errors.city}
+										  required
+											// textarea
+										/>		
+										<EnhancedEditField
+											label='Pincode'
+											value={editPincode}
+											onChange={setEditPincode}
+											onBlur={() => handleBlur('pincode', editPincode)}
+										  error={errors.pincode}
+										  required
+											// textarea
+										/>	
+										<EnhancedEditField
+											label='Reg No'
+											value={editRegNo}
+											onChange={setEditRegNo}
+											onBlur={() => handleBlur('regNo', editRegNo)}
+										  error={errors.regNo}
+										  required
+										/>			
+										<EnhancedEditField
+											label='Aadhar No'
+											value={editAadharNumber}
+											onChange={setEditAadharNumber}
+											onBlur={() => handleBlur('aadharNumber', editAadharNumber)}
+										  error={errors.aadharNumber}
+										  required
+										/>
+										<EnhancedEditField
+											label='Pan No'
+											value={editPanCard}
+											onChange={setEditPanCard}
+											onBlur={() => handleBlur('panCard', editPanCard)}
+										  error={errors.panCard}
+										  required
+										/>
+										<EnhancedEditField
+											label='GST No'
+											value={editGstNo}
+											onChange={setEditGstNo}
+											onBlur={() => handleBlur('gstNo', editGstNo)}
+										  error={errors.gstNo}
+										  required
+										/>
+										
+									
+										
 									</div>
-								</div>
-
+								
+						
 								<div className='bg-[#f9f9f9] p-4 rounded-lg'>
 									<h3 className='text-lg font-semibold text-[#9b111e] mb-4 flex items-center gap-2'>
 										<RiLockPasswordLine className='text-[#9b111e]' />
@@ -702,6 +913,9 @@ const [confirmPassword, setConfirmPassword] = useState("");
 											label='Login Email'
 											value={editLoginEmail}
 											onChange={setEditLoginEmail}
+											onBlur={() => handleBlur('loginEmail', editLoginEmail)}
+										  error={errors.loginEmail}
+										  required
 										/>
 										{/* <EnhancedEditField
                       icon={<RiLockPasswordLine className="text-[#9b111e]" />}
@@ -712,8 +926,8 @@ const [confirmPassword, setConfirmPassword] = useState("");
                     /> */}
 									</div>
 								</div>
-							</div>
-						</div>
+							
+						
 
 						<div className='sticky bottom-0 bg-white p-4 border-t border-gray-200 flex justify-end gap-3'>
 							<button
@@ -783,43 +997,52 @@ const InfoItem = ({
 );
 
 const EnhancedEditField = ({
-	icon,
-	label,
-	value,
-	onChange,
-	type = 'text',
-	textarea = false,
+  icon,
+  label,
+  value,
+  onChange,
+  onBlur,
+  error,
+  type = 'text',
+  textarea = false,
+  required = false,
 }: {
-	icon?: React.ReactNode;
-	label: string;
-	value: string;
-	onChange: (value: string) => void;
-	type?: string;
-	textarea?: boolean;
+  icon?: React.ReactNode;
+  label: string;
+  value: string;
+  onChange: (value: string) => void;
+  onBlur?: () => void;
+  error?: string;
+  type?: string;
+  textarea?: boolean;
+  required?: boolean;
 }) => (
-	<div className='space-y-2'>
-		<label className='block text-sm font-medium text-gray-700 mb-1 items-center gap-2'>
-			{icon}
-			<span>{label}</span>
-		</label>
-		{textarea ? (
-			<textarea
-				value={value}
-				onChange={(e) => onChange(e.target.value)}
-				className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#9b111e] focus:border-[#9b111e] outline-none transition min-h-[100px]'
-				rows={3}
-			/>
-		) : (
-			<input
-				type={type}
-				value={value}
-				onChange={(e) => onChange(e.target.value)}
-				className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#9b111e] focus:border-[#9b111e] outline-none transition'
-			/>
-		)}
-	</div>
+  <div className='space-y-2'>
+    <label className='block text-sm font-medium text-gray-700 mb-1 items-center gap-2'>
+      {icon}
+      <span>{label}</span>
+      {required && <span className="text-red-500">*</span>}
+    </label>
+    {textarea ? (
+      <textarea
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        onBlur={onBlur}
+        className={`w-full px-4 py-2 border ${error ? 'border-red-500' : 'border-gray-300'} rounded-lg focus:ring-2 focus:ring-[#9b111e] focus:border-[#9b111e] outline-none transition min-h-[100px]`}
+        rows={3}
+      />
+    ) : (
+      <input
+        type={type}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        onBlur={onBlur}
+        className={`w-full px-4 py-2 border ${error ? 'border-red-500' : 'border-gray-300'} rounded-lg focus:ring-2 focus:ring-[#9b111e] focus:border-[#9b111e] outline-none transition`}
+      />
+    )}
+    {error && <p className="text-red-500 text-xs mt-1">{error}</p>}
+  </div>
 );
-
 const ConfirmationModal = ({
 	title,
 	message,
