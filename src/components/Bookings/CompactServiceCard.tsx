@@ -60,8 +60,9 @@ const CompactServiceCard: React.FC<CompactServiceCardProps> = ({ request, onAssi
 			toast.error('Please select a partner.');
 			return;
 		}
-    console.log('comoany name ',selectedPartner)
-		toast.success('Partner Assigned');
+    const companyName = partnerList.filter((p)=> p._id === selectedPartner ? p.companyName : "")
+    console.log("Com", companyName)
+		toast.success(`Assigned to ${companyName[0].companyName}`);
 		const data = { uuid: request.uuid };
 		await updatePendingRequest(selectedPartner, data);
 
@@ -93,6 +94,7 @@ const CompactServiceCard: React.FC<CompactServiceCardProps> = ({ request, onAssi
    
   async function setOpenModel() {
     const data:any = await FetchPartnerList()
+    console.log("Partner", data)
     setpartnerList(data)
     setIsModalOpen(true)
   }
@@ -256,7 +258,9 @@ const CompactServiceCard: React.FC<CompactServiceCardProps> = ({ request, onAssi
 							</label>
 							<select
 								value={selectedPartner}
-								onChange={(e) => setSelectedPartner(e.target.value)}
+								onChange={(e) => {
+                  console.log(e.target.name, 'select partner')
+                  setSelectedPartner(e.target.value)}}
 								className='w-full border border-gray-300 rounded-md px-3 py-2 text-sm'
 							>
 								<option value=''>-- Choose a partner --</option>
@@ -265,11 +269,9 @@ const CompactServiceCard: React.FC<CompactServiceCardProps> = ({ request, onAssi
 										<option key={index} value={items._id}>
 											{items?.id +
 												' ' +
-												items.firstName +
-												' ' +
-												items.lastName +
+												items?.companyName +
 												'-' +
-												items.contact_info.city}
+												items?.contact_info.city}
 										</option>
 									);
 								})}
