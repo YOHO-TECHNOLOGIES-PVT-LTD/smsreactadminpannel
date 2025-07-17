@@ -364,7 +364,7 @@ const Order = () => {
                         <span className="font-medium !text-gray-600" style={{ ...FONTS.paragraph }}>Name:</span> {selectedOrder.customer_name}
                       </p>
                       <p className="!text-gray-600">
-                        <span className="font-medium !text-gray-600" style={{ ...FONTS.paragraph }}>Email:</span> {selectedOrder.email}
+                        <span className="font-medium !text-gray-600" style={{ ...FONTS.paragraph }}>Email:</span> {selectedOrder?.customerId?.email}
                       </p>
                       <p className="!text-gray-600">
                         <span className="font-medium !text-gray-600" style={{ ...FONTS.paragraph }}>Phone Number:</span> {selectedOrder?.customerId?.contact_info?.phoneNumber}

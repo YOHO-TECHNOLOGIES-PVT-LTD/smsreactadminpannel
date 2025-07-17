@@ -60,7 +60,8 @@ const CompactServiceCard: React.FC<CompactServiceCardProps> = ({ request, onAssi
 			toast.error('Please select a partner.');
 			return;
 		}
-		toast.success(`Assigned to ${selectedPartner}`);
+    console.log('comoany name ',selectedPartner)
+		toast.success('Partner Assigned');
 		const data = { uuid: request.uuid };
 		await updatePendingRequest(selectedPartner, data);
 
