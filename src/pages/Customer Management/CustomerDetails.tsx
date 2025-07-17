@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import {
   FaSearch,
-  FaArrowUp,
+  // FaArrowUp,
   FaChevronRight,
   FaChevronLeft,
   FaFilter,
@@ -112,13 +112,19 @@ const CustomerDetails: React.FC<ProfileViewComponent> = ({ onProfileView,setCust
   const [currentPage, setCurrentPage] = useState(1);
   const [showFilters, setShowFilters] = useState(false);
   const [statusFilter, setStatusFilter] = useState<string | null>(null);
+  const [TotalOrders, setTotalOrders] = useState(0);
+  const [TotalService, setTotalService] = useState(0);
+  const [TotalCustomer, setTotalCustomer] = useState(0);
 
   useEffect(() => {
     const fetchCustomer = async () => {
       try {
         const response: any = await getAllCustomer("");
-        console.log("Fetched customers", response.data.customer);
+        console.log("Fetched customers", response.data);
         setCustomerData(response.data.customer);
+        setTotalOrders(response?.data?.totalOrderLogs)
+        setTotalCustomer(response?.data?.totalcustomer)
+        setTotalService(response?.data?.totalservice)
       } catch (error) {
         console.log("Error fetching customer", error);
       }
@@ -222,8 +228,8 @@ const CustomerDetails: React.FC<ProfileViewComponent> = ({ onProfileView,setCust
                 animate={{ scale: 1 }}
                 transition={{ delay: 0.3 }}
               >
-                <FaArrowUp className="text-xs" />
-                <span>{[15, 8, 12][i]}%</span>
+                {/* <FaArrowUp className="text-xs" /> */}
+                {/* <span>{[15, 8, 12][i]}%</span> */}
               </motion.div>
 
               <div className="flex flex-col h-full justify-between">
@@ -232,23 +238,9 @@ const CustomerDetails: React.FC<ProfileViewComponent> = ({ onProfileView,setCust
                   <p className="mt-12 text-5xl font-bold text-gray-800">
                     <CountUp
                       end={
-                        i === 0
-                          ? Array.isArray(customerData)
-                            ? customerData.length
-                            : 0
-                          : i === 1
-                          ? Array.isArray(customerData)
-                            ? customerData.reduce(
-                                (acc, c) => acc + Number(c.services || 0),
-                                0
-                              )
-                            : 0
-                          : Array.isArray(customerData)
-                          ? customerData.reduce(
-                              (acc, c) => acc + Number(c.orders || 0),
-                              0
-                            )
-                          : 0
+                        i === 0 ? TotalCustomer :( i === 1 
+                          ? TotalService
+                          : i==2 ? TotalOrders : 0)
                       }
                       duration={2.5}
                     />
