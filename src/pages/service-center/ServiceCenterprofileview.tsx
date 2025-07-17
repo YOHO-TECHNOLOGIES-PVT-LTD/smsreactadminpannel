@@ -27,6 +27,7 @@ interface FormErrors {
   loginEmail?: string;
   state?: string;
   city?: string;
+  pincode?: string;
   address1?: string;
   address2?: string;
   aadharNumber?: string;
@@ -100,6 +101,10 @@ const validateField = (name: string, value: string): string | undefined => {
     case 'city':
       if (!value.trim()) return `${name.charAt(0).toUpperCase() + name.slice(1)} is required`;
       return undefined;
+
+	case 'pincode':
+      if (!value.trim()) return 'Pincode 6 is required';
+      return undefined;
       
     case 'address1':
       if (!value.trim()) return 'Address line 1 is required';
@@ -158,6 +163,7 @@ const validateForm = (): boolean => {
   newErrors.loginEmail = validateField('loginEmail', editLoginEmail);
   newErrors.state = validateField('state', editState);
   newErrors.city = validateField('city', editCity);
+  newErrors.pincode = validateField('pincode', editPincode);
   newErrors.address1 = validateField('address1', editAddress1);
   newErrors.aadharNumber = validateField('aadharNumber', editAadharNumber);
   newErrors.panCard = validateField('panCard', editPanCard);
@@ -185,6 +191,7 @@ const validateForm = (): boolean => {
 		editImage: partner?.image,
 		editState: partner?.contact_info?.state,
 		editCity: partner?.contact_info?.city,
+		editPincode: partner?.contact_info?.pincode,
 		editAddress1: partner?.contact_info?.address1,
 		editAddress2: partner?.contact_info?.address2,
 	};
@@ -206,6 +213,7 @@ const validateForm = (): boolean => {
 	const [editEmail, setEditEmail] = useState(originalValues.editEmail);
 	const [editState, setEditState] = useState(originalValues.editState);
 	const [editCity, setEditCity] = useState(originalValues.editCity);
+	const [editPincode, setEditPincode] = useState(originalValues.editPincode);
 	const [editAddress1, setEditAddress1] = useState(originalValues.editAddress1);
 	const [editAddress2, setEditAddress2] = useState(originalValues.editAddress2);
 	// const [editLastAudit, setEditLastAudit] = useState(originalValues.editLastAudit)
@@ -230,6 +238,7 @@ const validateForm = (): boolean => {
 			editLastName,
 			// editImage,
 			editCity,
+			editPincode,
 			editAadharNumber,
 			editAddress1,
 			editAddress2,
@@ -294,6 +303,7 @@ const validateForm = (): boolean => {
       contact_info: {
         state: editState,
         city: editCity,
+		pincode: editPincode,
         address1: editAddress1,
         address2: editAddress2,
         phoneNumber: editPhone,
@@ -337,6 +347,7 @@ const validateForm = (): boolean => {
 					address1: editAddress1,
 					address2: editAddress2,
 					phoneNumber: editPhone,
+					pincode: editPincode,
 				},
 				firstName: editFirstName,
 				companyName: editCompanyName,
@@ -521,53 +532,33 @@ const validateForm = (): boolean => {
 									}`.trim() || 'N/A'}
 								/>
 								<InfoItem
-									icon={<BsBuildings className='text-[#9b111e]' />}
-									label='Company Name'
-									value={partner?.companyName || 'N/A'}
-								/>
-								<InfoItem
-									icon={<SlCalender className='text-[#9b111e]' />}
-									label='AadharCard No'
-									value={partner?.aadhar || 'N/A'}
-								/>
-								<InfoItem
-									icon={<CgWebsite className='text-[#9b111e]' />}
-									label='State'
-									value={partner?.contact_info?.state || 'N/A'}
-								/>
-							</div>
-							<div className='space-y-5'>
-								<InfoItem
-									icon={<LuPhoneCall className='text-[#9b111e]' />}
-									label='Phone'
-									value={partner?.contact_info?.phoneNumber || 'N/A'}
-								/>
-								<InfoItem
 									icon={<MdEmail className='text-[#9b111e]' />}
 									label='Email'
 									value={partner?.email || 'N/A'}
 								/>
 								<InfoItem
 									icon={<CgWebsite className='text-[#9b111e]' />}
-									label='Pan No'
-									value={partner?.pan || 'N/A'}
-								/>
-								<InfoItem
-									icon={<CgWebsite className='text-[#9b111e]' />}
-									label='City'
-									value={partner?.contact_info?.city || 'N/A'}
-								/>
-							</div>
-							<div className='space-y-5'>
-								<InfoItem
-									icon={<AiFillSafetyCertificate className='text-[#9b111e]' />}
-									label='GST No'
-									value={partner?.gstNo || 'N/A'}
+									label='State'
+									value={partner?.contact_info?.state || 'N/A'}
 								/>
 								<InfoItem
 									icon={<FcDataEncryption className='text-[#9b111e]' />}
 									label='Reg No'
 									value={partner?.regNo || 'N/A'}
+								/>
+								
+								
+								<InfoItem
+									icon={<CgWebsite className='text-[#9b111e]' />}
+									label='Pincode'
+									value={partner?.contact_info?.pincode || 'N/A'}
+								/>
+							</div>
+							<div className='space-y-5'>
+								<InfoItem
+									icon={<BsBuildings className='text-[#9b111e]' />}
+									label='Company Name'
+									value={partner?.companyName || 'N/A'}
 								/>
 								<InfoItem
 									icon={<CgWebsite className='text-[#9b111e]' />}
@@ -576,8 +567,38 @@ const validateForm = (): boolean => {
 								/>
 								<InfoItem
 									icon={<CgWebsite className='text-[#9b111e]' />}
+									label='City'
+									value={partner?.contact_info?.city || 'N/A'}
+								/>
+								<InfoItem
+									icon={<SlCalender className='text-[#9b111e]' />}
+									label='AadharCard No'
+									value={partner?.aadhar || 'N/A'}
+								/>
+								
+								
+								
+							</div>
+							<div className='space-y-5'>
+								<InfoItem
+									icon={<LuPhoneCall className='text-[#9b111e]' />}
+									label='Phone'
+									value={partner?.contact_info?.phoneNumber || 'N/A'}
+								/>
+								<InfoItem
+									icon={<AiFillSafetyCertificate className='text-[#9b111e]' />}
+									label='GST No'
+									value={partner?.gstNo || 'N/A'}
+								/>
+								<InfoItem
+									icon={<CgWebsite className='text-[#9b111e]' />}
 									label='Address 2'
 									value={partner?.contact_info?.address2 || 'N/A'}
+								/>
+								<InfoItem
+									icon={<CgWebsite className='text-[#9b111e]' />}
+									label='Pan No'
+									value={partner?.pan || 'N/A'}
 								/>
 							</div>
 						</div>
@@ -829,6 +850,15 @@ const validateForm = (): boolean => {
 										  required
 											// textarea
 										/>		
+										<EnhancedEditField
+											label='Pincode'
+											value={editPincode}
+											onChange={setEditPincode}
+											onBlur={() => handleBlur('pincode', editPincode)}
+										  error={errors.pincode}
+										  required
+											// textarea
+										/>	
 										<EnhancedEditField
 											label='Reg No'
 											value={editRegNo}
