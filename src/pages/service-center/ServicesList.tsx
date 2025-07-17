@@ -879,7 +879,7 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({
 								</div>
 							</div>
 
-							<div className='flex items-center space-x-3'>
+							{/* <div className='flex items-center space-x-3'>
 								<input
 									type='checkbox'
 									name='is_active'
@@ -890,7 +890,7 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({
 								<label className='text-sm font-medium text-gray-700'>
 									Activate service immediately
 								</label>
-							</div>
+							</div> */}
 
 							<div className='flex space-x-3 pt-4'>
 								<button

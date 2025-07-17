@@ -6,9 +6,8 @@ import { ProfileModal } from "./ProfileModal";
 import { useAuth } from "../../../pages/auth/AuthContext";
 import { FONTS } from "../../../constants/uiConstants";
 import { useSocket } from "../../../context/adminSocket";
-import { getAllNotification } from "../Notification/services";
+import { getByUserNotification } from "../Notification/services";
 import { getProfile } from "../../../features/Auth/service";
-
 interface User {
   name: string;
   phone: string;
@@ -26,15 +25,21 @@ interface Notification {
   created_at: string;
   is_read: boolean;
   title: string;
+  uuid: string
 }
 
-export const Navbar = () => {
+interface ProfileModalProps {
+  user: User,
+}
+
+export const Navbar: React.FC<ProfileModalProps> = () => {
   const [isBellActive, setIsBellActive] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [showProfileDetails, setShowProfileDetails] = useState(false);
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
   const [showLogoutSuccess, setShowLogoutSuccess] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
+
   const { logout } = useAuth();
   const navigate = useNavigate();
   const socket = useSocket();
@@ -113,32 +118,64 @@ export const Navbar = () => {
     console.log("User logged out");
   };
 
-   useEffect(() => {
-      const fetchNotifications = async () => {
-        try {
-          const res:any = await getAllNotification();
-          setNotifications(res.data?.data || []);
-        } catch (err) {
-          console.error("Fetch error", err);
-        }
-      };
-      fetchNotifications();
-    }, []);
+  useEffect(() => {
+    const fetchNotifications = async () => {
+      const userId = localStorage.getItem('adminobjectid')
+      try {
+        const res: any = await getByUserNotification(userId!);
+        setNotifications(res.data?.data?.notifications || []);
+      } catch (err) {
+        console.error("Fetch error", err);
+      }
+    };
+    fetchNotifications();
+  }, []);
 
-  useEffect(()=>{
-    if(!socket) return;
+  useEffect(() => {
+    if (!socket) return;
 
-    const handleNotify = (data:any) =>{
-    console.log("Notification from Customer ", data)
+    const handleNotify = (data: any) => {
+      console.log("Notification from Customer ", data)
+      setNotifications((prev) => [data, ...prev])
     }
 
     socket.on("newNotification", handleNotify);
-    setNotifications((prev:any)=> [notifications, ...prev])
 
-    return ()=>{
+
+    return () => {
       socket.off("newNotification", handleNotify)
     }
-  },[])
+  }, [socket])
+
+  const getDateLabel = (isoDateStr: string): string => {
+    const inputDate = new Date(isoDateStr);
+    const today = new Date();
+    const yesterday = new Date();
+    yesterday.setDate(today.getDate() - 1);
+
+    const isSameDay = (d1: Date, d2: Date): boolean =>
+      d1.getDate() === d2.getDate() &&
+      d1.getMonth() === d2.getMonth() &&
+      d1.getFullYear() === d2.getFullYear();
+
+    const time = inputDate.toLocaleTimeString("en-IN", {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true,
+    });
+
+    if (isSameDay(inputDate, today)) return `Today at ${time}`;
+    if (isSameDay(inputDate, yesterday)) return `Yesterday at ${time}`;
+
+    const date = inputDate.toLocaleDateString("en-IN", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+    });
+
+    return `${date} at ${time}`;
+  };
+
 
   return (
     <>
@@ -178,8 +215,8 @@ export const Navbar = () => {
 
             {/* SOS Emergency Icon */}
             <div className="relative">
-              <span className="absolute inline-flex h-8 w-8 rounded-full bg-red-400 opacity-75 animate-ping"></span>
-              <div className="absolute -top-1 -right-1 w-3.5 h-3.5 bg-yellow-500 border-2 border-white rounded-full z-20" />
+              {/* <span className="absolute inline-flex h-8 w-8 rounded-full bg-red-400 opacity-75 animate-ping"></span> */}
+              {/* <div className="absolute -top-1 -right-1 w-3.5 h-3.5 bg-yellow-500 border-2 border-white rounded-full z-20" /> */}
               <button
                 onClick={handleSosClick}
                 className="relative z-10 inline-flex items-center justify-center w-10 h-10 rounded-full bg-white !text-[#9b111e]  !shadow-lg hover:!scale-105 transition-transform"
@@ -193,32 +230,32 @@ export const Navbar = () => {
 
         <div className="ml-auto flex items-center space-x-4 pr-4">
           <div className="relative" ref={notificationRef}>
-              <button
-                aria-label="Notifications"
-                onClick={handleBellClick}
-                className={`relative p-2.5 rounded-full bg-white focus:outline-none transform transition-transform duration-200 ease-in-out ${isBellActive ? "scale-90" : "scale-100"
-                  }`}
+            <button
+              aria-label="Notifications"
+              onClick={handleBellClick}
+              className={`relative p-2.5 rounded-full bg-white focus:outline-none transform transition-transform duration-200 ease-in-out ${isBellActive ? "scale-90" : "scale-100"
+                }`}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.8}
+                stroke="currentColor"
+                className="w-5 h-5 text-[#9b111e]"
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.8}
-                  stroke="currentColor"
-                  className="w-5 h-5 text-[#9b111e]"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M12 22c1.1 0 2-.9 2-2h-4a2 2 0 002 2zm6-6V11c0-3.3-2.2-6.1-5.3-6.8V4a.7.7 0 00-1.4 0v.2C8.2 4.9 6 7.7 6 11v5l-1.7 1.7a1 1 0 00.7 1.7h14a1 1 0 00.7-1.7L18 16z"
-                  />
-                </svg>
-                {unreadCount > 0 && (
-                  <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
-                    {unreadCount}
-                  </span>
-                )}
-              </button>
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M12 22c1.1 0 2-.9 2-2h-4a2 2 0 002 2zm6-6V11c0-3.3-2.2-6.1-5.3-6.8V4a.7.7 0 00-1.4 0v.2C8.2 4.9 6 7.7 6 11v5l-1.7 1.7a1 1 0 00.7 1.7h14a1 1 0 00.7-1.7L18 16z"
+                />
+              </svg>
+              {unreadCount > 0 && (
+                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
+                  {unreadCount}
+                </span>
+              )}
+            </button>
 
             {showNotifications && (
               <div className="absolute right-0 mt-2 w-80 rounded-lg shadow-xl bg-white z-50 overflow-hidden">
@@ -232,7 +269,7 @@ export const Navbar = () => {
                 </div>
                 <div className="max-h-80 overflow-y-auto">
                   {notifications.length > 0 ? (
-                    notifications.sort((a,b)=> new Date(b.created_at).getTime() - new Date(a.created_at).getTime()).map((notification) => (
+                    notifications.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()).map((notification) => (
                       <div
                         key={notification.id}
                         className={`group relative p-3 border-b hover:bg-gray-50 transition-colors duration-150 ${notification.is_read ? "bg-white" : "bg-red-50"
@@ -250,7 +287,7 @@ export const Navbar = () => {
                           )}
                         </div>
                         <p className="text-xs text-gray-500 mt-1">
-                          {notification.created_at}
+                          {getDateLabel(notification.created_at)}
                         </p>
                       </div>
                     ))
@@ -291,18 +328,22 @@ export const Navbar = () => {
               </div>
               <div className="flex flex-col flex-nowrap overflow-hidden">
                 <span className="text-white font-medium truncate whitespace-nowrap"
-                  style={{ fontFamily: "'Figtree-Medium', sans-serif",
-                  fontWeight: 400,
-                  fontSize: "14px",
-                  color: 'white' }}
+                  style={{
+                    fontFamily: "'Figtree-Medium', sans-serif",
+                    fontWeight: 400,
+                    fontSize: "14px",
+                    color: 'white'
+                  }}
                 >
                   {user.firstName}
                 </span>
                 <div className="flex items-center whitespace-nowrap"
-                  style={{  fontFamily: "'Figtree', sans-serif",
-                            fontWeight: 300,
-                            fontSize: "12px",
-                            color: "white"}}
+                  style={{
+                    fontFamily: "'Figtree', sans-serif",
+                    fontWeight: 300,
+                    fontSize: "12px",
+                    color: "white"
+                  }}
                 >
                   Admin
                   <svg

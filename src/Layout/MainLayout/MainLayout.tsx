@@ -41,7 +41,7 @@ export const MainLayout = () => {
 
                 {/* Main content takes up the remaining 8/9 of the width */}
                 <div className="flex-1 flex flex-col overflow-hidden">
-                    <Navbar />
+                    <Navbar user={{name: '', phone: '', email: '', avatar: '', role: '', location: '', joinDate: '', status: ''}} />
                     <main className="flex-1 overflow-auto scrollbar-hide">
                         <div className="p-4 rounded shadow px-8" style={{backgroundColor: COLORS.bgColor}}>
                             <Outlet />
