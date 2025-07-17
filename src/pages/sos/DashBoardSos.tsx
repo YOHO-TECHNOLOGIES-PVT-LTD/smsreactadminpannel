@@ -13,6 +13,7 @@ import {
 } from "../../components/sos/services";
 import { MdDelete } from "react-icons/md";
 import { FONTS } from "../../constants/uiConstants";
+import { toast } from "react-toastify";
 
 type SOSRequest = {
   _id: string;
@@ -113,6 +114,7 @@ const DashboardSos = () => {
 
         setServices((prev) => [...prev, newId]);
         console.log("Service added:", newService.title);
+        toast.success("Service added successfully");
       }
 
       setNewServiceName("");
@@ -144,6 +146,7 @@ const DashboardSos = () => {
       const updated = [...services];
       updated.splice(index, 1);
       setServices(updated);
+      toast.success("Service deleted successfully");
     } catch (error) {
       console.log("sos delete", error);
     }

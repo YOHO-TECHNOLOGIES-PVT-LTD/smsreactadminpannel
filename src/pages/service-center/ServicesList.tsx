@@ -148,12 +148,14 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({
 	const handleDeleteCategory = async (categoryId: string) => {
 		try {
 			// Confirm deletion
-			if (!confirm('Are you sure you want to delete this category?')) {
-				return;
-			}
+			// if (!confirm('Are you sure you want to delete this category?')) {
+			// 	return;
+			// }
+			console.log('Deleting category:', categoryId);
 
 			// Make API call to delete the category
-			await new Client().admin.category.delete(categoryId);
+			const res = await new Client().admin.category.delete(categoryId);
+			console.log('Category deleted:', res);
 
 			// Update local state
 			setCategories(categories.filter((cat) => cat._id !== categoryId));
@@ -162,6 +164,7 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({
 			if (selectedCategory === categoryId) {
 				setSelectedCategory('all');
 			}
+			toast.success('Category deleted successfully');
 		} catch (error) {
 			console.error('Error deleting category:', error);
 			toast.error('Failed to delete category. Please try again.');
@@ -229,6 +232,7 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({
 					);
 
 					setCategories(updatedCategories);
+					toast.success('Category updated successfully');
 				} else {
 					// Create new category
 					const newCategoryItem: any = {
@@ -248,6 +252,7 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({
 					);
 					console.log(response.data.data);
 					setCategories([...categories, response.data.data]);
+					toast.success('Category created successfully');
 				}
 
 				setNewCategory({ category_name: '', is_active: true });
@@ -364,6 +369,7 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({
 				),
 			}));
 			setCategories(updatedCategories);
+			toast.success('Service deleted successfully');
 		} catch (error) {
 			console.error('Error deleting service:', error);
 		}
@@ -427,6 +433,7 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({
 					);
 
 					setCategories(updatedCategories);
+					toast.success('Service updated successfully');
 				} else {
 					// Create new service
 					const newServiceItem: any = {
@@ -457,6 +464,7 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({
 							: category
 					);
 					setCategories(updatedCategories);
+					toast.success('Service created successfully');
 				}
 
 				setNewService({
@@ -517,10 +525,10 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({
 				</div>
 
 				{/* Categories */}
-				<div className='flex-1 p-4 space-y-2'>
-					<div className='mb-4'>
+				<div className='flex-1 p-4 space-y-2 overflow-scroll scrollbar-hide'>
+					<div className='p-2 pb-4 sticky -top-4 bg-pink-50 z-10'>
 						<h3
-							className=' !font-semibold text-gray-700 mb-2'
+							className=' !font-semibold text-gray-700 '
 							style={{ ...FONTS.cardSubHeader }}
 						>
 							CATEGORIES
@@ -586,7 +594,7 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({
 										<button
 											onClick={(e) => {
 												e.stopPropagation();
-												handleDeleteCategory(category._id);
+												handleDeleteCategory(category.uuid);
 											}}
 											className='opacity-0 group-hover:opacity-100 p-1 hover:bg-gray-200 rounded-3xl transition-all text-red-500'
 										>

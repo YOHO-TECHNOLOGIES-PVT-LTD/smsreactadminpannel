@@ -89,7 +89,7 @@ spareparts:{
 auth:{
   post:(data:any)=>httpClient.post(API_END_POINTS.auth.Post,data),
   postotp:(data:any)=>httpClient.post(API_END_POINTS.auth.Postotp,data,),
-  postreset:(data:any)=>httpClient.post(API_END_POINTS.auth.Postreset,data,)  
+  postreset:(data:any)=>httpClient.update(API_END_POINTS.auth.Postreset,data,)  
 },
 
 profile:{
