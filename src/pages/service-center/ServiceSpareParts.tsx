@@ -308,7 +308,7 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId, handleBack }) 
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <div className="sticky top-0 z-20 bg-[#FAF3EB] border-b ">
+      <div className="sticky top-0 z-20 bg-red-200 border-b ">
         <div className="container px-4 py-3 flex">
           <button
             onClick={() => {

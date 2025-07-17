@@ -17,8 +17,8 @@ const VehicleManagementPage = () => {
   useEffect(() => {
     const fetchVehicle = async () => {
       try {
-        const data = await getvechiclemanage("");
-        // console.log("vehicle data", data);
+        const data:any = await getvechiclemanage("");
+        console.log("vehicle data", data);
         setVehicleDatax(data);
       } catch (error) {
         console.error(error);
@@ -70,15 +70,15 @@ const VehicleManagementPage = () => {
       insuranceCompany: vehicle?.vehicleInfo?.insuranceCompany || "N/A",
       insuranceRenewalDate: vehicle?.vehicleInfo?.insuranceRenewalDate || "N/A",
       model: vehicle?.vehicleInfo?.model|| "N/A",
-      location: vehicle?.vehicleInventory?.currentState?.location || "N/A",
-      currentFuelLevel: normalizeFuelLevel(
-        vehicle?.vehicleInventory?.fuelLevel || ""
-      ),
+      // location: vehicle?.vehicleInventory?.currentState?.location || "N/A",
+      // currentFuelLevel: normalizeFuelLevel(
+      //   vehicle?.vehicleInventory?.fuelLevel || ""
+      // ),
     },
     partnerDetails: {
-      partnerName: vehicle?.partnerDetails?.Name || "",
-      partnerPhone: vehicle?.partnerDetails?.Phone || "",
-      partnerAddress: vehicle?.partnerDetails?.Address || "",
+      partnerName:vehicle?.partnerId?.companyName || "",
+      partnerPhone: vehicle?.partnerId?.contact_info?.phoneNumber || "",
+      partnerAddress: vehicle?.partnerId?.contact_info?.city || "",
     },
     customerInfo: {
       name: vehicle?.customerInfo?.name || "",

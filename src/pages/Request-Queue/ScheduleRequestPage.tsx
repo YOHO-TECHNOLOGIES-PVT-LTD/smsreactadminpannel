@@ -165,7 +165,8 @@ export default function ScheduleRequestPage() {
 
       {filteredRequests.length === 0 ? (
         <div className="flex justify-center items-center h-64">
-          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#9b111e]"></div>
+          {/* <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#9b111e]"></div> */}
+          <p>No Requests Pending</p>
         </div>
       ) : filteredRequests.length === 0 ? (
         <div className="text-center py-12">
