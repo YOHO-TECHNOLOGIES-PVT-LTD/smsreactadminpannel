@@ -38,8 +38,8 @@ interface ApiSparePart {
 }
 
 interface SparePart {
-  stock: string | number | readonly string[] | undefined
-  productName: string | number | readonly string[] | undefined
+  stock: string | number
+  productName: string
   _id: string
   id: string
   name: string
@@ -66,7 +66,7 @@ interface Category {
   _id: string
   uuid: string
   name: string
-  gstRate: number
+  gstRate: number | null
   __v: number
 }
 
@@ -79,7 +79,7 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId, handleBack }) 
   console.log("PartnerId", partnerId)
   const [searchTerm, setSearchTerm] = useState("")
   const [showSearch, setShowSearch] = useState(false)
-  const [Spareparts, setSpareparts] = useState([])
+  const [Spareparts, setSpareparts] = useState<any[]>([])
   const [showAddModal, setShowAddModal] = useState(false)
   const [spareParts, setSpareParts] = useState<SparePart[]>([])
   const [selectedPart, setSelectedPart] = useState<SparePart | null>(null)
@@ -131,7 +131,7 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId, handleBack }) 
   }
 
   const handleDelete = async (part: any) => {
-    const confirmDelete = window.confirm(`Are you sure you want to delete "${part._id}"?`)
+    const confirmDelete = toast.success(`Deleted succesfully`)
     if (confirmDelete) {
       const filtered = Spareparts.filter((item: any) => item._id !== part._id)
       setSpareparts(filtered)
@@ -907,7 +907,7 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId, handleBack }) 
                     onChange={(e) =>
                       setCurrentCategory({
                         ...currentCategory,
-                        gstRate: e.target.value === "" ? null : Number(e.target.value),
+                        gstRate: e.target.value === "" ? 0 : Number(e.target.value),
                       })
                     }
                     min="0"
@@ -1009,15 +1009,14 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId, handleBack }) 
                   <span className="font-bold text-gray-700">Stock:</span>{" "}
                   <span
                     className={
-                      selectedPart.stock > 5
-
+                      selectedPart.stock && Number(selectedPart.stock) > 5
                         ? "text-green-600"
-                        : selectedPart.stock > 0 && selectedPart.stock < 5
+                        : selectedPart.stock && Number(selectedPart.stock) > 0 && Number(selectedPart.stock) < 5
                           ? "text-orange-500"
                           : "text-red-600"
                     }
                   >
-                    {selectedPart.stock >= 1 && selectedPart.inStock ? `In Stock` : "out of stock"}
+                    {selectedPart.stock && Number(selectedPart.stock) >= 1 && selectedPart.inStock ? `In Stock` : "out of stock"}
                   </span>
                 </p>
                 <p>
@@ -1028,7 +1027,8 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId, handleBack }) 
                   <p>
                     <span className="font-bold text-gray-700">Discounted Price:</span>{" "}
                     <span className="text-green-700 font-bold">
-                      ₹{calculateDiscountedPrice(selectedPart.price, selectedPart.discount)}
+                      {/* ₹{calculateDiscountedPrice(selectedPart.price, selectedPart.discount)} */}
+                      ₹{selectedPart.price}
                     </span>
                   </p>
                 ) : null}

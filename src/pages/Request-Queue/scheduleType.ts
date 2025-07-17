@@ -1,4 +1,5 @@
 export interface ScheduleRequest{
+    preferedTime: any;
     requestType: string;
     assigned_date:string;
     amount:number;
