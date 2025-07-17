@@ -1,9 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type React from "react"
-
 import { useState, useRef, useEffect } from "react"
-// import { FaArrowTrendUp } from "react-icons/fa6"
-// import { BsEye } from "react-icons/bs"
 import { IoClose } from "react-icons/io5"
 import { MdAddCircleOutline } from "react-icons/md"
 import { FiSearch } from "react-icons/fi"
@@ -11,7 +8,7 @@ import { COLORS, FONTS } from "../../constants/uiConstants"
 import Client from "../../api"
 import { fetchCountries, fetchState } from "../../features/ServiceCenter/externalapi"
 import { toast } from "react-toastify"
-import { TbCloudUpload } from "react-icons/tb";
+import { TbCloudUpload } from "react-icons/tb"
 
 interface ContactInfo {
   phoneNumber: string
@@ -43,6 +40,20 @@ type ServiceCenterListProps = {
   setpartner: (id: number) => void
 }
 
+interface ValidationErrors {
+  firstName?: string
+  lastName?: string
+  email?: string
+  password?: string
+  phoneNumber?: string
+  aadhar?: string
+  state?: string
+  city?: string
+  address1?: string
+  pan?: string
+  gstNo?: string
+}
+
 export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
   onView,
   partner,
@@ -53,14 +64,15 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
   const [searchTerm, setSearchTerm] = useState("")
   const [showPartnerForm, setShowPartnerForm] = useState(false)
   const partnerFileInputRef = useRef<HTMLInputElement>(null)
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false)
+  const [formErrors, setFormErrors] = useState<ValidationErrors>({})
 
   // Partner form state
   const [partnerFormData, setPartnerFormData] = useState<PartnerFormData>({
     firstName: "",
     lastName: "",
     companyName: "",
-    aadhar:"",
+    aadhar: "",
     pan: "",
     gstNo: "",
     regNo: "",
@@ -77,13 +89,60 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
     image: null,
   })
 
+  const [city, setCity] = useState<any[]>([])
+  const [state, setState] = useState<any[]>([])
+
   function changeData(index: number) {
     onView(1)
-    console.log(index,"partner")
     setpartner(index)
   }
 
-  // Partner form handlers
+  const validatePartnerForm = (): ValidationErrors => {
+    const errors: ValidationErrors = {}
+    const { firstName, lastName, email, password, aadhar, pan, gstNo, contact_info } = partnerFormData
+
+    if (!firstName?.trim()) errors.firstName = "First name is required"
+    if (!lastName?.trim()) errors.lastName = "Last name is required"
+    
+    if (!email?.trim()) {
+      errors.email = "Email is required"
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      errors.email = "Please enter a valid email address"
+    }
+
+    if (!password) {
+      errors.password = "Password is required"
+    } else if (password.length < 6) {
+      errors.password = "Password must be at least 6 characters"
+    }
+
+    if (!contact_info.phoneNumber?.trim()) {
+      errors.phoneNumber = "Phone number is required"
+    } else if (!/^\d{10}$/.test(contact_info.phoneNumber)) {
+      errors.phoneNumber = "Please enter a valid 10-digit phone number"
+    }
+
+    if (!aadhar?.trim()) {
+      errors.aadhar = "Aadhar number is required"
+    } else if (!/^\d{12}$/.test(aadhar)) {
+      errors.aadhar = "Please enter a valid 12-digit Aadhar number"
+    }
+
+    if (!contact_info.state) errors.state = "State is required"
+    if (!contact_info.city) errors.city = "City is required"
+    if (!contact_info.address1?.trim()) errors.address1 = "Address line 1 is required"
+
+    if (pan && !/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/.test(pan)) {
+      errors.pan = "Invalid PAN format (e.g., ABCDE1234F)"
+    }
+
+    if (gstNo && !/^\d{2}[A-Z]{5}\d{4}[A-Z]{1}[A-Z\d]{1}[Z]{1}[A-Z\d]{1}$/.test(gstNo)) {
+      errors.gstNo = "Invalid GST format (e.g., 22ABCDE1234F1Z5)"
+    }
+
+    return errors
+  }
+
   const handlePartnerFormChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value, files } = e.target as HTMLInputElement
 
@@ -104,11 +163,41 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
         [name]: value,
       }))
     }
+
+    // Clear error when user starts typing
+    if (name in formErrors) {
+      setFormErrors(prev => {
+        const newErrors = {...prev}
+        delete newErrors[name as keyof ValidationErrors]
+        return newErrors
+      })
+    }
+  }
+
+  const handleFieldBlur = (fieldName: keyof ValidationErrors) => {
+    const errors = validatePartnerForm()
+    if (errors[fieldName]) {
+      setFormErrors(prev => ({
+        ...prev,
+        [fieldName]: errors[fieldName]
+      }))
+    }
   }
 
   const handlePartnerFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsLoading(true)
+
+    const errors = validatePartnerForm()
+    
+    if (Object.keys(errors).length > 0) {
+      setFormErrors(errors)
+      setIsLoading(false)
+      toast.error("Please fix the errors in the form")
+      return
+    }
+
+    setFormErrors({})
 
     const data = new FormData()
     Object.entries(partnerFormData).forEach(([key, value]) => {
@@ -125,56 +214,27 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
 
     try {
       await new Client().admin.servicecenter.postPartner(data)
-
-      // Reset form and close modal
-      setPartnerFormData({
-        firstName: "",
-        lastName: "",
-        companyName: "",
-        aadhar: "",
-        pan: "",
-        gstNo: "",
-        regNo: "",
-        email: "",
-        password: "",
-        contact_info: {
-          phoneNumber: "",
-          state: "",
-          city: "",
-          address1: "",
-          address2: "",
-        },
-        role: "partner",
-        image: null,
-      })
-      setShowPartnerForm(false)
-      if (partnerFileInputRef.current) {
-        partnerFileInputRef.current.value = ""
-      }
-
-     
-
       toast.success("Partner registered successfully!")
-      // You might want to refresh the partner list here
-    } catch (error:any) {
-      console.log("Registration failed!",error.message)
-    }
-    finally{
+      handleCancelPartnerForm()
+    } catch (error: any) {
+      console.error("Registration failed:", error)
+      toast.error(error.message || "Failed to register partner. Please try again.")
+    } finally {
       setIsLoading(false)
     }
   }
 
   const Spinner = ({ className = "" }: { className?: string }) => (
-  <svg 
-    className={`animate-spin h-5 w-5 ${className}`} 
-    xmlns="http://www.w3.org/2000/svg" 
-    fill="none" 
-    viewBox="0 0 24 24"
-  >
-    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-  </svg>
-);
+    <svg 
+      className={`animate-spin h-5 w-5 ${className}`} 
+      xmlns="http://www.w3.org/2000/svg" 
+      fill="none" 
+      viewBox="0 0 24 24"
+    >
+      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+    </svg>
+  )
 
   const handleCancelPartnerForm = () => {
     setShowPartnerForm(false)
@@ -198,62 +258,49 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
       role: "partner",
       image: null,
     })
+    setFormErrors({})
     if (partnerFileInputRef.current) {
       partnerFileInputRef.current.value = ""
     }
   }
 
-  // Filter partners based on search term
   const filteredPartners = partner.filter(
     (center: any) =>
       `${center.firstName} ${center.lastName}`.toLowerCase().includes(searchTerm.toLowerCase()) ||
       center.companyName?.toLowerCase().includes(searchTerm.toLowerCase()),
   )
 
-  
-  const [city, setCity] = useState<any[]>([]);
-
   const getCountries = async () => {
     const states:any = state.filter(item=>item.name === partnerFormData.contact_info.state )
-    const response = await fetchCountries(states[0].iso2);
+    const response = await fetchCountries(states[0].iso2)
     if (response && response.data) {
-      setCity(response.data);
+      setCity(response.data)
     } else {
-      setCity([]);
+      setCity([])
     }
   }
 
-  useEffect (() => {
-    getCountries();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[partnerFormData.contact_info.state])
-
-
-  const [state, setState] = useState<any[]>([]);
+  useEffect(() => {
+    getCountries()
+  }, [partnerFormData.contact_info.state])
 
   const getStates = async() => {
-    const response = await fetchState();
+    const response = await fetchState()
     if (response) {
-      setState(response.data);
+      setState(response.data)
     } else {
-      setState([]);
+      setState([])
     }
   }
 
-  useEffect (() => {
-    getStates();
-  },[])
+  useEffect(() => {
+    getStates()
+  }, [])
 
-
-
-  
-  
   return (
     <div className="flex flex-col bg-gray-100" style={{ background: COLORS.bgColor }}>
       <div className="flex gap-6 flex-wrap">
         <div className="flex-1 min-w-[600px] bg-white p-5" style={{ background: COLORS.bgColor }}>
-          
-
           <div className="flex justify-between items-center border-b border-gray-300 pb-4 mb-4 flex-wrap gap-4">
             <h1 className="font-bold font-koh !font-bold text-3xl pt-2 !text-[#9b111e]"
             style={{...FONTS.header}}>Partners</h1>
@@ -286,30 +333,25 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
             </div>
           </div>
           
-
-          <div className="grid grid-cols-2 gap-4 mt-4 " >
+          <div className="grid grid-cols-2 gap-4 mt-4">
             {filteredPartners.map((center: any, index: number) => (
               <div className="relative" key={index}>
-                <div className="bg-white p-6 rounded-lg shadow flex flex-col items-start h-full w-full ">
+                <div className="bg-white p-6 rounded-lg shadow flex flex-col items-start h-full w-full">
                   <div>
-                  <img
-                    src={center.image}
-                    alt={center.companyName+" logo"}
-                    className="w-72 h-40 object-cover rounded-lg"
-                  />
+                    <img
+                      src={center.image}
+                      alt={center.companyName+" logo"}
+                      className="w-72 h-40 object-cover rounded-lg"
+                    />
                   </div>
-                   <div className="absolute right-8 bottom-20 gap-2 mt-2 sm:mt-0">
-                    {/* {selectedCardIndex !== index && ( */}
-                      <button
-                        onClick={() => changeData(index)}
-                        className="!text-white  px-4 py-1 rounded-3xl bg-[#9b111e] transition duration-200 flex items-center gap-1.5 text-sm"
-                        style={{ ...FONTS.paragraph,
-                          
-                        }}
-                      >
-                        View
-                      </button>
-                    {/* )} */}
+                  <div className="absolute right-8 bottom-20 gap-2 mt-2 sm:mt-0">
+                    <button
+                      onClick={() => changeData(index)}
+                      className="!text-white px-4 py-1 rounded-3xl bg-[#9b111e] transition duration-200 flex items-center gap-1.5 text-sm"
+                      style={{ ...FONTS.paragraph}}
+                    >
+                      View
+                    </button>
                   </div>
                   <div className="flex-1">
                     <h3 className="font-bold text-gray-800" style={{color : COLORS.primary}}>
@@ -317,21 +359,19 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
                     </h3>
 
                     <div className="flex items-center gap-2">
-                    <h3 className="font-bold text-[#717171]">Address : </h3>
-                    <p className="text-sm text-[#717171]" >
-                     {center.contact_info.address1}, {center.contact_info.address2}, {center.contact_info.city}
-                    </p>
+                      <h3 className="font-bold text-[#717171]">Address : </h3>
+                      <p className="text-sm text-[#717171]">
+                        {center.contact_info.address1}, {center.contact_info.address2}, {center.contact_info.city}
+                      </p>
                     </div>
 
                     <div className="flex items-center gap-2">
-                    <h3 className="font-bold text-[#717171]">Contact : </h3>
-                    <p className="text-sm text-[#717171]">
-                     {center?.contact_info?.phoneNumber}
-                    </p>
+                      <h3 className="font-bold text-[#717171]">Contact : </h3>
+                      <p className="text-sm text-[#717171]">
+                        {center?.contact_info?.phoneNumber}
+                      </p>
                     </div>
                   </div>
-
-                 
                 </div>
 
                 {selectedCardIndex === index && (
@@ -369,256 +409,331 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
             </div>
 
             <form onSubmit={handlePartnerFormSubmit} className="p-6">
+              {Object.keys(formErrors).length > 0 && (
+                <div className="mb-4 p-4 bg-red-50 border-l-4 border-red-500 rounded">
+                  <div className="flex">
+                    <div className="flex-shrink-0">
+                      <svg className="h-5 w-5 text-red-500" viewBox="0 0 20 20" fill="currentColor">
+                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                      </svg>
+                    </div>
+                    <div className="ml-3">
+                      <h3 className="text-sm font-medium text-red-800">
+                        There {Object.keys(formErrors).length === 1 ? 'was' : 'were'} {Object.keys(formErrors).length} error{Object.keys(formErrors).length === 1 ? '' : 's'} with your submission
+                      </h3>
+                    </div>
+                  </div>
+                </div>
+              )}
+
               <div className="grid grid-cols-3 md:grid-cols-3 gap-6"
               style={{...FONTS.paragraph}}
               >
-              
-                 
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      First Name <span className="text-red-500">*</span>
-                    </label>
-                    <input
-                      type="text"
-                      name="firstName"
-                      required
-                      placeholder="First Name"
-                      value={partnerFormData.firstName}
-                      onChange={handlePartnerFormChange}
-                      className="w-full px-4 py-2 border border-[#717171] placeholder:text-[#717171] rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#800000] focus:border-transparent transition"
-                    />
-                  </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    First Name <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    name="firstName"
+                    placeholder="First Name"
+                    value={partnerFormData.firstName}
+                    onChange={handlePartnerFormChange}
+                    onBlur={() => handleFieldBlur('firstName')}
+                    className={`w-full px-4 py-2 border ${
+                      formErrors.firstName ? 'border-red-500' : 'border-[#717171]'
+                    } placeholder:text-[#717171] rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#800000] focus:border-transparent transition`}
+                  />
+                  {formErrors.firstName && (
+                    <p className="mt-1 text-sm text-red-600">{formErrors.firstName}</p>
+                  )}
+                </div>
 
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Last Name <span className="text-red-500">*</span>
-                    </label>
-                    <input
-                      type="text"
-                      name="lastName"
-                      required
-                      placeholder="Last Name"
-                      value={partnerFormData.lastName}
-                      onChange={handlePartnerFormChange}
-                      className="w-full px-4 py-2 border placeholder:text-[#717171] border-[#717171] rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#800000] focus:border-transparent transition"
-                    />
-                  </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Last Name <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    name="lastName"
+                    placeholder="Last Name"
+                    value={partnerFormData.lastName}
+                    onChange={handlePartnerFormChange}
+                    onBlur={() => handleFieldBlur('lastName')}
+                    className={`w-full px-4 py-2 border ${
+                      formErrors.lastName ? 'border-red-500' : 'border-[#717171]'
+                    } placeholder:text-[#717171] rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#800000] focus:border-transparent transition`}
+                  />
+                  {formErrors.lastName && (
+                    <p className="mt-1 text-sm text-red-600">{formErrors.lastName}</p>
+                  )}
+                </div>
 
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Company Name</label>
-                    <input
-                      type="text" 
-                      
-                      name="companyName"
-                      placeholder="Company Name"
-                      value={partnerFormData.companyName}
-                      onChange={handlePartnerFormChange}
-                      className="w-full px-4 py-2 border border-[#717171] placeholder:text-[#717171] rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#800000] focus:border-transparent transition"
-                    />
-                  </div>
-                  
-                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Phone Number <span className="text-red-500">*</span>
-                    </label>
-                    <input
-                      type="text"
-                      name="contact_info.phoneNumber"
-                      required
-                      placeholder="Phone Number"
-                      value={partnerFormData.contact_info.phoneNumber}
-                      onChange={handlePartnerFormChange}
-                      className="w-full px-4 py-2 border border-[#717171] placeholder:text-[#717171] rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#800000] focus:border-transparent transition"
-                    />
-                  </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Company Name</label>
+                  <input
+                    type="text" 
+                    name="companyName"
+                    placeholder="Company Name"
+                    value={partnerFormData.companyName}
+                    onChange={handlePartnerFormChange}
+                    className="w-full px-4 py-2 border border-[#717171] placeholder:text-[#717171] rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#800000] focus:border-transparent transition"
+                  />
+                </div>
+                
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Phone Number <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    name="contact_info.phoneNumber"
+                    placeholder="Phone Number"
+                    value={partnerFormData.contact_info.phoneNumber}
+                    onChange={handlePartnerFormChange}
+                    onBlur={() => handleFieldBlur('phoneNumber')}
+                    className={`w-full px-4 py-2 border ${
+                      formErrors.phoneNumber ? 'border-red-500' : 'border-[#717171]'
+                    } placeholder:text-[#717171] rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#800000] focus:border-transparent transition`}
+                  />
+                  {formErrors.phoneNumber && (
+                    <p className="mt-1 text-sm text-red-600">{formErrors.phoneNumber}</p>
+                  )}
+                </div>
 
-                  <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">State</label>
-                      <select
-                        name="contact_info.state"
-                        value={partnerFormData.contact_info.state}
-                        onChange={handlePartnerFormChange}
-                        className={`w-full px-4 py-2 border border-[#717171] rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#800000] focus:border-transparent transition ${partnerFormData ? 'text-black' : 'text-[#717171]'}`}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Address Line 1 <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    name="contact_info.address1"
+                    placeholder="Address Line 1"
+                    value={partnerFormData.contact_info.address1}
+                    onChange={handlePartnerFormChange}
+                    onBlur={() => handleFieldBlur('address1')}
+                    className={`w-full px-4 py-2 border ${
+                      formErrors.address1 ? 'border-red-500' : 'border-[#717171]'
+                    } placeholder:text-[#717171] rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#800000] focus:border-transparent transition`}
+                  />
+                  {formErrors.address1 && (
+                    <p className="mt-1 text-sm text-red-600">{formErrors.address1}</p>
+                  )}
+                </div>
 
-                      >
-                        <option className="text-[#717171]" value="" disabled>Select a state</option>
-                        {state.map(city => (
-                          <option className="text-[#717171] " key={city.id} value={city.name}>
-                            {city.name}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Address Line 2</label>
+                  <input
+                    type="text"
+                    name="contact_info.address2"
+                    placeholder="Address Line 2"
+                    value={partnerFormData.contact_info.address2}
+                    onChange={handlePartnerFormChange}
+                    className="w-full px-4 py-2 border border-[#717171] placeholder:text-[#717171] rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#800000] focus:border-transparent transition"
+                  />
+                </div>
 
-                  <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">City</label>
-                      <select
-                        name="contact_info.city"
-                        value={partnerFormData.contact_info.city}
-                        onChange={handlePartnerFormChange}
-                        className={`w-full px-4 py-2 border border-[#717171]  rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#800000] focus:border-transparent transition ${partnerFormData ? 'text-black' : 'text-[#717171]'}`}>                      
-                        <option className="text-[#717171]" value=""  disabled >Select a city</option>
-                        {city.map(city => (
-                          <option className="text-[#717171]" key={city.id} value={city.name}>
-                            {city.name}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    State <span className="text-red-500">*</span>
+                  </label>
+                  <select
+                    name="contact_info.state"
+                    value={partnerFormData.contact_info.state}
+                    onChange={handlePartnerFormChange}
+                    onBlur={() => handleFieldBlur('state')}
+                    className={`w-full px-4 py-2 border ${
+                      formErrors.state ? 'border-red-500' : 'border-[#717171]'
+                    } rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#800000] focus:border-transparent transition ${partnerFormData ? 'text-black' : 'text-[#717171]'}`}
+                  >
+                    <option className="text-[#717171]" value="" disabled>Select a state</option>
+                    {state.map(city => (
+                      <option className="text-[#717171] " key={city.id} value={city.name}>
+                        {city.name}
+                      </option>
+                    ))}
+                  </select>
+                  {formErrors.state && (
+                    <p className="mt-1 text-sm text-red-600">{formErrors.state}</p>
+                  )}
+                </div>
 
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Aadhar No <span className="text-red-500">*</span>
-                    </label>
-                    <input
-                      type="text"
-                      name="aadhar"
-                      required
-                      placeholder="Aadhar no"
-                      value={partnerFormData.aadhar}
-                      onChange={handlePartnerFormChange}
-                      className="w-full px-4 py-2 border border-[#717171] placeholder:text-[#717171] rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#800000] focus:border-transparent transition"
-                    />
-                  </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    City <span className="text-red-500">*</span>
+                  </label>
+                  <select
+                    name="contact_info.city"
+                    value={partnerFormData.contact_info.city}
+                    onChange={handlePartnerFormChange}
+                    onBlur={() => handleFieldBlur('city')}
+                    className={`w-full px-4 py-2 border ${
+                      formErrors.city ? 'border-red-500' : 'border-[#717171]'
+                    } rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#800000] focus:border-transparent transition ${partnerFormData ? 'text-black' : 'text-[#717171]'}`}>                      
+                    <option className="text-[#717171]" value="" disabled>Select a city</option>
+                    {city.map(city => (
+                      <option className="text-[#717171]" key={city.id} value={city.name}>
+                        {city.name}
+                      </option>
+                    ))}
+                  </select>
+                  {formErrors.city && (
+                    <p className="mt-1 text-sm text-red-600">{formErrors.city}</p>
+                  )}
+                </div>
 
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Reg No 
+                  </label>
+                  <input
+                    type="text"
+                    name="regNo"
+                    placeholder="regNo"
+                    value={partnerFormData.regNo}
+                    onChange={handlePartnerFormChange}
+                    className="w-full px-4 py-2 border border-[#717171] placeholder:text-[#717171] rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#800000] focus:border-transparent transition"
+                  />
+                </div>
 
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Address Line 1</label>
-                    <input
-                      type="text"
-                      name="contact_info.address1"
-                      placeholder="Address Line 1"
-                      value={partnerFormData.contact_info.address1}
-                      onChange={handlePartnerFormChange}
-                      className="w-full px-4 py-2 border border-[#717171] placeholder:text-[#717171] rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#800000] focus:border-transparent transition"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Address Line 2</label>
-                    <input
-                      type="text"
-                      name="contact_info.address2"
-                      placeholder="Address Line 2"
-                      value={partnerFormData.contact_info.address2}
-                      onChange={handlePartnerFormChange}
-                      className="w-full px-4 py-2 border border-[#717171] placeholder:text-[#717171] rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#800000] focus:border-transparent transition"
-                    />
-                  </div>
-
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Reg No 
-                    </label>
-                    <input
-                      type="text"
-                      name="regNo"
-                      placeholder="regNo"
-                      value={partnerFormData.regNo}
-                      onChange={handlePartnerFormChange}
-                      className="w-full px-4 py-2 border border-[#717171] placeholder:text-[#717171] rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#800000] focus:border-transparent transition"
-                    />
-                  </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Aadhar No <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    name="aadhar"
+                    placeholder="Aadhar no"
+                    value={partnerFormData.aadhar}
+                    onChange={handlePartnerFormChange}
+                    onBlur={() => handleFieldBlur('aadhar')}
+                    className={`w-full px-4 py-2 border ${
+                      formErrors.aadhar ? 'border-red-500' : 'border-[#717171]'
+                    } placeholder:text-[#717171] rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#800000] focus:border-transparent transition`}
+                  />
+                  {formErrors.aadhar && (
+                    <p className="mt-1 text-sm text-red-600">{formErrors.aadhar}</p>
+                  )}
+                </div>
  
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      PAN No 
-                    </label>
-                    <input
-                      type="text"
-                      name="pan"
-                      placeholder="PAN no"
-                      value={partnerFormData.pan}
-                      onChange={handlePartnerFormChange}
-                      className="w-full px-4 py-2 border placeholder:text-[#717171] border-[#717171] rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#800000] focus:border-transparent transition"
-                    />
-                  </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    PAN No 
+                  </label>
+                  <input
+                    type="text"
+                    name="pan"
+                    placeholder="PAN no"
+                    value={partnerFormData.pan}
+                    style={{ textTransform: 'uppercase' }}
+                    onChange={handlePartnerFormChange}
+                    onBlur={() => handleFieldBlur('pan')}
+                    className={`w-full px-4 py-2 border ${
+                      formErrors.pan ? 'border-red-500' : 'border-[#717171]'
+                    } placeholder:text-[#717171] rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#800000] focus:border-transparent transition`}
+                  />
+                  {formErrors.pan && (
+                    <p className="mt-1 text-sm text-red-600">{formErrors.pan}</p>
+                  )}
+                </div>
 
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      GST No 
-                    </label>
-                    <input
-                      type="text"
-                      name="gstNo"
-                      placeholder="GST No"
-                      value={partnerFormData.gstNo}
-                      onChange={handlePartnerFormChange}
-                      className="placeholder:text-[#717171] w-full px-4 py-2 border border-[#717171]  rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#800000] focus:border-transparent transition"
-                    />
-                  </div>
-                                  
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    GST No 
+                  </label>
+                  <input
+                    type="text"
+                    name="gstNo"
+                    placeholder="GST No"
+                    value={partnerFormData.gstNo.toUpperCase()}
+                    onChange={handlePartnerFormChange}
+                    onBlur={() => handleFieldBlur('gstNo')}
+                    className={`w-full px-4 py-2 border ${
+                      formErrors.gstNo ? 'border-red-500' : 'border-[#717171]'
+                    } placeholder:text-[#717171] rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#800000] focus:border-transparent transition`}
+                  />
+                  {formErrors.gstNo && (
+                    <p className="mt-1 text-sm text-red-600">{formErrors.gstNo}</p>
+                  )}
+                </div>
               </div>
 
               <div className="col-span-full">
-  <label className="block text-sm mt-4 font-medium text-gray-700 mb-2">
-    Upload Profile Image
-  </label>
-  <div className="grid grid-rows-2 justify-center items-center px-6 py-8 border  border-[#717171] rounded-md">
-      <div>
-      <TbCloudUpload  className="mx-auto w-10 h-10"/>
-      </div>
-      <div className="mt-4 flex items-center text-sm text-gray-600">
-        <label
-          htmlFor="file-upload"
-          className="relative cursor-pointer rounded-md bg-gray-200 font-medium text-gray-700 px-4 py-2 hover:bg-gray-300 transition"
-        >
-          <span>Choose File</span>
-          <input
-            id="file-upload"
-            name="image"
-            type="file"
-            accept="image/*"
-            ref={partnerFileInputRef}
-            onChange={handlePartnerFormChange}
-            className="sr-only"
-          />
-        </label>
-        <div className="ml-3" id="file-name">
-          No File Chosen
-        </div>
-      </div>
-    
-  </div>
-</div>
+                <label className="block text-sm mt-4 font-medium text-gray-700 mb-2">
+                  Upload Profile Image
+                </label>
+                <div className="grid grid-rows-2 justify-center items-center px-6 py-8 border border-[#717171] rounded-md">
+                    <div>
+                      <TbCloudUpload className="mx-auto w-10 h-10"/>
+                    </div>
+                    <div className="mt-4 flex items-center text-sm text-gray-600">
+                      <label
+                        htmlFor="file-upload"
+                        className="relative cursor-pointer rounded-md bg-gray-200 font-medium text-gray-700 px-4 py-2 hover:bg-gray-300 transition"
+                      >
+                        <span>Choose File</span>
+                        <input
+                          id="file-upload"
+                          name="image"
+                          type="file"
+                          accept="image/*"
+                          ref={partnerFileInputRef}
+                          onChange={handlePartnerFormChange}
+                          className="sr-only"
+                        />
+                      </label>
+                      <div className="ml-3" id="file-name">
+                        {partnerFormData.image?.name || "No File Chosen"}
+                      </div>
+                    </div>
+                </div>
+              </div>
 
-
-                <div className="border-2 border-[#9b111e] p-4 mt-4 rounded-xl ">
-                  <h2 className="mb-3 text-[#9b111e] text-lg font-bold">Login Setup</h2>
-                  <div className="grid grid-cols-2 gap-2 justify-between">
+              <div className="border-2 border-[#9b111e] p-4 mt-4 rounded-xl">
+                <h2 className="mb-3 text-[#9b111e] text-lg font-bold">Login Setup</h2>
+                <div className="grid grid-cols-2 gap-2 justify-between">
                   <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
                       Email <span className="text-red-500">*</span>
                     </label>
                     <input
                       type="email"
                       name="email"
-                      required
                       placeholder="Email"
                       value={partnerFormData.email}
                       onChange={handlePartnerFormChange}
-                      className="placeholder:text-[#717171] w-full px-4 py-2 border border-[#717171] rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#800000] focus:border-transparent transition"
+                      onBlur={() => handleFieldBlur('email')}
+                      className={`w-full px-4 py-2 border ${
+                        formErrors.email ? 'border-red-500' : 'border-[#717171]'
+                      } placeholder:text-[#717171] rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#800000] focus:border-transparent transition`}
                     />
+                    {formErrors.email && (
+                      <p className="mt-1 text-sm text-red-600">{formErrors.email}</p>
+                    )}
                   </div>
 
-               <div>
+                  <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
                       Password <span className="text-red-500">*</span>
                     </label>
                     <input
                       type="password"
                       name="password"
-                      required
                       placeholder="***********"
                       value={partnerFormData.password}
                       onChange={handlePartnerFormChange}
-                      className="placeholder:text-[#717171] w-full px-4 py-2 border border-[#717171] rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#800000] focus:border-transparent transition"
+                      onBlur={() => handleFieldBlur('password')}
+                      className={`w-full px-4 py-2 border ${
+                        formErrors.password ? 'border-red-500' : 'border-[#717171]'
+                      } placeholder:text-[#717171] rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#800000] focus:border-transparent transition`}
                     />
+                    {formErrors.password && (
+                      <p className="mt-1 text-sm text-red-600">{formErrors.password}</p>
+                    )}
                   </div>
-                  </div>
-                  </div>      
-              {/* Full width submit button */}
+                </div>
+              </div>      
+              
               <div className="mt-8">
                 <div className="flex justify-end space-x-4">
                   <button
@@ -651,17 +766,6 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
           </div>
         </div>
       )}
-
-    
-    {/* {showPassForm && (
-  <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-    <div className="bg-white p-4 rounded-3xl">
-      <h1>Hello world</h1>
-      <button onClick={() => setShowPassForm(false)}>Close</button>
-    </div>
-  </div> */}
-{/* )} */}
-
     </div>
   )
 }

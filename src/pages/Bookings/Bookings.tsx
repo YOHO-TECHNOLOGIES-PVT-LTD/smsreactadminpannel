@@ -98,7 +98,7 @@ const ServiceRequests: React.FC = () => {
 	const [searchTerm, setSearchTerm] = useState('');
 	const [pendingRequests, setPendingRequests] = useState<pendingService[]>([]);
 
-  async function fetchpending() {
+const fetchpending = async() => {
     try {
       const data = await GetPendingRequest()
       setPendingRequests(data?.data)
@@ -107,7 +107,7 @@ const ServiceRequests: React.FC = () => {
     }
   }
 
-	async function fetchassigned() {
+	const fetchassigned = async() => {
 		try {
 			const data = await GetAssignedRequest();
 			setAssignedRequests(data?.data);
