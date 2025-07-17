@@ -40,21 +40,6 @@ const VehicleManagementPage = () => {
   });
 
   const transformVehicle = (vehicle: any): Vehicle => {
-  const normalizeFuelLevel = (
-    raw: string
-  ): Vehicle["vehicleInfo"]["currentFuelLevel"] => {
-    const map: Record<string, "Empty" | "Quarter" | "Half Tank" | "Full"> = {
-      empty: "Empty",
-      quarter: "Quarter",
-      half: "Half Tank",
-      "half tank": "Half Tank",
-      "full tank": "Full",
-      full: "Full",
-    };
-
-    const normalized = raw?.toLowerCase().trim();
-    return map[normalized] || undefined;
-  };
 
   return {
     baseVehicleInfo: {
