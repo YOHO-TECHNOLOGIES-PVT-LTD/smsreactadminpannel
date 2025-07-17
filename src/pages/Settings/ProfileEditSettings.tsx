@@ -51,7 +51,7 @@ type FormValues = {
     city: string;
   };
   gender: string;
-  image: string;
+  image: string | File;
   facebook?: string;
   twitter?: string;
   youtube?: string;
@@ -389,7 +389,7 @@ const ProfileEditSettings: React.FC = () => {
 							</div>
 							<input
 								id='dropzone-file'
-								type='text'
+								type='file'
 								accept='image/*'
 								className='hidden'
 								onChange={(e) => {
@@ -404,7 +404,7 @@ const ProfileEditSettings: React.FC = () => {
 					{formik.values.image && (
 						<div className='mt-4'>
 							<p className='text-sm text-gray-700'>
-								Selected File: {formik.values.image}
+								Selected File: {typeof formik.values.image === 'string' ? formik.values.image : formik.values.image.name}
 							</p>
 						</div>
 					)}
