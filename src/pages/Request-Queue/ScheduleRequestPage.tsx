@@ -323,7 +323,7 @@ export default function ScheduleRequestPage() {
                     <option value="">-- Choose a partner --</option>
                     {partners.map((partner) => (
                       <option key={partner._id} value={partner._id}>
-                        {partner.id} {partner.companyName} ({partner.contact_info.city})
+                        {partner.id} {partner.companyName}- ({partner.contact_info.city})
                       </option>
                     ))}
                   </select>
