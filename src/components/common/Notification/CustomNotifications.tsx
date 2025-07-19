@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { getByUserNotification, markAsReadNotification } from "./services";
 import { useSocket } from "../../../context/adminSocket";
+import { useNavigate } from "react-router-dom";
 
 interface Notification {
   id: number;
@@ -14,6 +15,7 @@ interface Notification {
   is_active: boolean;
   uuid: string;
   recipient_type: string;
+  type: string;
 }
 
 const NotificationPanel: React.FC = () => {
@@ -21,6 +23,8 @@ const NotificationPanel: React.FC = () => {
   const [filter, setFilter] = useState("all");
   const [, setSelectedNotify] = useState<Notification>()
   const socket = useSocket();
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!socket) return;
@@ -53,35 +57,57 @@ const NotificationPanel: React.FC = () => {
     fetchNotifications();
   }, []);
 
-const handleMarkAllAsRead = async () => {
-  const unread = notifications.filter((n) => !n.is_read);
-  if (unread.length === 0) return;
+  const handleMarkAllAsRead = async () => {
+    const unread = notifications.filter((n) => !n.is_read);
+    if (unread.length === 0) return;
 
-  try {
-    for (const notify of unread) {
-      await markAsReadNotification(notify.uuid);
+    try {
+      for (const notify of unread) {
+        await markAsReadNotification(notify.uuid);
+      }
+      setNotifications((prev) =>
+        prev.map((n) => ({ ...n, is_read: true }))
+      );
+    } catch (error) {
+      console.error("Failed to mark all as read", error);
     }
-    setNotifications((prev) =>
-      prev.map((n) => ({ ...n, is_read: true }))
-    );
-  } catch (error) {
-    console.error("Failed to mark all as read", error);
-  }
-};
+  };
 
-  const filtered = notifications.filter((n) =>{
-    if(n.recipient_type !== 'admin') return false;
+  const filtered = notifications.filter((n) => {
+    if (n.recipient_type !== 'admin') return false;
     if (filter === "all") return true;
     if (filter === "unread") return !n.is_read;
     if (filter === "read") return n.is_read;
-    }
+  }
   );
 
-  const formatDate = (d: string) => new Date(d).toLocaleString('en-IN',{
+  const formatDate = (d: string) => new Date(d).toLocaleString('en-IN', {
     dateStyle: 'medium',
     timeStyle: 'short',
     timeZone: 'Asia/Kolkata'
   });
+
+  const notifyHandle = async (n:Notification) => {
+    if (!n.is_read) {
+      await markAsReadNotification((n.uuid))
+      if (n.type === 'serviceReq') {
+        await navigate('/bookings')
+      } else if (n.type === 'orderReq') {
+        await navigate('/order')
+      } else {
+        await navigate('/service')
+      }
+      setNotifications((prev) => prev.map((m) => m._id === n._id ? { ...m, is_read: true } : m))
+    } else if (n.type === 'serviceReq') {
+      await navigate('/bookings')
+    } else if (n.type === 'orderReq') {
+      await navigate('/order')
+    }
+    else {
+      await navigate('/service')
+    }
+
+  }
 
 
   return (
@@ -109,10 +135,7 @@ const handleMarkAllAsRead = async () => {
             className={`p-4 rounded border cursor-pointer ${n.is_read ? "bg-gray-100" : "bg-yellow-100"}`}
             onClick={async () => {
               setSelectedNotify(n)
-              if (!n.is_read) {
-                await markAsReadNotification((n.uuid))
-                setNotifications((prev) => prev.map((m) => m._id === n._id ? { ...m, is_read: true } : m))
-              }
+              await notifyHandle(n)
             }}
           >
             <div className="flex justify-between">
