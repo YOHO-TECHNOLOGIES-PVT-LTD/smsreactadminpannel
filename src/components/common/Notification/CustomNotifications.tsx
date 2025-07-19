@@ -13,6 +13,7 @@ interface Notification {
   title: string;
   is_active: boolean;
   uuid: string;
+  recipient_type: string;
 }
 
 const NotificationPanel: React.FC = () => {
@@ -68,8 +69,12 @@ const handleMarkAllAsRead = async () => {
   }
 };
 
-  const filtered = notifications.filter((n) =>
-    filter === "all" ? true : filter === "read" ? n.is_read : !n.is_read
+  const filtered = notifications.filter((n) =>{
+    if(n.recipient_type !== 'admin') return false;
+    if (filter === "all") return true;
+    if (filter === "unread") return !n.is_read;
+    if (filter === "read") return n.is_read;
+    }
   );
 
   const formatDate = (d: string) => new Date(d).toLocaleString('en-IN',{
