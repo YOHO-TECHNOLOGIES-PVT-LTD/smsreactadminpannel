@@ -1,8 +1,6 @@
-import axios from "axios";
+import axios from 'axios';
 
-
-const backEndUrl:string= 'http://localhost:3001'
-
+const backEndUrl: string = import.meta.env.VITE_PUBLIC_API_URL;
 
 const Axios = axios.create({
 	baseURL: backEndUrl,
@@ -23,61 +21,51 @@ Axios.interceptors.request.use((config) => {
 });
 
 Axios.interceptors.response.use(
-    (response)=>response,
-    (error)=>{
-        if (error?.response && error?.response?.status === 401 && error?.response?.data?.status === "session_expired") {
-            localStorage.removeItem("authToken")
-            window.location.reload()
-        }
-    }
-)
+	(response) => response,
+	(error) => {
+		if (
+			error?.response &&
+			error?.response?.status === 401 &&
+			error?.response?.data?.status === 'session_expired'
+		) {
+			localStorage.removeItem('authToken');
+			window.location.reload();
+		}
+	}
+);
 
-class HttpClient{
-    async get(url:string,params?:string){
-    const response:unknown = await Axios.get(url,{
-        params:params,
-        headers:{
+class HttpClient {
+	async get(url: string, params?: string) {
+		const response: unknown = await Axios.get(url, {
+			params: params,
+			headers: {},
+		});
+		return response;
+	}
 
-        }
-        
-    })
-    return response;
-    }
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	async post(url: string, data: any) {
+		const response: unknown = await Axios.post(url, data, {
+			headers: {},
+		});
+		return response;
+	}
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    async post(url:string,data:any){
-        const response:unknown =  await Axios.post(url,data,{
-          
-            headers:{
+	async update(url: string, data: string, params?: string) {
+		const response = await Axios.put(url, data, {
+			params: params,
+			headers: {},
+		});
+		return response?.data;
+	}
 
-            }
-        });
-        return response;
-    }
-
-  async update(url:string,data:string,params?:string){
-
-    const response =await Axios.put(url,data,{
-        params:params,
-        headers:{
-
-        }
-         
-    });
-    return response?.data;
-  }
-
-    async patch(url: string, params?: string) {
-
-        const response = await Axios.put(url, {
-            params: params,
-            headers: {
-
-            }
-
-        });
-        return response?.data;
-    }
+	async patch(url: string, params?: string) {
+		const response = await Axios.put(url, {
+			params: params,
+			headers: {},
+		});
+		return response?.data;
+	}
 
 	async delete(url: string) {
 		const response = await Axios.delete(url);
