@@ -68,6 +68,33 @@ const QuotationPage: React.FC = () => {
     navigate('/job-cards');
   };
 
+    const handleDownloadPDF = async (id: string) => {
+      toast.success('dowloaded pdf successfully')
+    // try {
+    //   const response = await fetch(`http://localhost:5000/api/quotation/${id}/download`, {
+    //     method: 'GET',
+    //     headers: {
+    //       Accept: 'application/pdf',
+    //     },
+    //   });
+
+    //   if (!response.ok) throw new Error('Failed to download PDF');
+
+    //   const blob = await response.blob();
+    //   const url = window.URL.createObjectURL(blob);
+    //   const a = document.createElement('a');
+    //   a.href = url;
+    //   a.download = `quotation-${id}.pdf`;
+    //   document.body.appendChild(a);
+    //   a.click();
+    //   a.remove();
+    //   URL.revokeObjectURL(url);
+    // } 
+    // catch (error) {
+    //   console.error('Error downloading PDF:', error);
+    //   toast.error('Failed to download the quotation PDF.');
+    // }
+  };
   return (
     <>
       <div
@@ -138,10 +165,10 @@ const QuotationPage: React.FC = () => {
                         {item?.quantity}
                       </td>
                       <td className="border px-3 py-2 text-right">
-                        ₹{item.rate}
+                        &#8377;{item.rate}
                       </td>
                       <td className="border px-3 py-2 text-right">
-                        ₹{(item?.quantity * item?.rate).toFixed(2)}
+                        &#8377;{(item?.quantity * item?.rate).toFixed(2)}
                       </td>
                     </tr>
                   )
@@ -154,7 +181,7 @@ const QuotationPage: React.FC = () => {
                         {item?.quantity}
                       </td>
                       <td className="border px-3 py-2 text-right">
-                        ₹{item.rate}
+                        &#8377;{item.rate}
                       </td>
                       <td className="border px-3 py-2 text-right">
                         {/* ₹{(item?.quantity * item?. rate).toFixed(2)} */}
@@ -169,7 +196,7 @@ const QuotationPage: React.FC = () => {
                   <td className="border px-3 py-2 text-center">-</td>
                   <td className="border px-3 py-2 text-right">-</td>
                   <td className="border px-3 py-2 text-right">
-                    ₹{(subtotal * 0.09).toFixed(2)}
+                    &#8377;{(subtotal * 0.09).toFixed(2)}
                   </td>
                 </tr>
                 {/* CGST Row */}
@@ -178,7 +205,7 @@ const QuotationPage: React.FC = () => {
                   <td className="border px-3 py-2 text-center">-</td>
                   <td className="border px-3 py-2 text-right">-</td>
                   <td className="border px-3 py-2 text-right">
-                    ₹{(subtotal * 0.09).toFixed(2)}
+                    &#8377;{(subtotal * 0.09).toFixed(2)}
                   </td>
                 </tr>
               </tbody>
@@ -193,7 +220,7 @@ const QuotationPage: React.FC = () => {
                 <tr>
                   <td className="border px-3 py-2 font-semibold">SUBTOTAL</td>
                   <td className="border px-3 py-2 text-right">
-                    ₹{subtotal.toFixed(2)}
+                    &#8377;{subtotal.toFixed(2)}
                   </td>
                 </tr>
                 <tr>
@@ -216,22 +243,37 @@ const QuotationPage: React.FC = () => {
           This quotation is only for admin use.
         </p>
 
-        <div className="mt-2 p-4 flex justify-center">
-          <div className="flex gap-8 justify-end w-full md:w-2/3">
-            { buttonShow === 'completed' &&
-              <button
-                onClick={handleAccept}
-                className="flex items-center justify-center font-bold  px-14 py-2 rounded text-white transition duration-200 active:scale-105 hover:bg-[#a00000]"
-                style={{
-                  background:
-                    "linear-gradient(44.99deg,#700808 11%,#d23c3c 102.34%)",
-                }}
-              >
-                Accept
-              </button>
-            }
-          </div>
-        </div>
+       <div className="mt-2 p-4 flex justify-center">
+<div className="flex gap-8 justify-end w-full md:w-2/3">
+  {['completed', 'closed'].includes(buttonShow) && (
+    <>
+      <button
+        onClick={handleAccept}
+        className="flex items-center justify-center font-bold px-14 py-2 rounded text-white transition duration-200 active:scale-105 hover:bg-[#a00000]"
+        style={{
+          background:
+            "linear-gradient(44.99deg,#700808 11%,#d23c3c 102.34%)",
+        }}
+      >
+        Accept
+      </button>
+
+      <button
+        onClick={() => handleDownloadPDF(quotation._id)}
+        className="flex items-center justify-center font-bold px-6 py-2 rounded text-white transition duration-200 active:scale-105 hover:bg-green-800"
+        style={{
+          background:
+            "linear-gradient(44.99deg, #0a5d10 11%, #34a853 102.34%)",
+        }}
+      >
+        Download Invoice
+      </button>
+    </>
+  )}
+</div>
+
+</div>
+
       </div>
     </>
   );

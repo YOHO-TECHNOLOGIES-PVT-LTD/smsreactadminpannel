@@ -591,7 +591,7 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId, handleBack }) 
                       {part.discount && part.discount > 0 ? (
                         <>
                           <span className="text-2xl font-bold !text-gray-900" style={{ ...FONTS.paragraph }}>
-                            ₹{calculateDiscountedPrice(part.price, part.discount).toLocaleString()}
+                            &#8377;{calculateDiscountedPrice(part.price, part.discount).toLocaleString()}
                           </span>
                           <span className="text-sm text-gray-500 line-through">₹{part.price.toLocaleString()}</span>
                         </>
@@ -1040,8 +1040,8 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId, handleBack }) 
                   <p>
                     <span className="font-bold text-gray-700">Discounted Price:</span>{" "}
                     <span className="text-green-700 font-bold">
-                      ₹{calculateDiscountedPrice(selectedPart.price, selectedPart.discount)}
-                      ₹{selectedPart.price}
+                      {/* ₹{calculateDiscountedPrice(selectedPart.price, selectedPart.discount)} */}
+                      &#8377;{selectedPart.price}
                     </span>
                   </p>
                 ) : null} */}
