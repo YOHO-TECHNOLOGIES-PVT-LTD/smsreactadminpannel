@@ -112,6 +112,12 @@ export const Navbar: React.FC<ProfileModalProps> = () => {
 
   const unreadCount = notifications.filter((n) => !n.is_read).length;
 
+  const filtered = notifications.filter((n) =>{
+    if(n.recipient_type !== 'admin') return false;
+    return n
+    }
+  );
+
   const handleLogout = () => {
     logout();
     navigate("/");
@@ -120,9 +126,10 @@ export const Navbar: React.FC<ProfileModalProps> = () => {
 
   useEffect(() => {
     const fetchNotifications = async () => {
-      const userId = localStorage.getItem('adminobjectid')
+      const userId:any = localStorage.getItem('adminobjectid')
       try {
-        const res: any = await getByUserNotification(userId!);
+        const res: any = await getByUserNotification(userId);
+        console.log("resUserNotify", res)
         setNotifications(res.data?.data?.notifications || []);
       } catch (err) {
         console.error("Fetch error", err);
@@ -268,8 +275,8 @@ export const Navbar: React.FC<ProfileModalProps> = () => {
                   </h3>
                 </div>
                 <div className="max-h-80 overflow-y-auto">
-                  {notifications.length > 0 ? (
-                    notifications.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()).map((notification) => (
+                  {filtered.length > 0 ? (
+                    filtered.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()).map((notification) => (
                       <div
                         key={notification.id}
                         className={`group relative p-3 border-b hover:bg-gray-50 transition-colors duration-150 ${notification.is_read ? "bg-white" : "bg-red-50"
