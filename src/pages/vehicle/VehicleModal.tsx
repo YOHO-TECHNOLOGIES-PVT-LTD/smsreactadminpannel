@@ -77,14 +77,14 @@ const VehicleModal: FC<Props> = ({ vehicle, onClose, redirectPath }) => {
     <div className="grid grid-cols-1 md:grid-cols-3 gap-4"style={{ ...FONTS.cardSubHeader }}>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Name: {vehicle.partnerDetails.partnerName || "N/A"}</label>
+        <label className="block text-sm font-medium text-gray-700 mb-1">Company Name : {vehicle.partnerDetails.partnerName || "N/A"}</label>
       </div>
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-1">Phone: {vehicle.partnerDetails.partnerPhone || "N/A"}</label>
        
       </div>
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Address:{vehicle.partnerDetails.partnerAddress || "N/A"}</label>
+        <label className="block text-sm font-medium text-gray-700 mb-1">City:{vehicle.partnerDetails.partnerAddress || "N/A"}</label>
         
       </div>
     </div>
@@ -140,15 +140,15 @@ const VehicleModal: FC<Props> = ({ vehicle, onClose, redirectPath }) => {
           Fuel Level : {vehicle.carCondition.fuelLevel || "N/A"}
         </label>
       </div>
-      <div>
+      {/* <div>
         <label className="block text-sm font-medium text-gray-700 mb-1 capitalize">
           Selected Items : {vehicle.carCondition.selectedItems.join(", ")}
         </label>
-      </div>
+      </div> */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1 capitalize">
+        {/* <label className="block text-sm font-medium text-gray-700 mb-1 capitalize">
           Images :
-        </label>
+        </label> */}
         <div className="flex flex-wrap gap-2 mt-1">
           {vehicle.carCondition.images.map((img, i) => (
             <img
@@ -165,7 +165,7 @@ const VehicleModal: FC<Props> = ({ vehicle, onClose, redirectPath }) => {
 )}
 
 
-        {vehicle.checkInOutDates && (
+        {/* {vehicle.checkInOutDates && (
   <div className="mt-8">
     <h3 className="text-2xl font-semibold text-[#9b111e] mb-4" style={{ ...FONTS.cardheader }}>
       Entries
@@ -183,7 +183,7 @@ const VehicleModal: FC<Props> = ({ vehicle, onClose, redirectPath }) => {
       ))}
     </div>
   </div>
-)}
+)} */}
 
         <div className="flex justify-start items-center mt-4">
           <Link

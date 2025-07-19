@@ -18,7 +18,7 @@ interface Notification {
 const NotificationPanel: React.FC = () => {
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [filter, setFilter] = useState("all");
-
+  const [, setSelectedNotify] = useState<Notification>()
   const socket = useSocket();
 
   useEffect(() => {
@@ -78,9 +78,6 @@ const handleMarkAllAsRead = async () => {
     timeZone: 'Asia/Kolkata'
   });
 
-  function setSelectedNotify(_n: Notification) {
-    throw new Error("Function not implemented.");
-  }
 
   return (
     <div className="p-4 bg-white rounded shadow w-full mx-auto mt-5">

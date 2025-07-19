@@ -136,7 +136,7 @@ export const Sidebar = () => {
             label="Service Request"
             isOpen={isOpen}
             onClick={handleLinkClick}
-            tooltip="Request Queue"
+            tooltip="Service Request"
           />
           <SidebarLink
             to="/request-queue"

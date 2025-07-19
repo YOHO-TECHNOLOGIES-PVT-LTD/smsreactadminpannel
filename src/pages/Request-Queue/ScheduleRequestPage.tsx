@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FONTS } from "../../constants/uiConstants";
 import { GetUnassignedScheduleReq, UpdateScheduleReq } from "./Service";
@@ -12,15 +12,18 @@ import { FaLocationDot } from "react-icons/fa6";
 import { FaCarAlt, FaUserAlt } from "react-icons/fa";
 
 interface Partner {
+  id: ReactNode;
   _id: string;
   firstName: string;
   lastName: string;
+  companyName: string;
   contact_info: {
     city: string;
     address1: string;
     address2: string;
     phoneNumber: string;
     state: string;
+    id: string;
   };
 }
 
@@ -165,7 +168,8 @@ export default function ScheduleRequestPage() {
 
       {filteredRequests.length === 0 ? (
         <div className="flex justify-center items-center h-64">
-          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#9b111e]"></div>
+          {/* <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#9b111e]"></div> */}
+          <p>No Requests Pending</p>
         </div>
       ) : filteredRequests.length === 0 ? (
         <div className="text-center py-12">
@@ -319,7 +323,7 @@ export default function ScheduleRequestPage() {
                     <option value="">-- Choose a partner --</option>
                     {partners.map((partner) => (
                       <option key={partner._id} value={partner._id}>
-                        {partner.firstName} {partner.lastName} ({partner.contact_info.city})
+                        {partner.id} {partner.companyName}- ({partner.contact_info.city})
                       </option>
                     ))}
                   </select>

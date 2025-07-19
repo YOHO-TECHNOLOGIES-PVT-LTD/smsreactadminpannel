@@ -5,6 +5,7 @@ import { getOrdersHistory } from './Services';
 import { FONTS } from '../../constants/uiConstants';
 import { useNavigate } from 'react-router-dom';
 import {statusOrderHistory} from './Services/index'
+import { toast } from 'react-toastify';
 
 const Order = () => {
   // State management
@@ -364,7 +365,7 @@ const Order = () => {
                         <span className="font-medium !text-gray-600" style={{ ...FONTS.paragraph }}>Name:</span> {selectedOrder.customer_name}
                       </p>
                       <p className="!text-gray-600">
-                        <span className="font-medium !text-gray-600" style={{ ...FONTS.paragraph }}>Email:</span> {selectedOrder.email}
+                        <span className="font-medium !text-gray-600" style={{ ...FONTS.paragraph }}>Email:</span> {selectedOrder?.customerId?.email}
                       </p>
                       <p className="!text-gray-600">
                         <span className="font-medium !text-gray-600" style={{ ...FONTS.paragraph }}>Phone Number:</span> {selectedOrder?.customerId?.contact_info?.phoneNumber}
@@ -513,7 +514,10 @@ const Order = () => {
 
 <button
   // onClick={() => getstatus({ status: "completed" }, "12345")}
-   onClick={() => getstatus({ status: 'completed' }, selectedOrder._id)}
+   onClick={() => {
+     toast.success("Status Updated Successfully");
+     getstatus({ status: 'completed' }, selectedOrder._id);
+   }}
   className="px-4 py-2 bg-[#9b111e] !text-white rounded-3xl hover:bg-[#7a0d19] transition-colors"
   style={{ ...FONTS.paragraph }}
 >

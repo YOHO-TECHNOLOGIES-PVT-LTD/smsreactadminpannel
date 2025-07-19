@@ -32,16 +32,16 @@ type Props = {
 
 const VehicleDetailCard: FC<Props> = ({ vehicle, onViewDetails }) => {
   const {
-    kms = "N/A",
-    fuel = "N/A",
-    transmission = "N/A",
-    location = "Unknown",
+    kms = "",
+    fuel = "",
+    transmission = "",
+    location = "",
   } = vehicle.vehicleInfo;
 
   const {
     image = carDefaultlogo,
     title = "Untitled",
-    registrationNumber = "Not Assigned",
+    registrationNumber = "",
   } = vehicle.baseVehicleInfo;
 
   return (

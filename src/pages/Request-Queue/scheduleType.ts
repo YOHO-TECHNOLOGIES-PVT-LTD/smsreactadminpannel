@@ -70,6 +70,7 @@ export interface assignedScheduleRequest {
         },
         firstName:string;
         lastName:string;
+        companyName:string;
     }
     createdAt: string;
 }
