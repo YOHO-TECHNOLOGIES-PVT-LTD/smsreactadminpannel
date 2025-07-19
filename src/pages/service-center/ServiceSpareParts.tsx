@@ -18,6 +18,7 @@ import { FaRegEdit } from "react-icons/fa"
 import { MdDelete } from "react-icons/md"
 
 interface ApiSparePart {
+  units: any
   _id: string
   productName: string
   price: string
@@ -46,6 +47,7 @@ interface SparePart {
   image: string
   price: string
   quantity: number
+  units: string
   category: string
   brand: string
   rating: number
@@ -92,6 +94,7 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId, handleBack }) 
     image: "",
     price: "0",
     quantity: 0,
+    units : "",
     category: "",
     brand: "",
     discount: 0,
@@ -217,6 +220,7 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId, handleBack }) 
         image: item.image,
         price: item.price || "0",
         quantity: Number.parseInt(item.stock) || 0,
+        units : item.units,
         stock: item.stock,
         category: item.category,
         brand: item.brand,
@@ -258,10 +262,10 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId, handleBack }) 
       stock: String(newPart.quantity),
       price: newPart.price,
       brand: newPart.brand,
+      units: newPart.units,
       category: newPart.category,
       warrantyPeriod: newPart.warrantyPeriod,
       image: newPart.image,
-      slug: newPart.slug,
       partnerId,
     }
     const response: any = await new Client().admin.spareparts.create(data)
@@ -274,6 +278,7 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId, handleBack }) 
       image: "",
       price: "0",
       quantity: 0,
+      units: "",
       category: "",
       brand: "",
       discount: 0,
@@ -308,7 +313,7 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId, handleBack }) 
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <div className="sticky top-0 z-20 bg-red-200 border-b ">
+      <div className="sticky top-0 z-20 border-b ">
         <div className="container px-4 py-3 flex">
           <button
             onClick={() => {
@@ -559,9 +564,18 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId, handleBack }) 
                   >
                     {part.productName}
                   </h3>
-                  <div className="mb-3 px-2 rounded-md bg-green-600 inline-block">
-                    <span className="!text-md !text-white" style={{ ...FONTS.paragraph }}>
+                  <div className="flex   justify-between">
+                    <span
+                      className="!text-xs  mb-3 p-1 !text-white rounded-md px-2 bg-green-600"
+                      style={{ ...FONTS.paragraph }}
+                    >
                       Quantity: {part.stock}
+                    </span>
+                    <span
+                      className="!text-xs text-white"
+                      style={{ ...FONTS.paragraph }}
+                    >
+                      Units: {part.units}
                     </span>
                   </div>
                   <div className="mb-3">
@@ -653,17 +667,6 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId, handleBack }) 
                     required
                   />
                 </div>
-                {/* <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Slug*</label>
-                  <input
-                    type="text"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg"
-                    value={newPart.slug}
-                    onChange={(e) => setNewPart({ ...newPart, slug: e.target.value })}
-                    placeholder="Enter slug"
-                    required
-                  />
-                </div> */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Image URL*</label>
                   <input
@@ -705,6 +708,29 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId, handleBack }) 
                   />
                 </div>
                 <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Units*
+                </label>
+                <select
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg"
+                  value={newPart.units}
+                  onChange={(e) =>
+                    setNewPart({ ...newPart, units: e.target.value })
+                  }
+                  required
+                >
+                  <option value="">Select Units</option>
+                  <option>Ltr</option>
+                  <option>Pcs</option>
+                  <option>Kg</option>
+                  <option>ml</option>
+                  <option>M</option>
+                  <option>Box</option>
+                  <option>Bundle</option>
+                  <option>packet</option>
+                </select>
+              </div>
+                <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Category*</label>
                   <select
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg"
@@ -740,23 +766,6 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId, handleBack }) 
                     onChange={(e) => setNewPart({ ...newPart, warrantyPeriod: e.target.value })}
                     placeholder="e.g., 6 months"
                     required
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Discount (%)</label>
-                  <input
-                    type="number"
-                    min="0"
-                    max="100"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg"
-                    value={newPart.discount || ""}
-                    onChange={(e) =>
-                      setNewPart({
-                        ...newPart,
-                        discount: Number(e.target.value),
-                      })
-                    }
-                    placeholder="Enter discount percentage"
                   />
                 </div>
                 <div className="flex items-center">
@@ -1006,10 +1015,6 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId, handleBack }) 
                   <span className="text-gray-900">{selectedPart.brand}</span>
                 </p>
                 <p>
-                  <span className="font-bold text-gray-700">Slug:</span>{" "}
-                  <span className="text-gray-800">{selectedPart.slug}</span>
-                </p>
-                <p>
                   <span className="font-bold text-gray-700">Warranty:</span>{" "}
                   <span className="text-blue-700">{selectedPart.warrantyPeriod}</span>
                 </p>
@@ -1031,20 +1036,22 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId, handleBack }) 
                   <span className="font-bold text-gray-700">Price:</span>{" "}
                   <span className="text-red-600 font-semibold">₹{selectedPart.price}</span>
                 </p>
-                {selectedPart.discount ? (
+                {/* {selectedPart.discount ? (
                   <p>
                     <span className="font-bold text-gray-700">Discounted Price:</span>{" "}
                     <span className="text-green-700 font-bold">
-                      {/* ₹{calculateDiscountedPrice(selectedPart.price, selectedPart.discount)} */}
+                      ₹{calculateDiscountedPrice(selectedPart.price, selectedPart.discount)}
                       ₹{selectedPart.price}
                     </span>
                   </p>
-                ) : null}
+                ) : null} */}
               </div>
             </div>
           </div>
         </div>
       )}
+
+      {/* SparePats Edit Modal */}
       {editPart && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 ">
           <div className="bg-white rounded-md shadow-lg w-full max-w-xl m-12">
@@ -1088,6 +1095,32 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId, handleBack }) 
                   />
                 </div>
                 <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Units*
+                </label>
+                <select
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg"
+                  value={editPart.units || ""}
+                  onChange={(e) =>
+                    setEditPart({
+                      ...editPart,
+                      units: e.target.value,
+                    })
+                  }
+                  required
+                >
+                  <option value="">Select Units</option>
+                  <option>Ltr</option>
+                  <option>Pcs</option>
+                  <option>Kg</option>
+                  <option>ml</option>
+                  <option>M</option>
+                  <option>Box</option>
+                  <option>Bundle</option>
+                  <option>packet</option>
+                </select>
+              </div>
+                <div>
                   <label className="block text-sm font-medium text-gray-700">Category</label>
                   <select
                     className="mt-1 block w-full border-gray-300 shadow-sm outline-none focus:border-b-2 focus:border-b-red-500"
@@ -1109,16 +1142,6 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId, handleBack }) 
                     type="text"
                     value={editPart.brand}
                     onChange={(e) => setEditPart({ ...editPart, brand: e.target.value })}
-                    className="mt-1 block w-full border-gray-300 shadow-sm outline-none focus:border-b-2 focus:border-b-red-500"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">Slug</label>
-                  <input
-                    title="Slug"
-                    type="text"
-                    value={editPart.slug}
-                    onChange={(e) => setEditPart({ ...editPart, slug: e.target.value })}
                     className="mt-1 block w-full border-gray-300 shadow-sm outline-none focus:border-b-2 focus:border-b-red-500"
                   />
                 </div>
@@ -1168,21 +1191,6 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId, handleBack }) 
                     className="mt-1 block w-full border-gray-300 shadow-sm outline-none focus:border-b-2 focus:border-b-red-500"
                   />
                 </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">Discount (%)</label>
-                  <input
-                    title="Discount"
-                    type="number"
-                    value={editPart.discount || 0}
-                    onChange={(e) =>
-                      setEditPart({
-                        ...editPart,
-                        discount: Number.parseInt(e.target.value, 10),
-                      })
-                    }
-                    className="mt-1 block w-full border-gray-300 shadow-sm outline-none focus:border-b-2 focus:border-b-red-500"
-                  />
-                </div>
                 <div className="col-span-2">
                   <label className="block text-sm font-medium text-gray-700">Status</label>
                   <select
@@ -1223,6 +1231,7 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId, handleBack }) 
                         category: editPart.category,
                         image: editPart.image,
                         inStock: editPart.inStock,
+                        units: editPart.units,
                         price: editPart.price,
                         productName: editPart.name || editPart.productName,
                         stock: String(editPart.quantity),
@@ -1242,6 +1251,7 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId, handleBack }) 
                               category: editPart.category,
                               image: editPart.image,
                               inStock: editPart.inStock,
+                              units: editPart.units,
                               price: editPart.price,
                               stock: String(editPart.quantity),
                               warrantyPeriod: editPart.warrantyPeriod,
@@ -1264,9 +1274,9 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({ partnerId, handleBack }) 
                               inStock: editPart.inStock,
                               price: editPart.price,
                               quantity: Number(editPart.quantity),
+                              units: editPart.units,
                               stock: editPart.quantity,
                               warrantyPeriod: editPart.warrantyPeriod,
-                              slug: editPart.slug,
                             }
                           : part,
                       )
