@@ -220,9 +220,9 @@ export default function ScheduleRequestPage() {
                     <span>{req.service?.[0]?.service_name || 'Car Services'}</span>
                   </div>
 
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2 break-words">
                     <span><FaLocationDot /></span>
-                    <span>{req.customerId?.contact_info?.address1 || 'Not specified'}</span>
+                    <span className="break-words">{req.customerId?.contact_info?.address1.substring(0,10) || 'Not specified'}</span>
                   </div>
                 </div>
               </div>
