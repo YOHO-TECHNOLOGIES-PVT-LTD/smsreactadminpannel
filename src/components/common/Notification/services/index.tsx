@@ -1,9 +1,9 @@
 
 import Client from "../../../../api"
 
-export const getAllNotification =async (data:any)=>{
+export const getAllNotification =async ()=>{
     try{
-        const response = await new Client().admin.notification.getAll(data)
+        const response = await new Client().admin.notification.getAll()
        return response;
        // console.log(response);
     }
@@ -35,9 +35,9 @@ export const  updateNotification = async (data:string,params:string)=>{
     }
 }
 
-export const markAsReadNotification= async(data:string,params:string)=>{
+export const markAsReadNotification= async(params:string)=>{
     try{
-    const response = await new Client().admin.notification.markAsRead(data,params)
+    const response = await new Client().admin.notification.markAsRead(params)
    // console.log(response);
  return response;   
 }

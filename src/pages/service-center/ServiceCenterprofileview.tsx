@@ -1,24 +1,43 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import type React from 'react';
-import { useState, useEffect } from 'react';
-import { FaArrowRight, FaEdit, FaTrash } from 'react-icons/fa';
-import { BsBuildings } from 'react-icons/bs';
-import { SlCalender } from 'react-icons/sl';
-import { AiFillSafetyCertificate } from 'react-icons/ai';
-import {
-	MdEmail,
-	MdOutlineMailOutline,
-	MdOutlineKeyboardBackspace,
-} from 'react-icons/md';
-import { CgWebsite } from 'react-icons/cg';
-import { FcDataEncryption } from 'react-icons/fc';
-import { RiLockPasswordLine } from 'react-icons/ri';
-import { LuPhoneCall } from 'react-icons/lu';
-import { CheckCircle, AlertCircle } from 'lucide-react';
-import { Settings } from 'lucide-react';
-import Client from '../../api';
-import { FONTS } from '../../constants/uiConstants';
+import type React from "react"
+import { useState, useEffect } from "react"
+import { FaArrowRight,  FaEdit, FaTrash,  } from "react-icons/fa"
+import { BsBuildings } from "react-icons/bs"
+import { SlCalender } from "react-icons/sl"
+import { AiFillSafetyCertificate } from "react-icons/ai"
+import { MdEmail, MdOutlineMailOutline, MdOutlineKeyboardBackspace } from "react-icons/md"
+import { CgWebsite } from "react-icons/cg"
+import { FcDataEncryption } from "react-icons/fc"
+import { RiLockPasswordLine } from "react-icons/ri"
+import { LuPhoneCall } from "react-icons/lu"
+import { CheckCircle, AlertCircle } from "lucide-react"
+// import { Settings } from "lucide-react";
+import Client from "../../api"
+import { FONTS } from "../../constants/uiConstants"
+import { toast } from "react-toastify"
+
 // import {  useNavigate } from "react-router-dom";
+
+interface FormErrors {
+  companyName?: string;
+  firstName?: string;
+  lastName?: string;
+  phone?: string;
+  email?: string;
+  loginEmail?: string;
+  state?: string;
+  city?: string;
+  pincode?: string;
+  address1?: string;
+  address2?: string;
+  aadharNumber?: string;
+  panCard?: string;
+  gstNo?: string;
+  regNo?: string;
+  newPassword?: string;
+  confirmPassword?: string;
+}
+
 
 type ServiceCenterProfileProps = {
 	onSpareParts: () => void;
@@ -35,14 +54,127 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({
 	setpartnerId,
 	handleBack,
 }) => {
-	const [isActive, setIsActive] = useState(true);
-	const [showConfirm, setShowConfirm] = useState(false);
-	const [pendingStatus, setPendingStatus] = useState<boolean | null>(null);
-	const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
-	const [showEditForm, setShowEditForm] = useState(false);
-	const [showSuccessPopup, setShowSuccessPopup] = useState(false);
-	const [showNoChangesPopup, setShowNoChangesPopup] = useState(false);
-	const [showDeleteSuccessPopup, setShowDeleteSuccessPopup] = useState(false);
+
+
+  console.log(partner,"partner")
+
+  const [isActive, setIsActive] = useState(true)
+  const [showConfirm, setShowConfirm] = useState(false)
+  const [pendingStatus, setPendingStatus] = useState<boolean | null>(null)
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
+  const [showEditForm, setShowEditForm] = useState(false)
+  const [showSuccessPopup, setShowSuccessPopup] = useState(false)
+  const [showNoChangesPopup, setShowNoChangesPopup] = useState(false)
+  const [showDeleteSuccessPopup, setShowDeleteSuccessPopup] = useState(false)
+  const [showPasswordModal, setShowPasswordModal] = useState(false);
+const [newPassword, setNewPassword] = useState("");
+const [confirmPassword, setConfirmPassword] = useState("");
+const [errors, setErrors] = useState<FormErrors>({});
+
+
+const validateField = (name: string, value: string): string | undefined => {
+  switch (name) {
+    case 'companyName':
+      if (!value.trim()) return 'Company name is required';
+      if (value.length > 100) return 'Company name too long';
+      return undefined;
+      
+    case 'firstName':
+    case 'lastName':
+      if (!value.trim()) return `${name === 'firstName' ? 'First' : 'Last'} name is required`;
+      if (!/^[a-zA-Z\s-]+$/.test(value)) return 'Only letters, spaces and hyphens allowed';
+      if (value.length > 50) return 'Name too long';
+      return undefined;
+      
+    case 'phone':
+      if (!value.trim()) return 'Phone number is required';
+      if (!/^[0-9]{10}$/.test(value)) return 'Invalid phone number (10 digits required)';
+      return undefined;
+      
+    case 'email':
+    case 'loginEmail':
+      if (!value.trim()) return 'Email is required';
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) return 'Invalid email format';
+      return undefined;
+      
+    case 'state':
+    case 'city':
+      if (!value.trim()) return `${name.charAt(0).toUpperCase() + name.slice(1)} is required`;
+      return undefined;
+
+	case 'pincode':
+      if (!value.trim()) return 'Pincode 6 is required';
+      return undefined;
+      
+    case 'address1':
+      if (!value.trim()) return 'Address line 1 is required';
+      return undefined;
+      
+    case 'aadharNumber':
+      if (value && value !== 'Nan' && !/^[0-9]{12}$/.test(value)) 
+        return 'Aadhar must be 12 digits';
+      return undefined;
+      
+    case 'panCard':
+      if (value && value !== 'Nan' && !/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/.test(value))
+        return 'Invalid PAN format (e.g., ABCDE1234F)';
+      return undefined;
+      
+    case 'gstNo':
+      if (value && value !== 'Nan' && !/^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[0-9A-Z]{1}[Z]{1}[0-9A-Z]{1}$/.test(value))
+        return 'Invalid GST format';
+      return undefined;
+      
+    case 'regNo':
+      if (value && value !== 'Nan' && value.length < 5)
+        return 'Registration number too short';
+      return undefined;
+      
+    case 'newPassword':
+      if (value && value.length < 8) return 'Password must be at least 8 characters';
+      if (value && !/[A-Z]/.test(value)) return 'Password must contain at least one uppercase letter';
+      if (value && !/[a-z]/.test(value)) return 'Password must contain at least one lowercase letter';
+      if (value && !/[0-9]/.test(value)) return 'Password must contain at least one number';
+      return undefined;
+      
+    case 'confirmPassword':
+      if (value !== newPassword) return 'Passwords do not match';
+      return undefined;
+      
+    default:
+      return undefined;
+  }
+};
+
+const handleBlur = (fieldName: keyof FormErrors, value: string) => {
+  const error = validateField(fieldName, value);
+  setErrors(prev => ({ ...prev, [fieldName]: error }));
+};
+
+const validateForm = (): boolean => {
+  const newErrors: FormErrors = {};
+  
+  // Validate all fields
+  newErrors.companyName = validateField('companyName', editCompanyName);
+  newErrors.firstName = validateField('firstName', editFirstName);
+  newErrors.lastName = validateField('lastName', editLastName);
+  newErrors.phone = validateField('phone', editPhone);
+  newErrors.email = validateField('email', editEmail);
+  newErrors.loginEmail = validateField('loginEmail', editLoginEmail);
+  newErrors.state = validateField('state', editState);
+  newErrors.city = validateField('city', editCity);
+  newErrors.pincode = validateField('pincode', editPincode);
+  newErrors.address1 = validateField('address1', editAddress1);
+  newErrors.aadharNumber = validateField('aadharNumber', editAadharNumber);
+  newErrors.panCard = validateField('panCard', editPanCard);
+  newErrors.gstNo = validateField('gstNo', editGstNo);
+  newErrors.regNo = validateField('regNo', editRegNo);
+  
+  setErrors(newErrors);
+  
+  return !Object.values(newErrors).some(error => error !== undefined);
+};
+  // Original values for comparison
 
 	const originalValues = {
 		editCompanyName: partner.companyName || '',
@@ -59,6 +191,7 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({
 		editImage: partner?.image,
 		editState: partner?.contact_info?.state,
 		editCity: partner?.contact_info?.city,
+		editPincode: partner?.contact_info?.pincode,
 		editAddress1: partner?.contact_info?.address1,
 		editAddress2: partner?.contact_info?.address2,
 	};
@@ -73,13 +206,14 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({
 	const [editCompanyName, setEditCompanyName] = useState(
 		originalValues.editCompanyName
 	);
-	const [editFirstName] = useState(originalValues.editFirstName);
+	const [editFirstName, setFirstName] = useState(originalValues.editFirstName);
 	const [editLastName, setLastName] = useState(originalValues.editLastName);
 	// const [editImage, setImage] = useState(originalValues.editImage)
 	const [editPhone, setEditPhone] = useState(originalValues.editPhone);
-	const [editEmail, setEditEmail] = useState(originalValues.editEmail);
+	const [editEmail] = useState(originalValues.editEmail);
 	const [editState, setEditState] = useState(originalValues.editState);
 	const [editCity, setEditCity] = useState(originalValues.editCity);
+	const [editPincode, setEditPincode] = useState(originalValues.editPincode);
 	const [editAddress1, setEditAddress1] = useState(originalValues.editAddress1);
 	const [editAddress2, setEditAddress2] = useState(originalValues.editAddress2);
 	// const [editLastAudit, setEditLastAudit] = useState(originalValues.editLastAudit)
@@ -89,6 +223,7 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({
 		originalValues.editLoginEmail
 	);
 	// const [editPassword, setEditPassword] = useState(originalValues.editPassword)
+	
 
 	// Function to check if any values have changed
 	const hasChanges = () => {
@@ -103,21 +238,17 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({
 			editLastName,
 			// editImage,
 			editCity,
+			editPincode,
 			editAadharNumber,
 			editAddress1,
 			editAddress2,
 		};
 
-		return Object.keys(originalValues).some(
-			(key) =>
-				originalValues[key as keyof typeof originalValues] !==
-				currentValues[key as keyof typeof currentValues]
-		);
-	};
-	// const navigate = useNavigate();
-	// const handleRoute = ()=>{
-	//    navigate(-1)
-	// }
+    return Object.keys(originalValues).some(
+      (key) => originalValues[key as keyof typeof originalValues] !== currentValues[key as keyof typeof currentValues],
+    )
+  }
+  
 
 	const handleToggle = () => {
 		setPendingStatus(!isActive);
@@ -156,6 +287,46 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({
 	const handleEditSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
 
+
+		if (!validateForm()) {
+    console.log('fill all the details')
+    return;
+  }
+
+  if (!hasChanges()) {
+    setShowNoChangesPopup(true);
+    return;
+  }
+
+  try {
+    const datas = {
+      contact_info: {
+        state: editState,
+        city: editCity,
+		pincode: editPincode,
+        address1: editAddress1,
+        address2: editAddress2,
+        phoneNumber: editPhone,
+      },
+      firstName: editFirstName,
+      companyName: editCompanyName,
+      lastName: editLastName,
+      email: editEmail,
+      aadhar: editAadharNumber,
+      regNo: editRegNo,
+      pan: editPanCard,
+      gstNo: editGstNo,
+      image: '',
+    };
+
+    await new Client().admin.servicecenter.update(datas, partner._id);
+    setShowEditForm(false);
+    setShowSuccessPopup(true);
+  } catch (error) {
+    toast.error('Failed to update profile');
+    console.error('Profile update error:', error);
+  }
+
 		// Check if there are any changes
 		if (!hasChanges()) {
 			setShowEditForm(false);
@@ -163,22 +334,11 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({
 			return;
 		}
 
-		try {
-			// const data = {
-			//   editCompanyName,
-			//   editPhone,
-			//   editEmail,
-			//   editLoginEmail,
-			//   // editPassword,
-			//   editState,
-			//   editFirstName,
-			//   editLastName,
-			//   // editImage,
-			//   editCity,
-			//   editAadharNumber,
-			//   editAddress1,
-			//   editAddress2
-			// }
+    
+
+    try {
+
+    
 
 			const datas = {
 				contact_info: {
@@ -187,6 +347,7 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({
 					address1: editAddress1,
 					address2: editAddress2,
 					phoneNumber: editPhone,
+					pincode: editPincode,
 				},
 				firstName: editFirstName,
 				companyName: editCompanyName,
@@ -238,10 +399,32 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({
 		onServices();
 	}
 
-	function viewspare(id: string) {
-		setpartnerId(id);
-		onSpareParts();
-	}
+  function viewspare(id:string){
+    setpartnerId(id)
+    onSpareParts()
+  }
+
+
+  const handlePasswordUpdate = async () => {
+  if (newPassword !== confirmPassword) {
+    toast.error("Passwords do not match");
+    return;
+  }
+
+  try {
+    await new Client().admin.servicecenter.passwordUpdate({password:confirmPassword},partner._id);
+    toast.success("Password updated successfully");
+    setShowPasswordModal(false);
+    setNewPassword("");
+    setConfirmPassword("");
+  } catch (error) {
+    console.error("Failed to update password", error);
+    toast.error("Something went wrong while updating the password.");
+  }
+};
+
+   
+
 
 	return (
 		<div className='min-h-screen p-6'>
@@ -269,11 +452,11 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({
 				{/* Profile Header */}
 				<div className='flex flex-col md:flex-row items-center justify-between p-6 bg-gradient-to-r from-[#9b111e] to-[#d23c3c]'>
 					<div className='flex items-center gap-4 mb-4 md:mb-0'>
-						<div className='bg-white p-2 rounded-full'>
+						<div className='bg-white p-2 rounded-lg  '>
 							<img
 								src={partner?.image}
-								alt={'logo'}
-								className='w-16 h-16 rounded-full object-contain'
+								alt={partner?.companyName}
+								className='w-100 h-24 rounded-lg object-contain text-sm w-[150px]'
 							/>
 						</div>
 						{/* <h3 className="!font-bold !text-white" style={{ ...FONTS.cardheader }}>{partner?.firstName + " " + partner?.lastName}</h3> */}
@@ -339,82 +522,172 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({
 						>
 							Contact Information
 						</h2>
-						<div className='grid grid-cols-1 md:grid-cols-3 gap-8'>
+						<div className='grid grid-cols-1 md:grid-cols-4 gap-6'>
 							<div className='space-y-5'>
 								<InfoItem
 									icon={<BsBuildings className='text-[#9b111e]' />}
 									label='Username'
 									value={`${partner?.firstName || ''} ${
 										partner?.lastName || ''
-									}`.trim()}
+									}`.trim() || 'N/A'}
 								/>
+								<InfoItem
+									icon={<MdEmail className='text-[#9b111e]' />}
+									label='Email'
+									value={partner?.email || 'N/A'}
+								/>
+								<InfoItem
+									icon={<CgWebsite className='text-[#9b111e]' />}
+									label='State'
+									value={partner?.contact_info?.state || 'N/A'}
+								/>
+								<InfoItem
+									icon={<FcDataEncryption className='text-[#9b111e]' />}
+									label='Reg No'
+									value={partner?.regNo || 'N/A'}
+								/>
+								
+								
+								<InfoItem
+									icon={<CgWebsite className='text-[#9b111e]' />}
+									label='Pincode'
+									value={partner?.contact_info?.pincode || 'N/A'}
+								/>
+							</div>
+							<div className='space-y-5'>
 								<InfoItem
 									icon={<BsBuildings className='text-[#9b111e]' />}
 									label='Company Name'
-									value={editCompanyName}
+									value={partner?.companyName || 'N/A'}
+								/>
+								<InfoItem
+									icon={<CgWebsite className='text-[#9b111e]' />}
+									label='Address 1'
+									value={partner?.contact_info?.address1 || 'N/A'}
+								/>
+								<InfoItem
+									icon={<CgWebsite className='text-[#9b111e]' />}
+									label='City'
+									value={partner?.contact_info?.city || 'N/A'}
 								/>
 								<InfoItem
 									icon={<SlCalender className='text-[#9b111e]' />}
 									label='AadharCard No'
-									value={originalValues.editAadharNumber}
+									value={partner?.aadhar || 'N/A'}
 								/>
+								
+								
+								
 							</div>
 							<div className='space-y-5'>
 								<InfoItem
 									icon={<LuPhoneCall className='text-[#9b111e]' />}
 									label='Phone'
-									value={editPhone}
+									value={partner?.contact_info?.phoneNumber || 'N/A'}
 								/>
 								<InfoItem
-									icon={<MdEmail className='text-[#9b111e]' />}
-									label='Email'
-									value={editEmail}
+									icon={<AiFillSafetyCertificate className='text-[#9b111e]' />}
+									label='GST No'
+									value={partner?.gstNo || 'N/A'}
+								/>
+								<InfoItem
+									icon={<CgWebsite className='text-[#9b111e]' />}
+									label='Address 2'
+									value={partner?.contact_info?.address2 || 'N/A'}
 								/>
 								<InfoItem
 									icon={<CgWebsite className='text-[#9b111e]' />}
 									label='Pan No'
-									value={originalValues.editPanCard}
-								/>
-							</div>
-							<div className='space-y-5'>
-								<InfoItem
-									icon={<AiFillSafetyCertificate className='text-[#9b111e]' />}
-									label='GST No'
-									value={originalValues.editGstNo}
-								/>
-								<InfoItem
-									icon={<FcDataEncryption className='text-[#9b111e]' />}
-									label='Reg No'
-									value={originalValues.editRegNo}
+									value={partner?.pan || 'N/A'}
 								/>
 							</div>
 						</div>
 					</div>
 
-					{/* Divider */}
-					<div className='border-t border-gray-200 my-6'></div>
+          
+          <div className="border-t border-gray-200 my-6"></div>
 
-					{/* Login Information Section */}
-					<div className='mb-8'>
-						<h2
-							className='text-xl !font-bold text-[#9b111e] mb-4 pb-2 border-b border-gray-200'
-							style={{ ...FONTS.cardSubHeader }}
-						>
-							Login Information
-						</h2>
-						<div className='grid grid-cols-1 md:grid-cols-3 gap-8'>
-							<InfoItem
-								icon={<MdOutlineMailOutline className='text-[#9b111e]' />}
-								label='Email'
-								value={editLoginEmail}
-							/>
-							<InfoItem
-								icon={<RiLockPasswordLine className='text-[#9b111e]' />}
-								label='Password'
-								value='••••••••'
-							/>
-						</div>
-					</div>
+        
+<div className="mb-8">
+  <h2
+    className="text-xl !font-bold text-[#9b111e] mb-4 pb-2 border-b border-gray-200"
+    style={{ ...FONTS.cardSubHeader }}
+  >
+    Login Information
+  </h2>
+
+  <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+    <InfoItem
+      icon={<MdOutlineMailOutline className="text-[#9b111e]" />}
+      label="Email"
+      value={partner?.email || 'N/A'}
+    />
+
+  
+   <div className="flex items-start gap-2 relative">
+  <div className="text-[#9b111e] mt-1">
+    <RiLockPasswordLine size={18} />
+  </div>
+
+  <div className="relative">
+    <div className="text-sm font-medium text-gray-600 mb-1">Password</div>
+    <div className="flex items-center gap-4">
+      <span className="text-black">***********</span>
+      <button
+        className="text-[#9b111e]"
+        title="Edit Password"
+        onClick={() => setShowPasswordModal(!showPasswordModal)}
+      >
+        <FaEdit size={16} />
+      </button>
+    </div>
+
+   
+    {showPasswordModal && (
+      <div className="absolute -top-4 left-full ml-4 z-50 w-64 p-4 bg-white border border-gray-300 rounded-lg shadow-lg">
+        <h3 className="text-sm font-semibold mb-3 text-[#9b111e]">Update Password</h3>
+
+        <input
+          type="password"
+          placeholder="New Password"
+          value={newPassword}
+          onChange={(e) => setNewPassword(e.target.value)}
+          className="w-full mb-2 px-3 py-1 border border-gray-300 rounded text-sm"
+        />
+        <input
+          type="password"
+          placeholder="Confirm Password"
+          value={confirmPassword}
+          onChange={(e) => setConfirmPassword(e.target.value)}
+          className="w-full mb-3 px-3 py-1 border border-gray-300 rounded text-sm"
+        />
+
+        <div className="flex justify-end gap-2">
+          <button
+            className="px-3 py-1 bg-gray-300 rounded text-sm hover:bg-gray-400"
+            onClick={() => {
+              setNewPassword("");
+              setConfirmPassword("");
+              setShowPasswordModal(false);
+            }}
+          >
+            Cancel
+          </button>
+          <button
+            className="px-3 py-1 bg-[#9b111e] text-white rounded text-sm hover:bg-[#80101a]"
+            onClick={handlePasswordUpdate}
+          >
+            OK
+          </button>
+        </div>
+      </div>
+    )}
+  </div>
+</div>
+
+  </div>
+</div>
+
 
 					{/* Action Buttons */}
 					<div className='flex flex-col sm:flex-row justify-end gap-4 mt-8 pt-6 border-t border-gray-200'>
@@ -498,100 +771,132 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({
 							</button>
 						</div>
 
-						<div className='p-6 grid grid-cols-1 md:grid-cols-2 gap-8'>
+						
 							{/* Contact Information Section */}
-							<div className='space-y-6'>
-								<div className='bg-[#f9f9f9] p-4 rounded-lg'>
-									<h3 className='text-lg font-semibold text-[#9b111e] mb-4 flex items-center gap-2'>
+							
+								
+									<h3 className='text-lg font-semibold ml-3 text-[#9b111e] mb-4 flex items-center gap-2'>
 										<BsBuildings className='text-[#9b111e]' />
 										Contact Information
 									</h3>
-									<div className='space-y-4'>
+									<div className='grid grid-cols-3 gap-2 p-4'>
+										<EnhancedEditField
+										  label='First Name'
+										  value={editFirstName}
+										  onChange={setFirstName}
+										  onBlur={() => handleBlur('firstName', editFirstName)}
+										  error={errors.firstName}
+										  required
+										/>
+										<EnhancedEditField
+											label='LastName'
+											value={editLastName}
+											onChange={setLastName}
+											onBlur={() => handleBlur('lastName', editLastName)}
+										  error={errors.lastName}
+										  required
+										/>
 										<EnhancedEditField
 											label='Company Name'
 											value={editCompanyName}
 											onChange={setEditCompanyName}
+											onBlur={() => handleBlur('companyName', editCompanyName)}
+										  error={errors.companyName}
+										  required
 										/>
-										<EnhancedEditField
-											label='Branches'
-											value={editLastName}
-											onChange={setLastName}
-										/>
+										
 										<EnhancedEditField
 											label='Phone'
 											value={editPhone}
 											onChange={setEditPhone}
+											onBlur={() => handleBlur('phone', editPhone)}
+										  error={errors.phone}
+										  required
 										/>
 										<EnhancedEditField
-											label='Email'
-											value={editEmail}
-											onChange={setEditEmail}
-										/>
-										<EnhancedEditField
-											label='Aadhar No'
-											value={editAadharNumber}
-											onChange={setEditAadharNumber}
-										/>
-										<EnhancedEditField
-											label='Pan No'
-											value={editPanCard}
-											onChange={setEditPanCard}
-										/>
-										<EnhancedEditField
-											label='GST No'
-											value={editGstNo}
-											onChange={setEditGstNo}
-										/>
-										<EnhancedEditField
-											label='Reg No'
-											value={editRegNo}
-											onChange={setEditRegNo}
-										/>
-									</div>
-								</div>
-							</div>
-
-							{/* Second Column */}
-							<div className='space-y-6'>
-								<div className='bg-[#f9f9f9] p-4 rounded-lg'>
-									<h3 className='text-lg font-semibold text-[#9b111e] mb-4 flex items-center gap-2'>
-										<CgWebsite className='text-[#9b111e]' />
-										Website & Address
-									</h3>
-									<div className='space-y-4'>
-										{/* <EnhancedEditField
-                      icon={<CgWebsite className="text-[#9b111e]" />}
-                      label="Website"
-                      value={editWebsite}
-                      onChange={setEditWebsite}
-                    /> */}
-										<EnhancedEditField
-											label='State'
-											value={editState}
-											onChange={setEditState}
-											// textarea
-										/>
-										<EnhancedEditField
-											label='City'
-											value={editCity}
-											onChange={setEditCity}
-											// textarea
-										/>
-										<EnhancedEditField
-											label='Address2'
+											label='Address1'
 											value={editAddress1}
 											onChange={setEditAddress1}
+											onBlur={() => handleBlur('address1', editAddress1)}
+										  error={errors.address1}
+										  required
 											// textarea
 										/>
 										<EnhancedEditField
 											label='Address2'
 											value={editAddress2}
 											onChange={setEditAddress2}
+											onBlur={() => handleBlur('address2', editAddress2)}
+										  error={errors.address2}
+										  required
 											// textarea
 										/>
+										
+										<EnhancedEditField
+											label='State'
+											value={editState}
+											onChange={setEditState}
+											onBlur={() => handleBlur('state', editState)}
+										  error={errors.state}
+										  required
+											// textarea
+										/>
+										<EnhancedEditField
+											label='City'
+											value={editCity}
+											onChange={setEditCity}
+											onBlur={() => handleBlur('city', editCity)}
+										  error={errors.city}
+										  required
+											// textarea
+										/>		
+										<EnhancedEditField
+											label='Pincode'
+											value={editPincode}
+											onChange={setEditPincode}
+											onBlur={() => handleBlur('pincode', editPincode)}
+										  error={errors.pincode}
+										  required
+											// textarea
+										/>	
+										<EnhancedEditField
+											label='Reg No'
+											value={editRegNo}
+											onChange={setEditRegNo}
+											onBlur={() => handleBlur('regNo', editRegNo)}
+										  error={errors.regNo}
+										  required
+										/>			
+										<EnhancedEditField
+											label='Aadhar No'
+											value={editAadharNumber}
+											onChange={setEditAadharNumber}
+											onBlur={() => handleBlur('aadharNumber', editAadharNumber)}
+										  error={errors.aadharNumber}
+										  required
+										/>
+										<EnhancedEditField
+											label='Pan No'
+											value={editPanCard}
+											onChange={setEditPanCard}
+											onBlur={() => handleBlur('panCard', editPanCard)}
+										  error={errors.panCard}
+										  required
+										/>
+										<EnhancedEditField
+											label='GST No'
+											value={editGstNo}
+											onChange={setEditGstNo}
+											onBlur={() => handleBlur('gstNo', editGstNo)}
+										  error={errors.gstNo}
+										  required
+										/>
+										
+									
+										
 									</div>
-								</div>
-
+								
+						
 								<div className='bg-[#f9f9f9] p-4 rounded-lg'>
 									<h3 className='text-lg font-semibold text-[#9b111e] mb-4 flex items-center gap-2'>
 										<RiLockPasswordLine className='text-[#9b111e]' />
@@ -608,6 +913,9 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({
 											label='Login Email'
 											value={editLoginEmail}
 											onChange={setEditLoginEmail}
+											onBlur={() => handleBlur('loginEmail', editLoginEmail)}
+										  error={errors.loginEmail}
+										  required
 										/>
 										{/* <EnhancedEditField
                       icon={<RiLockPasswordLine className="text-[#9b111e]" />}
@@ -618,8 +926,8 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({
                     /> */}
 									</div>
 								</div>
-							</div>
-						</div>
+							
+						
 
 						<div className='sticky bottom-0 bg-white p-4 border-t border-gray-200 flex justify-end gap-3'>
 							<button
@@ -689,43 +997,52 @@ const InfoItem = ({
 );
 
 const EnhancedEditField = ({
-	icon,
-	label,
-	value,
-	onChange,
-	type = 'text',
-	textarea = false,
+  icon,
+  label,
+  value,
+  onChange,
+  onBlur,
+  error,
+  type = 'text',
+  textarea = false,
+  required = false,
 }: {
-	icon?: React.ReactNode;
-	label: string;
-	value: string;
-	onChange: (value: string) => void;
-	type?: string;
-	textarea?: boolean;
+  icon?: React.ReactNode;
+  label: string;
+  value: string;
+  onChange: (value: string) => void;
+  onBlur?: () => void;
+  error?: string;
+  type?: string;
+  textarea?: boolean;
+  required?: boolean;
 }) => (
-	<div className='space-y-2'>
-		<label className='block text-sm font-medium text-gray-700 mb-1 items-center gap-2'>
-			{icon}
-			<span>{label}</span>
-		</label>
-		{textarea ? (
-			<textarea
-				value={value}
-				onChange={(e) => onChange(e.target.value)}
-				className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#9b111e] focus:border-[#9b111e] outline-none transition min-h-[100px]'
-				rows={3}
-			/>
-		) : (
-			<input
-				type={type}
-				value={value}
-				onChange={(e) => onChange(e.target.value)}
-				className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#9b111e] focus:border-[#9b111e] outline-none transition'
-			/>
-		)}
-	</div>
+  <div className='space-y-2'>
+    <label className='block text-sm font-medium text-gray-700 mb-1 items-center gap-2'>
+      {icon}
+      <span>{label}</span>
+      {required && <span className="text-red-500">*</span>}
+    </label>
+    {textarea ? (
+      <textarea
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        onBlur={onBlur}
+        className={`w-full px-4 py-2 border ${error ? 'border-red-500' : 'border-gray-300'} rounded-lg focus:ring-2 focus:ring-[#9b111e] focus:border-[#9b111e] outline-none transition min-h-[100px]`}
+        rows={3}
+      />
+    ) : (
+      <input
+        type={type}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        onBlur={onBlur}
+        className={`w-full px-4 py-2 border ${error ? 'border-red-500' : 'border-gray-300'} rounded-lg focus:ring-2 focus:ring-[#9b111e] focus:border-[#9b111e] outline-none transition`}
+      />
+    )}
+    {error && <p className="text-red-500 text-xs mt-1">{error}</p>}
+  </div>
 );
-
 const ConfirmationModal = ({
 	title,
 	message,
@@ -787,14 +1104,13 @@ const SuccessPopup = ({
 		}
 	};
 
-	return (
-		<div
-			className={`fixed top-6 left-1/2 transform -translate-x-1/2 z-50 flex items-center gap-3 ${getBackgroundColor()} text-white px-6 py-4 rounded-lg shadow-lg animate-fade-in-out min-w-[300px]`}
-		>
-			<div className='flex-shrink-0'>{icon}</div>
-			<span className='font-medium'>{message}</span>
-		</div>
-	);
-};
-
-export default ServiceCenterProfileView;
+  return (
+    <div
+      className={`fixed top-6 left-1/2 transform -translate-x-1/2 z-50 flex items-center gap-3 ${getBackgroundColor()} text-white px-6 py-4 rounded-lg shadow-lg animate-fade-in-out min-w-[300px]`}
+    >
+      <div className="flex-shrink-0">{icon}</div>
+      <span className="font-medium">{message}</span>
+    </div>
+  )
+}
+export default ServiceCenterProfileView

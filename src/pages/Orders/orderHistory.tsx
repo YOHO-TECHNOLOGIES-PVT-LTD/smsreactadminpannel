@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {  getAllOrdersHistory } from './Services';
 import { FONTS } from '../../constants/uiConstants';
+import { useNavigate } from 'react-router-dom';
 
 
 const OrderHistory = () => {
@@ -15,6 +16,7 @@ const OrderHistory = () => {
   const [selectedOrder, setSelectedOrder] = useState<any>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [dateFilter, setDateFilter] = useState('');
+  const navigate = useNavigate();
 
   useEffect(()=>{
     const fetchOrders = async()=>{
@@ -45,6 +47,10 @@ const OrderHistory = () => {
     fetchOrders()
   },[])
 
+
+
+
+  
   const ordersPerPage = 10;
   const filteredOrders = orders.filter(order => {
   const matchesSearch =
@@ -94,7 +100,21 @@ const OrderHistory = () => {
 
   return (
     <div className="p-4 md:p-6 h-full min-h-screen">
-      <div className='flex justify-between'>
+      <div className='flex gap-3'>
+        <button
+            onClick={() => navigate(-1)}
+            className="flex items-center justify-center w-10 h-10 bg-white border-2 border-[#9b111e] text-[#9b111e] rounded-3xl hover:bg-[#9b111e] hover:text-white transition-all duration-300 shadow-lg hover:shadow-xl"
+            title="Back to Schedule Requests"
+          >
+            <svg 
+              className="w-6 h-6" 
+              fill="none" 
+              stroke="currentColor" 
+              viewBox="0 0 24 24"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+          </button>
         <h1 className=" !font-bold text-[#9b111e] mb-3" style={{...FONTS.header}}>Orders History</h1>
       </div>
       {/* <motion.div 
@@ -332,6 +352,9 @@ const OrderHistory = () => {
                         <span className="font-medium !text-gray-600"style={{...FONTS.paragraph}}>Email:</span> {selectedOrder.email}
                       </p>
                       <p className="!text-gray-600">
+                        <span className="font-medium !text-gray-600" style={{ ...FONTS.paragraph }}>Phone Number:</span> {selectedOrder?.customerId?.contact_info?.phoneNumber}
+                      </p>
+                      <p className="!text-gray-600">
                         <span className="font-medium !text-gray-600"style={{...FONTS.paragraph}}>Status:</span> 
                         <span className={`ml-2 px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
                           ${selectedOrder.status === 'Completed' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}`}>
@@ -344,11 +367,11 @@ const OrderHistory = () => {
                     <h4 className="text-lg font-medium !text-gray-900 mb-3"style={{...FONTS.cardheader}}>Order Information</h4>
                     <div className="space-y-2">
                       <p className="text-gray-600">
-                        <span className="font-medium !text-gray-600"style={{...FONTS.paragraph}}>Date:</span> {selectedOrder.date}
+                        <span className="font-medium !text-gray-600"style={{...FONTS.paragraph}}>Date:</span> {formatDate(selectedOrder.date)}
                       </p>
-                      <p className="text-gray-600">
+                      {/* <p className="text-gray-600">
                         <span className="font-medium !text-gray-600"style={{...FONTS.paragraph}}>Shipping:</span> {selectedOrder.details.shipping}
-                      </p>
+                      </p> */}
                       <p className="text-gray-600">
                         <span className="font-medium !text-gray-600"style={{...FONTS.paragraph}}>Total:</span> {selectedOrder.total}
                       </p>
@@ -412,10 +435,10 @@ const OrderHistory = () => {
                         <span className="!text-gray-600"style={{...FONTS.cardSubHeader}}>Subtotal:</span>
                         <span className="font-medium !text-gray-600"style={{...FONTS.cardSubHeader}}>{selectedOrder.total}</span>
                       </div>
-                      <div className="flex justify-between mb-2">
+                      {/* <div className="flex justify-between mb-2">
                         <span className="!text-gray-600"style={{...FONTS.cardSubHeader}}>Shipping:</span>
                         <span className="font-medium !text-gray-600"style={{...FONTS.cardSubHeader}}>₹0</span>
-                      </div>
+                      </div> */}
                       <div className="flex justify-between border-t pt-2 mt-2">
                         <span className="!text-gray-900 font-medium"style={{...FONTS.cardSubHeader}}>Total:</span>
                         <span className="!text-[#9b111e] font-bold"style={{...FONTS.cardSubHeader}}>{selectedOrder.total}</span>

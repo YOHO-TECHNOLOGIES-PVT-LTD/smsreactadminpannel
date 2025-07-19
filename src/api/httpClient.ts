@@ -1,6 +1,8 @@
 import axios from 'axios';
 
-const backEndUrl: string = import.meta.env.VITE_PUBLIC_API_URL;
+
+const backEndUrl:string= import.meta.env.VITE_PUBLIC_API_URL
+
 
 const Axios = axios.create({
 	baseURL: backEndUrl,
@@ -51,21 +53,40 @@ class HttpClient {
 		return response;
 	}
 
-	async update(url: string, data: string, params?: string) {
-		const response = await Axios.put(url, data, {
-			params: params,
-			headers: {},
-		});
-		return response?.data;
-	}
+//   async update(url:string,data?:string,params?:string){
 
-	async patch(url: string, params?: string) {
-		const response = await Axios.put(url, {
-			params: params,
-			headers: {},
-		});
-		return response?.data;
-	}
+//     const response =await Axios.put(url,data,{
+//         params:params,
+//         headers:{
+
+//         }
+         
+//     });
+//     return response?.data;
+//   }
+
+async update(url: string, data?: any, params?: any) {
+  const response = await Axios.put(url, data, {
+    params: params,
+    headers: {
+      // Optional headers (Auth etc.)
+    }
+  });
+  return response?.data;
+}
+
+
+    async patch(url: string, params?: string) {
+
+        const response = await Axios.patch(url, {
+            params: params,
+            headers: {
+
+            }
+
+        });
+        return response?.data;
+    }
 
 	async delete(url: string) {
 		const response = await Axios.delete(url);

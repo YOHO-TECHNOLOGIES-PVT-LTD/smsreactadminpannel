@@ -13,6 +13,7 @@ import {
 } from "../../components/sos/services";
 import { MdDelete } from "react-icons/md";
 import { FONTS } from "../../constants/uiConstants";
+import { toast } from "react-toastify";
 
 type SOSRequest = {
   _id: string;
@@ -113,6 +114,7 @@ const DashboardSos = () => {
 
         setServices((prev) => [...prev, newId]);
         console.log("Service added:", newService.title);
+        toast.success("Service added successfully");
       }
 
       setNewServiceName("");
@@ -144,6 +146,7 @@ const DashboardSos = () => {
       const updated = [...services];
       updated.splice(index, 1);
       setServices(updated);
+      toast.success("Service deleted successfully");
     } catch (error) {
       console.log("sos delete", error);
     }
@@ -378,12 +381,12 @@ const DashboardSos = () => {
               placeholder="Service Name"
               value={newServiceName}
               onChange={(e) => setNewServiceName(e.target.value)}
-              className="bg-white text-gray-900 placeholder-gray-500 rounded border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all w-full"
+              className="bg-white text-gray-900 placeholder:text-[#717171] rounded border border-[#717171] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all w-full"
               required
               aria-label="Service Name"
             />
 
-            <div className="grid grid-cols-6 gap-2 bg-gray-50 p-2.5 rounded max-h-20 overflow-auto">
+            <div className="grid grid-cols-6 gap-2 bg-gray-50 p-2.5 rounded overflow-auto">
               {carIcons.map((item, idx) => (
                 <button
                   key={idx}
@@ -404,7 +407,7 @@ const DashboardSos = () => {
 
             <button
               type="submit"
-              className="bg-gradient-to-r from-red-600 to-red-800 hover:from-red-700 hover:to-red-900 text-white py-2.5 rounded-3xl transition-all font-medium text-sm"
+              className="bg-[#9b111e] hover:from-red-700 hover:to-red-900 text-white py-2.5 rounded-3xl transition-all font-medium text-sm"
             >
               Add Service
             </button>

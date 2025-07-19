@@ -1,9 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import type { FC } from "react";
 import { FaMapMarkerAlt, FaEye } from "react-icons/fa";
 import { FONTS } from "../../../constants/uiConstants";
 import carDefaultlogo from "../../../assets/INVALID CAR LOGO.png"; // fallback image
 
-export type Vehicle = {
+type Vehicle = {
   vehicleInfo: {
     kms?: string;
     fuel?: string;
@@ -25,22 +26,22 @@ export type Vehicle = {
 };
 
 type Props = {
-  vehicle: Vehicle;
+  vehicle: any;
   onViewDetails: (vehicle: Vehicle) => void;
 };
 
 const VehicleDetailCard: FC<Props> = ({ vehicle, onViewDetails }) => {
   const {
-    kms = "N/A",
-    fuel = "N/A",
-    transmission = "N/A",
-    location = "Unknown",
+    kms = "",
+    fuel = "",
+    transmission = "",
+    location = "",
   } = vehicle.vehicleInfo;
 
   const {
     image = carDefaultlogo,
     title = "Untitled",
-    registrationNumber = "Not Assigned",
+    registrationNumber = "",
   } = vehicle.baseVehicleInfo;
 
   return (

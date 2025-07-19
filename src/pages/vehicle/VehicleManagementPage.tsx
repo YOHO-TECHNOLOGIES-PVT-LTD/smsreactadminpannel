@@ -17,8 +17,8 @@ const VehicleManagementPage = () => {
   useEffect(() => {
     const fetchVehicle = async () => {
       try {
-        const data = await getvechiclemanage("");
-        // console.log("vehicle data", data);
+        const data:any = await getvechiclemanage("");
+        console.log("vehicle data", data);
         setVehicleDatax(data);
       } catch (error) {
         console.error(error);
@@ -40,21 +40,6 @@ const VehicleManagementPage = () => {
   });
 
   const transformVehicle = (vehicle: any): Vehicle => {
-  const normalizeFuelLevel = (
-    raw: string
-  ): Vehicle["vehicleInfo"]["currentFuelLevel"] => {
-    const map: Record<string, "Empty" | "Quarter" | "Half Tank" | "Full"> = {
-      empty: "Empty",
-      quarter: "Quarter",
-      half: "Half Tank",
-      "half tank": "Half Tank",
-      "full tank": "Full",
-      full: "Full",
-    };
-
-    const normalized = raw?.toLowerCase().trim();
-    return map[normalized] || undefined;
-  };
 
   return {
     baseVehicleInfo: {
@@ -64,23 +49,26 @@ const VehicleManagementPage = () => {
     },
     vehicleInfo: {
       kms: vehicle?.vehicleInfo?.mileage || "0",
-      fuel: vehicle?.vehicleInventory?.fuelType || "N/A",
-      transmission: vehicle?.vehicleInfo?.transmission || "N/A",
-      location: vehicle?.vehicleInfo?.location || "Unknown",
-      registeredYear: vehicle?.vehicleInfo?.registeredYear || "",
-      insuranceStatus: vehicle?.vehicleInfo?.insuranceStatus || "",
-      availability: vehicle?.vehicleInfo?.availability || "",
-      currentFuelLevel: normalizeFuelLevel(
-        vehicle?.vehicleInventory?.fuelLevel || ""
-      ),
+      chassisNo: vehicle?.vehicleInfo?.chassisNo || "N/A",
+      color: vehicle?.vehicleInfo?.color || "N/A",
+      engineNo: vehicle?.vehicleInfo?.engineNo || "N/A",
+      insuranceCompany: vehicle?.vehicleInfo?.insuranceCompany || "N/A",
+      insuranceRenewalDate: vehicle?.vehicleInfo?.insuranceRenewalDate || "N/A",
+      model: vehicle?.vehicleInfo?.model|| "N/A",
+      // location: vehicle?.vehicleInventory?.currentState?.location || "N/A",
+      // currentFuelLevel: normalizeFuelLevel(
+      //   vehicle?.vehicleInventory?.fuelLevel || ""
+      // ),
     },
     partnerDetails: {
-      partnerName: vehicle?.partnerDetails?.Name || "",
-      partnerPhone: vehicle?.partnerDetails?.Phone || "",
-      partnerAddress: vehicle?.partnerDetails?.Address || "",
+      partnerName:vehicle?.partnerId?.companyName || "",
+      partnerPhone: vehicle?.partnerId?.contact_info?.phoneNumber || "",
+      partnerAddress: vehicle?.partnerId?.contact_info?.city || "",
     },
-    customerDetails: {
-      fullName: vehicle?.customerDetails?.fullName || "",
+    customerInfo: {
+      name: vehicle?.customerInfo?.name || "",
+      contactNo: vehicle?.customerInfo?.contactNo || "",
+      address: vehicle?.customerInfo?.address || "",
     },
     carCondition: {
       fuelLevel: vehicle?.vehicleInventory?.fuelLevel || "N/A",

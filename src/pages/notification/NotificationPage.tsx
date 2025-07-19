@@ -15,7 +15,7 @@ export const NotificationPage = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="flex flex-col p-4">
+    <div className="flex flex-col min-h-screen h-full p-4">
       <div className='flex flex-row item-center gap-5'>
         <button
         onClick={() => navigate('/')}

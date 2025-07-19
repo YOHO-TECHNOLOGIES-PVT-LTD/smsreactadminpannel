@@ -1,219 +1,126 @@
 import { useEffect, useState } from "react";
-import { FaBell } from "react-icons/fa";
-import { getAllNotification } from "./services";
+import { getByUserNotification, markAsReadNotification } from "./services";
 import { useSocket } from "../../../context/adminSocket";
-import { FONTS } from "../../../constants/uiConstants";
 
 interface Notification {
+  id: number;
   _id: string;
-  uuid: string;
-  title: string;
   message: string;
-  type:
-    | "info"
-    | "success"
-    | "warning"
-    | "error"
-    | "promotion"
-    | "system"
-    | "chat"
-    | "order"
-    | "payment";
-  priority: "low" | "medium" | "high" | "urgent";
-  recipient_type: "user" | "admin" | "partner" | "all";
-  recipient_id?: string;
-  sender_id?: string;
-  delivery_status?: {
-    in_app?: {
-      sent: boolean;
-      delivered: boolean;
-      read: boolean;
-      sent_at?: string;
-      delivered_at?: string;
-      read_at?: string;
-    };
-  };
-  metadata?: any;
-  scheduled_at?: string;
-  expires_at?: string;
-  action_url?: string;
-  action_type: "redirect" | "modal" | "api_call" | "none";
-  is_read: boolean;
-  is_sent: boolean;
-  is_active: boolean;
-  is_deleted: boolean;
   created_at: string;
-  updated_at: string;
+  is_read: boolean;
+  priority: string;
+  action_type: string;
+  title: string;
+  is_active: boolean;
+  uuid: string;
 }
 
 const NotificationPanel: React.FC = () => {
   const [notifications, setNotifications] = useState<Notification[]>([]);
-  const [filter, setFilter] = useState<"all" | "read" | "unread">("all");
+  const [filter, setFilter] = useState("all");
+  const [, setSelectedNotify] = useState<Notification>()
   const socket = useSocket();
-
-  useEffect(() => {
-    const fetchUserNotifications = async () => {
-      try {
-        const res: any = await getAllNotification("");
-        const data: Notification[] = Array.isArray(res?.data?.data)
-          ? res.data.data
-          : [];
-        setNotifications(data);
-      } catch (err) {
-        console.error("Error fetching notifications:", err);
-      }
-    };
-
-    fetchUserNotifications();
-  }, []);
 
   useEffect(() => {
     if (!socket) return;
 
-    socket.on("new_notification", (newNotif: Notification) => {
-      setNotifications((prev) => [newNotif, ...prev]);
-    });
-    socket.emit("join_room");
-    // return () => {
-    //   socket.off("new_notification");
-    // };
-  }, [socket]);
+    const handleNotification = (data: any) => {
+      console.log("Admin Notification Recieved", data)
+      setNotifications((prev) => [data, ...prev])
+    }
 
-  const handleMarkAsRead = (id: string) => {
+    socket.on("newNotification", handleNotification)
+
+    return () => {
+      socket.off('newNotification', handleNotification)
+    }
+  }, [socket])
+
+
+  useEffect(() => {
+    const fetchNotifications = async () => {
+      const userId = localStorage.getItem('adminobjectid')
+      console.log('userId', userId)
+      try {
+        const res: any = await getByUserNotification(userId!)
+        console.log("response : ", res)
+        setNotifications(res?.data?.data?.notifications || []);
+      } catch (err) {
+        console.error("Fetch error", err);
+      }
+    };
+    fetchNotifications();
+  }, []);
+
+const handleMarkAllAsRead = async () => {
+  const unread = notifications.filter((n) => !n.is_read);
+  if (unread.length === 0) return;
+
+  try {
+    for (const notify of unread) {
+      await markAsReadNotification(notify.uuid);
+    }
     setNotifications((prev) =>
-      prev.map((notif) =>
-        notif._id === id ? { ...notif, is_read: true } : notif
-      )
+      prev.map((n) => ({ ...n, is_read: true }))
     );
-  };
+  } catch (error) {
+    console.error("Failed to mark all as read", error);
+  }
+};
 
-  const filteredNotifications = notifications.filter((notif) => {
-    if (filter === "all") return true;
-    if (filter === "unread") return !notif.is_read;
-    if (filter === "read") return notif.is_read;
-    return true;
+  const filtered = notifications.filter((n) =>
+    filter === "all" ? true : filter === "read" ? n.is_read : !n.is_read
+  );
+
+  const formatDate = (d: string) => new Date(d).toLocaleString('en-IN',{
+    dateStyle: 'medium',
+    timeStyle: 'short',
+    timeZone: 'Asia/Kolkata'
   });
 
-  const formatDate = (dateStr: string) => {
-    const date = new Date(dateStr);
-    return date.toLocaleString("en-US", {
-      day: "2-digit",
-      month: "short",
-      year: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    });
-  };
 
   return (
-    <div className="w-full h-full mt-5 bg-white rounded-2xl p-6 shadow">
-      <div className="flex justify-between gap-4 mb-6">
-        <div className="flex gap-4">
-          {["all", "read", "unread"].map((type) => (
+    <div className="p-4 bg-white rounded shadow w-full mx-auto mt-5">
+      <div className="flex justify-between mb-4">
+        <div className="space-x-2">
+          {["all", "read", "unread"].map((f) => (
             <button
-              key={type}
-              onClick={() => setFilter(type as "all" | "read" | "unread")}
-              className={`w-24 h-10 rounded-3xl font-bold px-4 py-2 ${
-                filter === type
-                  ? "bg-[#9b111e] !text-white"
-                  : "border-2 border-[#9b111e] text-[#9b111e]"
-              }`}
-              style={{ ...FONTS.cardSubHeader }}
+              key={f}
+              className={`px-4 py-2 rounded-full border ${f === filter ? "bg-[#9b111e] text-white" : "text-[#9b111e] border-[#9b111e]"}`}
+              onClick={() => setFilter(f)}
             >
-              {type.charAt(0).toUpperCase() + type.slice(1)}
+              {f.charAt(0).toUpperCase() + f.slice(1)}
             </button>
           ))}
         </div>
-        <button
-          onClick={() =>
-            setNotifications((prev) =>
-              prev.map((n) => ({ ...n, is_read: true }))
-            )
-          }
-          className="text-sm text-[#9b111e] rounded-3xl hover:underline"
-          style={{ ...FONTS.paragraph }}
-        >
+        <button onClick={handleMarkAllAsRead}>
           Mark all as read
         </button>
       </div>
-
       <div className="space-y-4">
-        {filteredNotifications.map((notif) => {
-          const isUnread = !notif.is_read;
-          return (
-            <div
-              key={notif._id}
-              className={`flex items-start justify-between p-4 rounded-xl border transition ${
-                notif.type === "error"
-                  ? "bg-red-50 border-red-300"
-                  : isUnread
-                  ? "bg-orange-100 border-yellow-300"
-                  : "border-gray-200"
-              }`}
-            >
-              <div
-                className="flex items-start gap-3 cursor-pointer"
-                onClick={() => handleMarkAsRead(notif._id)}
-              >
-                <span
-                  className={`text-lg mt-1 ${
-                    notif.type === "error" ? "text-red-500" : "text-gray-400"
-                  }`}
-                >
-                  {notif.type === "error" ? (
-                    "⚠️"
-                  ) : (
-                    <FaBell className="text-[#9b111e]" />
-                  )}
-                </span>
-                <div>
-                  <h4
-                    className={`font-medium ${
-                      notif.type === "error"
-                        ? "text-red-600"
-                        : isUnread
-                        ? "text-black"
-                        : "text-red-600"
-                    }`}
-                    style={{ ...FONTS.cardSubHeader }}
-                  >
-                    {notif.title}
-                  </h4>
-                  <p
-                    className={` ${
-                      notif.type === "error"
-                        ? "!text-red-500"
-                        : isUnread
-                        ? "!text-red-800"
-                        : "!text-red-800"
-                    }`}
-                    style={{...FONTS.subParagraph}}
-                  >
-                    {notif.message}
-                  </p>
-                </div>
+        {filtered.map((n, i) => (
+          <div
+            key={i}
+            className={`p-4 rounded border cursor-pointer ${n.is_read ? "bg-gray-100" : "bg-yellow-100"}`}
+            onClick={async () => {
+              setSelectedNotify(n)
+              if (!n.is_read) {
+                await markAsReadNotification((n.uuid))
+                setNotifications((prev) => prev.map((m) => m._id === n._id ? { ...m, is_read: true } : m))
+              }
+            }}
+          >
+            <div className="flex justify-between">
+              <div>
+                <h4 className="font-semibold">{n.title}</h4>
+                <p className="text-sm">{n.message}</p>
               </div>
-
-              <div className="flex flex-col items-end space-y-2 text-right">
-                <div className="flex items-center gap-2">
-                  {isUnread && (
-                    <span className="bg-green-100 !text-green-700 !text-sm px-2 py-1 rounded"
-                    style={{...FONTS.description}}
-                    >
-                      New
-                    </span>
-                  )}
-                  <p className="text-2xs !text-red-00 whitespace-nowrap"
-                  style={{...FONTS.subParagraph}}
-                  >
-                    {formatDate(notif.created_at)}
-                  </p>
-                </div>
-              </div>
+              <span className="text-xs text-gray-500">{formatDate(n.created_at)}</span>
             </div>
-          );
-        })}
+          </div>
+        ))}
       </div>
+      {/* <audio ref={audioRef} src={notificationSound} preload="auto" /> */}
     </div>
   );
 };
