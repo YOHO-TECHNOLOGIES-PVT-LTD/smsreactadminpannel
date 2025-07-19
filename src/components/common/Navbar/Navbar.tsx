@@ -20,6 +20,7 @@ interface User {
 }
 
 interface Notification {
+  recipient_type: string;
   id: number;
   message: string;
   created_at: string;
