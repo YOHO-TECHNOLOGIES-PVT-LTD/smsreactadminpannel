@@ -77,7 +77,7 @@ const CompactServiceCard: React.FC<CompactServiceCardProps> = ({ request, onAssi
     const partnerNotification = {
       title: "New Service Assigned",
       message: `You have been assigned a service...`,
-      type: "info",
+      type: "assignService",
       priority: "medium",
       recipient_type: "partner",
       recipient_id: selectedPartner,

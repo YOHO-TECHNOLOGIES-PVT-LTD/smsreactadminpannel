@@ -6,7 +6,7 @@ import { ProfileModal } from "./ProfileModal";
 import { useAuth } from "../../../pages/auth/AuthContext";
 import { FONTS } from "../../../constants/uiConstants";
 import { useSocket } from "../../../context/adminSocket";
-import { getByUserNotification } from "../Notification/services";
+import { getByUserNotification, markAsReadNotification } from "../Notification/services";
 import { getProfile } from "../../../features/Auth/service";
 interface User {
   name: string;
@@ -20,14 +20,20 @@ interface User {
 }
 
 interface Notification {
-  recipient_type: string;
-  id: number;
+   id: number;
+  _id: string;
   message: string;
   created_at: string;
   is_read: boolean;
+  priority: string;
+  action_type: string;
   title: string;
-  uuid: string
+  is_active: boolean;
+  uuid: string;
+  recipient_type: string;
+  type: string;
 }
+
 
 interface ProfileModalProps {
   user: User,
@@ -184,6 +190,28 @@ export const Navbar: React.FC<ProfileModalProps> = () => {
     return `${date} at ${time}`;
   };
 
+    const notifyHandle = async (n:Notification) => {
+      if (!n.is_read) {
+        await markAsReadNotification((n.uuid))
+        if (n.type === 'serviceReq') {
+          await navigate('/bookings')
+        } else if (n.type === 'orderReq') {
+          await navigate('/order')
+        } else {
+          await navigate('/service')
+        }
+        setNotifications((prev) => prev.map((m) => m._id === n._id ? { ...m, is_read: true } : m))
+      } else if (n.type === 'serviceReq') {
+        await navigate('/bookings')
+      } else if (n.type === 'orderReq') {
+        await navigate('/order')
+      }
+      else {
+        await navigate('/service')
+      }
+  
+    }
+
 
   return (
     <>
@@ -286,15 +314,15 @@ export const Navbar: React.FC<ProfileModalProps> = () => {
                         {/* This vertical red line will now appear on hover */}
                         <div className="absolute left-0 top-0 h-full w-1 bg-red-600 opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
 
-                        <div className="flex justify-between items-start">
+                        <div className="flex justify-between items-start cursor-pointer" onClick = {async() => await notifyHandle(notification)}>
                           <p className="text-sm text-black">
                             {notification.title}
                           </p>
                           {!notification.is_read && (
-                            <span className="w-2 h-2 rounded-full bg-red-600 mt-1 ml-2"></span>
+                            <span className="w-2 h-2 rounded-full bg-red-600 mt-1 ml-2 "></span>
                           )}
                         </div>
-                        <p className="text-xs text-gray-500 mt-1">
+                        <p className="text-xs text-gray-500 mt-1 cursor-pointer">
                           {getDateLabel(notification.created_at)}
                         </p>
                       </div>

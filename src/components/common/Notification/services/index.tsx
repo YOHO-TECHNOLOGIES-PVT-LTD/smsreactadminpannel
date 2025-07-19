@@ -38,6 +38,7 @@ export const  updateNotification = async (data:string,params:string)=>{
 export const markAsReadNotification= async(params:string)=>{
     try{
     const response = await new Client().admin.notification.markAsRead(params)
+    
    // console.log(response);
  return response;   
 }
