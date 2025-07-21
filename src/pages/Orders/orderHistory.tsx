@@ -441,7 +441,7 @@ const OrderHistory = () => {
 									className='text-xl font-semibold !text-gray-900'
 									style={{ ...FONTS.subHeader }}
 								>
-									Order Details - {selectedOrder.id}
+									Order Details - {selectedOrder.orderId}
 								</h3>
 								<button
 									onClick={closeModal}
@@ -489,7 +489,7 @@ const OrderHistory = () => {
 												>
 													Email:
 												</span>{' '}
-												{selectedOrder.email}
+												{selectedOrder.customerId?.email}
 											</p>
 											<p className='!text-gray-600'>
 												<span
@@ -534,7 +534,7 @@ const OrderHistory = () => {
 												>
 													Tracking Slip:
 												</span>{' '}
-												{selectedOrder.trackslip_image ? (
+												{selectedOrder?.trackslip_image ? (
 													<a
 														href={selectedOrder.trackslip_image}
 														target='_blank'

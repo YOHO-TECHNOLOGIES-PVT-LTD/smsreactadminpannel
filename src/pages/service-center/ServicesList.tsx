@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import type React from 'react';
 import { useState, useRef, useEffect } from 'react';
 import { ArrowLeft, Search, Plus, X, Edit3, Trash2 } from 'lucide-react';
@@ -30,7 +29,7 @@ interface Category {
 	slug: string;
 	is_active: boolean;
 	is_deleted: boolean;
-	services: Service[]; // Array of actual service objects
+	services: Service[];
 	uuid: string;
 	createdAt: string;
 	updatedAt: string;
@@ -41,7 +40,7 @@ type ServiceCenterServicesProps = {
 	onSpareParts: () => void;
 	handleBack: () => void;
 	partnerId: string;
-	Services: Category[]; // Your actual data
+	Services: Category[];
 };
 
 const ServicesList: React.FC<ServiceCenterServicesProps> = ({
@@ -53,25 +52,24 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({
 	const [showAddCategoryForm, setShowAddCategoryForm] = useState(false);
 	const [activeServiceType, setActiveServiceType] = useState<string>('');
 	const [selectedCategory, setSelectedCategory] = useState<string>('all');
-	// const viewMode:string = "grid"
 	const [editingService, setEditingService] = useState<Service | null>(null);
 	const [editingCategory, setEditingCategory] = useState<Category | null>(null);
 	const fileInputRef = useRef<HTMLInputElement>(null);
-
-	// State for managing categories and services
 	const [categories, setCategories] = useState<Category[]>([]);
 
-	// Initialize categories from props
-	useEffect(() => {
-		async function fetchdata() {
-			try {
-				const response: any =
-					await new Client().admin.servicecenter.getCatEvery();
+	const fetchdata = async () => {
+		try {
+			const response: any =
+				await new Client().admin.servicecenter.getCatEvery();
+			if (response) {
 				setCategories(response.data.data);
-			} catch (error) {
-				console.error('Error fetching data:', error);
 			}
+		} catch (error) {
+			console.error('Error fetching data:', error);
 		}
+	};
+
+	useEffect(() => {
 		fetchdata();
 	}, [partnerId]);
 
@@ -89,7 +87,6 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({
 		is_active: true,
 	});
 
-	// Get all services for display
 	const getAllServices = () => {
 		const allServices: (Service & { categoryName: string })[] = [];
 		categories.forEach((category) => {
@@ -111,7 +108,6 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({
 		return allServices;
 	};
 
-	// Filter services based on search and category
 	const getFilteredServices = () => {
 		let services = getAllServices();
 
@@ -120,8 +116,7 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({
 				(cat) => cat._id === selectedCategory
 			);
 			if (selectedCat && selectedCat.is_active) {
-				// Get services from the selected category only
-				services = selectedCat.services
+				services = selectedCat?.services
 					.filter((service) => service && !service.is_deleted)
 					.map((service) => ({
 						...service,
@@ -133,7 +128,7 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({
 		}
 
 		if (searchTerm) {
-			services = services.filter(
+			services = services?.filter(
 				(service) =>
 					service.service_name
 						?.toLowerCase()
@@ -141,30 +136,20 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({
 					service.description?.toLowerCase().includes(searchTerm.toLowerCase())
 			);
 		}
-
 		return services;
 	};
 
 	const handleDeleteCategory = async (categoryId: string) => {
 		try {
-			// Confirm deletion
-			// if (!confirm('Are you sure you want to delete this category?')) {
-			// 	return;
-			// }
-			console.log('Deleting category:', categoryId);
-
-			// Make API call to delete the category
 			const res = await new Client().admin.category.delete(categoryId);
-			console.log('Category deleted:', res);
-
-			// Update local state
-			setCategories(categories.filter((cat) => cat._id !== categoryId));
-
-			// If the deleted category was selected, reset to "all"
-			if (selectedCategory === categoryId) {
-				setSelectedCategory('all');
+			if (res) {
+				fetchdata();
+				setCategories(categories.filter((cat) => cat._id !== categoryId));
+				if (selectedCategory === categoryId) {
+					setSelectedCategory('all');
+				}
+				toast.success('Category deleted successfully');
 			}
-			toast.success('Category deleted successfully');
 		} catch (error) {
 			console.error('Error deleting category:', error);
 			toast.error('Failed to delete category. Please try again.');
@@ -242,6 +227,7 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({
 						slug: newCategory.category_name.toLowerCase().replace(/\s+/g, '-'),
 						is_active: newCategory.is_active,
 						is_deleted: false,
+						partnerId,
 						// services: [],
 						// uuid: `temp-uuid-${Date.now()}`,
 						// createdAt: new Date().toISOString(),
@@ -250,9 +236,11 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({
 					const response: any = await new Client().admin.category.create(
 						newCategoryItem
 					);
-					console.log(response.data.data);
-					setCategories([...categories, response.data.data]);
-					toast.success('Category created successfully');
+					if (response) {
+						fetchdata();
+						setCategories([...categories, response.data.data]);
+						toast.success('Category created successfully');
+					}
 				}
 
 				setNewCategory({ category_name: '', is_active: true });
@@ -338,9 +326,6 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({
 
 	const handleToggleActive = async (serviceId: string) => {
 		try {
-			// Here you would make an API call to toggle the service status
-			console.log('Toggling service status:', serviceId);
-
 			const updatedCategories = categories.map((category) => ({
 				...category,
 				services: category.services.map((service) =>
@@ -357,19 +342,20 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({
 
 	const handleDeleteService = async (serviceId: string) => {
 		try {
-			// Here you would make an API call to soft delete the service
-			console.log('Deleting service:', serviceId);
-
-			await new Client().admin.service.delete(serviceId);
-
-			const updatedCategories = categories.map((category) => ({
-				...category,
-				services: category.services.map((service) =>
-					service._id === serviceId ? { ...service, is_deleted: true } : service
-				),
-			}));
-			setCategories(updatedCategories);
-			toast.success('Service deleted successfully');
+			const response = await new Client().admin.service.delete(serviceId);
+			if (response) {
+				const updatedCategories = categories.map((category) => ({
+					...category,
+					services: category.services.map((service) =>
+						service._id === serviceId
+							? { ...service, is_deleted: true }
+							: service
+					),
+				}));
+				fetchdata();
+				setCategories(updatedCategories);
+				toast.success('Service deleted successfully');
+			}
 		} catch (error) {
 			console.error('Error deleting service:', error);
 		}
@@ -423,17 +409,15 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({
 									}
 								})
 							);
-							console.log(updatedServices);
-							console.log(categories);
 							return {
 								...category,
 								services: updatedServices,
 							};
 						})
 					);
-
 					setCategories(updatedCategories);
 					toast.success('Service updated successfully');
+					setShowAddForm(false);
 				} else {
 					// Create new service
 					const newServiceItem: any = {
@@ -455,30 +439,34 @@ const ServicesList: React.FC<ServiceCenterServicesProps> = ({
 					const response: any = await new Client().admin.service.create(
 						newServiceItem
 					);
-					const updatedCategories = categories.map((category) =>
-						category._id === activeServiceType
-							? {
-									...category,
-									services: [...category.services, response.data.data],
-							  }
-							: category
-					);
-					setCategories(updatedCategories);
-					toast.success('Service created successfully');
-				}
 
-				setNewService({
-					service_name: '',
-					price: '',
-					description: '',
-					duration: '',
-					image: null,
-					is_active: true,
-				});
-				setShowAddForm(false);
-				setEditingService(null);
-				if (fileInputRef.current) {
-					fileInputRef.current.value = '';
+					if (response) {
+						const updatedCategories = categories.map((category) =>
+							category._id === activeServiceType
+								? {
+										...category,
+										services: [...category.services, response.data.data],
+								  }
+								: category
+						);
+						fetchdata();
+						setCategories(updatedCategories);
+						toast.success('Service created successfully');
+					}
+
+					setNewService({
+						service_name: '',
+						price: '',
+						description: '',
+						duration: '',
+						image: null,
+						is_active: true,
+					});
+					setShowAddForm(false);
+					setEditingService(null);
+					if (fileInputRef.current) {
+						fileInputRef.current.value = '';
+					}
 				}
 			} catch (error) {
 				console.error('Error saving service:', error);

@@ -343,7 +343,7 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
           </div>
           
           <div className="grid grid-cols-2 gap-4 mt-4">
-            {filteredPartners.map((center: any, index: number) => (
+            {filteredPartners?.map((center: any, index: number) => (
               <div className="relative" key={index}>
                 <div className="bg-white p-6 rounded-lg shadow flex flex-col items-start h-full w-full">
                   <div>
@@ -367,6 +367,12 @@ export const ServiceCenterListPage: React.FC<ServiceCenterListProps> = ({
                       {center.companyName}
                     </h3>
 
+                    <div className="flex items-center gap-2">
+                      <h3 className="font-bold text-[#717171]">Email : </h3>
+                      <p className="text-sm text-[#717171]">
+                        {center.email}
+                      </p>
+                    </div>
                     <div className="flex items-center gap-2">
                       <h3 className="font-bold text-[#717171]">Address : </h3>
                       <p className="text-sm text-[#717171]">
