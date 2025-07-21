@@ -229,7 +229,7 @@ export default function ScheduleRequestPage() {
 					{/* <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#9b111e]"></div> */}
 					<p>No Requests Pending</p>
 				</div>
-			) : filteredRequests.length === 0 ? (
+			) : filteredRequests?.length === 0 ? (
 				<div className='text-center py-12'>
 					<div className='text-6xl mb-4'>🔍</div>
 					<h3
@@ -246,7 +246,7 @@ export default function ScheduleRequestPage() {
 				</div>
 			) : (
 				<div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6'>
-					{filteredRequests.map((req, index) => (
+					{filteredRequests?.map((req, index) => (
 						<div
 							key={index}
 							className='bg-white rounded-3xl shadow-xl border border-gray-200 p-6 flex flex-col gap-4 hover:shadow-2xl transition-all duration-300 cursor-pointer'
@@ -400,7 +400,7 @@ export default function ScheduleRequestPage() {
 										style={{ ...FONTS.cardSubHeader }}
 									>
 										<span className='font-semibold'>Car No:</span>{' '}
-										{selectedRequest.customerId?.vehicleInfo?.registerNumber ||
+										{selectedRequest?.vehicle?.registerNumber ||
 											'Not specified'}
 									</p>
 									<p
@@ -408,15 +408,14 @@ export default function ScheduleRequestPage() {
 										style={{ ...FONTS.cardSubHeader }}
 									>
 										<span className='font-semibold'>Vehicle:</span>{' '}
-										{selectedRequest.customerId?.vehicleInfo?.model ||
-											'Not specified'}
+										{selectedRequest?.vehicle?.model || 'Not specified'}
 									</p>
 									<p
 										className='!text-gray-800 text-[14px]'
 										style={{ ...FONTS.cardSubHeader }}
 									>
 										<span className='font-semibold'>Service:</span>{' '}
-										{selectedRequest.service?.[0]?.service_name ||
+										{selectedRequest?.service?.[0]?.service_name ||
 											'General Service'}
 									</p>
 									<p
@@ -424,7 +423,7 @@ export default function ScheduleRequestPage() {
 										style={{ ...FONTS.cardSubHeader }}
 									>
 										<span className='font-semibold'>Location:</span>{' '}
-										{selectedRequest.customerId?.contact_info?.address1 ||
+										{selectedRequest?.customerId?.contact_info?.address1 ||
 											'Not specified'}
 									</p>
 									<p

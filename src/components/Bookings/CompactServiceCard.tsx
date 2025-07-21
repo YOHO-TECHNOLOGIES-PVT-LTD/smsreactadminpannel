@@ -104,7 +104,6 @@ const CompactServiceCard: React.FC<CompactServiceCardProps> = ({
 
 	async function setOpenModel() {
 		const data: any = await FetchPartnerList();
-		console.log('Partner', data);
 		setpartnerList(data);
 		setIsModalOpen(true);
 	}
@@ -287,13 +286,13 @@ const CompactServiceCard: React.FC<CompactServiceCardProps> = ({
 							<div>
 								<p className='text-sm text-gray-500 font-medium'>Car No:</p>
 								<p className='font-semibold text-gray-800'>
-									{request?.customerId?.vehicleInfo?.registerNumber}
+									{request?.vehicle?.registerNumber}
 								</p>
 							</div>
 							<div>
 								<p className='text-sm text-gray-500 font-medium'>Vehicle:</p>
 								<p className='font-semibold text-gray-800'>
-									{request?.customerId?.vehicleInfo?.model}
+									{request?.vehicle?.model}
 								</p>
 							</div>
 							<div>
@@ -310,11 +309,11 @@ const CompactServiceCard: React.FC<CompactServiceCardProps> = ({
 								<p className='text-sm text-gray-500 font-medium'>Address:</p>
 								<p className='font-semibold text-gray-800'>
 									{request?.customerId?.contact_info?.address1 +
-										' ' +
+										', ' +
 										request?.customerId?.contact_info?.address2 +
-										' ' +
+										', ' +
 										request?.customerId?.contact_info?.city +
-										' ' +
+										', ' +
 										request?.customerId?.contact_info?.state}
 								</p>
 							</div>

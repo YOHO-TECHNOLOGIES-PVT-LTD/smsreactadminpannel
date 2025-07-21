@@ -190,7 +190,7 @@ export const JobCardsPage: React.FC = () => {
                 >
                   <div className="flex items-center gap-2">
                     <PiListNumbersFill size={20} />
-                    Plate
+                    Reg No
                   </div>
                 </th>
                 <th
