@@ -28,18 +28,18 @@ export const ServiceManagementPage = () => {
 
 	const [Partner, setPartner] = useState<any[]>([]);
 
-	useEffect(() => {
-		const getPartner = async () => {
-			try {
-				const response: any = await getServiceCenter('');
-				if (response) {
-					setPartner(response?.data?.data);
-					setpartnerId(response?.data?.data?._id);
-				}
-			} catch (error) {
-				console.error('failed to get servicecenter:', error);
+	const getPartner = async () => {
+		try {
+			const response: any = await getServiceCenter('');
+			if (response) {
+				setPartner(response?.data?.data);
+				setpartnerId(response?.data?.data?._id);
 			}
-		};
+		} catch (error) {
+			console.error('failed to get servicecenter:', error);
+		}
+	};
+	useEffect(() => {
 		getPartner();
 	}, []);
 	const [Services, setServices] = useState<any[]>([]);
@@ -48,7 +48,9 @@ export const ServiceManagementPage = () => {
 		const getService = async () => {
 			try {
 				const response: any = await getServices('');
-				setServices(response?.data?.data);
+				if (response) {
+					setServices(response?.data?.data);
+				}
 			} catch (error) {
 				console.error('failed to get services:', error);
 			}
@@ -61,6 +63,7 @@ export const ServiceManagementPage = () => {
 			<div className=''>
 				{activeStep === 0 && (
 					<ServiceCenterListPage
+						onChangePartner={getPartner}
 						partner={Partner}
 						onView={() => setActiveStep(1)}
 						setpartner={setpartner}

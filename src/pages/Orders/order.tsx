@@ -24,7 +24,7 @@ const Order = () => {
 	useEffect(() => {
 		const fetchOrders = async () => {
 			try {
-				setIsLoading(true);
+				// setIsLoading(true);
 				const response: any = await getOrdersHistory('');
 
 				// Handle different response structures
@@ -131,10 +131,9 @@ const Order = () => {
 
 		if (
 			selectedOrder.status === 'Dispatched to Courier' &&
-			!trackingId &&
-			!filePreview
+			(!trackingId || !filePreview)
 		) {
-			toast.error('Please enter a tracking ID');
+			toast.error('Please enter the tracking ID & upload the receipt image');
 			return;
 		}
 

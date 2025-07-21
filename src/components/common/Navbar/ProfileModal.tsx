@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useRef, useEffect, useState } from 'react';
 import { FONTS } from '../../../constants/uiConstants';
+import { useNavigate } from 'react-router-dom';
 
 interface User {
 	name: string;
@@ -17,22 +18,17 @@ interface ProfileModalProps {
 	isOpen: boolean;
 	onClose: () => void;
 	onUserUpdate: (updatedUser: User) => void;
-	user:any;
+	user: any;
 }
 
-export const ProfileModal = ({ isOpen, onClose ,user}: ProfileModalProps) => {
+export const ProfileModal = ({ isOpen, onClose, user }: ProfileModalProps) => {
 	const modalRef = useRef<HTMLDivElement | null>(null);
 	const [profile, setProfile] = useState<any | null>(null);
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		const fetchProfile = async () => {
-			// try {
-			// 	const data: any = await getProfile('');
-			// 	setProfile(data.data.data);
-			// } catch (error) {
-			// 	console.error('Failed to fetch profile:', error);
-			// }
-			setProfile(user)
+			setProfile(user);
 		};
 
 		if (isOpen) {
@@ -51,6 +47,11 @@ export const ProfileModal = ({ isOpen, onClose ,user}: ProfileModalProps) => {
 
 	if (!isOpen || !profile) return null;
 
+	const handleViewProfile = () => {
+		navigate('/settings');
+		onClose();
+	};
+
 	return (
 		<div className='fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999] p-4'>
 			<div
@@ -61,7 +62,7 @@ export const ProfileModal = ({ isOpen, onClose ,user}: ProfileModalProps) => {
 					<div className='flex items-center space-x-4'>
 						<img
 							src={profile?.image}
-							alt='User'
+							alt={profile.companyName}
 							className='w-20 h-20 rounded-full border-4 border-white shadow-md !text-white'
 							style={{ ...FONTS.paragraph }}
 						/>
@@ -76,12 +77,20 @@ export const ProfileModal = ({ isOpen, onClose ,user}: ProfileModalProps) => {
 									profile?.lastName.charAt(0).toUpperCase() +
 									profile?.lastName.slice(1)}
 							</h2>
-							<p
+							{/* <p
 								className='text-sm opacity-90 !text-white'
 								style={{ ...FONTS.cardSubHeader }}
 							>
 								{profile?.role.charAt(0).toUpperCase() + profile?.role.slice(1)}
-							</p>
+							</p> */}
+							<div>
+								<button
+									onClick={handleViewProfile}
+									className='text-xs opacity-90 text-white hover:underline'
+								>
+									View Details
+								</button>
+							</div>
 						</div>
 					</div>
 					<button

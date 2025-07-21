@@ -15,6 +15,7 @@ export const API_END_POINTS = {
     GetAll: "/api/jobcards/getAll",
     GetJobHistory: "/api/jobcards/getAll/history",
     Put: "/api/jobcards/updateCard/:id",
+    billing:"/api/partner/billing/:JobCardId/view"
   },
 
 

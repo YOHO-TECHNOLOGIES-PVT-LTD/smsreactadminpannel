@@ -91,22 +91,22 @@ const CityListPage: React.FC<CityListPageProps> = ({ searchTerm = '' }) => {
 			{/* Main Cities Table */}
 			{(!exactMatchCity || searchTerm.trim() === '') && (
 				<div>
-					<table className='table-auto w-full border-white bg-white rounded-lg shadow-md mx-auto shadow-lg'>
+					<table className='table-auto  w-full border-white bg-white rounded-lg shadow-md mx-auto shadow-lg'>
 						<thead className='bg-[#e9e9e9]' style={{ ...FONTS.tableHeader }}>
 							<tr>
-								<th className='px-4 py-2 text-left'>
+								<th className='px-2 py-1  text-left'>
 									<div className='flex items-center font-bold text-[#717171] gap-2'>
 										<TbBuildingEstate className='text-lg' />
 										District
 									</div>
 								</th>
-								<th className='px-2 py-2 text-left'>
+								<th className='px-2 py-1 text-left'>
 									<div className='flex items-center font-bold text-[#717171] gap-2'>
 										<TbMapPinCode className='text-lg' />
 										Total Centers
 									</div>
 								</th>
-								<th className='px-4 py-2 text-left'>
+								<th className='px-4 py-1 text-left'>
 									<div className='flex items-center font-bold text-[#717171] gap-2'>
 										<MdOutlineMiscellaneousServices className='text-lg' />
 										Service Centers
@@ -125,6 +125,7 @@ const CityListPage: React.FC<CityListPageProps> = ({ searchTerm = '' }) => {
 										<td className='px-10 py-2'>{city.name}</td>
 										<td className='px-16 py-2'>{city.TotalCenters}</td>
 										<td className='px-12 py-2'>
+											 <div className="flex flex-row flex-nowrap gap-2 justify-center items-center overflow-auto">
 											<button
 												onClick={() => navigate('/service')}
 												className='bg-[#9b111e] !text-white px-3 py-1 rounded-3xl hover:bg-[#a00000] transition active:scale-110 mx-2'
@@ -138,7 +139,7 @@ const CityListPage: React.FC<CityListPageProps> = ({ searchTerm = '' }) => {
 												style={{ ...FONTS.subParagraph }}
 											>
 												Delete
-											</button>
+											</button></div>
 										</td>
 									</tr>
 								))
