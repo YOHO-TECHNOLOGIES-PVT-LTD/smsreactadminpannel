@@ -43,6 +43,7 @@ type FormValues = {
   firstName: string;
   lastName: string;
   email: string;
+   company?:string;
   contact_info: {
     phoneNumber: string;
     address1: string;
@@ -51,6 +52,7 @@ type FormValues = {
     city: string;
   };
   gender: string;
+ 
   image: string | File;
   facebook?: string;
   twitter?: string;
@@ -66,6 +68,7 @@ const ProfileEditSettings: React.FC = () => {
     firstName: "",
     lastName: "",
     email: "",
+	company:"",
     contact_info: {
       phoneNumber: "",
       address1: "",
@@ -357,6 +360,28 @@ const ProfileEditSettings: React.FC = () => {
 						)}
 					</div>
 				</div>
+{/* 
+				<div>
+  <label className='block text-sm font-medium text-gray-700 mb-2'>
+    Company Name
+  </label>
+  <input
+    type='text'
+    name='contact_info.company'
+    value={formik.values.company}
+    onChange={formik.handleChange}
+    onBlur={formik.handleBlur}
+    className={inputClass}
+    placeholder='Enter Company Name'
+  />
+  {formik.touched.company &&
+    formik.errors.company && (
+      <p className='text-sm text-red-500'>
+        {formik.errors.company}
+      </p>
+  )}
+</div> */}
+
 
 				{/* Image upload */}
 				<div className='mt-10'>
@@ -401,13 +426,13 @@ const ProfileEditSettings: React.FC = () => {
 						</label>
 					</div>
 
-					{formik.values.image && (
-						<div className='mt-4'>
-							<p className='text-sm text-gray-700'>
-								Selected File: {typeof formik.values.image === 'string' ? formik.values.image : formik.values.image.name}
-							</p>
-						</div>
-					)}
+					{formik.values.image instanceof File && (
+  <div className='mt-4'>
+    <p className='text-sm text-gray-700'>
+      Selected File: {formik.values.image.name}
+    </p>
+  </div>
+)}
 				</div>
 
 				{/* Socials */}
@@ -432,7 +457,7 @@ const ProfileEditSettings: React.FC = () => {
 
         {/* Submit */}
 
-        <div className="mt-10">
+        {/* <div className="mt-10">
   <h3 className="font-bold text-2xl">Billing Software</h3>
   
   <div className="mt-6">
@@ -444,7 +469,7 @@ const ProfileEditSettings: React.FC = () => {
     />
    
   </div>
-</div>
+</div> */}
 
         <div className="flex justify-end gap-5 mt-10">
           <button

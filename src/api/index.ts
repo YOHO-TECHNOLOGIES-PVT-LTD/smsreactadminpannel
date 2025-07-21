@@ -120,6 +120,7 @@ profile:{
     getJobHistory:()=>httpClient.get(API_END_POINTS.jobcard.GetJobHistory),
     post:(data:string)=>httpClient.post(API_END_POINTS.jobcard.Post,data),
     put:(data:any,params:string)=>httpClient.update(API_END_POINTS.jobcard.Put.replace(':id',params),data),
+    getbilling:(params:any)=>httpClient.get(API_END_POINTS.jobcard.billing.replace(':JobCardId',params.jobCardId))
   },
 
  dashboard:{

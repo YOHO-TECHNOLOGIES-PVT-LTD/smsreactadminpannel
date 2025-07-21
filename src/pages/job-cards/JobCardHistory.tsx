@@ -256,24 +256,33 @@ const JobCardHistory = () => {
                   </td>
                   <td className="px-4 py-3 border-b font-semibold">
                     <div className="flex justify-center gap-3">
-                      <button
-                        onClick={() => {
-                          setSelectedInvoice(invoice);
-                          setShowModal(true);
-                        }}
-                        style={{ ...FONTS.cardSubHeader }}
-                        className="bg-[#a00000] !text-white px-3 py-1 active:scale-110 rounded-3xl hover:bg-[#800000] transition"
-                      >
-                        View                            
-                      </button>
-                      <button
-                        onClick={() => navigate(`/quotation/${invoice.uuid}`)}
-                        style={{ ...FONTS.cardSubHeader }}
-                        className="bg-[#a00000] !text-white px-3 py-1 active:scale-110 rounded-3xl hover:bg-[#800000] transition"
-                      >
-                        Billing
-                      </button>
-                    </div>
+ 
+  <button
+    onClick={() => {
+      setSelectedInvoice(invoice);
+      setShowModal(true);
+    }}
+    style={{ ...FONTS.cardSubHeader }}
+    className="bg-[#a00000] !text-white px-3 py-1 active:scale-110 rounded-3xl hover:bg-[#800000] transition"
+  >
+    View
+  </button>
+
+  
+  {["pending", "notstarted", "Not started"].includes(invoice.status?.trim().toLowerCase()) ? (
+    
+    <div className="w-[80px]" />
+  ) : (
+    <button
+      onClick={() => navigate(`/quotation/${invoice.uuid}`)}
+      style={{ ...FONTS.cardSubHeader }}
+      className="bg-[#a00000] !text-white px-3 py-1 active:scale-110 rounded-3xl hover:bg-[#800000] transition"
+    >
+      Billing
+    </button>
+  )}
+</div>
+
                   </td>
                 </tr>
               ))
