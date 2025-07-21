@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useState } from 'react';
 import CompactServiceCard from '../../components/Bookings/CompactServiceCard';
 import AssignedRequests from '../../components/Bookings/AssignedRequests';
@@ -17,13 +18,14 @@ type pendingService = {
 			address2: string;
 			phoneNumber: string;
 		};
-		vehicleInfo: {
-			registerNumber: string;
-			model: string;
-		};
 		firstName: string;
 		lastName: string;
 	};
+  vehicle: {
+    registerNumber: string;
+    model: string;
+    year:string;
+  };
 	service: [
 		{
 			_id: string;
@@ -66,6 +68,11 @@ type AssignedService = {
 		firstName: string;
 		lastName: string;
 	};
+  vehicle: {
+    registerNumber: string;
+    model: string;
+    year: string;
+  };
 	service: [
 		{
 			_id: string;
@@ -140,7 +147,7 @@ const fetchpending = async() => {
     };
 
     // Add to assigned requests
-    setAssignedRequests((prev) => [...prev, assignedRequest]);
+    setAssignedRequests((prev:any) => [...prev, assignedRequest]);
 
     // Remove from pending requests - using uuid here too
     setPendingRequests((prev) => prev.filter((req) => req.uuid !== requestId));
