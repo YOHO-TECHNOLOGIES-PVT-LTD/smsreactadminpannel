@@ -372,6 +372,28 @@ const ProfileEditSettings: React.FC = () => {
 						)}
 					</div>
 				</div>
+{/* 
+				<div>
+  <label className='block text-sm font-medium text-gray-700 mb-2'>
+    Company Name
+  </label>
+  <input
+    type='text'
+    name='contact_info.company'
+    value={formik.values.company}
+    onChange={formik.handleChange}
+    onBlur={formik.handleBlur}
+    className={inputClass}
+    placeholder='Enter Company Name'
+  />
+  {formik.touched.company &&
+    formik.errors.company && (
+      <p className='text-sm text-red-500'>
+        {formik.errors.company}
+      </p>
+  )}
+</div> */}
+
 
 				{/* Image upload */}
 				<div className='mt-10'>

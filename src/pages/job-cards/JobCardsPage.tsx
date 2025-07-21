@@ -267,27 +267,34 @@ export const JobCardsPage: React.FC = () => {
                       </span>
                     </td>
                     <td className="px-4 py-3 border-b font-semibold">
-                       <div className="flex justify-center gap-3">
-                      <button
-                        onClick={() => {
-                          setSelectedInvoice(invoice);
-                          setShowModal(true);
-                        }}
-                        style={{ ...FONTS.cardSubHeader }}
-                        className="bg-[#a00000] !text-white px-3 py-1 active:scale-110 rounded-3xl hover:bg-[#800000] transition"
-                      >
-                        View                            
-                      </button>
-                  {!["pending", "notstarted","Not started"].includes(invoice.status?.trim().toLowerCase()) && (
-      <button
-        onClick={() => navigate(`/quotation/${invoice.uuid}`)}
-        className="bg-[#a00000] !text-white px-3 py-1 active:scale-110 rounded-3xl hover:bg-[#800000] transition"
-        style={{ ...FONTS.cardSubHeader }}
-      >
-        Billing
-      </button>
-    )}
-    </div>
+                    <div className="flex justify-center gap-3">
+ 
+  <button
+    onClick={() => {
+      setSelectedInvoice(invoice);
+      setShowModal(true);
+    }}
+    style={{ ...FONTS.cardSubHeader }}
+    className="bg-[#a00000] !text-white px-3 py-1 active:scale-110 rounded-3xl hover:bg-[#800000] transition"
+  >
+    View
+  </button>
+
+  
+  {["pending", "notstarted", "Not started","completed"].includes(invoice.status?.trim().toLowerCase()) ? (
+    
+    <div className="w-[80px]" />
+  ) : (
+    <button
+      onClick={() => navigate(`/quotation/${invoice.uuid}`)}
+      style={{ ...FONTS.cardSubHeader }}
+      className="bg-[#a00000] !text-white px-3 py-1 active:scale-110 rounded-3xl hover:bg-[#800000] transition"
+    >
+      Billing
+    </button>
+  )}
+</div>
+
                     </td>
                   </tr>
                 ))
@@ -340,7 +347,7 @@ export const JobCardsPage: React.FC = () => {
                       </h3>
                       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 text-sm">
                         <div>
-                          <span className="!text-gray-600" style={{ ...FONTS.paragraph }}>
+                          <span className="!text-gray-900" style={{ ...FONTS.paragraph }}>
                             Name:
                           </span>
                           <p className="font-medium">
@@ -348,7 +355,7 @@ export const JobCardsPage: React.FC = () => {
                           </p>
                         </div>
                         <div>
-                          <span className="!text-gray-600" style={{ ...FONTS.paragraph }}>
+                          <span className="!text-gray-900" style={{ ...FONTS.paragraph }}>
                             Phone:
                           </span>
                           <p className="font-medium">
@@ -356,7 +363,7 @@ export const JobCardsPage: React.FC = () => {
                           </p>
                         </div>
                         <div>
-                          <span className="!text-gray-600" style={{ ...FONTS.paragraph }}>
+                          <span className="!text-gray-900" style={{ ...FONTS.paragraph }}>
                             Email:
                           </span>
                           <p className="font-medium">
@@ -364,7 +371,7 @@ export const JobCardsPage: React.FC = () => {
                           </p>
                         </div>
                         <div>
-                          <span className="!text-gray-600" style={{ ...FONTS.paragraph }}>
+                          <span className="!text-gray-900" style={{ ...FONTS.paragraph }}>
                             Address:
                           </span>
                           <p className="font-medium">
@@ -380,7 +387,7 @@ export const JobCardsPage: React.FC = () => {
                                     </h3>
                                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 text-sm">
                                       <div>
-                                        <span className="!text-gray-600" style={{ ...FONTS.paragraph }}>
+                                        <span className="!text-gray-900" style={{ ...FONTS.paragraph }}>
                                          Company Name:
                                         </span>
                                         <p className="font-medium">
@@ -388,7 +395,7 @@ export const JobCardsPage: React.FC = () => {
                                         </p>
                                       </div>
                                       <div>
-                                        <span className="!text-gray-600" style={{ ...FONTS.paragraph }}>
+                                        <span className="!text-gray-900" style={{ ...FONTS.paragraph }}>
                                           Phone:
                                         </span>
                                         <p className="font-medium">
@@ -404,7 +411,7 @@ export const JobCardsPage: React.FC = () => {
                                         </p>
                                       </div> */}
                                       <div>
-                                        <span className="!text-gray-600" style={{ ...FONTS.paragraph }}>
+                                        <span className="!text-gray-900" style={{ ...FONTS.paragraph }}>
                                          Company Address:
                                         </span>
                                         <p className="font-medium">
@@ -421,7 +428,7 @@ export const JobCardsPage: React.FC = () => {
                       </h3>
                       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 text-sm">
                         <div>
-                          <span className="!text-gray-600" style={{ ...FONTS.paragraph }}>
+                          <span className="!text-gray-900" style={{ ...FONTS.paragraph }}>
                             Vehicle Number:
                           </span>
                           <p className="font-medium">
@@ -429,7 +436,7 @@ export const JobCardsPage: React.FC = () => {
                           </p>
                         </div>
                         <div>
-                          <span className="!text-gray-600" style={{ ...FONTS.paragraph }}>
+                          <span className="!text-gray-900" style={{ ...FONTS.paragraph }}>
                             Make & Model:
                           </span>
                           <p className="font-medium">
@@ -437,7 +444,7 @@ export const JobCardsPage: React.FC = () => {
                           </p>
                         </div>
                         <div>
-                          <span className="!text-gray-600" style={{ ...FONTS.paragraph }}>
+                          <span className="!text-gray-900" style={{ ...FONTS.paragraph }}>
                             Engine Number:
                           </span>
                           <p className="font-medium">
@@ -445,7 +452,7 @@ export const JobCardsPage: React.FC = () => {
                           </p>
                         </div>
                         <div>
-                          <span className="!text-gray-600" style={{ ...FONTS.paragraph }}>
+                          <span className="!text-gray-900" style={{ ...FONTS.paragraph }}>
                             Chassis Number:
                           </span>
                           <p className="font-medium">
@@ -453,7 +460,7 @@ export const JobCardsPage: React.FC = () => {
                           </p>
                         </div>
                         <div>
-                          <span className="!text-gray-600" style={{ ...FONTS.paragraph }}>
+                          <span className="!text-gray-900" style={{ ...FONTS.paragraph }}>
                             Color:
                           </span>
                           <p className="font-medium">
@@ -461,7 +468,7 @@ export const JobCardsPage: React.FC = () => {
                           </p>
                         </div>
                         <div>
-                          <span className="!text-gray-600" style={{ ...FONTS.paragraph }}>
+                          <span className="!text-gray-900" style={{ ...FONTS.paragraph }}>
                             Fuel Level:
                           </span>
                           <p className="font-medium">
@@ -478,7 +485,7 @@ export const JobCardsPage: React.FC = () => {
                       </h3>
                       <div className="space-y-4">
                         <div>
-                          <span className="!text-gray-600" style={{ ...FONTS.paragraph }}>
+                          <span className="!text-gray-900 text-xl" style={{ ...FONTS.cardheader }}>
                             Customer Complaint:
                           </span>
                           <p className="text-sm !text-gray-900 mt-1" style={{ ...FONTS.subParagraph }}>
@@ -486,7 +493,7 @@ export const JobCardsPage: React.FC = () => {
                           </p>
                         </div>
                         <div>
-                          <span className="!text-gray-600" style={{ ...FONTS.paragraph }}>
+                          <span className="!text-gray-900" style={{ ...FONTS.cardheader }}>
                             Action to be Taken:
                           </span>
                           <p className="text-sm !text-gray-900 mt-1" style={{ ...FONTS.subParagraph }}>
@@ -500,7 +507,7 @@ export const JobCardsPage: React.FC = () => {
                     {selectedInvoice.serviceInfo.products && selectedInvoice.serviceInfo.products.length > 0 && (
                       <div className="border rounded-lg p-4">
                         <h3 className="mb-4" style={{ ...FONTS.header, fontWeight: 500 }}>
-                          Spare Items
+                          Spares
                         </h3>
                         <div className="space-y-2">
                           {selectedInvoice.serviceInfo.products.map((item, index) => (
@@ -522,7 +529,7 @@ export const JobCardsPage: React.FC = () => {
                     {selectedInvoice.serviceInfo.services && selectedInvoice.serviceInfo.services.length > 0 && (
                       <div className="border rounded-lg p-4">
                         <h3 className="mb-4" style={{ ...FONTS.header, fontWeight: 500 }}>
-                          Service Items
+                          Services
                         </h3>
                         <div className="space-y-2">
                           {selectedInvoice.serviceInfo.services.map((item, index) => (
@@ -533,7 +540,7 @@ export const JobCardsPage: React.FC = () => {
                                   Rate:   &#8377; {item.rate}
                                 </p>
                               </div>
-                              <p className="font-bold">₹{item.serviceAmount}</p>
+                              <p className="font-bold">  &#8377;{item.serviceAmount}</p>
                             </div>
                           ))}
                         </div>
@@ -544,7 +551,7 @@ export const JobCardsPage: React.FC = () => {
                     {selectedInvoice.serviceInfo.totalAmount && (
                       <div className="border rounded-lg p-4 bg-purple-50">
                         <div className="flex justify-between items-center">
-                          <span className="text-lg font-semibold" style={{ ...FONTS.paragraph }}>
+                          <span className="!text-xl font-bold" style={{ ...FONTS.paragraph }}>
                             Total Amount:
                           </span>
                           <span className="text-2xl !font-bold text-[#7812A4]" style={{ ...FONTS.paragraph }}>

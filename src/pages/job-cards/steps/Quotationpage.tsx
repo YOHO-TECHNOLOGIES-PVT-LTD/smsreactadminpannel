@@ -3,6 +3,9 @@ import { HiOutlineXMark } from "react-icons/hi2";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import Client from "../../../api";
+import { format } from "date-fns";
+import { getBillingStatus } from "../../Orders/Services";
+
 type QuotationItem = {
   description: string;
   qty: number;
@@ -69,31 +72,30 @@ const QuotationPage: React.FC = () => {
   };
 
     const handleDownloadPDF = async (id: string) => {
-      toast.success('dowloaded pdf successfully')
-    // try {
-    //   const response = await fetch(`http://localhost:5000/api/quotation/${id}/download`, {
-    //     method: 'GET',
-    //     headers: {
-    //       Accept: 'application/pdf',
-    //     },
-    //   });
+     console.log(id,'jobcardid')
+     try {
+      const response:any = await getBillingStatus({ jobCardId: id });
+    
 
-    //   if (!response.ok) throw new Error('Failed to download PDF');
+      if (!response.ok) 
+       
+       toast.success('dowloaded pdf successfully')
 
-    //   const blob = await response.blob();
-    //   const url = window.URL.createObjectURL(blob);
-    //   const a = document.createElement('a');
-    //   a.href = url;
-    //   a.download = `quotation-${id}.pdf`;
-    //   document.body.appendChild(a);
-    //   a.click();
-    //   a.remove();
-    //   URL.revokeObjectURL(url);
-    // } 
-    // catch (error) {
-    //   console.error('Error downloading PDF:', error);
-    //   toast.error('Failed to download the quotation PDF.');
-    // }
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `quotation-${id}.pdf`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+     } 
+     
+    catch (error) {
+      console.error('Error downloading PDF:', error);
+      toast.error('Failed to download the quotation PDF.');
+     }
   };
   return (
     <>
@@ -119,10 +121,12 @@ const QuotationPage: React.FC = () => {
             <p>{quotation?.partnerId?.customerInfo?.email}</p>
           </div>
           <div className="text-right mt-9 mx-6">
-            <p className="text-sm mb-1">
-              <span className="font-semibold">DATE:</span>{" "}
-              {quotation?.createdAt}
-            </p>
+           <p className="text-sm mb-1">
+    <span className="font-semibold">DATE:</span>{" "}
+    {quotation?.createdAt
+      ? format(new Date(quotation.createdAt), "dd/MM/yyyy")
+      : ""}
+  </p>
             {/* <p className="text-sm mb-1">
               <span className="font-semibold">CUSTOMER ID:</span> 21007
             </p> */}
@@ -191,6 +195,14 @@ const QuotationPage: React.FC = () => {
                   )
                 )}
                 {/* GST Row */}
+                 <tr>
+                  <td className="border px-3 py-2 font-semibold">SUBTOTAL</td>
+                  <td className="border px-3 py-2 text-center">-</td>
+                  <td className="border px-3 py-2 text-right">-</td>
+                  <td className="border px-3 py-2 text-right">
+                    &#8377;{subtotal.toFixed(2)}
+                  </td>
+                </tr>
                 <tr>
                   <td className="border px-3 py-2">GST (9%)</td>
                   <td className="border px-3 py-2 text-center">-</td>
@@ -217,23 +229,37 @@ const QuotationPage: React.FC = () => {
           <div className="w-full md:w-1/2 overflow-x-auto">
             <table className="w-full text-sm border border-gray-300">
               <tbody>
-                <tr>
-                  <td className="border px-3 py-2 font-semibold">SUBTOTAL</td>
-                  <td className="border px-3 py-2 text-right">
-                    &#8377;{subtotal.toFixed(2)}
-                  </td>
-                </tr>
-                <tr>
-                  <td className="border px-3 py-2 font-semibold">OTHER</td>
-                  <td className="border px-3 py-2 text-right">-</td>
-                </tr>
-                <tr className="bg-gray-100 font-bold">
+                 <tr className="bg-gray-100 font-bold">
                   <td className="border px-3 py-2">TOTAL QUOTE</td>
                   <td className="border px-3 py-2 text-right">
                     {/* ₹{(subtotal * 1.18).toFixed(2)} */}
                     {quotation?.serviceInfo?.totalAmount}
                   </td>
                 </tr>
+                <tr>
+          <td className="border px-3 py-2 font-semibold">RECEIVED AMOUNT</td>
+          <td className="border px-3 py-2 text-right">
+             &#8377;{quotation?.serviceInfo?.receivedAmount?.toFixed(2) || "0.00"}
+          </td>
+        </tr>
+
+        <tr>
+          <td className="border px-3 py-2 font-semibold">BALANCE AMOUNT</td>
+          <td className="border px-3 py-2 text-right">
+          &#8377;
+            {quotation?.serviceInfo
+              ? (
+                  (quotation.serviceInfo.totalAmount || 0) -
+                  (quotation.serviceInfo.receivedAmount || 0)
+                ).toFixed(2)
+              : "0.00"}
+          </td>
+        </tr>
+                {/* <tr>
+                  <td className="border px-3 py-2 font-semibold">OTHER</td>
+                  <td className="border px-3 py-2 text-right">-</td>
+                </tr> */}
+               
               </tbody>
             </table>
           </div>

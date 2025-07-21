@@ -44,3 +44,14 @@ export const statusOrderHistory = async (id: string, data: any) => {
 };
 
 
+export const getBillingStatus = async (params:any)=>{
+  try{
+const response = await new Client().admin.jobcard.getbilling(params);
+console.log(response)
+return response;
+
+  }
+  catch(error){
+    console.log("error fetching for billing",error)
+  }
+}
