@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useFormik } from 'formik';
-import { MdUpgrade } from 'react-icons/md';
+import { MdEdit, MdUpgrade } from 'react-icons/md';
 import { FONTS } from '../../constants/uiConstants';
 import { getProfile, updateProfile } from './services';
 import * as Yup from 'yup';
@@ -13,79 +13,84 @@ import {
 import { toast } from 'react-toastify';
 
 const validationSchema = Yup.object().shape({
-  firstName: Yup.string().required("First name is required"),
-  lastName: Yup.string().required("Last name is required"),
-  email: Yup.string()
-    .email("Invalid email address")
-    .required("Email is required"),
-  gender: Yup.string().required("Gender is required"),
-  image: Yup.mixed().nullable(),
-  contact_info: Yup.object().shape({
-    phoneNumber: Yup.string()
-      .required("Phone number is required")
-      .matches(/^[0-9]{10}$/, "Phone number must be 10 digits"),
-    address1: Yup.string().required("Address is required"),
-    country: Yup.string(),
-    state: Yup.string().required("State is required"),
-    city: Yup.string().required("City is required"),
-  }),
-  facebook: Yup.string().url("Invalid Facebook URL").nullable(),
-  twitter: Yup.string().url("Invalid Twitter URL").nullable(),
-  youtube: Yup.string().url("Invalid YouTube URL").nullable(),
-  billing: Yup.object().shape({
-    gst: Yup.string()
-      .nullable()
-      .matches(/^(\d{2}[A-Z]{5}\d{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1})?$/, "Invalid GST number"),
-  }),
+	firstName: Yup.string().required('First name is required'),
+	lastName: Yup.string().required('Last name is required'),
+	email: Yup.string()
+		.email('Invalid email address')
+		.required('Email is required'),
+	gender: Yup.string().required('Gender is required'),
+	image: Yup.mixed().nullable(),
+	contact_info: Yup.object().shape({
+		phoneNumber: Yup.string()
+			.required('Phone number is required')
+			.matches(/^[0-9]{10}$/, 'Phone number must be 10 digits'),
+		address1: Yup.string().required('Address is required'),
+		country: Yup.string(),
+		state: Yup.string().required('State is required'),
+		city: Yup.string().required('City is required'),
+	}),
+	facebook: Yup.string().url('Invalid Facebook URL').nullable(),
+	twitter: Yup.string().url('Invalid Twitter URL').nullable(),
+	youtube: Yup.string().url('Invalid YouTube URL').nullable(),
+	billing: Yup.object().shape({
+		gst: Yup.string()
+			.nullable()
+			.matches(
+				/^(\d{2}[A-Z]{5}\d{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1})?$/,
+				'Invalid GST number'
+			),
+	}),
 });
 
 type FormValues = {
-  firstName: string;
-  lastName: string;
-  email: string;
-  contact_info: {
-    phoneNumber: string;
-    address1: string;
-    country: string;
-    state: string;
-    city: string;
-  };
-  gender: string;
-  image: string | File;
-  facebook?: string;
-  twitter?: string;
-  youtube?: string;
+	firstName: string;
+	lastName: string;
+	email: string;
+	contact_info: {
+		phoneNumber: string;
+		address1: string;
+		country: string;
+		state: string;
+		city: string;
+	};
+	gender: string;
+	image: string | File;
+	facebook?: string;
+	twitter?: string;
+	youtube?: string;
 
-  billing?: {
-    gst?: string;
-  };
+	billing?: {
+		gst?: string;
+	};
 };
 
 const ProfileEditSettings: React.FC = () => {
-  const [profile, setProfile] = useState<FormValues>({
-    firstName: "",
-    lastName: "",
-    email: "",
-    contact_info: {
-      phoneNumber: "",
-      address1: "",
-      country: "",
-      state: "",
-      city: "",
-    },
-    gender: "",
-    image: "",
-    facebook: "",
-    twitter: "",
-    youtube: "",
-    billing: {
-    gst: "",
-  },
-  });
+	const [profile, setProfile] = useState<FormValues>({
+		firstName: '',
+		lastName: '',
+		email: '',
+		contact_info: {
+			phoneNumber: '',
+			address1: '',
+			country: '',
+			state: '',
+			city: '',
+		},
+		gender: '',
+		image: '',
+		facebook: '',
+		twitter: '',
+		youtube: '',
+		billing: {
+			gst: '',
+		},
+	});
 
 	const fetchData = async () => {
 		const response = await getProfile();
-		setProfile(response.data);
+		if (response) {
+			setProfile(response.data);
+		}
 	};
 
 	useEffect(() => {
@@ -97,6 +102,7 @@ const ProfileEditSettings: React.FC = () => {
 	const [state, setState] = useState<any[]>([]);
 	const [city, setCity] = useState<any[]>([]);
 	const [country, setCountry] = useState<any[]>([]);
+	const [isEdit, setIsEdit] = useState(true);
 
 	const getStates = async () => {
 		const response = await fetchState();
@@ -152,12 +158,12 @@ const ProfileEditSettings: React.FC = () => {
 			if (values.youtube) formData.append('youtube', values.youtube);
 
 			try {
-				console.log('formdata', formData);
 				const response = await updateProfile(formData);
-				toast.success('Profile Updated Successfully');
-
+				if (response) {
+					setIsEdit(true);
+					toast.success('Profile Updated Successfully');
+				}
 				if (!response) throw new Error('Failed to submit');
-				// eslint-disable-next-line @typescript-eslint/no-explicit-any
 			} catch (err: any) {
 				console.error(err.message);
 			}
@@ -178,25 +184,26 @@ const ProfileEditSettings: React.FC = () => {
 			<h1 className='font-bold text-2xl'>Profile</h1>
 			<h6>Update your photo and personal details here</h6>
 
-      <form onSubmit={formik.handleSubmit} className="mt-6">
-        <div className="grid grid-cols-3 gap-8">
-          {/* Input fields */}
-          <div>
-            <label className="block mb-2 text-sm font-medium">First Name</label>
-            <input
-              type="text"
-              name="firstName"
-              value={formik.values.firstName}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              className={inputClass}
-            />
-            {formik.touched.firstName && formik.errors.firstName && (
-              <div className="text-red-500 text-sm">
-                {formik.errors.firstName}
-              </div>
-            )}
-          </div>
+			<form onSubmit={formik.handleSubmit} className='mt-6'>
+				<div className='grid grid-cols-3 gap-8'>
+					{/* Input fields */}
+					<div>
+						<label className='block mb-2 text-sm font-medium'>First Name</label>
+						<input
+							type='text'
+							name='firstName'
+							value={formik.values.firstName}
+							onChange={formik.handleChange}
+							onBlur={formik.handleBlur}
+							className={inputClass}
+							disabled={isEdit}
+						/>
+						{formik.touched.firstName && formik.errors.firstName && (
+							<div className='text-red-500 text-sm'>
+								{formik.errors.firstName}
+							</div>
+						)}
+					</div>
 
 					<div>
 						<label className='block mb-2 text-sm font-medium'>Last Name</label>
@@ -206,6 +213,7 @@ const ProfileEditSettings: React.FC = () => {
 							value={formik.values.lastName}
 							onChange={formik.handleChange}
 							className={inputClass}
+							disabled={isEdit}
 						/>
 						{formik.touched.lastName && formik.errors.lastName && (
 							<div className='text-red-500 text-sm'>
@@ -222,6 +230,7 @@ const ProfileEditSettings: React.FC = () => {
 							value={formik.values.email}
 							onChange={formik.handleChange}
 							className={inputClass}
+							disabled={isEdit}
 						/>
 						{formik.touched.email && formik.errors.email && (
 							<div className='text-red-500 text-sm'>{formik.errors.email}</div>
@@ -238,6 +247,7 @@ const ProfileEditSettings: React.FC = () => {
 							value={formik.values.contact_info.phoneNumber}
 							onChange={formik.handleChange}
 							className={inputClass}
+							disabled={isEdit}
 						/>
 						{formik.touched.contact_info?.phoneNumber &&
 							formik.errors.contact_info?.phoneNumber && (
@@ -255,6 +265,7 @@ const ProfileEditSettings: React.FC = () => {
 							value={formik.values.contact_info.address1}
 							onChange={formik.handleChange}
 							className={inputClass}
+							disabled={isEdit}
 						/>
 						{formik.touched.contact_info?.address1 &&
 							formik.errors.contact_info?.address1 && (
@@ -274,6 +285,7 @@ const ProfileEditSettings: React.FC = () => {
 							onChange={formik.handleChange}
 							onBlur={formik.handleBlur}
 							className={inputClass}
+							disabled={isEdit}
 						>
 							<option value=''>Select Country</option>
 							{country.map((c) => (
@@ -299,6 +311,7 @@ const ProfileEditSettings: React.FC = () => {
 							value={formik.values.contact_info.state}
 							onChange={formik.handleChange}
 							className={inputClass}
+							disabled={isEdit}
 						>
 							<option value='contact_info.state'>Select a state</option>
 							{state.map((city) => (
@@ -324,6 +337,7 @@ const ProfileEditSettings: React.FC = () => {
 							value={formik.values.contact_info.city}
 							onChange={formik.handleChange}
 							className={inputClass}
+							disabled={isEdit}
 						>
 							<option value='contact_info.city'>Select a city</option>
 							{city.map((city) => (
@@ -347,6 +361,7 @@ const ProfileEditSettings: React.FC = () => {
 							value={formik.values.gender}
 							onChange={formik.handleChange}
 							className={inputClass}
+							disabled={isEdit}
 						>
 							<option value=''>Select Gender</option>
 							<option value='Male'>Male</option>
@@ -360,7 +375,7 @@ const ProfileEditSettings: React.FC = () => {
 
 				{/* Image upload */}
 				<div className='mt-10'>
-					<h1 className='font-bold text-2xl'>Your Photo</h1>
+					<h1 className='font-bold text-2xl'>Company Profile</h1>
 					<div className='flex items-center justify-center w-full mt-8'>
 						<label
 							htmlFor='dropzone-file'
@@ -392,6 +407,7 @@ const ProfileEditSettings: React.FC = () => {
 								type='file'
 								accept='image/*'
 								className='hidden'
+								disabled={isEdit}
 								onChange={(e) => {
 									if (e.currentTarget.files && e.currentTarget.files[0]) {
 										formik.setFieldValue('image', e.currentTarget.files[0]);
@@ -401,13 +417,16 @@ const ProfileEditSettings: React.FC = () => {
 						</label>
 					</div>
 
-					{formik.values.image && (
+					{/* {formik.values.image && (
 						<div className='mt-4'>
 							<p className='text-sm text-gray-700'>
-								Selected File: {typeof formik.values.image === 'string' ? formik.values.image : formik.values.image.name}
+								Selected File:{' '}
+								{typeof formik.values.image === 'string'
+									? formik.values.image
+									: formik.values.image.name}
 							</p>
 						</div>
-					)}
+					)} */}
 				</div>
 
 				{/* Socials */}
@@ -430,42 +449,56 @@ const ProfileEditSettings: React.FC = () => {
                     </div>
                 </div> */}
 
-        {/* Submit */}
+				{/* Submit */}
 
-        <div className="mt-10">
-  <h3 className="font-bold text-2xl">Billing Software</h3>
-  
-  <div className="mt-6">
-    <label className="block text-sm font-medium text-black">GST</label>
-    <input
-      type="text"
-      name="billing.gst"
-       className={`w-44 ${inputClass}`}
-    />
-   
-  </div>
-</div>
+				{/* <div className='mt-10'>
+					<h3 className='font-bold text-2xl'>Billing Software</h3>
 
-        <div className="flex justify-end gap-5 mt-10">
-          <button
-            type="button"
-            className="w-20 h-10 rounded-3xl text-white"
-            style={{ backgroundColor: "#9b111e" }}
-          >
-            Cancel
-          </button>
-          <button
-            type="submit"
-            className="flex items-center gap-2 px-4 py-2 rounded-3xl text-white"
-            style={{ backgroundColor: "#9b111e" }}
-          >
-            <MdUpgrade className="text-2xl" />
-            Update
-          </button>
-        </div>
-      </form>
-    </div>
-  );
+					<div className='mt-6'>
+						<label className='block text-sm font-medium text-black'>GST</label>
+						<input
+							type='text'
+							name='billing.gst'
+							className={`w-44 ${inputClass}`}
+						/>
+					</div>
+				</div> */}
+
+				{isEdit ? (
+					<div className='flex justify-end gap-5 mt-10'>
+						<button
+							type='button'
+							className='rounded-3xl text-white flex items-center gap-2 px-4 py-2'
+							style={{ backgroundColor: '#9b111e' }}
+							onClick={() => setIsEdit(false)}
+						>
+							<MdEdit className='text-lg' />
+							Edit
+						</button>
+					</div>
+				) : (
+					<div className='flex justify-end gap-5 mt-10'>
+						<button
+							type='button'
+							className='w-20 h-10 text-[#9b111e] rounded-3xl border-2 border-[#9b111e]'
+							style={{ backgroundColor: 'transparent' }}
+							onClick={() => setIsEdit(true)}
+						>
+							Cancel
+						</button>
+						<button
+							type='submit'
+							className='flex items-center gap-2 px-4 py-2 rounded-3xl text-white'
+							style={{ backgroundColor: '#9b111e' }}
+						>
+							<MdUpgrade className='text-xl' />
+							Update
+						</button>
+					</div>
+				)}
+			</form>
+		</div>
+	);
 };
 
 export default ProfileEditSettings;

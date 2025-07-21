@@ -317,7 +317,7 @@ const ServiceCenterProfileView: React.FC<ServiceCenterProfileProps> = ({
 			setShowDeleteSuccessPopup(true);
 			setTimeout(() => {
 				handleBack();
-			}, 3000);
+			}, 2000);
 		} catch (error) {
 			console.error('Error deleting service center:', error);
 		}

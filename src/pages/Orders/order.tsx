@@ -24,7 +24,7 @@ const Order = () => {
 	useEffect(() => {
 		const fetchOrders = async () => {
 			try {
-				setIsLoading(true);
+				// setIsLoading(true);
 				const response: any = await getOrdersHistory('');
 
 				// Handle different response structures
