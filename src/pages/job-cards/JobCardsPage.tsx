@@ -281,7 +281,7 @@ export const JobCardsPage: React.FC = () => {
   </button>
 
   
-  {["pending", "notstarted", "Not started"].includes(invoice.status?.trim().toLowerCase()) ? (
+  {["pending", "notstarted", "Not started","completed"].includes(invoice.status?.trim().toLowerCase()) ? (
     
     <div className="w-[80px]" />
   ) : (
