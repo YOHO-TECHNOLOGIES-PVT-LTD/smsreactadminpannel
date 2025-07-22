@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import type { ReactNode } from "react";
+import { ClearLocalStorage, GetLocalStorage, StoreLocalStorage } from "../../utils/localStorage";
 
 type AuthContextType = {
   isAuthenticated: boolean;
@@ -15,18 +16,21 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [isLoading, setIsLoading] = useState(true); // ✅ add loading state
 
   useEffect(() => {
-    const token = localStorage.getItem("authToken");
+    // const token = localStorage.getItem("authToken");
+    const token = GetLocalStorage('authToken')
     setIsAuthenticated(!!token);
     setIsLoading(false); // ✅ set loading false after checking
   }, []);
 
   const login = (data: string) => {
-    localStorage.setItem("authToken", data);
+    // localStorage.setItem("authToken", data);
+    StoreLocalStorage('authToken',data)
     setIsAuthenticated(true);
   };
 
   const logout = () => {
-    localStorage.removeItem("authToken");
+    // localStorage.removeItem("authToken");
+    ClearLocalStorage()
     setIsAuthenticated(false);
   };
 

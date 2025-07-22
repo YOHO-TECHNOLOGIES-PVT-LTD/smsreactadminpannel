@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { ClearLocalStorage, GetLocalStorage } from '../utils/localStorage';
 
 
 const backEndUrl:string= import.meta.env.VITE_PUBLIC_API_URL
@@ -14,7 +15,8 @@ const Axios = axios.create({
 });
 
 Axios.interceptors.request.use((config) => {
-	const token = localStorage.getItem('authToken');
+	// const token = localStorage.getItem('authToken');
+	const token = GetLocalStorage('authToken')
 
 	if (token) {
 		config.headers['Authorization'] = `${token ? token : ''}`;
@@ -31,6 +33,7 @@ Axios.interceptors.response.use(
 			error?.response?.data?.status === 'session_expired'
 		) {
 			localStorage.removeItem('authToken');
+			ClearLocalStorage()
 			window.location.reload();
 		}
 	}

@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { io, Socket } from 'socket.io-client';
+import { GetLocalStorage } from '../utils/localStorage';
 
 type SocketType = Socket | null;
 const SocketContext = createContext<SocketType>(null);
@@ -15,7 +16,8 @@ export const SocketProvider = ({ children, role }: SocketProviderProps) => {
   const [socket, setSocket] = useState<SocketType>(null);
 
   useEffect(() => {
-    const token = localStorage.getItem('authToken') || '';
+    // const token = localStorage.getItem('authToken') || '';
+    const token = GetLocalStorage('authToken') || '';
     const userId = localStorage.getItem('adminobjectid');
 
     if (!token || !userId) {
