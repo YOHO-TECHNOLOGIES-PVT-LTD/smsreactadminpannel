@@ -107,9 +107,10 @@ const QuotationPage: React.FC = () => {
 								alt={quotation?.partnerId?.companyName}
 								className='object-contain w-32 h-30'
 							/>
-						</div>
-						<p>{quotation?.partnerId?.contact_info?.address1}</p>
-						<p>{quotation?.partnerId?.contact_info?.city}</p>
+						</div>4
+						<p>{quotation?.partnerId?.companyName}</p>
+						<p>{quotation?.partnerId?.contact_info?.address1 + ', ' + quotation?.partnerId?.contact_info?.address2}</p>
+						<p>{quotation?.partnerId?.contact_info?.city + ', ' + quotation?.partnerId?.contact_info?.state}</p>
 						<p>{quotation?.partnerId?.contact_info?.phoneNumber}</p>
 						<p>{quotation?.partnerId?.customerInfo?.email}</p>
 					</div>
