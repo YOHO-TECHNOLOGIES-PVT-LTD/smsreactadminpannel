@@ -150,6 +150,10 @@ export const API_END_POINTS = {
 
   notificationSubcription: {
     post: '/api/subscription/notify'
+  },
+
+  billing:{
+    get:'/api/billing/getone/:JobCardId'
   }
 
 }

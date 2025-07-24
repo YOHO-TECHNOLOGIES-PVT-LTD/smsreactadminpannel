@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useState } from 'react';
 import { HiOutlineXMark } from 'react-icons/hi2';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -38,8 +39,8 @@ const QuotationPage: React.FC = () => {
 	//   console.log(serviceData,"quotation")
 	useEffect(() => {
 		async function fetchdata(ids: any) {
-			const response: any = await new Client().admin.jobcard.get(ids);
-			console.log(response, 'res');
+			const response: any = await new Client().admin.billing.get(ids);
+			console.log(response, 'jobcard bill response');
 			setButtonShow(response.data.data.status);
 			setquotation(response.data.data);
 		}
@@ -193,14 +194,6 @@ const QuotationPage: React.FC = () => {
 									<td className='border px-3 py-2 text-right'>-</td>
 									<td className='border px-3 py-2 text-right'>
 										&#8377;{subtotal.toFixed(2)}
-									</td>
-								</tr>
-								<tr>
-									<td className='border px-3 py-2'>GST (9%)</td>
-									<td className='border px-3 py-2 text-center'>-</td>
-									<td className='border px-3 py-2 text-right'>-</td>
-									<td className='border px-3 py-2 text-right'>
-										&#8377;{(subtotal * 0.09).toFixed(2)}
 									</td>
 								</tr>
 								{/* CGST Row */}

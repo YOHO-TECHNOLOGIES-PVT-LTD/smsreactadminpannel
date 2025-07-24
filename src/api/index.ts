@@ -307,6 +307,11 @@ class Client {
 			post: (data: any) =>
 				httpClient.post(API_END_POINTS.notificationSubcription.post, data),
 		},
+
+		billing:{
+			get:(params:string)=>httpClient.get(API_END_POINTS.billing.get.replace(':JobCardId',params))
+		},
+
 	};
 }
 
