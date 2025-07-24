@@ -291,7 +291,7 @@ export const JobCardsPage: React.FC = () => {
 												) : (
 													<button
 														onClick={() =>
-															navigate(`/quotation/${invoice.uuid}`)
+															navigate(`/quotation/${invoice.uuid}/${invoice?.status}`)
 														}
 														style={{ ...FONTS.cardSubHeader }}
 														className='bg-[#a00000] !text-white px-3 py-1 active:scale-110 rounded-3xl hover:bg-[#800000] transition'

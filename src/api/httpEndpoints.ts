@@ -153,7 +153,7 @@ export const API_END_POINTS = {
   },
 
   billing:{
-    get:'/api/billing/getone/:JobCardId'
+    get:'/api/partner/billing/getone/:JobCardId'
   }
 
 }

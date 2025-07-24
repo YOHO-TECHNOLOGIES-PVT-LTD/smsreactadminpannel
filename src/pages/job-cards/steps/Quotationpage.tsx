@@ -31,7 +31,7 @@ const QuotationPage: React.FC = () => {
 
 	const [quotation, setquotation] = useState<any>();
 	const [buttonShow, setButtonShow] = useState<string>();
-	const { id } = useParams();
+	const { id,status } = useParams();
 
 	// const serviceData = quotation?.serviceInfo?.products;
 
@@ -41,7 +41,7 @@ const QuotationPage: React.FC = () => {
 		async function fetchdata(ids: any) {
 			const response: any = await new Client().admin.billing.get(ids);
 			console.log(response, 'jobcard bill response');
-			setButtonShow(response.data.data.status);
+			setButtonShow(status);
 			setquotation(response.data.data);
 		}
 		fetchdata(id);
@@ -132,12 +132,12 @@ const QuotationPage: React.FC = () => {
 
 				<div className='mb-6 border border-gray-400 p-4'>
 					<h3 className='font-bold mb-2'>CUSTOMER INFO</h3>
-					<p>{quotation?.customerInfo?.name}</p>
-					<p>{quotation?.customerInfo?.address}</p>
-					<p>{quotation?.partnerId?.contact_info?.city}</p>
+					<p>{quotation?.customerId?.firstName + ' ' + quotation?.customerId?.lastName}</p>
+					<p>{quotation?.customerId?.contact_info?.address1 + ', ' + quotation?.customerId?.contact_info?.address2}</p>
+					<p>{quotation?.customerId?.contact_info?.city + ', ' + quotation?.customerId?.contact_info?.state}</p>
 					<p>
-						{quotation?.partnerId?.customerInfo?.phoneNumber},
-						{quotation?.customerInfo?.email}{' '}
+						{quotation?.customerId?.contact_info?.phoneNumber},
+						{quotation?.customerId?.email}{' '}
 					</p>
 				</div>
 
@@ -154,35 +154,18 @@ const QuotationPage: React.FC = () => {
 								</tr>
 							</thead>
 							<tbody>
-								{quotation?.serviceInfo?.products.map(
+								{quotation?.listOfitems?.map(
 									(item: any, index: number) => (
 										<tr key={index}>
-											<td className='border px-3 py-2'>{item?.description}</td>
+											<td className='border px-3 py-2'>{item?.name}</td>
 											<td className='border px-3 py-2 text-center'>
 												{item?.quantity}
 											</td>
 											<td className='border px-3 py-2 text-right'>
-												&#8377;{item.rate}
+												&#8377;{item.unitPrice}
 											</td>
 											<td className='border px-3 py-2 text-right'>
-												&#8377;{(item?.quantity * item?.rate).toFixed(2)}
-											</td>
-										</tr>
-									)
-								)}
-								{quotation?.serviceInfo?.services.map(
-									(item: any, index: number) => (
-										<tr key={index}>
-											<td className='border px-3 py-2'>{item?.description}</td>
-											<td className='border px-3 py-2 text-center'>
-												{item?.quantity}
-											</td>
-											<td className='border px-3 py-2 text-right'>
-												&#8377;{item.rate}
-											</td>
-											<td className='border px-3 py-2 text-right'>
-												{/* ₹{(item?.quantity * item?. rate).toFixed(2)} */}
-												{item.serviceAmount}
+												&#8377;{item?.totalPrice}
 											</td>
 										</tr>
 									)
@@ -193,16 +176,16 @@ const QuotationPage: React.FC = () => {
 									<td className='border px-3 py-2 text-center'>-</td>
 									<td className='border px-3 py-2 text-right'>-</td>
 									<td className='border px-3 py-2 text-right'>
-										&#8377;{subtotal.toFixed(2)}
+										&#8377;{quotation?.subTotal}
 									</td>
 								</tr>
 								{/* CGST Row */}
 								<tr>
-									<td className='border px-3 py-2'>CGST (9%)</td>
+									<td className='border px-3 py-2'>CGST ({quotation?.gstPercent}%)</td>
 									<td className='border px-3 py-2 text-center'>-</td>
 									<td className='border px-3 py-2 text-right'>-</td>
 									<td className='border px-3 py-2 text-right'>
-										&#8377;{(subtotal * 0.09).toFixed(2)}
+										&#8377;{quotation?.gstValue}
 									</td>
 								</tr>
 							</tbody>
@@ -218,7 +201,7 @@ const QuotationPage: React.FC = () => {
 									<td className='border px-3 py-2'>TOTAL QUOTE</td>
 									<td className='border px-3 py-2 text-right'>
 										{/* ₹{(subtotal * 1.18).toFixed(2)} */}
-										{quotation?.serviceInfo?.totalAmount}
+										&#8377;{quotation?.TotalAmount}
 									</td>
 								</tr>
 								<tr>
@@ -227,8 +210,7 @@ const QuotationPage: React.FC = () => {
 									</td>
 									<td className='border px-3 py-2 text-right'>
 										&#8377;
-										{quotation?.serviceInfo?.receivedAmount?.toFixed(2) ||
-											'0.00'}
+										{quotation?.revicedAmount}
 									</td>
 								</tr>
 
@@ -238,12 +220,7 @@ const QuotationPage: React.FC = () => {
 									</td>
 									<td className='border px-3 py-2 text-right'>
 										&#8377;
-										{quotation?.serviceInfo
-											? (
-													(quotation.serviceInfo.totalAmount || 0) -
-													(quotation.serviceInfo.receivedAmount || 0)
-											  ).toFixed(2)
-											: '0.00'}
+										{quotation?.balanceAmount}
 									</td>
 								</tr>
 								{/* <tr>
@@ -261,7 +238,7 @@ const QuotationPage: React.FC = () => {
 
 				<div className='mt-2 p-4 flex justify-center'>
 					<div className='flex gap-8 justify-end w-full md:w-2/3'>
-						{['completed', 'closed', 'billing'].includes(buttonShow ?? '') && (
+						{['completed', 'billing'].includes(buttonShow ?? '') && (
 							<>
 								<button
 									onClick={handleAccept}
@@ -273,6 +250,21 @@ const QuotationPage: React.FC = () => {
 								>
 									Accept
 								</button>
+
+								{/* <button
+									onClick={() => handleDownloadPDF(quotation._id)}
+									className='flex items-center justify-center font-bold px-6 py-2 rounded text-white transition duration-200 active:scale-105 hover:bg-green-800'
+									style={{
+										background:
+											'linear-gradient(44.99deg, #0a5d10 11%, #34a853 102.34%)',
+									}}
+								>
+									Download Invoice
+								</button> */}
+							</>
+						)}
+						{['closed', 'billing'].includes(buttonShow ?? '') && (
+							<>
 
 								<button
 									onClick={() => handleDownloadPDF(quotation._id)}
