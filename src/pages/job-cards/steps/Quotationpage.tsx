@@ -52,7 +52,7 @@ const QuotationPage: React.FC = () => {
 
 	const handleAccept = async () => {
 		const data = { status: 'closed' };
-		await new Client().admin.jobcard.put(data, quotation?._id ?? '');
+		await new Client().admin.jobcard.put(data, quotation?.JobCardId ?? '');
 		toast.success('Quotation accepted!');
 		navigate('/job-cards');
 	};
