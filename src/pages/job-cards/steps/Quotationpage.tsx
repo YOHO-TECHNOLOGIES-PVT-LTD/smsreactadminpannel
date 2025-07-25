@@ -7,11 +7,6 @@ import Client from '../../../api';
 import { format } from 'date-fns';
 import { getBillingStatus } from '../../Orders/Services';
 
-type QuotationItem = {
-	description: string;
-	qty: number;
-	unitPrice: number;
-};
 
 // type quotation ={
 //   _id:string;
@@ -53,17 +48,7 @@ const QuotationPage: React.FC = () => {
 		navigate(-1);
 	};
 
-	const quotationItems: QuotationItem[] = [
-		{ description: 'Service Fee', qty: 1, unitPrice: 200.0 },
-		{ description: 'Labor: 5 hours @ ₹75/hr', qty: 5, unitPrice: 75.0 },
-		{ description: 'Parts, including sales tax', qty: 7, unitPrice: 12.95 },
-		{ description: 'New client discount', qty: 1, unitPrice: -50.0 },
-	];
 
-	const subtotal = quotationItems.reduce(
-		(acc, item) => acc + item.qty * item.unitPrice,
-		0
-	);
 
 	const handleAccept = async () => {
 		const data = { status: 'closed' };
