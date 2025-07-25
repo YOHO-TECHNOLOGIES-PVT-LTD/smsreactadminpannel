@@ -253,7 +253,7 @@ const QuotationPage: React.FC = () => {
 							<>
 
 								<button
-									onClick={() => handleDownloadPDF(quotation._id)}
+									onClick={() => handleDownloadPDF(quotation?.JobCardId)}
 									className='flex items-center justify-center font-bold px-6 py-2 rounded text-white transition duration-200 active:scale-105 hover:bg-green-800'
 									style={{
 										background:
