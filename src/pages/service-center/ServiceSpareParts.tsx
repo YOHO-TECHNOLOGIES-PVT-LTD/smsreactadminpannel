@@ -1145,12 +1145,24 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({
 								style={{ ...FONTS.paragraph }}
 							>
 								<p>
+									<span className='font-bold text-gray-700'>Product Name:</span>{' '}
+									<span className='text-gray-900'>{selectedPart.productName}</span>
+								</p>
+								<p>
 									<span className='font-bold text-gray-700'>Category:</span>{' '}
 									<span className='text-gray-900'>{selectedPart.category}</span>
 								</p>
 								<p>
 									<span className='font-bold text-gray-700'>Brand:</span>{' '}
 									<span className='text-gray-900'>{selectedPart.brand}</span>
+								</p>
+								<p>
+									<span className='font-bold text-gray-700'>Units:</span>{' '}
+									<span className='text-gray-900'>{selectedPart.units}</span>
+								</p>
+								<p>
+									<span className='font-bold text-gray-700'>Quantity:</span>{' '}
+									<span className='text-gray-900'>{selectedPart.stock}</span>
 								</p>
 								<p>
 									<span className='font-bold text-gray-700'>Warranty:</span>{' '}
@@ -1295,7 +1307,7 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({
 											setEditPart({ ...editPart, category: e.target.value })
 										}
 									>
-										<option value=''>Select Category</option>
+										<option value=''>{editPart.category}</option>
 										{sparePartCategory.map((category) => (
 											<option key={category._id} value={category.name}>
 												{category.name}
@@ -1418,7 +1430,7 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({
 												units: editPart.units,
 												price: editPart.price,
 												productName: editPart.name || editPart.productName,
-												stock: String(editPart.quantity),
+												stock: String(editPart.stock),
 												warrantyPeriod: editPart.warrantyPeriod,
 												slug: editPart.slug,
 											};
@@ -1438,7 +1450,7 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({
 															inStock: editPart.inStock,
 															units: editPart.units,
 															price: editPart.price,
-															stock: String(editPart.quantity),
+															stock: String(editPart.stock),
 															warrantyPeriod: editPart.warrantyPeriod,
 															slug: editPart.slug,
 													  }
@@ -1462,7 +1474,7 @@ const ServiceSpareParts: React.FC<ReactComponent> = ({
 																price: editPart.price,
 																quantity: Number(editPart.quantity),
 																units: editPart.units,
-																stock: editPart.quantity,
+																stock: editPart.stock,
 																warrantyPeriod: editPart.warrantyPeriod,
 														  }
 														: part
