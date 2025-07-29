@@ -365,7 +365,7 @@ export const Navbar: React.FC<ProfileModalProps> = () => {
 							<div className='w-10 h-10 rounded-full overflow-hidden flex-shrink-0'>
 								<img
 									src={user.image}
-									alt={user.companyName}
+									alt={user.firstName}
 									className='w-full h-full object-cover'
 								/>
 							</div>
