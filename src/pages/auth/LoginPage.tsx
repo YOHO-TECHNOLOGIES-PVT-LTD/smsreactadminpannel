@@ -2,7 +2,7 @@
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
 import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import carImage from '../../assets/loginimg/car-img.png';
 import { FONTS } from '../../constants/uiConstants';
 import { useAuth } from './AuthContext';
@@ -246,14 +246,14 @@ const LoginPage = () => {
 								)}
 							</button>
 
-							<div className='text-right mt-1'>
+							{/* <div className='text-right mt-1'>
 								<Link
 									to='/forgot-password'
 									className='text-[#9b111e] hover:underline text-sm'
 								>
 									Forgot Password?
 								</Link>
-							</div>
+							</div> */}
 						</form>
 					</div>
 				</div>
